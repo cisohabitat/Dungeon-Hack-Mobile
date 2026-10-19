@@ -66,6 +66,7 @@
         <div class="menu-row">
           <button id="btn-hall" class="ghost">Hall of Heroes</button>
           <button id="btn-beasts" class="ghost">Bestiary</button>
+          <button id="btn-companions" class="ghost">Companions</button>
           <button id="btn-help" class="ghost">How to Play</button>
         </div>
         <div class="menu-row">
@@ -218,6 +219,15 @@
       <p id="beasts-count" class="dim small"></p>
       <div id="beasts-list"></div>
       <div class="row"><button id="beasts-back" class="big primary">Back</button></div>
+    </div>
+  </section>
+
+  <section id="screen-companions" class="screen scroll">
+    <div class="panel">
+      <h2>Companions</h2>
+      <p id="companions-count" class="dim small"></p>
+      <div id="companions-list"></div>
+      <div class="row"><button id="companions-back" class="big primary">Back</button></div>
     </div>
   </section>
 
@@ -520,6 +530,7 @@
         <div class="tabs" role="tablist">
           <button class="tab on" data-jtab="pages" role="tab" aria-selected="true">Pages</button>
           <button class="tab" data-jtab="beasts" role="tab" aria-selected="false">Bestiary</button>
+          <button class="tab" data-jtab="companions" role="tab" aria-selected="false">Companions</button>
           <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
           <button class="tab" data-jtab="combos" role="tab" aria-selected="false">Combinations</button>
         </div>

@@ -163,6 +163,15 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   backs keep their real grips and bow string anchors, with matching materials
   and construction marks. Preserve legacy base-rarity sprite aliases for callers,
   and leave unknown codex entries hidden. Art must not mutate item data or dice.
+- `js/companionbook.js`: six companion kinds and device-local discoveries under
+  `deepdelve.companions`. Opening a recruitment encounter counts as meeting it,
+  even if the offer is declined. Successful recruitment also records starting
+  companions and wolves. Loading an older save recovers its companion and
+  completed recruitment encounters, never merely generated NPCs.
+  `js/companionsview.js` renders the same collection from the title and Journal,
+  with hidden unmet entries, keyboard/touch zoom and sprite fallbacks. Portraits
+  live in `img/companions/`; sources/crops are in `art/companions/` and use the
+  shared portrait exporter. Keep all six exports and both modules cached offline.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.

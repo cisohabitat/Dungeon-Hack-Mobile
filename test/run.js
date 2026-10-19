@@ -10,6 +10,20 @@ const T = Dungeon.T;
 let failures = 0;
 function check(cond, msg) { if (!cond) { failures++; console.error('FAIL:', msg); } }
 
+// Collection input is untrusted; recover only actual encounter/companion evidence.
+{
+  const { companionBook, meetCompanion, recoverCompanions } = await import('../js/companionbook.js');
+  for (const raw of ['null', '{}', 'broken', '["__proto__",null,42,"wolf","wolf"]']) {
+    localStorage.setItem('deepdelve.companions', raw);
+    check(JSON.stringify(companionBook()) === (raw.includes('wolf') ? '["wolf"]' : '[]'), 'companion collection sanitizes stored discoveries');
+  }
+  localStorage.removeItem('deepdelve.companions');
+  recoverCompanions({ metEncounters: ['stray', 'hire', 'unknown'], companion: { kind: 'wolf' } });
+  meetCompanion('hound'); meetCompanion('constructor');
+  check(JSON.stringify(companionBook().sort()) === '["hound","sellsword","wolf"]', 'companion collection recovers older evidence and deduplicates');
+  localStorage.removeItem('deepdelve.companions');
+}
+
 // Scanline rasterisation must preserve the point-in-polygon fill rule, even
 // for concave, clipped, reversed, fractional and self-intersecting sheets.
 {

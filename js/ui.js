@@ -1,3 +1,4 @@
+import { renderCompanions } from './companionsview.js';
 import { renderPuzzle } from './puzzleview.js';
 import { bindReplay } from './replaycontrols.js';
 import { randomSeedWord } from './rng.js';
@@ -990,6 +991,7 @@ const UI = (() => {
   function renderJournal() {
     if (journalTab !== 'pages') narration.leaveJournal();
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
+    if (journalTab === 'companions') { $('#journal-count').textContent = renderCompanions($('#journal-list'), Game.state()); return; }
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
     if (journalTab === 'combos') { $('#journal-count').textContent = renderCombos($('#journal-list')); return; }
@@ -1530,6 +1532,8 @@ const UI = (() => {
     $('#btn-hall').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });
     $('#btn-beasts').addEventListener('click', () => { $('#beasts-count').textContent = renderBestiary($('#beasts-list')); showScreen('screen-beasts'); });
     $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
+    $('#btn-companions').addEventListener('click', () => { $('#companions-count').textContent = renderCompanions($('#companions-list'), Game.state()); showScreen('screen-companions'); });
+    $('#companions-back').addEventListener('click', () => showScreen('screen-title'));
     for (const t of $$('[data-jtab]')) t.addEventListener('click', () => { journalTab = t.dataset.jtab; renderJournal(); });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#hall-relics').addEventListener('click', () => { $('#relics-count').textContent = renderCodex($('#relics-list')); showScreen('screen-relics'); });

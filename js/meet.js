@@ -3,6 +3,7 @@
 // does for the trader, and the prop that started it is gone once it has been
 // answered. What it borrows from the game comes through K, as the monsters',
 // the traders' and the companion's do.
+import { COMPANION_ENCOUNTERS, meetCompanion } from './companionbook.js';
 import { d, Dice } from './rng.js';
 import { ITEMS, MONSTERS } from './data.js';
 import { Sound } from './sound.js';
@@ -20,6 +21,7 @@ export function makeEncounters(K) {
     // (on the ladder's fifth rung no lamp makes you whole: the vigil lamp by the last halls is out)
     let def = ENCOUNTERS[n.id === 'vigil' && K.climbed(5) ? 'vigil_dark' : n.id];
     if (!def) return false;
+    if (Object.hasOwn(COMPANION_ENCOUNTERS, n.id)) meetCompanion(COMPANION_ENCOUNTERS[n.id]);
     const base = def;
     def = K.mythics.offer(n, def);
     encounter = { npc: n, def, base, preparing: false, result: null };

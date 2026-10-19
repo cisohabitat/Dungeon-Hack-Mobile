@@ -1323,3 +1323,9 @@ body.calm .item-showcase > img { animation: none !important; }
 @keyframes treasure-unveil { from { opacity: .25; transform: scale(.82); } to { opacity: 1; transform: scale(1); } }
 
 .offline-status { position: relative; z-index: 1; flex-shrink: 0; margin: 0; padding: var(--s-4) var(--s-12); background: var(--bg); color: var(--text-soft); font-size: var(--t-sm); line-height: 1.4; text-align: center; overflow-wrap: anywhere; }
+
+/* Collections remain reachable on narrow phones and with enlarged text. */
+#screen-title .menu-row:has(#btn-companions) { flex-wrap: wrap; }
+#screen-title .menu-row:has(#btn-companions) > button { flex: 1 1 40%; min-width: 0; }
+#ov-journal .tabs { flex-wrap: wrap; }
+#ov-journal .tabs .tab { flex: 1 1 auto; }

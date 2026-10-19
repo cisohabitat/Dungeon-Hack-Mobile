@@ -52,9 +52,9 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'hero-refinement-2026-10-19', text: "All six hero portraits have clearer faces, distinct expressions and quieter backgrounds, with their familiar identities preserved." };
+  const NEWS = { id: 'companion-collection-2026-10-19', text: "Your heroes now remember the companions they meet. Open Companions from the title or Journal to view their portraits and stories, kept across delves." };
   const NEWS_SEEN = 'deepdelve.news';
-  const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.progress'].some(k => store(k));
+  const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;
   function refreshNews() {
     if (store(NEWS_SEEN) !== NEWS.id && !returning()) store(NEWS_SEEN, NEWS.id);

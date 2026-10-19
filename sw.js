@@ -1,6 +1,8 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v76';
+const CACHE = 'deepdelve-v77';
 const ASSETS = [
+  './js/companionbook.js', './js/companionsview.js',
+  './img/companions/hound.webp', './img/companions/wolf.webp', './img/companions/goblin.webp', './img/companions/sellsword.webp', './img/companions/mender.webp', './img/companions/renegade.webp',
   './js/heroart.js', './js/creatureidentity.js',
   './js/regionart.js', './js/regionalprops.js', './js/arcanefx.js',
   './js/puzzles.js', './js/puzzledata.js', './js/puzzleview.js',

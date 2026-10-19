@@ -251,3 +251,26 @@ broader local run was stopped after 22 passes to focus local checks on this
 asset batch; full browser and frame-rate verification is delegated to the
 unchanged CI matrix. Release-display checks initially encountered an old local
 server commit stamp; the server was restarted before rerunning those checks.
+
+
+## Companion collection — 19 October 2026
+
+Added the previewed Hound, Wolf, Goblin, Sellsword, Mender and Renegade portraits
+for a collection available from the title and Journal. Their appearance follows
+existing companion sprites and recruitment descriptions. Visually reviewed the
+six label-free exports: hound collar, wolf ears, goblin face, sellsword helmet,
+mender staff and renegade hood/ears are coherent. Portraits represent types,
+not fixed names, since names vary between runs. Sources and crop coordinates
+are preserved in `art/companions/`. Existing animated sprites remain unchanged.
+
+Validation: all 44 selected companion, bestiary and accessibility browser checks
+passed on phone and small-phone Chromium. Two additional collection checks at
+double text size passed WCAG scans and layout checks. The full core suite passed,
+including 722 rule checks, collection sanitization and legacy recovery. All 15
+class/keeper/companion exports reproduce from their current sources, and the
+67-painting inventory passes.
+
+The isolated local 4x-throttled frame budget failed: fight 17.5 fps, wide 28.9,
+flooded 23.1, rite 34.5, start 2611 ms. The original thresholds remain unchanged.
+These results do not establish performance parity. Full Chromium and Safari
+matrix verification remains outstanding; this feature has not been pushed.

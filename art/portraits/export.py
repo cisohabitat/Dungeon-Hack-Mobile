@@ -1,4 +1,4 @@
-"""Export current class and keeper portraits, preserving the original PNGs."""
+"""Export current class, keeper and companion portraits, preserving the original PNGs."""
 import argparse
 import json
 import subprocess
@@ -12,7 +12,7 @@ args = parser.parse_args()
 temporary = tempfile.TemporaryDirectory() if args.check else None
 stale = []
 count = 0
-for group in ('portraits', 'bosses'):
+for group in ('portraits', 'bosses', 'companions'):
     art = root / 'art' / group
     manifest = json.loads((art / 'generation.json').read_text())
     portraits = manifest['portraits']
@@ -37,4 +37,4 @@ for group in ('portraits', 'bosses'):
     stale.extend(f'{group}/{name} (not in manifest)' for name in extra)
 if stale:
     raise SystemExit(f'Stale or unexpected exports: {stale}')
-print(f'All {count} class/keeper exports {"match their current sources" if args.check else "exported"}.')
+print(f'All {count} class/keeper/companion exports {"match their current sources" if args.check else "exported"}.')

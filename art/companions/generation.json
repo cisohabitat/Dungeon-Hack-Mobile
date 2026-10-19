@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-19",
+  "tool": "image_gen.imagegen",
+  "model": "Tool did not expose an underlying model identifier.",
+  "generatedFile": "exec-cb6a2052-2ce6-4280-b833-7847d3e5b808.png",
+  "reference": "../portraits/refined/approved-sheet.png",
+  "portraits": {
+    "hound": {
+      "source": "hound.png",
+      "crop": [
+        31,
+        10,
+        456,
+        456
+      ]
+    },
+    "wolf": {
+      "source": "wolf.png",
+      "crop": [
+        540,
+        10,
+        456,
+        456
+      ]
+    },
+    "goblin": {
+      "source": "goblin.png",
+      "crop": [
+        1049,
+        10,
+        456,
+        456
+      ]
+    },
+    "sellsword": {
+      "source": "sellsword.png",
+      "crop": [
+        22,
+        503,
+        474,
+        474
+      ]
+    },
+    "mender": {
+      "source": "mender.png",
+      "crop": [
+        531,
+        503,
+        474,
+        474
+      ]
+    },
+    "renegade": {
+      "source": "renegade.png",
+      "crop": [
+        1040,
+        503,
+        474,
+        474
+      ]
+    }
+  }
+}

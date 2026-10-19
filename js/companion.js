@@ -17,6 +17,7 @@
 // falls it is gone for the run. It lives outside the monster list, so nothing
 // that counts monsters counts it; what it borrows from the game comes through
 // the getters in K, as the monsters' and the traders' do.
+import { meetCompanion, recoverCompanions } from './companionbook.js';
 import { d, Rng } from './rng.js';
 import { Sound } from './sound.js';
 
@@ -152,6 +153,7 @@ export function makeCompanion(K) {
     if (def.seasoned) c.floors = (c.floors || 0) + def.seasoned;
     c.hp = c.maxHp = maxHpFor(c, p.level);
     G.companion = c;
+    meetCompanion(k);
     Sound.play('voice', K.heard({ x: spot.x, y: spot.y }, { who: def.voice }));
     return `${name} follows you now.`;
   }
@@ -487,6 +489,7 @@ export function makeCompanion(K) {
   }
   /** After a load: its clock starts again with the game's. */
   function loaded() {
+    recoverCompanions(K.G);
     const c = K.G.companion;
     // (its picture's clocks run on the page's time, which starts again from nothing)
     if (c) { c.nextAct = K.G.t + 800; c.moveT1 = 0; c.flashUntil = 0; c.lungeAt = 0; c.dressAt = 0; c.flareAt = -1e9; c.stuckSince = 0; }

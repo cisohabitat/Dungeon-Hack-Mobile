@@ -176,6 +176,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   down. Let it out and it follows as the hound does, but it is a poor fighter and a quiet one:
   it picks the locks you have no key for, makes safe the traps it passes, and lends its fingers
   to an encounter's Dexterity test (+2). One companion a run.
+- **Companions remembered.** Open **Companions** from the title screen or the
+  Journal to view portraits and descriptions of the six companion types your
+  heroes have met. Meeting one unlocks it even if you do not recruit it; unknown
+  types stay hidden. Discoveries persist on this device across delves, portraits
+  can be enlarged by touch or keyboard, and all six work offline. Loading older
+  saves recovers discoveries from their companion and recorded encounters.
 - **Companions that grow.** Every new floor a companion comes down at your side counts: blooded
   after two, a veteran after four, tougher each time and with a trick of its kind (a hound's
   hamstring and pack hunting; a goblin's backstab and scrounging). A charm from a trader (a studded
