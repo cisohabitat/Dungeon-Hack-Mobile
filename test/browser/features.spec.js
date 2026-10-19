@@ -158,8 +158,9 @@ test.describe('dungeon features', () => {
 
     await page.click('[data-open="inv"]');
     await expect(page.locator('#ov-inv')).toHaveClass(/open/);
-    // the off hand has its own slot, empty for now
-    await expect(page.locator('#equip .slot').filter({ hasText: /off hand/i })).toHaveCount(1);
+    // One left-hand slot holds the shield now and the second blade later.
+    await expect(page.locator('#equip [data-hand="left"]')).toHaveCount(1);
+    await expect(page.locator('#equip [data-hand="left"]')).toContainText('Shield');
 
     // pick the short sword out of the pack and send it to the off hand
     await page.locator('#inv-grid .slot.filled').filter({ has: page.locator('img') }).last().click();

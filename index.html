@@ -486,13 +486,13 @@
       <div class="ov-head"><h2>Pack</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body">
         <div class="equipment-figure" role="group" aria-label="Equipped items">
-          <svg class="equipment-silhouette" viewBox="0 0 360 340" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <ellipse class="figure-ground" cx="180" cy="332" rx="68" ry="6"/>
-            <path class="figure-body" d="M180 66 C167 66 162 75 162 87 L163 99 Q165 108 171 112 L170 120 L148 128 Q139 132 135 147 L124 175 L111 199 L108 212 Q108 220 112 220 L115 211 L115 224 Q118 227 120 222 L122 212 L126 216 Q130 216 128 211 L124 202 L139 181 L151 156 L153 195 L146 226 L151 266 L151 307 L143 322 Q139 329 147 330 L164 330 Q168 329 168 322 L169 288 L174 254 L180 229 L186 254 L191 288 L192 322 Q192 329 196 330 L213 330 Q221 329 217 322 L209 307 L209 266 L214 226 L207 195 L209 156 L221 181 L236 202 L232 211 Q230 216 234 216 L238 212 L240 222 Q242 227 245 224 L245 211 L248 220 Q252 220 252 212 L249 199 L236 175 L225 147 Q221 132 212 128 L190 120 L189 112 Q195 108 197 99 L198 87 C198 75 193 66 180 66 Z"/>
+          <svg class="equipment-silhouette" viewBox="0 0 360 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <ellipse class="figure-ground" cx="180" cy="288" rx="68" ry="6"/>
+            <path class="figure-body" transform="translate(0 14) scale(1 .82)" d="M180 66 C167 66 162 75 162 87 L163 99 Q165 108 171 112 L170 120 L148 128 Q139 132 135 147 L124 175 L111 199 L108 212 Q108 220 112 220 L115 211 L115 224 Q118 227 120 222 L122 212 L126 216 Q130 216 128 211 L124 202 L139 181 L151 156 L153 195 L146 226 L151 266 L151 307 L143 322 Q139 329 147 330 L164 330 Q168 329 168 322 L169 288 L174 254 L180 229 L186 254 L191 288 L192 322 Q192 329 196 330 L213 330 Q221 329 217 322 L209 307 L209 266 L214 226 L207 195 L209 156 L221 181 L236 202 L232 211 Q230 216 234 216 L238 212 L240 222 Q242 227 245 224 L245 211 L248 220 Q252 220 252 212 L249 199 L236 175 L225 147 Q221 132 212 128 L190 120 L189 112 Q195 108 197 99 L198 87 C198 75 193 66 180 66 Z"/>
             <g class="figure-links">
-              <path d="M180 52 V66 M100 75 L148 130 M100 153 L115 204 M260 75 L242 204 M260 153 L242 204 M100 245 L118 216 M260 245 L242 216"/>
-              <circle cx="148" cy="130" r="2"/><circle cx="115" cy="204" r="2"/><circle cx="242" cy="204" r="2"/>
-              <circle cx="118" cy="216" r="2"/><circle cx="242" cy="216" r="2"/>
+              <path d="M180 52 V66 M100 75 L148 130 M100 153 L115 190 M260 153 L242 190 M100 224 L118 191 M260 224 L242 191"/>
+              <circle cx="148" cy="130" r="2"/><circle cx="115" cy="190" r="2"/><circle cx="242" cy="190" r="2"/>
+              <circle cx="118" cy="191" r="2"/><circle cx="242" cy="191" r="2"/>
             </g>
           </svg>
           <div class="equip" id="equip"></div>
@@ -502,8 +502,8 @@
         <div class="inv-tools"><span id="inv-count" class="dim small"></span><button id="inv-sort" class="small ghost">Sort</button></div>
         <div class="grid" id="inv-grid"></div>
         <div id="floor-box" class="floor-box"></div>
-        <div id="item-detail" class="detail"></div>
       </div>
+      <section id="item-detail" class="detail" aria-label="Item details"></section>
     </div>
     <div id="ov-map" class="overlay">
       <div class="ov-head"><h2 id="map-title">Map</h2><button class="close" data-close aria-label="Close">✕</button></div>

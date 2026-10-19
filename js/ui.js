@@ -1052,7 +1052,7 @@ const UI = (() => {
     if (name === 'code') renderCode();
     // a keyboard's Tab, and a screen reader, start inside what has just opened, not behind it
     // (a pad's ring finds its own way in: pad.js; no box to type in is chosen, so no keyboard springs up on a phone)
-    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ ($('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus({ preventScroll: name === 'inv' && $('#item-detail').classList.contains('treasure-reveal') }); }
+    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ (name === 'inv' && selectedItem ? $('#item-detail-title') : $('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus({ preventScroll: name === 'inv' && $('#item-detail').classList.contains('treasure-reveal') }); }
   }
   /** Its first words have already been spoken into the log; time waits here. */
   function renderBoss() {
@@ -1156,6 +1156,7 @@ const UI = (() => {
   function goBack() {
     const replay = /** @type {HTMLDialogElement} */ ($('#run-replay'));
     if (replay.open) { replay.close(); return; }
+    if (overlay === 'inv' && closePackDetail()) return;
     if ($('#screen-game').classList.contains('active')) { if (overlay) closeOverlay(); else openOverlay('menu'); return; }
     const back = /** @type {HTMLElement|undefined} */ ($$('.screen.active [id$="-back"]').find(b => b.getClientRects().length));
     if (back) back.click();
@@ -1395,7 +1396,7 @@ const UI = (() => {
       // Escape is every screen's Back, as B is on a pad
       if (e.code === 'Escape' && !$('#screen-game').classList.contains('active')) { goBack(); e.preventDefault(); return; }
       if (!$('#screen-game').classList.contains('active')) return;
-      if (e.code === 'Escape') { if (overlay) closeOverlay(); else openOverlay('menu'); e.preventDefault(); return; }
+      if (e.code === 'Escape') { goBack(); e.preventDefault(); return; }
       if (overlay) { if (OPENS[e.code] === overlay) closeOverlay(); return; }
       if (KEYS[e.code]) { e.preventDefault(); if (!e.repeat) { held.set(KEYS[e.code], performance.now()); Game.input(KEYS[e.code]); } }
       else if (TAPS[e.code]) { e.preventDefault(); if (!e.repeat) Game.input(TAPS[e.code]); }   // held R is one rest, not three
@@ -1609,7 +1610,7 @@ const UI = (() => {
   });
 
   // ---------- pack: see pack.js ----------
-  const { compareText, renderInv, resetTreasure, prepareTreasure } = makePack({
+  const { compareText, renderInv, resetTreasure, prepareTreasure, closeDetail: closePackDetail } = makePack({
     get closeOverlay() { return closeOverlay; }, get damageShare() { return damageShare; }, get itemBlurb() { return itemBlurb; },
     get knownE() { return knownE; }, get overlay() { return overlay; }, get selectedItem() { return selectedItem; },
     set selectedItem(v) { selectedItem = v; }, get selectedSlot() { return selectedSlot; }, set selectedSlot(v) { selectedSlot = v; },

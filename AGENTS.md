@@ -162,6 +162,10 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   inventory event to redraw once, so a second render cannot cut the reveal short.
 - The Pack equipment figure is decorative inline SVG in `index.html`. Slot positions
   use `data-slot` and a CSS grid; the hero's right hand is on the viewer's left.
+  Render one `data-hand="left"` slot for shield/focus or offhand, keeping its real
+  rules slot as `data-slot`. Two-handed grips occupy its empty state. The item
+  detail sheet is a sibling of the scrolling bag, with lore and actions scrolling
+  separately. Escape/controller Back dismiss details first and restore item focus.
   Preserve class-specific focus/off-hand labels, hidden quality and existing actions.
   Large text hides the silhouette and returns equipment to a two-column list.
 - `js/relicart.js`: approved paintings for discovered relic codex entries and

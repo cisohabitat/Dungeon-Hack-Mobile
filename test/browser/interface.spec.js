@@ -1160,13 +1160,14 @@ for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
     const figure = page.locator('.equipment-figure');
     await expect(figure).toBeVisible();
     const weapon = figure.locator('[data-slot="weapon"]');
-    const shield = figure.locator('[data-slot="shield"]');
+    const shield = figure.locator('[data-hand="left"]');
     const armour = figure.locator('[data-slot="armor"]');
     const w = await weapon.boundingBox(), s = await shield.boundingBox(), a = await armour.boundingBox();
     expect(w.x + w.width).toBeLessThan(a.x);
     expect(a.x + a.width).toBeLessThan(s.x);
-    await expect(figure.locator('[data-slot="offhand"]')).toHaveCount(await page.evaluate(() => Game.canDualWield() || Game.player().eq.offhand ? 1 : 0));
-    await expect(shield.locator('.lbl')).toHaveText(cls === 'mage' ? 'focus' : 'shield');
+    await expect(figure.locator('[data-slot="offhand"]')).toHaveCount(await page.evaluate(() => Game.player().eq.offhand ? 1 : 0));
+    await expect(shield.locator('.lbl')).toHaveText('left hand');
+    await expect(figure.locator('[data-hand="left"]')).toHaveCount(1);
     const gear = await page.evaluate(() => JSON.stringify(Game.player().eq));
     await weapon.click();
     await expect(page.locator('#item-detail')).toBeInViewport();
@@ -1202,5 +1203,77 @@ test('@mobile pack silhouette yields to large text without clipping equipment', 
   }
   await page.locator('[data-slot="weapon"]').click();
   await expect(page.locator('#item-detail button', { hasText: /^Unequip$/ })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+
+test('@mobile one left-hand slot follows shield, off-hand blade and two-handed grip', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'shared-hand' });
+  await page.evaluate(() => {
+    Game.player().inv = [{ t: 'shortsword', q: 1, e: 0 }, { t: 'greatsword', q: 1, e: 0 }];
+  });
+  await page.click('[data-open="inv"]');
+  const hand = page.locator('#equip [data-hand="left"]');
+  await expect(hand).toHaveCount(1);
+  await expect(hand).toHaveAttribute('data-slot', 'shield');
+  await page.locator('#inv-grid button', { hasText: 'Short Sword' }).click();
+  await expect(page.locator('[data-slot="weapon"]')).toHaveClass(/destination/);
+  await expect(hand).toHaveClass(/destination/);
+  await page.getByRole('button', { name: 'Off hand', exact: true }).focus();
+  await expect(hand).toHaveClass(/destination/);
+  await expect(page.locator('[data-slot="weapon"]')).not.toHaveClass(/destination/);
+  await page.getByRole('button', { name: 'Off hand', exact: true }).click();
+  await expect(hand).toHaveCount(1);
+  await expect(hand).toHaveAttribute('data-slot', 'offhand');
+  await expect(hand).toContainText('Short Sword');
+  expect(await page.evaluate(() => !Game.player().eq.shield && Game.player().inv.some(it => it.t === 'shield'))).toBe(true);
+  await hand.click();
+  await page.getByRole('button', { name: 'Unequip', exact: true }).click();
+  await page.locator('#inv-grid button', { hasText: 'Shield' }).click();
+  await page.getByRole('button', { name: 'Equip', exact: true }).click();
+  await expect(hand).toHaveAttribute('data-slot', 'shield');
+  await page.locator('#inv-grid button', { hasText: 'Two-handed Sword' }).click();
+  await page.getByRole('button', { name: 'Equip', exact: true }).click();
+  await expect(hand).toHaveCount(1);
+  await expect(hand).toHaveClass(/occupied/);
+  await expect(hand).toContainText('Both hands');
+  expect(await page.evaluate(() => !Game.player().eq.shield && !Game.player().eq.offhand)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test('@mobile item sheet keeps actions in reach and Back restores the selected item', async ({ page }) => {
+  const errors = watchForErrors(page);
+  const { usePad, padPress } = require('./helpers');
+  await usePad(page);
+  await page.addInitScript(() => localStorage.setItem('deepdelve.textSize', '4'));
+  await startGame(page, { cls: 'fighter', seed: 'pack-sheet' });
+  await page.evaluate(() => { Game.player().inv = [{ t: 'towershield', q: 1, e: 1, u: 'bastion' }]; });
+  await page.click('[data-open="inv"]');
+  const source = page.locator('#inv-grid button').first();
+  await source.click();
+  await expect(page.locator('#item-detail-title')).toBeFocused();
+  const AxeBuilder = require('@axe-core/playwright').default;
+  const audit = await new AxeBuilder({ page }).include('#ov-inv').withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+  expect(audit.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+  const body = page.locator('.item-detail-body');
+  expect(await body.evaluate(el => el.scrollHeight > el.clientHeight)).toBe(true);
+  const actions = page.locator('#item-detail .buttons');
+  const before = await actions.boundingBox();
+  await body.evaluate(el => { el.scrollTop = el.scrollHeight; });
+  const after = await actions.boundingBox();
+  expect(Math.abs(before.y - after.y)).toBeLessThan(1);
+  expect(after.y + after.height).toBeLessThanOrEqual(page.viewportSize().height);
+  await expect(page.getByRole('button', { name: 'Equip', exact: true })).toBeInViewport();
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#item-detail')).toBeHidden();
+  await expect(source).toBeFocused();
+  await expect(page.locator('#ov-inv')).toHaveClass(/open/);
+  await source.click();
+  await padPress(page, 'B');
+  await expect(page.locator('#item-detail')).toBeHidden();
+  await expect(page.locator('#ov-inv')).toHaveClass(/open/);
+  await padPress(page, 'B');
+  await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
   expect(errors).toEqual([]);
 });
