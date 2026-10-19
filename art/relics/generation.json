@@ -1,0 +1,429 @@
+{
+  "tool": "image_gen.imagegen",
+  "approval": "User approved all four preview sheets before requesting push to main.",
+  "portraits": {
+    "last_gate": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        22,
+        58,
+        312,
+        309
+      ]
+    },
+    "mercys_oath": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        355,
+        58,
+        312,
+        309
+      ]
+    },
+    "bloodstar": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        689,
+        58,
+        312,
+        309
+      ]
+    },
+    "nightglass": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        22,
+        416,
+        312,
+        287
+      ]
+    },
+    "horizon": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        355,
+        416,
+        312,
+        287
+      ]
+    },
+    "elderseed": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        689,
+        416,
+        312,
+        287
+      ]
+    },
+    "grimtooth": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        22,
+        756,
+        312,
+        294
+      ]
+    },
+    "whisper": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        355,
+        756,
+        312,
+        294
+      ]
+    },
+    "thirst": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        689,
+        756,
+        312,
+        294
+      ]
+    },
+    "dawnbringer": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        22,
+        1100,
+        312,
+        348
+      ]
+    },
+    "penitent": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        355,
+        1100,
+        312,
+        348
+      ]
+    },
+    "ogres_toll": {
+      "source": "approved-sheet-1.png",
+      "crop": [
+        689,
+        1100,
+        312,
+        348
+      ]
+    },
+    "ninth_circle": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        22,
+        56,
+        312,
+        286
+      ]
+    },
+    "emberwood": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        355,
+        56,
+        312,
+        286
+      ]
+    },
+    "vashti": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        689,
+        56,
+        312,
+        286
+      ]
+    },
+    "heartseeker": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        22,
+        385,
+        312,
+        297
+      ]
+    },
+    "rustwarden": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        355,
+        385,
+        312,
+        297
+      ]
+    },
+    "shadowskin": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        689,
+        385,
+        312,
+        297
+      ]
+    },
+    "briarcoat": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        22,
+        730,
+        312,
+        304
+      ]
+    },
+    "kests_bulwark": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        355,
+        730,
+        312,
+        304
+      ]
+    },
+    "sisters_buckler": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        689,
+        730,
+        312,
+        304
+      ]
+    },
+    "hearthwool": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        22,
+        1102,
+        312,
+        358
+      ]
+    },
+    "archivist": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        355,
+        1102,
+        312,
+        358
+      ]
+    },
+    "midnight_folio": {
+      "source": "approved-sheet-2.png",
+      "crop": [
+        689,
+        1102,
+        312,
+        358
+      ]
+    },
+    "sparkglass": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        22,
+        56,
+        312,
+        298
+      ]
+    },
+    "boarspear": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        355,
+        56,
+        312,
+        298
+      ]
+    },
+    "galewind": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        689,
+        56,
+        312,
+        298
+      ]
+    },
+    "sextons_locket": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        22,
+        409,
+        312,
+        301
+      ]
+    },
+    "oakheart": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        355,
+        409,
+        312,
+        301
+      ]
+    },
+    "mossmantle": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        689,
+        409,
+        312,
+        301
+      ]
+    },
+    "cinder_ring": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        22,
+        761,
+        312,
+        285
+      ]
+    },
+    "spider_pendant": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        355,
+        761,
+        312,
+        285
+      ]
+    },
+    "thane_ring": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        689,
+        761,
+        312,
+        285
+      ]
+    },
+    "hissra_tooth": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        22,
+        1107,
+        312,
+        330
+      ]
+    },
+    "warchiefs_knuckle": {
+      "source": "approved-sheet-3.png",
+      "crop": [
+        355,
+        1107,
+        312,
+        330
+      ]
+    },
+    "bastion": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        22,
+        57,
+        312,
+        313
+      ]
+    },
+    "red_harvest": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        355,
+        57,
+        312,
+        313
+      ]
+    },
+    "sunhammer": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        689,
+        57,
+        312,
+        313
+      ]
+    },
+    "lantern_mercy": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        22,
+        415,
+        312,
+        295
+      ]
+    },
+    "cinderheart": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        355,
+        415,
+        312,
+        295
+      ]
+    },
+    "rimebound": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        689,
+        415,
+        312,
+        295
+      ]
+    },
+    "last_word": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        22,
+        756,
+        312,
+        286
+      ]
+    },
+    "motley": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        355,
+        756,
+        312,
+        286
+      ]
+    },
+    "farstrider": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        689,
+        756,
+        312,
+        286
+      ]
+    },
+    "thornbinder": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        22,
+        1097,
+        312,
+        347
+      ]
+    },
+    "moonbound": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        355,
+        1097,
+        312,
+        347
+      ]
+    },
+    "heartroot": {
+      "source": "approved-sheet-4.png",
+      "crop": [
+        689,
+        1097,
+        312,
+        347
+      ]
+    }
+  }
+}

@@ -9,6 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Painted relic portraits.** All 47 named relics have paintings in the discovered
+  Relic codex and identified item details. Tap a painting, or focus it and press
+  Enter or Space, to enlarge it. Portraits are cached for offline viewing.
+
 - **Optional dungeon puzzles.** At the first stair of every new custom or Quick
   Start run, tick **Include dungeon puzzles**. It starts unticked for each hero.
   Rune sequences, watchfire patterns and keeper-seal deductions guard some existing

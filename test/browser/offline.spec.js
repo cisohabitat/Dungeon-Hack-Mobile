@@ -64,6 +64,15 @@ test('core play is ready offline while all recordings are delayed, then voices r
       return {status:r.status,length:(await r.arrayBuffer()).byteLength};
     });
     expect(range).toEqual({status:206,length:10});
+    const relicImages=await page.evaluate(async()=>{
+      const {RELICS}=await import('/js/relics.js');
+      return Promise.all(Object.keys(RELICS).map(async id=>{
+        const image=new Image();image.src=`/img/relics/${id}.webp`;
+        await image.decode();return image.naturalWidth;
+      }));
+    });
+    expect(relicImages).toHaveLength(47);
+    expect(relicImages.every(width=>width===512)).toBe(true);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     expect(errors).toEqual([]);
   } finally {

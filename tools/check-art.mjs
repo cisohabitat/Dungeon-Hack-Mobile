@@ -5,10 +5,18 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MONSTERS, CLASSES } from '../js/data.js';
+import { RELICS } from '../js/relics.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const review = JSON.parse(readFileSync(resolve(root, 'art/review.json'), 'utf8'));
 const identity = JSON.parse(readFileSync(resolve(root, 'art/identity.json'), 'utf8'));
+const relics = JSON.parse(readFileSync(resolve(root, 'art/relics/generation.json'), 'utf8')).portraits;
+if (JSON.stringify(Object.keys(relics).sort()) !== JSON.stringify(Object.keys(RELICS).sort())) {
+  throw new Error('Relic portrait coverage is incomplete.');
+}
+for (const id of Object.keys(RELICS)) {
+  if (!review.sha256[`img/relics/${id}.webp`]) throw new Error(`${id}: missing reviewed relic portrait.`);
+}
 for (const [label, table] of [['monsters', MONSTERS], ['heroes', CLASSES]]) {
   const expected = Object.keys(table).sort(), reviewed = Object.keys(identity[label]).sort();
   if (JSON.stringify(expected) !== JSON.stringify(reviewed)) throw new Error(`${label}: painted/sprite identity review is incomplete.`);

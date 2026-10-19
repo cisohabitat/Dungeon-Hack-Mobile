@@ -156,6 +156,11 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   or replay the reveal when sorting/equipping. Keep the normal pack actions and
   disable reveal movement in Calm view and reduced motion. Floor Take uses the
   inventory event to redraw once, so a second render cannot cut the reveal short.
+- `js/relicart.js`: approved paintings for discovered relic codex entries and
+  known selected pack items, with keyboard/touch zoom and named-sprite fallback.
+  The 47 exports in `img/relics/` come from four approved sheets in `art/relics/`;
+  `python3 art/relics/export.py --check` verifies their manifest crops. Keep
+  inventory/floor/held sprites pixel art and unidentified paintings hidden.
 - `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
   floor sprites, pack inspection, discovered codex and held weapons/foci.
   Resolve identity with `namedSprite` and base weapon type with `namedBase`;

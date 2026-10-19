@@ -64,11 +64,14 @@ for(const [cls,id] of [['Fighter','last_gate'],['Cleric','mercys_oath'],['Mage',
   const errors=watchForErrors(page);await startGame(page,{seed:'mythic-pack-'+id,cls,permadeath:false});
   const expected=await page.evaluate(async id=>{
     const {RELICS}=await import('/js/relics.js'),r=RELICS[id],p=Game.player();Game.level().monsters=[];p.eq.weapon=null;p.eq.shield=null;p.eq.amulet=null;
-    p.inv=[{t:r.t,u:id,e:r.e,q:1}];return Assets.sprites[Game.spriteFor(p.inv[0])].url;
+    p.inv=[{t:r.t,u:id,e:r.e,q:1}];Game.state().known[r.t]=true;
+    return {sprite:Assets.sprites[Game.spriteFor(p.inv[0])].url,portrait:`img/relics/${id}.webp`};
   },id);
   await page.click('[data-open="inv"]');await page.locator('#inv-grid .slot.g-mythic').click();
   await expect(page.locator('#item-detail .grade-word')).toHaveText('Mythic');
-  await expect(page.locator('#item-detail .item-showcase img')).toHaveAttribute('src',expected);
+  await expect(page.locator('#inv-grid .slot.g-mythic img')).toHaveAttribute('src',expected.sprite);
+  await expect(page.locator('#item-detail .item-showcase img')).toHaveAttribute('src',expected.portrait);
+  await expect.poll(()=>page.locator('#item-detail .item-showcase img').evaluate(img=>img.complete&&img.naturalWidth===512)).toBe(true);
   await expect(page.locator('#item-detail .relic-powers')).toContainText(/Armour class|cost|longer|less/);
   await page.locator('#item-detail button').filter({hasText:/^(Equip|Put on)$/}).click();
   expect(await page.evaluate(id=>Object.values(Game.player().eq).some(it=>it?.u===id),id)).toBe(true);

@@ -134,7 +134,7 @@ test('treasure inspection shows known grades and usable art without revealing hi
     await expect(detail).toHaveAttribute('data-grade', grade);
     if (word) await expect(detail.locator('.grade-word')).toHaveText(word);
     else { await expect(detail.locator('.grade-word')).toHaveCount(0); await expect(detail).toContainText('Its quality is unknown'); }
-    expect(await detail.locator('img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
+    await expect.poll(() => detail.locator('img').evaluate(img => img.complete && img.naturalWidth > 0)).toBe(true);
     await expect(detail.getByRole('button', { name: 'Drop', exact: true })).toBeVisible();
   }
   await page.screenshot({ path: testInfo.outputPath('treasure-inspection.png') });
@@ -231,7 +231,7 @@ test('every named treasure has distinct cached art and matching held shapes @mob
   expect(errors).toEqual([]);
 });
 
-test('named pictures agree in floor treasure, pack inspection and the discovered codex', async ({ page }) => {
+test('named floor sprites retain their identity while pack and codex share painted portraits', async ({ page }) => {
   const errors = watchForErrors(page);
   await scene(page);
   const urls = await page.evaluate(async () => {
@@ -248,7 +248,8 @@ test('named pictures agree in floor treasure, pack inspection and the discovered
     renderCodex(el);
     return { hidden, rows: p.inv.map(it => {
       const s = Assets.sprites[Game.spriteFor(it)];
-      return { url: s.url, floor: rs.sprites.some(p => p.onFloor && p.img === s), codex: el.querySelector(`[data-relic="${it.u}"] img`).getAttribute('src') === s.url };
+      const portrait = `img/relics/${it.u}.webp`;
+      return { url: portrait, floor: rs.sprites.some(p => p.onFloor && p.img === s), codex: el.querySelector(`[data-relic="${it.u}"] img`).getAttribute('src') === portrait };
     }) };
   });
   expect(urls.hidden).toBe(true);

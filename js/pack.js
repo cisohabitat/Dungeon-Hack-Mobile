@@ -1,3 +1,4 @@
+import { fillRelicPortraits } from './relicart.js';
 // The pack: its slots, what an item does and how it compares with what is worn,
 // and using a thing from it. ui.js opens it, and lends what it needs through K.
 import { Assets } from './assets.js';
@@ -149,7 +150,8 @@ export function makePack(K) {
     if (reveal) presented.add(it.u);
     box.classList.toggle('treasure-reveal', reveal);
     box.dataset.grade = gr;
-    box.innerHTML = `<div class="item-showcase g-${gr}"><img src="${art.url}" alt=""><div>${reveal ? '<p class="treasure-new">New find</p>' : ''}<h3 class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}</div></div><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
+    box.innerHTML = `<div class="item-showcase g-${gr}"><img ${r && !it.h && Game.isKnown(it.t) ? `data-relic-portrait="${it.u}"` : ''} src="${art.url}" alt=""><div>${reveal ? '<p class="treasure-new">New find</p>' : ''}<h3 class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}</div></div><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}<div class="buttons"></div>`;
+    fillRelicPortraits(box);
     if (reveal) box.scrollIntoView({ block: 'nearest' });
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls) => { const bt = document.createElement('button'); bt.textContent = label; if (cls) bt.className = cls; bt.addEventListener('click', () => { fn(); K.selectedItem = null; K.selectedSlot = null; renderInv(); }); btns.appendChild(bt); };

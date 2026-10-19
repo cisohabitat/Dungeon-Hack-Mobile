@@ -1329,3 +1329,15 @@ body.calm .item-showcase > img { animation: none !important; }
 #screen-title .menu-row:has(#btn-companions) > button { flex: 1 1 40%; min-width: 0; }
 #ov-journal .tabs { flex-wrap: wrap; }
 #ov-journal .tabs .tab { flex: 1 1 auto; }
+
+/* Paintings are confined to discovered codex rows and selected item details. */
+.relic-row img.relic-portrait, .detail .item-showcase > img.relic-portrait {
+  flex: 0 0 96px; width: 96px; height: 96px; image-rendering: auto;
+  object-fit: contain; border-radius: 8px; cursor: zoom-in;
+}
+.relic-portrait:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.relic-row:has(img.zoom), .item-showcase:has(img.zoom) { flex-direction: column; align-items: flex-start; }
+.relic-row:has(img.zoom) > div, .item-showcase:has(img.zoom) > div { width: 100%; }
+.relic-row img.relic-portrait.zoom, .detail .item-showcase > img.relic-portrait.zoom {
+  flex: none; width: min(100%, 320px); height: auto; max-width: 100%; cursor: zoom-out;
+}

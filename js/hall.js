@@ -1,3 +1,4 @@
+import { fillRelicPortraits } from './relicart.js';
 import { namedSprite } from './namedart.js';
 import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS, MASTERY } from './data.js';
 import { Assets } from './assets.js';
@@ -112,12 +113,13 @@ function renderCodex(el) {
       : r.legend ? ` · legendary: a ${escapeHtml(PATH_NAME[r.legend] || r.legend)}'s, dropped by a champion` : '';
     if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' || /[^s]s$/i.test(b.name) ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
     const art = Assets.sprites[namedSprite(id)] || Assets.sprites[b.sprite];
-    return `<div class="relic-row" data-relic="${id}"><img src="${art ? art.url : ''}" alt=""><div><h3 class="${r.mythic ? 'g-mythic' : r.legend ? 'g-legend' : 'relic'}">${escapeHtml(upFirst(r.name))}</h3>`
+    return `<div class="relic-row" data-relic="${id}"><img data-relic-portrait="${id}" src="${art ? art.url : ''}" alt=""><div><h3 class="${r.mythic ? 'g-mythic' : r.legend ? 'g-legend' : 'relic'}">${escapeHtml(upFirst(r.name))}</h3>`
       + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)}${r.e ? ` +${r.e}` : ''}${where}</p>`
       + `<ul class="relic-powers">${jewel ? `<li>${escapeHtml(b.desc)}</li>` : ''}${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
       + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';
+  fillRelicPortraits(el);
   const mythics = Object.keys(RELICS).filter(id => RELICS[id].mythic);
   const set = toCollect(), legends = Object.keys(RELICS).filter(id => RELICS[id].legend);
   return `${set.filter(id => found.includes(id)).length} of ${set.length} found · legends ${legends.filter(id => found.includes(id)).length} of ${legends.length} · mythics ${mythics.filter(id => found.includes(id)).length} of ${mythics.length}`;

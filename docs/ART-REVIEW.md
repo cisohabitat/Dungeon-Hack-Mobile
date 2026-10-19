@@ -274,3 +274,15 @@ The isolated local 4x-throttled frame budget failed: fight 17.5 fps, wide 28.9,
 flooded 23.1, rite 34.5, start 2611 ms. The original thresholds remain unchanged.
 These results do not establish performance parity. Full Chromium and Safari
 matrix verification remains outstanding; this feature has not been pushed.
+
+
+## Approved relic portrait collection
+
+All 47 named relics now have painted portraits in the discovered codex and
+identified pack details. The four user-approved sheets are preserved in
+`art/relics/`, with per-item crops and a reproducible WebP exporter. All exports
+were reviewed together for crop edges, captions, weapon connections and identity.
+The twelve legends and six mythics are included. Gameplay, held weapons and
+inventory slots retain their pixel sprites. Zoomed portraits put descriptions
+below the image, and missing paintings fall back to the existing named sprite.
+This is presentation-only work; no loot, combat or balance rules changed.
