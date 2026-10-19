@@ -254,7 +254,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 - **Automap** of explored areas plus a live corner minimap, message log with full history,
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
-  what you are already wearing, in damage per second or armour class.
+  what you are already wearing, in damage per second or armour class. Equipment surrounds
+  a neutral silhouette shared by all six classes: weapon by the right hand, shield or
+  focus by the left, armour at the chest. Large text uses a readable two-column list.
 - **Sound.** Placed by ear: a blow drawn back on your left is heard on your left, and a far one
   is quieter and duller. Blades, clubs, arrows, fists and spells each strike differently, armour
   and shields ring, each kind of creature has its own voice and its own death, and every spell

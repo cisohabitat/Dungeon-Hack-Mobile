@@ -158,6 +158,10 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   or replay the reveal when sorting/equipping. Keep the normal pack actions and
   disable reveal movement in Calm view and reduced motion. Floor Take uses the
   inventory event to redraw once, so a second render cannot cut the reveal short.
+- The Pack equipment figure is decorative inline SVG in `index.html`. Slot positions
+  use `data-slot` and a CSS grid; the hero's right hand is on the viewer's left.
+  Preserve class-specific focus/off-hand labels, hidden quality and existing actions.
+  Large text hides the silhouette and returns equipment to a two-column list.
 - `js/relicart.js`: approved paintings for discovered relic codex entries and
   known selected pack items, with keyboard/touch zoom and named-sprite fallback.
   The 47 exports in `img/relics/` come from four approved sheets in `art/relics/`;
@@ -475,6 +479,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
   reads the package version when its worker loads; changing the version during
   a run leaves that assertion comparing a cached version with the current page.
   If this happens, finish the run and recheck the release spec in fresh workers.
+  The local server also captures the commit at startup: restart it after a commit
+  before running release identity checks, or it will serve the previous SHA.
 
 - Switching from touch/keyboard to a controller must show the ring even when
   focus already sits on a valid stop; the first A rings, the next A selects.

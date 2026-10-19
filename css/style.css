@@ -511,8 +511,28 @@ body.calm .overlay.closing { display: none; }
 .ov-body.menu { display: flex; flex-direction: column; gap: var(--s-10); max-width: 420px; margin: 0 auto; width: 100%; }
 /* the in-game menu's How to Play is as large as its neighbours (the title's small ghost buttons are another thing) */
 .ov-body.menu .big.ghost { font-size: var(--t-xl); padding: var(--s-14) var(--s-16); }
-/* three slots on a narrow phone, four once the off hand earns one and there is room */
-.equip { display: grid; grid-template-columns: repeat(auto-fit, minmax(68px, 1fr)); gap: var(--s-6); margin-bottom: var(--s-10); }
+/* One neutral figure for every class. Its right hand is on the viewer's left.
+   Real grid cells let long item names grow without covering another slot. */
+.equipment-figure { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: minmax(100px, auto) minmax(100px, auto) minmax(76px, auto); gap: var(--s-8) var(--s-12); padding-bottom: 64px; margin: 0 auto var(--s-10); max-width: 480px; }
+.equipment-silhouette { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.figure-body { fill: var(--panel); stroke: var(--accent); stroke-width: 1; }
+.figure-ground { fill: var(--panel); opacity: 0.6; }
+.figure-links { fill: var(--dim); stroke: var(--border); stroke-width: 1; }
+.figure-links path { fill: none; }
+.equipment-figure .equip { display: contents; }
+.equipment-figure .slot { align-self: end; min-width: 0; min-height: 76px; overflow-wrap: anywhere; }
+.equipment-figure [data-slot="weapon"] { grid-area: 2 / 1; }
+.equipment-figure [data-slot="offhand"] { grid-area: 2 / 3; }
+.equipment-figure [data-slot="armor"] { grid-area: 2 / 2; }
+.equipment-figure [data-slot="shield"] { grid-area: 1 / 3; }
+.equipment-figure [data-slot="ring"] { grid-area: 3 / 1; }
+.equipment-figure [data-slot="ring2"] { grid-area: 3 / 3; }
+.equipment-figure [data-slot="amulet"] { grid-area: 1 / 2; align-self: start; min-height: 52px; }
+.equipment-figure [data-slot="cloak"] { grid-area: 1 / 1; }
+/* At large text sizes the figure yields to a readable equipment list. */
+body.big-text .equipment-figure { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; padding-bottom: 0; }
+body.big-text .equipment-silhouette { display: none; }
+body.big-text .equipment-figure .slot { grid-area: auto; align-self: stretch; min-height: 76px; }
 .slot { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; min-height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--s-2); font-size: var(--t-xs); text-align: center; padding: var(--s-4); color: var(--dim); position: relative; font-family: inherit; width: 100%; }
 button.slot { cursor: pointer; }
 button.slot:focus-visible, .class-card:focus-visible, .bg-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -763,8 +783,7 @@ body.calm .hud-quaff.urgent { animation: none; background: var(--alarm-bg); box-
 .view-col:has(#quick-scroll:not([hidden])) .log { padding-left: 70px; }
 /* equipped slots carry a label in the corner: keep the picture below it */
 #equip .slot, #equip-jewels .slot { padding-top: calc(0.6rem + var(--s-8)); }
-/* two rings and an amulet: a row of their own, under what is held and worn */
-.equip.jewels { margin-top: -4px; }
+
 
 /* the list of monster tricks in the help */
 ul.tricks { margin: 0.4em 0 0.8em; padding-left: 1.2em; }

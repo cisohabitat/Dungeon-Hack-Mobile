@@ -1151,3 +1151,56 @@ test.describe('the screens around the dungeon', () => {
     expect(errors).toEqual([]);
   });
 });
+
+for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
+  test(`@mobile pack silhouette places ${cls} equipment and keeps its actions`, async ({ page }) => {
+    const errors = watchForErrors(page);
+    await startGame(page, { cls, seed: 'equipment-figure' });
+    await page.click('[data-open="inv"]');
+    const figure = page.locator('.equipment-figure');
+    await expect(figure).toBeVisible();
+    const weapon = figure.locator('[data-slot="weapon"]');
+    const shield = figure.locator('[data-slot="shield"]');
+    const armour = figure.locator('[data-slot="armor"]');
+    const w = await weapon.boundingBox(), s = await shield.boundingBox(), a = await armour.boundingBox();
+    expect(w.x + w.width).toBeLessThan(a.x);
+    expect(a.x + a.width).toBeLessThan(s.x);
+    await expect(figure.locator('[data-slot="offhand"]')).toHaveCount(await page.evaluate(() => Game.canDualWield() || Game.player().eq.offhand ? 1 : 0));
+    await expect(shield.locator('.lbl')).toHaveText(cls === 'mage' ? 'focus' : 'shield');
+    const gear = await page.evaluate(() => JSON.stringify(Game.player().eq));
+    await weapon.click();
+    await expect(page.locator('#item-detail')).toBeInViewport();
+    await expect(page.locator('#item-detail button', { hasText: /^Unequip$/ })).toBeVisible();
+    await page.locator('#item-detail button', { hasText: /^Unequip$/ }).click();
+    await expect(weapon).toHaveAttribute('aria-label', 'weapon: empty');
+    const item = await page.evaluate(g => JSON.parse(g).weapon.t, gear);
+    const index = await page.evaluate(t => Game.player().inv.findIndex(it => it.t === t), item);
+    await page.locator('#inv-grid .slot').nth(index).click();
+    await page.locator('#item-detail button', { hasText: /^Equip$/ }).click();
+    expect(await page.evaluate(() => JSON.stringify(Game.player().eq))).toBe(gear);
+    await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
+    expect(errors).toEqual([]);
+  });
+}
+
+test('@mobile pack silhouette yields to large text without clipping equipment', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.addInitScript(() => localStorage.setItem('deepdelve.textSize', '4'));
+  await startGame(page, { cls: 'fighter', seed: 'equipment-large' });
+  await page.click('[data-open="inv"]');
+  await expect(page.locator('.equipment-silhouette')).toBeHidden();
+  const sizes = await page.locator('.equipment-figure .slot').evaluateAll(els => els.map(el => {
+    const r = el.getBoundingClientRect();
+    return { x: r.x, right: r.right, width: r.width, height: r.height, clipped: el.scrollWidth > el.clientWidth + 1 };
+  }));
+  for (const s of sizes) {
+    expect(s.x).toBeGreaterThanOrEqual(0);
+    expect(s.right).toBeLessThanOrEqual(page.viewportSize().width);
+    expect(s.width).toBeGreaterThanOrEqual(44);
+    expect(s.height).toBeGreaterThanOrEqual(44);
+    expect(s.clipped).toBe(false);
+  }
+  await page.locator('[data-slot="weapon"]').click();
+  await expect(page.locator('#item-detail button', { hasText: /^Unequip$/ })).toBeVisible();
+  expect(errors).toEqual([]);
+});

@@ -71,7 +71,8 @@ export function makePack(K) {
       // a mage's shield hand holds a focus; a cleric's, a shield or a holy symbol
       const shieldLabel = p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
       const el = slotEl(it, slot === 'offhand' ? 'off hand' : slot === 'ring2' ? 'ring' : slot === 'shield' ? shieldLabel : slot === 'armor' ? 'armour' : slot);
-      if (it) el.addEventListener('click', () => { K.selectedItem = it; K.selectedSlot = slot; renderInv(); });
+      el.dataset.slot = slot;
+      if (it) el.addEventListener('click', () => { K.selectedItem = it; K.selectedSlot = slot; renderInv(); $('#item-detail').scrollIntoView({ block: 'nearest' }); });
       if (K.selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
       (slots.includes(slot) ? eq : jewels).appendChild(el);
@@ -86,7 +87,7 @@ export function makePack(K) {
       const it = p.inv[i];
       const el = slotEl(it, null);
       if (it) {
-        el.addEventListener('click', () => { K.selectedItem = it; K.selectedSlot = null; renderInv(); });
+        el.addEventListener('click', () => { K.selectedItem = it; K.selectedSlot = null; renderInv(); $('#item-detail').scrollIntoView({ block: 'nearest' }); });
         el.setAttribute('aria-pressed', String(K.selectedItem === it));
         if (K.selectedItem === it) el.classList.add('sel');
       }

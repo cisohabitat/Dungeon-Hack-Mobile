@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v79';
+const CACHE = 'deepdelve-v80';
 const ASSETS = [
   './js/relicart.js',
   './img/relics/last_gate.webp',
