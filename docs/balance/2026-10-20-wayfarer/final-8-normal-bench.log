@@ -1,0 +1,24 @@
+FP spellblade bench0 oathbroken b78963fc273387c5 t=889229 logSeq=873
+FP spellblade bench0 tombwise a190247ea1ef5a9f t=851500 logSeq=1045
+FP spellblade bench0 ashborn fa916f07fa81c64b t=939761 logSeq=1200
+FP spellblade bench0 cloistered 9488d9cc6b1dec51 t=791810 logSeq=813
+FP spellblade bench0 deepborn b9f3a9a5b175d254 t=691007 logSeq=767
+FP spellblade bench0 debtor f8f360bb1286c311 t=768498 logSeq=858
+FP spellblade bench0 oathbroken b78963fc273387c5 t=889229 logSeq=873
+FP spellblade bench0 tombwise a190247ea1ef5a9f t=851500 logSeq=1045
+FP spellblade bench0 ashborn fa916f07fa81c64b t=939761 logSeq=1200
+FP spellblade bench0 cloistered 9488d9cc6b1dec51 t=791810 logSeq=813
+FP spellblade bench1 deepborn b34dd4e65193cf7b t=739469 logSeq=779
+FP spellblade bench1 debtor 1603e5d7c3aa7319 t=925991 logSeq=987
+FP spellblade bench1 oathbroken 7926b03b1ffe8744 t=760891 logSeq=955
+FP spellblade bench1 tombwise a4f6cb3ce109eaf8 t=646325 logSeq=856
+FP spellblade bench1 ashborn 8303be3aaec7c863 t=920273 logSeq=814
+FP spellblade bench1 cloistered 74f458c578f4fe60 t=785885 logSeq=845
+FP spellblade bench1 deepborn b34dd4e65193cf7b t=739469 logSeq=779
+FP spellblade bench1 debtor 1603e5d7c3aa7319 t=925991 logSeq=987
+FP spellblade bench1 oathbroken 7926b03b1ffe8744 t=760891 logSeq=955
+FP spellblade bench1 tombwise a4f6cb3ce109eaf8 t=646325 logSeq=856
+spellblade win  80%  avgDeepest 8.00  avgLevel 8.8  kills 53  rests 9.2  potions 3.8  boons 7.0  bought 6.0  goldLeft 485  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 0.8  runes 13.5  made 0.5  tonics 1.0  oils 0.8 (bought 0.2)  charms 0.00  jobs 1.40 (paid 0.90, lost 0.50, done unpaid 0.00, open at the end 0.00)  draughts bought 1.70  scrolls read 0.30  lodged 0.1  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 1.55  fire 5.75 (fields 3.55)  flasks 0.30 (lit 0.05, bought 0.00)  relics 1.5 (worn 1.0, bought 0.50)  legend 0% (worn 0%)  combos 0.3 (wins with one 25%)  jewels 1.00 (bought 0.10)  enc 12.8 (53% pass)  diedOnFloor1 0%  hound 100% (fell 40%, kills 1.6)
+   paths none 20 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.2 draughts
+OVERALL win 80.0%  avgDeepest 8.00  (20 runs)

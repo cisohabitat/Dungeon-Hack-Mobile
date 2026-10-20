@@ -100,13 +100,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   are earned: The Returned opens after any win on Normal or Hard, The Heartsworn after a win on
   Hard. The Daily Delve only ever deals the first six.
 - **Trophies and a relic codex.** Progress that outlasts a run, kept on the device under one key.
-  Each class earns a trophy for each difficulty it wins (fifteen in all, daily runs included),
+  Each ordinary class earns a trophy for each difficulty it wins (daily runs included),
   shown as a grid at the top of the Hall of Heroes, and the victory screen says when one is new.
   Every relic any hero picks up or buys goes in the codex, readable from the Hall or the
   Journal's Relics tab; the rest show only whether they are a weapon, armour or a shield.
 - **A choice at every level.** A lesson at most levels, three offered at a time, most of them a rule (an opening blow that cannot miss, a floor's first trap stepped over, no grip holds you, every potion known, the stairs on the map) and a few a number; on every even level a class talent instead, one of three from the class's own six or seven, each changing how the class fights, and a talent passed over is held for the next offer.
   Self-Taught can be taken twice; the rest only once.
-- **A path at level 3.** Each class chooses one of two paths, for good, in place of that level's
+- **A path at level 3.** Each ordinary class chooses one of two paths, for good, in place of that level's
   lesson (or at the divided stair, if it comes first): Knight or Berserker, Templar or Healer, Pyromancer or Frostweaver, Assassin or Trickster.
   Each changes two or three rules (a shield that catches blows, rage that grows with your wounds,
   fire that keeps burning, a slip aside from a blow) and some give something up for it. The path
@@ -126,7 +126,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   paintings are refreshed with quieter dungeon backgrounds. The Lich, Warlord
   and Heartforged use the bestiary's creature compositions, equipment and
   dungeon settings, shared with their introductions.
-- **Six Mythic bargains.** One signature piece for each class, usable on either
+- **Six Mythic bargains.** One signature piece for each ordinary class, usable on either
   path, with its own power, drawback and lavender artwork. Only one Mythic may
   be worn at a time. In custom delves of at least eight floors, the final Vigil
   Lamp offers an optional extra ogre fight after its usual aid, at its usual cost. Defeat the
@@ -224,7 +224,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Journal to view portraits and descriptions of the six companion types your
   heroes have met. Meeting one unlocks it even if you do not recruit it; unknown
   types stay hidden. Discoveries persist on this device across delves, portraits
-  can be enlarged by touch or keyboard, and all six work offline. Loading older
+  can be enlarged by touch or keyboard, and all class portraits work offline. Loading older
   saves recovers discoveries from their companion and recorded encounters.
 - **Companions that grow.** Every new floor a companion comes down at your side counts: blooded
   after two, a veteran after four, tougher each time and with a trick of its kind (a hound's
@@ -558,7 +558,7 @@ difficulties before replacing them, recording the revision, settings and seed se
 Balance testing is required before shipping changes to classes, enemies, abilities,
 combat, loot, economy, progression or dungeon generation. Compare the previous and
 changed revisions with matching settings on Normal and Hard, covering affected classes
-and paths (all six classes for shared systems). Tune on at least two seed sets and
+and paths (all six public classes, plus the hidden Spellblade when affected, for shared systems). Tune on at least two seed sets and
 validate the final change on `bench`, `alt` and `third`, normally 400 runs per class,
 difficulty and set. Record commands, revisions, run counts, win rates, depth, early
 deaths, death causes and resource use before updating measured results. If testing is
@@ -644,6 +644,15 @@ Exploration and length/rung checks exercised rewards without errors/timeouts;
 Hard moves −3.83 points while Druid Hard gains 3.25. The default table above
 remains tied to its recorded policy. See the [Mythic audit, original tuning,
 observer corrections and exact records](docs/balance/2026-10-18-mythics/).
+
+The hidden Spellblade has a separate **20 October 2026** audit. Across three
+seed sets, 1,200 runs per difficulty on eight Medium floors won **86.08% Normal**
+and **62.92% Hard**. The final Deepward rules were also measured over 1,200 runs
+per difficulty on sixteen floors: **80.42% Normal**, **35.42% Hard**. Long Hard
+remains more demanding for this Fire/Spellguard bot; these figures do not
+establish equal class strength or human win rates. The public-class rows above
+remain historical. Exact revisions, settings, compatibility comparisons,
+resources and raw records are in the [Wayfarer audit](docs/balance/2026-10-20-wayfarer/).
 
 ### Earlier benchmark history
 
@@ -1028,7 +1037,7 @@ js/music.js       music composed as it plays, following the fight
 js/mythics.js, mythicdata.js   optional Vigil trial, class Mythics and their tradeoffs
 js/namedart.js    individual legendary and relic pictures, shared by item views and held gear
 js/bestiaryart.js painted creature portraits, with sprite fallbacks
-js/heroart.js     hero fallback faces matching the six painted class portraits
+js/heroart.js     hero fallback faces matching the painted class portraits
 js/creatureidentity.js   cached sprite anatomy and equipment aligned to paintings
 js/release.js     release and stamped commit for the title footer and reports
 stamp-commit.cjs  stamp the deployed Git commit into the static page
@@ -1088,4 +1097,4 @@ hook, rejects a missing or outdated generated copy.
 
 MIT. See [LICENSE](LICENSE).
 
-The six hero portraits use the approved 19 October refinement, with source crops and provenance in `art/portraits/refined/` and `art/portraits/SOURCES.md`.
+The six public hero portraits use the approved 19 October refinement, with source crops and provenance in `art/portraits/refined/` and `art/portraits/SOURCES.md`. The hidden Spellblade has its own approved epic source and square adaptation recorded in `art/portraits/generation.json`.

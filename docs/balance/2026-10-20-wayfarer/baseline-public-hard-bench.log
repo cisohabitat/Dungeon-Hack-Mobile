@@ -1,0 +1,61 @@
+FP fighter bench0 oathbroken b4a4d0c16bf98eb7 t=737332 logSeq=837
+FP fighter bench0 tombwise 348309901bf3d4a1 t=1164915 logSeq=1084
+FP fighter bench1 ashborn 0c6ee2d81699a806 t=999841 logSeq=918
+FP fighter bench1 cloistered e10e79a21f78c2bd t=681727 logSeq=733
+FP fighter bench2 deepborn cc33a1e30bd73555 t=202200 logSeq=128
+FP fighter bench2 debtor f03eba92cd431a5d t=1076918 logSeq=871
+FP cleric bench0 oathbroken 3b3ea258826bdc56 t=1280518 logSeq=1308
+FP cleric bench0 tombwise cd4a0085e1e238e0 t=126334 logSeq=174
+FP cleric bench1 ashborn f14eb3b7fe1bf061 t=1155977 logSeq=1177
+FP cleric bench1 cloistered 0d8aa41c466b7e67 t=988196 logSeq=1044
+FP cleric bench2 deepborn 396a1cae759c0c5e t=1201426 logSeq=1159
+FP cleric bench2 debtor f5505d019bc2aff0 t=948118 logSeq=1364
+FP mage bench0 oathbroken 06f69aaa35a765e0 t=910820 logSeq=825
+FP mage bench0 tombwise 15593e03fb84ff2d t=124946 logSeq=125
+FP mage bench1 ashborn 8dbbcc83c05c8958 t=828177 logSeq=960
+FP mage bench1 cloistered d985db2a182a3009 t=635758 logSeq=751
+FP mage bench2 deepborn e905c469b0cb2b59 t=1008852 logSeq=1086
+FP mage bench2 debtor 063704380c41077b t=687530 logSeq=857
+FP thief bench0 oathbroken 5d8d855b4bc45013 t=70096 logSeq=195
+FP thief bench0 tombwise deb3354862ff61b4 t=1059171 logSeq=1386
+FP thief bench1 ashborn 22cbe4f7601c7551 t=268831 logSeq=369
+FP thief bench1 cloistered 9d77ad36f227fe4c t=544782 logSeq=738
+FP thief bench2 deepborn 49fafb5b9db93bc0 t=659472 logSeq=521
+FP thief bench2 debtor be36770c375d1f94 t=983283 logSeq=1414
+FP ranger bench0 oathbroken 32d4dd7088fcfcf9 t=1085821 logSeq=1110
+FP ranger bench0 tombwise b37d97b3a1351021 t=987312 logSeq=1077
+FP ranger bench1 ashborn 9c8ae9801e2e6eb3 t=809032 logSeq=892
+FP ranger bench1 cloistered fd7334fe09b3853c t=901614 logSeq=987
+FP ranger bench2 deepborn 7fb6f1cc12f8bfea t=770032 logSeq=781
+FP ranger bench2 debtor 59092d3548f35b14 t=831779 logSeq=894
+FP druid bench0 oathbroken edb28d94a2f8603a t=864591 logSeq=1125
+FP druid bench0 tombwise 1ded269898a080e6 t=824149 logSeq=1066
+FP druid bench1 ashborn 5a8c8e22eed86cc4 t=840165 logSeq=1221
+FP druid bench1 cloistered f60c0cd49746191d t=904483 logSeq=1268
+FP druid bench2 deepborn b0e86b4740c19988 t=1013121 logSeq=1164
+FP druid bench2 debtor 44fe590b8e2f488b t=901744 logSeq=1410
+fighter  win  67%  avgDeepest 6.83  avgLevel 7.3  kills 41  rests 9.0  potions 3.2  boons 4.2  bought 4.0  goldLeft 305  stuck 0  abilities 9.8  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 0.5  runes 0.0  made 0.0  tonics 0.3  oils 0.3 (bought 0.0)  charms 0.00  jobs 1.33 (paid 0.50, lost 0.50, done unpaid 0.17, open at the end 0.17)  draughts bought 0.67  scrolls read 0.17  lodged 0.0  answers struck 0.00 burned 0.00 shut 1.00  puff 0.00  rock 0.67  fire 3.17 (fields 3.17)  flasks 0.17 (lit 0.17, bought 0.00)  relics 2.5 (worn 1.5, bought 0.50)  legend 67% (worn 67%)  combos 1.5 (wins with one 100%)  jewels 1.00 (bought 0.00)  enc 10.7 (39% pass)  diedOnFloor1 0%  hound 100% (fell 17%, kills 1.2)
+   paths knight 2 runs, win 50% | berserker 3 runs, win 100% | none 1 runs, win 0%
+   path on floor 2 67%, floor 3 17%; capstone on floor 6 33%, floor 7 50% (100% of wins); legend on floor 3 50%, floor 6 17%, worn at the end 67%; winners end with 1.8 draughts
+   capstones unbreakable 1, win 0% | undying 2, win 100% | rally 1, win 100% | bloodlust 1, win 100%
+cleric   win  67%  avgDeepest 7.00  avgLevel 7.8  kills 42  rests 10.8  potions 6.0  boons 4.3  bought 5.2  goldLeft 132  stuck 0  abilities 0.0  dual 0%  heals 4.8  buffs 13.3  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 0.8  runes 0.0  made 0.0  tonics 0.3  oils 1.0 (bought 0.2)  charms 0.00  jobs 1.33 (paid 0.67, lost 0.67, done unpaid 0.00, open at the end 0.00)  draughts bought 1.33  scrolls read 0.00  lodged 0.2  answers struck 0.67 burned 0.00 shut 0.00  puff 0.00  rock 0.83  fire 8.83 (fields 3.33)  flasks 1.50 (lit 0.00, bought 1.50)  relics 2.7 (worn 1.7, bought 0.17)  legend 83% (worn 83%)  combos 1.0 (wins with one 75%)  jewels 1.17 (bought 0.17)  enc 10.5 (39% pass)  diedOnFloor1 0%  hound 83% (fell 60%, kills 0.2)
+   paths templar 3 runs, win 100% | healer 3 runs, win 33%
+   path on floor 1 17%, floor 2 67%, floor 3 17%; capstone on floor 6 50%, floor 7 33% (100% of wins); legend on floor 2 17%, floor 3 17%, floor 6 50%, worn at the end 83%; winners end with 2.0 draughts
+   capstones dawnbringer 2, win 100% | crusade 1, win 100% | miracle 1, win 100% | wellspring 1, win 0%
+mage     win  67%  avgDeepest 7.00  avgLevel 7.7  kills 46  rests 7.8  potions 1.0  boons 4.3  bought 5.3  goldLeft 361  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 8.2  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.0  runes 0.0  made 0.0  tonics 0.7  oils 0.7 (bought 0.2)  charms 0.00  jobs 1.33 (paid 0.67, lost 0.67, done unpaid 0.00, open at the end 0.00)  draughts bought 1.50  scrolls read 0.50  lodged 0.2  answers struck 0.17 burned 0.33 shut 0.00  puff 0.00  rock 0.50  fire 10.83 (fields 3.83)  flasks 0.50 (lit 0.50, bought 0.00)  relics 2.7 (worn 2.0, bought 0.17)  legend 67% (worn 67%)  combos 2.8 (wins with one 100%)  jewels 1.17 (bought 0.00)  enc 10.8 (39% pass)  diedOnFloor1 0%  hound 83% (fell 20%, kills 0.6)
+   paths pyromancer 3 runs, win 67% | none 1 runs, win 0% | frostweaver 2 runs, win 100%
+   path on floor 1 17%, floor 2 67%; capstone on floor 5 17%, floor 6 33%, floor 7 33% (100% of wins); legend on floor 3 50%, floor 6 17%, worn at the end 67%; winners end with 5.5 draughts
+   capstones inferno 2, win 50% | wildfire 1, win 100% | ice_armour 1, win 100% | deep_winter 1, win 100%
+thief    win  50%  avgDeepest 6.00  avgLevel 6.8  kills 39  rests 5.7  potions 3.5  boons 3.8  bought 4.3  goldLeft 391  stuck 0  abilities 3.3  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 0.5  runes 0.0  made 0.0  tonics 0.5  oils 0.5 (bought 0.0)  charms 0.00  jobs 1.17 (paid 0.50, lost 0.50, done unpaid 0.00, open at the end 0.17)  draughts bought 1.67  scrolls read 0.17  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.17  puff 0.33  rock 0.50  fire 2.67 (fields 2.50)  flasks 0.00 (lit 0.17, bought 0.00)  relics 1.8 (worn 1.5, bought 0.17)  legend 67% (worn 67%)  combos 1.3 (wins with one 100%)  jewels 1.17 (bought 0.00)  enc 8.8 (54% pass)  diedOnFloor1 0%  hound 83% (fell 80%, kills 0.6)
+   paths assassin 3 runs, win 0% | trickster 3 runs, win 100%
+   path on floor 2 100%; capstone on floor 6 33%, floor 7 17% (100% of wins); legend on floor 3 50%, floor 6 17%, worn at the end 67%; winners end with 5.7 draughts
+   capstones vanish 2, win 100% | quick_smoke 1, win 100%
+ranger   win  83%  avgDeepest 8.00  avgLevel 8.8  kills 54  rests 8.7  potions 8.2  boons 5.0  bought 5.7  goldLeft 304  stuck 0  abilities 24.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.0  runes 0.0  made 0.0  tonics 0.7  oils 1.0 (bought 0.2)  charms 0.00  jobs 1.33 (paid 0.67, lost 0.67, done unpaid 0.00, open at the end 0.00)  draughts bought 1.83  scrolls read 0.17  lodged 0.2  answers struck 0.17 burned 0.00 shut 0.17  puff 0.00  rock 0.67  fire 7.83 (fields 4.00)  flasks 0.33 (lit 0.00, bought 0.33)  relics 3.7 (worn 1.7, bought 0.67)  legend 100% (worn 100%)  combos 1.8 (wins with one 100%)  jewels 1.33 (bought 0.00)  enc 12.8 (46% pass)  diedOnFloor1 0%  hound 100% (fell 17%, kills 1.3)
+   paths sharpshooter 3 runs, win 67% | warden 3 runs, win 100%
+   path on floor 1 17%, floor 2 50%, floor 3 33%; capstone on floor 5 17%, floor 6 50%, floor 7 33% (100% of wins); legend on floor 2 17%, floor 3 50%, floor 6 33%, worn at the end 100%; winners end with 1.2 draughts
+   capstones deadeye 2, win 100% | iron_snare 2, win 100% | swift_draw 1, win 0% | wild_bulwark 1, win 100%
+druid    win  83%  avgDeepest 7.67  avgLevel 8.7  kills 46  rests 8.3  potions 4.7  boons 4.8  bought 7.0  goldLeft 277  stuck 0  abilities 0.0  dual 0%  heals 0.7  buffs 0.0  shapes 35.3  roots 13.2  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.0  runes 0.0  made 0.0  tonics 0.8  oils 1.0 (bought 0.2)  charms 0.00  jobs 1.33 (paid 0.33, lost 0.83, done unpaid 0.17, open at the end 0.00)  draughts bought 2.33  scrolls read 0.00  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.17  puff 0.00  rock 1.33  fire 9.83 (fields 3.50)  flasks 0.00 (lit 0.00, bought 0.00)  relics 2.2 (worn 1.5, bought 0.17)  legend 83% (worn 83%)  combos 1.3 (wins with one 80%)  jewels 1.50 (bought 0.17)  enc 12.3 (54% pass)  diedOnFloor1 0%  hound 100% (fell 33%, kills 1.8)
+   paths shapeshifter 3 runs, win 100% | grovewarden 3 runs, win 67%
+   path on floor 2 67%, floor 3 33%; capstone on floor 6 67%, floor 7 33% (100% of wins); legend on floor 3 50%, floor 5 17%, floor 6 17%, worn at the end 83%; winners end with 3.2 draughts
+   capstones dire_bear 2, win 100% | heartwood 2, win 50% | old_hide 1, win 100% | old_growth 1, win 100%
+OVERALL win 69.4%  avgDeepest 7.08  (36 runs)

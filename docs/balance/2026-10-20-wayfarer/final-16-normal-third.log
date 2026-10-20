@@ -1,0 +1,240 @@
+
+# SEEDONLY=third0, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 16.00  avgLevel 11.8  kills 103  rests 18.6  potions 8.2  boons 11.9  bought 7.4  goldLeft 304  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.9  runes 29.5  made 0.0  tonics 2.9  oils 2.1 (bought 0.9)  charms 0.40  jobs 4.00 (paid 0.90, lost 3.10, done unpaid 0.00, open at the end 0.00)  draughts bought 1.30  scrolls read 1.80  lodged 0.4  answers struck 0.20 burned 0.00 shut 0.60  puff 0.00  rock 2.60  fire 10.90 (fields 10.40)  flasks 2.20 (lit 0.70, bought 0.00)  relics 4.3 (worn 2.9, bought 1.00)  legend 0% (worn 0%)  combos 1.6 (wins with one 100%)  jewels 3.00 (bought 1.30)  enc 25.6 (39% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 0.7)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 2.0 draughts
+OVERALL win 80.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third1, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 15.20  avgLevel 11.6  kills 103  rests 20.4  potions 7.2  boons 11.9  bought 9.2  goldLeft 281  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.7  runes 29.3  made 0.9  tonics 2.1  oils 2.4 (bought 0.7)  charms 0.50  jobs 5.00 (paid 1.20, lost 3.60, done unpaid 0.00, open at the end 0.20)  draughts bought 3.40  scrolls read 0.20  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.60  puff 0.00  rock 5.80  fire 8.70 (fields 6.60)  flasks 0.80 (lit 0.40, bought 0.00)  relics 2.6 (worn 1.8, bought 0.80)  legend 0% (worn 0%)  combos 2.2 (wins with one 100%)  jewels 2.30 (bought 0.50)  enc 24.0 (40% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 1.1)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 2.8 draughts
+OVERALL win 60.0%  avgDeepest 15.20  (10 runs)
+
+# SEEDONLY=third2, SEEDN=40, trials=10
+spellblade win   0%  avgDeepest 13.10  avgLevel 10.5  kills 98  rests 8.2  potions 12.5  boons 9.8  bought 4.3  goldLeft 591  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 1.00, stuck at end 0%  forged 1.3  runes 26.0  made 0.5  tonics 1.7  oils 0.6 (bought 0.0)  charms 0.30  jobs 2.60 (paid 0.00, lost 2.60, done unpaid 0.00, open at the end 0.00)  draughts bought 1.90  scrolls read 1.30  lodged 1.5  answers struck 0.00 burned 0.00 shut 1.60  puff 0.00  rock 4.90  fire 2.30 (fields 6.10)  flasks 0.30 (lit 0.30, bought 0.00)  relics 0.8 (worn 0.6, bought 0.30)  legend 0% (worn 0%)  combos 0.3 (wins with one 0%)  jewels 2.10 (bought 0.00)  enc 19.7 (50% pass)  diedOnFloor1 0%  hound 60% (fell 100%, kills 0.0)
+   paths none 10 runs, win 0%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with - draughts
+OVERALL win 0.0%  avgDeepest 13.10  (10 runs)
+
+# SEEDONLY=third3, SEEDN=40, trials=10
+spellblade win  50%  avgDeepest 14.10  avgLevel 10.5  kills 82  rests 19.0  potions 7.5  boons 10.1  bought 9.4  goldLeft 494  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.3  runes 25.6  made 1.7  tonics 1.4  oils 2.5 (bought 1.5)  charms 0.00  jobs 4.00 (paid 0.40, lost 3.10, done unpaid 0.10, open at the end 0.40)  draughts bought 3.10  scrolls read 2.40  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.80  puff 0.00  rock 3.10  fire 7.80 (fields 7.30)  flasks 0.40 (lit 0.00, bought 0.00)  relics 0.0 (worn 0.0, bought 0.00)  legend 0% (worn 0%)  combos 1.3 (wins with one 100%)  jewels 0.50 (bought 0.20)  enc 21.6 (39% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 0.8)
+   paths none 10 runs, win 50%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.2 draughts
+OVERALL win 50.0%  avgDeepest 14.10  (10 runs)
+
+# SEEDONLY=third4, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.8  kills 95  rests 20.9  potions 1.7  boons 10.7  bought 12.1  goldLeft 530  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.7  runes 30.5  made 2.2  tonics 4.3  oils 3.5 (bought 2.9)  charms 1.00  jobs 5.00 (paid 2.20, lost 2.80, done unpaid 0.00, open at the end 0.00)  draughts bought 3.90  scrolls read 0.40  lodged 0.5  answers struck 0.00 burned 0.00 shut 0.30  puff 0.00  rock 0.60  fire 8.50 (fields 7.90)  flasks 0.00 (lit 0.00, bought 0.00)  relics 2.3 (worn 2.0, bought 1.00)  legend 0% (worn 0%)  combos 1.0 (wins with one 80%)  jewels 1.90 (bought 0.20)  enc 26.0 (31% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 1.4)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 9.8 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third5, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 107  rests 18.0  potions 4.8  boons 11.5  bought 8.1  goldLeft 214  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 3.6  runes 30.0  made 3.3  tonics 4.8  oils 3.7 (bought 3.0)  charms 0.10  jobs 4.00 (paid 0.70, lost 3.30, done unpaid 0.00, open at the end 0.00)  draughts bought 2.70  scrolls read 1.70  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.80  fire 4.80 (fields 7.90)  flasks 0.00 (lit 0.00, bought 0.00)  relics 4.2 (worn 2.1, bought 1.00)  legend 0% (worn 0%)  combos 1.4 (wins with one 100%)  jewels 3.00 (bought 0.50)  enc 26.0 (38% pass)  diedOnFloor1 0%  hound 100% (fell 20%, kills 0.8)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.7 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third6, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 15.80  avgLevel 11.8  kills 114  rests 18.3  potions 10.0  boons 10.6  bought 13.0  goldLeft 457  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.7  runes 32.8  made 1.2  tonics 3.5  oils 1.3 (bought 1.0)  charms 1.30  jobs 5.00 (paid 1.00, lost 4.00, done unpaid 0.00, open at the end 0.00)  draughts bought 5.00  scrolls read 0.20  lodged 0.6  answers struck 0.00 burned 0.00 shut 0.30  puff 0.00  rock 0.90  fire 4.10 (fields 10.00)  flasks 2.30 (lit 0.60, bought 0.00)  relics 3.0 (worn 2.0, bought 1.00)  legend 0% (worn 0%)  combos 0.8 (wins with one 67%)  jewels 2.20 (bought 1.20)  enc 25.4 (46% pass)  diedOnFloor1 0%  hound 100% (fell 90%, kills 1.8)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 4.3 draughts
+OVERALL win 60.0%  avgDeepest 15.80  (10 runs)
+
+# SEEDONLY=third7, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.8  kills 109  rests 20.6  potions 5.3  boons 10.7  bought 11.4  goldLeft 962  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.4  runes 31.2  made 2.2  tonics 4.9  oils 3.0 (bought 3.9)  charms 0.40  jobs 6.00 (paid 0.60, lost 5.40, done unpaid 0.00, open at the end 0.00)  draughts bought 4.50  scrolls read 0.60  lodged 0.2  answers struck 0.20 burned 0.00 shut 0.70  puff 0.00  rock 0.50  fire 3.30 (fields 8.20)  flasks 1.00 (lit 0.70, bought 0.00)  relics 0.3 (worn 0.0, bought 0.30)  legend 0% (worn 0%)  combos 2.1 (wins with one 100%)  jewels 1.60 (bought 0.00)  enc 26.0 (39% pass)  diedOnFloor1 0%  hound 100% (fell 40%, kills 0.2)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 9.1 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third8, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.60  avgLevel 11.7  kills 107  rests 23.7  potions 6.9  boons 10.1  bought 14.9  goldLeft 284  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.10, stuck at end 0%  forged 2.2  runes 28.5  made 2.1  tonics 4.7  oils 3.3 (bought 2.8)  charms 0.30  jobs 5.50 (paid 0.40, lost 4.20, done unpaid 0.80, open at the end 0.10)  draughts bought 2.40  scrolls read 0.40  lodged 1.1  answers struck 0.00 burned 0.00 shut 0.40  puff 0.00  rock 0.20  fire 11.80 (fields 5.20)  flasks 0.60 (lit 0.40, bought 0.00)  relics 0.5 (worn 0.2, bought 0.20)  legend 0% (worn 0%)  combos 2.3 (wins with one 100%)  jewels 3.00 (bought 0.90)  enc 25.0 (38% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 0.7)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.3 draughts
+OVERALL win 80.0%  avgDeepest 15.60  (10 runs)
+
+# SEEDONLY=third9, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.80  avgLevel 11.8  kills 98  rests 15.5  potions 10.7  boons 12.1  bought 7.2  goldLeft 389  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.1  runes 28.7  made 2.1  tonics 3.7  oils 3.1 (bought 3.1)  charms 0.20  jobs 5.80 (paid 1.90, lost 3.70, done unpaid 0.00, open at the end 0.20)  draughts bought 2.60  scrolls read 0.40  lodged 0.3  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.60  fire 18.50 (fields 7.80)  flasks 0.00 (lit 0.20, bought 0.00)  relics 2.6 (worn 1.6, bought 0.60)  legend 0% (worn 0%)  combos 2.3 (wins with one 100%)  jewels 2.80 (bought 0.90)  enc 25.6 (43% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 0.2)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 2.0 draughts
+OVERALL win 80.0%  avgDeepest 15.80  (10 runs)
+
+# SEEDONLY=third10, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.8  kills 98  rests 19.3  potions 5.6  boons 10.3  bought 20.4  goldLeft 503  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.1  runes 28.2  made 1.7  tonics 4.4  oils 5.2 (bought 3.2)  charms 0.20  jobs 6.00 (paid 1.50, lost 4.50, done unpaid 0.00, open at the end 0.00)  draughts bought 6.70  scrolls read 0.60  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 10.30  fire 8.50 (fields 8.00)  flasks 1.30 (lit 0.50, bought 0.00)  relics 0.5 (worn 0.5, bought 0.20)  legend 0% (worn 0%)  combos 1.4 (wins with one 80%)  jewels 0.50 (bought 0.20)  enc 26.0 (64% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 1.9)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.9 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third11, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.90  avgLevel 11.9  kills 122  rests 20.0  potions 6.7  boons 11.5  bought 11.4  goldLeft 775  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 3.3  runes 35.2  made 2.3  tonics 3.7  oils 3.1 (bought 1.0)  charms 0.10  jobs 3.70 (paid 1.50, lost 2.10, done unpaid 0.10, open at the end 0.00)  draughts bought 2.00  scrolls read 1.80  lodged 0.5  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 1.70  fire 19.40 (fields 8.50)  flasks 2.00 (lit 1.10, bought 0.00)  relics 2.4 (worn 1.8, bought 0.90)  legend 0% (worn 0%)  combos 1.3 (wins with one 75%)  jewels 3.40 (bought 1.30)  enc 25.6 (46% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 0.6)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.5 draughts
+OVERALL win 80.0%  avgDeepest 15.90  (10 runs)
+
+# SEEDONLY=third12, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 15.40  avgLevel 11.1  kills 90  rests 13.8  potions 2.3  boons 9.8  bought 8.1  goldLeft 533  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.1  runes 24.1  made 1.6  tonics 2.0  oils 2.6 (bought 0.0)  charms 0.00  jobs 2.90 (paid 1.00, lost 1.90, done unpaid 0.00, open at the end 0.00)  draughts bought 3.20  scrolls read 0.30  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.50  puff 0.00  rock 0.70  fire 2.20 (fields 6.60)  flasks 1.00 (lit 0.30, bought 0.00)  relics 1.4 (worn 1.0, bought 0.30)  legend 0% (worn 0%)  combos 0.5 (wins with one 50%)  jewels 2.80 (bought 0.60)  enc 24.6 (51% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 0.4)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 8.8 draughts
+OVERALL win 60.0%  avgDeepest 15.40  (10 runs)
+
+# SEEDONLY=third13, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.80  avgLevel 11.2  kills 83  rests 24.1  potions 5.3  boons 10.2  bought 4.5  goldLeft 385  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.3  runes 28.2  made 1.2  tonics 3.1  oils 5.3 (bought 4.0)  charms 0.00  jobs 3.00 (paid 0.00, lost 3.00, done unpaid 0.00, open at the end 0.00)  draughts bought 2.30  scrolls read 0.40  lodged 0.1  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.30  fire 4.10 (fields 5.30)  flasks 1.80 (lit 0.50, bought 0.00)  relics 1.2 (worn 1.2, bought 1.00)  legend 0% (worn 0%)  combos 1.3 (wins with one 100%)  jewels 3.00 (bought 0.20)  enc 25.6 (34% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 1.3)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.0 draughts
+OVERALL win 80.0%  avgDeepest 15.80  (10 runs)
+
+# SEEDONLY=third14, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 112  rests 18.9  potions 7.0  boons 12.3  bought 6.0  goldLeft 438  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.1  runes 31.7  made 2.0  tonics 6.3  oils 7.4 (bought 5.5)  charms 0.10  jobs 5.40 (paid 0.00, lost 4.40, done unpaid 1.00, open at the end 0.00)  draughts bought 3.40  scrolls read 2.00  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.80  puff 0.00  rock 0.80  fire 2.80 (fields 6.80)  flasks 0.00 (lit 0.00, bought 0.00)  relics 2.7 (worn 1.5, bought 0.80)  legend 0% (worn 0%)  combos 2.2 (wins with one 100%)  jewels 2.70 (bought 0.70)  enc 26.0 (50% pass)  diedOnFloor1 0%  hound 100% (fell 50%, kills 1.2)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.0 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third15, SEEDN=40, trials=10
+spellblade win  40%  avgDeepest 14.00  avgLevel 10.8  kills 88  rests 24.1  potions 10.7  boons 10.6  bought 9.9  goldLeft 965  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.6  runes 28.6  made 0.7  tonics 1.1  oils 3.6 (bought 2.6)  charms 0.00  jobs 3.80 (paid 0.10, lost 3.50, done unpaid 0.20, open at the end 0.00)  draughts bought 1.40  scrolls read 0.30  lodged 0.6  answers struck 0.50 burned 0.00 shut 0.10  puff 0.00  rock 0.40  fire 1.80 (fields 6.50)  flasks 0.20 (lit 0.00, bought 0.00)  relics 0.9 (worn 0.2, bought 0.40)  legend 0% (worn 0%)  combos 0.9 (wins with one 100%)  jewels 1.40 (bought 0.40)  enc 22.2 (47% pass)  diedOnFloor1 0%  hound 80% (fell 88%, kills 0.6)
+   paths none 10 runs, win 40%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 3.0 draughts
+OVERALL win 40.0%  avgDeepest 14.00  (10 runs)
+
+# SEEDONLY=third16, SEEDN=40, trials=10
+spellblade win  90%  avgDeepest 15.40  avgLevel 11.6  kills 94  rests 23.3  potions 8.0  boons 10.6  bought 18.8  goldLeft 319  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 3.1  runes 30.1  made 2.6  tonics 4.5  oils 1.0 (bought 0.0)  charms 0.00  jobs 5.80 (paid 0.00, lost 5.10, done unpaid 0.70, open at the end 0.00)  draughts bought 3.90  scrolls read 1.30  lodged 0.9  answers struck 0.00 burned 0.00 shut 0.60  puff 0.00  rock 0.00  fire 4.20 (fields 9.80)  flasks 0.00 (lit 0.10, bought 0.00)  relics 2.5 (worn 2.1, bought 0.90)  legend 0% (worn 0%)  combos 0.3 (wins with one 33%)  jewels 1.20 (bought 0.00)  enc 24.7 (42% pass)  diedOnFloor1 0%  hound 100% (fell 60%, kills 0.7)
+   paths none 10 runs, win 90%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.3 draughts
+OVERALL win 90.0%  avgDeepest 15.40  (10 runs)
+
+# SEEDONLY=third17, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 111  rests 19.8  potions 1.1  boons 11.6  bought 14.2  goldLeft 720  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.4  runes 30.0  made 1.3  tonics 5.2  oils 3.3 (bought 0.6)  charms 0.40  jobs 5.00 (paid 1.30, lost 3.70, done unpaid 0.00, open at the end 0.00)  draughts bought 4.80  scrolls read 1.90  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 3.20  fire 14.50 (fields 5.70)  flasks 0.50 (lit 0.50, bought 0.00)  relics 3.4 (worn 0.7, bought 1.00)  legend 0% (worn 0%)  combos 2.0 (wins with one 100%)  jewels 2.10 (bought 0.20)  enc 26.0 (30% pass)  diedOnFloor1 0%  hound 100% (fell 30%, kills 2.4)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 9.1 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third18, SEEDN=40, trials=10
+spellblade win  40%  avgDeepest 15.40  avgLevel 11.5  kills 98  rests 25.1  potions 10.5  boons 10.7  bought 9.4  goldLeft 456  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.3  runes 30.8  made 1.7  tonics 3.2  oils 4.5 (bought 2.7)  charms 0.40  jobs 4.70 (paid 0.70, lost 3.30, done unpaid 0.40, open at the end 0.30)  draughts bought 4.60  scrolls read 0.20  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.40  puff 0.00  rock 13.00  fire 12.10 (fields 6.40)  flasks 0.20 (lit 0.10, bought 0.00)  relics 1.1 (worn 0.9, bought 0.90)  legend 0% (worn 0%)  combos 2.5 (wins with one 100%)  jewels 2.00 (bought 0.80)  enc 24.6 (50% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 0.2)
+   paths none 10 runs, win 40%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 9.0 draughts
+OVERALL win 40.0%  avgDeepest 15.40  (10 runs)
+
+# SEEDONLY=third19, SEEDN=40, trials=10
+spellblade win  90%  avgDeepest 15.90  avgLevel 12.0  kills 112  rests 19.1  potions 6.3  boons 11.9  bought 9.1  goldLeft 576  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.2  runes 31.2  made 2.4  tonics 3.0  oils 2.9 (bought 1.6)  charms 1.00  jobs 6.00 (paid 1.10, lost 4.90, done unpaid 0.00, open at the end 0.00)  draughts bought 2.10  scrolls read 0.70  lodged 0.2  answers struck 0.20 burned 0.00 shut 0.20  puff 0.00  rock 2.40  fire 9.10 (fields 9.00)  flasks 1.20 (lit 0.20, bought 0.00)  relics 1.7 (worn 1.6, bought 0.80)  legend 0% (worn 0%)  combos 1.3 (wins with one 100%)  jewels 2.30 (bought 0.20)  enc 25.8 (47% pass)  diedOnFloor1 0%  hound 100% (fell 90%, kills 1.4)
+   paths none 10 runs, win 90%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 4.8 draughts
+OVERALL win 90.0%  avgDeepest 15.90  (10 runs)
+
+# SEEDONLY=third20, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.40  avgLevel 11.6  kills 109  rests 20.5  potions 9.4  boons 10.6  bought 12.1  goldLeft 456  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.2  runes 30.1  made 1.1  tonics 1.5  oils 2.0 (bought 1.4)  charms 0.50  jobs 4.00 (paid 0.30, lost 3.50, done unpaid 0.00, open at the end 0.20)  draughts bought 4.50  scrolls read 1.20  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 2.00  fire 6.60 (fields 7.60)  flasks 0.20 (lit 0.00, bought 0.00)  relics 0.4 (worn 0.1, bought 0.10)  legend 0% (worn 0%)  combos 1.5 (wins with one 100%)  jewels 2.50 (bought 0.50)  enc 24.6 (46% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 0.3)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 3.9 draughts
+OVERALL win 80.0%  avgDeepest 15.40  (10 runs)
+
+# SEEDONLY=third21, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 117  rests 22.5  potions 5.2  boons 13.0  bought 8.5  goldLeft 585  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.3  runes 30.8  made 2.3  tonics 4.0  oils 2.3 (bought 1.9)  charms 1.00  jobs 4.00 (paid 0.00, lost 4.00, done unpaid 0.00, open at the end 0.00)  draughts bought 3.20  scrolls read 0.50  lodged 0.3  answers struck 0.00 burned 0.00 shut 0.30  puff 0.00  rock 1.60  fire 14.60 (fields 7.90)  flasks 0.00 (lit 0.00, bought 0.00)  relics 2.0 (worn 1.8, bought 1.00)  legend 0% (worn 0%)  combos 0.3 (wins with one 30%)  jewels 3.00 (bought 0.80)  enc 26.0 (41% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 1.2)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 7.7 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third22, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 15.80  avgLevel 12.0  kills 118  rests 19.3  potions 7.4  boons 12.3  bought 13.0  goldLeft 440  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.0  runes 30.3  made 1.9  tonics 2.6  oils 2.8 (bought 0.2)  charms 1.20  jobs 5.00 (paid 1.30, lost 3.50, done unpaid 0.00, open at the end 0.20)  draughts bought 4.40  scrolls read 0.90  lodged 0.4  answers struck 0.20 burned 0.00 shut 0.00  puff 0.00  rock 1.00  fire 12.40 (fields 8.10)  flasks 0.60 (lit 1.10, bought 0.00)  relics 1.2 (worn 0.6, bought 0.40)  legend 0% (worn 0%)  combos 2.3 (wins with one 100%)  jewels 2.50 (bought 0.00)  enc 25.4 (34% pass)  diedOnFloor1 0%  hound 100% (fell 50%, kills 0.9)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 7.3 draughts
+OVERALL win 60.0%  avgDeepest 15.80  (10 runs)
+
+# SEEDONLY=third23, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.6  kills 89  rests 14.7  potions 4.0  boons 10.0  bought 16.7  goldLeft 296  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.3  runes 24.8  made 2.1  tonics 3.3  oils 4.5 (bought 2.4)  charms 0.50  jobs 5.50 (paid 0.60, lost 4.90, done unpaid 0.00, open at the end 0.00)  draughts bought 6.10  scrolls read 0.20  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.70  fire 6.80 (fields 6.00)  flasks 1.90 (lit 0.30, bought 0.00)  relics 2.2 (worn 1.2, bought 0.00)  legend 0% (worn 0%)  combos 1.5 (wins with one 100%)  jewels 2.80 (bought 0.00)  enc 26.0 (38% pass)  diedOnFloor1 0%  hound 70% (fell 29%, kills 0.6)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 8.9 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third24, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.9  kills 105  rests 22.5  potions 6.9  boons 10.9  bought 11.0  goldLeft 401  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 3.1  runes 31.1  made 2.5  tonics 2.9  oils 3.4 (bought 1.0)  charms 0.00  jobs 3.70 (paid 2.00, lost 1.70, done unpaid 0.00, open at the end 0.00)  draughts bought 3.80  scrolls read 1.10  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 2.90  fire 7.90 (fields 7.30)  flasks 0.80 (lit 0.00, bought 0.00)  relics 1.5 (worn 1.5, bought 1.00)  legend 0% (worn 0%)  combos 1.6 (wins with one 100%)  jewels 2.20 (bought 0.00)  enc 26.0 (41% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 0.0)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 7.2 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third25, SEEDN=40, trials=10
+spellblade win  20%  avgDeepest 12.60  avgLevel 10.0  kills 68  rests 15.1  potions 9.1  boons 8.8  bought 3.9  goldLeft 810  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.0  runes 20.2  made 1.5  tonics 2.9  oils 2.3 (bought 0.9)  charms 0.40  jobs 3.20 (paid 0.00, lost 2.40, done unpaid 0.00, open at the end 0.80)  draughts bought 2.40  scrolls read 0.40  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.20  fire 0.70 (fields 6.20)  flasks 0.20 (lit 0.10, bought 0.00)  relics 0.4 (worn 0.4, bought 0.20)  legend 0% (worn 0%)  combos 0.3 (wins with one 100%)  jewels 1.10 (bought 0.70)  enc 18.4 (33% pass)  diedOnFloor1 0%  hound 20% (fell 100%, kills 0.0)
+   paths none 10 runs, win 20%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.0 draughts
+OVERALL win 20.0%  avgDeepest 12.60  (10 runs)
+
+# SEEDONLY=third26, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 15.80  avgLevel 11.8  kills 110  rests 18.2  potions 12.5  boons 10.6  bought 11.3  goldLeft 289  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.2  runes 30.0  made 1.6  tonics 5.2  oils 3.7 (bought 1.8)  charms 0.70  jobs 5.50 (paid 1.80, lost 3.70, done unpaid 0.00, open at the end 0.00)  draughts bought 4.70  scrolls read 1.20  lodged 0.0  answers struck 0.20 burned 0.00 shut 0.00  puff 0.10  rock 3.70  fire 13.00 (fields 10.30)  flasks 1.40 (lit 0.90, bought 0.00)  relics 1.5 (worn 1.1, bought 0.20)  legend 0% (worn 0%)  combos 2.6 (wins with one 100%)  jewels 3.00 (bought 0.90)  enc 25.2 (46% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 1.0)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 1.3 draughts
+OVERALL win 60.0%  avgDeepest 15.80  (10 runs)
+
+# SEEDONLY=third27, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 99  rests 18.5  potions 6.4  boons 11.2  bought 14.3  goldLeft 484  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.7  runes 28.3  made 2.0  tonics 4.6  oils 5.5 (bought 3.0)  charms 1.20  jobs 5.00 (paid 0.00, lost 5.00, done unpaid 0.00, open at the end 0.00)  draughts bought 3.50  scrolls read 0.10  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.60  puff 0.00  rock 22.50  fire 6.10 (fields 5.60)  flasks 0.40 (lit 0.10, bought 0.00)  relics 3.1 (worn 2.4, bought 0.80)  legend 0% (worn 0%)  combos 1.9 (wins with one 100%)  jewels 2.50 (bought 0.00)  enc 26.0 (46% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 2.0)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.5 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third28, SEEDN=40, trials=10
+spellblade win  90%  avgDeepest 15.90  avgLevel 11.8  kills 108  rests 19.4  potions 11.4  boons 10.7  bought 11.9  goldLeft 295  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.3  runes 29.6  made 2.2  tonics 4.9  oils 4.1 (bought 1.3)  charms 0.20  jobs 5.60 (paid 3.50, lost 2.10, done unpaid 0.00, open at the end 0.00)  draughts bought 3.30  scrolls read 1.60  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 1.40  fire 8.10 (fields 4.70)  flasks 0.40 (lit 0.00, bought 0.00)  relics 3.1 (worn 0.3, bought 0.90)  legend 0% (worn 0%)  combos 0.7 (wins with one 67%)  jewels 1.40 (bought 0.00)  enc 25.6 (42% pass)  diedOnFloor1 0%  hound 100% (fell 60%, kills 1.0)
+   paths none 10 runs, win 90%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 4.2 draughts
+OVERALL win 90.0%  avgDeepest 15.90  (10 runs)
+
+# SEEDONLY=third29, SEEDN=40, trials=10
+spellblade win  30%  avgDeepest 10.90  avgLevel 9.2  kills 68  rests 12.2  potions 6.2  boons 8.6  bought 4.4  goldLeft 346  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 0.8  runes 19.9  made 0.8  tonics 0.8  oils 2.0 (bought 1.3)  charms 0.00  jobs 3.60 (paid 0.20, lost 2.90, done unpaid 0.00, open at the end 0.50)  draughts bought 2.70  scrolls read 0.20  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.10  puff 0.00  rock 0.90  fire 2.40 (fields 2.70)  flasks 0.20 (lit 0.10, bought 0.00)  relics 0.2 (worn 0.2, bought 0.20)  legend 0% (worn 0%)  combos 0.7 (wins with one 67%)  jewels 0.80 (bought 0.30)  enc 15.6 (43% pass)  diedOnFloor1 0%  hound 60% (fell 83%, kills 0.0)
+   paths none 10 runs, win 30%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 9.3 draughts
+OVERALL win 30.0%  avgDeepest 10.90  (10 runs)
+
+# SEEDONLY=third30, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.9  kills 101  rests 16.5  potions 6.9  boons 10.4  bought 19.0  goldLeft 639  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.7  runes 25.2  made 1.8  tonics 2.3  oils 3.7 (bought 3.0)  charms 0.80  jobs 5.50 (paid 0.50, lost 5.00, done unpaid 0.00, open at the end 0.00)  draughts bought 3.80  scrolls read 0.80  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 2.40  fire 24.90 (fields 12.60)  flasks 1.00 (lit 0.60, bought 0.00)  relics 2.1 (worn 1.2, bought 0.50)  legend 0% (worn 0%)  combos 2.0 (wins with one 90%)  jewels 2.10 (bought 0.10)  enc 26.0 (54% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 1.7)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.0 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third31, SEEDN=40, trials=10
+spellblade win  90%  avgDeepest 15.90  avgLevel 11.1  kills 88  rests 15.9  potions 3.9  boons 9.7  bought 13.6  goldLeft 388  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.1k ticks, freed 1.00, stuck at end 0%  forged 2.0  runes 25.1  made 2.2  tonics 2.7  oils 3.8 (bought 1.9)  charms 0.20  jobs 5.00 (paid 0.90, lost 3.70, done unpaid 0.30, open at the end 0.10)  draughts bought 3.40  scrolls read 0.40  lodged 0.0  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 12.00  fire 4.20 (fields 6.50)  flasks 0.70 (lit 0.30, bought 0.00)  relics 0.1 (worn 0.1, bought 0.10)  legend 0% (worn 0%)  combos 1.7 (wins with one 100%)  jewels 2.70 (bought 0.60)  enc 25.7 (46% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 0.8)
+   paths none 10 runs, win 90%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 7.1 draughts
+OVERALL win 90.0%  avgDeepest 15.90  (10 runs)
+
+# SEEDONLY=third32, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 13.60  avgLevel 10.8  kills 81  rests 16.0  potions 8.2  boons 9.9  bought 8.2  goldLeft 880  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.6  runes 25.6  made 1.7  tonics 2.6  oils 1.4 (bought 1.2)  charms 0.20  jobs 2.90 (paid 0.60, lost 2.30, done unpaid 0.00, open at the end 0.00)  draughts bought 3.30  scrolls read 1.60  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 0.20  fire 4.00 (fields 7.70)  flasks 1.00 (lit 0.50, bought 0.00)  relics 0.7 (worn 0.1, bought 0.60)  legend 0% (worn 0%)  combos 1.8 (wins with one 100%)  jewels 1.30 (bought 0.60)  enc 21.6 (48% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 0.6)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 4.2 draughts
+OVERALL win 60.0%  avgDeepest 13.60  (10 runs)
+
+# SEEDONLY=third33, SEEDN=40, trials=10
+spellblade win  60%  avgDeepest 12.40  avgLevel 9.8  kills 83  rests 15.1  potions 4.3  boons 8.4  bought 11.1  goldLeft 442  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.5  runes 23.5  made 1.3  tonics 3.7  oils 2.7 (bought 1.3)  charms 0.00  jobs 4.30 (paid 0.20, lost 3.70, done unpaid 0.00, open at the end 0.40)  draughts bought 3.20  scrolls read 1.30  lodged 0.3  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 6.60  fire 5.00 (fields 6.20)  flasks 0.90 (lit 0.20, bought 0.00)  relics 1.6 (worn 1.2, bought 0.50)  legend 0% (worn 0%)  combos 0.6 (wins with one 33%)  jewels 1.30 (bought 1.10)  enc 18.8 (52% pass)  diedOnFloor1 0%  hound 60% (fell 50%, kills 0.3)
+   paths none 10 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 8.3 draughts
+OVERALL win 60.0%  avgDeepest 12.40  (10 runs)
+
+# SEEDONLY=third34, SEEDN=40, trials=10
+spellblade win  30%  avgDeepest 11.30  avgLevel 8.7  kills 58  rests 12.9  potions 7.6  boons 7.6  bought 7.4  goldLeft 449  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 1.6  runes 19.5  made 1.5  tonics 1.8  oils 1.7 (bought 0.5)  charms 0.10  jobs 3.50 (paid 0.10, lost 2.90, done unpaid 0.00, open at the end 0.50)  draughts bought 2.60  scrolls read 0.70  lodged 0.5  answers struck 0.00 burned 0.00 shut 0.50  puff 0.00  rock 1.10  fire 7.50 (fields 1.40)  flasks 0.20 (lit 0.00, bought 0.00)  relics 0.6 (worn 0.6, bought 0.30)  legend 0% (worn 0%)  combos 0.4 (wins with one 100%)  jewels 1.80 (bought 0.20)  enc 17.1 (45% pass)  diedOnFloor1 0%  hound 40% (fell 75%, kills 0.0)
+   paths none 10 runs, win 30%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 2.3 draughts
+OVERALL win 30.0%  avgDeepest 11.30  (10 runs)
+
+# SEEDONLY=third35, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 12.0  kills 122  rests 22.1  potions 4.7  boons 12.6  bought 11.9  goldLeft 314  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 5.0  runes 33.4  made 1.2  tonics 7.0  oils 2.7 (bought 3.0)  charms 0.60  jobs 5.00 (paid 0.00, lost 5.00, done unpaid 0.00, open at the end 0.00)  draughts bought 2.30  scrolls read 0.60  lodged 1.1  answers struck 0.20 burned 0.00 shut 0.00  puff 0.00  rock 2.20  fire 14.40 (fields 10.30)  flasks 2.80 (lit 1.40, bought 0.00)  relics 2.7 (worn 2.3, bought 0.90)  legend 0% (worn 0%)  combos 1.6 (wins with one 80%)  jewels 2.90 (bought 1.00)  enc 26.0 (50% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 1.8)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.9 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third36, SEEDN=40, trials=10
+spellblade win  30%  avgDeepest 13.30  avgLevel 10.4  kills 81  rests 2.7  potions 10.3  boons 10.7  bought 10.1  goldLeft 943  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.2k ticks, freed 1.00, stuck at end 0%  forged 0.8  runes 17.1  made 0.3  tonics 1.2  oils 1.4 (bought 1.3)  charms 0.70  jobs 3.20 (paid 0.00, lost 3.00, done unpaid 0.00, open at the end 0.20)  draughts bought 5.10  scrolls read 1.30  lodged 1.9  answers struck 0.10 burned 0.00 shut 0.60  puff 0.00  rock 1.20  fire 11.00 (fields 7.80)  flasks 0.90 (lit 0.80, bought 0.00)  relics 1.0 (worn 0.3, bought 0.30)  legend 0% (worn 0%)  combos 0.9 (wins with one 100%)  jewels 2.70 (bought 0.00)  enc 17.7 (55% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 0.8)
+   paths none 10 runs, win 30%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.0 draughts
+OVERALL win 30.0%  avgDeepest 13.30  (10 runs)
+
+# SEEDONLY=third37, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.4  kills 96  rests 17.5  potions 4.7  boons 10.2  bought 13.4  goldLeft 443  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 3.2  runes 30.3  made 3.6  tonics 5.2  oils 3.7 (bought 1.1)  charms 0.00  jobs 5.00 (paid 2.40, lost 2.60, done unpaid 0.00, open at the end 0.00)  draughts bought 4.20  scrolls read 0.80  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.50  puff 0.00  rock 1.00  fire 7.00 (fields 8.10)  flasks 0.60 (lit 0.00, bought 0.00)  relics 2.2 (worn 1.7, bought 0.70)  legend 0% (worn 0%)  combos 1.6 (wins with one 100%)  jewels 2.80 (bought 0.30)  enc 26.0 (34% pass)  diedOnFloor1 0%  hound 100% (fell 100%, kills 1.6)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 6.8 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)
+
+# SEEDONLY=third38, SEEDN=40, trials=10
+spellblade win  80%  avgDeepest 15.40  avgLevel 11.6  kills 92  rests 18.5  potions 6.1  boons 10.6  bought 5.9  goldLeft 562  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.30, stuck at end 0%  forged 2.1  runes 27.1  made 0.8  tonics 2.4  oils 2.7 (bought 0.6)  charms 0.50  jobs 4.00 (paid 1.00, lost 3.00, done unpaid 0.00, open at the end 0.00)  draughts bought 2.10  scrolls read 0.40  lodged 0.2  answers struck 0.00 burned 0.00 shut 0.20  puff 0.00  rock 1.00  fire 5.40 (fields 6.40)  flasks 0.30 (lit 0.30, bought 0.00)  relics 3.8 (worn 3.0, bought 0.80)  legend 0% (worn 0%)  combos 1.2 (wins with one 100%)  jewels 3.00 (bought 0.00)  enc 24.8 (39% pass)  diedOnFloor1 0%  hound 100% (fell 70%, kills 0.3)
+   paths none 10 runs, win 80%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.3 draughts
+OVERALL win 80.0%  avgDeepest 15.40  (10 runs)
+
+# SEEDONLY=third39, SEEDN=40, trials=10
+spellblade win 100%  avgDeepest 16.00  avgLevel 11.9  kills 92  rests 17.3  potions 5.8  boons 10.9  bought 11.3  goldLeft 567  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.00, stuck at end 0%  forged 2.2  runes 26.9  made 2.4  tonics 2.3  oils 1.6 (bought 0.7)  charms 0.70  jobs 5.00 (paid 1.80, lost 3.20, done unpaid 0.00, open at the end 0.00)  draughts bought 3.00  scrolls read 0.10  lodged 0.4  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 6.40  fire 10.60 (fields 8.20)  flasks 1.00 (lit 0.40, bought 0.00)  relics 2.5 (worn 2.2, bought 1.00)  legend 0% (worn 0%)  combos 0.5 (wins with one 50%)  jewels 2.80 (bought 0.70)  enc 26.0 (51% pass)  diedOnFloor1 0%  hound 100% (fell 80%, kills 1.3)
+   paths none 10 runs, win 100%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 5.3 draughts
+OVERALL win 100.0%  avgDeepest 16.00  (10 runs)

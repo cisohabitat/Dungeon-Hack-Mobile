@@ -441,4 +441,5 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] Five title-version activations reveal a device-local Spellblade card.
 - [x] Painted portrait, biography, pixel fallback and silver-lantern kit.
 - [x] Runic Edge, explored-ground Lantern Step and timed Spellguard.
-- [ ] Complete mobile, rules and balance validation before publication.
+- [x] Complete local rules, mobile and recorded balance validation.
+- [ ] Publish after full Chromium, Safari mobile and performance CI passes.

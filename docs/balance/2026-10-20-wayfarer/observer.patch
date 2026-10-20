@@ -1,0 +1,32 @@
+diff --git a/test/playtest.js b/test/playtest.js
+index 650c1e3..67e4056 100644
+--- a/test/playtest.js
++++ b/test/playtest.js
+@@ -212,7 +212,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
+       // a ranger's blows go by Dexterity: Strength lessons are nothing to one
+       const pick = order.find(id => offer.includes(id) && !(cls === 'ranger' && id === 'str')) || offer[0];
+       // Self-Taught: both points in the class's key score, then (its two given) in Constitution
+-      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex', ranger: 'dex', druid: 'wis' }[cls];
++      const key = { fighter: 'str', cleric: 'wis', mage: 'int', thief: 'dex', ranger: 'dex', druid: 'wis', spellblade: 'int' }[cls];
+       const room = k => ((Game.player().taught || {})[k] || 0) === 0;
+       const to = room(key) ? key : room('con') ? 'con' : 'dex';
+       Game.chooseBoon(pick, pick === 'spread' ? [to, to] : undefined);
+@@ -229,6 +229,18 @@ function play(ctx, cls, seed, opts, bg, idx) {
+     if (SMART) {
+       // casting shares the swing timer, so only try when ready
+       const castable = G.t < p.nextAttack ? [] : Game.knownSpells().filter(sp => Game.spellAvailable(sp) && p.sp >= Game.spellCost(sp) && !Game.spellWasteReason(sp));
++      // Only the new class uses this policy. Public-class decisions stay identical.
++      if (cls === 'spellblade' && !process.env.NORUNES) {
++        const near = L.monsters.filter(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 2);
++        const imminent = near.some(m => m.windup && m.windup.until - G.t < 900);
++        const escape = imminent && hpFrac < 0.4 && castable.find(sp => sp.kind === 'step');
++        if (escape) { Game.castSpell(escape); rec.lanternSteps = (rec.lanternSteps || 0) + 1; step(); continue; }
++        const edge = !p.effects.runicEdge || p.effects.runicEdge.until <= G.t;
++        const rune = edge && near.length && castable.find(sp => sp.id === 'runic_fire');
++        if (rune) { Game.castSpell(rune); rec.runes = (rec.runes || 0) + 1; step(); continue; }
++        const guard = near.some(m => m.windup && m.windup.until - G.t < 1600) && castable.find(sp => sp.kind === 'spellguard');
++        if (guard) { Game.castSpell(guard); rec.guards = (rec.guards || 0) + 1; step(); continue; }
++      }
+       const healSp = castable.filter(sp => sp.kind === 'heal').pop();
+       // a druid takes the bear when a fight comes close, and keeps it: any other spell would let it go
+       const closeBy = L.monsters.some(m => m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 3);
