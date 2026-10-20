@@ -27,3 +27,15 @@ also fails three scene budgets. These two samples do not identify the cause
 or rule out a feature regression; do not substitute their relative scores
 for the absolute gate. Stable-runner CI clearance remains required before
 publication. Physical Android and iPhone Safari validation is also pending.
+
+## Independent CI performance result
+
+The unchanged Frame-rate budget passed for `a4879326b6008bd7e3e721e848393241559bf572`
+on [GitHub Actions, job 118825241023](https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/39479849906/job/118825241023).
+It used the existing 4× throttle and thresholds, with zero retries. This clears
+the independent performance gate for the measured gameplay; it does not explain
+the local failures or replace physical-device checks. That initial overall CI
+run failed on two browser fixtures, corrected separately: the public portrait
+story list included the hidden class, and a keyboard-driven axe scan ran before
+the title's entrance fade ended. No game, performance fixture or budget changed
+in those corrections; the full CI matrix must verify the final fixture commit.

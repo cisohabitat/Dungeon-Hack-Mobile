@@ -403,8 +403,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   sockets in both engines, asserts rejected requests, and retains native reload,
   play, recovery and range checks; Chromium also uses browser offline mode.
   Companion portrait offline checks use the same actual-origin cutoff. Wait for
-  the title opening to finish before auditing contrast after an offline reload;
-  worker readiness can arrive while the menu is still fading in.
+  the title opening to finish before auditing contrast on any title visit;
+  worker readiness and keyboard unlocks can arrive while the menu is still fading in.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
 
@@ -426,6 +426,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   matching Mythic. Keep it out of public trophy requirements and unopened cards.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
+  Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
+  fixtures cover the seventh, including its portrait and biography.
 
 ## Checks
 

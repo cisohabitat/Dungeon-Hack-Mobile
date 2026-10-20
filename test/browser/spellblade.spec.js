@@ -40,6 +40,8 @@ test('keyboard unlock is accessible with double text and never replaces an exist
  await unlock(page,true,false);
  expect(await page.evaluate(()=>localStorage.getItem('deepdelve.save'))).toBe(saved);
  await expect(page.locator('#btn-continue')).toBeVisible();
+ // Read the final colours, as the existing title accessibility suite does.
+ await expect(page.locator('#screen-title')).not.toHaveClass(/opening/);
  expect(await page.evaluate(()=>document.querySelector('#screen-title').scrollWidth<=innerWidth)).toBe(true);
  const axe=await new AxeBuilder({page}).include('#screen-title').analyze();
  expect(axe.violations.filter(v=>['serious','critical'].includes(v.impact))).toEqual([]);

@@ -32,3 +32,21 @@ isolated performance job must pass in CI before publication. Local targeted
 checks do not stand in for those suites. Physical Android and iPhone Safari
 checks remain pending: Linux browser engines and viewport emulation do not
 establish a physical-device pass.
+
+## Initial CI fixture corrections
+
+Run [39479849906](https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/39479849906)
+passed rules, performance and two phone shards. The remaining phone shard,
+small phone and Safari exposed a second portrait story fixture that enumerated
+all seven class definitions while asserting six visible ordinary heroes. The
+small phone also caught a keyboard-driven accessibility scan during the title's
+entrance fade. The fixtures now select the six public stories and await the
+existing `opening` state to end before scanning final colours. The assertions
+still require six distinct stories and no serious/critical axe violations.
+
+Both corrected cases passed on phone and small Chromium: four tests, one worker,
+with no reruns or changed deadlines. Gameplay and the balance observer are
+unchanged, so the recorded simulation comparisons remain applicable. The full
+CI matrix verifies the final corrections before publication. One unrelated
+initial small-phone browser-context closure cleared on its configured retry;
+it was not treated as an application fix or an uninterrupted green initial run.

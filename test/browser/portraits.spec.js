@@ -33,7 +33,7 @@ test('all six painted class portraits load with smooth scaling and the earned ma
 test('selecting each hero shows a larger portrait and its own backstory, and the portrait expands by touch or keyboard', { tag: '@mobile' }, async ({ page }, testInfo) => {
   const errors = watchForErrors(page);
   await prepare(page); await page.goto('/'); await page.click('#btn-new');
-  const stories = await page.evaluate(() => Object.fromEntries(Object.entries(CLASSES).map(([id, c]) => [id, c.story])));
+  const stories = await page.evaluate(() => Object.fromEntries(Object.entries(CLASSES).filter(([, c]) => !c.hidden).map(([id, c]) => [id, c.story])));
   expect(new Set(Object.values(stories)).size).toBe(6);
   for (const [cls, story] of Object.entries(stories)) {
     const card = page.locator(`.class-card[data-cls="${cls}"]`);
