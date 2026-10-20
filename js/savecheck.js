@@ -45,6 +45,7 @@ export function checkSave(data) {
   if (data.opts.puzzles !== undefined && typeof data.opts.puzzles !== 'boolean') invalid();
   const p = data.player;
   if (!own(CLASSES, p.cls) || typeof p.name !== 'string' || p.name.length > 256 || typeof data.seed !== 'string' || data.seed.length > 1024) invalid();
+  if (CLASSES[p.cls].hidden && (data.opts.daily || data.opts.weekly)) invalid();
   if (!integer(data.depth, 1, 32) || !integer(data.opts.levels, 1, 32) || !Number.isFinite(data.t) || data.t < 0) invalid();
   if (!object(p.stats) || !object(p.eq) || !Array.isArray(p.inv) || p.inv.length > 10000) invalid();
   for (const key of Object.keys(STAT_NAMES)) if (!Number.isFinite(p.stats[key])) invalid();
@@ -67,6 +68,17 @@ export function checkSave(data) {
   if (p.mythicCharge !== undefined && !integer(p.mythicCharge, 0, 3)) invalid();
   // Browser frame clocks are fractional; expiry keeps the same clock as G.t.
   if (p.mythicChargeUntil !== undefined && (!Number.isFinite(p.mythicChargeUntil) || p.mythicChargeUntil < 0 || p.mythicChargeUntil > 1e12)) invalid();
+  // Rune clocks and magnitudes are saved, but imported numbers cannot invent power.
+  /** @type {[string, string[], number, number][]} */
+  const runeFields = [
+    ['runicEdge', ['runic_fire', 'runic_frost', 'runic_storm'], 2 + Math.floor(p.level / 4), 30000],
+    ['spellguard', ['spellguard'], 6 + Math.floor(p.level / 2), 2200], ['runicReturn', ['spellguard'], 3, 5000],
+  ];
+  for (const [key, sources, max, duration] of runeFields) {
+    const e = p.effects?.[key];
+    if (e !== undefined && (p.cls !== 'spellblade' || !object(e) || !sources.includes(e.src)
+      || !integer(e.amount, 1, max) || !Number.isFinite(e.until) || e.until < 0 || e.until > data.t + duration)) invalid();
+  }
   const floors = Object.entries(data.levels);
   if (!floors.length || floors.length > 32 || !Object.prototype.hasOwnProperty.call(data.levels, data.depth)) invalid();
   for (const [key, floor] of floors) {

@@ -131,7 +131,7 @@ export function makeHeroSheet(K) {
     // what the hand, the robe and the cloak do, in their own words
     const line = (b, what, where) => worn.push(`<li><b>${escapeHtml(b.name)}</b><span>${escapeHtml(what)} (${where})</span></li>`);
     const held = p.eq.shield && ITEMS[p.eq.shield.t];
-    if (held && held.focus) line(held, held.desc, p.cls === 'mage' ? 'focus' : 'symbol');
+    if (held && held.focus) line(held, held.desc, p.cls === 'spellblade' ? 'lantern' : p.cls === 'mage' ? 'focus' : 'symbol');
     const robe = p.eq.armor && ITEMS[p.eq.armor.t];
     if (robe && (robe.sp || robe.cheap)) line(robe, [robe.sp ? `+${robe.sp} spell points` : '', robe.cheap ? 'spells of 5 points or more cost 1 less' : ''].filter(Boolean).join('; '), 'robe');
     const cloak = p.eq.cloak && ITEMS[p.eq.cloak.t];

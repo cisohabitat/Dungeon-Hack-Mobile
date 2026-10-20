@@ -26,7 +26,7 @@ export function recordingStore() {
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('deepdelve.') && !['deepdelve.save', 'deepdelve.replay', 'deepdelve.gearTools', 'deepdelve.packFinds', 'deepdelve.packCompact', 'deepdelve.landmarks'].includes(k)) out[k] = localStorage.getItem(k);
+      if (k && k.startsWith('deepdelve.') && !['deepdelve.save', 'deepdelve.replay', 'deepdelve.gearTools', 'deepdelve.packFinds', 'deepdelve.packCompact', 'deepdelve.landmarks', 'deepdelve.wayfarer'].includes(k)) out[k] = localStorage.getItem(k);
     }
   } catch { /* recording remains possible when storage is unavailable */ }
   return out;

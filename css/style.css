@@ -122,7 +122,7 @@ canvas { image-rendering: pixelated; image-rendering: crisp-edges; }
 /* Title */
 #screen-title { overflow-y: auto; }
 #screen-title > .title-inner { flex-shrink: 0; padding-bottom: var(--s-8); }
-.release-info { position: relative; z-index: 1; flex-shrink: 0; padding: var(--s-6) var(--s-12) calc(var(--s-8) + var(--sab)); background: var(--bg); color: var(--text-soft); font-size: var(--t-sm); text-align: center; line-height: 1.4; }
+.release-info { border: 0; border-radius: 0; min-height: 44px; position: relative; z-index: 1; flex-shrink: 0; padding: var(--s-6) var(--s-12) calc(var(--s-8) + var(--sab)); background: var(--bg); color: var(--text-soft); font-size: var(--t-sm); text-align: center; line-height: 1.4; }
 /* the end screen shares the title's inner block but has no art to sit under */
 #screen-end .title-inner { margin-top: auto; margin-bottom: auto; padding-top: calc(var(--s-16) + var(--sat)); }
 /* a question, not a title: it sits in the middle of the screen */

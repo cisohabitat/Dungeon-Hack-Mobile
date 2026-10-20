@@ -51,7 +51,7 @@ export async function narrative() {
   h(2, 'The prologue (PROLOGUE)');
   D.PROLOGUE.forEach(p);
 
-  h(2, 'The six heroes (CLASSES)');
+  h(2, 'The heroes (CLASSES)');
   for (const [id, c] of Object.entries(D.CLASSES)) {
     h(3, `${c.name} (${id})`);
     p(c.story);

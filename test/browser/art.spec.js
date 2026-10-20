@@ -141,7 +141,7 @@ test.describe('art', () => {
     await page.click('#btn-new');
     // a face on every class card, each its own
     const faces = await page.locator('#c-classes .class-face').evaluateAll(els => els.map(e => /** @type {HTMLImageElement} */ (e).src));
-    expect(faces.length).toBe(await page.evaluate(() => Object.keys(CLASSES).length));
+    expect(faces.length).toBe(await page.evaluate(() => Object.values(CLASSES).filter(c => !c.hidden).length));
     expect(faces.every(f => /\/img\/portraits\/[a-z]+\.webp$/.test(f))).toBe(true);
     expect(new Set(faces).size).toBe(faces.length);
     await page.click('#c-begin');

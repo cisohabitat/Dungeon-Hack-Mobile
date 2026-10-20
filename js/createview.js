@@ -3,6 +3,7 @@
 // difficulty and the delve's length; and Quick Start, a ready hero at the stair. A
 // factory in the K pattern, wired at the end of ui.js, which keeps the prologue
 // and the run's start.
+import { visibleClasses } from './hiddenhero.js';
 import { randomSeedWord } from './rng.js';
 import { heroName, BACKGROUNDS, CLASSES, STAT_NAMES, PATHS, VOWS, DIFFICULTY_NOTES } from './data.js';
 import { Assets } from './assets.js';
@@ -30,7 +31,7 @@ export function makeCreateView(K) {
   /** A sensible start for a class: its key score 15, then hardiness, then its fighting score. */
   function buyStart(cls) {
     // (a druid's Wisdom lands the blows, so Dexterity for light armour comes next)
-    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' || cls === 'druid' ? 'dex' : 'str';
+    const key = CLASSES[cls].primary, fight = cls === 'thief' || cls === 'mage' || cls === 'ranger' || cls === 'druid' || cls === 'spellblade' ? 'dex' : 'str';
     const b = { str: 10, dex: 10, con: 14, int: 10, wis: 10, cha: 8 };
     b[key] = 15; if (fight !== key) b[fight] = 13;
     return b;
@@ -74,7 +75,7 @@ export function makeCreateView(K) {
     const grid = $('#c-classes');
     grid.innerHTML = '';
     const known = Progress.load();
-    for (const id in CLASSES) {
+    for (const id of visibleClasses(CLASSES)) {
       const c = CLASSES[id];
       const b = document.createElement('button');
       b.className = 'class-card' + (id === create.cls ? ' sel' : '');
@@ -96,6 +97,7 @@ export function makeCreateView(K) {
       b.innerHTML = `<span class="cc-head"><img class="class-face${frame ? ' frame-' + frame : ''}" src="${faceOf(id)}" alt=""><span class="cc-name"><b>${c.name}</b>${first}${titled}</span></span><em class="ease">${escapeHtml(c.ease || '')}</em>${goal}`;
       b.addEventListener('click', () => {
         create.cls = id; fitStats();
+        if (c.hidden && $('#c-name').value === autoName) { autoName = 'The Wayfarer'; $('#c-name').value = autoName; }
         if (create.mode === 'buy' && !create.buyTouched) create.buy = buyStart(id);
         buildCreate();
         // Rebuilding the cards must not strand a keyboard or controller's focus.
@@ -110,7 +112,7 @@ export function makeCreateView(K) {
       const track = at >= 5 ? `<em class="key stage-line">Mastery: ${escapeHtml(name)}, the last of five stages.</em>`
         : `<em class="key stage-line">Mastery: ${at ? `${escapeHtml(name)}, stage ${at} of 5. ` : ''}Next, ${escapeHtml(Progress.stageName(create.cls, at + 1))}: ${escapeHtml(Progress.stageNeed(create.cls, at + 1))}</em>`;
       const frame = Progress.frameOf(create.cls, known);
-      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em><details class="create-mastery"><summary>Mastery goals</summary>${track}</details>`;
+      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${c.hidden ? '<p class="dim">The Wayfarer learns through lessons; no path or mastery track is required.</p>' : `<details class="create-mastery"><summary>Mastery goals</summary>${track}</details>`}`;
       $('#c-portrait-toggle').addEventListener('click', () => {
         const toggle = $('#c-portrait-toggle');
         const expanded = toggle.classList.toggle('expanded');
@@ -207,6 +209,7 @@ export function makeCreateView(K) {
   function openCreation() {
     // every new hero arrives with a name of their own, to keep or type over
     if (!Progress.bgOpen(create.bg, Progress.load())) create.bg = 'oathbroken';
+    if (CLASSES[create.cls].hidden && !visibleClasses(CLASSES).includes(create.cls)) create.cls = 'fighter';
     drawHeroName();
     create.buy = null; create.buyTouched = false;   // a new hero's points are its own, not the last one's
     create.rolled = Game.rollStats();
@@ -217,7 +220,7 @@ export function makeCreateView(K) {
   }
   /** A random hero with sensible numbers, straight to the prologue. */
   function quickStart() {
-    const progress = Progress.load(), classes = Object.keys(CLASSES), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
+    const progress = Progress.load(), classes = Object.keys(CLASSES).filter(id => !CLASSES[id].hidden), pasts = Object.keys(BACKGROUNDS).filter(id => Progress.bgOpen(id, progress));
     // someone's very first run gets a class that forgives mistakes
     const firstRun = !Game.hall().length;
     const pool = firstRun ? FIRST_HEROES : classes;

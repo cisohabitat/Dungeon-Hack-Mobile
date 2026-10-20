@@ -233,6 +233,7 @@ export function makeCombat(K) {
     if (sneak) dmg *= sneakMult();
     if (marked) dmg *= 2;
     dmg += K.mythics.blow(atRange, sneak);
+    dmg += K.spellblade.blow(m, atRange);
     dmg = Math.max(1, dmg);
     if (p.cls === 'cleric') dmg = Math.round(dmg * deepMagic());
     dmg = Math.round(dmg * deepSteel());
@@ -950,6 +951,8 @@ export function makeCombat(K) {
     // it takes is not counted as taken)
     // (hunger and poison work from inside, where no hide reaches)
     const inside = cause === 'hunger' || cause === 'poison' || cause === 'bloodstar';
+    const guarded = K.spellblade.guard(dmg, inside);
+    if (guarded !== dmg) { if (msg) msg += ` (Spellguard catches ${dmg - guarded}.)`; dmg = guarded; if (!dmg) return; }
     const hide = wild.shaped(p) && !inside ? p.shape.hide : 0;
     const through = inside ? dmg : wild.soak(dmg);
     if (hide && through < dmg) { const took = dmg - through; if (msg) msg += ` (Your hide takes ${took}.)`; else log(`Your hide takes ${took}.`, 'bad'); dmg = through; }

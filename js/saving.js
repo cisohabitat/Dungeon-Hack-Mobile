@@ -132,7 +132,7 @@ export function makeSaving(K) {
       if (!K.G.tested) for (const id of K.G.relics.found) Progress.noteRelic(id);
       // a run from before the end screen kept its numbers counts from here on
       K.G.stats = { ...freshStats(), ...K.G.stats };
-      if (!K.G.known) { K.G.known = {}; for (const id in ITEMS) K.G.known[id] = 1; }
+      if (!K.G.known) { K.G.known = {}; for (const id in ITEMS) if (ITEMS[id].focus !== 'spellblade' || K.G.player.cls === 'spellblade') K.G.known[id] = 1; }
       // a line held for its moment by the old page's clock would never show on this one
       for (const e of K.G.log || []) delete e.at;
       for (const dpt in K.G.levels) for (const m of K.G.levels[dpt].monsters) {

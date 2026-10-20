@@ -11,7 +11,7 @@ module.exports = async function(h) {
   await test('Mythics: one per class, outside ordinary relic deals, shops, Collector and mastery starts', async () => {
     const { Game, RELICS, CLASSES, Progress } = await start('fighter', 'mythic-pools');
     const { relicPlan, toCollect, relicUsableBy } = await import('../js/relics.js');
-    for (const cls of Object.keys(CLASSES)) {
+    for (const cls of Object.keys(CLASSES).filter(id => !CLASSES[id].hidden)) {
       const ids = Object.keys(RELICS).filter(id => RELICS[id].mythic === cls);
       if (ids.length !== 1) return cls;
       const id = ids[0];

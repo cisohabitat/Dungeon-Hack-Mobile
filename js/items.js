@@ -155,6 +155,7 @@ export function makeItems(K) {
     }
     if (b.kind === 'shield') {
       if (!shieldFits(c, b)) {
+        if (b.focus === 'spellblade') return 'Only the Wayfarer can carry that flame.';
         if (b.focus) return b.focus === 'mage' ? 'Only a mage can draw on that.' : 'Only a cleric can call on that.';
         if (!c.shield) return `${c.plural} cannot use shields.`;
         return `${c.plural} carry only a buckler: anything bigger slows the hands.`;

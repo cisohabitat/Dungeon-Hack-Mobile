@@ -109,7 +109,7 @@ module.exports = async h => {
     }
     return true;
   });
-  await test('puzzle rewards spend only the guarded purse, fit all six classes and respect ladder prices', async () => {
+  await test('puzzle rewards spend only the guarded purse, fit public and hidden classes and respect ladder prices', async () => {
     const { CLASSES, ITEMS, armorFits, shieldFits } = await import('../js/data.js');
     for (const cls of Object.keys(CLASSES)) for (const rung of [0, 1, 5]) {
       const { Game: G, Dice, Odds } = await loadGame();

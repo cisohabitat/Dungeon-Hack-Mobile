@@ -515,6 +515,13 @@ const XP_TABLE = [0, 45, 120, 265, 540, 1020, 1800, 3000, 4800, 7400, 11000, 162
 const MAX_LEVEL = 12;
 
 const CLASSES = {
+  spellblade: {
+    hidden: true, name: 'Spellblade', plural: 'Spellblades', title: 'Bearer of the Last Flame', hitDie: 9, startHp: 5, hitProg: 1, armor: 'light', shield: false, focus: 'spellblade', castMs: 650, spMul: 0.8, spells: 'spellblade', primary: 'int',
+    ease: 'The Wayfarer: sword, runes and a silver lantern.',
+    story: 'Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier\'s sword and a gravekeeper\'s lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.',
+    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and lessons in place of paths.',
+    startKit: ['longsword', 'studded', 'wayfarer_lantern', 'ration', 'ration', 'potion_heal', 'potion_heal'],
+  },
   fighter: {
     name: 'Fighter', plural: 'Fighters', title: 'Blademaster', hitDie: 10, mildHp: 3, hardHp: 2, hitProg: 1, armor: 'heavy', shield: true, dualWield: true, spells: null, primary: 'str',
     desc: 'Master of arms. Most hit points, any weapon or armour, the only one trained to fight with a blade in each hand, and a Bash that breaks off a foe\'s blow.',
@@ -648,14 +655,14 @@ const STAT_NAMES = { str: 'Strength', dex: 'Dexterity', con: 'Constitution', int
 
 const ITEMS = {
   // weapons: dmg = [dice, sides, bonus]; speed = attack cooldown in ms
-  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief', 'ranger', 'druid'], value: 2,  sprite: 'dagger', tier: 1 },
+  dagger:     { kind: 'weapon', name: 'Dagger',           dmg: [1, 4, 0],  speed: 400,  cls: ['fighter', 'mage', 'thief', 'ranger', 'druid', 'spellblade'], value: 2,  sprite: 'dagger', tier: 1 },
   club:       { kind: 'weapon', name: 'Club',             dmg: [1, 4, 0],  speed: 500,  cls: ['fighter', 'cleric', 'thief', 'druid'], value: 1, sprite: 'club', tier: 1, blunt: true },
   staff:      { kind: 'weapon', name: 'Quarterstaff',     dmg: [1, 6, 0],  speed: 600,  cls: ['fighter', 'mage', 'cleric', 'druid'], twoHanded: true, value: 2, sprite: 'staff', tier: 1, blunt: true },
-  shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief', 'ranger'], value: 8, sprite: 'shortsword', tier: 1 },
+  shortsword: { kind: 'weapon', name: 'Short Sword',      dmg: [1, 6, 0],  speed: 550,  cls: ['fighter', 'thief', 'ranger', 'spellblade'], value: 8, sprite: 'shortsword', tier: 1 },
   mace:       { kind: 'weapon', name: 'Mace',             dmg: [1, 6, 1],  speed: 700,  cls: ['fighter', 'cleric'], value: 8, sprite: 'mace', tier: 1, blunt: true },
   hammer:     { kind: 'weapon', name: 'War Hammer',       dmg: [1, 4, 2],  speed: 650,  cls: ['fighter', 'cleric'], value: 9, sprite: 'hammer', tier: 2, blunt: true },
   spear:      { kind: 'weapon', name: 'Spear',            dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'ranger', 'druid'], value: 6, sprite: 'spear', tier: 2 },
-  longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief', 'ranger'], value: 15, sprite: 'longsword', tier: 2 },
+  longsword:  { kind: 'weapon', name: 'Long Sword',       dmg: [1, 8, 0],  speed: 700,  cls: ['fighter', 'thief', 'ranger', 'spellblade'], value: 15, sprite: 'longsword', tier: 2 },
   flail:      { kind: 'weapon', name: 'Flail',            dmg: [2, 4, 0],  speed: 800,  cls: ['fighter', 'cleric'], value: 15, sprite: 'flail', tier: 3, blunt: true },
   battleaxe:  { kind: 'weapon', name: 'Battle Axe',       dmg: [1, 8, 1],  speed: 850,  cls: ['fighter'], value: 18, sprite: 'battleaxe', tier: 3 },
   greatsword: { kind: 'weapon', name: 'Two-handed Sword', dmg: [1, 10, 2], speed: 1000, cls: ['fighter'], twoHanded: true, value: 40, sprite: 'greatsword', tier: 4 },
@@ -687,7 +694,7 @@ const ITEMS = {
   // and what the dark elves leave: their warriors' mail, light as leather and
   // as good as a soldier's chain, and their curved blades, quick in the hand
   elvenchain:  { kind: 'armor', name: 'Elven Chain', ac: 5, weight: 'light', value: 320, sprite: 'elvenchain', tier: 99 },
-  scimitar:    { kind: 'weapon', name: 'Dark Elf Scimitar', dmg: [1, 8, 1], speed: 600, cls: ['fighter', 'thief', 'ranger'], value: 150, sprite: 'scimitar', tier: 99 },
+  scimitar:    { kind: 'weapon', name: 'Dark Elf Scimitar', dmg: [1, 8, 1], speed: 600, cls: ['fighter', 'thief', 'ranger', 'spellblade'], value: 150, sprite: 'scimitar', tier: 99 },
   // and a dark elf mage's hand crossbow, small enough to hold in one hand, its bolts
   // dipped in their sleeping poison: one in four that lands leaves a living foe drowsy
   handxbow:    { kind: 'weapon', name: 'Dark Elf Hand Crossbow', dmg: [1, 6, 1], speed: 900, range: 5, cls: ['fighter', 'thief', 'ranger'], value: 220, sprite: 'handxbow', tier: 99, aimed: true, drowse: true },
@@ -710,6 +717,7 @@ const ITEMS = {
   cloak_warmth:  { kind: 'cloak', name: 'Cloak of Warmth',      power: 'warmth', value: 70,  sprite: 'cloak_warmth', tier: 2,
     desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
+  wayfarer_lantern: { kind: 'shield', name: 'Silver Lantern', ac: 1, value: 0, sprite: 'wayfarer_lantern', tier: 99, focus: 'spellblade', desc: 'The last flame from the other side, carried in worn silver. A focus for the Wayfarer alone.' },
   spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
     desc: 'Spell points come back a quarter faster as you walk.' },
   crystal_orb:   { kind: 'shield', name: 'Crystal Orb',     ac: 0, value: 90,  sprite: 'crystal_orb', tier: 3, focus: 'mage', die: 1,
@@ -1005,6 +1013,13 @@ const MONSTERS = {
 // save: a goblin pack that rode out Burning Hands at the first level lived
 // through it, and the bot's mage on Hard fell ten points.
 const SPELLS = {
+  spellblade: [
+    { id: 'runic_fire', name: 'Runic Edge: Fire', lvl: 1, cost: 2, kind: 'edge', color: '#ffb060', desc: 'Your sword or dagger deals 2 extra fire damage per hit for thirty seconds, one more per four hero levels. Only one rune can burn at a time.' },
+    { id: 'runic_frost', name: 'Runic Edge: Frost', lvl: 1, cost: 2, kind: 'edge', color: '#a8e0ff', desc: 'Your sword or dagger deals 2 extra cold damage per hit for thirty seconds, one more per four hero levels. Replaces the previous rune.' },
+    { id: 'runic_storm', name: 'Runic Edge: Lightning', lvl: 2, cost: 2, kind: 'edge', color: '#d8e8ff', desc: 'Your sword or dagger deals 2 extra lightning damage per hit for thirty seconds, one more per four hero levels. Replaces the previous rune.' },
+    { id: 'lantern_step', name: 'Lantern Step', lvl: 1, cost: 3, kind: 'step', color: '#a8e0ff', desc: 'Slip up to two clear, explored floor squares ahead. Cannot cross walls, creatures or occupied ground. Landing triggers traps as usual.' },
+    { id: 'spellguard', name: 'Spellguard', lvl: 1, cost: 2, kind: 'spellguard', color: '#a8e0ff', desc: 'For just over two seconds, catch up to 6 damage from one hit, one more per two hero levels. Your next sword hit within five seconds deals 3 extra damage. Poison and hunger pass through.' },
+  ],
   mage: [
     { id: 'magic_missile', name: 'Magic Missile',  lvl: 1, cost: 2,  kind: 'bolt', range: 5, dmg: L => [1 + Math.floor((L - 1) / 3), 4, 1], color: '#8cf', desc: 'Unerring darts of force strike the first foe ahead.' },
     { id: 'burning_hands', name: 'Burning Hands',  lvl: 1, cost: 3,  kind: 'bolt', save: 'dex', range: 1, dmg: L => [2, 4, L + 2], area: true, fire: true, color: '#f84', desc: 'A fan of flame scorches everything in the square in front of you, and sets spilt oil or moss there alight.' },

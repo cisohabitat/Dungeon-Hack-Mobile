@@ -18,7 +18,7 @@ test('all six painted class portraits load with smooth scaling and the earned ma
   await page.click('#btn-new');
   const faces = page.locator('.class-face'); await expect(faces).toHaveCount(6);
   await expect.poll(() => faces.evaluateAll(imgs => imgs.every(i => i.complete && i.naturalWidth === 512))).toBe(true);
-  const classes = await page.evaluate(() => Object.keys(CLASSES));
+  const classes = await page.evaluate(() => Object.keys(CLASSES).filter(id => !CLASSES[id].hidden));
   for (const cls of classes) {
     const face = page.locator(`.class-card[data-cls="${cls}"] .class-face`);
     await expect(face).toHaveAttribute('src', `img/portraits/${cls}.webp`);

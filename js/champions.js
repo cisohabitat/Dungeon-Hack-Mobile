@@ -186,6 +186,15 @@ const CHAMPIONS = {
 /** What hangs from the shield arm, turned with it as the blade swings (see the shade's windup). */
 const shieldSide = (pose, parts) => (pose === 'windup' ? turn(parts, 20.5, 25, 25) : parts);
 const SHADE_GEAR = {
+  spellblade: champion('shade', () => ({ front: [
+    sheet([[23, 22], [24, 11], [32, 6], [40, 11], [41, 22], [36, 17], [32, 14], [27, 17]], '#374956', { curve: 0.9 }),
+    hair(26, 12, 32, 7, '#9cbbd0'),
+    sheet([[19, 24], [45, 24], [43, 34], [35, 31], [32, 36], [25, 30], [18, 34]], '#374956', { curve: 0.8 }),
+    hair(23, 26, 31, 32, '#9cbbd0'), hair(33, 32, 42, 26, '#9cbbd0'),
+    limb(7, 29, 7, 40, 0.7, 0.7, '#c1d4e0'), limb(13, 29, 13, 40, 0.7, 0.7, '#c1d4e0'),
+    limb(7, 40, 13, 40, 0.7, 0.7, '#c1d4e0'),
+    ball(10, 34, 3, 5, '#8cceef', { glows: true }), limb(7, 29, 13, 29, 0.8, 0.8, '#c1d4e0'),
+  ] })),
   thief: champion('shade', pose => ({ front: [
     ...shieldSide(pose, [sheet([[17, 24], [23, 24], [20, 44], [14, 52], [5, 48], [7, 34]], '#3a4a62', { curve: 0.8 }), hair(16, 30, 9, 46, '#5a6a84'), hair(20, 30, 15, 49, '#2e3a50')]),
     sheet([[23.4, 22], [24, 11], [28, 6.4], [36, 6.4], [40, 11], [40.6, 22], [38, 17], [32, 13.6], [26, 17]], '#4a5c78', { curve: 0.9 }),

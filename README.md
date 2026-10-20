@@ -9,6 +9,20 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **The Wayfarer, a hidden Spellblade.** Tap the release label at the bottom of
+  the title five times, then choose **Spellblade** in New Game. The unlock stays
+  on this device, supports keyboard/controller activation, and never replaces a
+  save. This is an Easter egg, not private account access. The six ordinary
+  classes, Quick Start and shared Daily/Weekly heroes stay unchanged.
+  Intelligence guides the sword. Runic Edge adds fire, frost or lightning to a
+  sword or dagger for thirty seconds; Lantern Step crosses up to two clear,
+  explored floor squares ahead; Spellguard catches one incoming hit for 2.2
+  seconds and grants +3 on the next landed blade hit within five seconds.
+  Runes replace each other, magic shares attack recovery, and poison and hunger
+  pass through the guard. The class wears light armour, carries its own silver
+  lantern, and gains ordinary lessons rather than paths or a Mythic trial.
+  Its painted portrait, pixel fallback, rune clocks and class survive offline saves.
+
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings
   sit under **Customise hero & dungeon**; mastery goals have their own disclosure.
@@ -277,7 +291,7 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
   what you are already wearing, in damage per second or armour class. Equipment surrounds
-  a compact neutral silhouette shared by all six classes: weapon by the right hand,
+  a compact neutral silhouette shared by all classes: weapon by the right hand,
   armour at the chest, and one left-hand slot for a shield, focus or second weapon.
   Selecting an item highlights its valid equipment slots; its details open in a bottom
   sheet with actions kept in reach. Escape or controller Back closes the details first.

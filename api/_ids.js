@@ -1,7 +1,7 @@
 'use strict';
 // Written by tools/ids.mjs from the game's tables: do not edit by hand.
 module.exports = {
-  classes: ["fighter","cleric","mage","thief","ranger","druid"],
+  classes: ["spellblade","fighter","cleric","mage","thief","ranger","druid"],
   diffs: ["easy","normal","hard"],
   sizes: ["small","medium","large"],
   paths: ["knight","berserker","templar","healer","pyromancer","frostweaver","assassin","trickster","sharpshooter","warden","shapeshifter","grovewarden"],

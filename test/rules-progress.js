@@ -45,7 +45,7 @@ await test('a win earns its class a trophy at its difficulty, told the first tim
   if (G.status !== 'dead') return 'the goblin never killed the hero';
   if (JSON.stringify(progressOf(ctx)) !== before || Game.earned()) return `a death changed the trophies: ${JSON.stringify(progressOf(ctx).won)}`;
   const n = Progress.trophyCount();
-  const { CLASSES, PATHS, VOWS, FEATS } = ctx, total = Object.keys(CLASSES).length * 4 + Object.values(PATHS).flat().length + Object.keys(VOWS).length + Object.keys(FEATS).length;
+  const { CLASSES, PATHS, VOWS, FEATS } = ctx, total = Object.values(CLASSES).filter(c => !c.hidden).length * 4 + Object.values(PATHS).flat().length + Object.keys(VOWS).length + Object.keys(FEATS).length;
   return (n.total === total && n.won === new Set(['mage-hard', 'thief-normal', daily.cls + '-normal']).size) || `trophy count ${JSON.stringify(n)}`;
 });
 
@@ -187,7 +187,7 @@ await test('a class is mastered by a win with each of its paths: once, on the wi
   if (Progress.trophyCount().won !== before + 2) return `the second path's win lit ${Progress.trophyCount().won - before} trophies, want 2`;
   if (Progress.recordWin('fighter', 'hard', { path: a }).mastered) return 'mastery was told a second time';
   if (Progress.recordWin('cleric', 'hard', { path: PATHS.cleric[0].id }).mastered || Progress.mastered('cleric')) return 'one cleric path mastered the cleric';
-  if (total0 !== Object.keys(CLASSES).length * 4 + Progress.PATH_IDS.length + Object.keys(ctx.VOWS).length + Object.keys(ctx.FEATS).length) return `trophies in all: ${total0}`;
+  if (total0 !== Object.values(CLASSES).filter(c => !c.hidden).length * 4 + Progress.PATH_IDS.length + Object.keys(ctx.VOWS).length + Object.keys(ctx.FEATS).length) return `trophies in all: ${total0}`;
   return true;
 });
 

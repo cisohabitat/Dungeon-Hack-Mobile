@@ -150,14 +150,14 @@ function renderTrophies() {
   const hasHard = cls => !!(v.won[cls] && v.won[cls].hard);
   const head = ['<span></span>', ...Progress.DIFFS.map(d => `<span class="th">${diffName(d)}</span>`)];
   // a class won on Hard is named by its title
-  const rows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}${hasHard(cls) ? ` <em class="class-title">${escapeHtml(CLASSES[cls].title)}</em>` : ''}</span>`, ...Progress.DIFFS.map(d => {
+  const rows = Object.keys(CLASSES).filter(cls => !CLASSES[cls].hidden).map(cls => [`<span class="tcls">${CLASSES[cls].name}${hasHard(cls) ? ` <em class="class-title">${escapeHtml(CLASSES[cls].title)}</em>` : ''}</span>`, ...Progress.DIFFS.map(d => {
     // (and on Hard, the highest rung of the ladder past it won)
     const n = (v.won[cls] && v.won[cls][d]) || 0, top = d === 'hard' ? v.rungs[cls] || 0 : 0;
     const what = `${CLASSES[cls].name} on ${diffName(d)}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}${top ? `, up to Hard+${top}` : ''}`;
     return `<span class="cell${n ? ' won' : ''}" data-trophy="${cls}-${d}" role="button" tabindex="0" aria-label="${what}" title="${what}">${n ? '✦' : ''}${top ? `<small class="rung-won">+${top}</small>` : ''}</span>`;
   })].join(''));
   // a win with each path, two to a class, and the class mastered once both are won
-  const pathRows = Object.keys(CLASSES).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...(PATHS[cls] || []).map(x => {
+  const pathRows = Object.keys(CLASSES).filter(cls => !CLASSES[cls].hidden).map(cls => [`<span class="tcls">${CLASSES[cls].name}</span>`, ...(PATHS[cls] || []).map(x => {
     const n = v.paths[x.id] || 0, what = `${x.name}: ${n ? (n === 1 ? 'won once' : `won ${n} times`) : 'not yet won'}`;
     return `<span class="cell named${n ? ' won' : ''}" data-trophy="path-${x.id}" role="button" tabindex="0" aria-label="${what}" title="${what}">${escapeHtml(x.name)}</span>`;
   }), (() => {
@@ -165,7 +165,7 @@ function renderTrophies() {
     return `<span class="cell mastery${done ? ' won' : ''}" data-trophy="mastery-${cls}" role="button" tabindex="0" aria-label="${what}" title="${what}">✦</span>`;
   })()].join(''));
   // and each class's mastery track: five stages, each lit once reached, each saying what it opens
-  const stageRows = Object.keys(CLASSES).map(cls => {
+  const stageRows = Object.keys(CLASSES).filter(cls => !CLASSES[cls].hidden).map(cls => {
     const at = Progress.stage(cls, v);
     return [`<span class="tcls">${CLASSES[cls].name}</span>`, ...[1, 2, 3, 4, 5].map(n => {
       const name = Progress.stageName(cls, n), opens = MASTERY.opens[n - 1];
