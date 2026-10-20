@@ -35,7 +35,7 @@ export function renderStart(el, create, changed) {
   // at the last stage of the class's mastery, a relic once found to begin with, at a quarter of the score
   const starts = Progress.codexStarts(create.cls, v);
   if (!starts.includes(create.relic)) create.relic = '';
-  const relicLine = !Progress.codexOpen(create.cls, v)
+  const relicLine = c.hidden ? '' : !Progress.codexOpen(create.cls, v)
     ? `<p class="dim small locked-line relic-line">A start with a relic once found: locked. ${escapeHtml(Progress.stageNeed(create.cls, 5))} The last stage of its mastery.</p>`
     : `<label class="relic-line"><span><b>Begin with a relic once found</b> <em class="vow-score">${Math.round(MASTERY.codexScore * 100)}% score</em></span>`
       + `<select id="c-relic"><option value="">None</option>${starts.map(id => `<option value="${id}"${id === create.relic ? ' selected' : ''}>${escapeHtml(RELICS[id].name)}</option>`).join('')}</select></label>`

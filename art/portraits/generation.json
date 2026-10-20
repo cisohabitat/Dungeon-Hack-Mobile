@@ -50,6 +50,13 @@
         "fighter.png"
       ],
       "prompt": "Create one finished square 1024 x 1024 head-and-shoulders class portrait for the dark fantasy dungeon crawler Deepdelve. Use the attached title artwork as the visual reference for the SAME world and painting style: rich painterly digital illustration, confident visible brushwork, weathered believable materials, ember-orange and amber torchlight against deep blue-black and muted violet shadows, atmospheric cavern darkness. This is a portrait of a person who could have walked down the stairs in that reference. Keep the light restrained, faces clearly readable on a phone; no crushed-black eyes. Not photographic, not cartoon, not anime, not pixel art, not glossy superhero art.\nComposition for the matching six-portrait set: centered face, full head and both shoulders, crown at 8% of frame, eyes at 38%, bottom crops across upper chest; head occupies about 55% of frame width. Gaze meets viewer, face turned slightly toward image left; one warm light from upper image left, cool reflected shadow on the right. Simple soft blue-violet cavern background with faint amber haze, no focal scenery. Equipment frames face without hiding it. Natural, grounded anatomy and lived-in expression. Opaque full-bleed square, no borders or frames, no lettering, text, signatures, logo, watermarks, interface or panels. Exactly one person, one portrait. Class-specific direction: ROGUE: an adult woman with olive skin, dark hair partly tucked into a worn charcoal hood, alert grey eyes, lean angular face and quiet wary confidence. Scuffed dark leather armour, dull brass buckles, a discreet sheathed dagger hilt near shoulder. Face uncovered, no face mask. Silhouette distinct from the heavily armoured fighter.\nThe second reference is the approved fighter portrait from this set. Match its painterly material treatment, close portrait scale, warm left light and cool shadows, while giving this character their own face, class equipment and identity. Do not copy the fighter's helmet, armour or facial features."
+    },
+    "spellblade": {
+      "generatedFile": "exec-53d177c2-471f-4102-ba3f-d7b1ef39876f.png",
+      "references": [
+        "spellblade-epic.png"
+      ],
+      "prompt": "Square portrait adaptation of the approved Wayfarer: same face, charcoal hood, silver lantern, runic sword and broken gateway; readable direct gaze."
     }
   },
   "overrides": {

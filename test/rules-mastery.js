@@ -29,7 +29,7 @@ module.exports = async function masteryChecks(h) {
     put({ won: { fighter: { hard: 1 } }, rungs: { fighter: 5 } });
     if (at() !== 3) out.push(`Hard+5 without both paths: stage ${at()}`);
     // the third stage is the class's title, and every stage has a name and a need
-    for (const cls of Object.keys(ctx.CLASSES)) {
+    for (const cls of Object.keys(ctx.CLASSES).filter(id => !ctx.CLASSES[id].hidden)) {
       if (Progress.stageName(cls, 3) !== ctx.CLASSES[cls].title) out.push(`${cls}'s third stage is not its title`);
       for (let n = 1; n <= 5; n++) if (!Progress.stageName(cls, n) || !/\.$/.test(Progress.stageNeed(cls, n))) out.push(`${cls} stage ${n} unnamed or unsaid`);
     }
@@ -58,7 +58,7 @@ module.exports = async function masteryChecks(h) {
     const put = v => ctx.store.set('deepdelve.progress', JSON.stringify(v));
     const begin = (cls, opts = {}) => { Game.newGame({ name: 'K', cls, bg: 'oathbroken', stats: { ...evenStats }, seed: 'kit3-' + cls, opts: { ...OPTS, kit: 'third', ...opts } }); return Game.player(); };
     const held = p => [...p.inv, ...Object.values(p.eq).filter(Boolean)].map(it => it.t);
-    for (const cls of Object.keys(CLASSES)) {
+    for (const cls of Object.keys(CLASSES).filter(id => !CLASSES[id].hidden)) {
       const k = CLASSES[cls].thirdKit;
       if (!k || !k.items.length) { out.push(`${cls} has no third kit`); continue; }
       // not yet open: the standard kit

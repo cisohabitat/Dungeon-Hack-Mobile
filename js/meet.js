@@ -186,7 +186,7 @@ export function makeEncounters(K) {
       if (e.poison) { const c = K.venomSave('draught', 'the', true); if (c) out.push(c.pass ? `Poison fought off${c.note}` : `Poisoned${c.note}`); }
       if (e.cure && p.poison) { p.poison = null; out.push('Poison cured'); }
       if (e.wake) { for (const m of L.monsters) m.awake = true; out.push('Everything on this floor is awake'); }
-      if (e.identifyAll) { for (const id in ITEMS) K.G.known[id] = 1; K.revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
+      if (e.identifyAll) { for (const id in ITEMS) if (ITEMS[id].focus !== 'spellblade' || p.cls === 'spellblade') K.G.known[id] = 1; K.revealAll(); out.push('Every potion, scroll and piece of gear identified'); }
       if (e.uncurse && K.breakCurses()) out.push('Curse broken');
       // (a caster's spell points follow the score at once, not only at the next load)
       if (e.stat) { p.stats[e.stat[0]] += e.stat[1]; K.refreshSp(p); out.push(`${e.stat[1] > 0 ? '+' : '−'}${Math.abs(e.stat[1])} ${K.STAT_WORD[e.stat[0]]}`); }

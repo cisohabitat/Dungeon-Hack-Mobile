@@ -2,6 +2,7 @@
 // new, the first-time card, and the question asked before a hero waiting below
 // is replaced. A factory in the K pattern, wired at the end of ui.js, which keeps
 // the prologue, the run's start and the hero made by hand.
+import { wayfarerOpen, wayfarerTap } from './hiddenhero.js';
 import { CLASSES, FUN_FACTS } from './data.js';
 import { Sound } from './sound.js';
 import { Game } from './game.js';
@@ -26,6 +27,7 @@ export function makeTitleMenu(K) {
   const { store } = K;
   function refreshTitle() {
     $('#release-info').textContent = `Release ${RELEASE_VERSION} · Commit ${COMMIT_ID}`;
+    $('#wayfarer-unlocked').hidden = !wayfarerOpen();
     const s = Game.saveSummary();
     $('#btn-continue').disabled = !s;
     // with nothing saved, no greyed-out Continue taking the second place on the screen
@@ -52,7 +54,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'remembered-places-2026-10-20', text: "A clearer start, Pack and Journal. Entered rooms now have names on your map and recap; companions have reactions and skill milestones. Find group-fighting notes under Quests, richer regional sounds, and one goal for your next delve." };
+  const NEWS = { id: 'wayfarer-2026-10-20', text: "A forgotten traveller waits beyond the usual six heroes. A sword, a silver lantern, and a little light beneath the title." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;
@@ -202,6 +204,7 @@ export function makeTitleMenu(K) {
 
   /** The title's own controls, wired once. */
   function bindTitle() {
+    $('#release-info').addEventListener('click', () => { if (wayfarerTap()) $('#wayfarer-unlocked').hidden = false; });
     $('#btn-new').addEventListener('click', () => { Sound.unlock(); startNewGameFlow(); });
     $('#btn-continue').addEventListener('click', () => { Sound.unlock(); if (Game.load()) K.startPlaying(); });
     $('#news-close').addEventListener('click', newsSeen);

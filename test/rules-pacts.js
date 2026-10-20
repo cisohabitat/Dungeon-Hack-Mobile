@@ -101,7 +101,7 @@ module.exports = async function pactChecks(h) {
     if (!p.eq.weapon || p.eq.weapon.t !== 'dagger' || !p.eq.armor) out.push(`the Cutpurse holds ${p.eq.weapon && p.eq.weapon.t}, wearing ${p.eq.armor && p.eq.armor.t}`);
     if (!kit.items.every(t => open.Game.isKnown(t))) out.push('the second kit is not known to its owner');
     // every class has one, of things that exist, each with a name and a line
-    for (const [cls, c] of Object.entries(open.CLASSES)) {
+    for (const [cls, c] of Object.entries(open.CLASSES).filter(([, c]) => !c.hidden)) {
       if (!c.altKit) { out.push(`${cls} has no second kit`); continue; }
       const bad = c.altKit.items.filter(t => !open.ITEMS[t]);
       if (bad.length || !c.altKit.name || !c.altKit.desc) out.push(`${cls}'s second kit: ${bad.join(', ') || 'no name or line'}`);

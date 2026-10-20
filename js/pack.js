@@ -167,14 +167,14 @@ export function makePack(K) {
     for (const slot of [...slots, 'ring', 'ring2', 'amulet', 'cloak']) {
       const it = p.eq[slot];
       // a mage's shield hand holds a focus; a cleric's, a shield or a holy symbol
-      const shieldLabel = p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
+      const shieldLabel = p.cls === 'spellblade' ? 'lantern' : p.cls === 'mage' ? 'focus' : it && ITEMS[it.t].focus ? 'symbol' : 'shield';
       const left = slot === leftSlot;
       const el = slotEl(it, left ? 'left hand' : slot === 'ring2' ? 'ring' : slot === 'armor' ? 'armour' : slot);
       el.dataset.slot = slot;
       if (left) {
         el.dataset.hand = 'left';
         const grip = !it && p.eq.weapon && ITEMS[p.eq.weapon.t].twoHanded;
-        const use = grip ? 'Both hands' : slot === 'offhand' ? 'Off hand' : it ? upFirst(shieldLabel) : Game.canDualWield() ? 'Shield / off hand' : p.cls === 'mage' ? 'Focus' : p.cls === 'cleric' ? 'Shield / symbol' : 'Shield';
+        const use = grip ? 'Both hands' : slot === 'offhand' ? 'Off hand' : it ? upFirst(shieldLabel) : Game.canDualWield() ? 'Shield / off hand' : p.cls === 'spellblade' ? 'Lantern' : p.cls === 'mage' ? 'Focus' : p.cls === 'cleric' ? 'Shield / symbol' : 'Shield';
         if (!it || Game.itemName({ ...it, q: 1 }).toLowerCase() !== use.toLowerCase()) el.insertAdjacentHTML('beforeend', `<small class="slot-use">${use}</small>`);
         el.setAttribute('aria-label', `Left hand: ${it ? Game.itemName(it) + ', ' + use : grip ? 'occupied by two-handed weapon' : 'empty, ' + use}`);
         el.classList.toggle('occupied', !!grip);

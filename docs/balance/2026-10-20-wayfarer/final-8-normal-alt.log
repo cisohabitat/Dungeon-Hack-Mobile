@@ -1,0 +1,24 @@
+FP spellblade alt0 oathbroken 1d157ad146259572 t=701424 logSeq=829
+FP spellblade alt0 tombwise 8cb9e63a9c26b229 t=719554 logSeq=607
+FP spellblade alt0 ashborn 7dd9c73da0e35588 t=737646 logSeq=854
+FP spellblade alt0 cloistered e19867d0a54d7a59 t=1053817 logSeq=1074
+FP spellblade alt0 deepborn 35b37eb37fa3a548 t=558646 logSeq=582
+FP spellblade alt0 debtor 777b5a6a7e586192 t=1181593 logSeq=1000
+FP spellblade alt0 oathbroken 1d157ad146259572 t=701424 logSeq=829
+FP spellblade alt0 tombwise 8cb9e63a9c26b229 t=719554 logSeq=607
+FP spellblade alt0 ashborn 7dd9c73da0e35588 t=737646 logSeq=854
+FP spellblade alt0 cloistered e19867d0a54d7a59 t=1053817 logSeq=1074
+FP spellblade alt1 deepborn b532f6e02c4f6038 t=687260 logSeq=710
+FP spellblade alt1 debtor 5265db0574d433cc t=527171 logSeq=762
+FP spellblade alt1 oathbroken d606e0397b616ffb t=1209026 logSeq=846
+FP spellblade alt1 tombwise 681a5f30c3ab2c9a t=604089 logSeq=859
+FP spellblade alt1 ashborn 62fb5b42f47aa72b t=534042 logSeq=796
+FP spellblade alt1 cloistered 21d35b59430e1cc9 t=514850 logSeq=764
+FP spellblade alt1 deepborn b532f6e02c4f6038 t=687260 logSeq=710
+FP spellblade alt1 debtor 5265db0574d433cc t=527171 logSeq=762
+FP spellblade alt1 oathbroken d606e0397b616ffb t=1209026 logSeq=846
+FP spellblade alt1 tombwise 681a5f30c3ab2c9a t=604089 logSeq=859
+spellblade win  60%  avgDeepest 7.70  avgLevel 8.1  kills 48  rests 7.5  potions 5.0  boons 6.7  bought 7.2  goldLeft 180  stuck 0  abilities 0.0  dual 0%  heals 0.0  buffs 0.0  shapes 0.0  roots 0.0  cursed 0.0k ticks, freed 0.30, stuck at end 0%  forged 1.6  runes 13.5  made 0.3  tonics 0.8  oils 0.7 (bought 0.5)  charms 0.00  jobs 2.65 (paid 0.00, lost 2.45, done unpaid 0.05, open at the end 0.15)  draughts bought 1.65  scrolls read 0.30  lodged 0.3  answers struck 0.00 burned 0.00 shut 0.00  puff 0.00  rock 1.20  fire 5.60 (fields 3.20)  flasks 0.10 (lit 0.00, bought 0.00)  relics 1.1 (worn 0.8, bought 0.00)  legend 0% (worn 0%)  combos 0.4 (wins with one 58%)  jewels 1.65 (bought 0.20)  enc 11.8 (56% pass)  diedOnFloor1 0%  hound 70% (fell 36%, kills 0.8)
+   paths none 20 runs, win 60%
+   path on never; capstone on never (0% of wins); legend on never, worn at the end 0%; winners end with 3.7 draughts
+OVERALL win 60.0%  avgDeepest 7.70  (20 runs)

@@ -14,7 +14,7 @@ test.describe('progress between runs', () => {
     await page.click('#btn-hall');
     await expect(page.locator('#trophy-count')).toHaveText(new RegExp('^0 of \\d+ won$'));
     // a cell for every class at every difficulty, every path, every vow and every feat
-    const cells = await page.evaluate(() => Object.keys(CLASSES).length * 3 + document.querySelectorAll('[data-trophy^="path-"]').length + document.querySelectorAll('[data-trophy^="mastery-"]').length + document.querySelectorAll('[data-trophy^="vow-"]').length + document.querySelectorAll('[data-trophy^="feat-"]').length);
+    const cells = await page.evaluate(() => Object.values(CLASSES).filter(c => !c.hidden).length * 3 + document.querySelectorAll('[data-trophy^="path-"]').length + document.querySelectorAll('[data-trophy^="mastery-"]').length + document.querySelectorAll('[data-trophy^="vow-"]').length + document.querySelectorAll('[data-trophy^="feat-"]').length);
     await expect(page.locator('#hall-trophies .cell')).toHaveCount(cells);
     await expect(page.locator('[data-trophy^="feat-"]')).toHaveCount(9);
     await expect(page.locator('#hall-trophies .cell.won')).toHaveCount(0);

@@ -167,7 +167,10 @@
     "img/relics/thornbinder.webp": "c984edc30415555f6cd991d7fd428f5ba224db46376837bc0bd5a16393ef3f1a",
     "img/relics/vashti.webp": "fa2c3f83fa5145023353527ae217f893384e682bd354f0ada5b9b3a8ae4e1d3d",
     "img/relics/warchiefs_knuckle.webp": "eaedfca4a0d0ded872717e629b0dad798b862fba0d5506fc964ed8b9ef536752",
-    "img/relics/whisper.webp": "ed87134f51e0d93f862effadbb4459e016e82badcc220cf93deeb83d76dbd91b"
+    "img/relics/whisper.webp": "ed87134f51e0d93f862effadbb4459e016e82badcc220cf93deeb83d76dbd91b",
+    "art/portraits/spellblade.png": "02856a8fd167fac49a9bdaae640193bc5cc76b89cf8b91b9eee7d588e5c9d227",
+    "art/portraits/spellblade-epic.png": "52ca6797ea9d84bb6c192a38c75776d650226d9cd871350fc32f853ccd0bfb05",
+    "img/portraits/spellblade.webp": "605ca4e640d5b17025df130530e2a28f9508b59d26a6b277fb58c4df7e74e346"
   },
   "proceduralReview": {
     "scope": "All creature poses, champion defaults, shade gear, base and named item icons; base and named first-person weapons in rest/windup/cut/through; carried named shields/foci; encounter props, floor dressing and fallback class portraits. Reviewed rendered inspection sheets for obvious disconnected parts.",

@@ -299,7 +299,7 @@ for (const id in ENCOUNTERS) check(PROPS[ENCOUNTERS[id].sprite], `encounter ${id
     ps.forEach(k => used.add(k));
   }
   for (const k in RELIC_POWERS) check(used.has(k), `no relic, ring or amulet carries the '${k}' power`);
-  check(Object.keys(CLASSES).length === 6, 'the class list changed; check every class still has relics (the druid has a staff, a dagger, a buckler, light armour and every ring)');
+  check(Object.values(CLASSES).filter(c => !c.hidden).length === 6 && CLASSES.spellblade.hidden, 'the class list changed; check every class still has relics (the druid has a staff, a dagger, a buckler, light armour and every ring)');
 }
 for (const k in PROPS) {
   const { color } = paint32(k, undefined, PROPS);

@@ -1,8 +1,9 @@
-// The same six people as img/portraits: the painted face and its fallback
+// The same heroes as img/portraits: the painted face and its fallback
 // must agree even while an image is loading or cannot be fetched.
 import { ball, both64, hair, limb, sheet } from './parts.js';
 
 export const HERO_LOOKS = {
+  spellblade: { skin: '#bd9479', shadow: '#825e4b', light: '#dcb59a', hair: '#382c25', hairLight: '#71533d', cloth: '#292d38', trim: '#9cbad0', beard: true, hood: true, long: true },
   fighter: { skin: '#c39476', shadow: '#8e6048', light: '#e1b395', hair: '#493025', hairLight: '#77503a', cloth: '#652827', trim: '#8c929b', beard: true, helmet: true },
   cleric: { skin: '#825139', shadow: '#533322', light: '#aa7352', hair: '#241a16', hairLight: '#46362d', cloth: '#d3c8ae', trim: '#b59448', cropped: true },
   mage: { skin: '#86583f', shadow: '#553824', light: '#af7e5a', hair: '#77766f', hairLight: '#b6afa0', cloth: '#253449', trim: '#716044', beard: true, cropped: true },
@@ -24,7 +25,7 @@ const head = k => [
 function portrait(id) {
   const k = HERO_LOOKS[id], out = [];
   // Equipment remains behind the face and joins a visible shaft or grip.
-  if (id === 'fighter' || id === 'thief') out.push(limb(12, 60, 14, 25, 1.4, 1.4, '#513323'), limb(10, 33, 19, 33, 0.8, 0.8, '#a08756'), ball(14, 23, 1.8, 1.8, '#9a8054'));
+  if (id === 'fighter' || id === 'thief' || id === 'spellblade') out.push(limb(12, 60, 14, 25, 1.4, 1.4, '#513323'), limb(10, 33, 19, 33, 0.8, 0.8, '#a08756'), ball(14, 23, 1.8, 1.8, '#9a8054'));
   if (id === 'cleric') out.push(limb(12, 58, 12, 26, 1.3, 1.3, '#533723'), ball(12, 23, 3.4, 4, '#8e8070'), ...[-3, 0, 3].map(d => limb(12 + d, 20, 12 + d, 26, 0.7, 0.7, '#bb9d62')));
   if (id === 'mage') out.push(limb(12, 64, 12, 21, 1.1, 1.1, '#4d3425'), sheet([[8, 21], [10, 14], [15, 15], [17, 22], [12, 26]], '#b66c27'), ball(12, 20, 1.6, 2.2, '#eeab48', { glows: true }));
   if (id === 'ranger') out.push(limb(52, 61, 53, 21, 1, 1, '#604028'), limb(53, 21, 49, 9, 1, 0.7, '#805434'), hair(49, 9, 52, 60, '#c6b58d'), ...[45, 48, 51].flatMap(x => [limb(x, 44, x + 1, 25, 0.4, 0.4, '#8b6944'), sheet([[x - 1, 25], [x + 1, 20], [x + 3, 26]], '#b1a389')]));
@@ -49,6 +50,13 @@ function portrait(id) {
   out.push(limb(21, 45, 45, 60, 1.1, 1.1, k.trim));
   if (id === 'cleric' || id === 'mage') out.push(ball(39, 50, 2, 2, '#a48a52'), ball(39, 50, 1, 1, '#655538'));
   if (id === 'druid') out.push(...[16, 21, 43, 48].flatMap((x, i) => [sheet([[x, 45], [x + 4, 44], [x + 6, 52], [x + 1, 50]], '#5a6139'), ball(x + 2, 48, 0.7, 0.7, '#8d7a4f')]));
+  if (id === 'spellblade') out.push(
+    limb(54, 46, 54, 42, 0.7, 0.7, '#9cbad0'),
+    sheet([[49, 47], [59, 47], [60, 59], [48, 59]], '#61798c'),
+    sheet([[51, 49], [57, 49], [58, 57], [50, 57]], '#24445f'),
+    ball(54, 53, 1.7, 3.5, '#8bdcff', { glows: true }),
+    ...[49, 54, 59].map(x => limb(x, 47, x, 59, 0.5, 0.5, '#b8cbd8')),
+    limb(48, 59, 60, 59, 0.8, 0.8, '#b8cbd8'));
   return out;
 }
 

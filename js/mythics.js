@@ -15,7 +15,7 @@ export function makeMythics(K) {
   }
   function offer(npc, def) {
     const G = K.G, L = K.lvl(), id = mythicFor(K.P().cls);
-    if (npc.id !== 'vigil' || G.depth !== G.opts.levels || !L.isFinal || G.opts.levels < 8 || G.opts.daily || G.opts.weekly || L.mythicTrial || G.relics?.found.includes(id)) return def;
+    if (!id || npc.id !== 'vigil' || G.depth !== G.opts.levels || !L.isFinal || G.opts.levels < 8 || G.opts.daily || G.opts.weekly || L.mythicTrial || G.relics?.found.includes(id)) return def;
     return { ...def, text: `${def.text}\n\n${MYTHIC_OFFER}\n${RELICS[id].name}: ${Object.values(RELICS[id].powers).map(p => RELIC_POWERS[p]).join(' ')}`,
       choices: [...def.choices.slice(0, -1), MYTHIC_CHOICE, def.choices.at(-1)] };
   }
@@ -26,8 +26,8 @@ export function makeMythics(K) {
     return null;
   }
   function begin(npc) {
-    const G = K.G, L = K.lvl();
-    if (npc.id !== 'vigil' || G.depth !== G.opts.levels || !L.isFinal || L.mythicTrial || G.opts.daily || G.opts.weekly || G.opts.levels < 8) return;
+    const G = K.G, L = K.lvl(), id = mythicFor(K.P().cls);
+    if (!id || npc.id !== 'vigil' || G.depth !== G.opts.levels || !L.isFinal || L.mythicTrial || G.opts.daily || G.opts.weekly || G.opts.levels < 8) return;
     L.mythicTrial = 'active';
     const m = K.newMonster('ogre', npc.x, npc.y, 36);
     m.mythicGuard = true; m.nextAct = G.t + 1800;

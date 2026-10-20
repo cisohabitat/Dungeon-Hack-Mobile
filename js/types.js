@@ -625,6 +625,7 @@
  * @property {*} queuedMove
  * @property {*} quick
  * @property {*} QUICK
+ * @property {*} spellblade
  * @property {*} rangerAim
  * @property {*} READ_MS
  * @property {number} realNow

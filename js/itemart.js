@@ -214,6 +214,13 @@ function longStave() {
 const fine = (pts, c) => specks(pts.map(([x, y]) => [Math.floor(x) + 0.25, Math.floor(y) + 0.25]), c);
 
 const ITEM_ART = {
+  wayfarer_lantern: () => [
+    limb(16, 8, 16, 4, 0.8, 0.8, '#bac8d8'), ball(16, 4, 3, 3, '#9baabb'), ball(16, 4, 1.8, 1.8, '#273448'),
+    sheet([[10, 10], [22, 10], [24, 25], [8, 25]], '#4d627b'),
+    sheet([[12, 12], [20, 12], [21, 23], [11, 23]], '#264c72'), ball(16, 18, 2.8, 5, '#72cfff', { glows: true }),
+    ...[9, 16, 23].map(x => limb(x, 10, x, 25, 0.6, 0.6, '#becbd9')),
+    limb(8, 10, 24, 10, 1, 1, '#becbd9'), limb(8, 25, 24, 25, 1, 1, '#becbd9'),
+  ],
   // ---- rings and amulets: each look its own metal and stone ----
   ring_silver: () => jewelRing('#c8ccd4', '#80868f', '#3a6ad8', '#a8c8ff'),
   ring_gold: () => jewelRing('#e8b830', '#9a7418', '#d02a3a', '#ff9aa4'),

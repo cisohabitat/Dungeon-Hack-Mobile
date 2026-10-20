@@ -112,7 +112,7 @@ function mastered(cls, v = load()) { return !!(PATHS[cls] && PATHS[cls].length) 
 /** Trophies won: one for every class at every difficulty, every path won with, every class mastered, every vow kept to a win, and every feat. */
 function trophyCount(v = load()) {
   let n = 0;
-  const classes = Object.keys(CLASSES);
+  const classes = Object.keys(CLASSES).filter(cls => !CLASSES[cls].hidden);
   for (const cls of classes) for (const d of DIFFS) if (hasWon(cls, d, v)) n++;
   n += PATH_IDS.filter(id => v.paths[id]).length + classes.filter(cls => mastered(cls, v)).length + Object.keys(VOWS).filter(id => v.vows[id]).length + Object.keys(FEATS).filter(id => v.feats[id]).length;
   return { won: n, total: classes.length * DIFFS.length + PATH_IDS.length + classes.length + Object.keys(VOWS).length + Object.keys(FEATS).length };
@@ -150,7 +150,7 @@ const STAGE_NEEDS = [
   (cls, v) => (v.rungs[cls] || 0) >= MASTERY.topRung,
 ];
 function stage(cls, v = load()) {
-  if (!CLASSES[cls]) return 0;
+  if (!CLASSES[cls] || CLASSES[cls].hidden) return 0;
   let n = 0;
   while (n < STAGE_NEEDS.length && STAGE_NEEDS[n](cls, v)) n++;
   return n;
@@ -204,13 +204,13 @@ function nextGoals(v = load(), cls = '', deepest = 8) {
     else if (deepest < 6) add('the second champion', 'Reach floor 6');
     else add('the Heart of the Mountain', 'Reach floor 8');
   }
-  const order = [...(CLASSES[cls] ? [cls] : []), ...Object.keys(CLASSES).filter(c => c !== cls)];
+  const order = [...(CLASSES[cls] ? [cls] : []), ...Object.keys(CLASSES).filter(c => c !== cls && !CLASSES[c].hidden)];
   // a kit a win away: the class has been down and won on Easy, or just played
   for (const c of order) if (CLASSES[c].altKit && !kitOpen(c, v) && (hasWon(c, 'easy', v) || c === cls)) add(`${CLASSES[c].altKit.name} (${CLASSES[c].name})`, `Win as a ${CLASSES[c].name} on Normal or Hard`);
   // a class one path from mastered
   for (const c of order) if (PATHS[c] && pathsWon(c, v) === 1 && !mastered(c, v)) { const left = PATHS[c].find(x => !v.paths[x.id]); if (left) add(`${CLASSES[c].name} mastered`, `Win as a ${left.name}`); }
   // the next stage on the mastery track of the class just played, past its second kit
-  if (CLASSES[cls]) { const n = stage(cls, v) + 1; if (n >= 3 && n <= 5) add(`${stageName(cls, n)} (${CLASSES[cls].name})`, stageNeed(cls, n).replace(/\.$/, '')); }
+  if (CLASSES[cls] && !CLASSES[cls].hidden) { const n = stage(cls, v) + 1; if (n >= 3 && n <= 5) add(`${stageName(cls, n)} (${CLASSES[cls].name})`, stageNeed(cls, n).replace(/\.$/, '')); }
   // the first thing still shut
   for (const u of unlocks(v)) if (!u.open) add(u.name, u.how.replace(/\.$/, ''));
   // a feat not yet done, the endings last

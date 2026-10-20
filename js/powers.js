@@ -112,6 +112,8 @@ export function makePowers(K) {
   }
   function spellWasteReason(sp) {
     const p = P();
+    const rune = K.spellblade.reason(sp);
+    if (rune) return rune;
     const blood = K.mythics.spellBlocked(sp);
     if (blood) return blood;
     // (a bound tongue wastes every spell: said here too, so whatever asks before casting is told)
@@ -160,6 +162,8 @@ export function makePowers(K) {
   }
   function castSpell(sp) {
     if (K.G.status !== 'playing') return false;
+    sp = knownSpells().find(s => s.id === sp?.id);
+    if (!sp) return false;
     const p = P();
     K.queuedAttack = false;
     if (p.held > K.G.t) { blocked(heldWhy()); return false; }
@@ -192,6 +196,7 @@ export function makePowers(K) {
         log(`You cast ${sp.name}. ${spellDesc(sp)}`, 'good');
         if (sp.id === 'shield' && hasTalent('mirror_image')) { p.mirrors = 2; log('Two images of you shimmer into being at your side.', 'good'); }
         break;
+      case 'edge': case 'step': case 'spellguard': K.spellblade.cast(sp); break;
       case 'shape': wild.begin(); break;
       case 'root': {
         spellFx(look[0], sp.color, look[1], wild.rootTargets(spellRange(sp)), spellRange(sp));

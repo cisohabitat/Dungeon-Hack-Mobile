@@ -1,0 +1,1626 @@
+{
+  "method": "Original four bench/alt complete-cell measurements retained. The old coordinator was paused and replaced; two superseded just-started monolithic third-set processes were stopped before producing complete measurements. Remaining third-set sixteen-floor cells use SEEDONLY with SEEDN=40, preserving the global background/trial index. Four workers after a short transition overlap; no gameplay or observer edits.",
+  "jobs": [
+    {
+      "name": "final-16-normal-third-seed0",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third0"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third0.json"
+    },
+    {
+      "name": "final-16-hard-third-seed0",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third0"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third0.json"
+    },
+    {
+      "name": "final-16-normal-third-seed1",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third1.json"
+    },
+    {
+      "name": "final-16-hard-third-seed1",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third1.json"
+    },
+    {
+      "name": "final-16-normal-third-seed2",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third2"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third2.json"
+    },
+    {
+      "name": "final-16-hard-third-seed2",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third2"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third2.json"
+    },
+    {
+      "name": "final-16-normal-third-seed3",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third3"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third3.json"
+    },
+    {
+      "name": "final-16-hard-third-seed3",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third3"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third3.json"
+    },
+    {
+      "name": "final-16-normal-third-seed4",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third4"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third4.json"
+    },
+    {
+      "name": "final-16-hard-third-seed4",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third4"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third4.json"
+    },
+    {
+      "name": "final-16-normal-third-seed5",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third5"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third5.json"
+    },
+    {
+      "name": "final-16-hard-third-seed5",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third5"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third5.json"
+    },
+    {
+      "name": "final-16-normal-third-seed6",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third6"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third6.json"
+    },
+    {
+      "name": "final-16-hard-third-seed6",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third6"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third6.json"
+    },
+    {
+      "name": "final-16-normal-third-seed7",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third7"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third7.json"
+    },
+    {
+      "name": "final-16-hard-third-seed7",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third7"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third7.json"
+    },
+    {
+      "name": "final-16-normal-third-seed8",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third8"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third8.json"
+    },
+    {
+      "name": "final-16-hard-third-seed8",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third8"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third8.json"
+    },
+    {
+      "name": "final-16-normal-third-seed9",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third9"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third9.json"
+    },
+    {
+      "name": "final-16-hard-third-seed9",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third9"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third9.json"
+    },
+    {
+      "name": "final-16-normal-third-seed10",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third10"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third10.json"
+    },
+    {
+      "name": "final-16-hard-third-seed10",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third10"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third10.json"
+    },
+    {
+      "name": "final-16-normal-third-seed11",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third11"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third11.json"
+    },
+    {
+      "name": "final-16-hard-third-seed11",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third11"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third11.json"
+    },
+    {
+      "name": "final-16-normal-third-seed12",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third12"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third12.json"
+    },
+    {
+      "name": "final-16-hard-third-seed12",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third12"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third12.json"
+    },
+    {
+      "name": "final-16-normal-third-seed13",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third13"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third13.json"
+    },
+    {
+      "name": "final-16-hard-third-seed13",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third13"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third13.json"
+    },
+    {
+      "name": "final-16-normal-third-seed14",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third14"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third14.json"
+    },
+    {
+      "name": "final-16-hard-third-seed14",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third14"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third14.json"
+    },
+    {
+      "name": "final-16-normal-third-seed15",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third15"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third15.json"
+    },
+    {
+      "name": "final-16-hard-third-seed15",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third15"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third15.json"
+    },
+    {
+      "name": "final-16-normal-third-seed16",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third16"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third16.json"
+    },
+    {
+      "name": "final-16-hard-third-seed16",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third16"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third16.json"
+    },
+    {
+      "name": "final-16-normal-third-seed17",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third17"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third17.json"
+    },
+    {
+      "name": "final-16-hard-third-seed17",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third17"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third17.json"
+    },
+    {
+      "name": "final-16-normal-third-seed18",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third18"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third18.json"
+    },
+    {
+      "name": "final-16-hard-third-seed18",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third18"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third18.json"
+    },
+    {
+      "name": "final-16-normal-third-seed19",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third19"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third19.json"
+    },
+    {
+      "name": "final-16-hard-third-seed19",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third19"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third19.json"
+    },
+    {
+      "name": "final-16-normal-third-seed20",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third20"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third20.json"
+    },
+    {
+      "name": "final-16-hard-third-seed20",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third20"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third20.json"
+    },
+    {
+      "name": "final-16-normal-third-seed21",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third21"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third21.json"
+    },
+    {
+      "name": "final-16-hard-third-seed21",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third21"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third21.json"
+    },
+    {
+      "name": "final-16-normal-third-seed22",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third22"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third22.json"
+    },
+    {
+      "name": "final-16-hard-third-seed22",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third22"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third22.json"
+    },
+    {
+      "name": "final-16-normal-third-seed23",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third23"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third23.json"
+    },
+    {
+      "name": "final-16-hard-third-seed23",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third23"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third23.json"
+    },
+    {
+      "name": "final-16-normal-third-seed24",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third24"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third24.json"
+    },
+    {
+      "name": "final-16-hard-third-seed24",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third24"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third24.json"
+    },
+    {
+      "name": "final-16-normal-third-seed25",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third25"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third25.json"
+    },
+    {
+      "name": "final-16-hard-third-seed25",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third25"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third25.json"
+    },
+    {
+      "name": "final-16-normal-third-seed26",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third26"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third26.json"
+    },
+    {
+      "name": "final-16-hard-third-seed26",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third26"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third26.json"
+    },
+    {
+      "name": "final-16-normal-third-seed27",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third27"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third27.json"
+    },
+    {
+      "name": "final-16-hard-third-seed27",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third27"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third27.json"
+    },
+    {
+      "name": "final-16-normal-third-seed28",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third28"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third28.json"
+    },
+    {
+      "name": "final-16-hard-third-seed28",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third28"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third28.json"
+    },
+    {
+      "name": "final-16-normal-third-seed29",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third29"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third29.json"
+    },
+    {
+      "name": "final-16-hard-third-seed29",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third29"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third29.json"
+    },
+    {
+      "name": "final-16-normal-third-seed30",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third30"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third30.json"
+    },
+    {
+      "name": "final-16-hard-third-seed30",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third30"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third30.json"
+    },
+    {
+      "name": "final-16-normal-third-seed31",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third31"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third31.json"
+    },
+    {
+      "name": "final-16-hard-third-seed31",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third31"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third31.json"
+    },
+    {
+      "name": "final-16-normal-third-seed32",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third32"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third32.json"
+    },
+    {
+      "name": "final-16-hard-third-seed32",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third32"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third32.json"
+    },
+    {
+      "name": "final-16-normal-third-seed33",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third33"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third33.json"
+    },
+    {
+      "name": "final-16-hard-third-seed33",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third33"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third33.json"
+    },
+    {
+      "name": "final-16-normal-third-seed34",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third34"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third34.json"
+    },
+    {
+      "name": "final-16-hard-third-seed34",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third34"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third34.json"
+    },
+    {
+      "name": "final-16-normal-third-seed35",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third35"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third35.json"
+    },
+    {
+      "name": "final-16-hard-third-seed35",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third35"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third35.json"
+    },
+    {
+      "name": "final-16-normal-third-seed36",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third36"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third36.json"
+    },
+    {
+      "name": "final-16-hard-third-seed36",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third36"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third36.json"
+    },
+    {
+      "name": "final-16-normal-third-seed37",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third37"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third37.json"
+    },
+    {
+      "name": "final-16-hard-third-seed37",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third37"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third37.json"
+    },
+    {
+      "name": "final-16-normal-third-seed38",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third38"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third38.json"
+    },
+    {
+      "name": "final-16-hard-third-seed38",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third38"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third38.json"
+    },
+    {
+      "name": "final-16-normal-third-seed39",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "normal",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third39"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-normal-third/third39.json"
+    },
+    {
+      "name": "final-16-hard-third-seed39",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "16",
+        "DIFF": "hard",
+        "SEEDN": "40",
+        "SEEDPFX": "third",
+        "SEEDONLY": "third39"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "shards/final-16-hard-third/third39.json"
+    },
+    {
+      "name": "final-12-normal-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "normal",
+        "SEEDN": "4",
+        "SEEDPFX": "bench"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-normal-bench.json"
+    },
+    {
+      "name": "final-12-hard-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "hard",
+        "SEEDN": "4",
+        "SEEDPFX": "bench"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-hard-bench.json"
+    },
+    {
+      "name": "final-12-normal-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "normal",
+        "SEEDN": "4",
+        "SEEDPFX": "alt"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-normal-alt.json"
+    },
+    {
+      "name": "final-12-hard-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "hard",
+        "SEEDN": "4",
+        "SEEDPFX": "alt"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-hard-alt.json"
+    },
+    {
+      "name": "final-12-normal-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "normal",
+        "SEEDN": "4",
+        "SEEDPFX": "third"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-normal-third.json"
+    },
+    {
+      "name": "final-12-hard-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "LEVELS": "12",
+        "DIFF": "hard",
+        "SEEDN": "4",
+        "SEEDPFX": "third"
+      },
+      "class": "spellblade",
+      "trials": "5",
+      "output": "final-12-hard-third.json"
+    },
+    {
+      "name": "prototype-8-normal-bench",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-normal-bench.json"
+    },
+    {
+      "name": "prototype-8-hard-bench",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-hard-bench.json"
+    },
+    {
+      "name": "prototype-8-normal-alt",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-normal-alt.json"
+    },
+    {
+      "name": "prototype-8-hard-alt",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-hard-alt.json"
+    },
+    {
+      "name": "prototype-8-normal-third",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-normal-third.json"
+    },
+    {
+      "name": "prototype-8-hard-third",
+      "cwd": "/tmp/wayfarer-prototype",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "prototype-8-hard-third.json"
+    },
+    {
+      "name": "final-8-normal-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-normal-bench.json"
+    },
+    {
+      "name": "final-8-hard-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-hard-bench.json"
+    },
+    {
+      "name": "final-8-normal-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-normal-alt.json"
+    },
+    {
+      "name": "final-8-hard-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-hard-alt.json"
+    },
+    {
+      "name": "final-8-normal-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "2",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-normal-third.json"
+    },
+    {
+      "name": "final-8-hard-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "2",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": "spellblade",
+      "trials": "10",
+      "output": "final-8-hard-third.json"
+    },
+    {
+      "name": "baseline-public-normal-bench",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-normal-bench.json"
+    },
+    {
+      "name": "baseline-public-hard-bench",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-hard-bench.json"
+    },
+    {
+      "name": "baseline-public-normal-alt",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-normal-alt.json"
+    },
+    {
+      "name": "baseline-public-hard-alt",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-hard-alt.json"
+    },
+    {
+      "name": "baseline-public-normal-third",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-normal-third.json"
+    },
+    {
+      "name": "baseline-public-hard-third",
+      "cwd": "/tmp/spellblade-baseline",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "baseline-public-hard-third.json"
+    },
+    {
+      "name": "working-public-normal-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-normal-bench.json"
+    },
+    {
+      "name": "working-public-hard-bench",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "bench",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-hard-bench.json"
+    },
+    {
+      "name": "working-public-normal-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-normal-alt.json"
+    },
+    {
+      "name": "working-public-hard-alt",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "alt",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-hard-alt.json"
+    },
+    {
+      "name": "working-public-normal-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "normal",
+        "SEEDN": "3",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-normal-third.json"
+    },
+    {
+      "name": "working-public-hard-third",
+      "cwd": "/workspace/Dungeon-Hack-Mobile",
+      "environment": {
+        "FIT": "1",
+        "DIFF": "hard",
+        "SEEDN": "3",
+        "SEEDPFX": "third",
+        "FP": "1"
+      },
+      "class": null,
+      "trials": null,
+      "output": "working-public-hard-third.json"
+    }
+  ],
+  "verification": "verify-shards.py: 20/20 complete outcome records match the retained unsharded Deepward pilot."
+}

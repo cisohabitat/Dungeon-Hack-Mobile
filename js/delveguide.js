@@ -48,6 +48,10 @@ export function activeEffects() {
   if (p.grabbed && (!p.grabbed.until || p.grabbed.until > G.t)) add('Grabbed', 'Try to move to struggle free of the creature’s grip.', p.grabbed.until || null);
   for (const [key, e] of Object.entries(p.effects || {})) {
     if (!e || e.until <= G.t) continue;
+    const rune = { runic_fire: 'Fire', runic_frost: 'Frost', runic_storm: 'Lightning' }[e.src];
+    if (key === 'runicEdge') { timed(e.until, `Runic Edge: ${rune}`, `Sword and dagger hits deal ${Number(e.amount)} extra elemental damage.`); continue; }
+    if (key === 'spellguard') { timed(e.until, 'Spellguard', `The next hit loses up to ${Number(e.amount)} damage. Poison and hunger pass through.`); continue; }
+    if (key === 'runicReturn') { timed(e.until, 'Spellguard: strike ready', `Your next sword or dagger hit deals ${Number(e.amount)} extra damage.`); continue; }
     const kind = key.replace(/^(boon_|crew_)/, ''), name = key === 'crew_hit' ? 'Crew’s song' : key.startsWith('boon_') ? kind === 'ac' ? 'Ward' : 'Prayer' : { ac: 'Shielded', hit: 'Blessed', might: 'Mighty' }[kind] || key;
     const detail = kind === 'ac' ? `${sign(e.amount)} armour class.` : kind === 'hit' ? `${sign(e.amount)} to hit.` : kind === 'might' ? '+2 to hit and +2 damage.' : `Temporary ${kind.replaceAll('_', ' ')} effect (${sign(e.amount)}).`;
     timed(e.until, name, detail);
@@ -59,6 +63,7 @@ export function activeEffects() {
   if (p.ward > 0) add('Stored healing ward', `${Number(p.ward)} points of protection remain.`);
   if (p.coating) add(Game.coatingName(p.coating.t) || 'Weapon coating', `${Number(p.coating.left)} landed blows remain. Missing does not spend the coating.`);
   if (p.food === 0) add('Starving', 'You have no food left. Eat from your pack to stop starvation.');
+  if (Game.deepward()) add('Deepward', `+${Game.deepward()} armour class from the silver lantern.`);
   const rage = Game.berserkerRage(); if (rage) add('Berserker rage', `+${rage} damage on each blow${p.hp < p.maxHp / 2 ? ', with a quicker swing below half life' : ''}.`);
   if (Game.shaped()) add('Wild Shape', Game.shapeChip(), p.shape?.until || null);
   return rows;

@@ -1,3 +1,4 @@
+import { makeSpellblade } from './spellblade.js';
 import { makePuzzles } from './puzzles.js';
 import { recordGame } from './recording.js';
 import { Rng, Dice, Odds, d, rnd, hashSeed } from './rng.js';
@@ -625,7 +626,7 @@ const Game = (() => {
   // stronger, strength or wisdom, lands the blow. Everyone else swings with strength.
   // a ranger looses every arrow and lands every blow by Dexterity
   // (and a druid's, whose staff and claws answer the same wisdom)
-  const armStat = p => p.cls === 'cleric' || p.cls === 'druid' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.stats.str;
+  const armStat = p => p.cls === 'cleric' || p.cls === 'druid' ? Math.max(p.stats.str, p.stats.wis) : p.cls === 'ranger' ? p.stats.dex : p.cls === 'spellblade' ? Math.max(p.stats.str, p.stats.int) : p.stats.str;
   // a glimmer moth's flare in the eyes: the blows go wide until it fades
   const DAZZLED_HIT = 4;
   function toHit() {
@@ -656,7 +657,7 @@ const Game = (() => {
     if (p.eq.offhand && !bear) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
     if (p.eq.cloak) ac += (ITEMS[p.eq.cloak.t].ac || 0) + (p.eq.cloak.e || 0);
-    return ac + jewelBonus('protect', p) + berserkerOpen() + mythics.armour();
+    return ac + jewelBonus('protect', p) + berserkerOpen() + mythics.armour() + spellblade.armour();
   }
   function knownSpells() {
     const c = cls();
@@ -762,6 +763,7 @@ const Game = (() => {
     // a way in still playing from a run left at the title is not this run's
     prelude.cancel();
     const c = CLASSES[cfg.cls];
+    if (c?.hidden && (cfg.opts?.daily || cfg.opts?.weekly)) throw new Error('The Wayfarer walks custom delves only.');
     // a background still locked (or a stale choice) falls back to the first
     const bg = BACKGROUNDS[cfg.bg] && Progress.bgOpen(cfg.bg) ? cfg.bg : 'oathbroken';
     const p = {
@@ -809,7 +811,7 @@ const Game = (() => {
     G.relics = { ...relicPlan(cfg.seed, cfg.cls, cfg.opts.levels), offered: 0, found: [] };
     G.stats = freshStats();
     G.wick = Progress.wick();   // what Wick remembers, as this run begins (trader.js)
-    if (bg === 'cloistered') for (const id in ITEMS) G.known[id] = 1;   // raised among the books
+    if (bg === 'cloistered') for (const id in ITEMS) if (ITEMS[id].focus !== 'spellblade' || cfg.cls === 'spellblade') G.known[id] = 1;   // the valley's books do not describe the Wayfarer's own lantern
     // the starting kit is familiar to its owner (the second kit, once a win has earned it; never in a Daily)
     const alt = G.opts.kit === 'alt' && !G.opts.daily && !G.opts.weekly && Progress.kitOpen(cfg.cls);
     // (and the third, once the fourth stage of the class's mastery has opened it)
@@ -1464,6 +1466,7 @@ const Game = (() => {
   // business; a getter reads its value only when asked, so a part wired later than another
   // may still be lent to it, as long as it is not read before it is made.
   const K = {
+    get spellblade() { return spellblade; },
     get aids() { return aids; }, get armStat() { return armStat; }, get assassinQuiet() { return assassinQuiet; }, get aThing() { return aThing; },
     get baneDamage() { return baneDamage; }, get bargained() { return bargained; }, get BELT() { return BELT; }, get beltRoom() { return beltRoom; },
     get berserkerRage() { return berserkerRage; }, get BITS_MAX() { return BITS_MAX; }, get blocked() { return blocked; },
@@ -1761,6 +1764,7 @@ const Game = (() => {
   const { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win } = makeChronicle(K);
 
   // ---------- powers: see powers.js ----------
+  const spellblade = makeSpellblade(K);
   const { READ_MS, SCROLL_GLOW, abilityLeft, abilityOf, boltEnd, boltTargets, castLabel, castLast, castSpell, enemiesNear, fireCatches, quaff, quickScroll, rangerAim, readQuick, restLabel, spellFx, spellRange, spellWasteReason, useAbility, wardenHold } = makePowers(K);
 
   // ---------- pacing: see pacing.js ----------
@@ -1791,7 +1795,7 @@ const Game = (() => {
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     /** A druid in Wild Shape: whether, and the status line's words for it. */
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
-    hurtPlayer, spMax, trapEye,
+    deepward: () => spellblade.armour(), hurtPlayer, spMax, trapEye,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     commandCompanion, companionCommandReason,
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),

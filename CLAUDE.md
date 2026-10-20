@@ -271,7 +271,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   reviewed source/export hashes in `art/review.json` and every painting's offline
   entry. Re-export and visually inspect changed art before updating those hashes;
   the check records review currency, not an automated judgement of anatomy.
-  The six class and three keeper paintings also select current `overrides/`
+  The class and keeper paintings also select current `overrides/`
   from their generation manifests; `python3 art/portraits/export.py --check`
   reproduces all nine WebPs. Keep original PNGs as provenance when refreshing
   paintings; retain the hero identities already used by the pixel fallbacks.
@@ -401,10 +401,31 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   sockets in both engines, asserts rejected requests, and retains native reload,
   play, recovery and range checks; Chromium also uses browser offline mode.
   Companion portrait offline checks use the same actual-origin cutoff. Wait for
-  the title opening to finish before auditing contrast after an offline reload;
-  worker readiness can arrive while the menu is still fading in.
+  the title opening to finish before auditing contrast on any title visit;
+  worker readiness and keyboard unlocks can arrive while the menu is still fading in.
 - `sw.js`: offline cache. A new module must be added to `ASSETS` (test/run.js
   checks this); bump `CACHE` when the list changes.
+
+## Hidden hero
+
+- `js/hiddenhero.js` keeps the five-activation title unlock in bounded device-local
+  `deepdelve.wayfarer`. It is an Easter egg, never authentication. Keep the real
+  version button reachable by touch, keyboard and controller, without replacing
+  a save or automatically starting a run. Exclude its memory from recordings.
+- `js/spellblade.js` owns the Wayfarer's runes, explored-ground step and timed
+  guard. All times use `G.t`; cast through the existing recorded `castSpell`.
+  Step cannot cross walls or occupants, and landing uses ordinary tile effects.
+  Only landed close blade hits spend the guarded return; poison/hunger pass through.
+  Validate rune sources, finite clocks and bounded magnitudes on save import.
+  Deepward derives only from a held silver lantern beyond floor eight, capped
+  at +4 armour; the ordinary eight-floor delve and all public classes gain none.
+- Keep the six public class identities, challenge pools and Quick Start unchanged.
+  Spellblade has lessons rather than paths or a Mythic; guard offers without a
+  matching Mythic. Keep it out of public trophy requirements and unopened cards.
+  Portrait sources/exports and its lantern sprite retain the hood, sword and blue
+  silver-lantern identity. The class unlock is not a save dependency.
+  Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
+  fixtures cover the seventh, including its portrait and biography.
 
 ## Checks
 
@@ -470,7 +491,7 @@ a pushed change as verified.
   or pushing the feature. Rule tests alone do not replace this benchmark.
 - Record a baseline on the previous revision and compare the changed revision
   with matching settings, seeds and trial counts. Test affected classes and
-  paths on Normal and Hard; shared systems require all six classes. Also test
+  paths on Normal and Hard; shared systems require all six public classes and the hidden Spellblade when affected. Also test
   affected run lengths and ladder rungs when those systems change.
 - For treasure or exploration rewards, include a matched `EXPLORE=0.8` pass
   and record how often the new feature was used. The default stair-seeking bot

@@ -111,7 +111,11 @@ The delving guilds sent crews down the Deepdelve to find out why. None of the cr
 
 What is down there now wears their faces.
 
-## The six heroes (CLASSES)
+## The heroes (CLASSES)
+
+### Spellblade (spellblade)
+
+Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier's sword and a gravekeeper's lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.
 
 ### Fighter (fighter)
 
