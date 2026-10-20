@@ -1,12 +1,12 @@
 'use strict';
 // The story layer: prologue, backgrounds, level-up choices, journal, epilogue.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, faceOpenGround, placeMonster, killMonster } = require('./helpers');
+const { customiseCreation, selectJournalTab, expect, watchForErrors, startGame, faceOpenGround, placeMonster, killMonster } = require('./helpers');
 
 test.describe('story and progression', () => {
   test('choosing a background changes the stated advantage', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const first = await page.textContent('#c-bg-perk');
     await page.locator('.bg-card', { hasText: 'The Debtor' }).click();
     const second = await page.textContent('#c-bg-perk');
@@ -17,7 +17,7 @@ test.describe('story and progression', () => {
   test('the prologue runs before the first stair and names your background', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.locator('.bg-card', { hasText: 'The Debtor' }).click();
     await page.fill('#c-seed', 'story-prologue');
     await page.click('#c-begin');
@@ -113,7 +113,7 @@ test.describe('story and progression', () => {
     expect(picked, 'every level should carry one page').not.toBeNull();
     expect(picked.entries).toBe(1);
 
-    await page.click('[data-open="journal"]');
+    await page.click('[data-open="journal"]'); await selectJournalTab(page, 'pages');
     await expect(page.locator('#ov-journal')).toHaveClass(/open/);
     // the page found in full; every other floor's as a page still to find, act by act
     await expect(page.locator('.journal-entry:not(.missing)')).toHaveCount(1);
@@ -179,7 +179,7 @@ test.describe('story and progression', () => {
     expect(got.depth).toBe(3);
     expect(got.page, 'the last delver left a page by the stair').toBe(true);
     expect(got.hidden, 'its page shows every hidden door').toBe(0);
-    await page.click('[data-open="journal"]');
+    await page.click('[data-open="journal"]'); await selectJournalTab(page, 'pages');
     await expect(page.locator('#ov-journal')).toHaveClass(/open/);
     await expect(page.locator('.act-head', { hasText: 'Found besides' })).toBeVisible();
     await expect(page.locator('.journal-entry:not(.missing) h3', { hasText: 'last delver' })).toBeVisible();
@@ -188,7 +188,7 @@ test.describe('story and progression', () => {
 
   test('the epilogue names the hero and differs between winning and dying', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.fill('#c-name', 'Wren');
     await page.locator('.bg-card', { hasText: 'The Tombwise' }).click();
     await page.fill('#c-seed', 'story-epilogue');
@@ -229,7 +229,7 @@ test.describe('choices kept', () => {
     await page.setViewportSize({ width: 360, height: 740 });
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.fill('#c-seed', 'story-fold');
     await page.click('#c-begin');
     await expect(page.locator('#pro-world > p')).toHaveCount(4);
@@ -237,8 +237,8 @@ test.describe('choices kept', () => {
     await expect(page.locator('#screen-game')).toBeVisible();
     // a second hero: the story folded away, the stair in view without scrolling
     await page.goto('/');
-    await page.click('#btn-new');
-    if (await page.locator('#screen-confirm').isVisible()) await page.click('#confirm-replace');
+    await page.click('#btn-new'); await customiseCreation(page);
+    if (await page.locator('#screen-confirm').isVisible()) await page.click('#confirm-replace'); await customiseCreation(page);
     await page.fill('#c-seed', 'story-fold-2');
     await page.click('#c-begin');
     await expect(page.locator('#pro-world details.pro-again')).toHaveCount(1);

@@ -36,7 +36,21 @@ export function makePack(K) {
     $(it ? '#item-detail-title' : '#inv-slot-title').focus({ preventScroll: !!it });
     $('#inv-slot-filter').scrollIntoView({ block: 'start' });
   }
+  /** Round only the displayed cells; the pack's capacity always belongs to the rules. */
+  function bagCells(count) {
+    const columns = Number(getComputedStyle($('#inv-grid')).getPropertyValue('--bag-columns')) || 5;
+    return !slotTarget && filter === 'all' && !compact && !search ? Game.INV_MAX
+      : Math.min(Game.INV_MAX, Math.max(columns, Math.ceil(count / columns) * columns));
+  }
+  /** Rotation changes the blank cells only, keeping item buttons and focus intact. */
+  function fitBagRows() {
+    if (!$('#ov-inv').classList.contains('open')) return;
+    const grid = $('#inv-grid'), cells = bagCells(grid.querySelectorAll('[data-index]').length);
+    while (grid.childElementCount > cells) grid.lastElementChild.remove();
+    while (grid.childElementCount < cells) grid.appendChild(slotEl(null, null));
+  }
   function bindPack() {
+    window.addEventListener('resize', fitBagRows);
     compact = K.store('deepdelve.packCompact') === '1';
     for (const button of $('#ov-inv').querySelectorAll('[data-bag-filter]')) button.addEventListener('click', () => {
       slotTarget = ''; filter = button.dataset.bagFilter; K.selectedItem = null; K.selectedSlot = null; renderInv();
@@ -190,7 +204,7 @@ export function makePack(K) {
     $('#inv-search-count').textContent = search ? `${shown.length} matching ${shown.length === 1 ? 'item' : 'items'}` : '';
     $('#inv-empty').hidden = shown.length > 0;
     $('#inv-empty').textContent = search && !shown.length ? 'No matching items. Try another name or known power, or clear the search.' : slotTarget ? `No compatible items for ${slotName(slotTarget)}. Use Show all to browse the rest of your bag.` : filter === 'all' ? 'Your bag is empty.' : 'No items in this category.';
-    const cells = !slotTarget && filter === 'all' && !compact && !search ? Game.INV_MAX : Math.min(Game.INV_MAX, Math.max(5, Math.ceil(shown.length / 5) * 5));
+    const cells = bagCells(shown.length);
     for (let i = 0; i < cells; i++) {
       const entry = shown[i], it = entry?.it;
       const el = slotEl(it, null);

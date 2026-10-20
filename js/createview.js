@@ -65,6 +65,8 @@ export function makeCreateView(K) {
   /** The hero chosen so far, beside Descend: the cards that say it can be scrolled far out of sight. */
   function createSummary() {
     const el = $('#c-summary');
+    const floors = $('#c-levels').value, life = $('#c-permadeath').checked ? 'one life' : 'reload after defeat';
+    $('#c-ready-note').textContent = `Ready to descend: ${floors} floors, ${life}. ${create.mode === 'buy' ? 'Scores placed by you.' : 'Your highest rolled score is placed in your class’s key stat.'}`;
     if (el) el.textContent = `${CLASSES[create.cls] ? CLASSES[create.cls].name : create.cls} \u00b7 ${BACKGROUNDS[create.bg] ? BACKGROUNDS[create.bg].name : create.bg} \u00b7 ${diffLabel(create)}`;
   }
   function buildCreate() {
@@ -108,7 +110,7 @@ export function makeCreateView(K) {
       const track = at >= 5 ? `<em class="key stage-line">Mastery: ${escapeHtml(name)}, the last of five stages.</em>`
         : `<em class="key stage-line">Mastery: ${at ? `${escapeHtml(name)}, stage ${at} of 5. ` : ''}Next, ${escapeHtml(Progress.stageName(create.cls, at + 1))}: ${escapeHtml(Progress.stageNeed(create.cls, at + 1))}</em>`;
       const frame = Progress.frameOf(create.cls, known);
-      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${track}`;
+      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em><details class="create-mastery"><summary>Mastery goals</summary>${track}</details>`;
       $('#c-portrait-toggle').addEventListener('click', () => {
         const toggle = $('#c-portrait-toggle');
         const expanded = toggle.classList.toggle('expanded');
@@ -210,6 +212,7 @@ export function makeCreateView(K) {
     create.rolled = Game.rollStats();
     fitStats();
     buildCreate();
+    /** @type {HTMLDetailsElement} */ ($('#c-customise')).open = false;
     K.showScreen('screen-create');
   }
   /** A random hero with sensible numbers, straight to the prologue. */
@@ -274,7 +277,8 @@ export function makeCreateView(K) {
       if (el && el.scrollIntoView) el.scrollIntoView({ block: 'center', behavior: 'smooth' });
     });
     $('#c-seed-rand').addEventListener('click', () => { $('#c-seed').value = randomSeedWord(); });
-    $('#c-levels').addEventListener('change', levelsNote);
+    $('#c-levels').addEventListener('change', () => { levelsNote(); createSummary(); });
+    $('#c-permadeath').addEventListener('change', createSummary);
     levelsNote();
     // anything typed in the name box is the player's own, even a name the game might have drawn
     $('#c-name').addEventListener('input', () => { autoName = ''; });

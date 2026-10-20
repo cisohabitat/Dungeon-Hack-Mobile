@@ -98,6 +98,9 @@
       </div>
       <div class="class-grid" id="c-classes"></div>
       <section class="class-more" id="c-class-more" aria-live="polite" aria-labelledby="c-class-title"></section>
+      <p id="c-ready-note" class="create-ready">Ready to descend: eight floors, one life. Your highest rolled score is placed in your class’s key stat.</p>
+      <details id="c-customise" class="create-customise">
+        <summary>Customise hero &amp; dungeon <small>Background, scores, seed and settings</small></summary>
       <h3>Who you were</h3>
       <div class="bg-grid" id="c-backgrounds"></div>
       <p id="c-bg-perk" class="perk-line"></p>
@@ -128,6 +131,7 @@
         <div class="opts vow-list" id="c-vow-list"></div>
         <p class="dim small">Each vow kept to a win on one life, on Normal or Hard, is a trophy of its own, and each sworn adds its share to the run's score.</p>
       </div>
+      </details>
       <div class="row spread create-foot">
         <p id="c-summary" class="create-sum" aria-live="polite"></p>
         <button id="c-back" class="ghost">Back</button>
@@ -246,11 +250,12 @@
       <div class="help-page" data-hpage="basics">
         <p>You are alone in a dungeon generated from a seed. Go down floor by floor, find the <b>Heart of the Mountain</b> on the deepest floor, and take it from the thing that guards it.</p>
         <h3>Who you are</h3>
-        <p>Pick a class and a background. The class decides what you can wield and cast; each card says in a word how it plays, and for your first few runs the Fighter and the Cleric, who forgive mistakes best, are marked as a good first hero. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
+        <p>Pick a class and descend with the ready settings, or open <b>Customise hero &amp; dungeon</b> to choose your background, scores and dungeon settings. The class decides what you can wield and cast; each card says in a word how it plays, and for your first few runs the Fighter and the Cleric, who forgive mistakes best, are marked as a good first hero. The background is the life you had before the first stair: it gives you one lasting advantage, colours the opening, and decides how your story is told at the end.</p>
         <h3>The way in</h3>
         <p>A new run opens on your hero coming down the passage into the mountain, walking on by themselves. At its end the roof comes down behind them, and the first floor begins with fallen rock where the stair back up would be: there is no way out but down. Tap the view, or any button, to skip it.</p>
+        <p>Your <b>Journal</b> opens on Quests. Conditions explains what is affecting you; Recap and Haul keep track of this delve. Open <b>Stories &amp; collections</b> for found pages, creatures, companions, relics and combinations.</p>
         <h3>Moving</h3>
-        <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key (with none, walking straight at one throws your shoulder against it; a step aside or back into it does not), and into a staircase to take it. Stairs are set into the walls, so you have to be facing them: if you step up beside a staircase the log says which side it is on, and the <b>Use</b> button changes its name to say what it will do &mdash; <i>Descend</i>, <i>Open</i>, <i>Trade</i> and so on. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you. Left-handed? <b>Menu &rsaquo; Controls</b> swaps the d-pad and the buttons to the other sides. <b>Map</b>, or a tap on the little map in the corner of the view, shows all you have explored; pinch it, or press <b>+</b>, to look closer, and drag it about.</p>
+        <p>The d-pad turns you and steps you one square at a time. Walk into doors to open them, into locked doors to use a matching key (with none, walking straight at one throws your shoulder against it; a step aside or back into it does not), and into a staircase to take it. Stairs are set into the walls, so you have to be facing them: if you step up beside a staircase the log says which side it is on, and the <b>Use</b> button changes its name to say what it will do &mdash; <i>Descend</i>, <i>Open</i>, <i>Trade</i> and so on. Hold a button to keep walking. You can also swipe on the view: left or right to turn, up or down to step. Tap the view to act on what is in front of you. Left-handed? <b>Menu &rsaquo; Controls</b> swaps the d-pad and the buttons to the other sides. <b>Map</b>, or a tap on the little map in the corner of the view, shows all you have explored; open <b>Map symbols</b> for its key, pinch it, or press <b>+</b>, to look closer, and drag it about.</p>
         <h3>Finds</h3>
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p><b>Dungeon puzzles</b> are optional at the first stair of each new custom or Quick Start run. Tick <b>Include dungeon puzzles</b> to put rune sequences, watchfire patterns and keeper seals on some existing gold and gem caches. Stand on a cache or face it and press <b>Puzzle</b> (Use). Its inscription holds every clue, and the dungeon waits while you read. <b>Start again</b> clears a guess; <b>Leave for later</b> keeps your progress. A wrong answer costs nothing, and you may retry as often as you like. Open the cache, then choose its gold and gems or, when its purse covers it, a Potion of Healing or unidentified gear with any remaining coins. The item replaces some coins; choose once, then step onto the cache or press Take to collect your share. You may leave the choice for later; a full pack leaves the treasure on the floor. Keys, relics, passages, stairs and the Heart never need a puzzle solved. Daily and Weekly challenges keep puzzles off.</p>
@@ -261,7 +266,7 @@
         <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search; at a dead end, walled on three sides, the button says <b>Search</b>, since that is where the builders liked to hide a door. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
         <p>Rooms come in many shapes: halls with rows of pillars to put between you and a blow, caverns, long galleries, rooms with niches in their walls. The corridors loop, so there is usually more than one way round. Past the divided stair each road builds after its own fashion: the Crypts in burial niches, long galleries and straight passages, the Warrens in burrows and crooked tunnels. Every floor holds one <b>set piece</b>: a block of cells along an aisle, each behind a barred gate; a shrine with a basin at its back; a cistern where the water carries lightning and freezes under cold; or a hall half fallen in, with something left at the back of the stone. Each comes in versions: cells made kennels or storerooms, a shrine defiled or still kept, a cistern brimming over or silted up, a fall that buried someone or that someone tried to shore. Each keeps a find worth the detour.</p>
         <h3>Survival</h3>
-        <p>Walking makes you hungry. Eat rations from your pack or you will start to starve. Your wounds close on their own only up to half your life (more for the Heartsworn); past that it takes a potion, a prayer or a <b>Rest</b>. Resting costs food and is impossible with enemies close by. A floor's wear carries: the first rest on a floor restores up to two thirds of your life and spell points, the second a third, the third a sixth, and after that the dark is too close to sleep until you find the next floor (on Easy a rest restores everything, then half, then a quarter). Only a night by a trader's lamp makes you whole. The longer you linger, the likelier something finds you asleep. The Rest button shows how much the next rest will do; with anything close it dims and says <i>foes near</i>, and it never drinks for you. Drink in a fight from the <b>Pack</b>, or in one tap: anyone carrying a healing potion they know gets a red <b>Drink</b> button beside the life bar, which says how many they carry, and beats when your life is below a quarter. Watch for traps in corridors. Now and then someone who knows a floor tells you where its traps lie: they show on the map as a red &times;, and you step round them. A trap goes off under whatever walks onto it, not only under you: lead a chase across one you know of, and the dart, the pit or the gong takes the creature instead (what flies goes over, and a kobold's own wire is not sprung by its kind).</p>
+        <p>Walking makes you hungry. Eat rations from your pack or you will start to starve. Your wounds close on their own only up to half your life (more for the Heartsworn); past that it takes a potion, a prayer or a <b>Rest</b>. Resting costs food and is impossible with enemies close by. A floor's wear carries: the first rest on a floor restores up to two thirds of your life and spell points, the second a third, the third a sixth, and after that the dark is too close to sleep until you find the next floor (on Easy a rest restores everything, then half, then a quarter). Only a night by a trader's lamp makes you whole. The longer you linger, the likelier something finds you asleep. The Rest button shows how much life the next rest can restore, with spell points restored by the same share; with anything close it dims and says <i>foes near</i>, and it never drinks for you. Drink in a fight from the <b>Pack</b>, or in one tap: anyone carrying a healing potion they know gets a red <b>Drink</b> button beside the life bar, which says how many they carry, and beats when your life is below a quarter. Watch for traps in corridors. Now and then someone who knows a floor tells you where its traps lie: they show on the map as a red &times;, and you step round them. A trap goes off under whatever walks onto it, not only under you: lead a chase across one you know of, and the dart, the pit or the gong takes the creature instead (what flies goes over, and a kobold's own wire is not sprung by its kind).</p>
         <p>The deep takes the measure of whoever comes down. Arrive on a floor far stronger than most who reach it and what waits there is readier for you: sturdier, surer, and more often a champion. Clearing every corner still pays, just not for free.</p>
         <h3>Keyboard</h3>
         <p>W/S or arrows to move, A/D to turn, Q/E to sidestep, Space to attack, U to use, C to cast, T to take what lies underfoot, R to rest, X to drink a healing potion, Z to read a scroll (or coat a bare blade as a fight starts), M map, I pack, P spells, H hero, J journal, L the log, Esc to close (or to go back, on any other screen). What a key opens takes the focus, so Tab and Enter work inside it.</p>
@@ -466,7 +471,7 @@
             <button class="ctl" data-act="strafeR" aria-label="Step right"><span class="ico" data-icon="right"></span></button>
           </div>
           <div class="actions">
-            <button class="ctl attack" data-act="attack"><span class="ico" data-icon="attack"></span><small>Attack</small></button>
+            <button class="ctl attack" data-act="attack"><span class="ico" data-icon="attack"></span><small>Attack</small><span id="attack-state" class="attack-state">Ready</span></button>
             <button class="ctl" data-tap="use"><span class="ico" data-icon="use"></span><small>Use</small></button>
             <button class="ctl" data-tap="cast"><span class="ico" data-icon="cast"></span><small>Cast</small></button>
           </div>
@@ -522,7 +527,7 @@
       <div class="ov-body center">
         <!-- pinch the map, or the buttons in its corner: in toward the hero, and back out to the whole of it -->
         <div class="map-frame"><canvas id="map-canvas"></canvas><div id="map-zoom" class="map-zoom"><button id="map-out" type="button" aria-label="Zoom out">−</button><button id="map-in" type="button" aria-label="Zoom in">+</button></div></div>
-        <div id="map-legend" class="map-legend"></div>
+        <details id="map-key" class="map-key"><summary>Map symbols</summary><div id="map-legend" class="map-legend"></div></details>
         <p class="dim small" id="map-note">Explored ground only. You are the ringed square.</p>
         <details id="map-landmarks" class="map-landmarks"></details>
       </div>
@@ -551,17 +556,23 @@
     <div id="ov-journal" class="overlay">
       <div class="ov-head"><h2>Journal</h2><span id="journal-count" class="shop-gold"></span><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body">
-        <div class="tabs" role="tablist">
-          <button class="tab on" data-jtab="pages" role="tab" aria-selected="true">Pages</button>
-          <button class="tab" data-jtab="beasts" role="tab" aria-selected="false">Bestiary</button>
-          <button class="tab" data-jtab="companions" role="tab" aria-selected="false">Companions</button>
-          <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
-          <button class="tab" data-jtab="quests" role="tab" aria-selected="false">Quests</button>
+        <p class="journal-group-title" id="journal-current-title">This delve</p>
+        <div class="tabs journal-current" role="tablist" aria-labelledby="journal-current-title">
+          <button class="tab on" data-jtab="quests" role="tab" aria-selected="true">Quests</button>
           <button class="tab" data-jtab="effects" role="tab" aria-selected="false">Conditions</button>
           <button class="tab" data-jtab="recap" role="tab" aria-selected="false">Recap</button>
           <button class="tab" data-jtab="haul" role="tab" aria-selected="false">Haul</button>
-          <button class="tab" data-jtab="combos" role="tab" aria-selected="false">Combinations</button>
         </div>
+        <details id="journal-collection" class="journal-collection">
+          <summary>Stories &amp; collections <small>Pages, creatures, companions and relics</small></summary>
+          <div class="tabs" role="tablist" aria-label="Stories and collections">
+            <button class="tab" data-jtab="pages" role="tab" aria-selected="false">Pages</button>
+            <button class="tab" data-jtab="beasts" role="tab" aria-selected="false">Bestiary</button>
+            <button class="tab" data-jtab="companions" role="tab" aria-selected="false">Companions</button>
+            <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
+            <button class="tab" data-jtab="combos" role="tab" aria-selected="false">Combinations</button>
+          </div>
+        </details>
         <div class="row voice-controls" data-voice-context="journal" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
         <div id="journal-list"></div>
       </div>
@@ -689,7 +700,7 @@
       <div class="row voice-controls" data-voice-context="end" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
       <div id="end-epilogue" class="epilogue"></div>
       <div id="end-cause" class="cause"></div>
-      <p id="end-goal" class="next-goal" hidden></p>
+      <section id="end-goal" class="return-goal" aria-labelledby="end-goal-heading" hidden></section>
       <div id="end-summary" class="end-summary"></div>
       <div id="end-stats" class="stats end-stats"></div>
       <details id="end-recap" class="run-recap"><summary>Run recap</summary><div id="end-recap-body"></div></details>

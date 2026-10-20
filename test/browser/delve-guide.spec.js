@@ -1,14 +1,14 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { startGame, watchForErrors } = require('./helpers');
-async function journal(page, tab) { await page.click('[data-open="journal"]'); await page.click(`[data-jtab="${tab}"]`); }
+const { selectJournalTab, startGame, watchForErrors } = require('./helpers');
+async function journal(page, tab) { await page.click('[data-open="journal"]'); await selectJournalTab(page, tab); }
 
 test('@mobile quest tracker shows progress, payment and unfinished leads without changing the run', async ({ page }) => {
   const errors = watchForErrors(page); await startGame(page, { seed: 'guide-quests' });
   await page.evaluate(() => { const G = Game.state(); G.bounty = { kind: 'cull', depth: 1, from: 0, need: 6, got: 2, started: true, reward: { gold: 70, t: 'potion_heal' } }; G.threads = { lamp: true, mule: true, oath: true }; });
   const pure = await page.evaluate(async () => { const { questsView } = await import('/js/delveguide.js'); const before = JSON.stringify(Game.state()); questsView(); return JSON.stringify(Game.state()) === before; }); expect(pure).toBe(true);
   await journal(page, 'quests'); await expect(page.locator('#journal-list')).toContainText('2/6'); await expect(page.locator('#journal-list')).toContainText('before leaving'); await expect(page.locator('#journal-list')).toContainText('lost mule');
-  await page.evaluate(() => { Game.state().bounty.done = true; }); await page.click('[data-jtab="pages"]'); await page.click('[data-jtab="quests"]'); await expect(page.locator('#journal-list')).toContainText('ready for payment');
+  await page.evaluate(() => { Game.state().bounty.done = true; }); await selectJournalTab(page, 'pages'); await selectJournalTab(page, 'quests'); await expect(page.locator('#journal-list')).toContainText('ready for payment');
   await page.keyboard.press('Escape'); await page.evaluate(() => Game.save(true)); await page.reload(); await page.click('#btn-continue'); await journal(page, 'quests'); await expect(page.locator('#journal-list')).toContainText('ready for payment'); expect(errors).toEqual([]);
 });
 
@@ -41,8 +41,8 @@ test('@mobile companion commands use the normal facing and held restrictions', a
   await page.evaluate(() => { const G = Game.state(), p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir]; L.monsters = []; L.npcs = []; L.items = {}; L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR; G.companion = { kind: 'hound', name: 'Brindle', hp: 12, maxHp: 12, mode: 'follow', depth: G.depth, joined: 1, floors: 0, x: p.x + dx, y: p.y + dy, nextAct: 1e9 }; });
   await journal(page, 'companions'); await page.locator('[data-companion-order="stay"]').click(); expect(await page.evaluate(() => Game.companion().mode)).toBe('stay'); await expect(page.locator('.companion-card')).toContainText('Staying here');
   await page.locator('[data-companion-order="follow"]').click(); expect(await page.evaluate(() => Game.companion().mode)).toBe('follow');
-  await page.evaluate(() => { Game.player().held = Game.state().t + 10000; }); await page.click('[data-jtab="pages"]'); await page.click('[data-jtab="companions"]'); await expect(page.locator('[data-companion-order="stay"]')).toBeDisabled(); await expect(page.locator('.companion-card')).toContainText('held fast');
-  await page.evaluate(() => { Game.player().held = 0; Game.companion().depth++; }); await page.click('[data-jtab="pages"]'); await page.click('[data-jtab="companions"]'); await expect(page.locator('.companion-card')).toContainText('waits on floor'); await expect(page.locator('[data-companion-order="stay"]')).toBeDisabled(); expect(errors).toEqual([]);
+  await page.evaluate(() => { Game.player().held = Game.state().t + 10000; }); await selectJournalTab(page, 'pages'); await selectJournalTab(page, 'companions'); await expect(page.locator('[data-companion-order="stay"]')).toBeDisabled(); await expect(page.locator('.companion-card')).toContainText('held fast');
+  await page.evaluate(() => { Game.player().held = 0; Game.companion().depth++; }); await selectJournalTab(page, 'pages'); await selectJournalTab(page, 'companions'); await expect(page.locator('.companion-card')).toContainText('waits on floor'); await expect(page.locator('[data-companion-order="stay"]')).toBeDisabled(); expect(errors).toEqual([]);
 });
 
 test('@mobile run recap combines known finds, jobs, companion milestones and defeated bosses', async ({ page }) => {
@@ -76,7 +76,7 @@ test('@mobile guide pages, map landmarks and search remain accessible with doubl
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   };
   await journal(page, 'quests'); await audit();
-  await page.click('[data-jtab="effects"]'); await audit(); await page.click('[data-jtab="recap"]'); await audit();
+  await selectJournalTab(page, 'effects'); await audit(); await selectJournalTab(page, 'recap'); await audit();
   await page.keyboard.press('Escape'); await page.click('[data-open="map"]'); await page.locator('#map-landmarks summary').click(); await audit();
   await page.keyboard.press('Escape'); await page.click('[data-open="inv"]'); await page.locator('#inv-search').fill('ration'); await audit();
   const before = await page.evaluate(() => [Game.player().x, Game.player().y, Game.player().dir]);

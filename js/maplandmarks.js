@@ -3,6 +3,7 @@ import { Game } from './game.js';
 import { Dungeon } from './dungeon.js';
 import { ENCOUNTERS } from './encounters.js';
 import { escapeHtml } from './uikit.js';
+import { visitedPlace } from './rooms.js';
 const KEY = 'deepdelve.landmarks', SHRINES = new Set(['shrine', 'spider_altar', 'vigil', 'vigil_dark']);
 let run = '', memory = [];
 const idOf = n => `${n.depth}:${n.x},${n.y}:${n.id}`;
@@ -42,6 +43,12 @@ export function knownLandmarks() {
   for (const n of memory.filter(n => n.depth === G.depth)) {
     const present = (L.npcs || []).some(p => p.x === n.x && p.y === n.y && p.id === n.id);
     add(n.x, n.y, SHRINES.has(n.id) ? 'shrine' : 'encounter', ENCOUNTERS[n.id].title, present ? 'Unresolved' : 'Visited · resolved', n.id);
+  }
+  const place = visitedPlace(L);
+  if (place) {
+    // Anchor to ground actually explored inside the room, never its hidden centre.
+    const i = L.roomId.findIndex((r, i) => r === place.room && L.explored[i] && L.tiles[i] === T.FLOOR);
+    if (i >= 0) add(i % L.w, Math.floor(i / L.w), 'place', place.name, 'Visited room');
   }
   return rows.sort((a, b) => Math.abs(a.x - G.player.x) + Math.abs(a.y - G.player.y) - Math.abs(b.x - G.player.x) - Math.abs(b.y - G.player.y));
 }

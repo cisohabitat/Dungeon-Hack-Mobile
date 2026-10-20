@@ -216,9 +216,9 @@ export function makeEndScreen(K) {
       cause.textContent = 'Killed by the dungeon itself.';
     } else cause.textContent = '';
     // one thing to go down for next
-    const goal = Progress.nextGoals(Progress.load(), p.cls, Math.max(0, ...Game.hall().map(e => e.depth || 0)))[0], goalEl = $('#end-goal');
+    const goal = Progress.nextGoals(Progress.load(), p.cls, Math.max(p.deepest || G.depth, ...Game.hall().map(e => e.depth || 0)))[0], goalEl = $('#end-goal');
     goalEl.hidden = !goal;
-    if (goal) goalEl.textContent = `Next: ${goal.how}, for ${goal.what}.`;
+    if (goal) goalEl.innerHTML = `<h2 id="end-goal-heading">One more delve</h2><p><b>${escapeHtml(goal.how)}</b></p><p class="dim">Next: ${escapeHtml(goal.what)}</p><p class="small">An optional goal for your next hero. Choose their class and dungeon settings with New Game.</p>`;
     const moments = Game.deathLog();
     $('#end-final').style.display = (!won && moments.length) ? '' : 'none';
     $('#end-final-log').innerHTML = moments.map(m => `<p>${escapeHtml(m)}</p>`).join('');

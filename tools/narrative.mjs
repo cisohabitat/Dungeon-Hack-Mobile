@@ -14,7 +14,7 @@ const OUT = new URL('docs/NARRATIVE.md', root);
 export async function narrative() {
   const D = await import(new URL('js/data.js', root).href);
   const { ENCOUNTERS } = await import(new URL('js/encounters.js', root).href);
-  const { PIECE_VARIANTS } = await import(new URL('js/rooms.js', root).href);
+  const { PIECE_VARIANTS, PLACE_NAMES } = await import(new URL('js/rooms.js', root).href);
   const { makeTips } = await import(new URL('js/tips.js', root).href);
   // the few tips that name a way to step are read as they are said with both sides open
   const TIPS = makeTips({ asideWay: () => '(← or →)', canStep: () => true });
@@ -87,9 +87,17 @@ export async function narrative() {
   h(3, 'Floor twists (TWISTS)');
   for (const [id, t] of Object.entries(D.TWISTS)) { li(`${t.name}, on arriving`, t.arrive); li(`${t.name}, while there`, t.chip); }
   end();
+  h(3, 'Entered place names (PLACE_NAMES)');
+  for (const [kind, names] of Object.entries(PLACE_NAMES)) for (const [variant, name] of Object.entries(names)) li(`${kind}, ${variant}`, name);
+  end();
   h(3, 'Set pieces (PIECE_VARIANTS)');
   for (const [piece, vs] of Object.entries(PIECE_VARIANTS)) for (const [v, def] of Object.entries(vs)) if (def.say) li(`${piece}, ${v}`, def.say);
   end();
+
+  h(2, 'Companions at your side (COMPANION_REACTIONS)');
+  for (const [kind, reactions] of Object.entries(D.COMPANION_REACTIONS)) {
+    h(3, kind); for (const [mood, words] of Object.entries(reactions)) li(mood, `{name} ${words}`);
+  }
 
   h(2, 'Voices in the deep');
   h(3, 'Wick, of the Lampfolk (WICK)');

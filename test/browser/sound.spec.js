@@ -19,6 +19,7 @@ test.describe('sound', () => {
       const shapes = [
         {},
         { metal: true },
+        ...['goo', 'bile', 'ecto', 'spark', 'rust'].map(gore => ({ gore, w: 'longsword' })),
         { spell: 'cone_cold' },
         { dist: 1, pan: -1, who: 'orc', gore: 'bone', tag: 'crit', w: 'mace', spell: 'lightning', ms: 300, kind: 'shot' },
         { dist: 9, pan: 0.7, behind: true, who: 'lich', gore: 'ecto', tag: 'burn', w: 'shortbow', spell: 'bless', ms: 300 },
@@ -30,7 +31,7 @@ test.describe('sound', () => {
       for (const who of Object.keys(MONSTERS)) { Sound.play('voice', { who, dist: 2 }); Sound.play('death', { who, dist: 2 }); n += 2; await new Promise(r => setTimeout(r, 5)); }
       // and the hero's hound
       Sound.play('voice', { who: 'dog', dist: 1 }); n++;
-      for (let theme = 0; theme < 6; theme++) { Sound.setAmbience(theme % 2, theme); await new Promise(r => setTimeout(r, 30)); }
+      for (let theme = 0; theme < THEMES.length; theme++) { Sound.setAmbience(theme % 2, theme); await new Promise(r => setTimeout(r, 30)); }
       Sound.stop('rite');
       Sound.heartbeat(0.1, performance.now() + 1e6);
       await new Promise(r => setTimeout(r, 400));

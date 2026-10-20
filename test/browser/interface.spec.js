@@ -2,7 +2,7 @@
 // The things a player touches: layout across screens, reachable controls,
 // readable text, and a frame budget that holds when the level is crowded.
 const { test, devices } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
+const { customiseCreation, selectJournalTab, expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
 /** Relative luminance, per WCAG 2.1. */
 function luminance([r, g, b]) {
@@ -741,7 +741,7 @@ test.describe('round five playtest', () => {
   test('trying another class and coming back gives back the same numbers, and a background bonus shows', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const card = name => page.locator('.class-card', { has: page.locator('b', { hasText: new RegExp(`^${name}$`, 'i') }) });
     await card('Fighter').click();
     const before = await page.locator('#c-stats').innerText();
@@ -881,14 +881,16 @@ test.describe('talents', () => {
       L.monsters.length = 0; p.xp = XP_TABLE[1] - 1; p.perkHit = 60;
       L.monsters.push({ uid: 6, id: 'rat', x: p.x + dx, y: p.y + dy, hp: 1, maxHp: 1, awake: true, nextAct: 1e12, rx: 0, ry: 0, fromX: 0, fromY: 0, moveT0: 0, moveT1: 0, flashUntil: 0 });
       for (let i = 0; i < 6 && L.monsters.length; i++) { G.t = p.nextAttack; Game.input('attack'); }
-      return true;
+      // Flush the level-up as the next frame does, then deliver the incoming
+      // tap in that same task. Protocol round trips must not spend its guard.
+      UI.handleEvents();
+      const card = document.querySelector('#boon-list .boon');
+      const dimmed = Number(getComputedStyle(card).opacity) < 1;
+      card.click();
+      return { dimmed, pending: !!Game.pendingBoons() };
     });
-    expect(early).toBe(true);
+    expect(early).toEqual({ dimmed: true, pending: true });
     await expect(page.locator('#ov-boons')).toHaveClass(/open/);
-    // a mashed tap in the first moment, on a card that is dimmed to show it is not ready
-    expect(Number(await page.evaluate(() => getComputedStyle(document.querySelector('#boon-list .boon')).opacity))).toBeLessThan(1);
-    await page.evaluate(() => document.querySelector('#boon-list .boon').click());
-    expect(await page.evaluate(() => !!Game.pendingBoons())).toBe(true);
     // held upright, the cards sit at the foot of the screen, where the thumb is
     // (on a tall phone, where three cards leave room above them)
     const vp = page.viewportSize();
@@ -904,6 +906,7 @@ test.describe('talents', () => {
     await expect(page.locator('.boon-head')).toContainText(/\+\d+ hit points?\b/);
     // level 2 is a talent's level: the next comes at 4
     await expect(page.locator('.boon-head')).toContainText('next talent at level 4');
+    await expect(page.locator('#boon-list .boon.arming')).toHaveCount(0);
     await page.locator('#boon-list .boon').first().click();
     await expect(page.locator('#ov-boons')).not.toHaveClass(/open/);
     expect(errors).toEqual([]);
@@ -1020,7 +1023,7 @@ test.describe('the screens around the dungeon', () => {
   test('the class picker shows each class in a line, and the whole of the chosen one beneath; sideways all six in one row', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     // a card is a face, a name and a line: what the class is like at length is told for the chosen one
     await expect(page.locator('.class-card[data-cls="fighter"] small')).toHaveCount(0);
     await page.click('.class-card[data-cls="mage"]');
@@ -1336,13 +1339,13 @@ test('@mobile bag categories and compact view preserve capacity and item actions
   await expect(page.locator('#inv-grid button')).toHaveCount(1);
   await page.locator('[data-bag-filter="all"]').click();
   await page.locator('#inv-compact').click();
-  await expect(page.locator('#inv-grid .slot')).toHaveCount(5);
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(4);
   await expect(page.locator('#inv-count')).toHaveText('4 of 20 squares');
   expect(await page.evaluate(() => [Game.INV_MAX, Game.player().inv.length])).toEqual([20, 4]);
   await page.click('#ov-inv [data-close]');
   await page.click('[data-open="inv"]');
   await expect(page.locator('#inv-compact')).toHaveAttribute('aria-pressed', 'true');
-  await expect(page.locator('#inv-grid .slot')).toHaveCount(5);
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(4);
   await page.locator('#inv-grid button', { hasText: 'Dagger' }).click();
   await page.getByRole('button', { name: 'Drop', exact: true }).click();
   await expect(page.locator('#inv-count')).toHaveText('3 of 20 squares');
@@ -1410,7 +1413,7 @@ test('@mobile shop inspection shares item presentation without buying, selling o
   await expect(page.locator('#shop-stock .shop-row button.armed')).toHaveCount(0);
   await page.click('#ov-shop [data-close]');
   await page.click('[data-open="journal"]');
-  await page.click('[data-jtab="relics"]');
+  await selectJournalTab(page, 'relics');
   const relic = page.locator('#journal-list [data-relic="grimtooth"]');
   await expect(relic.locator('.grade-word')).toHaveText('Relic');
   await expect(relic.locator('.item-facts')).toContainText('Damage dice');

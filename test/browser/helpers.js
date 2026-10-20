@@ -23,6 +23,18 @@ function watchForErrors(page) {
   return errors;
 }
 
+/** Open optional setup through its actual control before choosing a test's seed or build. */
+async function customiseCreation(page) {
+  // Some New Game checks stop at the saved-hero replacement question.
+  if (!(await page.locator('#screen-create').isVisible())) return;
+  if (!(await page.locator('#c-customise').evaluate(el => el.open))) await page.locator('#c-customise > summary').click();
+}
+/** Collections stay folded until wanted; use the same disclosure as a player. */
+async function selectJournalTab(page, tab) {
+  if (['pages', 'beasts', 'companions', 'relics', 'combos'].includes(tab) && !(await page.locator('#journal-collection').evaluate(el => el.open))) await page.locator('#journal-collection > summary').click();
+  await page.click(`[data-jtab="${tab}"]`);
+}
+
 /**
  * Create a character and step through the prologue into the dungeon.
  * @param {import('@playwright/test').Page} page
@@ -41,6 +53,7 @@ async function startGame(page, opts = {}) {
   if (!opts.testsFolded) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.testsOpen') === null) localStorage.setItem('deepdelve.testsOpen', '1'); });
   await page.goto('/');
   await page.click('#btn-new');
+  await customiseCreation(page);
   if (opts.name) await page.fill('#c-name', opts.name);
   // a class by name reads better than a position and survives reordering
   if (typeof opts.cls === 'number') await page.click(`.class-card:nth-child(${opts.cls})`);
@@ -203,4 +216,4 @@ async function padStick(page, x, y, ms = 90) {
   await page.waitForTimeout(ms);
 }
 
-module.exports = { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, usePad, padPress, padStick, PAD, expect };
+module.exports = { customiseCreation, selectJournalTab, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, usePad, padPress, padStick, PAD, expect };

@@ -52,7 +52,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'delve-guide-2026-10-20', text: "Search your Pack, pin supplies and protect favourites. The Journal now tracks quests, conditions, relic sets, companions and your run’s story. Tap a status for details, give nearby companion orders, or select a known landmark on the map." };
+  const NEWS = { id: 'remembered-places-2026-10-20', text: "A clearer start, Pack and Journal. Entered rooms now have names on your map and recap; companions have reactions and skill milestones. Find group-fighting notes under Quests, richer regional sounds, and one goal for your next delve." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

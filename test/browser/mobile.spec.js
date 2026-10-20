@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { watchForErrors } = require('./helpers');
+const { customiseCreation, watchForErrors } = require('./helpers');
 
 test('touch controls release after a tap and returning to the page resumes its saved hero', { tag: '@mobile' }, async ({ page }) => {
   const errors = watchForErrors(page);
@@ -12,7 +12,7 @@ test('touch controls release after a tap and returning to the page resumes its s
     localStorage.setItem('deepdelve.sound', 'off');
   });
   await page.goto('/');
-  await page.locator('#btn-new').tap();
+  await page.locator('#btn-new').tap(); await customiseCreation(page);
   await page.locator('#c-name').fill('Mira');
   await page.locator('#c-seed').fill('mobile-resume');
   await page.locator('#c-begin').tap();

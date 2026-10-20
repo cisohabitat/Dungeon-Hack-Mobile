@@ -411,12 +411,20 @@ const Sound = (() => {
 
   // A plate turning a blade has a short iron ring, distinct from a shield's thud.
   const armourRing = out => { ring(out, 1480, 0.12, 0.045); ring(out, 2230, 0.08, 0.018); };
+  // The target answers the weapon, including when a recorded impact is ready.
+  // Keep these short and quieter than the attack and special warning sounds.
+  const impactBody = (out, gore) => {
+    if (gore === 'bone') { tone(out, vary(1300, 0.1), 0.04, 'triangle', 0.06, 0, 0.01); clicks(out, 3, 0.09, 1700, 0.025); }
+    else if (gore === 'goo' || gore === 'bile') { tone(lp(out, 600), 200, 0.1, 'sine', 0.1, -100, 0.01); noise(out, 0.09, 0.035, { f: 420, to: 160, delay: 0.02 }); }
+    else if (gore === 'ecto') { tone(out, 740, 0.16, 'sine', 0.035, -300, 0.01); tone(out, 1110, 0.12, 'sine', 0.018, -450, 0.02); }
+    else if (gore === 'spark') { ring(out, 1640, 0.12, 0.025); noise(out, 0.04, 0.03, { type: 'highpass', f: 2600 }); }
+    else if (gore === 'rust') noise(out, 0.09, 0.045, { type: 'bandpass', f: 1200, to: 400, q: 1 });
+  };
   const FX = {
     hit: (out, o) => {
       (STRIKE[strikeOf(o)] || STRIKE.blade)(out);
       // what was struck answers back: a clack of bone, a wet give of jelly
-      if (o.gore === 'bone') tone(out, vary(1300, 0.1), 0.04, 'triangle', 0.06, 0, 0.01);
-      if (o.gore === 'goo') tone(lp(out, 600), 200, 0.1, 'sine', 0.1, -100, 0.01);
+      impactBody(out, o.gore);
       if (CRIT[o.tag]) { tone(out, 75, 0.28, 'sine', 0.3, -35, 0.02); noise(out, 0.22, 0.2, { f: 350, delay: 0.02 }); }
     },
     // a swing at nothing: the heavier the weapon, the lower and longer the whoosh
@@ -620,8 +628,15 @@ const Sound = (() => {
     // the roads at the divided stair (THEMES 6 and 7)
     { hz: 37, sub: 24.5, cut: 180, bed: 0.03, bedF: 260, wind: 0, hum: 0, far: ['bones', 'moan', 'bones', 'drip'], gap: [7, 15] },  // The Ossuary
     { hz: 44, sub: 29, cut: 230, bed: 0.035, bedF: 420, wind: 0, hum: 0, far: ['clatter', 'drip', 'creak', 'clatter'], gap: [5, 12] }, // The Warrens
+    { hz: 49, sub: 24.5, cut: 200, bed: 0.025, bedF: 680, wind: 0, hum: 0.009, far: ['chain', 'creak'], gap: [9, 18] }, // Dark Elf Halls
+    { hz: 46, sub: 23, cut: 210, bed: 0.03, bedF: 320, wind: 0, hum: 0, far: ['hammer', 'chain', 'rumble'], gap: [8, 16] }, // Grey Hold
+    { hz: 39, sub: 26, cut: 180, bed: 0.035, bedF: 900, wind: 0, hum: 0, far: ['trickle', 'creak', 'drip'], gap: [5, 11] }, // Sunless Marsh
+    { hz: 36, sub: 24, cut: 170, bed: 0.045, bedF: 620, wind: 0, hum: 0, far: ['trickle', 'drip', 'chain'], gap: [4, 10] }, // Drowned Halls
+    { hz: 50, sub: 25, cut: 260, bed: 0.035, bedF: 240, wind: 0, hum: 0, far: ['ember', 'rumble', 'hammer'], gap: [8, 17] }, // Old Forges
   ];
   const FAR = {
+    hammer(out) { tone(out, 220, 0.16, 'sine', 0.07, -35); ring(out, 860, 0.35, 0.018); ring(out, 1290, 0.22, 0.009, 0.04); },
+    ember(out) { noise(out, 0.6, 0.035, { f: 700, to: 260, attack: 0.1 }); clicks(out, 4, 0.5, 1600, 0.018); },
     drip(out) { const f = vary(1500, 0.25); tone(out, f, 0.06, 'sine', 0.05, -f * 0.5); tone(out, f * 0.9, 0.05, 'sine', 0.016, -f * 0.45, 0.14); },
     trickle(out) { for (let i = 0; i < 5; i++) { const f = vary(1800, 0.3); tone(out, f, 0.04, 'sine', 0.03, -f * 0.4, i * 0.07 + rnd() * 0.05); } },
     rumble(out) { noise(out, 2.2, 0.12, { f: 140, attack: 0.8, rate: 0.5 }); },
@@ -786,6 +801,7 @@ const Sound = (() => {
         if (ensure()) {
           const out = bus(v), s = Samples.on() ? sampleOf(name, v) : null;
           if (s && playSample(out, s)) {
+            if (name === 'hit') impactBody(out, v.gore);
             if (name === 'block' && v.metal) armourRing(out);
             if (s.also) playSample(out, s.also);
             if (s.synthToo && FX[name]) FX[name](out, v);

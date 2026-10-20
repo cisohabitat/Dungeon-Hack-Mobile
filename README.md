@@ -9,6 +9,28 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **A focused first run.** Choose any class and descend with the existing eight-floor,
+  one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings
+  sit under **Customise hero & dungeon**; mastery goals have their own disclosure.
+  Folding settings preserves choices. The Journal starts on **Quests** and groups
+  Pages, Bestiary, Companions, Relics and Combinations under **Stories & collections**.
+  Attack names its existing cooldown as Ready or Recovering, enemy warning marks
+  keep a readable exclamation before filling, and misses read **MISS**. Pack names
+  use four columns on narrow phones (three at large text), with the same 20 slots;
+  Compact view rounds to the displayed columns.
+  The map key expands under **Map symbols**; Rest names its life recovery and its
+  accessible description includes spell points, food and interruption risk.
+
+- **Remembered places and travelling companions.** Entered set pieces receive a
+  short place card and a name in the map's Known landmarks and the run recap.
+  Unvisited rooms stay hidden. Quests includes optional field notes on warbands,
+  packs and mixed melee/ranged fights. Companion portraits show short reactions
+  to the place, wounds and victory, plus separate learned and upcoming skill cards
+  using their existing floor milestones. The end screen highlights one optional
+  goal for the next hero. Recorded impacts retain bone, slime, metal or spectral
+  responses; the Dark Elf Halls, Grey Hold, marsh, drowned halls and old forges each
+  have their own synthesised ambience, alongside the existing sound pack.
+
 - **Painted relic portraits.** All 47 named relics have paintings in the discovered
   Relic codex and identified item details. Tap a painting, or focus it and press
   Enter or Space, to enlarge it. Portraits are cached for offline viewing.

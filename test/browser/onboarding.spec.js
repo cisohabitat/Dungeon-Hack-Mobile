@@ -2,7 +2,7 @@
 // The first ten minutes: a card for someone new, the hero being made named
 // beside Descend, lessons explained, and the phone buzzing in the hand.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 /** Count what the game asks the phone to buzz. */
 const catchBuzz = page => page.addInitScript(() => {
@@ -55,6 +55,7 @@ test('the hero being made is named beside Descend, and follows each choice', asy
   await expect(sum).toContainText(/^Mage /);
   await page.click('[data-diff="hard"]');
   await expect(sum).toContainText('Hard');
+  await customiseCreation(page);
   const bg = page.locator('.bg-card:not(.locked)').nth(1);
   const name = (await bg.locator('b').first().textContent()).trim();
   await bg.click();

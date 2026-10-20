@@ -1,4 +1,5 @@
 import { questsView, effectsView, recapView } from './delveguide.js';
+import { visitedPlace } from './rooms.js';
 import { rememberLandmarks } from './maplandmarks.js';
 import { GearTools } from './geartools.js';
 import { renderCompanions } from './companionsview.js';
@@ -212,6 +213,8 @@ const UI = (() => {
     if (pendingCfg.opts.weekly) Weekly.start(pendingCfg.opts.weekly);
     if (/** @type {HTMLInputElement} */ ($('#pro-puzzles')).checked && !pendingCfg.opts.daily && !pendingCfg.opts.weekly) pendingCfg.opts.puzzles = true;
     Game.newGame(pendingCfg);
+    journalTab = 'quests';
+    /** @type {HTMLDetailsElement} */ ($('#journal-collection')).open = false;
     pendingCfg = null;
     Game.save(true);
     // (begun before the first look at the HUD, so the first tip waits for it)
@@ -666,14 +669,21 @@ const UI = (() => {
   // where it stands too). Not while the way in plays: it waits for the floor,
   // and comes up as the dust settles. None in a calm view: the log says it.
   let floorKey = '';
+  let placeRun = '', placeCards = new Set();
   function showFloorCard(G, L, preluding) {
     const key = `${G.created}:${L.depth}`;
-    if (key === floorKey || preluding) return;
+    if (preluding) return;
+    if (placeRun !== String(G.created)) { placeRun = String(G.created); placeCards = new Set(); }
+    const sameFloor = key === floorKey;
+    if (sameFloor && placeCards.has(key)) return;
+    const place = sameFloor && visitedPlace(L);
+    if (sameFloor && (!place || L.roomId[G.player.y * L.w + G.player.x] !== place.room)) return;
+    if (place) placeCards.add(key);
     floorKey = key;
     const card = $('#floor-card');
     if (!card || calmOn() || G.status !== 'playing') return;
-    $('#floor-card-num').textContent = `Floor ${L.depth} of ${(G.opts && G.opts.levels) || 8}`;
-    $('#floor-card-name').textContent = (THEMES[L.theme] || THEMES[0]).name;
+    $('#floor-card-num').textContent = place ? `Floor ${L.depth} · Place found` : `Floor ${L.depth} of ${(G.opts && G.opts.levels) || 8}`;
+    $('#floor-card-name').textContent = place ? place.name : (THEMES[L.theme] || THEMES[0]).name;
     card.classList.remove('show');
     void card.offsetWidth;   // (so the fade starts again on a floor taken quickly after the last)
     card.classList.add('show');
@@ -821,11 +831,14 @@ const UI = (() => {
     if (!btn) return;
     const foes = label === 'Foes near';
     // a thinner rest says so in words: "Rest ½" alone told a new player nothing
-    const sub = { 'Foes near': 'foes near', 'Rest \u2154': 'two thirds', 'Rest \u00bd': 'half rest', 'Rest \u2153': 'a third', 'Rest \u00bc': 'quarter rest', 'Rest \u2159': 'a sixth', 'No rest': Game.level().isFinal ? 'none left here' : 'find the stairs' }[label];
+    const sub = { 'Foes near': 'foes near', 'Rest \u2154': '+⅔ life', 'Rest \u00bd': '+½ life', 'Rest \u2153': '+⅓ life', 'Rest \u00bc': '+¼ life', 'Rest \u2159': '+⅙ life', 'No rest': Game.level().isFinal ? 'none left here' : 'find the stairs' }[label];
+    const recovery = { 'Rest': 'all', 'Rest \u2154': 'up to two thirds of maximum', 'Rest \u00bd': 'up to half of maximum', 'Rest \u2153': 'up to a third of maximum', 'Rest \u00bc': 'up to a quarter of maximum', 'Rest \u2159': 'up to a sixth of maximum' }[label];
+    const detail = recovery ? `Rest: recover ${recovery} life and spell points. Costs food; danger may interrupt.` : foes ? 'Rest: not with foes near' : label === 'Vowed' ? 'Your Iron Vow forbids resting.' : 'No rest left on this floor.';
+    btn.setAttribute('title', detail);
     if (sub) btn.innerHTML = `${label === 'No rest' ? 'No rest' : 'Rest'}<small>${sub}</small>`;
     else btn.textContent = label;
     btn.classList.toggle('unavail', foes || label === 'No rest');
-    btn.setAttribute('aria-label', foes ? 'Rest: not with foes near' : sub ? `${label === 'No rest' ? 'No rest' : 'Rest'}: ${sub}` : label);
+    btn.setAttribute('aria-label', detail);
   }
   // A caster's Cast button casts, so their quick drink is a bottle of its own
   // beside the life bar: always in the same place, there whenever they carry
@@ -1000,9 +1013,12 @@ const UI = (() => {
     miniSig = sig;
   }
 
-  let journalTab = 'pages';
+  const JOURNAL_COLLECTIONS = ['pages', 'beasts', 'companions', 'relics', 'combos'];
+  let journalTab = 'quests';
   function renderJournal() {
     if (journalTab !== 'pages') narration.leaveJournal();
+    const collection = /** @type {HTMLDetailsElement} */ ($('#journal-collection'));
+    if (JOURNAL_COLLECTIONS.includes(journalTab)) collection.open = true;
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
     if (['quests', 'effects', 'recap'].includes(journalTab)) { $('#journal-list').innerHTML = ({ quests: questsView, effects: effectsView, recap: recapView })[journalTab](); $('#journal-count').textContent = ({ quests: 'Objectives', effects: 'Current conditions', recap: 'This delve' })[journalTab]; return; }
     if (journalTab === 'haul') { GearTools.renderLoot($('#journal-list')); $('#journal-count').textContent = 'This floor'; return; }
@@ -1441,7 +1457,21 @@ const UI = (() => {
   function pumpHeld() {
     if (overlay) return;
     const atk = attackBtn || (attackBtn = document.querySelector('.ctl.attack'));
-    if (atk) { const r = Math.round(Game.attackReady() * 20) / 20; if (r !== atkShown) { atkShown = r; atk.style.setProperty('--ready', String(r)); atk.classList.toggle('cooling', r < 1); } }
+    if (atk) {
+      const ready = Game.attackReady();
+      // Quantise the fill, but never call a nearly finished cooldown ready.
+      const r = ready >= 1 ? 1 : Math.min(0.95, Math.round(ready * 20) / 20);
+      if (r !== atkShown) {
+        const stateChanged = atkShown < 0 || (atkShown < 1) !== (r < 1);
+        atkShown = r; atk.style.setProperty('--ready', String(r));
+        atk.classList.toggle('cooling', r < 1);
+        if (stateChanged) {
+          const state = r < 1 ? 'Recovering' : 'Ready';
+          atk.querySelector('#attack-state').textContent = state;
+          atk.setAttribute('aria-label', `Attack: ${state.toLowerCase()}`);
+        }
+      }
+    }
     const now = performance.now();
     // turning is one quarter per press, never repeated: a held turn used to
     // carry on round into an about-face nobody asked for
@@ -1569,7 +1599,15 @@ const UI = (() => {
     $('#beasts-back').addEventListener('click', () => showScreen('screen-title'));
     $('#btn-companions').addEventListener('click', () => { $('#companions-count').textContent = renderCompanions($('#companions-list'), Game.state()); showScreen('screen-companions'); });
     $('#companions-back').addEventListener('click', () => showScreen('screen-title'));
-    for (const t of $$('[data-jtab]')) t.addEventListener('click', () => { journalTab = t.dataset.jtab; renderJournal(); });
+    for (const t of $$('[data-jtab]')) t.addEventListener('click', () => {
+      // Selecting the page already open must not toggle its reading or replace its controls.
+      if (t.dataset.jtab === 'pages' && journalTab === 'pages') return;
+      journalTab = t.dataset.jtab; renderJournal();
+      if (journalTab === 'pages') narration.journal();
+    });
+    $('#journal-collection').addEventListener('toggle', () => {
+      if (!/** @type {HTMLDetailsElement} */ ($('#journal-collection')).open && JOURNAL_COLLECTIONS.includes(journalTab)) { journalTab = 'quests'; renderJournal(); }
+    });
     $('#hall-back').addEventListener('click', () => showScreen('screen-title'));
     $('#hall-relics').addEventListener('click', () => { $('#relics-count').textContent = renderCodex($('#relics-list')); showScreen('screen-relics'); });
     $('#relics-back').addEventListener('click', () => { renderHall(); showScreen('screen-hall'); });

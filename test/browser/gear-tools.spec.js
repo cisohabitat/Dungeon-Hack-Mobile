@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { startGame, watchForErrors } = require('./helpers');
+const { selectJournalTab, startGame, watchForErrors } = require('./helpers');
 const tools = page => page.locator('#item-detail .item-tools');
 async function inspect(page, name) {
   await page.locator('#inv-grid button', { hasText: name }).first().click();
@@ -103,13 +103,13 @@ test('@mobile relic sets distinguish discoveries, carried pieces and active bonu
     p.eq.shield = { t: RELICS.kests_bulwark.t, u: 'kests_bulwark', e: 1, q: 1 };
     p.inv.push({ t: RELICS.rustwarden.t, u: 'rustwarden', e: 1, q: 1 });
   });
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="relics"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'relics');
   await page.locator('.set-tracker summary').click();
   const set = page.locator('[data-set="stair"]');
   await expect(set).toContainText('2/2 discovered'); await expect(set).toContainText('1/2 worn'); await expect(set).toContainText('In pack'); await expect(set).toContainText('Bonus inactive');
   await page.keyboard.press('Escape');
   await page.evaluate(() => { const p = Game.player(); const it = p.inv.find(it => it.u === 'rustwarden'); Game.equip(it); });
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="relics"]'); await page.locator('.set-tracker summary').click();
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'relics'); await page.locator('.set-tracker summary').click();
   await expect(set).toContainText('2/2 worn'); await expect(set).toContainText('Bonus active');
   await expect(page.locator('[data-set="night"]')).toContainText('Undiscovered piece');
   expect(errors).toEqual([]);
@@ -121,12 +121,12 @@ test('@mobile current companion card shows health, learned abilities and waiting
   await page.evaluate(() => {
     const G = Game.state(); G.companion = { kind: 'hound', name: 'Brindle', hp: 4, maxHp: 18, mode: 'stay', depth: G.depth + 1, joined: 1, floors: 4, x: 1, y: 1, nextAct: 1e9 };
   });
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="companions"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'companions');
   const card = page.locator('.companion-card');
   await expect(card).toContainText('Brindle'); await expect(card).toContainText('4/18'); await expect(card).toContainText('Veteran'); await expect(card).toContainText('Waiting on floor 2'); await expect(card).toContainText('Hamstring'); await expect(card).toContainText('Pack Hunter');
   await card.locator('img').click(); await expect(card.locator('img')).toHaveClass(/zoom/); await card.locator('img').press('Enter'); await expect(card.locator('img')).not.toHaveClass(/zoom/);
   await page.keyboard.press('Escape'); await page.evaluate(() => { Game.companion().fallen = 2; Game.companion().hp = 0; });
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="companions"]'); await expect(card).toContainText('Fallen on floor 2');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'companions'); await expect(card).toContainText('Fallen on floor 2');
   expect(errors).toEqual([]);
 });
 
@@ -138,14 +138,14 @@ test('@mobile floor haul records actual pickups once, excludes purchases and per
     L.items[p.x + ',' + p.y] = [{ t: 'gold', q: 37 }, { t: 'dagger', e: 0, q: 1 }];
     for (const it of [...Game.floorItems()]) Game.takeItem(it);
   });
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="haul"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'haul');
   await expect(page.locator('#journal-list')).toContainText('37 gold collected · 1 item');
   await expect(page.locator('#journal-list')).toContainText('Dagger');
   await page.keyboard.press('Escape');
   await page.evaluate(() => { const it = Game.player().inv.find(it => it.t === 'dagger'); Game.dropItem(it); Game.takeItem(Game.floorItems().find(it => it.t === 'dagger')); Game.save(true); });
   await page.reload(); await page.click('#btn-continue');
   await trader(page); await page.waitForTimeout(450); await page.locator('#shop-stock .shop-row button.afford').click(); await page.click('#ov-shop [data-close]');
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="haul"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'haul');
   await expect(page.locator('#journal-list')).toContainText('37 gold collected · 1 item');
   await expect(page.locator('#journal-list li')).toHaveCount(1);
   expect(errors).toEqual([]);
@@ -177,9 +177,9 @@ for (const [name, viewport] of [['upright', { width: 320, height: 568 }], ['side
   await audit();
   await page.click('[data-open="inv"]'); await inspect(page, 'Iron Ration'); await audit();
   await page.keyboard.press('Escape'); await page.keyboard.press('Escape');
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="companions"]'); await audit();
-  await page.click('[data-jtab="relics"]'); await page.locator('.set-tracker summary').click(); await audit();
-  await page.click('[data-jtab="haul"]'); await audit();
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'companions'); await audit();
+  await selectJournalTab(page, 'relics'); await page.locator('.set-tracker summary').click(); await audit();
+  await selectJournalTab(page, 'haul'); await audit();
   expect(errors).toEqual([]);
 });
 
@@ -197,7 +197,7 @@ test('@mobile local gear preferences reject invalid ids, escape labels and reset
   await expect(page.locator('[data-belt="0"]')).toBeDisabled();
   await expect(page.locator('[data-belt="1"]')).toBeDisabled();
   await expect(page.locator('[data-belt="2"]')).toContainText('Iron Ration');
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="haul"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'haul');
   await expect(page.locator('#journal-list')).toContainText('<img src=x onerror="window.gearInjected=1">');
   await expect(page.locator('#journal-list img')).toHaveCount(0);
   await expect(page.locator('#journal-list')).not.toContainText('Invalid item');
@@ -207,7 +207,7 @@ test('@mobile local gear preferences reject invalid ids, escape labels and reset
     const G = Game.state(); Game.newGame({ name: G.player.name, cls: 'fighter', stats: G.player.stats, seed: G.seed, opts: G.opts });
   });
   await expect(page.locator('#quick-belt')).toBeHidden();
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="haul"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'haul');
   await expect(page.locator('#journal-list')).toContainText('0 gold collected · 0 items');
   expect(errors).toEqual([]);
 });

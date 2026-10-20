@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { startGame, watchForErrors } = require('./helpers');
+const { selectJournalTab, startGame, watchForErrors } = require('./helpers');
 const { gzipSync } = require('node:zlib');
 
 test('a compressed save bomb is refused without replacing the hero @mobile', async ({ page }) => {
@@ -111,7 +111,7 @@ test('imported journal and end-screen values cannot create markup', async ({ pag
     return Game.loadCode(await encodeSave(JSON.stringify(data)));
   });
   expect(result.ok).toBe(true);
-  await page.click('[data-open="journal"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'pages');
   await expect(page.locator('#journal-list')).toContainText('<img id="injected-page"');
   await expect(page.locator('#injected-page')).toHaveCount(0);
   await page.locator('#ov-journal [data-close]').click();

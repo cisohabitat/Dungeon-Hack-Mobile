@@ -2,7 +2,7 @@
 // What the player is told: where they are, what hit them, and why an action
 // did nothing. The second playtest lost characters to all three being silent.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 /**
  * Where the map has drawn the player, expressed as a dungeon square so it can be
@@ -75,7 +75,7 @@ test.describe('knowing where you are', () => {
     await page.waitForTimeout(150);
     const m = await page.evaluate(() => ({
       tile: Number(document.querySelector('#map-canvas').dataset.tile),
-      note: document.querySelector('#map-legend').nextElementSibling.getBoundingClientRect().bottom,
+      note: document.querySelector('#map-note').getBoundingClientRect().bottom,
     }));
     // a guessed allowance left a fresh floor's squares at 16px in the middle of an empty screen
     expect(m.tile, 'the squares should use the free height').toBeGreaterThanOrEqual(20);
@@ -91,7 +91,7 @@ test.describe('knowing where you are', () => {
     await page.evaluate(() => { const L = Game.level(), p = Game.player(); for (let y = 0; y < L.h; y++) for (let x = Math.max(0, p.x - 3); x <= Math.min(L.w - 1, p.x + 3); x++) L.explored[y * L.w + x] = 1; });
     await page.click('[data-open="map"]');
     await page.waitForTimeout(150);
-    const m = await page.evaluate(() => { const b = document.querySelector('#ov-map .ov-body'); return { over: b.scrollHeight - b.clientHeight, note: document.querySelector('#map-legend').nextElementSibling.getBoundingClientRect().bottom }; });
+    const m = await page.evaluate(() => { const b = document.querySelector('#ov-map .ov-body'); return { over: b.scrollHeight - b.clientHeight, note: document.querySelector('#map-note').getBoundingClientRect().bottom }; });
     expect(m.over, 'the map body should not need scrolling').toBeLessThanOrEqual(0);
     expect(m.note, 'the note should end above the home bar').toBeLessThanOrEqual(844 - 34);
   });
@@ -100,6 +100,7 @@ test.describe('knowing where you are', () => {
     await startGame(page, { seed: 'aware-legend' });
     await clearBoons(page);
     await page.click('[data-open="map"]');
+    await page.click('#map-key > summary');
     const keys = page.locator('#map-legend .key');
     await expect(keys.first()).toBeVisible();
     expect(await keys.count()).toBeGreaterThan(6);
@@ -292,7 +293,7 @@ test.describe('not losing a run by accident', () => {
     await page.click('#m-quit');
     await expect(page.locator('#screen-title')).toBeVisible();
 
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#screen-confirm')).toBeVisible();
     await expect(page.locator('#confirm-who')).toContainText('Keepme');
     await expect(page.locator('#screen-create')).not.toBeVisible();
@@ -309,8 +310,8 @@ test.describe('not losing a run by accident', () => {
     await page.evaluate(() => Game.save());
     await page.click('[data-open="menu"]');
     await page.click('#m-quit');
-    await page.click('#btn-new');
-    await page.click('#confirm-replace');
+    await page.click('#btn-new'); await customiseCreation(page);
+    await page.click('#confirm-replace'); await customiseCreation(page);
     await expect(page.locator('#screen-create')).toBeVisible();
   });
 });
@@ -318,7 +319,7 @@ test.describe('not losing a run by accident', () => {
 test.describe('being readable by assistive technology', () => {
   test('the chosen class, background and item announce their state', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const chosen = page.locator('.class-card[aria-pressed="true"]');
     await expect(chosen).toHaveCount(1);
     await page.locator('.class-card[data-cls="thief"]').click();
