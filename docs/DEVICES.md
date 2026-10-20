@@ -47,8 +47,9 @@ release and build shown at the bottom of the main page, plus the OS and browser 
 
 The 20 October presentation work passes functional browser checks after targeted
 reruns, but its 4× CPU budget remains below target on this runner. The unchanged
-production revision also fails. See the [comparison and open gate](PERFORMANCE-2026-10-20.md).
-This does not fill a physical-device round or establish a performance pass.
+production revision also fails. The unchanged budget passed on GitHub Actions
+for the release code; see the [comparison and CI clearance](PERFORMANCE-2026-10-20.md).
+This does not fill a physical-device round.
 
 ### Checklist
 

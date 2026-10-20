@@ -1,9 +1,9 @@
 # Local performance clearance: 20 October 2026
 
-The v0.9.13 presentation changes are staged, not published. Functional browser
-validation passed after isolated reruns, but the absolute performance budget
-remains failed on this development runner. Do not describe this as a performance
-pass or a physical-phone pass.
+The v0.9.13 presentation changes passed the unchanged performance budget on
+GitHub Actions before publication. Functional browser validation passed locally
+after isolated reruns. The absolute budget still failed on this development
+runner; that result is retained below and is not a physical-phone pass.
 
 ## Compared code and method
 
@@ -49,3 +49,12 @@ result here. Do not lower the thresholds to obtain a pass.
 - Final type check, generated agent guidance and all five narrative checks pass.
 - Physical Android and iPhone Safari checks remain pending; no devices or device
   farm are attached. Linux viewport testing is not a physical iOS result.
+
+## CI clearance
+
+The unchanged Frame-rate budget job passed for commit
+`064bd693eba9ec29e070abb8e1b7bacfa1a33dca` on GitHub Actions:
+[run 39451609172, performance job](https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/39451609172/job/118727587152).
+It used the existing 4× CPU throttle and thresholds, with no retries or relaxed
+assertions. This clears the stable-runner gate for this code; it does not explain
+the local failures or replace physical-device validation.

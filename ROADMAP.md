@@ -91,8 +91,8 @@ About eight months in all, plus whatever audio and the device round take outside
 - [x] Preserve target material responses with recorded impacts; give all later
   regions distinct synthesised ambience and quiet forge/hammer details.
 - [x] Frame the existing next-run suggestion as one optional, readable goal.
-- [ ] Clear the unchanged 4× CPU performance gate on a stable runner before
-  publication; the baseline comparison is in
+- [x] Clear the unchanged 4× CPU performance gate on GitHub Actions before
+  publication; the CI result and local baseline comparison are in
   [the local performance report](docs/PERFORMANCE-2026-10-20.md).
 - Dungeon generation and enemy composition retain their existing rules. New room
   layouts and authored enemy combinations remain future gameplay work, requiring
