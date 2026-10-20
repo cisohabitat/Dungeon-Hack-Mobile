@@ -519,7 +519,7 @@ const CLASSES = {
     hidden: true, name: 'Spellblade', plural: 'Spellblades', title: 'Bearer of the Last Flame', hitDie: 9, startHp: 5, hitProg: 1, armor: 'light', shield: false, focus: 'spellblade', castMs: 650, spMul: 0.8, spells: 'spellblade', primary: 'int',
     ease: 'The Wayfarer: sword, runes and a silver lantern.',
     story: 'Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier\'s sword and a gravekeeper\'s lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.',
-    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and lessons in place of paths.',
+    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and lessons in place of paths. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
     startKit: ['longsword', 'studded', 'wayfarer_lantern', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
   fighter: {
@@ -717,7 +717,7 @@ const ITEMS = {
   cloak_warmth:  { kind: 'cloak', name: 'Cloak of Warmth',      power: 'warmth', value: 70,  sprite: 'cloak_warmth', tier: 2,
     desc: 'Cold does half as much to you: a wraith\'s touch, the lich\'s grave-cold and its storm.' },
   // what a caster holds in the free hand instead of a shield (see shieldFits)
-  wayfarer_lantern: { kind: 'shield', name: 'Silver Lantern', ac: 1, value: 0, sprite: 'wayfarer_lantern', tier: 99, focus: 'spellblade', desc: 'The last flame from the other side, carried in worn silver. A focus for the Wayfarer alone.' },
+  wayfarer_lantern: { kind: 'shield', name: 'Silver Lantern', ac: 1, value: 0, sprite: 'wayfarer_lantern', tier: 99, focus: 'spellblade', desc: 'The last flame from the other side, carried in worn silver. A focus for the Wayfarer alone. Deepward: +1 armour class from floor 9, another every two floors, up to +4 while held.' },
   spellbook:     { kind: 'shield', name: 'Spellbook',       ac: 0, value: 40,  sprite: 'spellbook', tier: 2, focus: 'mage', regen: 1,
     desc: 'Spell points come back a quarter faster as you walk.' },
   crystal_orb:   { kind: 'shield', name: 'Crystal Orb',     ac: 0, value: 90,  sprite: 'crystal_orb', tier: 3, focus: 'mage', die: 1,

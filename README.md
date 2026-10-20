@@ -18,6 +18,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   sword or dagger for thirty seconds; Lantern Step crosses up to two clear,
   explored floor squares ahead; Spellguard catches one incoming hit for 2.2
   seconds and grants +3 on the next landed blade hit within five seconds.
+  Beyond floor eight, the held lantern gains +1 armour at floor 9, another
+  every two floors, capped at +4 (Deepward).
   Runes replace each other, magic shares attack recovery, and poison and hunger
   pass through the guard. The class wears light armour, carries its own silver
   lantern, and gains ordinary lessons rather than paths or a Mythic trial.

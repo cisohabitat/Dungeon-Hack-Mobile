@@ -129,4 +129,22 @@ module.exports = async h => {
     return cast(c,'runic_fire')&&p.effects.runicEdge.amount===3||'could not strengthen an old rune';
   });
 
+  await test('Deepward stays absent through floor eight, grows only with the lantern, and caps at four',async()=>{
+    const c=await create(),G=c.Game,p=G.player(),L=G.level(),base=G.playerAC(),dice=c.Dice.s;
+    for(let depth=1;depth<=32;depth++){
+      G.state().levels[depth]=L;G.state().depth=depth;
+      const bonus=Math.min(4,Math.max(0,Math.ceil((depth-8)/2)));
+      if(G.deepward()!==bonus||G.playerAC()!==base+bonus)return 'wrong ward at floor '+depth;
+    }
+    p.eq.shield=null;
+    return G.deepward()===0&&G.playerAC()===base-1&&c.Dice.s===dice||'ward survived losing the lantern or consumed dice';
+  });
+  await test('Deepward gives no armour to any public class, on any floor',async()=>{
+    for(const cls of ['fighter','cleric','mage','thief','ranger','druid']){
+      const c=await h.start(cls,'no-private-ward'),G=c.Game,L=G.level(),base=G.playerAC();
+      for(let depth=1;depth<=32;depth++){G.state().levels[depth]=L;G.state().depth=depth;if(G.deepward()||G.playerAC()!==base)return 'private ward on '+cls;}
+    }
+    return true;
+  });
+
 };

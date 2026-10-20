@@ -657,7 +657,7 @@ const Game = (() => {
     if (p.eq.offhand && !bear) ac += OFFHAND_PARRY;
     // a cloak goes over everything, and adds to a ring rather than vying with it
     if (p.eq.cloak) ac += (ITEMS[p.eq.cloak.t].ac || 0) + (p.eq.cloak.e || 0);
-    return ac + jewelBonus('protect', p) + berserkerOpen() + mythics.armour();
+    return ac + jewelBonus('protect', p) + berserkerOpen() + mythics.armour() + spellblade.armour();
   }
   function knownSpells() {
     const c = cls();
@@ -1795,7 +1795,7 @@ const Game = (() => {
     bounty: () => (G && G.bounty) || null, bountyChip: () => bounty.chip(),
     /** A druid in Wild Shape: whether, and the status line's words for it. */
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
-    hurtPlayer, spMax, trapEye,
+    deepward: () => spellblade.armour(), hurtPlayer, spMax, trapEye,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
     commandCompanion, companionCommandReason,
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),

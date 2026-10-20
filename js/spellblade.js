@@ -68,5 +68,9 @@ export function makeSpellblade(K) {
     K.log(`Your Spellguard catches ${took}. Your next sword strike carries its light.`, 'good');
     return dmg - took;
   }
-  return { reason, cast, blow, guard };
+  // The lantern remembers the deeper halls. The ordinary eight-floor delve
+  // keeps its balance; long delves gain a bounded ward in place of a path's gear.
+  const armour = () => K.P().cls === 'spellblade' && K.P().eq.shield?.t === 'wayfarer_lantern'
+    ? Math.min(4, Math.max(0, Math.ceil((K.G.depth - 8) / 2))) : 0;
+  return { reason, cast, blow, guard, armour };
 }

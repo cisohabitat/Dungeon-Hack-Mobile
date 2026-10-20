@@ -63,6 +63,7 @@ export function activeEffects() {
   if (p.ward > 0) add('Stored healing ward', `${Number(p.ward)} points of protection remain.`);
   if (p.coating) add(Game.coatingName(p.coating.t) || 'Weapon coating', `${Number(p.coating.left)} landed blows remain. Missing does not spend the coating.`);
   if (p.food === 0) add('Starving', 'You have no food left. Eat from your pack to stop starvation.');
+  if (Game.deepward()) add('Deepward', `+${Game.deepward()} armour class from the silver lantern.`);
   const rage = Game.berserkerRage(); if (rage) add('Berserker rage', `+${rage} damage on each blow${p.hp < p.maxHp / 2 ? ', with a quicker swing below half life' : ''}.`);
   if (Game.shaped()) add('Wild Shape', Game.shapeChip(), p.shape?.until || null);
   return rows;

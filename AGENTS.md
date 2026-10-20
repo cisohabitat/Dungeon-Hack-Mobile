@@ -419,6 +419,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Step cannot cross walls or occupants, and landing uses ordinary tile effects.
   Only landed close blade hits spend the guarded return; poison/hunger pass through.
   Validate rune sources, finite clocks and bounded magnitudes on save import.
+  Deepward derives only from a held silver lantern beyond floor eight, capped
+  at +4 armour; the ordinary eight-floor delve and all public classes gain none.
 - Keep the six public class identities, challenge pools and Quick Start unchanged.
   Spellblade has lessons rather than paths or a Mythic; guard offers without a
   matching Mythic. Keep it out of public trophy requirements and unopened cards.
