@@ -3,7 +3,7 @@
 // back, the replace question, the hero above a choice, the end screen's lesson and
 // goal, the name kept, the first tip off the hero's hands, and How to Play in order.
 const { test, expect } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 test.describe('the title', () => {
   test('a first visit sees a three-line card, one Daily button and a line for a code; a returning player the daily switch and a goal (P9, P11)', async ({ page }) => {
@@ -66,6 +66,7 @@ test.describe('the title', () => {
     await page.click('#btn-new');
     const name = await page.inputValue('#c-name');
     expect(name).not.toBe('');
+    await customiseCreation(page);
     await page.locator('.bg-card:not(.locked)').nth(1).click();
     expect(await page.inputValue('#c-name')).toBe(name);
     await page.click('#c-name-rand');
@@ -118,7 +119,8 @@ test.describe('in the dungeon', () => {
     await expect(page.locator('#end-cause')).toContainText(/Killed by a goblin/i);
     await expect(page.locator('#end-cause .beats')).toContainText(/^What beats it: /);
     await expect(page.locator('#end-goal')).toBeVisible();
-    await expect(page.locator('#end-goal')).toHaveText('Next: Reach floor 3, for the divided stair.');
+    await expect(page.locator('#end-goal')).toContainText('Reach floor 3');
+    await expect(page.locator('#end-goal')).toContainText('Next: the divided stair');
     expect(errors).toEqual([]);
   });
 

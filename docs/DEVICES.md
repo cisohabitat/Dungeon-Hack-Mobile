@@ -43,6 +43,14 @@ Open the live site (or a preview deployment of the change being checked), then
 work down the list. Note anything wrong in the table with the device and the
 release and build shown at the bottom of the main page, plus the OS and browser version.
 
+### Current local performance clearance
+
+The 20 October presentation work passes functional browser checks after targeted
+reruns, but its 4× CPU budget remains below target on this runner. The unchanged
+production revision also fails. The unchanged budget passed on GitHub Actions
+for the release code; see the [comparison and CI clearance](PERFORMANCE-2026-10-20.md).
+This does not fill a physical-device round.
+
 ### Checklist
 
 1. **Title.** It answers a tap within two seconds of the page appearing. The
@@ -84,3 +92,23 @@ release and build shown at the bottom of the main page, plus the OS and browser 
 | Month | Device | Build | Result | Notes |
 |---|---|---|---|---|
 | | | | | |
+
+## Polish round pending (20 October 2026)
+
+The optional setup, Journal grouping, attack readiness, Pack type and map key
+need the physical round above on the next release. No Android or iOS device or
+device-farm session is attached to this development environment. This is a pending
+check, not a physical pass; leave the rounds table blank until performed.
+
+In addition to the standard checklist, check these in Normal and Double text:
+
+- Start each class with Customise closed; expand it, change a background and seed,
+  fold it and verify the selected choices in the prologue and dungeon.
+- Open Quests, expand Stories & collections, visit each collection, then close
+  the Journal with the phone's Back gesture and resume moving.
+- Watch Attack change from Recovering to Ready during a fight; check that ordinary
+  and special enemy marks stay readable against pale and dark walls.
+- Read long item names with a full Pack. Scroll its last row and open/close details.
+- Expand Map symbols, read its key, fold it, and rotate with known landmarks shown.
+- Put the app away during a fight and during narration, reopen it, then repeat
+  offline. Record speaker output, audio resume, responsiveness and any lost save.

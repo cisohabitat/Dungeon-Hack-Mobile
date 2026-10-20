@@ -5,7 +5,7 @@ const { test } = require('@playwright/test');
 
 /** How many kinds of creature the bestiary can hold, from the game's own table. */
 const kinds = page => page.evaluate(() => Object.keys(MONSTERS).length);
-const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
+const { selectJournalTab, expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
 const LEARNED = { rat: { met: 9, kills: 7, deaths: 0 }, spider: { met: 2, kills: 1, deaths: 0, trick: 1 }, slime: { met: 3, kills: 5, deaths: 0, trick: 1, answer: 1 }, goblin: { met: 1, kills: 0, deaths: 2 } };
 
@@ -95,10 +95,10 @@ test.describe('bestiary', () => {
       for (let i = 0; i < 10 && L.monsters.length; i++) { G.t = Math.max(G.t, p.nextAttack); Game.input('attack'); }
     });
     await page.click('[data-open="journal"]');
-    await page.click('[data-jtab="beasts"]');
+    await selectJournalTab(page, 'beasts');
     await expect(page.locator('#journal-count')).toHaveText(`1 of ${await kinds(page)} met`);
     await expect(page.locator('#journal-list [data-beast="goblin"] .beast-stats')).toContainText('AC 13');
-    await page.click('[data-jtab="pages"]');
+    await selectJournalTab(page, 'pages');
     await expect(page.locator('#journal-list .beast')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
@@ -129,7 +129,7 @@ test.describe('bestiary', () => {
     await page.click('#beasts-back');
     await startGame(page, { seed: 'painted-bestiary' });
     await clearBoons(page);
-    await page.click('[data-open="journal"]'); await page.click('[data-jtab="beasts"]');
+    await page.click('[data-open="journal"]'); await selectJournalTab(page, 'beasts');
     await paintings('#journal-list');
     expect(errors).toEqual([]);
   });

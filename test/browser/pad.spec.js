@@ -2,7 +2,7 @@
 // Play by controller (pad.js): from the title into the dungeon and about it,
 // every overlay steered by the ring, and a choice that must be made kept open.
 const { test } = require('@playwright/test');
-const { watchForErrors, usePad, padPress, padStick, startGame, clearBoons, faceOpenGround, expect } = require('./helpers');
+const { customiseCreation, watchForErrors, usePad, padPress, padStick, startGame, clearBoons, faceOpenGround, expect } = require('./helpers');
 
 /** The quiet start the other specs have: no tips, no first-time card. */
 async function quietStart(page) {
@@ -27,6 +27,7 @@ test.describe('controller', () => {
     await expect(page.locator('#screen-create')).toBeVisible();
     // on the new hero's page the ring is on Descend already
     await expect.poll(() => ringed(page)).toBe('c-begin');
+    await expect(page.locator('#c-customise')).not.toHaveAttribute('open', '');
     // and moves up the page from it, to something else
     await padStick(page, 0, -1);
     await expect.poll(() => ringed(page)).not.toBe('c-begin');
@@ -192,6 +193,9 @@ test.describe('controller, start to finish', () => {
     await padPress(page, 'A');
     await expect(page.locator('#screen-create')).toBeVisible();
     // a quick delve, few monsters, no locked doors or traps: every choice made by the ring
+    await ringTo(page, '#c-customise > summary');
+    await padPress(page, 'A');
+    await expect(page.locator('#c-customise')).toHaveAttribute('open', '');
     await ringTo(page, '#c-levels');
     // LB steps a list back through its choices, A on through them, pressed until it shows what is wanted
     const stepTo = async (sel, button, want) => {
@@ -373,7 +377,7 @@ test('a stick held as the hero dies is let go of for them: the next hero stands 
   await page.waitForTimeout(200);
   await page.evaluate(() => { window.__pad.axes[1] = 0; });
   await expect(page.locator('#screen-end')).toBeVisible({ timeout: 15_000 });
-  await page.click('#end-new');
+  await page.click('#end-new'); await customiseCreation(page);
   await expect(page.locator('#screen-create')).toBeVisible();
   await page.fill('#c-seed', 'held-death-2');
   await page.click('#c-begin');

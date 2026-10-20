@@ -1,7 +1,7 @@
 'use strict';
 // Dungeon features: secrets, fountains, ranged attacks, champions, identification.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 test.describe('dungeon features', () => {
   test('a secret door can be found by walking into the wall that hides it', async ({ page }) => {
@@ -1120,7 +1120,7 @@ test.describe('dungeon features', () => {
     // goes straight to creation rather than asking to replace it.
     await page.goto('/');
     await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.fill('#c-seed', 'tips-2');
     await page.click('#c-begin');
     await page.click('#pro-begin');
@@ -1261,8 +1261,8 @@ test.describe('dungeon features', () => {
     expect(await page.evaluate(() => [Game.tested(), JSON.parse(localStorage.getItem('deepdelve.testing')).hp])).toEqual([true, true]);
     // a new run after it (replacing that hero) starts with it off
     await page.goto('/');
-    await page.click('#btn-new');
-    await page.click('#confirm-replace');
+    await page.click('#btn-new'); await customiseCreation(page);
+    await page.click('#confirm-replace'); await customiseCreation(page);
     await page.locator('.class-card', { has: page.locator('b', { hasText: /^fighter$/i }) }).click();
     await page.fill('#c-seed', 'aids-off-2');
     await page.click('#c-begin');
@@ -1280,7 +1280,9 @@ test.describe('dungeon features', () => {
     await clearBoons(page);
     // no monster's key on the map until they are shown
     await page.click('[data-open="map"]');
+    await page.click('#map-key > summary');
     await expect(page.locator('#map-legend [data-key="monster"]')).toBeHidden();
+    await page.click('#map-key > summary');
     await page.click('#ov-map [data-close]');
     // every monster on the map, and its key with it: even one on ground not yet seen
     // (a second tap, while the run still counts; once it is a test run, one does)
@@ -1290,6 +1292,7 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#m-test-eye')).toHaveText('Show every monster: On');
     await page.click('#ov-menu [data-close]');
     await page.click('[data-open="map"]');
+    await page.click('#map-key > summary');
     await expect(page.locator('#map-legend [data-key="monster"]')).toBeVisible();
     await expect(page.locator('#map-note')).toContainText('every monster');
     // a monster far off and asleep is drawn in its square, in the monster's red
@@ -1813,7 +1816,9 @@ test.describe('dungeon features', () => {
     await clearBoons(page);
     // with no hound, the map's key does not mention one
     await page.click('[data-open="map"]');
+    await page.click('#map-key > summary');
     await expect(page.locator('#map-legend [data-key="hound"]')).toBeHidden();
+    await page.click('#map-key > summary');
     await page.keyboard.press('Escape');
     await expect(page.locator('#ov-map')).not.toHaveClass(/open/);
     // the hound's corner, straight ahead
@@ -1853,6 +1858,7 @@ test.describe('dungeon features', () => {
     await expect(page.locator('#hud-status')).not.toContainText('staying');
     // the map marks it, and its key says what the mark is
     await page.click('[data-open="map"]');
+    await page.click('#map-key > summary');
     await expect(page.locator('#map-legend [data-key="hound"]')).toBeVisible();
     const px = await page.evaluate(() => {
       const c = /** @type {HTMLCanvasElement} */ (document.querySelector('#map-canvas')), h = Game.companion(), t = +c.dataset.tile;

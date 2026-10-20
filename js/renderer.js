@@ -1510,8 +1510,13 @@ const Renderer = (() => {
         const fillTop = bottom - (bottom - top) * rise;
         ctx.fillRect(tx - size, fillTop, size * 2, bottom - fillTop + 1);
         ctx.restore();
-        ctx.fillStyle = '#1a0a08';
+        // A dark outline keeps the pale exclamation readable against both
+        // the unfilled mark and its bright fill, throughout the wind-up.
         const mx = s.special ? cy - size * 0.3 : ty - size * 0.68, mh = s.special ? size * 0.34 : size * 0.38;
+        ctx.fillStyle = '#1a0a08';
+        ctx.fillRect(tx - 2, mx - 1, 4, mh + 2);
+        ctx.fillRect(tx - 2, mx + mh + 1, 4, 4);
+        ctx.fillStyle = '#fff0cf';
         ctx.fillRect(tx - 1, mx, 2, mh);
         ctx.fillRect(tx - 1, mx + mh + 2, 2, 2);
       }
@@ -1527,6 +1532,7 @@ const Renderer = (() => {
     ctx.lineJoin = 'round';
     const marked = shown.some(m => m.markSize);
     for (const t of fx.texts) {
+      const text = t.text === 'miss' ? 'MISS' : t.text;
       if (now < t.born) continue;          // a number from a fireball still in the air
       const sx = t.x - px, sy = t.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
@@ -1547,7 +1553,7 @@ const Renderer = (() => {
       // the whole way up, rather than jumping aside as it reaches it.
       let x = screenX;
       // (a word is measured once, not every frame: a fight is full of them)
-      if (t.halfAt !== textPx) { t.half = ctx.measureText(t.text).width / 2 + 2; t.halfAt = textPx; }
+      if (t.halfAt !== textPx) { t.half = ctx.measureText(text).width / 2 + 2; t.halfAt = textPx; }
       const half = t.half, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
       if (marked) for (const m of shown) {
         if (!m.markSize) continue;
@@ -1560,9 +1566,9 @@ const Renderer = (() => {
       // a full dark outline, so pale words like "miss" read on a pale ceiling
       ctx.lineWidth = bigNumbers ? 5 : 4;
       ctx.strokeStyle = 'rgba(0,0,0,0.9)';
-      ctx.strokeText(t.text, x, y);
+      ctx.strokeText(text, x, y);
       ctx.fillStyle = t.color;
-      ctx.fillText(t.text, x, y);
+      ctx.fillText(text, x, y);
       numbers.push({ text: t.text, x, y, half });
       ctx.globalAlpha = 1;
     }

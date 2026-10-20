@@ -132,7 +132,7 @@ export function makeMapView(K) {
     const bs = getComputedStyle(body), room = body.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom);
     // Reserve the closed landmarks heading too; expanding its list may scroll,
     // but the map, key and heading should fit above a phone's home bar.
-    const footerHeight = () => outer($('#map-legend')) + outer($('#map-note')) +
+    const footerHeight = () => outer($('#map-key summary')) + parseFloat(getComputedStyle($('#map-key')).marginTop) + 2 + outer($('#map-note')) +
       outer($('#map-landmarks summary')) + parseFloat(getComputedStyle($('#map-landmarks')).marginTop);
     const keyH = footerHeight();
     // (less the canvas's border, and the gap a canvas leaves under itself as a line of text would)

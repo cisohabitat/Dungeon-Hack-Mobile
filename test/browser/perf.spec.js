@@ -14,7 +14,7 @@
 // the budget is for play once that is done (about a minute on a slow phone; see
 // ROADMAP.md), not for the painting.
 const { test, expect } = require('@playwright/test');
-const { startGame, clearBoons, faceOpenGround } = require('./helpers');
+const { customiseCreation, startGame, clearBoons, faceOpenGround } = require('./helpers');
 
 // Frames per second the view must hold in each scene. PERF_MIN_FPS lowers or
 // raises it for a slower or faster machine; PERF_REPORT=1 only reports.
@@ -113,7 +113,7 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await page.goto('/');
   await page.evaluate(() => localStorage.removeItem('deepdelve.save'));
   await page.goto('/');
-  await page.click('#btn-new');
+  await page.click('#btn-new'); await customiseCreation(page);
   await page.fill('#c-seed', 'perf-start');
   await page.click('#c-begin');
   await expect(page.locator('#screen-prologue')).toBeVisible();

@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { startGame, watchForErrors } = require('./helpers');
+const { customiseCreation, startGame, watchForErrors } = require('./helpers');
 
 async function prepare(page) {
   await page.addInitScript(() => {
@@ -68,6 +68,7 @@ test('selecting each hero shows a larger portrait and its own backstory, and the
 test('changing a class resets the expanded portrait and keeps the chosen name and background', async ({ page }) => {
   await prepare(page); await page.goto('/'); await page.click('#btn-new');
   await page.fill('#c-name', 'Mira');
+  await customiseCreation(page);
   await page.click('[data-bg="tombwise"]');
   await page.click('#c-portrait-toggle');
   await expect(page.locator('#c-portrait-toggle')).toHaveAttribute('aria-expanded', 'true');

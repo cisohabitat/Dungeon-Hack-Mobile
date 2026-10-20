@@ -3,6 +3,7 @@ import { Game } from './game.js';
 import { MONSTERS, CLASSES, ITEMS } from './data.js';
 import { RELIC_POWERS, PREFIX_DESC } from './relics.js';
 import { escapeHtml } from './uikit.js';
+import { visitedPlace } from './rooms.js';
 const esc = escapeHtml;
 const section = (title, body) => `<section class="guide-card"><h3>${esc(title)}</h3>${body}</section>`;
 const list = rows => rows.length ? `<ul>${rows.map(row => `<li>${esc(row)}</li>`).join('')}</ul>` : '<p class="dim">None yet.</p>';
@@ -26,6 +27,12 @@ export function questsView() {
   if (t.smithway || t.bargain) tasks.push('At the Heart, you may choose to stay and keep it.');
   html += section('Promises and leads', tasks.length ? list(tasks) : '<p class="dim">No unfinished leads recorded.</p>');
   html += section('What follows you', list(Game.threadNotes().filter(n => !n.startsWith('A job') && !n.startsWith(G.companion?.name + ','))));
+  const place = visitedPlace(Game.level());
+  if (place && Game.level().roomId[G.player.y * Game.level().w + G.player.x] === place.room) html += section(place.name, `<p>${esc(place.description)}</p>`);
+  html += '<details class="field-notes"><summary>Fighting groups · field notes</summary>'
+    + section('A warband', '<p>The marked leader holds its followers together. Defeat the leader and its followers break and scatter.</p>')
+    + section('Blades and bows', '<p>A doorway can narrow a crowd. Step out of an archer\'s line while dealing with what reaches you; a closed door buys time, until it is opened or broken.</p>')
+    + section('Foes sharing a square', '<p>A pack holds several creatures. Keep room to step aside when a warning appears; one fallen body does not mean the square is clear.</p>') + '</details>';
   return html;
 }
 
@@ -72,6 +79,7 @@ export function recapView() {
   const c = G.companion;
   return section(`${p.name} · ${CLASSES[p.cls].name}`, `<p>Floor ${G.depth}/${Number(G.opts.levels)} · Level ${p.level} · ${G.status === 'won' ? 'Victorious' : G.status === 'dead' ? 'Fallen' : 'Delve in progress'}</p>`)
     + section('Notable finds', list(finds))
+    + section('Places visited', list(Object.values(G.levels).map(visitedPlace).filter(Boolean).map(place => `${place.name} · floor ${place.depth}`)))
     + section('Jobs', `<p>${Number(s?.bounties || 0)} completed and paid · ${Number(s?.bountiesLost || 0)} lost${G.bounty?.done ? ' · 1 awaiting payment' : ''}</p>`)
     + section('Companion milestones', c ? `<p>${esc(Game.companionNote())}</p><p class="dim">${Number(c.floors || 0)} floors travelled together · ${Number(c.kills || 0)} foes defeated</p>` : '<p>No companion has joined this delve.</p>')
     + section('Bosses and champions defeated', list(bosses))

@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { watchForErrors } = require('./helpers');
+const { selectJournalTab, watchForErrors } = require('./helpers');
 
 // A silent minute exercises real media playback without shipping a stand-in
 // for the actor's reading. The browser detects WAV regardless of the URL.
@@ -138,15 +138,21 @@ test('Journal pages auto-read the latest find, offer individual replay, and stop
   const errors = watchForErrors(page);
   await stubReadings(page); await openPrologue(page); await quietGame(page);
   await page.evaluate(() => { Game.state().journal = [{ i: 0, depth: 1 }, { i: 1, depth: 2 }]; });
-  await page.click('[data-open="journal"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'pages');
   const latest = page.locator('#journal-list [data-voice-page="1"]');
   await expect(latest).toHaveText('Pause');
+  await selectJournalTab(page, 'pages'); await expect(latest).toHaveText('Pause');
   expect(await page.evaluate(() => window.__narrations.length)).toBe(1);
   await latest.click(); await expect(latest).toHaveText('Resume');
+  await selectJournalTab(page, 'pages'); await expect(latest).toHaveText('Resume');
   const first = page.locator('#journal-list [data-voice-page="0"]');
   await first.click(); await expect(first).toHaveText('Pause');
+  const journalTrack = await page.evaluate(() => window.__narrations.at(-1).src);
+  const region = await page.evaluate(async () => { const { voiceId } = await import('/js/voicelines.js'); return voiceId(THEMES[Game.level().theme].flavor); });
   await page.click('#ov-journal [data-close]');
-  expect(await page.evaluate(() => window.__narrations.at(-1).paused)).toBe(true);
+  // The shared player may already be reading the queued region after closing.
+  // The Journal recording itself must have stopped, whichever track follows it.
+  expect(await page.evaluate(({ src, region }) => { const audio = window.__narrations.at(-1); return audio.paused || (audio.src !== src && ['m4a', 'ogg'].some(ext => audio.src.endsWith('/' + region + '.' + ext))); }, { src: journalTrack, region })).toBe(true);
   expect(errors).toEqual([]);
 });
 
@@ -287,7 +293,7 @@ test('the installed game can read an unheard Journal page with the connection of
   expect(ranges[0]).toMatchObject({ status: 206, bytes: 100 });
   expect(ranges[1].status).toBe(206); expect(ranges[1].range).toMatch(/^bytes 100-/);
   expect(ranges[2]).toMatchObject({ status: 206, bytes: 25 });
-  await page.click('[data-open="journal"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'pages');
   await expect(page.locator('#journal-list [data-voice-page="22"]')).toHaveText('Pause');
   await expect.poll(() => page.evaluate(() => window.__narrations.at(-1).currentTime)).toBeGreaterThan(0.1);
   expect(await page.evaluate(() => window.__narrations.at(-1).duration)).toBeGreaterThan(1);

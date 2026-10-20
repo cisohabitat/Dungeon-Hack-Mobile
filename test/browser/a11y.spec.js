@@ -3,7 +3,7 @@
 // and none may hold a fault it rates serious or critical.
 const { test } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, selectJournalTab, expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const BAR = ['serious', 'critical'];
@@ -42,7 +42,7 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
     }
     await page.goto('/');
   }
-  await page.click('#btn-new');
+  await page.click('#btn-new'); await customiseCreation(page);
   await expect(page.locator('#screen-create')).toBeVisible();
   await scan(page, 'create', found);
   // and with everything a player can earn open: the second kit, the hound, the vows, and the same in the Hall
@@ -57,7 +57,7 @@ test('the title, the hero\'s making and the screens off the title', async ({ pag
   await page.click('.hall-pages summary');  // and the crews' pages
   await scan(page, 'hall-unlocked', found);
   await page.goto('/');
-  await page.click('#btn-new');
+  await page.click('#btn-new'); await customiseCreation(page);
   await page.click('[data-kit="alt"]');
   await expect(page.locator('#c-vows')).toBeVisible();
   await page.click('#c-difficulty [data-diff="hard"]');
@@ -84,7 +84,7 @@ test('the dungeon and every overlay in it', async ({ page }) => {
     await expect(page.locator(`#ov-${name}`)).toHaveClass(/open/);
     await scan(page, name, found);
     // the journal's other pages, the combinations among them
-    if (name === 'journal') for (const tab of ['beasts', 'relics', 'combos', 'companions', 'haul', 'quests', 'effects', 'recap']) { await page.click(`[data-jtab="${tab}"]`); await scan(page, 'journal-' + tab, found); }
+    if (name === 'journal') for (const tab of ['pages', 'beasts', 'relics', 'combos', 'companions', 'haul', 'quests', 'effects', 'recap']) { await selectJournalTab(page, tab); await scan(page, 'journal-' + tab, found); }
     await page.keyboard.press('Escape');
     await expect(page.locator(`#ov-${name}`)).not.toHaveClass(/open/);
   }
@@ -123,7 +123,7 @@ test('the dungeon and every overlay in it', async ({ page }) => {
   await startGame(page, { seed: 'a11y-confirm' });
   await page.evaluate(() => Game.save(true));
   await page.goto('/');
-  await page.click('#btn-new');
+  await page.click('#btn-new'); await customiseCreation(page);
   await expect(page.locator('#screen-confirm')).toBeVisible();
   await scan(page, 'confirm', found);
   const bad = report(found);

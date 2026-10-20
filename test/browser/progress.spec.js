@@ -2,7 +2,7 @@
 // What carries from one run to the next: trophies in the Hall, the relic
 // codex, and the two backgrounds that are earned by winning.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons } = require('./helpers');
+const { customiseCreation, selectJournalTab, expect, watchForErrors, startGame, clearBoons } = require('./helpers');
 
 const relicCount = page => page.evaluate(async () => (await import('./js/relics.js')).toCollect().length);
 
@@ -53,7 +53,7 @@ test.describe('progress between runs', () => {
     await expect(page.locator('[data-trophy="mastery-mage"]')).not.toHaveClass(/won/);
     await expect(page.locator('#trophy-count')).toHaveText(new RegExp('^6 of \\d+ won$'));
     await page.click('#hall-back');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('.class-card[data-cls="fighter"] .key.mastery')).toHaveText('Mastered: both paths won');
     await expect(page.locator('.class-card[data-cls="mage"] .key.goal')).toHaveText('Won as Pyromancer; to master: win as Frostweaver');
     // a class with no win yet sets no goal on its card
@@ -94,11 +94,11 @@ test.describe('progress between runs', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.tipsOff', '1'); });
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#c-vows')).toBeHidden();
     await page.click('#c-back');
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { cleric: { hard: 1 } }, relics: [] })));
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#c-vows')).toBeVisible();
     await page.check('[data-vow="iron"]');
     await page.fill('#c-seed', 'vow-run');
@@ -115,7 +115,7 @@ test.describe('progress between runs', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.tipsOff', '1'); });
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     // shut: each says how it is earned, and there is nothing to choose
     await expect(page.locator('#c-start')).toContainText('Raider\'s Kit: locked. Win as a Fighter on Normal or Hard');
     await expect(page.locator('#c-start')).toContainText('A hound from the first stair: locked');
@@ -130,7 +130,7 @@ test.describe('progress between runs', () => {
     await page.click('[data-trophy="unlock-kit:mage"]');
     await expect(page.locator('#trophy-note')).toContainText('locked. Win as a Mage on Normal or Hard.');
     await page.click('#hall-back');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     // the fighter has not won: still shut; the thief has, and its kit can be chosen
     await expect(page.locator('[data-kit]')).toHaveCount(0);
     await page.locator('.class-card[data-cls="thief"]').click();
@@ -157,7 +157,7 @@ test.describe('progress between runs', () => {
     await expect(page.locator('[data-trophy="mage-hard"] .rung-won')).toHaveText('+1');
     await expect(page.locator('[data-trophy="mage-hard"]')).toHaveAttribute('aria-label', /up to Hard\+1/);
     await page.click('#hall-back');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     // no rung off Hard, nor for a class that has not won there
     await page.locator('.class-card[data-cls="fighter"]').click();
     await page.click('#c-difficulty [data-diff="hard"]');
@@ -185,7 +185,7 @@ test.describe('progress between runs', () => {
   test('each vow shows its share of the score', async ({ page }) => {
     await page.goto('/');
     await page.evaluate(() => { localStorage.clear(); localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { cleric: { hard: 1 } }, relics: [] })); });
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#c-vow-list label')).toHaveCount(6);
     await expect(page.locator('#c-vow-list label:has([data-vow="glass"]) .vow-score')).toHaveText('+30% score');
     await expect(page.locator('#c-vow-list label:has([data-vow="alone"]) .vow-score')).toHaveText('+15% score');
@@ -232,12 +232,12 @@ test.describe('progress between runs', () => {
       Game.takeItem(it);
     });
     await page.click('[data-open="journal"]');
-    await page.click('[data-jtab="relics"]');
+    await selectJournalTab(page, 'relics');
     await expect(page.locator('[data-jtab="relics"]')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#journal-count')).toHaveText(`2 of ${total} found · legends 0 of 12 · mythics 0 of 6`);
     await expect(page.locator('#journal-list [data-relic="whisper"]')).toContainText('Whisper');
     await expect(page.locator('#journal-list [data-relic="whisper"]')).not.toHaveClass(/unfound/);
-    await page.click('[data-jtab="pages"]');
+    await selectJournalTab(page, 'pages');
     await expect(page.locator('#journal-list .relic-row')).toHaveCount(0);
     expect(errors).toEqual([]);
   });
@@ -253,7 +253,7 @@ test.describe('progress between runs', () => {
     const said = await page.evaluate(() => Game.state().log.filter(e => /Broken Off!/.test(e.m)).length);
     expect(said).toBe(1);
     await page.click('[data-open="journal"]');
-    await page.click('[data-jtab="combos"]');
+    await selectJournalTab(page, 'combos');
     await expect(page.locator('[data-jtab="combos"]')).toHaveAttribute('aria-selected', 'true');
     await expect(page.locator('#journal-count')).toHaveText(/^2 of \d+ found$/);
     await expect(page.locator('#journal-list [data-combo="broken_off"]')).toContainText('2 times this run');
@@ -275,7 +275,7 @@ test.describe('progress between runs', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const returned = page.locator('.bg-card[data-bg="returned"]'), heart = page.locator('.bg-card[data-bg="heartsworn"]');
     await expect(returned).toBeDisabled();
     await expect(returned).toHaveClass(/locked/);
@@ -312,7 +312,7 @@ test.describe('progress between runs', () => {
     await page.click('#hall-back');
 
     // and the Returned can be chosen; the Heartsworn still waits on a Hard win
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(returned).toBeEnabled();
     await expect(returned).not.toHaveClass(/locked/);
     await returned.click();
@@ -373,7 +373,7 @@ test.describe('the mastery track', () => {
     await expect(page.locator('#trophy-note')).toContainText('Opens: A third kit.');
     await page.click('#hall-back');
     // on the New Game screen the fighter's face wears silver, the mage's bronze, the rest none
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('.class-card[data-cls="fighter"] .class-face')).toHaveClass(/frame-silver/);
     await expect(page.locator('.class-card[data-cls="mage"] .class-face')).toHaveClass(/frame-bronze/);
     await expect(page.locator('.class-card[data-cls="thief"] .class-face')).not.toHaveClass(/frame-/);
@@ -386,7 +386,7 @@ test.describe('the mastery track', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1 }, mage: { normal: 1 } }, relics: [], paths: { knight: 1, berserker: 1 } })));
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.click('.class-card[data-cls="fighter"]');
     await page.click('[data-kit="third"]');
     await expect(page.locator('[data-kit="third"]')).toHaveAttribute('aria-checked', 'true');
@@ -407,7 +407,7 @@ test.describe('the mastery track', () => {
       localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { fighter: { hard: 1 }, mage: { normal: 1 } }, paths: { knight: 1, berserker: 1 }, rungs: { fighter: 3 }, relics: [id] }));
       return id;
     });
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.click('.class-card[data-cls="mage"]');
     await expect(page.locator('#c-relic')).toHaveCount(0);
     await expect(page.locator('.relic-line.locked-line')).toContainText('A start with a relic once found: locked.');

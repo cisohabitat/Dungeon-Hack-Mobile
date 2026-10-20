@@ -1349,4 +1349,14 @@ const WICK = {
   },
 };
 
+// Small reactions read beside a companion's portrait, never new dialogue choices.
+export const COMPANION_REACTIONS = {
+  hound: { quiet: 'keeps its nose close to your hand.', place: 'sniffs the threshold, then comes in beside you.', danger: 'presses close, its ears laid back.', won: 'sits at your feet, its tail sweeping the stone.' },
+  wolf: { quiet: 'pads beside you without a sound.', place: 'tests the air at the threshold.', danger: 'stays at your shoulder, teeth bared.', won: 'lets out one long breath and lowers its head.' },
+  goblin: { quiet: 'counts the tools in its belt again.', place: 'looks over the old stonework, hands behind its back.', danger: 'grips its little blade with both hands.', won: 'opens its hands, then checks its pockets.' },
+  sellsword: { quiet: 'checks the edge of the sword with a thumb.', place: 'looks up at the roof before stepping in.', danger: 'sets both feet and raises the sword.', won: 'rests the sword across one shoulder and breathes out.' },
+  mender: { quiet: 'ties the satchel shut with a fresh knot.', place: 'looks for somewhere dry to set the satchel.', danger: 'keeps one hand on the satchel strap.', won: 'sets the satchel down and unlaces both boots.' },
+  renegade: { quiet: 'walks with both blades low.', place: 'studies the far corners before stepping in.', danger: 'crosses both blades before the breast.', won: 'looks back into the dark once, then turns away.' },
+};
+
 export { FUN_FACTS, MASTERY, WALL_PROPS, WICK, ENDINGS, ROUTES, FEATS, TWISTS, HERO_NAMES, BG_NAMES, ALL_HERO_NAMES, heroName, PROLOGUE, BACKGROUNDS, JOURNAL, BOONS, RENOWN, RENOWN_XP, armorFits, shieldFits, XP_TABLE, MAX_LEVEL, CLASSES, STAT_NAMES, ITEMS, KEY_COLORS, GEMS, TRAP_TYPES, MONSTERS, SPELLS, THEMES, SPRITES, POTION_LOOKS, SCROLL_LOOKS, RING_LOOKS, AMULET_LOOKS, ELEMENTS_TAKEN, ELITES, BESTIARY, TALENTS, PATHS, PATH_LEVEL, CAPSTONE_LEVEL, VOWS, LADDER, RUNG_SCORE, DIFFICULTY_NOTES };

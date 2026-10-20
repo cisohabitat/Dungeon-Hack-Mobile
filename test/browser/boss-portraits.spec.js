@@ -1,7 +1,7 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { startGame, faceOpenGround, placeMonster, watchForErrors } = require('./helpers');
+const { selectJournalTab, startGame, faceOpenGround, placeMonster, watchForErrors } = require('./helpers');
 
 const bosses = { lich: 'Dread Lich', warlord: 'Goblin Warlord', heartforged: 'Heartforged' };
 async function prepare(page) {
@@ -38,7 +38,7 @@ for (const [id, name] of Object.entries(bosses)) test(`${name}: its introduction
   await page.getByRole('button', { name: 'Face the keeper' }).click();
   await expect(dialog).not.toBeVisible();
   await expect.poll(() => page.evaluate(() => Game.state().t)).toBeGreaterThan(time);
-  await page.click('[data-open="journal"]'); await page.click('[data-jtab="beasts"]');
+  await page.click('[data-open="journal"]'); await selectJournalTab(page, 'beasts');
   const portrait = page.locator(`#ov-journal [data-beast="${id}"] .boss-portrait`);
   await expect(portrait).toHaveAttribute('src', `img/bosses/${id}.webp`);
   await portrait.focus(); await page.keyboard.press('Enter');

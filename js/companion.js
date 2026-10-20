@@ -64,6 +64,8 @@ const DROWSE_MS = 1000, KIN_BITE = 4, KIN = new Set(['drow_warrior', 'drow_mage'
 const RANKS = [{ floors: 2, name: 'blooded' }, { floors: 4, name: 'a veteran' }];
 /** How far it has come: 0, then 1 (blooded), then 2 (a veteran). */
 const rankOf = c => RANKS.filter(r => ((c && c.floors) || 0) >= r.floors).length;
+/** Read the same milestones the rules use; a view cannot teach a new trick. */
+export const companionMilestones = c => kindOf(c).tricks.map((trick, i) => ({ ...trick, learned: rankOf(c) > i, remaining: Math.max(0, RANKS[i].floors - (c?.floors || 0)) }));
 /** Whether it has learned this trick. */
 const knows = (c, id) => !!c && kindOf(c).tricks.slice(0, rankOf(c)).some(t => t.id === id);
 // what a goblin that has learned to scrounge turns up on the way down, from its own dice

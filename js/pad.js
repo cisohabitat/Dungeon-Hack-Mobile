@@ -62,6 +62,13 @@ export function makePad(K) {
     if (!el) return [];
     return /** @type {HTMLElement[]} */ (Array.from(el.querySelectorAll(FOCUSABLE))).filter(e => {
       if (/** @type {any} */ (e).disabled || e.closest('[inert], [hidden]')) return false;
+      // Closed details can retain layout boxes for content that cannot take
+      // focus. Only their first direct summary remains a controller stop.
+      for (let parent = e.parentElement; parent; parent = parent.parentElement) {
+        if (parent.tagName !== 'DETAILS' || parent.hasAttribute('open')) continue;
+        const summary = Array.from(parent.children).find(child => child.tagName === 'SUMMARY');
+        if (!summary?.contains(e)) return false;
+      }
       if (!e.getClientRects().length) return false;
       const s = getComputedStyle(e);
       return s.visibility !== 'hidden' && s.display !== 'none';

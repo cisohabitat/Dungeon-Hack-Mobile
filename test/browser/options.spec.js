@@ -2,7 +2,7 @@
 // How a run is set up and kept: Rest that only rests, a caster's own quick
 // drink, permadeath by default, the Daily Delve and the difficulty picker.
 const { test, devices } = require('@playwright/test');
-const { expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 const healing = page => page.evaluate(() => Game.player().inv.filter(i => i.t === 'potion_heal').reduce((n, i) => n + i.q, 0));
 
@@ -55,9 +55,9 @@ test.describe('rest and the quick drink', () => {
     await expect(rest).toHaveText(/^Rest/);
     // a thinner rest says so in words, and the last says where to go instead
     await page.evaluate(() => { Game.level().rests = 1; });
-    await expect(rest).toContainText('a third');
+    await expect(rest).toContainText('+⅓ life');
     await page.evaluate(() => { Game.level().rests = 2; });
-    await expect(rest).toContainText('a sixth');
+    await expect(rest).toContainText('+⅙ life');
     await page.evaluate(() => { Game.level().rests = 3; });
     await expect(rest).toContainText('find the stairs');
     await expect(rest).toHaveClass(/unavail/);
@@ -130,7 +130,7 @@ test.describe('rest and the quick drink', () => {
   test('the floors picked are explained under the options: a quick delve, a short delve, the divided stair, the Long Delve', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#c-levels-note')).toContainText('the stair divides');
     await page.selectOption('#c-levels', '2');
     await expect(page.locator('#c-levels-note')).toContainText('A quick delve: two floors');
@@ -145,7 +145,7 @@ test.describe('rest and the quick drink', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     for (const cls of ['fighter', 'cleric', 'mage', 'thief', 'ranger', 'druid']) await expect(page.locator(`.class-card[data-cls="${cls}"] .ease`)).toHaveText(/^\w+: .+\.$/);
     await expect(page.locator('.class-card[data-cls="mage"] .ease')).toContainText('Fragile');
     await expect(page.locator('.class-card .first-hero')).toHaveCount(2);
@@ -153,7 +153,7 @@ test.describe('rest and the quick drink', () => {
     await expect(page.locator('.class-card[data-cls="cleric"] .first-hero')).toBeVisible();
     // three runs down, and the pointer is no longer needed
     await page.evaluate(() => localStorage.setItem('deepdelve.hall', JSON.stringify([1, 2, 3].map(i => ({ name: 'Old ' + i, cls: 'mage', level: 1, depth: 1, won: false, score: 1, date: '2026-01-01' })))));
-    await page.click('#c-back'); await page.click('#btn-new');
+    await page.click('#c-back'); await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('.class-card .first-hero')).toHaveCount(0);
     await expect(page.locator('.class-card[data-cls="fighter"] .ease')).toBeVisible();
     expect(errors).toEqual([]);
@@ -162,14 +162,14 @@ test.describe('rest and the quick drink', () => {
     const errors = watchForErrors(page);
     await page.goto('/');
     await page.evaluate(() => localStorage.clear());
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     for (const cls of ['ranger', 'druid']) {
       await expect(page.locator(`.class-card[data-cls="${cls}"]`)).toBeEnabled();
       await expect(page.locator(`.class-card[data-cls="${cls}"]`)).not.toContainText('Locked');
     }
     // a class won on Hard shows its title
     await page.evaluate(() => localStorage.setItem('deepdelve.progress', JSON.stringify({ won: { mage: { hard: 1 } }, relics: [] })));
-    await page.click('#c-back'); await page.click('#btn-new');
+    await page.click('#c-back'); await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('.class-card[data-cls="mage"] .class-title')).toHaveText('Archmage');
     await startGame(page, { cls: 'ranger', seed: 'ranger-snare' });
     await clearBoons(page);
@@ -217,7 +217,7 @@ test.describe('point buy', () => {
   test('scores can be bought from 27 points instead of rolled, up to 17, and the hero starts with them', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.click('#c-statmode [data-mode="buy"]');
     await expect(page.locator('#c-points')).toBeVisible();
     await expect(page.locator('#c-reroll')).toBeHidden();
@@ -244,7 +244,7 @@ test.describe('permadeath', () => {
   test('is on by default for a new hero and for Quick Start, and Load stays shut', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#c-permadeath')).toBeChecked();
     await page.fill('#c-seed', 'perma-default');
     await page.click('#c-begin');
@@ -271,7 +271,7 @@ test.describe('permadeath', () => {
 
   test('can be unticked for a run that may be loaded again', async ({ page }) => {
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.locator('label.check', { has: page.locator('#c-permadeath') }).click();
     await expect(page.locator('#c-permadeath')).not.toBeChecked();
     await page.fill('#c-seed', 'perma-off');
@@ -286,7 +286,7 @@ test.describe('permadeath', () => {
     const errors = watchForErrors(page);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.locator('label.check', { has: page.locator('#c-permadeath') }).click();
     await page.fill('#c-name', 'Twice');
     await page.fill('#c-seed', 'hall-once');
@@ -359,7 +359,7 @@ test.describe('sharing a run', () => {
   test('any run that ends can be shared in a line with its seed and whatever was changed from the usual', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.locator('.class-card', { has: page.locator('b', { hasText: /^Fighter$/ }) }).click();
     await page.fill('#c-seed', 'share-me');
     await page.selectOption('#c-levels', '6');
@@ -476,7 +476,7 @@ test.describe('the Daily Delve', () => {
     await page.clock.setFixedTime(DAY);
     await page.addInitScript(() => localStorage.setItem('deepdelve.tipsOff', '1'));
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.fill('#c-seed', 'daily-2026-09-24');
     await page.click('#c-begin');
     await page.click('#pro-begin');
@@ -585,7 +585,7 @@ test.describe('the Daily Delve', () => {
     await page.click('#m-quit');
     await expect(page.locator('#daily-summary')).toContainText("Today's delve waits");
     // a new hero would spend today's one try: the question says so
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('#confirm-who')).toContainText("today's Daily Delve, your one try");
     // and so would a hero loaded from a save code
     await page.goto('/');
@@ -606,7 +606,7 @@ test.describe('the Daily Delve', () => {
     await expect(page.locator('#screen-confirm')).toBeVisible();
     // yesterday's try is spent either way: no warning about it
     await expect(page.locator('#confirm-who')).not.toContainText('one try');
-    await page.click('#confirm-replace');
+    await page.click('#confirm-replace'); await customiseCreation(page);
     await page.click('#pro-begin');
     await page.waitForFunction(() => typeof Game !== 'undefined' && !!Game.state());
     expect(await page.evaluate(() => Game.state().seed)).toBe('daily-2026-09-25');
@@ -618,7 +618,7 @@ test.describe('difficulty', () => {
   test('the picker writes the choice into the run, and the menu says it', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await expect(page.locator('[data-diff="normal"]')).toHaveAttribute('aria-checked', 'true');
     await expect(page.locator('#c-diff-note')).toContainText(/Normal/);
     await page.click('[data-diff="hard"]');
@@ -662,7 +662,7 @@ test.describe('the hero\'s name', () => {
   test('the button beside the name gives a random name, a new one each press, and the hero takes it', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const btn = page.locator('#c-name-rand');
     await expect(btn).toBeVisible();
     const box = await btn.boundingBox();
@@ -686,7 +686,7 @@ test.describe('the hero\'s name', () => {
   test('choosing another background keeps the name shown, drawn or typed; the dice draw another', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const open = page.locator('.bg-card:not(.locked)');
     expect(await open.count()).toBeGreaterThan(1);
     const before = await page.inputValue('#c-name');
@@ -709,12 +709,12 @@ test.describe('the hero\'s name', () => {
   test('a new hero arrives already named, a different name each time, and a name typed over it is kept', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const names = await page.evaluate(() => window.HERO_NAMES);
     const first = await page.inputValue('#c-name');
     expect(names).toContain(first);
     await page.click('#c-back');
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     const again = await page.inputValue('#c-name');
     expect(names).toContain(again);
     expect(again).not.toBe(first);

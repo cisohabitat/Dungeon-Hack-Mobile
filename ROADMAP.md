@@ -75,6 +75,29 @@ About eight months in all, plus whatever audio and the device round take outside
 - [x] Quest tracker, known map landmarks, status explanations, portrait companion
   orders, run recap and inventory search, with existing rules and hidden information preserved.
 
+## Focused polish follow-up (20 October 2026)
+
+- [x] Optional hero setup and mastery disclosures, objectives-first Journal,
+  labelled attack readiness, legible warning marks and misses, larger Pack names,
+  expandable map key and explicit rest recovery.
+- [ ] Physical older-Android and iPhone Safari round: no devices are attached to
+  the development environment. Automated viewport checks are recorded separately.
+
+## Remembering the delve (20 October 2026)
+
+- [x] Name entered set pieces in place cards, explored map landmarks and recap.
+- [x] Add optional field notes for existing enemy formations and mixed fights.
+- [x] Show contextual companion reactions and existing learned/upcoming milestones.
+- [x] Preserve target material responses with recorded impacts; give all later
+  regions distinct synthesised ambience and quiet forge/hammer details.
+- [x] Frame the existing next-run suggestion as one optional, readable goal.
+- [x] Clear the unchanged 4× CPU performance gate on GitHub Actions before
+  publication; the CI result and local baseline comparison are in
+  [the local performance report](docs/PERFORMANCE-2026-10-20.md).
+- Dungeon generation and enemy composition retain their existing rules. New room
+  layouts and authored enemy combinations remain future gameplay work, requiring
+  matched balance simulations before release.
+
 ## Phase 6: The review's fixes (2–3 weeks)
 
 Everything the review found that is a bug, a rough edge or a one-batch gap, before anything

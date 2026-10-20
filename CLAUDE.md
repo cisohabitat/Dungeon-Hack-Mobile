@@ -62,6 +62,18 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   `js/relics.js`, `js/encounters.js`: relics and encounter data.
   Title greetings live in `FUN_FACTS`; `js/titlemenu.js` shows one when there
   is no unread News. Keep their random choice outside the run's seeded dice.
+- Optional hero setup lives in `#c-customise`, closed on each new creation screen;
+  folding it must preserve selected background, scores, seed and dungeon options.
+  Mastery goals are a separate disclosure. Browser tests choosing seeds/builds use
+  `customiseCreation`; do not force the panel open globally or bypass first-run tests.
+  The Journal defaults to Quests; collections live under `#journal-collection`.
+  Folding a selected collection returns to Quests, keeping a visible active tab.
+  Tests use `selectJournalTab` to open the disclosure through its real control.
+  Controller focus must exclude folded details content even when it retains layout
+  boxes, while keeping the first direct summary reachable.
+  The map key lives under `#map-key`; reserve its closed heading when sizing the map,
+  and allow expanded keys to scroll. Attack's text follows the actual readiness
+  boundary, not a rounded value; presentation must not change cooldowns or dice.
 - `js/ui.js`: every screen and overlay; the Hall, bestiary and relic codex are in
   `js/hall.js`, the New Game screen's earned starts (second kit, hound) in
   `js/createextras.js`, and small DOM helpers in `js/uikit.js`. Some overlays are factories
@@ -169,6 +181,9 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Slot-first browsing filters by existing equip restrictions; the chosen ring slot
   must be passed explicitly when putting it on. The default All view keeps 20
   cells; compact/filter views hide unused rows without changing inventory capacity.
+  Compact rows read the CSS `--bag-columns` once per render so narrow phones and
+  large text keep complete rows; resize only adds or removes blank cells, preserving
+  focused item buttons. Never infer or change capacity from that column count.
   `js/packmemory.js` stores bounded, run-specific UI counts and unread item keys
   in `deepdelve.packFinds`, never on items or in saves. Inspecting clears a marker;
   increasing a stack marks it again. Sorts and loads preserve inspection state.
@@ -180,6 +195,16 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   the Pack opens; typing never drives dungeon keys, and Escape still closes it.
   HUD condition buttons open the matching Journal section; preserve keyboard
   focus as their countdowns update and return to the stable Journal control.
+- `visitedPlace` in `rooms.js` reads only a set piece already marked `seen`.
+  Place cards, recap and map share its names. Map anchors must also be explored
+  floor squares inside that room, never an unexplored centre. Field notes describe
+  existing group rules; never inspect hidden monsters to choose advice.
+  Companion reactions live in `COMPANION_REACTIONS` and the narrative document;
+  they are contextual portrait text, not saved events or run-log entries.
+  `companionMilestones` reads the rules' existing rank/trick tables. Views must
+  not advance floors, teach skills or change dice. Waiting/fallen companions do
+  not react to the hero's current room. Target material sound layers play once
+  for both synthesis and loaded samples, beneath the existing warning mix.
 - `js/maplandmarks.js`: map landmarks must be on explored ground. Device-local
   `deepdelve.landmarks` remembers encountered NPC coordinates so resolved shrines
   remain marked; never reconstruct undiscovered encounters from generation data.
@@ -407,7 +432,8 @@ a pushed change as verified.
   four processes. `ONLY="part of a test name"` runs a subset; `WORKERS=1` runs every file in one
   process, for debugging; `TIMES=1` says how long each file took. A new file of checks needs
   nothing more than the name: it is found and run.
-- `npx playwright test --project=phone`: browser tests (phone viewport), about 5 minutes.
+- `npx playwright test --project=phone`: the full phone-viewport browser suite;
+  runtime depends on hardware and deferred art preparation.
   Chromium is preinstalled; do not run `playwright install` locally.
 - `PERF=1 npx playwright test --project=perf --workers=1`: the frame-rate
   budget (`test/browser/perf.spec.js`), 4x CPU throttle, about 40 seconds. It

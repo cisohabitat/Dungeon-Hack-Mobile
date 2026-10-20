@@ -2,7 +2,7 @@
 // The endgame: the Heart is held fast while the lich stands; bring it down,
 // lift the Heart, and the run is won on the spot. There is no climb back out.
 const { test } = require('@playwright/test');
-const { expect, watchForErrors, startGame, descendTo, placeMonster, artReady } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, descendTo, placeMonster, artReady } = require('./helpers');
 
 /** Stand on the Heart and try to take it. */
 const takeHeart = () => {
@@ -294,7 +294,7 @@ test.describe('the endgame', () => {
     await page.locator('[data-open="menu"]').first().click();
     await page.click('#m-quit');
     await expect(page.locator('#screen-title')).toBeVisible();
-    await page.click('#btn-new');
+    await page.click('#btn-new'); await customiseCreation(page);
     await page.fill('#c-seed', 'end-quit-2');
     await page.click('#c-begin');
     await page.click('#pro-begin');
@@ -352,7 +352,7 @@ test('a second death opens the end screen at its title, not where the last one w
     if (!again) await startGame(page, { seed });
     else {
       // straight on from the end screen, in the same page, as a player would
-      await page.click('#end-new');
+      await page.click('#end-new'); await customiseCreation(page);
       await page.fill('#c-seed', seed);
       await page.click('#c-begin');
       await page.click('#pro-begin');

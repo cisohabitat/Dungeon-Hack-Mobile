@@ -364,6 +364,23 @@ A crew's reading, under the claw-marks: once warm water came up from below. Eggs
 - *Overgrown, on arriving*: Roots have broken up through the stone here, and moss lies thick over everything. Pale caps grow among the stones, and something larger and fungal shuffles in the dark.
 - *Overgrown, while there*: Moss hides the traps: harder to spot (not for a druid, who reads the ground). Pale caps to eat grow here, and puffcaps that burst in spores at a blow from beside them. A druid is at home: their spells cost a point less
 
+### Entered place names (PLACE_NAMES)
+
+- *cells, gaol*: The old gaol
+- *cells, kennels*: The chained kennels
+- *cells, stores*: The prison stores
+- *shrine, altar*: The worn altar
+- *shrine, defiled*: The defiled shrine
+- *shrine, kept*: The candle shrine
+- *cistern, pillared*: The pillared cistern
+- *cistern, brimming*: The overflowing cistern
+- *cistern, silted*: The silted cistern
+- *forge, cold*: The cold forge
+- *forge, banked*: The banked hearth
+- *rubble, fallen*: The fallen hall
+- *rubble, buried*: The buried crew
+- *rubble, shored*: The shored hall
+
 ### Set pieces (PIECE_VARIANTS)
 
 - *cells, gaol*: Rows of cells line a narrow aisle. Some of the doors still hold.
@@ -380,6 +397,50 @@ A crew's reading, under the claw-marks: once warm water came up from below. Eggs
 - *rubble, fallen*: Half this hall has come down. Something was left at the back of the fallen stone.
 - *rubble, buried*: The roof came down on someone here: bones show among the fallen stone. Something was left at the back of it.
 - *rubble, shored*: Someone tried to shore this fallen hall up with crates and casks, and gave up. Something was left at the back of the stone.
+
+## Companions at your side (COMPANION_REACTIONS)
+
+### hound
+
+- *quiet*: {name} keeps its nose close to your hand.
+- *place*: {name} sniffs the threshold, then comes in beside you.
+- *danger*: {name} presses close, its ears laid back.
+- *won*: {name} sits at your feet, its tail sweeping the stone.
+
+### wolf
+
+- *quiet*: {name} pads beside you without a sound.
+- *place*: {name} tests the air at the threshold.
+- *danger*: {name} stays at your shoulder, teeth bared.
+- *won*: {name} lets out one long breath and lowers its head.
+
+### goblin
+
+- *quiet*: {name} counts the tools in its belt again.
+- *place*: {name} looks over the old stonework, hands behind its back.
+- *danger*: {name} grips its little blade with both hands.
+- *won*: {name} opens its hands, then checks its pockets.
+
+### sellsword
+
+- *quiet*: {name} checks the edge of the sword with a thumb.
+- *place*: {name} looks up at the roof before stepping in.
+- *danger*: {name} sets both feet and raises the sword.
+- *won*: {name} rests the sword across one shoulder and breathes out.
+
+### mender
+
+- *quiet*: {name} ties the satchel shut with a fresh knot.
+- *place*: {name} looks for somewhere dry to set the satchel.
+- *danger*: {name} keeps one hand on the satchel strap.
+- *won*: {name} sets the satchel down and unlaces both boots.
+
+### renegade
+
+- *quiet*: {name} walks with both blades low.
+- *place*: {name} studies the far corners before stepping in.
+- *danger*: {name} crosses both blades before the breast.
+- *won*: {name} looks back into the dark once, then turns away.
 
 ## Voices in the deep
 

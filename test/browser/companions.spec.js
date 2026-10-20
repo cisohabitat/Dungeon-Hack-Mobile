@@ -2,7 +2,7 @@
 const { test, expect } = require('@playwright/test');
 const http = require('http');
 const { serve } = require('../server');
-const { startGame, clearBoons, watchForErrors } = require('./helpers');
+const { selectJournalTab, startGame, clearBoons, watchForErrors } = require('./helpers');
 const kinds = ['hound', 'wolf', 'goblin', 'sellsword', 'mender', 'renegade'];
 
 test('the companion collection remains accessible with double text', async ({ page }) => {
@@ -31,7 +31,7 @@ test('loading an older save recovers recorded encounters without revealing unsee
     return Game.load();
   })).toBeTruthy();
   await page.click('[data-open="journal"]');
-  await page.click('[data-jtab="companions"]');
+  await selectJournalTab(page, 'companions');
   await expect(page.locator('#journal-count')).toHaveText('5 of 6 met');
   await expect(page.locator('#journal-list [data-companion="wolf"]')).toHaveClass(/unmet/);
   await expect(page.locator('#journal-list [data-companion="sellsword"]')).toContainText('Sellsword');
@@ -69,7 +69,7 @@ test('meeting a companion without recruiting unlocks it in the Journal and survi
   await page.keyboard.press('Escape');
   await expect(page.locator('#ov-encounter')).not.toHaveClass(/open/);
   await page.click('[data-open="journal"]');
-  await page.click('[data-jtab="companions"]');
+  await selectJournalTab(page, 'companions');
   await expect(page.locator('#journal-count')).toHaveText('1 of 6 met');
   await expect(page.locator('#journal-list [data-companion="hound"]')).toContainText('Hound');
   await page.reload();

@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { watchForErrors } = require('./helpers');
+const { customiseCreation, watchForErrors } = require('./helpers');
 const AxeBuilder = require('@axe-core/playwright').default;
 
 async function recordedRun(page, end = true) {
@@ -9,7 +9,7 @@ async function recordedRun(page, end = true) {
     localStorage.setItem('deepdelve.tipsOff', '1');
     localStorage.setItem('deepdelve.prelude', 'on');
   });
-  await page.goto('/'); await page.click('#btn-new');
+  await page.goto('/'); await page.click('#btn-new'); await customiseCreation(page);
   await page.fill('#c-name', 'Replay hero'); await page.fill('#c-seed', 'browser-recording');
   await page.click('#c-begin'); await page.click('#pro-begin');
   await page.locator('#view').tap();

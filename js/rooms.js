@@ -90,6 +90,22 @@ const PIECE_VARIANTS = {
 /** What is said the first time the hero steps into each, by piece and version. */
 const PIECE_SAY = Object.fromEntries(Object.entries(PIECE_VARIANTS).map(([k, vs]) => [k, Object.fromEntries(Object.entries(vs).map(([v, x]) => [v, x.say]))]));
 
+/** Names for places already entered; never use this to reveal an unvisited room. */
+export const PLACE_NAMES = {
+  cells: { gaol: 'The old gaol', kennels: 'The chained kennels', stores: 'The prison stores' },
+  shrine: { altar: 'The worn altar', defiled: 'The defiled shrine', kept: 'The candle shrine' },
+  cistern: { pillared: 'The pillared cistern', brimming: 'The overflowing cistern', silted: 'The silted cistern' },
+  forge: { cold: 'The cold forge', banked: 'The banked hearth' },
+  rubble: { fallen: 'The fallen hall', buried: 'The buried crew', shored: 'The shored hall' },
+};
+/** @param {import('./types.js').Level} L */
+export function visitedPlace(L) {
+  const pc = L?.piece;
+  if (!pc?.seen || !Object.hasOwn(PLACE_NAMES, pc.kind)) return null;
+  const names = PLACE_NAMES[pc.kind], variant = Object.hasOwn(names, pc.variant || '') ? pc.variant : Object.keys(names)[0];
+  return { name: names[variant], description: PIECE_SAY[pc.kind][variant], room: pc.room, depth: L.depth };
+}
+
 /** @param {number} w @param {number} h @param {string} shape @returns {Grid} */
 const blank = (w, h, shape, fill = FLOOR) => ({ w, h, g: new Array(w * h).fill(fill), shape });
 const set = (R, x, y, v) => { if (x >= 0 && y >= 0 && x < R.w && y < R.h) R.g[y * R.w + x] = v; };
