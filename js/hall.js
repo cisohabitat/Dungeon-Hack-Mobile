@@ -1,4 +1,6 @@
+import { setTracker } from './settracker.js';
 import { fillRelicPortraits } from './relicart.js';
+import { itemPicture, itemHeading, itemFacts, itemComparison } from './itemdisplay.js';
 import { namedSprite } from './namedart.js';
 import { CLASSES, ITEMS, MONSTERS, BESTIARY, PATHS, VOWS, FEATS, ROUTES, WICK, ENDINGS, MASTERY } from './data.js';
 import { Assets } from './assets.js';
@@ -103,7 +105,7 @@ const andList = xs => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[x
 function renderCodex(el) {
   // found ones first; one still to find says what sort of thing to look for
   const found = Progress.load().relics, ids = Object.keys(RELICS).sort((a, b) => Number(!found.includes(a)) - Number(!found.includes(b)));
-  el.innerHTML = '<div class="codex">' + ids.map(id => {
+  el.innerHTML = setTracker() + '<div class="codex">' + ids.map(id => {
     const r = RELICS[id], b = ITEMS[r.t], kind = KIND_NAMES[b.kind] || b.kind;
     // one not yet found shows only what sort of thing it is ("a Mace"; armour
     // takes no article: "Chain Mail")
@@ -112,9 +114,9 @@ function renderCodex(el) {
     const where = r.mythic ? ` · Mythic: ${escapeHtml(CLASSES[r.mythic].name)}, earned at the final Vigil Lamp in delves of eight floors or more` : r.route && ROUTES[r.route] ? ` · found only down ${escapeHtml(ROUTES[r.route].name)}` : r.beyond ? ' · found only in a sixteen-floor delve, beyond the Collector\'s count'
       : r.legend ? ` · legendary: a ${escapeHtml(PATH_NAME[r.legend] || r.legend)}'s, dropped by a champion` : '';
     if (!found.includes(id)) return `<div class="relic-row unfound" data-relic="${id}"><span class="relic-q">?</span><div><h3>Not yet found</h3><p class="codex-kind">${kind}${jewel ? '' : ` · ${b.kind === 'armor' || /[^s]s$/i.test(b.name) ? '' : /^[aeiou]/i.test(b.name) ? 'an ' : 'a '}${escapeHtml(b.name)}`}${where}</p></div></div>`;
-    const art = Assets.sprites[namedSprite(id)] || Assets.sprites[b.sprite];
-    return `<div class="relic-row" data-relic="${id}"><img data-relic-portrait="${id}" src="${art ? art.url : ''}" alt=""><div><h3 class="${r.mythic ? 'g-mythic' : r.legend ? 'g-legend' : 'relic'}">${escapeHtml(upFirst(r.name))}</h3>`
-      + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)}${r.e ? ` +${r.e}` : ''}${where}</p>`
+    const it = { t: r.t, e: r.e || 0, u: id, q: 1 }, options = { name: upFirst(r.name), grade: r.mythic ? 'mythic' : r.legend ? 'legend' : 'relic', revealed: true, sprite: Assets.sprites[namedSprite(id)] ? namedSprite(id) : b.sprite };
+    return `<div class="relic-row item-inspection" data-relic="${id}">${itemPicture(it, options)}<div>${itemHeading(it, options)}`
+      + `<p class="codex-kind">${kind} · ${escapeHtml(b.name)}${r.e ? ` +${r.e}` : ''}${where}</p>` + itemFacts(it, true) + itemComparison(it)
       + `<ul class="relic-powers">${jewel ? `<li>${escapeHtml(b.desc)}</li>` : ''}${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>`
       + (setOf(id) ? `<p class="relic-set"><b>${escapeHtml(upFirst(RELIC_SETS[setOf(id)].name))}</b>, with ${escapeHtml(RELICS[RELIC_SETS[setOf(id)].pieces.find(u => u !== id)].name)}. ${escapeHtml(RELIC_SETS[setOf(id)].text)}</p>` : '')
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;

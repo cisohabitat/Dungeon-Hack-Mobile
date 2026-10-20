@@ -1,3 +1,4 @@
+import { recapView } from './delveguide.js';
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
@@ -195,6 +196,7 @@ export function makeEndScreen(K) {
     rows.push(['Time', `${Math.floor(secs / 60)}m ${String(secs % 60).padStart(2, '0')}s`]);
     rows.unshift(['Score', Game.score(p, G.depth, won)]);
     rows.push(['Seed', G.seed]);
+    $('#end-recap-body').innerHTML = recapView();
     $('#end-stats').innerHTML = rows.map(([k, v]) => `<div>${k}<span>${escapeHtml(String(v))}</span></div>`).join('');
     renderSummary(G, won);
     const cause = $('#end-cause');

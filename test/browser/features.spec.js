@@ -84,7 +84,7 @@ test.describe('dungeon features', () => {
     await faceOpenGround(page, 3);
     const placed = await placeMonster(page, 'goblin', 2, { hp: 50, maxHp: 50, elite: 'Armoured' });
     expect(placed).not.toBeNull();
-    const chip = page.locator('#hud-status span', { hasText: 'Armoured Goblin near' });
+    const chip = page.locator('#hud-status button', { hasText: 'Armoured Goblin near' });
     await expect(chip).toContainText('turns the first blow');
     await expect(chip).toHaveAttribute('title', /plates turn the first blow/);
     expect(errors).toEqual([]);
@@ -465,7 +465,8 @@ test.describe('dungeon features', () => {
     const idx = await page.evaluate(() => Game.player().inv.findIndex(i => i.t === 'mace'));
     const slot = page.locator('#inv-grid .slot').nth(idx);
     await expect(slot.locator('.unk')).toHaveText('?');
-    await expect(slot).toContainText(/^Mace\?$/);
+    await expect(slot).toHaveAttribute('aria-label', /^Mace(?:, new find)?$/);
+    await expect(slot).not.toContainText(/−1|cursed/i);
     await slot.click();
     await expect(page.locator('#item-detail')).toContainText('quality is unknown');
     await expect(page.locator('#item-detail button', { hasText: /^Study \(\d+%\)$/ })).toBeVisible();
@@ -1761,8 +1762,8 @@ test.describe('dungeon features', () => {
     // bought: a tap on its button (and a second, if it asks twice)
     const g0 = await page.evaluate(() => Game.player().gold);
     await page.waitForTimeout(450);
-    await row.locator('button').click();
-    if (await page.evaluate(() => Game.player().gold) === g0) { await page.waitForTimeout(450); await row.locator('button').click(); }
+    await row.locator('button:not(.shop-inspect)').click();
+    if (await page.evaluate(() => Game.player().gold) === g0) { await page.waitForTimeout(450); await row.locator('button:not(.shop-inspect)').click(); }
     await expect.poll(() => page.evaluate(() => Game.player().inv.some(i => i.t === 'charm_whetstone'))).toBe(true);
     await page.evaluate(() => document.querySelector('#ov-shop [data-close]').click());
     await page.click('[data-open="inv"]');

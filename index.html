@@ -255,6 +255,8 @@
         <p>Walking onto a square picks up what lies there, except what you put down yourself and gear your class can never use: those stay where they lie and show in the <b>Take</b> row at the foot of the view whenever you stand on them. A tap on the row lifts everything, and a trader will buy all you cannot use in one go.</p>
         <p><b>Dungeon puzzles</b> are optional at the first stair of each new custom or Quick Start run. Tick <b>Include dungeon puzzles</b> to put rune sequences, watchfire patterns and keeper seals on some existing gold and gem caches. Stand on a cache or face it and press <b>Puzzle</b> (Use). Its inscription holds every clue, and the dungeon waits while you read. <b>Start again</b> clears a guess; <b>Leave for later</b> keeps your progress. A wrong answer costs nothing, and you may retry as often as you like. Open the cache, then choose its gold and gems or, when its purse covers it, a Potion of Healing or unidentified gear with any remaining coins. The item replaces some coins; choose once, then step onto the cache or press Take to collect your share. You may leave the choice for later; a full pack leaves the treasure on the floor. Keys, relics, passages, stairs and the Heart never need a puzzle solved. Daily and Weekly challenges keep puzzles off.</p>
         <p>A barrel, crate or urn breaks to a blow when there is nothing to fight in front of you, or to <b>Use</b> (the button says <b>Break</b>), and walking into one kicks it over. Most hold nothing; now and then a little gold, a meal, or very rarely a healing draught.</p>
+        <p>In the <b>Pack</b>, an item's <b>Favourites and quick-use belt</b> lets you protect it from dropping or selling, or pin a potion, scroll or meal to one of three belt buttons in the dungeon. Using one follows the same rules as using it from your pack. Unprotect a favourite before selling it. The Journal's <b>Haul</b> remembers floor pickups on this device; its relic collection tracks sets, and <b>Companions</b> shows your current companion's health and abilities.</p>
+        <p>Search your <b>Pack</b> by name, type or a power you know. The Journal's <b>Quests</b> tracks your job and unfinished leads, <b>Conditions</b> explains active effects and their remaining time, and <b>Recap</b> remembers your delve. Tap a status chip to read more. Beside your companion's portrait, <b>Follow</b> and <b>Stay</b> work when you face them nearby, just as <b>Use</b> does. On the map, open <b>Known landmarks</b> and select a place to centre it; unexplored places stay hidden.</p>
         <h3>Secrets</h3>
         <p>Some walls hide secret doors leading to treasure vaults. Walk into a suspicious wall or press <b>Use</b> facing it to search; at a dead end, walled on three sides, the button says <b>Search</b>, since that is where the builders liked to hide a door. Thieves often notice them just by walking past. Fountains set into the walls restore you fully, once.</p>
         <p>Rooms come in many shapes: halls with rows of pillars to put between you and a blow, caverns, long galleries, rooms with niches in their walls. The corridors loop, so there is usually more than one way round. Past the divided stair each road builds after its own fashion: the Crypts in burial niches, long galleries and straight passages, the Warrens in burrows and crooked tunnels. Every floor holds one <b>set piece</b>: a block of cells along an aisle, each behind a barred gate; a shrine with a basin at its back; a cistern where the water carries lightning and freezes under cold; or a hall half fallen in, with something left at the back of the stone. Each comes in versions: cells made kennels or storerooms, a shrine defiled or still kept, a cistern brimming over or silted up, a fall that buried someone or that someone tried to shore. Each keeps a find worth the detour.</p>
@@ -469,6 +471,7 @@
             <button class="ctl" data-tap="cast"><span class="ico" data-icon="cast"></span><small>Cast</small></button>
           </div>
         </div>
+        <div id="quick-belt" class="quick-belt" role="group" aria-label="Quick-use belt" hidden></div>
         <div class="bottombar">
           <button data-open="map">Map</button>
           <button data-open="inv">Pack</button>
@@ -499,7 +502,16 @@
           <div class="equip jewels" id="equip-jewels"></div>
         </div>
         <div class="inv-sum" id="inv-sum"></div>
-        <div class="inv-tools"><span id="inv-count" class="dim small"></span><button id="inv-sort" class="small ghost">Sort</button></div>
+        <div class="inv-tools"><span id="inv-count" class="dim small"></span><div class="bag-actions"><button type="button" id="inv-compact" class="small ghost" aria-pressed="false" aria-label="Compact bag">Compact</button><button id="inv-sort" class="small ghost">Sort</button></div></div>
+        <div class="pack-search"><label for="inv-search">Search carried items</label><div><input id="inv-search" type="search" maxlength="80" autocomplete="off" placeholder="Name, type or known power"><button type="button" id="inv-search-clear" class="ghost" disabled>Clear</button></div><span id="inv-search-count" class="dim small" role="status"></span></div>
+        <div class="bag-filters" role="group" aria-label="Bag filters">
+          <button type="button" data-bag-filter="all" aria-pressed="true">All <span></span></button>
+          <button type="button" data-bag-filter="weapon" aria-pressed="false">Weapons <span></span></button>
+          <button type="button" data-bag-filter="armour" aria-pressed="false">Armour <span></span></button>
+          <button type="button" data-bag-filter="supplies" aria-pressed="false">Supplies <span></span></button>
+        </div>
+        <div id="inv-slot-filter" class="slot-picker" hidden><p id="inv-slot-title" tabindex="-1"></p><button type="button" id="inv-clear-slot" class="small ghost">Show all</button></div>
+        <p id="inv-empty" class="dim small" role="status" hidden></p>
         <div class="grid" id="inv-grid"></div>
         <div id="floor-box" class="floor-box"></div>
       </div>
@@ -512,6 +524,7 @@
         <div class="map-frame"><canvas id="map-canvas"></canvas><div id="map-zoom" class="map-zoom"><button id="map-out" type="button" aria-label="Zoom out">−</button><button id="map-in" type="button" aria-label="Zoom in">+</button></div></div>
         <div id="map-legend" class="map-legend"></div>
         <p class="dim small" id="map-note">Explored ground only. You are the ringed square.</p>
+        <details id="map-landmarks" class="map-landmarks"></details>
       </div>
     </div>
     <div id="ov-spells" class="overlay">
@@ -543,6 +556,10 @@
           <button class="tab" data-jtab="beasts" role="tab" aria-selected="false">Bestiary</button>
           <button class="tab" data-jtab="companions" role="tab" aria-selected="false">Companions</button>
           <button class="tab" data-jtab="relics" role="tab" aria-selected="false">Relics</button>
+          <button class="tab" data-jtab="quests" role="tab" aria-selected="false">Quests</button>
+          <button class="tab" data-jtab="effects" role="tab" aria-selected="false">Conditions</button>
+          <button class="tab" data-jtab="recap" role="tab" aria-selected="false">Recap</button>
+          <button class="tab" data-jtab="haul" role="tab" aria-selected="false">Haul</button>
           <button class="tab" data-jtab="combos" role="tab" aria-selected="false">Combinations</button>
         </div>
         <div class="row voice-controls" data-voice-context="journal" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
@@ -675,6 +692,7 @@
       <p id="end-goal" class="next-goal" hidden></p>
       <div id="end-summary" class="end-summary"></div>
       <div id="end-stats" class="stats end-stats"></div>
+      <details id="end-recap" class="run-recap"><summary>Run recap</summary><div id="end-recap-body"></div></details>
       <details id="end-final" class="final-moments"><summary>Final moments</summary><div id="end-final-log"></div></details>
       <div class="menu">
         <button id="end-share" class="big" style="display:none">Share today's result</button>

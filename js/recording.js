@@ -7,7 +7,7 @@ export const RECORD_METHODS = ['update', 'tick', 'renderState', 'input', 'beginP
   'equip', 'unequip', 'useItem', 'dropItem', 'takeItem', 'sortPack', 'castSpell', 'useAbility',
   'puzzleAction', 'closePuzzle', 'chooseBoon', 'chooseRoute', 'leaveFork', 'chooseEncounter', 'closeEncounter', 'closeShop',
   'buy', 'sell', 'sellJunk', 'buyService', 'study', 'giveCharm', 'claimHeart', 'rest', 'quickScroll',
-  'toggleRolls', 'save', 'log', 'runFinds', 'hurtPlayer', 'descend', 'giveItem', 'setWorn'];
+  'toggleRolls', 'save', 'log', 'runFinds', 'hurtPlayer', 'descend', 'giveItem', 'setWorn', 'commandCompanion'];
 const clone = v => v === undefined ? null : JSON.parse(JSON.stringify(v));
 
 /** A stable outcome print, excluding the renderer's explored squares and the record itself. */
@@ -26,7 +26,7 @@ export function recordingStore() {
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
-      if (k && k.startsWith('deepdelve.') && !['deepdelve.save', 'deepdelve.replay'].includes(k)) out[k] = localStorage.getItem(k);
+      if (k && k.startsWith('deepdelve.') && !['deepdelve.save', 'deepdelve.replay', 'deepdelve.gearTools', 'deepdelve.packFinds', 'deepdelve.packCompact', 'deepdelve.landmarks'].includes(k)) out[k] = localStorage.getItem(k);
     }
   } catch { /* recording remains possible when storage is unavailable */ }
   return out;

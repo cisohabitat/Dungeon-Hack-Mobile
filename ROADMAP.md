@@ -65,6 +65,16 @@ About eight months in all, plus whatever audio and the device round take outside
 
 ---
 
+## Equipment and companion follow-up (19 October 2026)
+
+- [x] Three pinned consumables, protected favourites, both-hand comparisons,
+  relic set progress, live companion cards and a per-floor pickup summary.
+
+## Delve guidance follow-up (20 October 2026)
+
+- [x] Quest tracker, known map landmarks, status explanations, portrait companion
+  orders, run recap and inventory search, with existing rules and hidden information preserved.
+
 ## Phase 6: The review's fixes (2–3 weeks)
 
 Everything the review found that is a bug, a rough edge or a one-batch gap, before anything

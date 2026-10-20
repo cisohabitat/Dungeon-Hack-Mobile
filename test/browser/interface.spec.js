@@ -1218,6 +1218,9 @@ test('@mobile one left-hand slot follows shield, off-hand blade and two-handed g
   await expect(hand).toHaveCount(1);
   await expect(hand).toHaveAttribute('data-slot', 'shield');
   await page.locator('#inv-grid button', { hasText: 'Short Sword' }).click();
+  // The sheet can open under the mouse on a small viewport. Check the item's
+  // default destinations before deliberately focusing one action below.
+  await page.mouse.move(0, 0);
   await expect(page.locator('[data-slot="weapon"]')).toHaveClass(/destination/);
   await expect(hand).toHaveClass(/destination/);
   await page.getByRole('button', { name: 'Off hand', exact: true }).focus();
@@ -1275,5 +1278,139 @@ test('@mobile item sheet keeps actions in reach and Back restores the selected i
   await expect(page.locator('#ov-inv')).toHaveClass(/open/);
   await padPress(page, 'B');
   await expect(page.locator('#ov-inv')).not.toHaveClass(/open/);
+  expect(errors).toEqual([]);
+});
+
+test('@mobile slot-first equipment filters candidates and previews without changing the hero', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'slot-first' });
+  await page.evaluate(() => {
+    const p = Game.player();
+    p.inv = [{ t: 'plate', q: 1, e: 1 }, { t: 'potion_heal', q: 1, e: 0 }, { t: 'ring_evasion', q: 1, e: 2 }];
+    Game.state().known.ring_evasion = 1;
+  });
+  await page.click('[data-open="inv"]');
+  await page.locator('[data-slot="armor"]').click();
+  await page.getByRole('button', { name: 'Choose replacement', exact: true }).click();
+  await expect(page.locator('#inv-slot-title')).toContainText('Choose armour · 1 compatible item');
+  await expect(page.locator('#inv-grid button')).toHaveCount(1);
+  const before = await page.evaluate(() => JSON.stringify({ eq: Game.player().eq, inv: Game.player().inv }));
+  await page.locator('#inv-grid button').click();
+  await expect(page.locator('#item-detail table')).toContainText('Item armour');
+  await expect(page.locator('#item-detail table')).toContainText('+8');
+  expect(await page.evaluate(() => JSON.stringify({ eq: Game.player().eq, inv: Game.player().inv }))).toBe(before);
+  const pure = await page.evaluate(async () => {
+    const { itemComparison } = await import('/js/itemdisplay.js');
+    const before = JSON.stringify(Game.state());
+    itemComparison(Game.player().inv[0], 'armor');
+    return JSON.stringify(Game.state()) === before;
+  });
+  expect(pure).toBe(true);
+  await page.getByRole('button', { name: 'Equip', exact: true }).click();
+  expect(await page.evaluate(() => Game.player().eq.armor.t)).toBe('plate');
+  await page.locator('[data-slot="ring2"]').click();
+  await expect(page.locator('#inv-slot-title')).toContainText('second ring');
+  await expect(page.locator('#inv-grid button')).toHaveCount(1);
+  await page.locator('#inv-grid button').click();
+  await page.getByRole('button', { name: 'Put on', exact: true }).click();
+  expect(await page.evaluate(() => [Game.player().eq.ring, Game.player().eq.ring2.t])).toEqual([null, 'ring_evasion']);
+  expect(errors).toEqual([]);
+});
+
+test('@mobile bag categories and compact view preserve capacity and item actions', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'bag-tools' });
+  await page.evaluate(() => { Game.player().inv = [{ t: 'dagger', q: 1, e: 0 }, { t: 'shortsword', q: 1, e: 0 }, { t: 'leather', q: 1, e: 0 }, { t: 'potion_heal', q: 2, e: 0 }]; });
+  await page.click('[data-open="inv"]');
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
+  await page.locator('[data-bag-filter="weapon"]').click();
+  await expect(page.locator('#inv-grid button')).toHaveCount(2);
+  await expect(page.locator('[data-bag-filter="weapon"]')).toContainText('(2)');
+  await page.locator('[data-bag-filter="armour"]').click();
+  await expect(page.locator('#inv-grid button')).toHaveCount(1);
+  await expect(page.locator('#inv-grid')).toContainText('Leather Armour');
+  await page.locator('[data-bag-filter="supplies"]').click();
+  await expect(page.locator('#inv-grid button')).toHaveCount(1);
+  await page.locator('[data-bag-filter="all"]').click();
+  await page.locator('#inv-compact').click();
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(5);
+  await expect(page.locator('#inv-count')).toHaveText('4 of 20 squares');
+  expect(await page.evaluate(() => [Game.INV_MAX, Game.player().inv.length])).toEqual([20, 4]);
+  await page.click('#ov-inv [data-close]');
+  await page.click('[data-open="inv"]');
+  await expect(page.locator('#inv-compact')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(5);
+  await page.locator('#inv-grid button', { hasText: 'Dagger' }).click();
+  await page.getByRole('button', { name: 'Drop', exact: true }).click();
+  await expect(page.locator('#inv-count')).toHaveText('3 of 20 squares');
+  expect(errors).toEqual([]);
+});
+
+test('@mobile recent finds survive reload, clear on inspection and return for a larger stack', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'recent-items' });
+  await page.evaluate(() => Game.giveItem({ t: 'potion_heal', q: 2, e: 0 }));
+  await page.click('[data-open="inv"]');
+  const potion = page.locator('#inv-grid button', { hasText: 'Potion of Healing' });
+  await expect(potion.locator('.new-find')).toHaveText('New');
+  await page.evaluate(() => Game.save(true));
+  await page.reload();
+  await page.click('#btn-continue');
+  await page.click('[data-open="inv"]');
+  await expect(potion.locator('.new-find')).toHaveText('New');
+  await potion.click();
+  await expect(potion.locator('.new-find')).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await page.click('#inv-sort');
+  await expect(potion.locator('.new-find')).toHaveCount(0);
+  await page.click('#ov-inv [data-close]');
+  await page.evaluate(() => Game.giveItem({ t: 'potion_heal', q: 1, e: 0 }));
+  await page.click('[data-open="inv"]');
+  await expect(potion.locator('.new-find')).toHaveText('New');
+  expect(errors).toEqual([]);
+});
+
+test('@mobile unknown quality inspections keep powers and stat comparisons hidden', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'unknown-preview' });
+  await page.evaluate(() => { Game.player().inv = [{ t: 'dagger', u: 'grimtooth', q: 1, e: 2, h: true }]; });
+  await page.click('[data-open="inv"]');
+  await page.locator('#inv-grid button').click();
+  await expect(page.locator('#item-detail table')).toHaveCount(0);
+  await expect(page.locator('#item-detail .relic-powers')).toHaveCount(0);
+  await expect(page.locator('#item-detail .relic-portrait')).toHaveCount(0);
+  await expect(page.locator('#item-detail .compare')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('@mobile shop inspection shares item presentation without buying, selling or arming payment', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'shop-inspect' });
+  await page.evaluate(async () => {
+    const { Progress } = await import('/js/progress.js'); Progress.noteRelic('grimtooth');
+    const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir];
+    L.monsters.length = 0; L.npcs.length = 0; p.gold = 1000;
+    L.tiles[(p.y + dy) * L.w + p.x + dx] = Dungeon.T.FLOOR;
+    L.npcs.push({ id: 'merchant', x: p.x + dx, y: p.y + dy, markup: 2, stock: [{ t: 'dagger', q: 1, e: 2, u: 'grimtooth' }], greeted: false });
+    Game.input('forward');
+  });
+  await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+  const before = await page.evaluate(() => JSON.stringify({ gold: Game.player().gold, inv: Game.player().inv, eq: Game.player().eq, stock: Game.currentShop().stock }));
+  await page.locator('#shop-stock .shop-inspect').click();
+  const detail = page.locator('#shop-stock .shop-item-inspection');
+  await expect(detail.locator('.item-showcase')).toBeVisible();
+  await expect(detail.locator('table')).toContainText('Weapon hit bonus');
+  await expect(detail.locator('.relic-portrait')).toHaveCount(1);
+  await detail.locator('.relic-portrait').click();
+  await expect(detail.locator('.relic-portrait')).toHaveClass(/zoom/);
+  expect(await page.evaluate(() => JSON.stringify({ gold: Game.player().gold, inv: Game.player().inv, eq: Game.player().eq, stock: Game.currentShop().stock }))).toBe(before);
+  await expect(page.locator('#shop-stock .shop-row button.armed')).toHaveCount(0);
+  await page.click('#ov-shop [data-close]');
+  await page.click('[data-open="journal"]');
+  await page.click('[data-jtab="relics"]');
+  const relic = page.locator('#journal-list [data-relic="grimtooth"]');
+  await expect(relic.locator('.grade-word')).toHaveText('Relic');
+  await expect(relic.locator('.item-facts')).toContainText('Damage dice');
+  await expect(relic.locator('table')).toContainText('Weapon hit bonus');
   expect(errors).toEqual([]);
 });

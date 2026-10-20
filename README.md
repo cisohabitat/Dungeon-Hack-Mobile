@@ -259,6 +259,29 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   armour at the chest, and one left-hand slot for a shield, focus or second weapon.
   Selecting an item highlights its valid equipment slots; its details open in a bottom
   sheet with actions kept in reach. Escape or controller Back closes the details first.
+  Tap a slot to browse compatible replacements; filters separate weapons, worn gear
+  and supplies. A compact bag option hides unused rows while keeping all 20 squares.
+  New finds stay marked until inspected, including across reloads; a growing stack
+  is marked again. Before/after item stats and weapon-rate estimates share their
+  presentation with read-only shop inspection and the discovered relic collection.
+  Both-hand previews explain shields, second blades and two-handed grips before equipping.
+  Under an item's **Favourites and quick-use belt**, protect it from dropping and selling,
+  or pin food, potions and scrolls to three dungeon controls. Depleted belt slots retain their
+  assignments for later refills. These preferences belong to the current run on this device.
+  The Journal's **Haul** lists actual floor pickups, excluding purchases, gifts and dropped
+  items taken back; earlier pickups from old saves are not reconstructed. Relic sets show
+  discovery and worn progress separately, and the Companions page shows the current
+  companion's health, learned abilities and following, waiting or fallen state.
+  Search carried items by name, public type or a known power; search combines with
+  the category and equipment-slot filters without identifying hidden gear.
+  The Journal's **Quests** shows job progress, payment instructions and unfinished
+  leads. Tap a status chip for **Conditions**, with its effect and remaining duration.
+  **Recap**, also available after the run ends, brings together notable finds,
+  paid jobs, companion milestones and defeated bosses. Follow/Stay buttons beside
+  the companion portrait use the same facing and reach restrictions as **Use**.
+  The map lists known traders, shrines, locked doors and unresolved encounters;
+  select a landmark to centre it. Resolved encounter markers are remembered on this
+  device from this update onward, and unexplored places stay hidden.
   Large text uses a readable two-column equipment list.
 - **Sound.** Placed by ear: a blow drawn back on your left is heard on your left, and a far one
   is quieter and duller. Blades, clubs, arrows, fists and spells each strike differently, armour

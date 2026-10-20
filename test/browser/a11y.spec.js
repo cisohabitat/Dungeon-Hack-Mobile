@@ -84,7 +84,7 @@ test('the dungeon and every overlay in it', async ({ page }) => {
     await expect(page.locator(`#ov-${name}`)).toHaveClass(/open/);
     await scan(page, name, found);
     // the journal's other pages, the combinations among them
-    if (name === 'journal') for (const tab of ['beasts', 'relics', 'combos']) { await page.click(`[data-jtab="${tab}"]`); await scan(page, 'journal-' + tab, found); }
+    if (name === 'journal') for (const tab of ['beasts', 'relics', 'combos', 'companions', 'haul', 'quests', 'effects', 'recap']) { await page.click(`[data-jtab="${tab}"]`); await scan(page, 'journal-' + tab, found); }
     await page.keyboard.press('Escape');
     await expect(page.locator(`#ov-${name}`)).not.toHaveClass(/open/);
   }

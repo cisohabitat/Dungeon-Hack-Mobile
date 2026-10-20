@@ -1,3 +1,4 @@
+import { knownLandmarks, landmarkList } from './maplandmarks.js';
 // The map overlay: the explored floor drawn to fill the room it has, its key, and
 // zooming in about the hero by button or pinch. ui.js opens it, and lends what it
 // needs through K.
@@ -50,7 +51,7 @@ export function makeMapView(K) {
   const MAP_TILE_MAX = 28;
   // how far the map is zoomed in (1, the whole of what is known) and how far
   // its frame has been dragged from the hero, in squares
-  const mapView = { zoom: 1, panX: 0, panY: 0 };
+  const mapView = { zoom: 1, panX: 0, panY: 0, landmark: '' };
   /** Zoom the map by a factor, about the hero. @param {number} k */
   function zoomMap(k) {
     mapView.zoom = Math.max(1, Math.min(6, mapView.zoom * k));
@@ -59,6 +60,14 @@ export function makeMapView(K) {
   }
   /** Two fingers pinch the map in and out; one drags it about once it is zoomed in. */
   function wireMapPinch() {
+    $('#map-landmarks').addEventListener('click', e => {
+      const button = e.target.closest('[data-landmark]'); if (!button) return;
+      const row = knownLandmarks().find(r => r.key === button.dataset.landmark); if (!row) return;
+      const p = Game.player(); mapView.landmark = row.key; mapView.zoom = Math.max(2, mapView.zoom);
+      mapView.panX = row.x - p.x; mapView.panY = row.y - p.y; renderMap();
+      [...$('#map-landmarks').querySelectorAll('button')].find(b => b.dataset.landmark === row.key)?.focus({ preventScroll: true });
+      $('#map-canvas').scrollIntoView({ block: 'nearest' });
+    });
     const c = /** @type {HTMLCanvasElement} */ ($('#map-canvas'));
     /** @type {Map<number, {x: number, y: number}>} */
     const down = new Map();
@@ -88,7 +97,8 @@ export function makeMapView(K) {
   }
   let mapRedrawn = false;
   function renderMap() {
-    const L = Game.level(), p = Game.player();
+    const L = Game.level(), p = Game.player(), landmarks = knownLandmarks();
+    landmarkList($('#map-landmarks'), landmarks, mapView.landmark);
     const c = $('#map-canvas');
     const T = Dungeon.T;
     // Fill the space available rather than assuming a tiny tile: a marker that
@@ -120,7 +130,11 @@ export function makeMapView(K) {
     const body = /** @type {HTMLElement} */ ($('#ov-map .ov-body'));
     const outer = e => { if (!e) return 0; const st = getComputedStyle(e); return e.offsetHeight + parseFloat(st.marginTop) + parseFloat(st.marginBottom); };
     const bs = getComputedStyle(body), room = body.clientHeight - parseFloat(bs.paddingTop) - parseFloat(bs.paddingBottom);
-    const keyH = outer($('#map-legend')) + outer(/** @type {HTMLElement} */ ($('#map-legend').nextElementSibling));
+    // Reserve the closed landmarks heading too; expanding its list may scroll,
+    // but the map, key and heading should fit above a phone's home bar.
+    const footerHeight = () => outer($('#map-legend')) + outer($('#map-note')) +
+      outer($('#map-landmarks summary')) + parseFloat(getComputedStyle($('#map-landmarks')).marginTop);
+    const keyH = footerHeight();
     // (less the canvas's border, and the gap a canvas leaves under itself as a line of text would)
     const availW = Math.min(window.innerWidth, body.clientWidth || window.innerWidth) - 24, availH = room > 0 ? room - keyH - 8 : window.innerHeight - 230;
     // ...but not so large that the first few squares of a floor read as a close-up
@@ -209,6 +223,13 @@ export function makeMapView(K) {
       glyph('\u00a4', n.x, n.y, '#2a1a38');
     }
 
+    for (const row of landmarks.filter(r => ['shrine', 'encounter'].includes(r.type))) {
+      edged(row.x * size - ox, row.y * size - oy, size, size, MAP_COLOUR.trader);
+      glyph(row.type === 'shrine' ? '+' : '?', row.x, row.y, '#2a1a38');
+    }
+    const selected = landmarks.find(r => r.key === mapView.landmark);
+    if (selected) { ctx.strokeStyle = '#ffd24a'; ctx.lineWidth = Math.max(2, edge); ctx.strokeRect(selected.x * size - ox + 1, selected.y * size - oy + 1, size - 2, size - 2); }
+
     // every monster, awake or asleep, seen or not, for whoever is testing
     if (eye) for (const m of L.monsters) {
       edged(m.x * size - ox + size * 0.1, m.y * size - oy + size * 0.1, size * 0.8, size * 0.8, MAP_COLOUR.monster);
@@ -250,7 +271,7 @@ export function makeMapView(K) {
     // The key under the map wraps to the width the map had before this drawing:
     // on a narrow phone it took a line more the first time the map opened, and
     // the map came out smaller than after any zoom. Measured again, once.
-    const keyNow = outer($('#map-legend')) + outer(/** @type {HTMLElement} */ ($('#map-legend').nextElementSibling));
+    const keyNow = footerHeight();
     if (!mapRedrawn && Math.abs(keyNow - keyH) > 1) { mapRedrawn = true; renderMap(); mapRedrawn = false; }
   }
 

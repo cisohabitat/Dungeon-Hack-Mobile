@@ -1670,6 +1670,25 @@ const Game = (() => {
   }
   function tick(now) { realNow = now; }
 
+  function companionCommandReason() {
+    if (!G || G.status !== 'playing') return 'This delve has ended.';
+    if (prelude.active() || puzzles.current() || encs.current() || pendingBoons()?.length || G.forkPending) return 'Finish the current choice first.';
+    if (P().held > G.t) return 'You cannot give orders while held fast.';
+    const c = G.companion;
+    if (!c || c.fallen) return 'No living companion is with you.';
+    if (c.depth !== G.depth) return `Your companion waits on floor ${c.depth}.`;
+    if (!['Stay', 'Come'].includes(useLabel())) return 'Face your companion on an adjacent square to give an order.';
+    return null;
+  }
+  function commandCompanion(mode) {
+    if (!['follow', 'stay'].includes(mode)) return false;
+    const why = companionCommandReason();
+    if (why) return false;
+    if (G.companion.mode === mode) return true;
+    input('use');
+    return G.companion.mode === mode;
+  }
+
   /** @param {string} act @param {boolean} [repeat]  sent again because a button is still held, not a fresh press */
   function input(act, repeat) {
     if (!G || G.status !== 'playing' || puzzles.current()) return;
@@ -1774,6 +1793,7 @@ const Game = (() => {
     shaped: () => !!(G && wild.shaped()), shapeChip: () => (G && G.status === 'playing' ? wild.chip() : ''),
     hurtPlayer, spMax, trapEye,
     giveCharm: it => { const why = G && G.status === 'playing' ? companion.wear(it) : 'Not now.'; if (why) { log(why, 'bad'); Sound.play('error'); } else emit('inv'); return why; },
+    commandCompanion, companionCommandReason,
     companionHere: () => !!companion.here(), companionNoisy: () => companion.noisy(),
     update, tick, input, renderState, takeEvents, quickScroll, vitals,
     beginPrelude: (now = performance.now()) => prelude.begin(now), preludeOn: () => prelude.active(), skipPrelude: (now = realNow || performance.now()) => prelude.finish(now),

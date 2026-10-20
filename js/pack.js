@@ -1,4 +1,8 @@
+import { matchesItem } from './delveguide.js';
+import { GearTools } from './geartools.js';
 import { fillRelicPortraits } from './relicart.js';
+import { itemHeader, itemComparison, handComparison, slotReason } from './itemdisplay.js';
+import { makePackMemory } from './packmemory.js';
 // The pack: its slots, what an item does and how it compares with what is worn,
 // and using a thing from it. ui.js opens it, and lends what it needs through K.
 import { Assets } from './assets.js';
@@ -15,35 +19,72 @@ export function makePack(K) {
   const knownE = (/** @type {any[]} */ ...a) => K.knownE(...a);
   const weaponLine = (/** @type {any[]} */ ...a) => K.weaponLine(...a);
 
+  let filter = 'all', slotTarget = '', compact = false, search = '';
+  const recent = makePackMemory((key, value) => K.store(key, value));
+  const wornKinds = ['armor', 'shield', 'ring', 'amulet', 'cloak'];
+  const inCategory = (it, category) => category === 'all' || (category === 'weapon' ? ITEMS[it.t].kind === 'weapon' : category === 'armour' ? wornKinds.includes(ITEMS[it.t].kind) : !['weapon', ...wornKinds].includes(ITEMS[it.t].kind));
+  const slotName = slot => ({ weapon: 'weapon', armor: 'armour', left: 'left hand', ring: 'first ring', ring2: 'second ring', amulet: 'amulet', cloak: 'cloak' }[slot] || slot);
+  function clearFilter() {
+    slotTarget = ''; filter = 'all'; K.selectedItem = null; K.selectedSlot = null;
+    renderInv();
+  }
+  function chooseSlot(slot, it = null) {
+    slotTarget = slot; filter = 'all'; K.selectedItem = it;
+    K.selectedSlot = it ? (slot === 'left' ? Game.player().eq.offhand === it ? 'offhand' : 'shield' : slot) : null;
+    if (it) recent.inspect(it);
+    renderInv();
+    $(it ? '#item-detail-title' : '#inv-slot-title').focus({ preventScroll: !!it });
+    $('#inv-slot-filter').scrollIntoView({ block: 'start' });
+  }
+  function bindPack() {
+    compact = K.store('deepdelve.packCompact') === '1';
+    for (const button of $('#ov-inv').querySelectorAll('[data-bag-filter]')) button.addEventListener('click', () => {
+      slotTarget = ''; filter = button.dataset.bagFilter; K.selectedItem = null; K.selectedSlot = null; renderInv();
+    });
+    $('#inv-search').addEventListener('input', () => { search = $('#inv-search').value.slice(0, 80); K.selectedItem = null; K.selectedSlot = null; renderInv(); });
+    $('#inv-search-clear').addEventListener('click', () => { search = ''; $('#inv-search').value = ''; renderInv(); $('#inv-search').focus(); });
+    $('#inv-compact').addEventListener('click', () => { compact = !compact; K.store('deepdelve.packCompact', compact ? '1' : '0'); renderInv(); });
+    $('#inv-clear-slot').addEventListener('click', clearFilter);
+    $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
+  }
+
   // Presentation memory only: taking up a save does not replay old discoveries.
   // Nothing opens the pack or holds the dungeon still on the player's behalf.
   const presented = new Set();
   const treasures = () => [...Game.player().inv, ...Object.values(Game.player().eq)].filter(it => it && ['legend', 'mythic'].includes(Game.grade(it)));
   function resetTreasure() {
-    presented.clear();
+    presented.clear(); filter = 'all'; slotTarget = ''; search = ''; $('#inv-search').value = ''; recent.reset();
     for (const it of treasures()) presented.add(it.u);
   }
   function prepareTreasure() {
+    filter = 'all'; slotTarget = ''; search = ''; $('#inv-search').value = '';
     const it = treasures().find(it => !presented.has(it.u));
-    if (it) { K.selectedItem = it; K.selectedSlot = Object.keys(Game.player().eq).find(s => Game.player().eq[s] === it) || null; }
+    if (it) { recent.inspect(it); K.selectedItem = it; K.selectedSlot = Object.keys(Game.player().eq).find(s => Game.player().eq[s] === it) || null; }
   }
 
   // Find the item again after sorting, equipping or a redraw has replaced its button.
   function focusItem(it) {
     const p = Game.player(), worn = Object.keys(p.eq).find(slot => p.eq[slot] === it);
     const el = worn ? $(`#equip [data-slot="${worn}"], #equip-jewels [data-slot="${worn}"]`)
-      : p.inv.includes(it) ? $('#inv-grid').children[p.inv.indexOf(it)] : $('#inv-sort');
+      : p.inv.includes(it) ? $(`#inv-grid [data-index="${p.inv.indexOf(it)}"]`) : $('#inv-sort');
     if (el && el.focus) el.focus();
   }
   function closeDetail() {
     const it = K.selectedItem;
-    if (!it) return false;
+    if (!it) {
+      if (!slotTarget && filter === 'all') return false;
+      const slot = slotTarget; clearFilter();
+      const button = slot === 'left' ? $('[data-hand="left"]') : $(`.equipment-figure [data-slot="${slot}"]`);
+      (button || $('[data-bag-filter="all"]')).focus();
+      return true;
+    }
     K.selectedItem = null; K.selectedSlot = null;
     renderInv();
     focusItem(it);
     return true;
   }
   function selectItem(it, slot) {
+    recent.inspect(it);
     K.selectedItem = it; K.selectedSlot = slot;
     renderInv();
     $('#item-detail-title').focus({ preventScroll: true });
@@ -71,9 +112,9 @@ export function makePack(K) {
   }
 
   function slotEl(it, label) {
-    const div = document.createElement(it ? 'button' : 'div');
+    const div = document.createElement(it || label ? 'button' : 'div');
+    if (it || label) div.setAttribute('type', 'button');
     if (it) {
-      div.setAttribute('type', 'button');
       div.setAttribute('aria-label',
         `${label ? label + ': ' : ''}${Game.itemName(it)}`);
     } else if (label) {
@@ -101,6 +142,7 @@ export function makePack(K) {
   }
   function renderInv() {
     const p = Game.player();
+    recent.sync(); GearTools.sync();
     const eq = $('#equip');
     eq.innerHTML = '';
     // Shield, focus and second blade occupy one left hand in the rules too.
@@ -123,7 +165,9 @@ export function makePack(K) {
         el.setAttribute('aria-label', `Left hand: ${it ? Game.itemName(it) + ', ' + use : grip ? 'occupied by two-handed weapon' : 'empty, ' + use}`);
         el.classList.toggle('occupied', !!grip);
       }
-      if (it) { el.setAttribute('aria-controls', 'item-detail'); el.addEventListener('click', () => selectItem(it, slot)); }
+      el.setAttribute('aria-controls', 'inv-grid item-detail');
+      el.classList.toggle('slot-target', slotTarget === (left ? 'left' : slot));
+      el.addEventListener('click', () => chooseSlot(left ? 'left' : slot, it || null));
       if (K.selectedItem === it && it) { el.classList.add('sel'); el.setAttribute('aria-pressed', 'true'); }
       else if (it) el.setAttribute('aria-pressed', 'false');
       (slots.includes(slot) ? eq : jewels).appendChild(el);
@@ -134,14 +178,33 @@ export function makePack(K) {
     // what the gear worn comes to, so a change of it is seen to count
     $('#inv-sum').innerHTML = `<div class="inv-stats"><span>Armour class <b>${escapeHtml(Game.playerAC())}</b></span><span><b>${escapeHtml((Game.toHit() >= 0 ? '+' : '') + Game.toHit())}</b> to hit</span><span><b>${escapeHtml(p.gold)}</b> gold</span></div><div class="inv-weapon">${escapeHtml(weaponLine())}</div>`;
     /** @type {HTMLButtonElement} */ ($('#inv-sort')).disabled = p.inv.length < 2;
-    for (let i = 0; i < Game.INV_MAX; i++) {
-      const it = p.inv[i];
+    for (const button of $('#ov-inv').querySelectorAll('[data-bag-filter]')) {
+      button.setAttribute('aria-pressed', String(!slotTarget && filter === button.dataset.bagFilter));
+      button.querySelector('span').textContent = `(${p.inv.filter(it => inCategory(it, button.dataset.bagFilter)).length})`;
+    }
+    $('#inv-compact').setAttribute('aria-pressed', String(compact));
+    $('#inv-slot-filter').hidden = !slotTarget;
+    const shown = p.inv.map((it, index) => ({ it, index })).filter(({ it }) => (slotTarget ? !slotReason(it, slotTarget) : inCategory(it, filter)) && matchesItem(it, search));
+    $('#inv-slot-title').textContent = slotTarget ? `Choose ${slotName(slotTarget)} · ${shown.length} compatible ${shown.length === 1 ? 'item' : 'items'}` : '';
+    $('#inv-search-clear').disabled = !search;
+    $('#inv-search-count').textContent = search ? `${shown.length} matching ${shown.length === 1 ? 'item' : 'items'}` : '';
+    $('#inv-empty').hidden = shown.length > 0;
+    $('#inv-empty').textContent = search && !shown.length ? 'No matching items. Try another name or known power, or clear the search.' : slotTarget ? `No compatible items for ${slotName(slotTarget)}. Use Show all to browse the rest of your bag.` : filter === 'all' ? 'Your bag is empty.' : 'No items in this category.';
+    const cells = !slotTarget && filter === 'all' && !compact && !search ? Game.INV_MAX : Math.min(Game.INV_MAX, Math.max(5, Math.ceil(shown.length / 5) * 5));
+    for (let i = 0; i < cells; i++) {
+      const entry = shown[i], it = entry?.it;
       const el = slotEl(it, null);
       if (it) {
+        el.dataset.index = String(entry.index);
         el.setAttribute('aria-controls', 'item-detail');
         el.addEventListener('click', () => selectItem(it, null));
         el.setAttribute('aria-pressed', String(K.selectedItem === it));
         if (K.selectedItem === it) el.classList.add('sel');
+        if (GearTools.isFavourite(it)) { el.insertAdjacentHTML('beforeend', '<span class="favourite-mark" aria-hidden="true">★</span>'); el.setAttribute('aria-label', `${Game.itemName(it)}, protected favourite`); }
+        if (recent.isNew(it)) {
+          el.insertAdjacentHTML('beforeend', '<span class="new-find">New</span>');
+          el.setAttribute('aria-label', `${el.getAttribute('aria-label')}, new find`);
+        }
       }
       grid.appendChild(el);
     }
@@ -190,21 +253,21 @@ export function makePack(K) {
     // rusted, or simply poorly made: the forge can put it right
     else if ((it.e || 0) < 0 && (b.kind === 'weapon' || b.kind === 'armor')) info += ' Worn or rusted: a trader\'s forge can mend it.';
     const why = (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') ? Game.canEquip(it) : null;
-    const compare = K.selectedSlot ? '' : compareText(it, b) + offhandText(it, b);
+    const previewSlot = slotTarget === 'left' ? b.kind === 'weapon' ? 'offhand' : 'shield' : slotTarget;
+    const compare = K.selectedSlot ? '' : itemComparison(it, previewSlot) + handComparison(it, previewSlot) + compareText(it, b) + offhandText(it, b);
     // a relic spells out each power in full, then tells its story
-    const r = Game.relicOf(it);
+    const r = !it.h && Game.isKnown(it.t) ? Game.relicOf(it) : null;
     // one of a pair: name the other, and say whether both are on
     const set = r && setOf(it.u) ? RELIC_SETS[setOf(it.u)] : null, mate = set ? set.pieces.find(u => u !== it.u) : '';
     const setLine = set ? `<p class="relic-set"><b>${escapeHtml(upFirst(set.name))}</b>, with ${escapeHtml(RELICS[mate].name)}. ${escapeHtml(set.text)}${Object.values(Game.player().eq).some(x => x && x.u === mate) && Object.values(Game.player().eq).some(x => x === it) ? ' (both worn)' : ''}</p>` : '';
     const legend = r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul>${setLine}<p class="relic-lore">${escapeHtml(r.lore)}</p>`
       : (it.pw && !it.h && RELIC_POWERS[it.pw] ? `<ul class="relic-powers"><li>${escapeHtml(RELIC_POWERS[it.pw])}</li></ul>` : '');
     const gr = Game.grade(it);
-    const art = Assets.sprites[Game.spriteFor(it)];
     const reveal = (gr === 'legend' || gr === 'mythic') && !presented.has(it.u);
     if (reveal) presented.add(it.u);
     box.classList.toggle('treasure-reveal', reveal);
     box.dataset.grade = gr;
-    box.innerHTML = `<div class="item-detail-body" tabindex="0" role="region" aria-label="Item description"><div class="item-showcase g-${gr}"><img ${r && !it.h && Game.isKnown(it.t) ? `data-relic-portrait="${it.u}"` : ''} src="${art.url}" alt=""><div>${reveal ? '<p class="treasure-new">New find</p>' : ''}<h3 id="item-detail-title" tabindex="-1" class="g-${gr}${r ? ' relic' : ''}">${escapeHtml(Game.itemName(it))}</h3>${gr !== 'plain' ? `<p class="grade-word g-${gr}">${Game.GRADES[gr]}</p>` : ''}</div></div><p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}</div><div class="buttons" aria-label="Item actions"></div>`;
+    box.innerHTML = `<div class="item-detail-body" tabindex="0" role="region" aria-label="Item description">${itemHeader(it, { titleId: 'item-detail-title', newFind: reveal })}<p class="dim small">${escapeHtml(info)}${why ? ' <span style="color:#f88">' + escapeHtml(why) + '</span>' : ''}</p>${legend}${compare}</div><div class="buttons" aria-label="Item actions"></div>`;
     fillRelicPortraits(box);
     const btns = box.querySelector('.buttons');
     const add = (label, fn, cls, target) => {
@@ -217,23 +280,29 @@ export function makePack(K) {
         bt.addEventListener('blur', () => markDestinations());
       }
       bt.addEventListener('click', () => {
-        fn(); K.selectedItem = null; K.selectedSlot = null; renderInv();
+        fn(); K.selectedItem = null; K.selectedSlot = null;
+        if (target || label === 'Unequip') { slotTarget = ''; filter = 'all'; }
+        renderInv();
         if (K.overlay === 'inv') focusItem(it);
       });
       btns.appendChild(bt);
     };
     // a worn piece offers only taking it off, and a cursed one not even that
-    if (K.selectedSlot) { if (!it.curse) add('Unequip', () => Game.unequip(K.selectedSlot)); }
+    if (K.selectedSlot) {
+      add('Choose replacement', () => queueMicrotask(() => $('#inv-slot-title').focus()), 'primary');
+      if (!it.curse) add('Unequip', () => Game.unequip(K.selectedSlot));
+    }
     else {
       if (b.kind === 'weapon' || b.kind === 'armor' || b.kind === 'shield') {
-        if (!why) add(it.curse && !it.h ? 'Equip (cursed!)' : 'Equip', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary', b.kind);
+        if (!why && (slotTarget !== 'left' || b.kind !== 'weapon')) add(it.curse && !it.h ? 'Equip (cursed!)' : 'Equip', () => Game.equip(it), it.curse && !it.h ? 'danger' : 'primary', b.kind);
         // a light blade can go in either hand, so offer the second one
-        if (b.kind === 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'), '', 'offhand');
+        if (b.kind === 'weapon' && slotTarget !== 'weapon' && !Game.offhandReason(it)) add('Off hand', () => Game.equip(it, false, 'offhand'), slotTarget === 'left' ? 'primary' : '', 'offhand');
       }
       else if ((b.kind === 'ring' || b.kind === 'amulet') && !why) {
         const eq = Game.player().eq, warn = it.curse && !it.h, cls = warn ? 'danger' : 'primary';
         // both fingers taken, and neither held by a curse: you say which ring comes off
-        if (b.kind === 'ring' && eq.ring && eq.ring2 && !eq.ring.curse && !eq.ring2.curse) {
+        if (b.kind === 'ring' && (slotTarget === 'ring' || slotTarget === 'ring2')) add(warn ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it, false, slotTarget), cls, slotTarget);
+        else if (b.kind === 'ring' && eq.ring && eq.ring2 && !eq.ring.curse && !eq.ring2.curse) {
           for (const s of ['ring', 'ring2']) add(`Replace ${Game.itemName(eq[s]).replace(/^Ring of /, '')}${warn ? ' (cursed!)' : ''}`, () => Game.equip(it, false, s), cls, s);
         } else add(warn ? 'Put on (cursed!)' : 'Put on', () => Game.equip(it), cls, b.kind === 'ring' ? (!eq.ring ? 'ring' : !eq.ring2 ? 'ring2' : eq.ring.curse ? 'ring2' : 'ring') : b.kind);
       }
@@ -252,6 +321,23 @@ export function makePack(K) {
       }
       add('Drop', () => Game.dropItem(it), 'danger');
     }
+    const protectedItem = GearTools.isFavourite(it);
+    const tools = document.createElement('details'); tools.className = 'item-tools';
+    tools.innerHTML = '<summary>Favourites and quick-use belt</summary><div class="preference-buttons"></div>';
+    const preference = (label, pressed, fn) => {
+      const button = document.createElement('button'); button.type = 'button'; button.textContent = label;
+      button.setAttribute('aria-pressed', String(pressed));
+      button.addEventListener('click', () => {
+        fn(); renderInv();
+        const next = box.querySelector('.item-tools'); next.open = true;
+        [...next.querySelectorAll('button')].find(b => b.textContent === label)?.focus();
+      });
+      tools.querySelector('.preference-buttons').appendChild(button);
+    };
+    preference('Protect favourite', protectedItem, () => GearTools.toggleFavourite(it));
+    if (GearTools.usable(it.t)) for (let slot = 0; slot < 3; slot++) preference(`Belt ${slot + 1}`, GearTools.pinned(slot) === it.t, () => GearTools.pin(it, slot));
+    box.querySelector('.item-detail-body').appendChild(tools);
+    if (protectedItem) for (const button of btns.querySelectorAll('button')) if (button.textContent === 'Drop') { button.disabled = true; button.textContent = 'Protected'; }
     add('Close', () => {});
   }
 
@@ -269,7 +355,7 @@ export function makePack(K) {
   // (if one is carried) no shield.
   function offhandText(it, b) {
     const p = Game.player();
-    if (b.kind !== 'weapon' || Game.offhandReason(it) || p.eq.offhand === it) return '';
+    if (it.h || !Game.isKnown(it.t) || b.kind !== 'weapon' || Game.offhandReason(it) || p.eq.offhand === it) return '';
     const d = b.dmg, e = knownE(it);
     const blow = `${d[0]}d${d[1]}${d[2] + e > 0 ? '+' + (d[2] + e) : d[2] + e < 0 ? '\u2212' + -(d[2] + e) : ''}`;
     // the blade parries for a point, so a shield costs what it gave (Bulwark
@@ -281,10 +367,11 @@ export function makePack(K) {
   }
   // How an unequipped piece of gear stacks up against the one in its slot.
   function compareText(it, b) {
+    if (it.h || !Game.isKnown(it.t)) return '';
     const p = Game.player();
     if (b.kind !== 'weapon' && b.kind !== 'armor' && b.kind !== 'shield') return '';
     const cur = p.eq[b.kind];
-    if (cur === it || Game.canEquip(it)) return '';
+    if (cur === it || (cur && (cur.h || !Game.isKnown(cur.t))) || Game.canEquip(it)) return '';
     // (a difference that rounds away is "no change", not a bare 0)
     const fmt = n => (Math.round(n * 10) / 10 === 0 ? 'no change in' : (n > 0 ? '+' : '') + (Math.round(n * 10) / 10));
     let label, delta;
@@ -310,5 +397,5 @@ export function makePack(K) {
     return `<p class="compare ${delta >= 0 ? 'up' : 'down'}">${escapeHtml(label)}: ${fmt(delta)} armour class</p>`;
   }
 
-  return { compareText, renderInv, resetTreasure, prepareTreasure, closeDetail };
+  return { compareText, renderInv, resetTreasure, prepareTreasure, closeDetail, bindPack, noteInventory: recent.sync };
 }

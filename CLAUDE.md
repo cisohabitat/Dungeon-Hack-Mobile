@@ -166,6 +166,56 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   separately. Escape/controller Back dismiss details first and restore item focus.
   Preserve class-specific focus/off-hand labels, hidden quality and existing actions.
   Large text hides the silhouette and returns equipment to a two-column list.
+  Slot-first browsing filters by existing equip restrictions; the chosen ring slot
+  must be passed explicitly when putting it on. The default All view keeps 20
+  cells; compact/filter views hide unused rows without changing inventory capacity.
+  `js/packmemory.js` stores bounded, run-specific UI counts and unread item keys
+  in `deepdelve.packFinds`, never on items or in saves. Inspecting clears a marker;
+  increasing a stack marks it again. Sorts and loads preserve inspection state.
+- `js/delveguide.js`: read-only Quests, Conditions and Recap views, also shared
+  with the end screen. Use current bounty, threads, stored finds and kill records;
+  never advance objectives or run a discovery scan to render them. Inventory
+  search combines category/slot filters and matches only public item kinds and
+  known names, descriptions and powers. Its query is transient and resets when
+  the Pack opens; typing never drives dungeon keys, and Escape still closes it.
+  HUD condition buttons open the matching Journal section; preserve keyboard
+  focus as their countdowns update and return to the stable Journal control.
+- `js/maplandmarks.js`: map landmarks must be on explored ground. Device-local
+  `deepdelve.landmarks` remembers encountered NPC coordinates so resolved shrines
+  remain marked; never reconstruct undiscovered encounters from generation data.
+  Bound and validate that memory and exclude it from recording starting data.
+  Selecting a landmark pans the map, never the hero. Use the current map palette.
+- `Game.commandCompanion(mode)` reuses the existing facing-adjacent Use action.
+  Its observer `companionCommandReason()` blocks ended delves, pending choices,
+  held heroes, absent/fallen/wrong-floor companions and different Use priorities.
+  Never turn, move or summon a companion to make a portrait order succeed. Append
+  the mutator to `RECORD_METHODS` so older method indices stay stable. Rule checks
+  compare both controls across all classes, Normal/Hard and three seed sets;
+  preserve save/load and replay equivalence. `delve-guide.spec.js` covers the new
+  Journal sections, map, condition links, commands and search on both phone sizes.
+- `js/geartools.js`: bounded device-local, run-specific favourites, three consumable
+  belt assignments and floor pickup receipts in `deepdelve.gearTools`. Protection
+  applies to Pack Drop, individual shop sales and bulk sales; never write UI flags
+  onto items. Exclude these UI preferences from recording starting memories.
+  Belt controls call the existing recorded `Game.useItem`, preserving
+  held, vow and waste guards. Large text shows belt icons and counts, keeping
+  full names in accessible labels. Do not consume through overlays or the way-in.
+  `items.js` emits `loot:` receipts only after actual floor transfers, with actual
+  partial quantities and trickster gold. Gifts, purchases, failed pickups and
+  things marked `left` are excluded. Receipts are observations outside game saves;
+  old saves cannot reconstruct past pickups. Cover both full and partial belts.
+  `gear-tools.spec.js` runs on both Chromium sizes and in the mobile WebKit set.
+- `js/settracker.js`: distinguish device discoveries, carried pieces and known
+  worn pieces; active bonuses must agree with `Game.setWorn`. Keep undiscovered
+  piece names hidden. Companion collection status cards use `Game.companionNote`
+  for learned abilities rather than duplicating their rules.
+- `js/itemdisplay.js`: shared read-only headers, item stats and comparisons for
+  the Pack, shop inspection and discovered relic codex. Numbers are labelled as
+  item contributions; both-hand previews name displaced gear and restrictions
+  without equipping. Weapon-rate estimates use `Game.blowRate`. Never temporarily
+  equip gear, mutate the hero or consume dice to generate a comparison. Hide
+  unknown quality, unrevealed powers and unidentified paintings. Shop Inspect
+  controls must stop payment-row clicks; their detail panels sit outside that row.
 - `js/relicart.js`: approved paintings for discovered relic codex entries and
   known selected pack items, with keyboard/touch zoom and named-sprite fallback.
   The 47 exports in `img/relics/` come from four approved sheets in `art/relics/`;

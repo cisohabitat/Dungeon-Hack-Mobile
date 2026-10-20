@@ -1,7 +1,10 @@
+import { GearTools } from './geartools.js';
 // A trader's overlay: what is for sale and what they will buy, each row with its
 // price in plain words, and the trader's services. ui.js opens it, and lends what
 // it needs through K.
 import { Assets } from './assets.js';
+import { itemHeader, itemFacts, itemComparison, handComparison } from './itemdisplay.js';
+import { fillRelicPortraits } from './relicart.js';
 import { ITEMS } from './data.js';
 import { Game } from './game.js';
 import { PREFIX_DESC, PREFIX_NAME, RELIC_POWERS } from './relics.js';
@@ -10,12 +13,14 @@ import { $, $$, escapeHtml } from './uikit.js';
 /** @param {any} K */
 export function makeShopView(K) {
   const compareText = K.compareText;
+  let inspectionId = 0;
   const closeOverlay = (/** @type {any[]} */ ...a) => K.closeOverlay(...a);
 
   // What an item does, in one line. Unknown potions and scrolls stay a mystery.
   // A relic says what it is underneath and names its powers after.
   function itemBlurb(it) {
-    const r = Game.relicOf(it);
+    if (!Game.isKnown(it.t)) return 'You do not know what this does';
+    const r = !it.h ? Game.relicOf(it) : null;
     // an ordinary piece with a power names it after the numbers
     if (!r) return plainBlurb(it) + (it.px && !it.h && PREFIX_NAME[it.px] ? `. ${PREFIX_NAME[it.px]}: ${PREFIX_DESC[it.px]}` : '') + (it.pw && !it.h && RELIC_POWERS[it.pw] ? `. ${RELIC_POWERS[it.pw].split(':')[0]}` : '');
     return `${ITEMS[it.t].name}. ${plainBlurb(it)}. ${r.powers.map(k => RELIC_POWERS[k].split(':')[0]).join(', ')}`;
@@ -65,7 +70,7 @@ export function makeShopView(K) {
   }
   // what the player knows of an enchantment: nothing, while it is hidden
   const knownE = it => (it.h ? 0 : (it.e || 0));
-  const swiftOf = it => { const r = Game.relicOf(it); return (!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h); };
+  const swiftOf = it => { const r = !it.h && Game.relicOf(it); return (!!r && r.powers.includes('swift')) || (it.pw === 'swift' && !it.h); };
 
   /** @param {{one?: boolean}} [o]  one: named as a single piece (the price is for one; the note says how many are in stock) */
   function shopRow(it, price, label, enabled, onClick, note, o = {}) {
@@ -85,7 +90,27 @@ export function makeShopView(K) {
     if (enabled) btn.className = 'afford';
     payButton(btn, row, price, label, onClick, !!it.u);
     row.appendChild(btn);
-    return row;
+    const inspect = document.createElement('button');
+    inspect.type = 'button'; inspect.className = 'shop-inspect small ghost'; inspect.textContent = 'Inspect';
+    inspect.setAttribute('aria-expanded', 'false');
+    inspect.setAttribute('aria-label', `Inspect ${Game.itemName({ ...it, q: 1 })}`);
+    const detail = document.createElement('section');
+    detail.className = 'shop-item-inspection'; detail.hidden = true; detail.id = `shop-inspection-${++inspectionId}`;
+    detail.setAttribute('aria-label', `Details for ${Game.itemName({ ...it, q: 1 })}`);
+    inspect.setAttribute('aria-controls', detail.id);
+    inspect.addEventListener('click', event => {
+      event.stopPropagation();
+      const opening = detail.hidden; detail.hidden = !opening; inspect.setAttribute('aria-expanded', String(opening));
+      if (opening) {
+        const r = !it.h && Game.isKnown(it.t) && Game.relicOf(it);
+        detail.innerHTML = itemHeader({ ...it, q: 1 }) + itemFacts(it) + `<p class="dim small">${escapeHtml(itemBlurb(it))}</p>`
+          + (r ? `<ul class="relic-powers">${r.powers.map(k => `<li>${escapeHtml(RELIC_POWERS[k])}</li>`).join('')}</ul><p class="relic-lore">${escapeHtml(r.lore)}</p>` : '') + itemComparison(it) + handComparison(it);
+        fillRelicPortraits(detail);
+      }
+    });
+    row.appendChild(inspect);
+    const fragment = document.createDocumentFragment(); fragment.append(row, detail);
+    return fragment;
   }
   // A dear thing asks twice. A mis-tap while scrolling the trader's list
   // should not spend a fortune: anything from 100 gold, or a quarter of the
@@ -139,7 +164,7 @@ export function makeShopView(K) {
       const bk = ITEMS[it.t].kind, worn = (bk === 'weapon' || bk === 'armor' || bk === 'shield') ? p.eq[bk] : null;
       // a known quality of make counts as much as a step of enchantment
       const worth = x => knownE(x) + (x.px && !x.h ? 1 : 0);
-      const same = worn && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
+      const same = !it.h && Game.isKnown(it.t) && worn && !worn.h && worn.t === it.t ? (worth(it) > worth(worn) ? ' · better than the one you wear' : worth(it) < worth(worn) ? ' · worse than the one you wear' : ' · the same as you wear') : '';
       // other gear of the same kind is measured against what is worn, by the Pack's own sums
       const vs = worn && worn.t === it.t ? '' : bk === 'weapon' || bk === 'armor' || bk === 'shield' ? compareText(it, ITEMS[it.t]).replace(/<[^>]+>/g, '') : '';
       // gear the hero's class can never use says so, where the comparison would be
@@ -178,7 +203,7 @@ export function makeShopView(K) {
     const sellable = p.inv.filter(it => it.t !== 'artifact' && it.t !== 'key' && it.t !== 'satchel');
     if (!sellable.length) sellBox.innerHTML = '<div class="shop-empty">Nothing in your pack the trader wants.</div>';
     // everything the class can never use, in one go: the pack was a chore to empty a row at a time
-    const junk = Game.junkInPack();
+    const junk = Game.junkInPack().filter(it => !GearTools.isFavourite(it));
     if (junk.length > 1) {
       const total = junk.reduce((n, it) => n + Game.sellPrice(it), 0);
       const row = document.createElement('div');
@@ -186,14 +211,15 @@ export function makeShopView(K) {
       row.innerHTML = `<div class="what"><b>Everything you cannot use</b><small>${escapeHtml(junk.map(it => Game.itemName(it)).join(', '))}</small></div>`;
       const btn = document.createElement('button');
       btn.textContent = `Sell all ${total}g`; btn.className = 'afford';
-      payButton(btn, row, total, 'Sell', () => Game.sellJunk(), junk.some(it => it.u));
+      payButton(btn, row, total, 'Sell', () => { for (const it of junk) if (!GearTools.isFavourite(it)) Game.sell(it); }, junk.some(it => it.u));
       row.appendChild(btn);
       sellBox.appendChild(row);
     }
     for (const it of sellable) {
       const price = Game.sellPrice(it);
       // a stack sells one at a time: say so, and that the price is each
-      sellBox.appendChild(shopRow(it, price, it.q > 1 ? 'Sell one' : 'Sell', true, () => Game.sell(it), it.q > 1 ? `You carry ${it.q}; ${price}g each` : itemBlurb(it)));
+      const protectedItem = GearTools.isFavourite(it);
+      sellBox.appendChild(shopRow(it, price, protectedItem ? 'Protected' : it.q > 1 ? 'Sell one' : 'Sell', !protectedItem, () => { if (!GearTools.isFavourite(it)) Game.sell(it); }, protectedItem ? 'Protected favourite · unprotect it in your Pack to sell.' : it.q > 1 ? `You carry ${it.q}; ${price}g each` : itemBlurb(it)));
     }
   }
 

@@ -1,7 +1,7 @@
 // Recording observes the same public rules calls; it must never change a fight.
 module.exports = async h => {
   const { test, loadGame: newContext, evenStats, OPTS } = h;
-  const { recordingPrint, replayHeadless, replayStorage, RECORD_LIMIT } = await import('../js/recording.js');
+  const { recordingPrint, replayHeadless, replayStorage, recordingStore, RECORD_LIMIT } = await import('../js/recording.js');
   const cfg = (cls = 'fighter', seed = 'recording', difficulty = 'normal') => ({ name: 'A recorded hero', cls, bg: 'oathbroken', stats: { ...evenStats }, seed, opts: { ...OPTS, levels: 2, difficulty } });
   const reproduce = async data => {
     const ctx = await newContext();
@@ -42,6 +42,26 @@ module.exports = async h => {
     if (!G.load()) return 'the recording could not resume its save';
     G.input('left'); G.update(100, 50); G.hurtPlayer(99999, 'The resumed check');
     const data = G.recording();
+    try { await reproduce(data); } catch (e) { return e.message; }
+    return true;
+  });
+  await test('recording starting memories omit local pack and belt preferences', async () => {
+    await newContext();
+    for (const key of ['deepdelve.gearTools', 'deepdelve.packFinds', 'deepdelve.packCompact', 'deepdelve.landmarks']) localStorage.setItem(key, 'UI preference');
+    localStorage.setItem('deepdelve.progress', '{"wins":[]}');
+    const memory = recordingStore();
+    return memory['deepdelve.progress'] === '{"wins":[]}' && !['deepdelve.gearTools', 'deepdelve.packFinds', 'deepdelve.packCompact', 'deepdelve.landmarks'].some(key => key in memory);
+  });
+  await test('pinned-consumable actions replay through the ordinary item-use boundary', async () => {
+    const { Game: G } = await newContext(); G.recordRuns(true); G.newGame(cfg('fighter', 'belt-recording'));
+    G.giveItem({ t: 'potion_heal', q: 1, e: 0 });
+    G.giveItem({ t: 'scroll_map', q: 1, e: 0 });
+    G.hurtPlayer(3, 'The belt check');
+    G.useItem(G.player().inv.find(it => it.t === 'potion_heal'));
+    G.useItem(G.player().inv.find(it => it.t === 'scroll_map'));
+    G.hurtPlayer(99999, 'The belt check ends');
+    const data = G.recording();
+    if (!data) return 'the belt actions did not produce a record';
     try { await reproduce(data); } catch (e) { return e.message; }
     return true;
   });

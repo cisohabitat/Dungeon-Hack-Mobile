@@ -607,6 +607,8 @@ export function makeItems(K) {
     if (i < 0) return;
     if (K.puzzles.blocks(it)) return false;
     const was = it.left;
+    const quantity = it.q || 1;
+    const receipt = { depth: K.G.depth, t: it.t, q: quantity, key: JSON.stringify([it.t, it.u || '', it.e || 0, it.px || '', it.pw || '', it.h || 0, it.color || '', it.name || '']), label: itemName({ ...it, q: 1 }) };
     delete it.left;
     if (it.t === 'gold' || it.t === 'gem') { it.q = tricksterPurse(it.q); noteGold(it.q); }
     if (it.t === 'gold') { p.gold += it.q; log(`You pick up ${it.q} gold.`, 'good'); Sound.play('gold'); list.splice(i, 1); }
@@ -640,6 +642,14 @@ export function makeItems(K) {
     }
     else if (giveItem(it)) { log(`You pick up ${the(it)}.`); Sound.play('pickup'); list.splice(i, 1); if (it.u) discoverRelic(it.u); if (it.t === 'satchel') bounty.found(); }
     else { log('Your pack is full: drop something first.', 'bad'); }
+    // Observation only: receipts follow actual floor transfers, never gifts or purchases.
+    if (!was && it.t !== 'artifact' && it.t !== 'page') {
+      const taken = list.includes(it) ? quantity - (it.q || 1) : quantity;
+      if (taken > 0) {
+        const gold = it.t === 'gold' || it.t === 'gem';
+        emit('loot:' + JSON.stringify({ ...receipt, q: gold ? it.q : taken, ...(gold ? { t: 'gold', key: 'gold', label: 'Gold' } : {}) }));
+      }
+    }
     // still lying there (a full pack, a full belt): still the hero's own, left where it was put
     if (was && list.includes(it)) it.left = was;
     if (!list.length) delete L.items[k];

@@ -1,3 +1,6 @@
+import { questsView, effectsView, recapView } from './delveguide.js';
+import { rememberLandmarks } from './maplandmarks.js';
+import { GearTools } from './geartools.js';
 import { renderCompanions } from './companionsview.js';
 import { renderPuzzle } from './puzzleview.js';
 import { bindReplay } from './replaycontrols.js';
@@ -698,6 +701,7 @@ const UI = (() => {
     const at = performance.now();
     if (!now && !hudDirty && at - hudAt < 100) return;
     hudAt = at; hudDirty = false;
+    GearTools.renderBelt($('#quick-belt'));
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
@@ -777,7 +781,16 @@ const UI = (() => {
       if (hound.depth !== G.depth) st.push(`<span title="Your ${kindWord} waits where you told it to stay">${who} on floor ${Number(hound.depth)}</span>`);
       else if (hound.hp < hound.maxHp || hound.mode === 'stay') st.push(`<span class="${hound.hp < hound.maxHp / 3 ? 'bad' : 'good'}" title="Your ${kindWord}">${who} ${Number(hound.hp)}/${Number(hound.maxHp)}${hound.mode === 'stay' ? ', staying' : ''}</span>`);
     }
+    const statusFocus = document.activeElement?.closest('#hud-status') ? /** @type {HTMLElement} */ (document.activeElement).dataset.statusKey : '';
     $('#hud-status').innerHTML = st.join('');
+    for (const span of [...$('#hud-status').children]) {
+      const button = document.createElement('button'); button.type = 'button';
+      button.className = span.className; button.innerHTML = span.innerHTML; button.title = span.getAttribute('title') || '';
+      button.dataset.guideTab = span.classList.contains('bounty') ? 'quests' : hound && span.textContent.startsWith(hound.name) ? 'companions' : 'effects';
+      button.dataset.statusKey = span.className + ':' + span.textContent.replace(/[0-9]+/g, '');
+      button.setAttribute('aria-label', `${span.textContent}. Show details`); span.replaceWith(button);
+    }
+    if (statusFocus) ([...$('#hud-status').querySelectorAll('button')].find(b => b.dataset.statusKey === statusFocus) || $('[data-open="journal"]'))?.focus({ preventScroll: true });
   }
   // The Use button names what it will do: a staircase you are facing should
   // say Descend, not leave you to guess that Use means it.
@@ -991,6 +1004,8 @@ const UI = (() => {
   function renderJournal() {
     if (journalTab !== 'pages') narration.leaveJournal();
     for (const t of $$('[data-jtab]')) { const on = t.dataset.jtab === journalTab; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on)); }
+    if (['quests', 'effects', 'recap'].includes(journalTab)) { $('#journal-list').innerHTML = ({ quests: questsView, effects: effectsView, recap: recapView })[journalTab](); $('#journal-count').textContent = ({ quests: 'Objectives', effects: 'Current conditions', recap: 'This delve' })[journalTab]; return; }
+    if (journalTab === 'haul') { GearTools.renderLoot($('#journal-list')); $('#journal-count').textContent = 'This floor'; return; }
     if (journalTab === 'companions') { $('#journal-count').textContent = renderCompanions($('#journal-list'), Game.state()); return; }
     if (journalTab === 'beasts') { $('#journal-count').textContent = renderBestiary($('#journal-list')); return; }
     if (journalTab === 'relics') { $('#journal-count').textContent = renderCodex($('#journal-list')); return; }
@@ -1037,7 +1052,7 @@ const UI = (() => {
     setBehind(true);
     syncHistory();
     if (name === 'inv') { prepareTreasure(); renderInv(); }
-    if (name === 'map') { mapView.panX = 0; mapView.panY = 0; renderMap(); }
+    if (name === 'map') { mapView.panX = 0; mapView.panY = 0; mapView.landmark = ''; renderMap(); }
     if (name === 'spells') renderSpells();
     if (name === 'char') renderChar();
     if (name === 'menu') renderMenu();
@@ -1263,6 +1278,23 @@ const UI = (() => {
       b.addEventListener('pointerleave', up);
       b.addEventListener('contextmenu', e => e.preventDefault());
     }
+    $('#hud-status').addEventListener('click', e => {
+      const button = e.target.closest('[data-guide-tab]'); if (!button) return;
+      journalTab = button.dataset.guideTab; openOverlay('journal');
+      if (overlay === 'journal') {
+        opener = $('[data-open="journal"]');
+        const heading = $('#journal-list h3');
+        if (heading) { heading.tabIndex = -1; heading.focus(); }
+      }
+    });
+    $('#quick-belt').addEventListener('click', e => {
+      const button = e.target.closest('[data-belt]');
+      if (!button || overlay || Game.state()?.status !== 'playing' || Game.currentPuzzle()) return;
+      Sound.unlock();
+      if (Game.preludeOn()) { Game.input('use'); return; }
+      const t = GearTools.pinned(Number(button.dataset.belt)), it = Game.player().inv.find(it => it.t === t);
+      if (it) Game.useItem(it);
+    });
     for (const b of $$('[data-tap]')) {
       b.addEventListener('click', () => { Sound.unlock(); Game.input(b.dataset.tap); });
     }
@@ -1345,7 +1377,7 @@ const UI = (() => {
     $('#m-colours').addEventListener('click', () => { access.setPalette(access.palette() === 'safe' ? 'standard' : 'safe'); renderMenu(); });
     $('#m-numbers').addEventListener('click', () => { store(NUMBERS, bigNumbers() ? '0' : '1'); Renderer.setBigNumbers(bigNumbers()); renderMenu(); });
     // like with like: what you fight with first, what you use up after (the pick stays picked)
-    $('#inv-sort').addEventListener('click', () => { Game.sortPack(); renderInv(); });
+    bindPack();
     for (const k of /** @type {const} */ (['hp', 'sp', 'gold', 'eye'])) {
       const btn = $(`#m-test-${k}`);
       btn.addEventListener('click', () => testGate(btn, () => toggleTesting(k), testingSet()[k]));
@@ -1392,7 +1424,7 @@ const UI = (() => {
         return;
       }
       const target = /** @type {HTMLElement} */ (e.target);
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) return;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) { if (target.id === 'inv-search' && e.code === 'Escape') { e.preventDefault(); goBack(); } return; }
       // Escape is every screen's Back, as B is on a pad
       if (e.code === 'Escape' && !$('#screen-game').classList.contains('active')) { goBack(); e.preventDefault(); return; }
       if (!$('#screen-game').classList.contains('active')) return;
@@ -1427,6 +1459,8 @@ const UI = (() => {
   function handleEvents() {
     for (const e of Game.takeEvents()) {
       hudDirty = true;
+      if (['encounter', 'shop', 'level'].includes(e)) rememberLandmarks();
+      if (e.startsWith('loot:')) GearTools.notePickup(e);
       if (e === 'level' || e === 'inv') narration.scan();
       if (e === 'dead' || e === 'won') narration.stop();
       if (e === 'boons') { if (overlay === 'boons') renderBoons(); else openOverlay('boons'); }
@@ -1455,7 +1489,7 @@ const UI = (() => {
         clearTimeout(finaleTimer);
         finaleTimer = setTimeout(() => { if (Game.state() === run && run.status === 'won' && $('#screen-game').classList.contains('active')) showEnd(true); }, Game.finaleLeft());
       }
-      else if (e === 'inv') { if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
+      else if (e === 'inv') { GearTools.sync(); noteInventory(); if (overlay === 'inv') renderInv(); else if (overlay === 'shop') renderShop(); }
       else if (e === 'stats' && overlay === 'shop') renderShop();
     }
     narration.tick(performance.now());
@@ -1610,7 +1644,8 @@ const UI = (() => {
   });
 
   // ---------- pack: see pack.js ----------
-  const { compareText, renderInv, resetTreasure, prepareTreasure, closeDetail: closePackDetail } = makePack({
+  const { compareText, renderInv, resetTreasure, prepareTreasure, closeDetail: closePackDetail, bindPack, noteInventory } = makePack({
+    store,
     get closeOverlay() { return closeOverlay; }, get damageShare() { return damageShare; }, get itemBlurb() { return itemBlurb; },
     get knownE() { return knownE; }, get overlay() { return overlay; }, get selectedItem() { return selectedItem; },
     set selectedItem(v) { selectedItem = v; }, get selectedSlot() { return selectedSlot; }, set selectedSlot(v) { selectedSlot = v; },

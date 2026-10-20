@@ -248,11 +248,11 @@ test.describe('the trader', () => {
     const rows = page.locator('#shop-stock .shop-row');
     const g0 = await gold();
     await settle();
-    await rows.nth(0).locator('button').click();
+    await rows.nth(0).locator('button:not(.shop-inspect)').click();
     expect(await gold(), 'the first tap on a dear thing only arms it').toBe(g0);
-    await expect(rows.nth(0).locator('button')).toContainText('Tap again');
+    await expect(rows.nth(0).locator('button:not(.shop-inspect)')).toContainText('Tap again');
     await settle();
-    await rows.nth(0).locator('button').click();
+    await rows.nth(0).locator('button:not(.shop-inspect)').click();
     expect(await gold(), 'the second tap pays').toBeLessThan(g0);
     // a cheap thing: one tap on the row's text buys it
     const g1 = await gold();
@@ -261,7 +261,7 @@ test.describe('the trader', () => {
     expect(await gold()).toBeLessThan(g1);
     // selling the plate back asks too, as the trader wants far more to sell it again
     const g2 = await gold();
-    const sell = page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button');
+    const sell = page.locator('#shop-sell .shop-row', { hasText: /plate/i }).locator('button:not(.shop-inspect)');
     await settle();
     await sell.click();
     expect(await gold(), 'the first tap on a dear sale only arms it').toBe(g2);
@@ -272,7 +272,7 @@ test.describe('the trader', () => {
     // a cheap sale takes one tap
     const g3 = await gold();
     await settle();
-    await page.locator('#shop-sell .shop-row', { hasText: /ration/i }).locator('button').click();
+    await page.locator('#shop-sell .shop-row', { hasText: /ration/i }).locator('button:not(.shop-inspect)').click();
     expect(await gold()).toBeGreaterThan(g3);
     expect(errors).toEqual([]);
   });
