@@ -802,10 +802,13 @@ test.describe('round five playtest', () => {
 
   test('a tap on a tip puts it away, and does not act in the dungeon', async ({ page }) => {
     const errors = watchForErrors(page);
-    await page.goto('/');
-    await page.evaluate(() => { localStorage.removeItem('deepdelve.tipsSeen'); localStorage.removeItem('deepdelve.tipsOff'); localStorage.removeItem('deepdelve.save'); });
-    await startGame(page, { tips: true, seed: 'tip-tap' });
+    await startGame(page, { seed: 'tip-tap' });
     await clearBoons(page);
+    // Start the tip's reading time after startup work, through the real setting.
+    // Its seven seconds can otherwise pass before a loaded runner reaches it.
+    await page.click('[data-open="menu"]');
+    await page.click('#m-tips');
+    await page.locator('#ov-menu [data-close]').click();
     const tip = page.locator('#tip.show');
     await expect(tip).toBeVisible();
     const log0 = await page.evaluate(() => Game.state().logSeq);

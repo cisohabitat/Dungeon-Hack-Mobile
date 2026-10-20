@@ -26,6 +26,60 @@ test('quoted hero names stay text in the hero portrait attributes @mobile', asyn
   expect(errors).toEqual([]);
 });
 
+for (const container of ['floor', 'trader']) test(`a forged ${container} item quantity is refused before replacing the hero @mobile`, async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { seed: `security-${container}-item` });
+  const result = await page.evaluate(async container => {
+    Game.save(true);
+    const before = Game.state(), saved = localStorage.getItem('deepdelve.save');
+    const data = JSON.parse(saved), L = data.levels[data.depth], p = data.player;
+    const item = { t: 'ration', q: '1" data-injected="yes"><img id="injected-belt" src="/icons/icon.svg">' };
+    if (container === 'floor') L.items[`${p.x},${p.y}`] = [item];
+    else L.npcs.push({ id: 'merchant', x: p.x, y: p.y, stock: [item] });
+    const { encodeSave } = await import('/js/savecode.js');
+    const imported = await Game.loadCode(await encodeSave(JSON.stringify(data)));
+    return { imported, same: Game.state() === before, saved: localStorage.getItem('deepdelve.save') === saved };
+  }, container);
+  expect(result.imported.ok).toBe(false);
+  expect(result.imported.why).toContain('valid dungeon');
+  expect(result.same).toBe(true);
+  expect(result.saved).toBe(true);
+  await expect(page.locator('#injected-belt, [data-injected]')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('belt counts remain text even if a live item has a malformed quantity @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { seed: 'security-belt-text' });
+  await page.evaluate(async () => {
+    const it = Game.player().inv.find(it => it.t === 'ration');
+    it.q = '1" data-injected="yes"><img id="injected-belt" src="/icons/icon.svg">';
+    const { GearTools } = await import('/js/geartools.js');
+    GearTools.pin(it, 0);
+    GearTools.renderBelt(document.getElementById('quick-belt'));
+  });
+  await expect(page.locator('#quick-belt .belt-count').first()).toContainText('<img id="injected-belt"');
+  await expect(page.locator('#quick-belt button').first()).toHaveAttribute('aria-label', /<img id="injected-belt"/);
+  await expect(page.locator('#injected-belt, [data-injected]')).toHaveCount(0);
+  expect(errors).toEqual([]);
+});
+
+test('legacy Hall migration rejects inherited class IDs without polluting the page @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.addInitScript(() => {
+    localStorage.removeItem('deepdelve.progress');
+    localStorage.setItem('deepdelve.hall', JSON.stringify(['__proto__', 'constructor', 'toString'].map(cls => ({
+      cls, name: 'Invalid hero', won: true, difficulty: 'normal', levels: 8,
+    }))));
+  });
+  await page.goto('/');
+  await expect(page.locator('#btn-new')).toBeVisible();
+  expect(await page.evaluate(() => Object.hasOwn(Object.prototype, 'normal'))).toBe(false);
+  await page.click('#btn-hall');
+  await expect(page.locator('#hall-list')).not.toContainText('Invalid hero');
+  expect(errors).toEqual([]);
+});
+
 test('a hostile imported numeric field is refused through the code screen and keeps the saved hero', async ({ page }) => {
   await startGame(page, { seed: 'security-code' });
   const code = await page.evaluate(async () => {

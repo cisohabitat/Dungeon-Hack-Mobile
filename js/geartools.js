@@ -74,7 +74,7 @@ function renderBelt(root) {
   root.innerHTML = entries.map(({ t, it, n }, i) => {
     const name = t ? Game.itemName(it ? { ...it, q: 1 } : { t, q: 1, e: 0 }) : 'Empty';
     const sprite = it && Assets.sprites[Game.spriteFor(it)];
-    return `<button type="button" data-belt="${i}" ${!it ? 'disabled' : ''} aria-label="Belt ${i + 1}: ${escapeHtml(name)}, ${n} carried">${sprite ? `<img src="${escapeHtml(sprite.url)}" alt="">` : ''}<small><span class="belt-name">${escapeHtml(name)}</span>${t ? ` <span class="belt-count">×${n}</span>` : ''}</small></button>`;
+    return `<button type="button" data-belt="${i}" ${!it ? 'disabled' : ''} aria-label="Belt ${i + 1}: ${escapeHtml(name)}, ${escapeHtml(n)} carried">${sprite ? `<img src="${escapeHtml(sprite.url)}" alt="">` : ''}<small><span class="belt-name">${escapeHtml(name)}</span>${t ? ` <span class="belt-count">×${escapeHtml(n)}</span>` : ''}</small></button>`;
   }).join('');
 }
 export const GearTools = { sync, isFavourite, toggleFavourite, pin, pinned, notePickup, renderLoot, renderBelt, usable };

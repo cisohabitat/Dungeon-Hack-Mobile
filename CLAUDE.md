@@ -503,6 +503,12 @@ and its raw records live in `docs/balance/2026-10-16/`.
   as well as HTML delimiters in markup; numeric-looking saved fields are still
   input. Keep prototype keys out of imported structures, bound decompression
   while reading, and validate before touching the saved or live hero.
+  Validate items in floor loot and NPC stock with the same checks as carried
+  equipment; those items can enter the inventory after loading. Escape belt
+  counts in both text and attributes even after validation.
+  Legacy Hall migration and progress writes must require own table IDs, not
+  inherited properties. Stored counters accept finite numeric primitives and
+  legacy numeric strings; never coerce stored objects through `Number`.
 - Telemetry accepts bounded fields, rejects cross-origin browser submissions and
   throttles using short-lived keyed address digests. The public stats API must
   never return individual reports or error messages, including old counters.
@@ -565,6 +571,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
 - The first tip (about the controls) holds the dungeon still while it is up.
   Browser tests therefore start with tips off; `startGame(page, { tips: true })`
   turns them on for a test that is about tips.
+  A test about dismissing a tip enables them through the Menu after startup,
+  so the seven-second reading timer cannot expire during initial art work.
 - A browser test that waits for a monster's blow to land must allow for
   misses: take the hero's armour off, or give it several seconds.
 - A creature's poses, champions and close-up are painted after its plain

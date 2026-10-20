@@ -93,6 +93,25 @@ export function checkSave(data) {
         || (q.feedback !== undefined && !['wrong', 'reset', 'solved'].includes(q.feedback))) invalid();
     }
     if (floor.mythicTrial !== undefined && !['active', 'won'].includes(floor.mythicTrial)) invalid();
+    // Floor loot and trader stock can become carried items after loading too.
+    // Check them before swapping state, not only the hero's current inventory.
+    if (floor.items !== undefined) {
+      if (!object(floor.items)) invalid();
+      for (const list of Object.values(floor.items)) {
+        if (!Array.isArray(list) || list.length > 10000) invalid();
+        list.forEach(item);
+      }
+    }
+    if (floor.npcs !== undefined) {
+      if (!Array.isArray(floor.npcs) || floor.npcs.length > 10000) invalid();
+      for (const npc of floor.npcs) {
+        if (!object(npc)) invalid();
+        if (npc.stock !== undefined) {
+          if (!Array.isArray(npc.stock) || npc.stock.length > 10000) invalid();
+          npc.stock.forEach(item);
+        }
+      }
+    }
     if (!Array.isArray(floor.monsters) || floor.monsters.length > 10000) invalid();
     for (const m of floor.monsters) if (!object(m) || !own(MONSTERS, m.id) || !Number.isFinite(m.x) || !Number.isFinite(m.y) || (m.mythicGuard !== undefined && typeof m.mythicGuard !== 'boolean')) invalid();
     const guardians = floor.monsters.filter(m => m.mythicGuard);

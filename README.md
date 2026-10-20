@@ -421,6 +421,10 @@ a reported run is genuine: this public endpoint does not authenticate players.
 
 Save codes are untrusted data. Imports check dungeon dimensions, core field types and ids,
 reject prototype keys and excessive nesting, and leave the current hero intact on refusal.
+Item validation covers carried equipment, floor loot and trader stock. Belt counts are
+escaped as text and attributes as an additional defence against malformed quantities.
+Legacy Hall migration rejects inherited class IDs; progress counters tolerate malformed
+stored values without changing valid records.
 Codes/files are limited to 24 MiB before decoding and 16 MiB after decoding, including gzip
 expansion. Valid game numbers are preserved; this is not an anti-cheat system. Avoid putting
 personal information in seeds or shared saves. Browser storage and save codes are not encrypted.
@@ -433,7 +437,7 @@ cross-origin requests. Development tests and tools are excluded from deployment.
 
 Run `npm run test:security` for adversarial import, decompression, telemetry and local-server
 checks. The browser security tests also cover markup injection and API-cache isolation.
-See [security policy](SECURITY.md) and the [16 October review](docs/SECURITY-2026-10-16.md)
+See [security policy](SECURITY.md) and the [20 October review](docs/SECURITY-2026-10-20.md)
 for scope, findings and remaining operational limits.
 
 ## Run locally

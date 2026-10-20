@@ -28,7 +28,7 @@ async function main() {
   await assert.rejects(decodeSave(bomb), /too large/);
   await assert.rejects(decodeSave('DD0.' + expanded.toString('base64')), /too large/);
 
-  const { Game, store } = await loadGame();
+  const { Game, store, Progress } = await loadGame();
   Game.newGame({ name: 'A "quoted" hero', cls: 'fighter', seed: 'security-roundtrip', stats: Game.rollStats(),
     opts: { levels: 16, size: 'large', monsters: 'few', treasure: 'normal', traps: false, lockedDoors: false, permadeath: false } });
   // The largest supported floor count/size must fit comfortably, including recording headroom.
@@ -65,6 +65,14 @@ async function main() {
     s => { s.levels[s.depth].rooms[0].w = 1e9; },
     s => { s.player.cls = '__proto__'; },
     s => { s.player.inv.push({ t: '__proto__', q: 1 }); },
+    s => { s.levels[s.depth].items['1,1'] = [{ t: 'ration', q: '1<img id="injected-belt">' }]; },
+    s => { s.levels[s.depth].items['1,1'] = [{ t: '__proto__', q: 1 }]; },
+    s => { s.levels[s.depth].items['1,1'] = {}; },
+    s => { s.levels[s.depth].items = []; },
+    s => { s.levels[s.depth].npcs = [{ id: 'merchant', x: 1, y: 1, stock: [{ t: 'ration', q: '1" data-injected="yes' }] }]; },
+    s => { s.levels[s.depth].npcs = [{ id: 'merchant', x: 1, y: 1, stock: [{ t: 'unknown-item', q: 1 }] }]; },
+    s => { s.levels[s.depth].npcs = [{ id: 'merchant', x: 1, y: 1, stock: {} }]; },
+    s => { s.levels[s.depth].npcs = [null]; },
     s => { s.extra = JSON.parse('{"__proto__":{"polluted":true}}'); },
     s => { s.extra = JSON.parse('{"constructor":{"prototype":{"polluted":true}}}'); },
     s => { s.stats.dealt = { toString: 1, valueOf: 1 }; },
@@ -82,6 +90,36 @@ async function main() {
   const altered = JSON.parse(json); altered.levels[altered.depth].h = 1e9;
   store.set('deepdelve.save', JSON.stringify(altered));
   assert.equal(Game.load(), false); assert.equal(Game.state(), live);
+
+  const oldHall = store.get('deepdelve.hall'), oldProgress = store.get('deepdelve.progress');
+  try {
+    for (const cls of ['__proto__', 'constructor', 'toString']) {
+      store.delete('deepdelve.progress');
+      store.set('deepdelve.hall', JSON.stringify([{ cls, won: true, difficulty: 'normal', levels: 8 }]));
+      try {
+        assert.deepEqual(Progress.load().won, {}, 'legacy Hall migration rejects inherited class IDs');
+        assert.equal(Object.hasOwn(Object.prototype, 'normal'), false, 'migration must not modify Object.prototype');
+      } finally { delete Object.prototype.normal; }
+    }
+    const validHall = { cls: 'fighter', name: 'Remembered hero', won: true, difficulty: 'normal', levels: 8 };
+    store.set('deepdelve.hall', JSON.stringify([null, { cls: '__proto__' }, validHall]));
+    assert.deepEqual(Game.hall(), [validHall], 'Hall display keeps valid heroes and rejects malformed entries');
+    store.set('deepdelve.progress', JSON.stringify({
+      won: { fighter: { normal: { toString: 1, valueOf: 1 }, hard: '2' } },
+      paths: { knight: { toString: 1, valueOf: 1 } },
+      rungs: { fighter: { toString: 1, valueOf: 1 } },
+      relics: ['__proto__', 'constructor'], combos: ['__proto__', 'toString'],
+      wick: { met: { toString: 1, valueOf: 1 }, last: { cls: 'fighter', name: 'Friend', run: { toString: 1 } } },
+    }));
+    const progress = Progress.load();
+    assert.deepEqual(progress.won, { fighter: { hard: 2 } }, 'bad counters are ignored and legacy numeric strings survive');
+    assert.deepEqual(progress.paths, {}); assert.deepEqual(progress.rungs, {});
+    assert.deepEqual(progress.relics, []); assert.deepEqual(progress.combos, []);
+    assert.equal(progress.wick.met, 0); assert.equal(progress.wick.last.run, '');
+  } finally {
+    if (oldHall === undefined) store.delete('deepdelve.hall'); else store.set('deepdelve.hall', oldHall);
+    if (oldProgress === undefined) store.delete('deepdelve.progress'); else store.set('deepdelve.progress', oldProgress);
+  }
 
   const root = path.resolve(__dirname, '..');
   const deployment = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));

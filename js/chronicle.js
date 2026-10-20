@@ -1,7 +1,7 @@
 // How a run ends and is remembered: the win and the death, the run in numbers,
 // and the bestiary, which keeps what the hero learned of each kind of monster
 // across runs. What it borrows from the game comes through K, read live.
-import { BACKGROUNDS, BESTIARY, ENDINGS, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE, MASTERY } from './data.js';
+import { BACKGROUNDS, BESTIARY, CLASSES, ENDINGS, ITEMS, JOURNAL, MONSTERS, ROUTES, VOWS, RUNG_SCORE, MASTERY } from './data.js';
 import { Progress } from './progress.js';
 import { Sound } from './sound.js';
 
@@ -366,7 +366,11 @@ export function makeChronicle(K) {
     else if (fresh) learn(m.id, 'met');
   }
   function hall() {
-    try { return JSON.parse(localStorage.getItem(HALL_KEY) || '[]'); } catch (e) { return []; }
+    try {
+      const rows = JSON.parse(localStorage.getItem(HALL_KEY) || '[]');
+      return Array.isArray(rows) ? rows.filter(h => h && typeof h === 'object' && !Array.isArray(h)
+        && typeof h.cls === 'string' && Object.hasOwn(CLASSES, h.cls)) : [];
+    } catch (e) { return []; }
   }
 
   return { bestiary, claimHeart, epilogue, finaleLeft, freshStats, hall, lastRun, learn, meet, noteDealt, noteGold, noteHealed, noteKill, noteSpell, noteTaken, noteUsed, pagesInDungeon, recordHero, runStats, score, sortPack, win };

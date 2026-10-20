@@ -9,6 +9,9 @@ import { COMBOS } from './combos.js';
 
 const PROGRESS_KEY = 'deepdelve.progress';
 const HALL_KEY = 'deepdelve.hall';
+const own = (table, key) => typeof key === 'string' && Object.hasOwn(table, key);
+// Stored counters may be edited data, never objects with conversion methods.
+const numeric = v => (typeof v === 'number' || typeof v === 'string') && Number.isFinite(Number(v)) ? Number(v) : 0;
 /** Easiest first, so a later one is harder. */
 const DIFFS = ['easy', 'normal', 'hard'];
 
@@ -26,21 +29,21 @@ function clean(v) {
   const counted = [['paths', PATH_IDS], ['vows', Object.keys(VOWS)], ['feats', Object.keys(FEATS)]];
   for (const [key, ids] of counted) {
     const src = v[key] && typeof v[key] === 'object' ? v[key] : {};
-    for (const id of ids) { const n = Math.max(0, Math.floor(Number(src[id]) || 0)); if (n) out[key][id] = n; }
+    for (const id of ids) { const n = Math.max(0, Math.floor(numeric(src[id]) || 0)); if (n) out[key][id] = n; }
   }
   const won = v.won && typeof v.won === 'object' ? v.won : {};
-  for (const cls in CLASSES) {
+  for (const cls of Object.keys(CLASSES)) {
     const r = won[cls] && typeof won[cls] === 'object' ? won[cls] : {};
     for (const d of DIFFS) {
-      const n = Math.max(0, Math.floor(Number(r[d]) || 0));
+      const n = Math.max(0, Math.floor(numeric(r[d]) || 0));
       if (n) (out.won[cls] = out.won[cls] || {})[d] = n;
     }
   }
   // the highest rung of the ladder past Hard each class has won on
   const rungs = v.rungs && typeof v.rungs === 'object' ? v.rungs : {};
-  for (const cls in CLASSES) { const n = Math.min(LADDER.length - 1, Math.max(0, Math.floor(Number(rungs[cls]) || 0))); if (n) out.rungs[cls] = n; }
-  if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => typeof id === 'string' && RELICS[id]))];
-  if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => typeof id === 'string' && COMBOS[id]))];
+  for (const cls of Object.keys(CLASSES)) { const n = Math.min(LADDER.length - 1, Math.max(0, Math.floor(numeric(rungs[cls]) || 0))); if (n) out.rungs[cls] = n; }
+  if (Array.isArray(v.relics)) out.relics = [...new Set(v.relics.filter(id => own(RELICS, id)))];
+  if (Array.isArray(v.combos)) out.combos = [...new Set(v.combos.filter(id => own(COMBOS, id)))];
   out.wick = cleanWick(v.wick);
   // every crews' page any hero has found, by its place in JOURNAL
   if (Array.isArray(v.pages)) out.pages = [...new Set(v.pages.filter(i => Number.isInteger(i) && JOURNAL[i]))];
@@ -52,13 +55,13 @@ function clean(v) {
  * @returns {import('./types.js').WickMemory}
  */
 function cleanWick(v) {
-  const n = x => Math.max(0, Math.floor(Number(x) || 0));
+  const n = x => Math.max(0, Math.floor(numeric(x) || 0));
   const out = { met: 0, told: 0, won: 0, last: null };
   if (!v || typeof v !== 'object' || Array.isArray(v)) return out;
   out.met = n(v.met); out.told = Math.min(WICK.tales.length, n(v.told)); out.won = Math.min(out.met, n(v.won));
   const l = v.last;
-  if (l && typeof l === 'object' && CLASSES[l.cls] && typeof l.name === 'string' && l.name.trim()) {
-    out.last = { name: l.name.trim().slice(0, 24), cls: l.cls, run: String(l.run || '').slice(0, 80), fate: ['won', 'fell', 'quenched', 'kept'].includes(l.fate) ? l.fate : '',
+  if (l && typeof l === 'object' && own(CLASSES, l.cls) && typeof l.name === 'string' && l.name.trim()) {
+    out.last = { name: l.name.trim().slice(0, 24), cls: l.cls, run: typeof l.run === 'string' ? l.run.slice(0, 80) : '', fate: ['won', 'fell', 'quenched', 'kept'].includes(l.fate) ? l.fate : '',
       depth: Math.min(16, n(l.depth)), ...(typeof l.killer === 'string' && l.killer ? { killer: l.killer.slice(0, 40) } : {}) };
   }
   return out;
@@ -73,7 +76,7 @@ function fromHall() {
   const won = {};
   if (Array.isArray(list)) for (const h of list) {
     // (nor a quick delve of two floors, which goes in the Hall but earns no trophy)
-    if (!h || !h.won || !CLASSES[h.cls] || h.permadeath === false || (h.levels && h.levels <= 2)) continue;
+    if (!h || !h.won || !own(CLASSES, h.cls) || h.permadeath === false || (h.levels && h.levels <= 2)) continue;
     const d = DIFFS.includes(h.difficulty) ? h.difficulty : 'normal';
     won[h.cls] = won[h.cls] || {};
     won[h.cls][d] = (won[h.cls][d] || 0) + 1;
@@ -230,7 +233,7 @@ function recordWin(cls, difficulty, how = {}) {
   const wasOpen = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v)), vowsWere = vowsOpen(v);
   const first = !hasWon(cls, d, v);
   const rungWas = rungOpen(cls, v), stageWas = stage(cls, v);
-  if (CLASSES[cls]) {
+  if (own(CLASSES, cls)) {
     v.won[cls] = v.won[cls] || {};
     v.won[cls][d] = (v.won[cls][d] || 0) + 1;
   }
@@ -238,25 +241,25 @@ function recordWin(cls, difficulty, how = {}) {
   const firstPath = path && !v.paths[path] ? path : '';
   const masteredBefore = mastered(cls, v);
   if (path) v.paths[path] = (v.paths[path] || 0) + 1;
-  const kept = d === 'easy' ? [] : (how.vows || []).filter(id => VOWS[id]);
+  const kept = d === 'easy' ? [] : (how.vows || []).filter(id => own(VOWS, id));
   const firstVows = kept.filter(id => !v.vows[id]);
   for (const id of kept) v.vows[id] = (v.vows[id] || 0) + 1;
   // feats: what kind of win this was
-  const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : []), ...(how.route && FEATS[how.route] ? [how.route] : []),
+  const feats = d === 'easy' ? [] : [...((how.levels || 0) >= 12 ? ['long'] : []), ...(own(FEATS, how.route) ? [how.route] : []),
     ...((how.jobs || 0) >= 3 ? ['friend'] : []), ...(how.veteran ? ['veteran'] : []), ...(cls === 'druid' && (how.shapes || 0) >= WILDHEART ? ['wildheart'] : []),
     ...(how.ending === 'quench' ? ['quenched'] : how.ending === 'keep' ? ['kept'] : [])];
   const firstFeats = feats.filter(id => !v.feats[id]);
   for (const id of feats) v.feats[id] = (v.feats[id] || 0) + 1;
   // a win on a rung of the ladder (Hard only) opens the next
-  const rung = d === 'hard' ? Math.min(LADDER.length - 1, Math.max(0, Math.floor(Number(how.rung) || 0))) : 0;
-  if (CLASSES[cls] && rung > (v.rungs[cls] || 0)) v.rungs[cls] = rung;
+  const rung = d === 'hard' ? Math.min(LADDER.length - 1, Math.max(0, Math.floor(numeric(how.rung) || 0))) : 0;
+  if (own(CLASSES, cls) && rung > (v.rungs[cls] || 0)) v.rungs[cls] = rung;
   store(v);
   const unlocked = Object.keys(BACKGROUNDS).filter(id => bgOpen(id, v) && !wasOpen.includes(id));
-  return { first: first && !!CLASSES[cls], cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v), rungOpened: rungOpen(cls, v) > rungWas ? rungOpen(cls, v) : 0, stageReached: stage(cls, v) > stageWas ? stage(cls, v) : 0 };
+  return { first: first && own(CLASSES, cls), cls, difficulty: d, unlocked, firstPath, mastered: !masteredBefore && mastered(cls, v), firstVows, firstFeats, vowsOpened: !vowsWere && vowsOpen(v), rungOpened: rungOpen(cls, v) > rungWas ? rungOpen(cls, v) : 0, stageReached: stage(cls, v) > stageWas ? stage(cls, v) : 0 };
 }
 /** A relic picked up or bought goes in the codex; true the first time. */
 function noteRelic(id) {
-  if (!RELICS[id]) return false;
+  if (!own(RELICS, id)) return false;
   const v = load();
   const fresh = !v.relics.includes(id);
   if (fresh) v.relics.push(id);
@@ -271,7 +274,7 @@ function noteRelic(id) {
 
 /** A combination come about goes in the journal; true the first time on this device. */
 function noteCombo(id) {
-  if (!COMBOS[id]) return false;
+  if (!own(COMBOS, id)) return false;
   const v = load();
   if (v.combos.includes(id)) return false;
   v.combos.push(id);
@@ -335,11 +338,11 @@ const GEAR_SLOTS = ['weapon', 'armor', 'ring', 'ring2', 'amulet', 'shield', 'off
 const GEAR_MOST = 3;
 /** @param {any} it @returns {import('./types.js').Item|null} */
 function keptItem(it) {
-  if (!it || typeof it !== 'object' || typeof it.t !== 'string' || !ITEMS[it.t] || it.t === 'artifact') return null;
+  if (!it || typeof it !== 'object' || !own(ITEMS, it.t) || it.t === 'artifact') return null;
   const kind = ITEMS[it.t].kind;
   if (!['weapon', 'armor', 'shield', 'ring', 'amulet', 'cloak'].includes(kind)) return null;
   /** @type {import('./types.js').Item} */
-  const out = { t: it.t, q: 1, e: Math.max(-3, Math.min(5, Math.round(Number(it.e) || 0))), h: 1 };
+  const out = { t: it.t, q: 1, e: Math.max(-3, Math.min(5, Math.round(numeric(it.e) || 0))), h: 1 };
   if (it.curse) out.curse = 1;
   if (typeof it.px === 'string') out.px = it.px;
   if (typeof it.pw === 'string' && !it.u) out.pw = it.pw;
@@ -347,12 +350,12 @@ function keptItem(it) {
 }
 /** Whatever was stored comes back as a record, or null: never a crash. @returns {import('./types.js').Fallen|null} */
 function cleanFallen(v) {
-  if (!v || typeof v !== 'object' || !CLASSES[v.cls] || typeof v.name !== 'string' || !v.name.trim()) return null;
-  const depth = Math.floor(Number(v.depth));
+  if (!v || typeof v !== 'object' || !own(CLASSES, v.cls) || typeof v.name !== 'string' || !v.name.trim()) return null;
+  const depth = Math.floor(numeric(v.depth));
   if (!(depth >= 1 && depth <= 16)) return null;
   const gear = (Array.isArray(v.gear) ? v.gear : []).map(keptItem).filter(Boolean).slice(0, GEAR_MOST);
   return {
-    name: v.name.trim().slice(0, 24), cls: v.cls, depth, level: Math.max(1, Math.min(12, Math.floor(Number(v.level)) || 1)),
+    name: v.name.trim().slice(0, 24), cls: v.cls, depth, level: Math.max(1, Math.min(12, Math.floor(numeric(v.level)) || 1)),
     run: String(v.run || ''), gear: /** @type {import('./types.js').Item[]} */ (gear),
     ...(typeof v.killer === 'string' && v.killer ? { killer: v.killer.slice(0, 40) } : {}),
   };

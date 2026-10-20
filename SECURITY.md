@@ -19,6 +19,7 @@ expected impact, using a local copy and synthetic data where possible.
 - Validate imported/local save structure before changing live state. Bound both
   encoded input and decompressed output; reject dangerous prototype keys and
   unreasonable dimensions or nesting. Failed imports must preserve existing saves.
+  Apply item checks to floor loot and trader stock as well as carried equipment.
 - Treat saved strings and numeric-looking fields as input when rendering. Escape
   HTML and attribute quotes; use `textContent` for plain text. Keep the CSP free
   of inline script and dynamic-code execution exceptions.
@@ -51,4 +52,4 @@ exposure, and keep supported Node/browser tooling current. These account-side
 settings require separate verification; passing repository tests does not prove
 they are configured.
 
-Latest source review: [16 October 2026](docs/SECURITY-2026-10-16.md).
+Latest source review: [20 October 2026](docs/SECURITY-2026-10-20.md).
