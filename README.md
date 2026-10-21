@@ -40,6 +40,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Its painted portrait, pixel fallback, rune clocks and class survive offline saves.
   Held throwing knives, including Vashti's Needles, show one gripped blade while
   their pack icons keep the bundle. The Quill Shield has a rear grip and forearm strap.
+  Cuts pass through cached intermediate angles and recover with the grip attached;
+  staffs and spears drive forward, and staffs lean into casting. Bows flex under the
+  draw, with string ends on their nocks and the drawing fist at the string. Their
+  arrow and the thrown knife leave at the existing combat release times, including
+  Vashti. The object fits short views while its sleeve may continue off-screen.
+  Named bows retain their Pack markings; small relic glints stay on the equipment
+  surface during attacks or staff casting and are absent in Calm view.
 
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings

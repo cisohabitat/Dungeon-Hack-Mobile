@@ -5,6 +5,8 @@ import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 import { makeSpellFx } from './spellfx.js';
 import { makeOverlay } from './overlay.js';
 import { drawMeleeImpact } from './meleeview.js';
+import { heldPlacement, meleePose } from './heldview.js';
+import { namedBase, namedId } from './namedart.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -441,12 +443,15 @@ const Renderer = (() => {
   // lands on whole view pixels in a steady pattern rather than a ragged one
   const handK = () => Math.max(1, Math.round(H / 142 * 0.72 * 4) / 4);
   /** Draw a painted frame with its hand (or centre) at view point (x, y). */
-  function put(fr, x, y, s = 1) {
+  function put(fr, x, y, s = 1, fit = false, width = W, drop = 0) {
     if (!fr) return;
-    const k = handK() * s;
-    const box = [Math.round(x - fr.ax * k), Math.round(y - fr.ay * k), Math.round(fr.img.width * k), Math.round(fr.img.height * k)];
+    const placement = heldPlacement(fr, x, y, handK() * s, width, H, fit);
+    placement.y += drop; placement.oy += Math.round(drop);
+    const { k, ox, oy } = placement;
+    const box = [ox, oy, Math.round(fr.img.width * k), Math.round(fr.img.height * k)];
     ctx.drawImage(fr.img, box[0], box[1], box[2], box[3]);
     handBoxes.push(box);
+    return placement;
   }
   // where the hands were drawn this frame, so a test can see they keep clear
   // of the square ahead
@@ -473,6 +478,7 @@ const Renderer = (() => {
     handBoxes.length = 0;
     const v = fx.view;
     if (!v) return;
+    const weaponBase = v.weapon && namedBase(v.weapon);
     const lamp = v.shield === 'wayfarer_lantern', reflected = lamp && v.cls === 'spellblade';
     const settling = lanternSettle(v, now, lamp);
     // a step's bob and a slow sway at rest (held still in a calm view)
@@ -524,23 +530,22 @@ const Renderer = (() => {
       // a bow: held out in the left hand, the right on the string; an attack
       // draws the string back to the cheek and looses it
       // (a bash with a bow in hand shoves the whole of it, both hands; a throw takes the string hand)
-      const [x0, y] = at('bow'), x = x0 - jab * W * 0.24, by0 = y - jab * H * 0.13, fr = Assets.held(v.weapon, 'rest', v.cls, false);
-      const pull = swinging && u < 0.7 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.7;
-      const hx = x + dx + W * 0.08 + pull * W * 0.09, hy = by0 + dy + H * 0.08 + pull * H * 0.045 + (rdy - rdy0);
-      put(fr, x + dx, by0 + dy);
-      if (fr) {
-        const k = handK(), ox = Math.round(x + dx - fr.ax * k), oy = Math.round(by0 + dy - fr.ay * k);
+      const [x0, y] = at('bow'), x = x0 - jab * W * 0.24, by0 = y - jab * H * 0.13;
+      const pull = swinging && u < 0.72 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.72;
+      const fr = Assets.held(v.weapon, !calm && pull > .65 ? 'bowfull' : !calm && pull > .15 ? 'bowdraw' : 'rest', v.cls, false);
+      const placed = put(fr, x + dx, by0 + dy, 1, true, W, cast * H * .65 + put_down);
+      if (fr && placed) {
+        const { k, ox, oy } = placed;
         const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
         const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
-        // the string hangs straight until the fingers draw it back
-        const [nx, ny] = pull > 0.04 ? [hx, hy - H * 0.02] : [(tx + bx2) / 2, (ty + by2) / 2];
+        const nx = placed.x + W * (.055 + pull * .09), ny = placed.y + H * (.015 + pull * .025);
         ctx.lineCap = 'round';
-        for (const [c, w] of [['#0a0810', 3], ['#e8e0cc', 1]]) {
+        const name = namedId(v.weapon), stringColour = name === 'horizon' ? '#d1bde7' : name === 'farstrider' ? '#aeb9c7' : '#e8e0cc';
+        for (const [c, w] of [['#0a0810', 3], [stringColour, 1]]) {
           ctx.strokeStyle = c; ctx.lineWidth = w;
           ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(nx, ny); ctx.lineTo(bx2, by2); ctx.stroke();
         }
         if (!loosed) {
-          // the arrow, nocked, foreshortened toward what it is aimed at
           const ax = W * 0.5, ay = H * 0.4, len = 0.55;
           const ex = nx + (ax - nx) * len, ey = ny + (ay - ny) * len;
           for (const [c, w] of [['#0a0810', 4], ['#b08858', 2]]) {
@@ -550,8 +555,11 @@ const Renderer = (() => {
           ctx.fillStyle = '#d8dce4'; ctx.beginPath(); ctx.arc(ex, ey, 2, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = '#e04838'; ctx.fillRect(nx - 3, ny - 6, 6, 4);
         }
+        // Knuckles touch the nock throughout the draw; after release the hand
+        // follows back, while both string endpoints remain on the fitted stave.
+        const recoil = loosed ? Math.sin((u - .72) / .28 * Math.PI) : 0;
+        if (!cast && !reading && !using && !throwing) put(Assets.held(null, 'fist', v.cls, false), nx + recoil * W * .035, ny + 2.6 * handK());
       }
-      put(Assets.held(null, 'fist', v.cls, false), hx, hy);
     } else if (v.shield) {
       // a Bash drives the shield in toward the middle of the view, rim first, and brings it home
       const lantern = v.shield === 'wayfarer_lantern';
@@ -564,10 +572,13 @@ const Renderer = (() => {
       // bringing up a scroll or drink, leaving only the acting hand visible.
       const lower = lantern ? Math.max(0, H * 0.63 - y) * Math.max(cast, put_down / (H * 0.45)) : 0;
       const weight = lantern ? by * -0.45 + settling : 0;
-      put(frame, x + dx - hurt * 4 + sh * W * 0.3, y + dy + weight + cast * H * 0.4 + put_down + lower + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
+      // Actions start from the same fitted grip as rest, so a cast or bash
+      // cannot snap the shield back to its old, clipped corner position.
+      const base = lantern || !frame ? { x: x + dx, y: y + dy, k: handK() } : heldPlacement(frame, x + dx, y + dy, handK(), W * .42, H, true);
+      put(frame, base.x - hurt * 4 + sh * W * 0.3, base.y + weight + cast * H * 0.4 + put_down + lower + hurt * 6 - sh * H * 0.16, base.k / handK() * (1 - sh * 0.14));
     } else if (v.offhand) {
       const [x, y] = at('left');
-      put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
+      put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy, os, true, ou >= 0 && ou < 1 ? W : W * .42, cast * H * .4 + put_down);
     }
     // on a dark floor, a lantern: in the free hand, or hung from the wrist beside the shield
     if (v.lantern) { const [lx, ly] = v.shield || v.offhand || (v.weapon && v.two) ? [W * 0.09, H * 0.8] : at('left'); drawLantern(lx, ly, dx, dy, now); }
@@ -584,7 +595,7 @@ const Renderer = (() => {
     // right: the weapon, through the poses of a swing, or a bare fist
     if (v.weapon && v.drawn) {
       // drawn above, with the left hand
-    } else if (v.weapon && /sling$/.test(v.weapon)) {
+    } else if (weaponBase === 'sling') {
       // overhead: the hand goes up, the pouch whirls round above it twice
       // (seen from below, a tilted ring), and at the top of the second turn
       // the stone is let go; then the arm comes down and the sling hangs again
@@ -607,20 +618,20 @@ const Renderer = (() => {
         let q = r;
         if (swinging) { const e = ease((u - 0.62) / 0.38); q = [top[0] + (r[0] - top[0]) * e, top[1] + (r[1] - top[1]) * e]; }
         // the pouch comes down empty: the next stone is only fitted once the arm is home
-        put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + rdx, q[1] + rdy);
+        put(Assets.held(v.weapon, swinging ? 'loosed' : 'rest', v.cls, false), q[0] + rdx, q[1] + rdy0, 1, true, W, rdy - rdy0);
       }
-    } else if (v.weapon && /handxbow$/.test(v.weapon)) {
+    } else if (weaponBase === 'handxbow') {
       // a hand crossbow is not swung: it comes up level with the eye, the
       // trigger lets the bolt go with a kick up the wrist, and it comes down
       const r = at('rest');
       let x = r[0], y = r[1];
       if (swinging) {
-        if (u < 0.3) { const e = ease(u / 0.3); x -= W * 0.1 * e; y -= H * 0.12 * e; }
-        else if (u < 0.45) { x -= W * 0.1; y -= H * (0.12 + 0.05 * Math.sin((u - 0.3) / 0.15 * Math.PI)); }
+        if (u < 0.32) { const e = ease(u / 0.32); x -= W * 0.1 * e; y -= H * 0.12 * e; }
+        else if (u < 0.45) { x -= W * 0.1; y -= H * (0.12 + 0.05 * Math.sin((u - 0.32) / 0.13 * Math.PI)); }
         else { const e = ease((u - 0.45) / 0.55); x -= W * 0.1 * (1 - e); y -= H * 0.12 * (1 - e); }
       }
-      put(Assets.held(v.weapon, 'rest', v.cls, false), x + rdx, y + rdy);
-    } else if (v.weapon && /throwknife$/.test(v.weapon)) {
+      put(Assets.held(v.weapon, 'rest', v.cls, false), x + rdx, y + rdy0, 1, true, W, rdy - rdy0);
+    } else if (weaponBase === 'throwknife') {
       // a throw, not a slash: the hand cocks back up by the ear, snaps forward
       // toward the middle (smaller, reaching into the view) as a knife leaves
       // it, follows through, and comes home
@@ -628,25 +639,34 @@ const Renderer = (() => {
       let x = r[0], y = r[1], s = 1;
       if (swinging) {
         if (u < 0.3) { const e = ease(u / 0.3); x += W * 0.04 * e; y -= H * 0.22 * e; }
-        else if (u < 0.45) { const e = ease((u - 0.3) / 0.15); x += W * (0.04 - 0.3 * e); y -= H * (0.22 - 0.1 * e); s = 1 - 0.18 * e; }
-        else { const e = ease((u - 0.45) / 0.55); x -= W * 0.26 * (1 - e); y -= H * 0.12 * (1 - e); s = 0.82 + 0.18 * e; }
+        else if (u < 0.4) { const e = ease((u - 0.3) / 0.1); x += W * (0.04 - 0.3 * e); y -= H * (0.22 - 0.1 * e); s = 1 - 0.18 * e; }
+        else { const e = ease((u - 0.4) / 0.6); x -= W * 0.26 * (1 - e); y -= H * 0.12 * (1 - e); s = 0.82 + 0.18 * e; }
       }
-      put(Assets.held(v.weapon, 'rest', v.cls, false), x + rdx, y + rdy, s);
+      put(Assets.held(swinging && u >= .4 ? null : v.weapon, swinging && u >= .4 ? 'fist' : 'rest', v.cls, false), x + rdx, y + rdy0, s, true, W, rdy - rdy0);
     } else if (v.weapon) {
       // a two-handed grip sits higher so the lower hand shows, the long grip of
       // a two-handed sword higher still; a sling hangs from the hand
-      const lift = /greatsword$/.test(v.weapon) ? 0.15 : v.two ? 0.07 : /sling$/.test(v.weapon) ? 0.16 : 0;
+      const lift = weaponBase === 'greatsword' ? 0.15 : v.two ? 0.07 : 0;
       // (a Bash with a blade in hand is a jab of the pommel, not a cut: the swing waits)
-      let pose = 'rest', p = at('rest', lift);
+      const base = weaponBase, shaft = base === 'staff' || base === 'spear';
+      let pose = 'rest', p = at('rest', lift), scale = 1;
       if (swinging && !bashing) {
-        if (u < 0.16) { pose = 'windup'; p = lerp(at('rest', lift), at('windup', lift), ease(u / 0.16)); }
-        else if (u < 0.32) { pose = 'cut'; p = lerp(at('windup', lift), at('cut', lift), ease((u - 0.16) / 0.16)); }
-        else if (u < 0.52) { pose = 'through'; p = lerp(at('cut', lift), at('through', lift), ease((u - 0.32) / 0.2)); }
-        else p = [p[0], p[1] + (1 - ease((u - 0.52) / 0.48)) * H * 0.5];
+        const motion = meleePose(u, shaft);
+        pose = motion.pose; p = [motion.x * W, (motion.y - lift) * H]; scale = motion.scale;
       }
+      if (base === 'staff' && cast && !swinging && !bashing) { pose = cast > .3 ? 'channel' : 'rest'; p[0] -= cast * W * .04; p[1] -= cast * H * .03; }
       // the lower hand of a two-handed grip is the one that casts, reads, drinks
       // and eats: it lets go of the grip, or a third hand would bring the bottle up
-      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using, reflected), p[0] + rdx, p[1] + rdy);
+      const frame = Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using, reflected);
+      const placement = put(frame, p[0] + rdx, p[1] + rdy0, scale, true, W, rdy - rdy0);
+      // A small surface glint, never a dungeon light or a change in visibility.
+      const name = namedId(v.weapon), gleam = cast && base === 'staff' ? cast : name && swinging && u > .16 && u < .52 ? Math.sin((u - .16) / .36 * Math.PI) : 0;
+      if (!calm && gleam && frame?.at.tip && placement) {
+        const colour = { bloodstar: '#d96878', thirst: '#bb667b', emberwood: '#efa365', oakheart: '#a4ba7a', heartroot: '#ca9582', ninth_circle: '#a394c8', whisper: '#bec7d8', grimtooth: '#b0be8f' }[name] || (base === 'staff' ? '#9bcef1' : '#e8d3a2');
+        const x = placement.ox + frame.at.tip[0] * placement.k, y = placement.oy + frame.at.tip[1] * placement.k;
+        ctx.save(); ctx.globalAlpha = gleam * .7; ctx.strokeStyle = colour; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(x - 2, y); ctx.lineTo(x + 2, y); ctx.moveTo(x, y - 2); ctx.lineTo(x, y + 2); ctx.stroke(); ctx.restore();
+      }
     } else {
       const punch = swinging && u < 0.55 && !bashing;
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');
