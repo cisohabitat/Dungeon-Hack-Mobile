@@ -147,4 +147,67 @@ module.exports = async h => {
     return true;
   });
 
+  await test('Wayfarer level-ups offer only exclusive talents and lantern lessons through level twelve',async()=>{
+    const c=await create(),G=c.Game,p=G.player();p.perkHit=60;
+    for(let level=2;level<=c.MAX_LEVEL;level++){
+      p.xp=c.XP_TABLE[level-1];
+      const m=h.beside(c,'rat',{uid:8000+level,hp:1,maxHp:1,nextAct:1e12});
+      for(let i=0;i<8&&G.level().monsters.includes(m);i++){G.state().t=p.nextAttack;G.input('attack');}
+      const offer=G.pendingBoons();
+      if(!offer?.length||offer.some(id=>!id.startsWith('wf_')))return 'ordinary or missing choice at '+level+': '+offer;
+      if(level%2===0&&!offer.every(id=>c.TALENTS.spellblade.some(t=>t.id===id)))return 'missing class talent at '+level;
+      if(level%2===1&&!offer.every(id=>c.BOONS.some(b=>b.id===id)))return 'missing lantern lesson at '+level;
+      const before={hp:p.hp,maxHp:p.maxHp,sp:p.sp,maxSp:p.maxSp};
+      if(!G.chooseBoon(offer[0]))return 'cannot learn '+offer[0];
+      if(level%2===0&&(p.maxHp!==before.maxHp+5||p.hp!==before.hp+5||p.maxSp!==before.maxSp+2||p.sp!==Math.min(p.maxSp,before.sp+2)))return 'missing memory gift at '+level;
+      if(G.pendingBoons())return 'unexpected extra offer';
+    }
+    if(new Set(p.talents).size!==6)return 'repeated talents';
+    G.save();return G.load()||'new progression did not load';
+  });
+  await test('Wayfarer inscriptions and ward talents change actual casts and validate their saved limits',async()=>{
+    const c=await create(),G=c.Game,p=G.player();
+    p.talents=['wf_long_edge','wf_deep_cut','wf_patient_guard','wf_requital'];p.boons=['wf_ember','wf_glass','wf_oath','wf_echo'];
+    cast(c,'runic_fire');const e=p.effects.runicEdge;
+    if(e.amount!==4||e.until-G.state().t!==65000)return 'wrong learned rune';
+    G.state().t=p.nextAttack;p.sp=99;cast(c,'spellguard');
+    if(p.effects.spellguard.amount!==7||p.effects.spellguard.until-G.state().t!==3500)return 'wrong learned ward';
+    G.hurtPlayer(1,'test',null,'test');
+    if(p.effects.runicReturn.amount!==5||p.effects.runicReturn.until-G.state().t!==7000)return 'wrong learned return';
+    G.save();if(!G.load())return 'learned magic rejected';
+    const raw=JSON.parse(c.store.get('deepdelve.save'));raw.player.effects.runicEdge.amount=5;c.store.set('deepdelve.save',JSON.stringify(raw));
+    if(G.load())return 'forged rune accepted';
+    return true;
+  });
+  await test('Wayfarer road talents extend a legal crossing and raise one ward without refreshing existing protection',async()=>{
+    const c=await create(),G=c.Game,p=G.player();p.talents=['wf_long_step','wf_step_guard'];
+    if(!cast(c,'lantern_step')||p.x!==7||p.effects.spellguard?.amount!==3||p.effects.spellguard.until-G.state().t!==1200)return 'missing road or ward';
+    G.save();if(!G.load())return 'travelling ward rejected';
+    const loaded=G.player();loaded.x=4;loaded.effects.spellguard={amount:6,until:G.state().t+2000,src:'spellguard'};
+    G.state().t=loaded.nextAttack;loaded.sp=99;const until=loaded.effects.spellguard.until;
+    if(!cast(c,'lantern_step')||loaded.effects.spellguard.amount!==6||loaded.effects.spellguard.until!==until)return 'step replaced or refreshed existing ward';
+    return true;
+  });
+  await test('Wayfarer memories reject unknown or duplicated powers and cannot be imported onto ordinary heroes',async()=>{
+    for(const kind of ['unknown','duplicate','other-class']){
+      const c=await create(),G=c.Game;G.save();const raw=JSON.parse(c.store.get('deepdelve.save'));
+      raw.player.talents=kind==='unknown'?['wf_invented']:kind==='duplicate'?['wf_long_edge','wf_long_edge']:['wf_long_edge'];
+      if(kind==='other-class')raw.player.cls='fighter';c.store.set('deepdelve.save',JSON.stringify(raw));
+      if(G.load())return 'accepted '+kind;
+    }
+    const c=await create(),G=c.Game;G.player().boons=['vigor','focus'];G.save();
+    return G.load()||'old Wayfarer lessons no longer load';
+  });
+
+  await test('Wayfarer Sever the Veil guides an active runed blade without helping empty hands or changing dice',async()=>{
+    const c=await create(),G=c.Game,p=G.player(),base=G.toHit();p.talents=['wf_deep_cut'];
+    if(G.toHit()!==base)return 'accuracy without a rune';
+    cast(c,'runic_fire');const dice=c.Dice.s;
+    if(G.toHit()!==base+1||!G.spellDesc(c.SPELLS.spellblade[0]).includes('+1 to hit'))return 'missing runed accuracy or description';
+    const sword=p.eq.weapon;p.eq.weapon=null;if(G.toHit()!==base)return 'accuracy with an empty hand';p.eq.weapon=sword;
+    G.state().t=p.effects.runicEdge.until;
+    if(G.toHit()!==base||c.Dice.s!==dice)return 'expired rune or changed dice';
+    return true;
+  });
+
 };

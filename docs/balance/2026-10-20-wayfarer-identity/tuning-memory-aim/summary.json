@@ -1,0 +1,74 @@
+[
+  {
+    "length": 8,
+    "difficulty": "normal",
+    "prefix": "bench",
+    "n": 20,
+    "newWins": 19,
+    "prototypeWins": 15,
+    "v14Wins": 16
+  },
+  {
+    "length": 8,
+    "difficulty": "normal",
+    "prefix": "alt",
+    "n": 20,
+    "newWins": 12,
+    "prototypeWins": 10,
+    "v14Wins": 12
+  },
+  {
+    "length": 8,
+    "difficulty": "hard",
+    "prefix": "bench",
+    "n": 20,
+    "newWins": 13,
+    "prototypeWins": 7,
+    "v14Wins": 12
+  },
+  {
+    "length": 8,
+    "difficulty": "hard",
+    "prefix": "alt",
+    "n": 20,
+    "newWins": 8,
+    "prototypeWins": 7,
+    "v14Wins": 8
+  },
+  {
+    "length": 16,
+    "difficulty": "normal",
+    "prefix": "bench",
+    "n": 20,
+    "newWins": 16,
+    "prototypeWins": 15,
+    "v14Wins": 18
+  },
+  {
+    "length": 16,
+    "difficulty": "normal",
+    "prefix": "alt",
+    "n": 20,
+    "newWins": 10,
+    "prototypeWins": 5,
+    "v14Wins": 14
+  },
+  {
+    "length": 16,
+    "difficulty": "hard",
+    "prefix": "bench",
+    "n": 20,
+    "newWins": 11,
+    "prototypeWins": 5,
+    "v14Wins": 10
+  },
+  {
+    "length": 16,
+    "difficulty": "hard",
+    "prefix": "alt",
+    "n": 20,
+    "newWins": 7,
+    "prototypeWins": 4,
+    "v14Wins": 5
+  }
+]

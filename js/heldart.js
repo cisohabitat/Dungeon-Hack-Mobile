@@ -262,11 +262,11 @@ function carriedParts(id, cls) {
 }
 
 /** A caster's focus, held up in the left hand: the item's own picture, resting on the palm. */
-const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
+const FOCI = ['wayfarer_lantern', 'spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
 function focusParts(base, cls, name = null) {
   const art = (name && NAMED_ART[name]) || ITEM_ART[base];
   if (!art) return null;
-  const size = 0.62, lift = 5;
+  const size = base === 'wayfarer_lantern' ? 1.05 : 0.62, lift = base === 'wayfarer_lantern' ? 11 : 5;
   const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));
   const h = hand(C, C + 4, deg(-90), deg(128), cls, { left: true, open: true });
   return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...item, ...h.front] };

@@ -141,6 +141,8 @@ export function makePaths(K) {
     return '';
   }
   function spellDesc(sp) {
+    const runic = K.spellblade.desc(sp);
+    if (runic) return runic;
     if (sp.kind === 'shape') return sp.desc.replace('forty seconds', `${Math.round(K.wild.duration() / 1000)} seconds`);
     if (sp.kind !== 'buff') return sp.desc + saveLine(sp);
     const dur = buffDuration(sp);

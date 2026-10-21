@@ -1,6 +1,7 @@
 // Saves are data from another device, not trusted game objects. Check their
 // shape before loading can allocate a floor or change the running hero.
-import { CLASSES, ITEMS, MONSTERS, STAT_NAMES, MAX_LEVEL, RENOWN_XP, XP_TABLE } from './data.js';
+import { BOONS, TALENTS, CLASSES, ITEMS, MONSTERS, STAT_NAMES, MAX_LEVEL, RENOWN_XP, XP_TABLE } from './data.js';
+import { wayfarerMagic } from './spellblade.js';
 import { RELICS } from './relics.js';
 import { SAVE_BYTES } from './savecode.js';
 
@@ -60,6 +61,14 @@ export function checkSave(data) {
   for (const key of ['boons', 'talents', 'renownTaken']) {
     if (p[key] !== undefined && (!Array.isArray(p[key]) || p[key].length > 10000 || p[key].some(v => typeof v !== 'string'))) invalid();
   }
+  for (const key of ['talents', 'boons']) {
+    const definitions = key === 'talents' ? TALENTS.spellblade : BOONS.filter(b => b.id.startsWith('wf_'));
+    const learned = p[key] || [];
+    for (const id of learned.filter(id => id.startsWith('wf_'))) {
+      const definition = definitions.find(d => d.id === id);
+      if (p.cls !== 'spellblade' || !definition || (key === 'talents' || BOONS.find(b => b.id === id)?.unique) && learned.filter(x => x === id).length !== 1) invalid();
+    }
+  }
   const item = it => { if (!object(it) || !own(ITEMS, it.t) || !Number.isFinite(it.q)) invalid(); };
   p.inv.forEach(item);
   for (const it of Object.values(p.eq)) if (it !== null) item(it);
@@ -69,10 +78,11 @@ export function checkSave(data) {
   // Browser frame clocks are fractional; expiry keeps the same clock as G.t.
   if (p.mythicChargeUntil !== undefined && (!Number.isFinite(p.mythicChargeUntil) || p.mythicChargeUntil < 0 || p.mythicChargeUntil > 1e12)) invalid();
   // Rune clocks and magnitudes are saved, but imported numbers cannot invent power.
+  const magic = wayfarerMagic(p);
   /** @type {[string, string[], number, number][]} */
   const runeFields = [
-    ['runicEdge', ['runic_fire', 'runic_frost', 'runic_storm'], 2 + Math.floor(p.level / 4), 30000],
-    ['spellguard', ['spellguard'], 6 + Math.floor(p.level / 2), 2200], ['runicReturn', ['spellguard'], 3, 5000],
+    ['runicEdge', ['runic_fire', 'runic_frost', 'runic_storm'], magic.edge, magic.edgeMs],
+    ['spellguard', ['spellguard'], magic.guard, magic.guardMs], ['runicReturn', ['spellguard'], magic.returned, magic.returnMs],
   ];
   for (const [key, sources, max, duration] of runeFields) {
     const e = p.effects?.[key];

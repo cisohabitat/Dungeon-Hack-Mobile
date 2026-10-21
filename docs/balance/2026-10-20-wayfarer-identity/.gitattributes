@@ -1,0 +1,4 @@
+# Raw reproduction patches and captured test output retain their original whitespace.
+*.patch -whitespace
+*.diff -whitespace
+*.log -whitespace

@@ -164,7 +164,7 @@ export function makeChoices(K) {
     const note = document.createElement('p');
     note.className = 'dim small';
     // (a new player met the word "lesson" with nothing to say what one was)
-    note.textContent = isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.'
+    note.textContent = p.cls === 'spellblade' ? `Memories return through the blue flame. Each talent adds ${CLASSES.spellblade.memory.hp} maximum hit points and ${CLASSES.spellblade.memory.sp} maximum spell points, restoring those amounts. Choose a talent at even levels and a lantern lesson between them. Named memories are learned once; life and spell reserves can grow again.` : isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.'
       : 'A lesson: a small gain that lasts the run, a point to a score or a knack. Choose one; a talent comes at the next even level.';
     el.appendChild(note);
     // a tap already on its way when the screen opened must not choose for you

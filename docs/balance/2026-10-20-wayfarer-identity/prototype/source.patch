@@ -1,0 +1,492 @@
+diff --git a/js/choices.js b/js/choices.js
+index 9d80ac1..db052d0 100644
+--- a/js/choices.js
++++ b/js/choices.js
+@@ -164,7 +164,7 @@ export function makeChoices(K) {
+     const note = document.createElement('p');
+     note.className = 'dim small';
+     // (a new player met the word "lesson" with nothing to say what one was)
+-    note.textContent = isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.'
++    note.textContent = p.cls === 'spellblade' ? 'Memories return through the blue flame. Choose a Wayfarer talent at each even level and a lantern lesson between them. Talents and named memories can each be learned once; life and spell reserves can grow again.' : isTalent ? 'A talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.'
+       : 'A lesson: a small gain that lasts the run, a point to a score or a knack. Choose one; a talent comes at the next even level.';
+     el.appendChild(note);
+     // a tap already on its way when the screen opened must not choose for you
+diff --git a/js/combat.js b/js/combat.js
+index 8550e14..337aa4f 100644
+--- a/js/combat.js
++++ b/js/combat.js
+@@ -745,7 +745,7 @@ export function makeCombat(K) {
+     const taken = p.boons || [];
+     // a stat lesson twice at most: stacking one every level was the whole of a build
+     const times = id => taken.filter(t => t === id).length;
+-    return BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
++    return BOONS.filter(b => (p.cls !== 'spellblade' || b.id.startsWith('wf_')) && (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
+   }
+   /** The class talents a hero can still be offered. */
+   function talentPool() {
+diff --git a/js/createview.js b/js/createview.js
+index 3b32fd2..db50503 100644
+--- a/js/createview.js
++++ b/js/createview.js
+@@ -112,7 +112,7 @@ export function makeCreateView(K) {
+       const track = at >= 5 ? `<em class="key stage-line">Mastery: ${escapeHtml(name)}, the last of five stages.</em>`
+         : `<em class="key stage-line">Mastery: ${at ? `${escapeHtml(name)}, stage ${at} of 5. ` : ''}Next, ${escapeHtml(Progress.stageName(create.cls, at + 1))}: ${escapeHtml(Progress.stageNeed(create.cls, at + 1))}</em>`;
+       const frame = Progress.frameOf(create.cls, known);
+-      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${c.hidden ? '<p class="dim">The Wayfarer learns through lessons; no path or mastery track is required.</p>' : `<details class="create-mastery"><summary>Mastery goals</summary>${track}</details>`}`;
++      $('#c-class-more').innerHTML = `<div class="class-intro"><button type="button" id="c-portrait-toggle" class="portrait-toggle" aria-expanded="false" aria-label="Look closer at the ${escapeHtml(c.name)} portrait"><img id="c-portrait" class="create-portrait${frame ? ' frame-' + frame : ''}" src="${faceOf(create.cls)}" alt="${escapeHtml(c.name)}"><span>Look closer</span></button><div><h3 id="c-class-title">${escapeHtml(c.name)}</h3><p class="class-backstory">${escapeHtml(c.story)}</p></div></div><p class="class-play">${escapeHtml(c.desc)}</p><em class="key">Key stat: ${STAT_NAMES[c.primary]}</em>${c.hidden ? '<p class="dim">The Wayfarer remembers exclusive talents and lantern lessons; no path or mastery track is required.</p>' : `<details class="create-mastery"><summary>Mastery goals</summary>${track}</details>`}`;
+       $('#c-portrait-toggle').addEventListener('click', () => {
+         const toggle = $('#c-portrait-toggle');
+         const expanded = toggle.classList.toggle('expanded');
+diff --git a/js/data.js b/js/data.js
+index 1be1fce..2157b84 100644
+--- a/js/data.js
++++ b/js/data.js
+@@ -160,6 +160,12 @@ const JOURNAL = [
+ 
+ // On every level gained, three of these are offered and one is kept.
+ const BOONS = [
++  { id: 'wf_ember', name: 'A Name in the Flame', desc: 'Remember one of the lost: Runic Edge deals 1 more elemental damage per landed hit.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
++  { id: 'wf_oath', name: 'The First Oath', desc: 'Your cast Spellguard catches 1 more damage from its one hit.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
++  { id: 'wf_echo', name: 'An Unfinished Debt', desc: 'After a guard catches a hit, its returned strike waits seven seconds instead of five.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
++  { id: 'wf_glass', name: 'Letters on the Glass', desc: 'Runic Edge lasts five seconds longer.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
++  { id: 'wf_vigor', name: 'What Death Left Behind', desc: '+4 maximum hit points, and healed by 4 now.', when: p => p.cls === 'spellblade', apply: p => { p.maxHp += 4; p.hp += 4; } },
++  { id: 'wf_well', name: 'Oil from the Other Side', desc: '+3 maximum spell points.', when: p => p.cls === 'spellblade', apply: p => { p.bonusSp = (p.bonusSp || 0) + 3; } },
+   // The one stat lesson: two points placed where the player likes, both in one score if they
+   // want, a build planned rather than dealt. (The five lessons that each raised one score by a
+   // point were folded into it: a lesson should change a rule, not a number.)
+@@ -199,6 +205,14 @@ const RENOWN = [
+ // class's own, each taken once. They change how a class plays rather than
+ // adding a point here and there; game.js honours each by id.
+ const TALENTS = {
++  spellblade: [
++    { id: 'wf_long_edge', name: 'Deathless Inscription', desc: 'Your Runic Edge lasts sixty seconds instead of thirty.' },
++    { id: 'wf_deep_cut', name: 'Sever the Veil', desc: 'Runic Edge adds 1 more elemental damage to each landed blade hit.' },
++    { id: 'wf_long_step', name: 'The Forgotten Road', desc: 'Lantern Step can cross three clear, explored floor squares instead of two. Traps and occupants still stop it.' },
++    { id: 'wf_step_guard', name: 'Threshold Ward', desc: 'Lantern Step raises a small Spellguard for 1.2 seconds: absorb 3 damage, plus 1 per four hero levels, from one hit. Preserves a stronger guard already raised.' },
++    { id: 'wf_patient_guard', name: 'Hold Back the Night', desc: 'A cast Spellguard lasts 3.5 seconds instead of 2.2.' },
++    { id: 'wf_requital', name: 'The Debt Repaid', desc: 'After Spellguard catches a hit, your next landed blade hit carries 5 extra damage instead of 3.' },
++  ],
+   fighter: [
+     { id: 'cleave', name: 'Cleave', desc: 'Strike a group and the one behind the front takes half the blow.' },
+     { id: 'riposte', name: 'Riposte', desc: 'A blow that misses you, or swings at the air where you stood, opens a riposte: your next swing within two and a half seconds comes at once, with +4 to hit and +2 damage.' },
+@@ -518,8 +532,9 @@ const CLASSES = {
+   spellblade: {
+     hidden: true, name: 'Spellblade', plural: 'Spellblades', title: 'Bearer of the Last Flame', hitDie: 9, startHp: 5, hitProg: 1, armor: 'light', shield: false, focus: 'spellblade', castMs: 650, spMul: 0.8, spells: 'spellblade', primary: 'int',
+     ease: 'The Wayfarer: sword, runes and a silver lantern.',
+-    story: 'Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier\'s sword and a gravekeeper\'s lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.',
+-    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and lessons in place of paths. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
++    motive: 'The Heart has opened the road you sealed. Carry its fire home, close the breach, and lead the souls in your lantern across at last.',
++    story: 'You were the keeper of the western gate when the mountain opened. You held it for seven nights while the valley fled. On the eighth, the dead behind you rose and asked to be let home. You broke your sword across the threshold and bound the breach with your own name. The gate closed. The world forgot its keeper. Only the gravekeeper\'s silver lantern remembered: each blue spark behind its glass is a soul you promised to lead out. Centuries pass; you do not age. Now the stolen Heart has stirred the old gate, and your lantern burns with voices you thought lost. You return with the sword reforged. You seek no throne, treasure or pardon. You have come to finish the crossing. The creatures in the deep recognise the flame. Some flee. The oldest kneel.',
++    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and exclusive rune, road and ward talents in place of paths. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
+     startKit: ['longsword', 'studded', 'wayfarer_lantern', 'ration', 'ration', 'potion_heal', 'potion_heal'],
+   },
+   fighter: {
+diff --git a/js/heldart.js b/js/heldart.js
+index d24e769..30e394b 100644
+--- a/js/heldart.js
++++ b/js/heldart.js
+@@ -262,11 +262,11 @@ function carriedParts(id, cls) {
+ }
+ 
+ /** A caster's focus, held up in the left hand: the item's own picture, resting on the palm. */
+-const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
++const FOCI = ['wayfarer_lantern', 'spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
+ function focusParts(base, cls, name = null) {
+   const art = (name && NAMED_ART[name]) || ITEM_ART[base];
+   if (!art) return null;
+-  const size = 0.62, lift = 5;
++  const size = base === 'wayfarer_lantern' ? 1.05 : 0.62, lift = base === 'wayfarer_lantern' ? 11 : 5;
+   const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));
+   const h = hand(C, C + 4, deg(-90), deg(128), cls, { left: true, open: true });
+   return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...item, ...h.front] };
+diff --git a/js/motion.js b/js/motion.js
+index 4c3fd6a..983bbdd 100644
+--- a/js/motion.js
++++ b/js/motion.js
+@@ -366,7 +366,7 @@ export function makeMotion(K) {
+       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
+       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
+       // on a dark floor, a lantern in hand: the light the hero sees by
+-      lantern: L.twist === 'dark',
++      lantern: L.twist === 'dark' && p.eq.shield?.t !== 'wayfarer_lantern',
+     };
+     fx.threats = threats();
+     // a wraith's grave-cold creeping over the stones toward its mark while it breathes
+diff --git a/js/paths.js b/js/paths.js
+index 5854cf6..32db3bd 100644
+--- a/js/paths.js
++++ b/js/paths.js
+@@ -141,6 +141,8 @@ export function makePaths(K) {
+     return '';
+   }
+   function spellDesc(sp) {
++    const runic = K.spellblade.desc(sp);
++    if (runic) return runic;
+     if (sp.kind === 'shape') return sp.desc.replace('forty seconds', `${Math.round(K.wild.duration() / 1000)} seconds`);
+     if (sp.kind !== 'buff') return sp.desc + saveLine(sp);
+     const dur = buffDuration(sp);
+diff --git a/js/release.js b/js/release.js
+index eb302c3..1defe82 100644
+--- a/js/release.js
++++ b/js/release.js
+@@ -1,9 +1,9 @@
+ // The published release and stamped commit, shared by the title and opt-in reports.
+ // Generated with npm run release:prepare; keep package/lock versions, build
+ // and offline cache together. See README.md for automatic release rules.
+-export const RELEASE_VERSION = '0.9.14';
++export const RELEASE_VERSION = '0.9.15';
+ // Internal offline readiness counter; players identify a deployment by commit.
+-export const BUILD_NUMBER = 29;
++export const BUILD_NUMBER = 30;
+ const sha = typeof document === 'undefined' ? '' : document.querySelector('meta[name="commit"]')?.getAttribute('content') || '';
+ export const COMMIT_ID = /^[a-f0-9]{40}$/.test(sha) ? sha.slice(0, 7) : 'local';
+ export const VERSION_ID = `${RELEASE_VERSION} (${COMMIT_ID})`;
+diff --git a/js/renderer.js b/js/renderer.js
+index 3e7b330..acc4b50 100644
+--- a/js/renderer.js
++++ b/js/renderer.js
+@@ -541,7 +541,8 @@ const Renderer = (() => {
+       put(Assets.held(null, 'fist', v.cls, false), hx, hy);
+     } else if (v.shield) {
+       // a Bash drives the shield in toward the middle of the view, rim first, and brings it home
+-      const [x, y] = at('shield'), sh = bashing === 'shield' ? shove : 0;
++      const lantern = v.shield === 'wayfarer_lantern';
++      const [x, y] = lantern ? [W * 0.19, H * 0.87] : at('shield'), sh = bashing === 'shield' ? shove : 0;
+       put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
+     } else if (v.offhand) {
+       const [x, y] = at('left');
+diff --git a/js/savecheck.js b/js/savecheck.js
+index e700d4a..630d11e 100644
+--- a/js/savecheck.js
++++ b/js/savecheck.js
+@@ -1,6 +1,7 @@
+ // Saves are data from another device, not trusted game objects. Check their
+ // shape before loading can allocate a floor or change the running hero.
+-import { CLASSES, ITEMS, MONSTERS, STAT_NAMES, MAX_LEVEL, RENOWN_XP, XP_TABLE } from './data.js';
++import { BOONS, TALENTS, CLASSES, ITEMS, MONSTERS, STAT_NAMES, MAX_LEVEL, RENOWN_XP, XP_TABLE } from './data.js';
++import { wayfarerMagic } from './spellblade.js';
+ import { RELICS } from './relics.js';
+ import { SAVE_BYTES } from './savecode.js';
+ 
+@@ -60,6 +61,14 @@ export function checkSave(data) {
+   for (const key of ['boons', 'talents', 'renownTaken']) {
+     if (p[key] !== undefined && (!Array.isArray(p[key]) || p[key].length > 10000 || p[key].some(v => typeof v !== 'string'))) invalid();
+   }
++  for (const key of ['talents', 'boons']) {
++    const definitions = key === 'talents' ? TALENTS.spellblade : BOONS.filter(b => b.id.startsWith('wf_'));
++    const learned = p[key] || [];
++    for (const id of learned.filter(id => id.startsWith('wf_'))) {
++      const definition = definitions.find(d => d.id === id);
++      if (p.cls !== 'spellblade' || !definition || (key === 'talents' || BOONS.find(b => b.id === id)?.unique) && learned.filter(x => x === id).length !== 1) invalid();
++    }
++  }
+   const item = it => { if (!object(it) || !own(ITEMS, it.t) || !Number.isFinite(it.q)) invalid(); };
+   p.inv.forEach(item);
+   for (const it of Object.values(p.eq)) if (it !== null) item(it);
+@@ -69,10 +78,11 @@ export function checkSave(data) {
+   // Browser frame clocks are fractional; expiry keeps the same clock as G.t.
+   if (p.mythicChargeUntil !== undefined && (!Number.isFinite(p.mythicChargeUntil) || p.mythicChargeUntil < 0 || p.mythicChargeUntil > 1e12)) invalid();
+   // Rune clocks and magnitudes are saved, but imported numbers cannot invent power.
++  const magic = wayfarerMagic(p);
+   /** @type {[string, string[], number, number][]} */
+   const runeFields = [
+-    ['runicEdge', ['runic_fire', 'runic_frost', 'runic_storm'], 2 + Math.floor(p.level / 4), 30000],
+-    ['spellguard', ['spellguard'], 6 + Math.floor(p.level / 2), 2200], ['runicReturn', ['spellguard'], 3, 5000],
++    ['runicEdge', ['runic_fire', 'runic_frost', 'runic_storm'], magic.edge, magic.edgeMs],
++    ['spellguard', ['spellguard'], magic.guard, magic.guardMs], ['runicReturn', ['spellguard'], magic.returned, magic.returnMs],
+   ];
+   for (const [key, sources, max, duration] of runeFields) {
+     const e = p.effects?.[key];
+diff --git a/js/spellblade.js b/js/spellblade.js
+index bae8db9..730aced 100644
+--- a/js/spellblade.js
++++ b/js/spellblade.js
+@@ -1,5 +1,21 @@
+ // The hidden Spellblade's magic. Every clock belongs to the saved run;
+ // the device unlock never participates in combat, generation or replay.
++/** Derived limits are shared with save validation; learning never adds saved power fields.
++ * @param {import('./types.js').Player} p */
++export function wayfarerMagic(p) {
++  const talent = id => p.cls === 'spellblade' && (p.talents || []).includes(id);
++  const lesson = id => p.cls === 'spellblade' && (p.boons || []).includes(id);
++  return {
++    edge: 2 + Math.floor(p.level / 4) + Number(talent('wf_deep_cut')) + Number(lesson('wf_ember')),
++    edgeMs: (talent('wf_long_edge') ? 60000 : 30000) + (lesson('wf_glass') ? 5000 : 0),
++    guard: 6 + Math.floor(p.level / 2) + Number(lesson('wf_oath')),
++    guardMs: talent('wf_patient_guard') ? 3500 : 2200,
++    step: talent('wf_long_step') ? 3 : 2,
++    stepGuard: talent('wf_step_guard') ? 3 + Math.floor(p.level / 4) : 0,
++    returned: talent('wf_requital') ? 5 : 3,
++    returnMs: lesson('wf_echo') ? 7000 : 5000,
++  };
++}
+ /** @param {import('./types.js').Kit} K */
+ export function makeSpellblade(K) {
+   const active = key => {
+@@ -9,7 +25,8 @@ export function makeSpellblade(K) {
+   function destination() {
+     const p = K.P(), L = K.lvl(), [dx, dy] = K.DIRS[p.dir];
+     let end = null;
+-    for (let i = 1; i <= 2; i++) {
++    const reach = wayfarerMagic(p).step;
++    for (let i = 1; i <= reach; i++) {
+       const x = p.x + dx * i, y = p.y + dy * i;
+       if (x < 0 || y < 0 || x >= L.w || y >= L.h || !L.explored[y * L.w + x]
+         || L.tiles[y * L.w + x] !== K.T.FLOOR || !K.passable(x, y) || K.monsterAt(x, y)
+@@ -25,7 +42,7 @@ export function makeSpellblade(K) {
+     if (sp.kind === 'edge') {
+       if (!p.eq.weapon || K.weapon().range || K.weapon().blunt) return 'Runic Edge needs a sword or dagger in your right hand.';
+       const edge = active('runicEdge');
+-      if (edge?.src === sp.id && edge.amount >= 2 + Math.floor(p.level / 4)) return 'That rune already burns along your blade.';
++      if (edge?.src === sp.id && edge.amount >= wayfarerMagic(p).edge) return 'That rune already burns along your blade.';
+     }
+     if (sp.kind === 'step') {
+       if (p.grabbed && (!p.grabbed.until || p.grabbed.until > K.G.t)) return 'Break free of the creature before stepping.';
+@@ -37,11 +54,15 @@ export function makeSpellblade(K) {
+   }
+   function cast(sp) {
+     const p = K.P();
+-    if (sp.kind === 'edge') p.effects.runicEdge = { amount: 2 + Math.floor(p.level / 4), until: K.G.t + 30000, src: sp.id };
+-    if (sp.kind === 'spellguard') p.effects.spellguard = { amount: 6 + Math.floor(p.level / 2), until: K.G.t + 2200, src: sp.id };
++    const magic = wayfarerMagic(p);
++    if (sp.kind === 'edge') p.effects.runicEdge = { amount: magic.edge, until: K.G.t + magic.edgeMs, src: sp.id };
++    if (sp.kind === 'spellguard') p.effects.spellguard = { amount: magic.guard, until: K.G.t + magic.guardMs, src: sp.id };
+     if (sp.kind === 'step') {
+       const end = destination();
+       p.x = end.x; p.y = end.y;
++      // A travelling ward is raised before the destination's ordinary trap check.
++      // Never replace an active guard; stepping cannot refresh its lifetime.
++      if (magic.stepGuard && !active('spellguard')) p.effects.spellguard = { amount: magic.stepGuard, until: K.G.t + 1200, src: 'spellguard' };
+       K.snapCam(); K.distFieldAt = -1e9; K.checkTile();
+     }
+     K.log(`You cast ${sp.name}.`, 'good');
+@@ -64,13 +85,22 @@ export function makeSpellblade(K) {
+     if (!e || inside || dmg <= 0) return dmg;
+     delete K.P().effects.spellguard;
+     const took = Math.min(dmg, e.amount);
+-    K.P().effects.runicReturn = { amount: 3, until: K.G.t + 5000, src: 'spellguard' };
++    const magic = wayfarerMagic(K.P());
++    K.P().effects.runicReturn = { amount: magic.returned, until: K.G.t + magic.returnMs, src: 'spellguard' };
+     K.log(`Your Spellguard catches ${took}. Your next sword strike carries its light.`, 'good');
+     return dmg - took;
+   }
+-  // The lantern remembers the deeper halls. The ordinary eight-floor delve
+-  // keeps its balance; long delves gain a bounded ward in place of a path's gear.
++  // Deepward adds nothing through floor eight; deeper floors gain a bounded
++  // ward in place of a path's gear.
+   const armour = () => K.P().cls === 'spellblade' && K.P().eq.shield?.t === 'wayfarer_lantern'
+     ? Math.min(4, Math.max(0, Math.ceil((K.G.depth - 8) / 2))) : 0;
+-  return { reason, cast, blow, guard, armour };
++  function desc(sp) {
++    if (K.P().cls !== 'spellblade' || !['edge', 'step', 'spellguard'].includes(sp.kind)) return null;
++    const m = wayfarerMagic(K.P());
++    if (sp.kind === 'edge') return `Your sword or dagger deals ${m.edge} extra ${sp.id === 'runic_fire' ? 'fire' : sp.id === 'runic_frost' ? 'cold' : 'lightning'} damage per landed hit for ${m.edgeMs / 1000} seconds. Only one rune can burn at a time.`;
++    if (sp.kind === 'step') return `Slip up to ${m.step} clear, explored floor squares ahead. Walls, occupants and traps stop the crossing; landing triggers traps as usual.${m.stepGuard ? ` Raises a ${m.stepGuard}-damage, 1.2-second Spellguard if none is active.` : ''}`;
++    if (sp.kind === 'spellguard') return `For ${m.guardMs / 1000} seconds, catch up to ${m.guard} damage from one hit. Your next landed blade hit within ${m.returnMs / 1000} seconds deals ${m.returned} extra damage. Poison and hunger pass through.`;
++    return null;
++  }
++  return { reason, cast, blow, guard, armour, desc };
+ }
+diff --git a/js/ui.js b/js/ui.js
+index 8e72fdc..2f301fa 100644
+--- a/js/ui.js
++++ b/js/ui.js
+@@ -170,18 +170,20 @@ const UI = (() => {
+ 
+   function showPrologue(cfg) {
+     pendingCfg = cfg;
++    const personal = cfg.cls === 'spellblade' ? CLASSES.spellblade : null;
+     const b = BACKGROUNDS[cfg.bg];
+     // the valley's story in full the first time; after that it waits folded
+     // away, so the hero's own paragraph and the stair fit on the screen
+     const world = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
+     $('#pro-world').innerHTML = store(STORY_READ) === '1' ? `<details class="pro-again"><summary>The story so far</summary>${world}</details>` : world;
+-    $('#pro-who').textContent = b.name;
++    $('#pro-who').textContent = personal ? personal.title : b.name;
+     // who is going down, by name and class: a dealt hero (the Daily, Quick Start) was never named before the stair
+     $('#pro-class').textContent = `${cfg.name}, a ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
+     const face = /** @type {HTMLImageElement} */ ($('#pro-face'));
+     face.src = faceOf(cfg.cls); face.alt = `${cfg.name}, the ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
+-    $('#pro-story').textContent = b.story;
+-    $('#pro-motive').textContent = b.motive;
++    $('#pro-story').textContent = personal ? personal.story : b.story;
++    $('#pro-motive').textContent = personal ? personal.motive : b.motive;
++    $('#screen-prologue [data-voice-background]').hidden = !!personal;
+     // how this run is kept, said plainly before it starts
+     const o = cfg.opts, d = diffOf(o);
+     $('#pro-rules').textContent = o.daily
+@@ -197,7 +199,7 @@ const UI = (() => {
+     $('#pro-puzzle-note').textContent = puzzleBox.disabled ? 'Puzzles stay off in Daily and Weekly challenges so their rules are fixed.' : 'Rune sequences, watchfires and keeper seals guard some gold and gems. Optional, with unlimited retries; never needed for the stairs or the Heart.';
+     showScreen('screen-prologue');
+     Sound.unlock();
+-    narration.prologue(cfg.bg);
++    narration.prologue(personal ? undefined : cfg.bg);
+   }
+   const STORY_READ = 'deepdelve.storyRead';
+   // the way in plays as every new run opens (see prelude.js). A browser driven by
+diff --git a/package-lock.json b/package-lock.json
+index 665ded3..cac424f 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -1,12 +1,12 @@
+ {
+   "name": "deepdelve",
+-  "version": "0.9.14",
++  "version": "0.9.15",
+   "lockfileVersion": 3,
+   "requires": true,
+   "packages": {
+     "": {
+       "name": "deepdelve",
+-      "version": "0.9.14",
++      "version": "0.9.15",
+       "license": "MIT",
+       "devDependencies": {
+         "@axe-core/playwright": "^4.13.0",
+diff --git a/package.json b/package.json
+index df3db02..340c415 100644
+--- a/package.json
++++ b/package.json
+@@ -1,6 +1,6 @@
+ {
+   "name": "deepdelve",
+-  "version": "0.9.14",
++  "version": "0.9.15",
+   "description": "A first-person, seed-generated dungeon crawler for mobile browsers.",
+   "private": true,
+   "scripts": {
+diff --git a/sw.js b/sw.js
+index 8025eb7..ca8437c 100644
+--- a/sw.js
++++ b/sw.js
+@@ -1,5 +1,5 @@
+ // Minimal offline cache so the game works without a connection once loaded.
+-const CACHE = 'deepdelve-v89';
++const CACHE = 'deepdelve-v90';
+ const ASSETS = [
+   './js/hiddenhero.js', './js/spellblade.js', './img/portraits/spellblade.webp',
+   './js/packmemory.js', './js/geartools.js', './js/settracker.js', './js/delveguide.js', './js/maplandmarks.js',
+diff --git a/test/browser/spellblade.spec.js b/test/browser/spellblade.spec.js
+index d7827be..4dc92b2 100644
+--- a/test/browser/spellblade.spec.js
++++ b/test/browser/spellblade.spec.js
+@@ -28,6 +28,11 @@ test('five title taps reveal the Wayfarer, persist on this device, and leave the
+  await page.locator('#c-customise > summary').click();
+  await expect(page.locator('#c-start')).not.toContainText('last stage');
+  await page.reload();await page.click('#btn-new');await expect(page.locator('[data-cls="spellblade"]')).toBeVisible();
++ await page.click('[data-cls="spellblade"]');await page.click('#c-begin');
++ await expect(page.locator('#pro-who')).toHaveText('Bearer of the Last Flame');
++ await expect(page.locator('#pro-story')).toContainText('keeper of the western gate');
++ await expect(page.locator('#pro-motive')).toContainText('souls in your lantern');
++ await expect(page.locator('#screen-prologue [data-voice-background]')).toBeHidden();
+  expect(errors).toEqual([]);
+ });
+ 
+@@ -70,3 +75,36 @@ test('the hidden hero descends with a sword and lantern, casts runes, and resume
+  expect(await page.evaluate(()=>[Game.player().cls,Game.player().effects.runicEdge.src])).toEqual(['spellblade','runic_fire']);
+  expect(errors).toEqual([]);
+ });
++
++test('the Silver Lantern is carried visibly on ordinary and dark floors and disappears when put away @mobile',async({page})=>{
++ await unlock(page);await startGame(page,{cls:'Spellblade',seed:'wayfarer-lantern-view'});
++ await page.evaluate(()=>{Game.skipPrelude();Game.level().monsters=[];});
++ const inspect=()=>page.evaluate(()=>{
++   const rs=Game.renderState(performance.now()),f=Assets.carried(rs.fx.view.shield,'spellblade');
++   const pixels=f?.img.getContext('2d').getImageData(0,0,f.img.width,f.img.height).data||[];
++   let blue=0,silver=0;
++   for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]){if(pixels[i+2]>pixels[i]+35&&pixels[i+1]>100)blue++;if(pixels[i]>130&&pixels[i+1]>140&&pixels[i+2]>150)silver++;}
++   Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,performance.now());
++   return {shield:rs.fx.view.shield,amber:Renderer.lantern,blue,silver,hands:Renderer.hands.length};
++ });
++ let held=await inspect();expect(held.shield).toBe('wayfarer_lantern');expect(held.blue).toBeGreaterThan(0);expect(held.silver).toBeGreaterThan(0);expect(held.hands).toBeGreaterThanOrEqual(2);
++ await page.evaluate(()=>Game.level().twist='dark');held=await inspect();expect(held.amber).toBe(0);
++ await page.evaluate(()=>{Game.level().twist=null;Game.player().eq.shield=null;});
++ expect(await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield)).toBeNull();
++});
++
++test('Wayfarer level-up cards teach exclusive talents and lantern memories @mobile',async({page})=>{
++ await unlock(page);await startGame(page,{cls:'Spellblade',seed:'wayfarer-level-cards'});
++ await page.evaluate(()=>{Game.skipPrelude();Game.level().monsters=[];});
++ async function levelUp(level){await page.evaluate(async level=>{
++   const {XP_TABLE}=await import('/js/data.js');const p=Game.player();p.xp=XP_TABLE[level-1];
++   const m={id:'rat',uid:9000+level,x:p.x+1,y:p.y,hp:1,maxHp:1,nextAct:1e12};Game.level().monsters.push(m);Game.hurtMonster(m,999);
++ },level);}
++ await levelUp(2);await expect(page.locator('#boon-title')).toContainText("Spellblade's talent");
++ await expect(page.locator('#boon-list .boon')).toHaveCount(3);
++ expect(await page.evaluate(()=>Game.pendingBoons().every(id=>id.startsWith('wf_')))).toBe(true);
++ await page.locator('#boon-list .boon').first().click();
++ await levelUp(3);await expect(page.locator('#boon-title')).toContainText('what the delve taught you');
++ expect(await page.evaluate(()=>Game.pendingBoons().every(id=>id.startsWith('wf_')))).toBe(true);
++ await expect(page.locator('#boon-list')).toContainText('Memories return through the blue flame');
++});
+diff --git a/test/playtest.js b/test/playtest.js
+index 67e4056..f6286e5 100644
+--- a/test/playtest.js
++++ b/test/playtest.js
+@@ -1104,6 +1104,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
+   rec.legendWorn = Object.values(p.eq).some(i => i && i.u && RELICS[i.u] && RELICS[i.u].legend) ? 1 : 0;
+   rec.casts = { ...((G.stats && G.stats.spells) || {}) };
+   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
++  if (cls === 'spellblade') rec.wayfarerLearned = { talents: (p.talents || []).slice(), lessons: (p.boons || []).slice() };
+   return rec;
+ }
+ 
+diff --git a/test/rules-spellblade.js b/test/rules-spellblade.js
+index 959a26d..ae9dca2 100644
+--- a/test/rules-spellblade.js
++++ b/test/rules-spellblade.js
+@@ -147,4 +147,54 @@ module.exports = async h => {
+     return true;
+   });
+ 
++  await test('Wayfarer level-ups offer only exclusive talents and lantern lessons through level twelve',async()=>{
++    const c=await create(),G=c.Game,p=G.player();p.perkHit=60;
++    for(let level=2;level<=c.MAX_LEVEL;level++){
++      p.xp=c.XP_TABLE[level-1];
++      const m=h.beside(c,'rat',{uid:8000+level,hp:1,maxHp:1,nextAct:1e12});
++      for(let i=0;i<8&&G.level().monsters.includes(m);i++){G.state().t=p.nextAttack;G.input('attack');}
++      const offer=G.pendingBoons();
++      if(!offer?.length||offer.some(id=>!id.startsWith('wf_')))return 'ordinary or missing choice at '+level+': '+offer;
++      if(level%2===0&&!offer.every(id=>c.TALENTS.spellblade.some(t=>t.id===id)))return 'missing class talent at '+level;
++      if(level%2===1&&!offer.every(id=>c.BOONS.some(b=>b.id===id)))return 'missing lantern lesson at '+level;
++      if(!G.chooseBoon(offer[0]))return 'cannot learn '+offer[0];
++      if(G.pendingBoons())return 'unexpected extra offer';
++    }
++    if(new Set(p.talents).size!==6)return 'repeated talents';
++    G.save();return G.load()||'new progression did not load';
++  });
++  await test('Wayfarer inscriptions and ward talents change actual casts and validate their saved limits',async()=>{
++    const c=await create(),G=c.Game,p=G.player();
++    p.talents=['wf_long_edge','wf_deep_cut','wf_patient_guard','wf_requital'];p.boons=['wf_ember','wf_glass','wf_oath','wf_echo'];
++    cast(c,'runic_fire');const e=p.effects.runicEdge;
++    if(e.amount!==4||e.until-G.state().t!==65000)return 'wrong learned rune';
++    G.state().t=p.nextAttack;p.sp=99;cast(c,'spellguard');
++    if(p.effects.spellguard.amount!==7||p.effects.spellguard.until-G.state().t!==3500)return 'wrong learned ward';
++    G.hurtPlayer(1,'test',null,'test');
++    if(p.effects.runicReturn.amount!==5||p.effects.runicReturn.until-G.state().t!==7000)return 'wrong learned return';
++    G.save();if(!G.load())return 'learned magic rejected';
++    const raw=JSON.parse(c.store.get('deepdelve.save'));raw.player.effects.runicEdge.amount=5;c.store.set('deepdelve.save',JSON.stringify(raw));
++    if(G.load())return 'forged rune accepted';
++    return true;
++  });
++  await test('Wayfarer road talents extend a legal crossing and raise one ward without refreshing existing protection',async()=>{
++    const c=await create(),G=c.Game,p=G.player();p.talents=['wf_long_step','wf_step_guard'];
++    if(!cast(c,'lantern_step')||p.x!==7||p.effects.spellguard?.amount!==3||p.effects.spellguard.until-G.state().t!==1200)return 'missing road or ward';
++    G.save();if(!G.load())return 'travelling ward rejected';
++    const loaded=G.player();loaded.x=4;loaded.effects.spellguard={amount:6,until:G.state().t+2000,src:'spellguard'};
++    G.state().t=loaded.nextAttack;loaded.sp=99;const until=loaded.effects.spellguard.until;
++    if(!cast(c,'lantern_step')||loaded.effects.spellguard.amount!==6||loaded.effects.spellguard.until!==until)return 'step replaced or refreshed existing ward';
++    return true;
++  });
++  await test('Wayfarer memories reject unknown or duplicated powers and cannot be imported onto ordinary heroes',async()=>{
++    for(const kind of ['unknown','duplicate','other-class']){
++      const c=await create(),G=c.Game;G.save();const raw=JSON.parse(c.store.get('deepdelve.save'));
++      raw.player.talents=kind==='unknown'?['wf_invented']:kind==='duplicate'?['wf_long_edge','wf_long_edge']:['wf_long_edge'];
++      if(kind==='other-class')raw.player.cls='fighter';c.store.set('deepdelve.save',JSON.stringify(raw));
++      if(G.load())return 'accepted '+kind;
++    }
++    const c=await create(),G=c.Game;G.player().boons=['vigor','focus'];G.save();
++    return G.load()||'old Wayfarer lessons no longer load';
++  });
++
+ };

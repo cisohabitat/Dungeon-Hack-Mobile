@@ -366,7 +366,7 @@ export function makeMotion(K) {
       shield: p.eq.shield ? spriteFor(p.eq.shield) : null, offhand: p.eq.offhand ? spriteFor(p.eq.offhand) : null,
       cls: p.cls, walk: cam.moving ? camProgress() : 0, steps: p.steps,
       // on a dark floor, a lantern in hand: the light the hero sees by
-      lantern: L.twist === 'dark',
+      lantern: L.twist === 'dark' && p.eq.shield?.t !== 'wayfarer_lantern',
     };
     fx.threats = threats();
     // a wraith's grave-cold creeping over the stones toward its mark while it breathes

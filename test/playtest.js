@@ -1104,6 +1104,7 @@ function play(ctx, cls, seed, opts, bg, idx) {
   rec.legendWorn = Object.values(p.eq).some(i => i && i.u && RELICS[i.u] && RELICS[i.u].legend) ? 1 : 0;
   rec.casts = { ...((G.stats && G.stats.spells) || {}) };
   rec.gear = `${p.eq.weapon ? p.eq.weapon.t : 'fists'}${p.eq.shield ? '+' + p.eq.shield.t : ''}${p.eq.armor ? ' in ' + p.eq.armor.t : ''}`;      // did this bot actually end up fighting two-handed
+  if (cls === 'spellblade') rec.wayfarerLearned = { talents: (p.talents || []).slice(), lessons: (p.boons || []).slice() };
   return rec;
 }
 

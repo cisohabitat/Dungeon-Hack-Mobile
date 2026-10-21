@@ -1,0 +1,95 @@
+--- a/js/combat.js
++++ b/js/combat.js
+@@ -1,7 +1,7 @@
+ // Combat: the hero's blows and a monster's on the hero, and the rules for groups
+ // sharing a square, packs and how a fight's damage is counted. What it borrows
+ // from the game comes through K, read live.
+-import { BOONS, CAPSTONE_LEVEL, ITEMS, MAX_LEVEL, MONSTERS, PATHS, PATH_LEVEL, RENOWN, RENOWN_XP, TALENTS, XP_TABLE } from './data.js';
++import { BOONS, CAPSTONE_LEVEL, CLASSES, ITEMS, MAX_LEVEL, MONSTERS, PATHS, PATH_LEVEL, RENOWN, RENOWN_XP, TALENTS, XP_TABLE } from './data.js';
+ import { Dungeon } from './dungeon.js';
+ import { Progress } from './progress.js';
+ import { RELICS } from './relics.js';
+@@ -863,6 +863,12 @@
+     const talent = (TALENTS[p.cls] || []).find(t => t.id === id);
+     if (talent) {
+       p.talents = (p.talents || []).concat(id);
++      if (p.cls === 'spellblade') {
++        const memory = CLASSES.spellblade.memory;
++        p.maxHp += memory.hp; p.hp += memory.hp;
++        p.bonusSp = (p.bonusSp || 0) + memory.sp;
++        p.maxSp = spMax(p); p.sp = Math.min(p.maxSp, p.sp + memory.sp);
++      }
+       // the first card not chosen is held over to the next talent offer
+       p.talentHeld = offer.find(x => x !== id && (TALENTS[p.cls] || []).some(t => t.id === x));
+       K.G.pendingBoons.shift(); if (K.G.pendingLevels) K.G.pendingLevels.shift();
+--- a/js/data.js
++++ b/js/data.js
+@@ -164,8 +164,8 @@
+   { id: 'wf_oath', name: 'The First Oath', desc: 'Your cast Spellguard catches 1 more damage from its one hit.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+   { id: 'wf_echo', name: 'An Unfinished Debt', desc: 'After a guard catches a hit, its returned strike waits seven seconds instead of five.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+   { id: 'wf_glass', name: 'Letters on the Glass', desc: 'Runic Edge lasts five seconds longer.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+-  { id: 'wf_vigor', name: 'What Death Left Behind', desc: '+4 maximum hit points, and healed by 4 now.', when: p => p.cls === 'spellblade', apply: p => { p.maxHp += 4; p.hp += 4; } },
+-  { id: 'wf_well', name: 'Oil from the Other Side', desc: '+3 maximum spell points.', when: p => p.cls === 'spellblade', apply: p => { p.bonusSp = (p.bonusSp || 0) + 3; } },
++  { id: 'wf_vigor', name: 'What Death Left Behind', desc: '+6 maximum hit points, and healed by 6 now.', when: p => p.cls === 'spellblade', apply: p => { p.maxHp += 6; p.hp += 6; } },
++  { id: 'wf_well', name: 'Oil from the Other Side', desc: '+4 maximum spell points.', when: p => p.cls === 'spellblade', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; } },
+   // The one stat lesson: two points placed where the player likes, both in one score if they
+   // want, a build planned rather than dealt. (The five lessons that each raised one score by a
+   // point were folded into it: a lesson should change a rule, not a number.)
+@@ -207,7 +207,7 @@
+ const TALENTS = {
+   spellblade: [
+     { id: 'wf_long_edge', name: 'Deathless Inscription', desc: 'Your Runic Edge lasts sixty seconds instead of thirty.' },
+-    { id: 'wf_deep_cut', name: 'Sever the Veil', desc: 'Runic Edge adds 1 more elemental damage to each landed blade hit.' },
++    { id: 'wf_deep_cut', name: 'Sever the Veil', desc: 'While Runic Edge burns, your sword or dagger gains +1 to hit and 1 more elemental damage per landed hit.' },
+     { id: 'wf_long_step', name: 'The Forgotten Road', desc: 'Lantern Step can cross three clear, explored floor squares instead of two. Traps and occupants still stop it.' },
+     { id: 'wf_step_guard', name: 'Threshold Ward', desc: 'Lantern Step raises a small Spellguard for 1.2 seconds: absorb 3 damage, plus 1 per four hero levels, from one hit. Preserves a stronger guard already raised.' },
+     { id: 'wf_patient_guard', name: 'Hold Back the Night', desc: 'A cast Spellguard lasts 3.5 seconds instead of 2.2.' },
+@@ -532,6 +532,7 @@
+   spellblade: {
+     hidden: true, name: 'Spellblade', plural: 'Spellblades', title: 'Bearer of the Last Flame', hitDie: 9, startHp: 5, hitProg: 1, armor: 'light', shield: false, focus: 'spellblade', castMs: 650, spMul: 0.8, spells: 'spellblade', primary: 'int',
+     ease: 'The Wayfarer: sword, runes and a silver lantern.',
++    memory: { hp: 3, sp: 1 },
+     motive: 'The Heart has opened the road you sealed. Carry its fire home, close the breach, and lead the souls in your lantern across at last.',
+     story: 'You were the keeper of the western gate when the mountain opened. You held it for seven nights while the valley fled. On the eighth, the dead behind you rose and asked to be let home. You broke your sword across the threshold and bound the breach with your own name. The gate closed. The world forgot its keeper. Only the gravekeeper\'s silver lantern remembered: each blue spark behind its glass is a soul you promised to lead out. Centuries pass; you do not age. Now the stolen Heart has stirred the old gate, and your lantern burns with voices you thought lost. You return with the sword reforged. You seek no throne, treasure or pardon. You have come to finish the crossing. The creatures in the deep recognise the flame. Some flee. The oldest kneel.',
+     desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and exclusive rune, road and ward talents in place of paths. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
+--- a/js/game.js
++++ b/js/game.js
+@@ -632,7 +632,7 @@
+   function toHit() {
+     const p = P();
+     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
+-      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0)
++      + (p.perkHit || 0) + spellblade.aim() + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0)
+       - ((p.dazzled || 0) > G.t ? DAZZLED_HIT : 0);
+   }
+   function playerAC() {
+--- a/js/spellblade.js
++++ b/js/spellblade.js
+@@ -6,6 +6,7 @@
+   const talent = id => p.cls === 'spellblade' && (p.talents || []).includes(id);
+   const lesson = id => p.cls === 'spellblade' && (p.boons || []).includes(id);
+   return {
++    hit: Number(talent('wf_deep_cut')),
+     edge: 2 + Math.floor(p.level / 4) + Number(talent('wf_deep_cut')) + Number(lesson('wf_ember')),
+     edgeMs: (talent('wf_long_edge') ? 60000 : 30000) + (lesson('wf_glass') ? 5000 : 0),
+     guard: 6 + Math.floor(p.level / 2) + Number(lesson('wf_oath')),
+@@ -94,13 +95,17 @@
+   // ward in place of a path's gear.
+   const armour = () => K.P().cls === 'spellblade' && K.P().eq.shield?.t === 'wayfarer_lantern'
+     ? Math.min(4, Math.max(0, Math.ceil((K.G.depth - 8) / 2))) : 0;
++  function aim() {
++    const p = K.P();
++    return active('runicEdge') && p.eq.weapon && !K.weapon().range && !K.weapon().blunt ? wayfarerMagic(p).hit : 0;
++  }
+   function desc(sp) {
+     if (K.P().cls !== 'spellblade' || !['edge', 'step', 'spellguard'].includes(sp.kind)) return null;
+     const m = wayfarerMagic(K.P());
+-    if (sp.kind === 'edge') return `Your sword or dagger deals ${m.edge} extra ${sp.id === 'runic_fire' ? 'fire' : sp.id === 'runic_frost' ? 'cold' : 'lightning'} damage per landed hit for ${m.edgeMs / 1000} seconds. Only one rune can burn at a time.`;
++    if (sp.kind === 'edge') return `Your sword or dagger deals ${m.edge} extra ${sp.id === 'runic_fire' ? 'fire' : sp.id === 'runic_frost' ? 'cold' : 'lightning'} damage per landed hit for ${m.edgeMs / 1000} seconds. Only one rune can burn at a time.${m.hit ? ' The runed blade also gains +1 to hit.' : ''}`;
+     if (sp.kind === 'step') return `Slip up to ${m.step} clear, explored floor squares ahead. Walls, occupants and traps stop the crossing; landing triggers traps as usual.${m.stepGuard ? ` Raises a ${m.stepGuard}-damage, 1.2-second Spellguard if none is active.` : ''}`;
+     if (sp.kind === 'spellguard') return `For ${m.guardMs / 1000} seconds, catch up to ${m.guard} damage from one hit. Your next landed blade hit within ${m.returnMs / 1000} seconds deals ${m.returned} extra damage. Poison and hunger pass through.`;
+     return null;
+   }
+-  return { reason, cast, blow, guard, armour, desc };
++  return { reason, cast, blow, guard, armour, desc, aim };
+ }

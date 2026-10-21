@@ -115,7 +115,7 @@ What is down there now wears their faces.
 
 ### Spellblade (spellblade)
 
-Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier's sword and a gravekeeper's lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.
+You were the keeper of the western gate when the mountain opened. You held it for seven nights while the valley fled. On the eighth, the dead behind you rose and asked to be let home. You broke your sword across the threshold and bound the breach with your own name. The gate closed. The world forgot its keeper. Only the gravekeeper's silver lantern remembered: each blue spark behind its glass is a soul you promised to lead out. Centuries pass; you do not age. Now the stolen Heart has stirred the old gate, and your lantern burns with voices you thought lost. You return with the sword reforged. You seek no throne, treasure or pardon. You have come to finish the crossing. The creatures in the deep recognise the flame. Some flee. The oldest kneel.
 
 ### Fighter (fighter)
 

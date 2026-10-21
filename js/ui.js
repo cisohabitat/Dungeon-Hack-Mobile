@@ -170,18 +170,20 @@ const UI = (() => {
 
   function showPrologue(cfg) {
     pendingCfg = cfg;
+    const personal = cfg.cls === 'spellblade' ? CLASSES.spellblade : null;
     const b = BACKGROUNDS[cfg.bg];
     // the valley's story in full the first time; after that it waits folded
     // away, so the hero's own paragraph and the stair fit on the screen
     const world = PROLOGUE.map(t => `<p>${escapeHtml(t)}</p>`).join('');
     $('#pro-world').innerHTML = store(STORY_READ) === '1' ? `<details class="pro-again"><summary>The story so far</summary>${world}</details>` : world;
-    $('#pro-who').textContent = b.name;
+    $('#pro-who').textContent = personal ? personal.title : b.name;
     // who is going down, by name and class: a dealt hero (the Daily, Quick Start) was never named before the stair
     $('#pro-class').textContent = `${cfg.name}, a ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
     const face = /** @type {HTMLImageElement} */ ($('#pro-face'));
     face.src = faceOf(cfg.cls); face.alt = `${cfg.name}, the ${CLASSES[cfg.cls] ? CLASSES[cfg.cls].name : cfg.cls}`;
-    $('#pro-story').textContent = b.story;
-    $('#pro-motive').textContent = b.motive;
+    $('#pro-story').textContent = personal ? personal.story : b.story;
+    $('#pro-motive').textContent = personal ? personal.motive : b.motive;
+    $('#screen-prologue [data-voice-background]').hidden = !!personal;
     // how this run is kept, said plainly before it starts
     const o = cfg.opts, d = diffOf(o);
     $('#pro-rules').textContent = o.daily
@@ -197,7 +199,7 @@ const UI = (() => {
     $('#pro-puzzle-note').textContent = puzzleBox.disabled ? 'Puzzles stay off in Daily and Weekly challenges so their rules are fixed.' : 'Rune sequences, watchfires and keeper seals guard some gold and gems. Optional, with unlimited retries; never needed for the stairs or the Heart.';
     showScreen('screen-prologue');
     Sound.unlock();
-    narration.prologue(cfg.bg);
+    narration.prologue(personal ? undefined : cfg.bg);
   }
   const STORY_READ = 'deepdelve.storyRead';
   // the way in plays as every new run opens (see prelude.js). A browser driven by
