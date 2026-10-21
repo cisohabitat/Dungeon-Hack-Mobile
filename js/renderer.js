@@ -529,13 +529,15 @@ const Renderer = (() => {
     if (v.weapon && v.drawn) {
       // a bow: held out in the left hand, the right on the string; an attack
       // draws the string back to the cheek and looses it
-      // (a bash with a bow in hand shoves the whole of it, both hands; a throw takes the string hand)
-      const [x0, y] = at('bow'), x = x0 - jab * W * 0.24, by0 = y - jab * H * 0.13;
+      // A bash shoves the bow; other actions take the drawing hand.
+      const aim = !calm && swinging ? u < .8 ? ease(u / .5) : 1 - ease((u - .8) / .2) : 0;
+      const [x0, y] = at('bow'), x = x0 + W * .23 * aim - jab * W * .24;
+      const by0 = y + (H * .55 - y) * aim - jab * H * .13;
       const loosed = swinging && u >= .72;
-      const pull = swinging ? u < .72 ? ease(u / .5) : 1 - ease((u - .72) / .07) : 0;
-      // The string springs home first; the fingers follow back and then return
-      // to the nock. Never teleport the drawing hand to the braced string.
-      const reach = loosed ? (1 + .08 * Math.sin(Math.min(1, (u - .72) / .08) * Math.PI / 2)) * (1 - ease((u - .8) / .2)) : pull;
+      const pull = swinging ? u < .72 ? ease((u - .16) / .34) : 1 - ease((u - .72) / .07) : 0;
+      // The left hand raises the bow. The right reaches in from its resting
+      // place, catches the string, then draws back towards the right cheek.
+      // The string springs home before that hand relaxes to the right again.
       const fr = Assets.held(v.weapon, !calm && pull > .65 ? 'bowfull' : !calm && pull > .15 ? 'bowdraw' : 'rest', v.cls, false);
       const placed = put(fr, x + dx, by0 + dy, 1, true, W, cast * H * .65 + put_down);
       if (fr && placed) {
@@ -543,8 +545,17 @@ const Renderer = (() => {
         const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
         const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
         const mx = (tx + bx2) / 2, my = (ty + by2) / 2;
-        const nx = mx + W * .15 * pull, ny = my + H * .07 * pull;
-        const hx = mx + W * .15 * reach, hy = my + H * .07 * reach;
+        const nx = mx + W * .31 * pull, ny = my + H * .18 * pull;
+        const idleX = W * .84 + dx, idleY = H * .95 + dy + cast * H * .65 + put_down;
+        let hx = idleX, hy = idleY;
+        if (swinging && !loosed) {
+          const catchString = ease(u / .16);
+          hx += (nx - idleX) * catchString; hy += (ny - idleY) * catchString;
+        } else if (loosed) {
+          const recoil = 1 + .06 * ease((u - .72) / .08), home = ease((u - .8) / .2);
+          hx = mx + W * .31 * recoil; hy = my + H * .18 * recoil;
+          hx += (idleX - hx) * home; hy += (idleY - hy) * home;
+        }
         ctx.lineCap = 'round';
         const name = namedId(v.weapon), stringColour = name === 'horizon' ? '#d1bde7' : name === 'farstrider' ? '#aeb9c7' : '#e8e0cc';
         for (const [c, w] of [['#0a0810', 3], [stringColour, 1]]) {

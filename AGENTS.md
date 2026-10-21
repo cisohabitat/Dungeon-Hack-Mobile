@@ -455,7 +455,9 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   bow release is 0.72 and knife release 0.4 of the existing swing, as in combat.js.
   The arrow shaft passes through the rest above the bow grip; its point extends
   beyond that rest. Release the string before returning the drawing hand; keep
-  its position continuous at release and the end of recovery.
+  its position continuous at release and the end of recovery. The right hand rests
+  low on the right, catches the string at 0.16, then draws towards the right cheek.
+  The bow rises left of centre during aiming; omit this extra lift in Calm view.
   Cache intermediate poses and draw-flex frames; never paint item parts per frame.
   Surface glints follow existing named sprite materials, never read hidden powers
   or enchantments, never add world lights,
