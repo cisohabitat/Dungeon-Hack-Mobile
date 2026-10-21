@@ -2,7 +2,7 @@
 const {test,expect}=require('@playwright/test');
 const {startGame,watchForErrors}=require('./helpers');
 
-for(const height of [160,360]) test(`held equipment keeps its object inside the ${height}-pixel view @mobile`,async({page})=>{
+for(const height of [160,360,464]) test(`held equipment keeps its object inside the ${height}-pixel view @mobile`,async({page})=>{
  const errors=watchForErrors(page);await startGame(page,{seed:'held-equipment-fit',cls:'Fighter'});
  const result=await page.evaluate(async height=>{
   const {GRIPS}=await import('/js/itemart.js'),{RELICS}=await import('/js/relics.js'),{namedSprite,namedBase}=await import('/js/namedart.js');

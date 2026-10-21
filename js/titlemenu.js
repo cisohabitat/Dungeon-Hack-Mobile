@@ -39,8 +39,8 @@ export function makeTitleMenu(K) {
       ? `${s.name} the ${s.cls}, level ${s.level}, on floor ${s.depth}`
       : 'No saved game';
     refreshDaily();
-    refreshNews();
     refreshFirstTime();
+    refreshNews();
     // the run before, in a line: who, and how it ended
     const lr = Game.lastRun(), lastEl = $('#last-run');
     lastEl.hidden = !lr;
@@ -54,7 +54,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'bow-stance-2026-10-21', text: "The left hand raises the bow to aim, while the right draws the string back towards the cheek." };
+  const NEWS = { id: 'visual-layout-2026-10-21', text: "Browse collection artwork in Gallery view, enjoy more dungeon space on phones, and meet your hero through a larger portrait." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;
@@ -65,7 +65,7 @@ export function makeTitleMenu(K) {
     // One greeting per visit: dismissing news does not ask for another tap.
     if (!greetingChosen) {
       greetingChosen = true;
-      if ($('#news').hidden) {
+      if ($('#news').hidden && $('#first-time').hidden) {
         const last = Number(store('deepdelve.lastFact') ?? -1);
         const choices = FUN_FACTS.map((_, i) => i).filter(i => i !== last);
         const pick = choices[Math.floor(Math.random() * choices.length)];

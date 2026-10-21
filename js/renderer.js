@@ -19,7 +19,7 @@ const Renderer = (() => {
   // sideways gives a wide, short box: down to 2:1 the view fills it, at the
   // cost of a little floor close in and the feet of whatever stands next to
   // you. Past that it is letterboxed rather than lose any more of them.
-  const W = 320, P = 200, H_MIN = 160, H_MAX = 360;
+  const W = 320, P = 200, H_MIN = 160, H_MAX = 464;
   // the shape the view was first drawn for, and the one the title art keeps
   const H_BASE = 200;
   let H = H_BASE;
@@ -140,20 +140,21 @@ const Renderer = (() => {
         for (let x = 0; x < W; x++) { fb32[o0 + x] = fogPx; fb32[oc0 + x] = fogPx; }
         continue;
       }
+      const floorSet = dist > 3 ? look.softFloors : floors, ceilSet = dist > 3 ? look.softCeils : ceils;
       const stepX = dist * (rdx1 - rdx0) / W, stepY = dist * (rdy1 - rdy0) / W;
       let fx = px + dist * rdx0, fy = py + dist * rdy0;
       let o = y * W, oc = (H - 1 - y) * W;
       // the hero's own light: a faint warm pool on the floor at their feet
       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
-      let lastI = -2, f = 0, c = 0, boost = 0, floorT = floors[0], ceilT = ceils[0], footMap = FOOT[0], caveDark = 0;
+      let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], caveDark = 0;
       for (let x = 0; x < W; x++) {
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
         if (i !== lastI) {
           lastI = i;
-          if (i >= 0) { boost = lm[i]; f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floors[f]; ceilT = ceils[c]; seen |= 1 << f; }
-          else { boost = 0; c = 0; footMap = FOOT[0]; caveDark = 0; floorT = floors[0]; ceilT = ceils[0]; }
+          if (i >= 0) { boost = lm[i]; f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
+          else { boost = 0; c = 0; footMap = FOOT[0]; caveDark = 0; floorT = floorSet[0]; ceilT = ceilSet[0]; }
         }
         // (a shade brighter right at the hero's feet, where their own light falls)
         let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;
@@ -349,8 +350,44 @@ const Renderer = (() => {
   // What each square looks like (looks.js), worked out the first time a floor
   // is drawn, with the floors and roofs it wants fetched from its theme.
   const CAVE_ROOF = CEIL.CAVE;
+  // Distance detail is softened once per cached surface, without changing light,
+  // visibility or any creature art. Fine near-field masonry stays crisp.
+  const softFloorCache = new WeakMap(), softWallCache = new WeakMap();
+  function softFloor(levels) {
+    if (softFloorCache.has(levels)) return softFloorCache.get(levels);
+    const size = Assets.TEX;
+    const result = levels.map(source => {
+      const out = new Uint32Array(source.length);
+      for (let y = 0; y < size; y += 2) for (let x = 0; x < size; x += 2) {
+        const offsets = [y * size + x, y * size + x + 1, (y + 1) * size + x, (y + 1) * size + x + 1];
+        const means = [0, 8, 16].map(shift => offsets.reduce((sum, i) => sum + ((source[i] >>> shift) & 255), 0) / 4);
+        for (const i of offsets) {
+          let color = 0xff000000;
+          for (let channel = 0; channel < 3; channel++) {
+            const shift = channel * 8;
+            color |= Math.round(((source[i] >>> shift) & 255) * 0.6 + means[channel] * 0.4) << shift;
+          }
+          out[i] = color >>> 0;
+        }
+      }
+      return out;
+    });
+    softFloorCache.set(levels, result);
+    return result;
+  }
+  function softWall(surface) {
+    if (softWallCache.has(surface)) return softWallCache.get(surface);
+    const small = document.createElement('canvas'), out = document.createElement('canvas');
+    small.width = small.height = 32; out.width = out.height = 64;
+    small.getContext('2d', { willReadFrequently: true }).drawImage(surface, 0, 0, 32, 32);
+    const g = out.getContext('2d', { willReadFrequently: true });
+    g.drawImage(surface, 0, 0);
+    g.globalAlpha = 0.4; g.drawImage(small, 0, 0, 64, 64);
+    softWallCache.set(surface, out);
+    return out;
+  }
   const lookCache = new WeakMap();
-  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][], caved: number}} */
+  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][], softFloors: Uint32Array[][], softCeils: Uint32Array[][], caved: number}} */
   function looksOf(level, tex) {
     // (worked out again when more of the roof has come down: the way in falls a square at a time)
     const had = lookCache.get(level), caved = level.caved ? level.caved.length : 0;
@@ -358,7 +395,7 @@ const Renderer = (() => {
     const base = lookOf(level, tex.theme), floors = [tex.floor], ceils = [tex.ceil];
     for (const k of base.kinds.floor) floors[k] = tex.floorOf(k);
     for (const k of base.kinds.ceil) ceils[k] = tex.ceilOf(k);
-    const L = { ...base, tex, floors, ceils, caved };
+    const L = { ...base, tex, floors, ceils, softFloors: floors.map(softFloor), softCeils: ceils.map(softFloor), caved };
     lookCache.set(level, L);
     return L;
   }
@@ -1325,7 +1362,8 @@ const Renderer = (() => {
         ctx.drawImage(shadedArch(img, Math.max(0, Math.min(20, Math.round((shade - lit / 7) * 20)))), tx, 0, 1, 64, col, top, 1, lineH);
         continue;
       }
-      ctx.drawImage(img, tx, 0, 1, 64, col, top, 1, lineH);
+      const surface = dist > 3 && tile === T.WALL && !jamb && !shutAt ? softWall(img) : img;
+      ctx.drawImage(surface, tx, 0, 1, 64, col, top, 1, lineH);
       if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
       if (shutAt) shutN++;
       if (jamb) jambsN++;
