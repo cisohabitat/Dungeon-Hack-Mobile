@@ -30,10 +30,16 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   The Silver Lantern hangs from a carry handle gripped in the left fist throughout
   the dungeon, with its blue flame visible below the hand. Its cage stays in view
   when the phone is held sideways too.
+  The angled cage has shaded side glass and rear bars. Charcoal gloves carry
+  silver trim and a small blue rune; lantern reflections catch the fingers and
+  blade only while it is equipped. Its weight settles after a step, with no extra
+  motion in Calm view. These reflections do not change dungeon lighting.
   His own gatekeeper origin and motive appear before descent; the shared background
   still supplies its chosen starting modifiers. Older Wayfarer saves retain their
   learned lessons and receive the new choices on future levels.
   Its painted portrait, pixel fallback, rune clocks and class survive offline saves.
+  Held throwing knives, including Vashti's Needles, show one gripped blade while
+  their pack icons keep the bundle. The Quill Shield has a rear grip and forearm strap.
 
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings

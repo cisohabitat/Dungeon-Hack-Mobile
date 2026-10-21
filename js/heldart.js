@@ -16,6 +16,7 @@ import { ball, limb, sheet, hair, specks } from './creatures.js';
 /** glove, cuff and sleeve, by class */
 const HAND_COLORS = {
   fighter: ['#8a929e', '#5a606a', '#6a4a30'],
+  spellblade: ['#3c424b', '#515c6a', '#242a32'],
   cleric: ['#8a6440', '#c9a24a', '#e8e0d0'],
   mage: ['#d8b090', '#6a4aa0', '#4a3a78'],
   thief: ['#3a3438', '#5a4a3a', '#3e4a3a'],
@@ -63,7 +64,7 @@ function moved(p, f) {
  * The forearm runs along arm. Seen from behind, the fingers wrap the grip
  * from the back of the hand across to their tips on the far side, the
  * thumb lying along the grip over the first finger.
- * @param {{open?: boolean, bare?: boolean, left?: boolean, sleeve?: boolean}} [o]
+ * @param {{open?: boolean, bare?: boolean, left?: boolean, sleeve?: boolean, lit?: boolean}} [o]
  */
 function hand(x, y, a, arm, cls, o = {}) {
   const [glove, cuff, sleeve] = HAND_COLORS[cls] || HAND_COLORS.fighter;
@@ -72,8 +73,16 @@ function hand(x, y, a, arm, cls, o = {}) {
   const s = o.left ? -1 : 1;
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy * s, vy = ux * s, wx = Math.cos(arm), wy = Math.sin(arm);
   const P = (u, v = 0, w = 0) => [x + ux * u + vx * v + wx * w, y + uy * u + vy * v + wy * w];
-  const glint = glove === '#3a3438' ? '#7a727a' : '#ffffff';
-  const behind = o.sleeve === false ? [] : [limb(...P(0, 0.6, 6), ...P(0, 0.6, 30), 3.3, 5, sleeve), limb(...P(0, 0.5, 2.6), ...P(0, 0.5, 6.4), 3, 3.4, cuff)];
+  const glint = cls === 'spellblade' ? '#9cabb9' : glove === '#3a3438' ? '#7a727a' : '#ffffff';
+  const behind = o.sleeve === false ? [] : [limb(...P(0, 0.6, 6), ...P(0, 0.6, 30), 3.3, 5, sleeve), limb(...P(0, 0.5, 2.6), ...P(0, 0.5, 6.4), 3, 3.4, cuff),
+    ...(cls === 'spellblade' ? [
+    hair(...P(-2.6, 0.5, 3.2), ...P(2.6, 0.5, 3.2), '#a6b5c8'),
+    hair(...P(-2.8, 0.5, 6), ...P(2.8, 0.5, 6), '#687c92'),
+    hair(...P(-0.9, 0.2, 4.5), ...P(0, 0.2, 3.7), '#5696b8'),
+    hair(...P(0, 0.2, 3.7), ...P(0.9, 0.2, 4.5), '#5696b8'),
+    hair(...P(0, 0.2, 3.7), ...P(0, 0.2, 5.3), '#5696b8'),
+    ] : []),
+  ];
   if (o.open) {
     // the palm toward the enemy, fingers spread away from the wrist, the
     // thumb out to the side; q runs across the palm
@@ -124,6 +133,7 @@ function hand(x, y, a, arm, cls, o = {}) {
       ...[1.5, 0.2, -1.2].map(k => hair(...P(k, 1.4), ...P(k, -1.6), DARK)),      // creases between the fingers
       hair(...P(0.4, 0.2), ...P(2.2, -0.9), DARK),                               // and under the thumb
       specks(fingers.map(k => P(k + 0.3, 2.7)), glint),
+      ...(o.lit ? fingers.map(k => hair(...P(k - 0.45, -1.2), ...P(k + 0.3, -1.25), '#6096b1')) : []),
     ],
   };
 }
@@ -186,16 +196,17 @@ function bowParts(cls, base, id = null) {
  */
 function shieldParts(base, cls, id = null) {
   const name = namedId(id);
+  const round = base === 'buckler' || base === 'quillshield';
   const arm = deg(146), wx = Math.cos(arm), wy = Math.sin(arm);
-  const rim = base === 'buckler' ? [ball(C, C, 10.6, 10.6, RIM)]
+  const rim = round ? [ball(C, C, 10.6, 10.6, base === 'quillshield' ? '#4a3020' : RIM)]
     : base === 'towershield' ? [sheet([[C - 11, C - 9], [C - 8, C - 13.5], [C + 8, C - 13.5], [C + 11, C - 9], [C + 11, C + 17], [C - 11, C + 17]], RIM)]
     : [sheet([[C - 11.5, C - 12], [C + 11.5, C - 12], [C + 11.5, C - 3], [C + 8, C + 6], [C, C + 12.5], [C - 8, C + 6], [C - 11.5, C - 3]], RIM)];
-  const face = base === 'buckler' ? [ball(C, C, 9.3, 9.3, WOOD)]
+  const face = round ? [ball(C, C, 9.3, 9.3, base === 'quillshield' ? '#6a4428' : WOOD)]
     : base === 'towershield' ? [sheet([[C - 9.6, C - 8.5], [C - 7.4, C - 12], [C + 7.4, C - 12], [C + 9.6, C - 8.5], [C + 9.6, C + 15.6], [C - 9.6, C + 15.6]], WOOD)]
     : [sheet([[C - 10, C - 10.5], [C + 10, C - 10.5], [C + 10, C - 3.2], [C + 7.2, C + 5.2], [C, C + 10.8], [C - 7.2, C + 5.2], [C - 10, C - 3.2]], WOOD)];
   // planks, and rivets where the rim is nailed on
   const grain = [-6.4, -3.2, 0, 3.2, 6.4].map(dx => hair(C + dx, C - 9, C + dx, C + 10, '#4e3018'));
-  const rivets = specks(base === 'buckler'
+  const rivets = specks(round
     ? [0, 1, 2, 3, 4, 5, 6, 7].map(i => [C + Math.cos(i / 8 * Math.PI * 2) * 9.9, C + Math.sin(i / 8 * Math.PI * 2) * 9.9])
     : [[C - 10.8, C - 11], [C + 10.8, C - 11], [C - 10.8, C], [C + 10.8, C], [C - 5, C - 11.4], [C + 5, C - 11.4]], '#c8ccd6');
   const h = hand(C, C, deg(-90), arm, cls, { left: true });
@@ -203,7 +214,12 @@ function shieldParts(base, cls, id = null) {
   return {
     grid: GRID, anchor: [C, C],
     parts: [
-      ...rim, ...face, ...grain, rivets,
+      ...rim,
+      ...(base === 'quillshield' ? Array.from({ length: 30 }, (_, i) => {
+        const a = (i + 0.5) / 30 * Math.PI * 2, r = i % 2 ? 14.8 : 13.2;
+        return limb(C + Math.cos(a) * 10.2, C + Math.sin(a) * 10.2, C + Math.cos(a) * r, C + Math.sin(a) * r, 0.55, 0.15, '#d8ceb6');
+      }) : []),
+      ...face, ...grain, rivets,
       ...(name === 'last_gate' ? [hair(C - 4, C - 10, C + 1, C - 4, '#c6a5df'), hair(C + 1, C - 4, C - 3, C + 8, '#c6a5df')] : []),
       ...(name === 'bastion' ? [-8, 7].map(y => limb(C - 10, C + y, C + 10, C + y, 1.1, 1.1, '#b69b69')) : []),
       ...(name === 'kests_bulwark' ? [sheet([[C - 8, C - 8], [C - 3, C - 8], [C - 3, C + 6], [C - 8, C + 9]], '#8b3c36')] : []),
@@ -226,7 +242,7 @@ function shieldParts(base, cls, id = null) {
  * @param {string} cls
  * @param {boolean} two  a second hand lower on the grip
  */
-function heldParts(id, pose, cls, two = false) {
+function heldParts(id, pose, cls, two = false, lit = false) {
   const P = POSES[pose];
   const base = id && namedBase(id), name = namedId(id);
   if (base && BOWS[base]) return bowParts(cls, base, id);
@@ -240,7 +256,19 @@ function heldParts(id, pose, cls, two = false) {
     const d = g.fixed ? 0 : P.a - ICON_AXIS, cos = Math.cos(d), sin = Math.sin(d);
     const [gx, gy] = g.at;
     const f = (x, y) => [c + (x - gx) * cos - (y - gy) * sin, c + (x - gx) * sin + (y - gy) * cos];
-    weapon = art().filter(p => !(P.empty && base === 'sling' && SLING_STONE.includes(p.c))).map(p => moved(p, f));
+    // Vashti's pack picture includes spare needles beside the central knife.
+    // Only its central grip, guard and blade belong in the hand.
+    const raw = (name === 'vashti' ? art().slice(0, 3) : art()).filter(p => !(P.empty && base === 'sling' && SLING_STONE.includes(p.c)));
+    // A small reflected edge is part of the cached blade, never a new light
+    // in the dungeon. Keep gems, wraps and named metal colours intact.
+    if (lit && ['dagger', 'shortsword', 'longsword', 'greatsword', 'scimitar'].includes(base)) {
+      const face = raw.find(p => p.k === 'sheet' && p.pts.length >= 5 && /^#[0-9a-f]{6}$/i.test(p.c) && Math.abs(parseInt(p.c.slice(1, 3), 16) - parseInt(p.c.slice(5, 7), 16)) < 40);
+      if (face) {
+        const [a, b] = face.pts;
+        raw.push(hair(a[0], a[1], a[0] + (b[0] - a[0]) * 0.55, a[1] + (b[1] - a[1]) * 0.55, '#6596b2'));
+      }
+    }
+    weapon = raw.map(p => moved(p, f));
     if (two && g.second) {
       const [sx, sy] = f(...g.second);
       const h2 = hand(sx, sy, P.a, P.arm + deg(62), cls, { left: true });
@@ -248,7 +276,7 @@ function heldParts(id, pose, cls, two = false) {
     }
   }
   const a = base && GRIPS[base].fixed ? -Math.PI / 2 : P.a;
-  const h = hand(c, c, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left });
+  const h = hand(c, c, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left, lit });
   return { grid, anchor: [c, c], parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
 }
 
@@ -256,9 +284,8 @@ function heldParts(id, pose, cls, two = false) {
 function carriedParts(id, cls) {
   const base = namedBase(id), name = namedId(id);
   if (base === 'wayfarer_lantern') return lanternParts(cls);
-  // the quill shield is held up as its own picture is drawn, round and bristling
-  if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls, name);
-  if (!['buckler', 'shield', 'towershield'].includes(base)) return null;
+  if (FOCI.includes(base)) return focusParts(base, cls, name);
+  if (!['buckler', 'shield', 'towershield', 'quillshield'].includes(base)) return null;
   return shieldParts(base, cls, id);
 }
 
@@ -267,17 +294,34 @@ const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_s
 // A carry handle closes inside the fist; the cage hangs below it. Keep the
 // pack's small hanging ring out of this view, where it looked like a finial.
 function lanternParts(cls) {
-  const size = 0.78;
-  const cage = ITEM_ART.wayfarer_lantern().slice(3).map(p => moved(p, (x, y) => [C + (x - 16) * size, C + 9 + (y - 10) * size]));
-  const h = hand(C, C, 0, deg(128), cls, { left: true });
+  // Three-quarter cage: a broad front pane, narrow shaded side and rear bars
+  // behind the flame. The roof and base share the same perspective.
+  const cage = [
+    sheet([[C - 6.5, C + 10], [C + 4, C + 10], [C + 4, C + 21], [C - 6.5, C + 21]], '#253d53'),
+    sheet([[C + 4, C + 10], [C + 7.4, C + 8.7], [C + 7.4, C + 19.6], [C + 4, C + 21]], '#1b2c40'),
+    hair(C - 4.7, C + 10.3, C - 4.7, C + 20.4, '#395064'),
+    hair(C + 1.8, C + 10.3, C + 1.8, C + 20.4, '#395064'),
+    ball(C - 3.2, C + 15.8, 1.75, 3.9, '#4ea6d4', { glows: true }),
+    ball(C - 3.1, C + 16.3, 0.7, 2.7, '#a0e5ff', { glows: true }),
+    hair(C + 5.4, C + 12, C + 5.4, C + 18.7, '#345c76'),
+    hair(C - 5.4, C + 11, C - 5.4, C + 13.4, '#57839c'),
+    ...[-6.5, -0.6, 4].map(x => limb(C + x, C + 10, C + x, C + 21, 0.45, 0.45, x === 4 ? '#8a9eb5' : '#aabed0')),
+    limb(C + 7.4, C + 8.7, C + 7.4, C + 19.6, 0.45, 0.45, '#64788e'),
+    sheet([[C - 7.2, C + 9.2], [C - 4, C + 7.8], [C + 7.8, C + 8.5], [C + 4.5, C + 10.3]], '#a6b8cc'),
+    limb(C - 7.2, C + 10, C + 4.5, C + 10.3, 0.5, 0.5, '#b8d1df'),
+    sheet([[C - 7.2, C + 20.8], [C + 4.5, C + 21], [C + 8, C + 19.5], [C + 8, C + 20.5], [C + 4.5, C + 22.2], [C - 7.2, C + 22]], '#71869e'),
+    limb(C - 7.2, C + 21, C + 4.5, C + 21.2, 0.5, 0.5, '#a7c8d9'),
+  ];
+  const h = hand(C, C, 0, deg(128), cls, { left: true, lit: true });
   const handle = [
     limb(C - 5, C + 9, C - 5, C + 1, 0.65, 0.65, '#bac8d8'),
     limb(C - 5, C + 1, C - 3.5, C, 0.65, 0.65, '#bac8d8'),
     limb(C - 3.5, C, C + 3.5, C, 0.8, 0.8, '#bac8d8'),
     limb(C + 3.5, C, C + 5, C + 1, 0.65, 0.65, '#bac8d8'),
     limb(C + 5, C + 1, C + 5, C + 9, 0.65, 0.65, '#bac8d8'),
+    hair(C - 4.5, C + 3.8, C - 4.5, C + 8.2, '#669dbb'),
   ];
-  return { grid: GRID, anchor: [C, C], marks: { base: [C, C + 22] }, parts: [...h.behind, ...handle, ...cage, ...h.front] };
+  return { grid: GRID, anchor: [C, C], marks: { base: [C, C + 23] }, parts: [...h.behind, ...handle, ...cage, ...h.front] };
 }
 function focusParts(base, cls, name = null) {
   const art = (name && NAMED_ART[name]) || ITEM_ART[base];

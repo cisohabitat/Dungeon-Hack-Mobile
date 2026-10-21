@@ -88,6 +88,14 @@ test('the Silver Lantern is carried visibly on ordinary and dark floors and disa
    return {shield:rs.fx.view.shield,amber:Renderer.lantern,blue,silver,hands:Renderer.hands.length};
  });
  let held=await inspect();expect(held.shield).toBe('wayfarer_lantern');expect(held.blue).toBeGreaterThan(0);expect(held.silver).toBeGreaterThan(0);expect(held.hands).toBeGreaterThanOrEqual(2);
+ const reflections=await page.evaluate(()=>{
+   const plain=Assets.held('longsword','rest','spellblade',false),lit=Assets.held('longsword','rest','spellblade',false,true);
+   const old=Assets.held,calls=[];
+   try{Assets.held=(...args)=>{calls.push(args);return old(...args);};const rs=Game.renderState(performance.now());Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,performance.now());}
+   finally{Assets.held=old;}
+   return {changed:plain.img.toDataURL()!==lit.img.toDataURL(),cached:lit===Assets.held('longsword','rest','spellblade',false,true),used:calls.some(a=>a[0]==='longsword'&&a[4]===true),ownGlove:Assets.held(null,'fist','spellblade',false).img.toDataURL()!==Assets.held(null,'fist','fighter',false).img.toDataURL()};
+ });
+ expect(reflections).toEqual({changed:true,cached:true,used:true,ownGlove:true});
  await page.evaluate(()=>Game.level().twist='dark');held=await inspect();expect(held.amber).toBe(0);
  const rims=await page.evaluate(()=>{
    const height=Renderer.H,calm=Renderer.calm,rows=[],f=Assets.carried('wayfarer_lantern','spellblade');
@@ -110,8 +118,24 @@ test('the Silver Lantern is carried visibly on ordinary and dark floors and disa
    expect(rim.bottom,`lantern rim stays in the ${rim.height}-row view at walking phase ${rim.walk}`).toBeLessThanOrEqual(rim.height);
    expect(rim.castGrip,`the lantern grip lowers out of the ${rim.height}-row view while the hand casts`).toBeGreaterThanOrEqual(rim.height);
  }
+ const motion=await page.evaluate(()=>{
+   const calm=Renderer.calm,rs=Game.renderState(performance.now()),clock=Game.state().t;
+   const fx={...rs.fx,view:{...rs.fx.view,walk:0},arriveAt:-1e9,damageUntil:-1e9,castAt:-1e9,readAt:-1e9,useAt:-1e9};
+   const boxes=[];
+   try{
+     Renderer.setCalm(false);
+     fx.view.walk=0.5;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000);
+     fx.view.walk=0;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10010);
+     Renderer.render(rs.level,rs.cam,rs.sprites,fx,10060);boxes.push(Renderer.hands[0]);
+     Renderer.setCalm(true);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10120);const still=Renderer.hands[0];
+     Renderer.render(rs.level,rs.cam,rs.sprites,fx,10320);const later=Renderer.hands[0];
+     return {steady:JSON.stringify(still)===JSON.stringify(later),moves:JSON.stringify(boxes[0])!==JSON.stringify(still),clock:clock===Game.state().t};
+   }finally{Renderer.setCalm(calm);}
+ });
+ expect(motion).toEqual({steady:true,moves:true,clock:true});
  await page.evaluate(()=>{Game.level().twist=null;Game.player().eq.shield=null;});
  expect(await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield)).toBeNull();
+ expect(await page.evaluate(()=>{const old=Assets.held,calls=[];try{Assets.held=(...a)=>{calls.push(a);return old(...a);};const rs=Game.renderState(performance.now());Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,performance.now());}finally{Assets.held=old;}return calls.some(a=>a[0]==='longsword'&&a[4]===true);})).toBe(false);
 });
 
 test('Wayfarer level-up cards teach exclusive talents and lantern memories @mobile',async({page})=>{

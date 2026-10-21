@@ -432,6 +432,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   held frame separate from open-palm caster foci; omit the duplicate amber dark-floor lamp.
   Its cached base mark reserves room for the cage and walking bob in short views;
   the forearm may leave the view, but the resting lantern's bottom rim must fit.
+  Wayfarer hands use charcoal leather, silver cuff trim and a blue rune. The optional
+  fifth `Assets.held` argument caches lantern reflections separately; pass it only
+  with the lantern equipped. Paint reflections into the held frame, never into
+  world lighting, fog or visibility. Renderer-only lantern settling resets in Calm
+  view and on equipment/time resets; move the entire grip and cage together.
+  Held throwing knives and Vashti use one blade; keep their pack fans unchanged.
+  Carry the Quill Shield from behind with a closed grip and forearm strap, not as a focus.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock

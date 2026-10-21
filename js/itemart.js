@@ -1200,11 +1200,19 @@ for (const k in ITEM_DETAILS) {
 // other hand of a two-handed grip. A sling hangs from its loop and does not
 // turn with the swing as a blade does. A bow is drawn from behind instead
 // (see heldart.js), so it has no grip here.
-// The two-handed sword is the exception: squeezed into a pack square its
+// Held knives use one blade instead of the pack's fan. The two-handed sword
+// also needs a separate picture: squeezed into a pack square its
 // picture is a long sword's length, and held up like one it passed for one.
 // In the hand it is drawn from its own picture (HELD_ART), with a grip long
 // enough for both fists and a blade as long as a man's leg, on a bigger grid.
 const HELD_ART = {
+  // The pack shows the bundle; the hand takes one knife by its wrapped grip.
+  throwknife: () => [
+    ...ring(...at(8.5), 1.3, 0.55, IRON, 8),
+    axis(10, 15.5, 0.95, 0.95, WRAP),
+    ...blade(16, 28, 2.6),
+    ...cord(10.2, 15.3, 0.95, '#2e1c10', 0.8),
+  ],
   greatsword: () => [
     ball(...at(-0.9), 2.3, 2.3, BRASS),                                           // the pommel
     axis(-0.2, 12.4, 1.35, 1.35, '#4a2e1a'),                                      // a grip for two fists
@@ -1256,7 +1264,7 @@ const ironclad = parts => parts.map(p => { if (!/^#[0-9a-f]{6}$/i.test(p.c)) ret
 /** @type {any} */ (ITEM_ART).dwarfhammer = () => dwarven(ITEM_ART.hammer());
 /** @type {any} */ (ITEM_ART).runeshield = () => [...ironclad(ITEM_ART.towershield()), ...[[13, 12, 16, 16], [16, 16, 19, 12], [16, 16, 16, 22], [13, 22, 19, 22]].map(([a, b, c, d]) => hair(a, b, c, d, '#7ad0e8', { glows: true }))];
 // The held hammer uses ITEM_ART.dwarfhammer through the ordinary fallback;
-// only the greatsword has a separate HELD_ART drawing.
+// the greatsword and throwing knife have separate HELD_ART drawings.
 // The lizardfolk's marsh-hide: the leather coat's own picture, in green-brown scaled hide
 /** @type {any} */ (ITEM_ART).marshhide = () => [...ITEM_ART.leather().map(p => (/^#[0-9a-f]{6}$/i.test(p.c) ? { ...p, c: (n => { const r = n >> 16, g = (n >> 8) & 255, b = n & 255, l = (r * 0.3 + g * 0.59 + b * 0.11) / 255; return '#' + [l * 120 + 10, l * 150 + 18, l * 90 + 8].map(v => Math.round(Math.min(255, v)).toString(16).padStart(2, '0')).join(''); })(parseInt(p.c.slice(1), 16)) } : p)),
   ...[[12, 12], [18, 12], [15, 16], [12, 20], [18, 20], [15, 24]].map(([x, y]) => ball(x, y, 1.1, 0.8, '#7e9e52'))];
