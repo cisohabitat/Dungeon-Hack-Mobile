@@ -542,8 +542,15 @@ const Renderer = (() => {
     } else if (v.shield) {
       // a Bash drives the shield in toward the middle of the view, rim first, and brings it home
       const lantern = v.shield === 'wayfarer_lantern';
-      const [x, y] = lantern ? [W * 0.23, H * 0.63] : at('shield'), sh = bashing === 'shield' ? shove : 0;
-      put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
+      const frame = Assets.carried(v.shield, v.cls);
+      // At the minimum hand scale a short view needs more room below the
+      // grip. Reserve the cage's base plus a walking bob, keeping the arm low.
+      const drop = lantern && frame ? (frame.at.base[1] - frame.ay) * handK() : 0;
+      const [x, y] = lantern ? [W * 0.23, Math.min(H * 0.63, H - drop - 10)] : at('shield'), sh = bashing === 'shield' ? shove : 0;
+      // Lower the raised grip just as far out of sight when casting or
+      // bringing up a scroll or drink, leaving only the acting hand visible.
+      const lower = lantern ? Math.max(0, H * 0.63 - y) * Math.max(cast, put_down / (H * 0.45)) : 0;
+      put(frame, x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + lower + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
     } else if (v.offhand) {
       const [x, y] = at('left');
       put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);

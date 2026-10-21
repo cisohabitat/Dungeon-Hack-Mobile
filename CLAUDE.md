@@ -430,6 +430,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   `heldart.js` carries the Silver Lantern by a handle inside a closed left fist,
   with its existing silver cage and blue flame below the grip. Keep its bespoke
   held frame separate from open-palm caster foci; omit the duplicate amber dark-floor lamp.
+  Its cached base mark reserves room for the cage and walking bob in short views;
+  the forearm may leave the view, but the resting lantern's bottom rim must fit.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
