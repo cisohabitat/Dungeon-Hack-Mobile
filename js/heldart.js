@@ -255,6 +255,7 @@ function heldParts(id, pose, cls, two = false) {
 /** The back of a shield, by its sprite. */
 function carriedParts(id, cls) {
   const base = namedBase(id), name = namedId(id);
+  if (base === 'wayfarer_lantern') return lanternParts(cls);
   // the quill shield is held up as its own picture is drawn, round and bristling
   if (FOCI.includes(base) || base === 'quillshield') return focusParts(base, cls, name);
   if (!['buckler', 'shield', 'towershield'].includes(base)) return null;
@@ -262,11 +263,26 @@ function carriedParts(id, cls) {
 }
 
 /** A caster's focus, held up in the left hand: the item's own picture, resting on the palm. */
-const FOCI = ['wayfarer_lantern', 'spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
+const FOCI = ['spellbook', 'crystal_orb', 'orb_storms', 'holy_symbol', 'silver_symbol', 'reliquary'];
+// A carry handle closes inside the fist; the cage hangs below it. Keep the
+// pack's small hanging ring out of this view, where it looked like a finial.
+function lanternParts(cls) {
+  const size = 0.78;
+  const cage = ITEM_ART.wayfarer_lantern().slice(3).map(p => moved(p, (x, y) => [C + (x - 16) * size, C + 9 + (y - 10) * size]));
+  const h = hand(C, C, 0, deg(128), cls, { left: true });
+  const handle = [
+    limb(C - 5, C + 9, C - 5, C + 1, 0.65, 0.65, '#bac8d8'),
+    limb(C - 5, C + 1, C - 3.5, C, 0.65, 0.65, '#bac8d8'),
+    limb(C - 3.5, C, C + 3.5, C, 0.8, 0.8, '#bac8d8'),
+    limb(C + 3.5, C, C + 5, C + 1, 0.65, 0.65, '#bac8d8'),
+    limb(C + 5, C + 1, C + 5, C + 9, 0.65, 0.65, '#bac8d8'),
+  ];
+  return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...handle, ...cage, ...h.front] };
+}
 function focusParts(base, cls, name = null) {
   const art = (name && NAMED_ART[name]) || ITEM_ART[base];
   if (!art) return null;
-  const size = base === 'wayfarer_lantern' ? 1.05 : 0.62, lift = base === 'wayfarer_lantern' ? 11 : 5;
+  const size = 0.62, lift = 5;
   const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));
   const h = hand(C, C + 4, deg(-90), deg(128), cls, { left: true, open: true });
   return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...item, ...h.front] };

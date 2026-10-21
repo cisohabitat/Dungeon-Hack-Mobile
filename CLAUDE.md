@@ -427,8 +427,9 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   descriptions. Each learned talent grants the life/spell reserve in
   `CLASSES.spellblade.memory` exactly once; apply and restore it in talent selection.
   Sever the Veil's accuracy requires an active rune and a held blade. Preserve older saves' generic lessons; future offers are exclusive.
-  `heldart.js` carries the Silver Lantern as a focus on all floors, using its
-  existing silver cage and blue flame; omit the duplicate amber dark-floor lamp.
+  `heldart.js` carries the Silver Lantern by a handle inside a closed left fist,
+  with its existing silver cage and blue flame below the grip. Keep its bespoke
+  held frame separate from open-palm caster foci; omit the duplicate amber dark-floor lamp.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
