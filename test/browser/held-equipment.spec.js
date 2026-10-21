@@ -30,19 +30,22 @@ test('bow grips follow fitted nocks, release matches combat, and action hands ar
  const result=await page.evaluate(()=>{
   const rs=Game.renderState(performance.now()),ctx=document.querySelector('#view').getContext('2d');
   const old={held:Assets.held,draw:ctx.drawImage,move:ctx.moveTo,line:ctx.lineTo,begin:ctx.beginPath,stroke:ctx.stroke,fill:ctx.fillRect},rows=[];
-  let frames=new Map(),draws=[],path=[],string=null,arrow=0,calls=[];
+  let frames=new Map(),draws=[],path=[],string=null,arrow=0,calls=[],shaft=null;
   try{
    Assets.held=(...a)=>{calls.push(a);const f=old.held(...a);if(f)frames.set(f.img,{f,id:a[0],pose:a[1]});return f;};
    ctx.drawImage=function(img,x,y,w,h,...r){if(frames.has(img))draws.push({...frames.get(img),x,y,w,h});return old.draw.call(this,img,x,y,w,h,...r);};
    ctx.beginPath=function(){path=[];return old.begin.call(this);};ctx.moveTo=function(x,y){path.push([x,y]);return old.move.call(this,x,y);};ctx.lineTo=function(x,y){path.push([x,y]);return old.line.call(this,x,y);};
-   ctx.stroke=function(){if(this.strokeStyle==='#e8e0cc'&&path.length===3)string=path.slice();return old.stroke.call(this);};
+   ctx.stroke=function(){if(this.strokeStyle==='#e8e0cc'&&path.length===3)string=path.slice();if(this.strokeStyle==='#b08858'&&path.length===2){const m=this.getTransform();shaft=path.map(([x,y])=>[m.a*x+m.c*y+m.e,m.b*x+m.d*y+m.f]);}return old.stroke.call(this);};
    ctx.fillRect=function(...a){if(this.fillStyle==='#e04838')arrow++;return old.fill.call(this,...a);};
    const fx={...rs.fx,swingAt:10000,swingMs:300,offAt:-1e9,castAt:-1e9,readAt:-1e9,useAt:-1e9,throwAt:-1e9,bashAt:-1e9,arriveAt:-1e9,damageUntil:0,view:{weapon:'longbow',two:true,drawn:true,shield:null,offhand:null,cls:'ranger',steps:0,walk:0}};
    Renderer.setCalm(false);Renderer.setHeight(160);
-   for(const u of [0,.3,.719,.721]){
-    draws=[];string=null;arrow=0;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000+u*300);
+   for(const u of [0,.3,.719,.721,.8,.95,.999,1]){
+    draws=[];string=null;arrow=0;shaft=null;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000+u*300);
     const bow=draws.find(d=>d.id==='longbow'),hand=draws.find(d=>d.id===null),tip=key=>[bow.x+bow.f.at[key][0]*bow.w/bow.f.img.width,bow.y+bow.f.at[key][1]*bow.h/bow.f.img.height];
-    rows.push({u,arrow,endpoints:[tip('top'),tip('bot')].map((p,i)=>Math.hypot(p[0]-string[i*2][0],p[1]-string[i*2][1])),gripGap:Math.abs(hand.x+hand.f.ax*hand.w/hand.f.img.width-string[1][0])});
+    const grip=[hand.x+hand.f.ax*hand.w/hand.f.img.width,hand.y+hand.f.ay*hand.h/hand.f.img.height];
+    const rest=[bow.x+(bow.f.ax-2)*bow.w/bow.f.img.width,bow.y+(bow.f.ay-8)*bow.h/bow.f.img.height];
+    const shaftGap=shaft?Math.abs((shaft[1][0]-shaft[0][0])*(shaft[0][1]-rest[1])-(shaft[0][0]-rest[0])*(shaft[1][1]-shaft[0][1]))/Math.hypot(shaft[1][0]-shaft[0][0],shaft[1][1]-shaft[0][1]):null;
+    rows.push({u,arrow,grip,shaftGap,shaftPastRest:shaft?shaft[1][0]<rest[0]:null,endpoints:[tip('top'),tip('bot')].map((p,i)=>Math.hypot(p[0]-string[i*2][0],p[1]-string[i*2][1])),gripGap:Math.abs(hand.x+hand.f.ax*hand.w/hand.f.img.width-string[1][0])});
    }
    fx.swingAt=-1e9;fx.castAt=10000;const start=[];for(const at of [10000,10000.1]){draws=[];Renderer.render(rs.level,rs.cam,rs.sprites,fx,at);start.push(draws.find(d=>d.id==='longbow').y);}draws=[];Renderer.render(rs.level,rs.cam,rs.sprites,fx,10260);const castHands=draws.length;const castJump=Math.abs(start[1]-start[0]);
    fx.castAt=-1e9;fx.view={...fx.view,weapon:'throwknife',drawn:false,two:false};fx.swingAt=10000;
@@ -50,7 +53,9 @@ test('bow grips follow fitted nocks, release matches combat, and action hands ar
    return {rows,castHands,knife,castJump};
   }finally{Assets.held=old.held;ctx.drawImage=old.draw;ctx.moveTo=old.move;ctx.lineTo=old.line;ctx.beginPath=old.begin;ctx.stroke=old.stroke;ctx.fillRect=old.fill;}
  });
- for(const row of result.rows){for(const gap of row.endpoints)expect(gap).toBeLessThan(1.5);expect(row.gripGap).toBeLessThan(1.5);expect(row.arrow>0).toBe(row.u<.72);}
+ for(const row of result.rows){for(const gap of row.endpoints)expect(gap).toBeLessThan(1.5);if(row.u<.72||row.u===1)expect(row.gripGap).toBeLessThan(1.5);expect(row.arrow>0).toBe(row.u<.72||row.u===1);if(row.shaftGap!==null){expect(row.shaftGap).toBeLessThan(1.5);expect(row.shaftPastRest).toBe(true);}}
+ const before=result.rows.find(r=>r.u===.719),after=result.rows.find(r=>r.u===.721);expect(Math.hypot(before.grip[0]-after.grip[0],before.grip[1]-after.grip[1])).toBeLessThan(2);
+ const end=result.rows.find(r=>r.u===.999),idle=result.rows.find(r=>r.u===1);expect(Math.hypot(end.grip[0]-idle.grip[0],end.grip[1]-idle.grip[1])).toBeLessThan(2);
  expect(result.castHands).toBe(2);expect(result.castJump).toBeLessThanOrEqual(1);expect(result.knife).toEqual([[true,false],[true,false]]);expect(errors).toEqual([]);
 });
 

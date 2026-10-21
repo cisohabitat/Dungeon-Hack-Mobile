@@ -531,14 +531,20 @@ const Renderer = (() => {
       // draws the string back to the cheek and looses it
       // (a bash with a bow in hand shoves the whole of it, both hands; a throw takes the string hand)
       const [x0, y] = at('bow'), x = x0 - jab * W * 0.24, by0 = y - jab * H * 0.13;
-      const pull = swinging && u < 0.72 ? ease(u / 0.5) : 0, loosed = swinging && u >= 0.72;
+      const loosed = swinging && u >= .72;
+      const pull = swinging ? u < .72 ? ease(u / .5) : 1 - ease((u - .72) / .07) : 0;
+      // The string springs home first; the fingers follow back and then return
+      // to the nock. Never teleport the drawing hand to the braced string.
+      const reach = loosed ? (1 + .08 * Math.sin(Math.min(1, (u - .72) / .08) * Math.PI / 2)) * (1 - ease((u - .8) / .2)) : pull;
       const fr = Assets.held(v.weapon, !calm && pull > .65 ? 'bowfull' : !calm && pull > .15 ? 'bowdraw' : 'rest', v.cls, false);
       const placed = put(fr, x + dx, by0 + dy, 1, true, W, cast * H * .65 + put_down);
       if (fr && placed) {
         const { k, ox, oy } = placed;
         const tip = m => [ox + fr.at[m][0] * k, oy + fr.at[m][1] * k];
         const [tx, ty] = tip('top'), [bx2, by2] = tip('bot');
-        const nx = placed.x + W * (.055 + pull * .09), ny = placed.y + H * (.015 + pull * .025);
+        const mx = (tx + bx2) / 2, my = (ty + by2) / 2;
+        const nx = mx + W * .15 * pull, ny = my + H * .07 * pull;
+        const hx = mx + W * .15 * reach, hy = my + H * .07 * reach;
         ctx.lineCap = 'round';
         const name = namedId(v.weapon), stringColour = name === 'horizon' ? '#d1bde7' : name === 'farstrider' ? '#aeb9c7' : '#e8e0cc';
         for (const [c, w] of [['#0a0810', 3], [stringColour, 1]]) {
@@ -546,19 +552,22 @@ const Renderer = (() => {
           ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(nx, ny); ctx.lineTo(bx2, by2); ctx.stroke();
         }
         if (!loosed) {
-          const ax = W * 0.5, ay = H * 0.4, len = 0.55;
-          const ex = nx + (ax - nx) * len, ey = ny + (ay - ny) * len;
+          // The shaft passes over the bow hand. Its point stays beyond that
+          // rest as the nock is drawn towards the viewer, never away from it.
+          const rx = placed.x - 2 * k, ry = placed.y - 8 * k;
+          const ex = rx + (rx - nx) * .16, ey = ry + (ry - ny) * .16;
+          const angle = Math.atan2(ey - ny, ex - nx);
+          ctx.save(); ctx.translate(nx, ny); ctx.rotate(angle);
+          const length = Math.hypot(ex - nx, ey - ny);
           for (const [c, w] of [['#0a0810', 4], ['#b08858', 2]]) {
             ctx.strokeStyle = c; ctx.lineWidth = w;
-            ctx.beginPath(); ctx.moveTo(nx, ny); ctx.lineTo(ex, ey); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(length, 0); ctx.stroke();
           }
-          ctx.fillStyle = '#d8dce4'; ctx.beginPath(); ctx.arc(ex, ey, 2, 0, Math.PI * 2); ctx.fill();
-          ctx.fillStyle = '#e04838'; ctx.fillRect(nx - 3, ny - 6, 6, 4);
+          ctx.fillStyle = '#d8dce4'; ctx.beginPath(); ctx.moveTo(length + 3, 0); ctx.lineTo(length - 3, -2); ctx.lineTo(length - 3, 2); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = '#e04838'; ctx.fillRect(1, -3, 6, 2); ctx.fillRect(1, 1, 6, 2);
+          ctx.restore();
         }
-        // Knuckles touch the nock throughout the draw; after release the hand
-        // follows back, while both string endpoints remain on the fitted stave.
-        const recoil = loosed ? Math.sin((u - .72) / .28 * Math.PI) : 0;
-        if (!cast && !reading && !using && !throwing) put(Assets.held(null, 'fist', v.cls, false), nx + recoil * W * .035, ny + 2.6 * handK());
+        if (!cast && !reading && !using && !throwing) put(Assets.held(null, 'fist', v.cls, false), hx, hy + 2.6 * handK());
       }
     } else if (v.shield) {
       // a Bash drives the shield in toward the middle of the view, rim first, and brings it home

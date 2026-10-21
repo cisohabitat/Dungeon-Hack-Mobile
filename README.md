@@ -42,7 +42,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   their pack icons keep the bundle. The Quill Shield has a rear grip and forearm strap.
   Cuts pass through cached intermediate angles and recover with the grip attached;
   staffs and spears drive forward, and staffs lean into casting. Bows flex under the
-  draw, with string ends on their nocks and the drawing fist at the string. Their
+  draw, with string ends on their nocks and the arrow passing over the bow grip.
+  The drawing hand follows through at release before returning to the string. Their
   arrow and the thrown knife leave at the existing combat release times, including
   Vashti. The object fits short views while its sleeve may continue off-screen.
   Named bows retain their Pack markings; small relic glints stay on the equipment
