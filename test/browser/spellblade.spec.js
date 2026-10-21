@@ -28,6 +28,11 @@ test('five title taps reveal the Wayfarer, persist on this device, and leave the
  await page.locator('#c-customise > summary').click();
  await expect(page.locator('#c-start')).not.toContainText('last stage');
  await page.reload();await page.click('#btn-new');await expect(page.locator('[data-cls="spellblade"]')).toBeVisible();
+ await page.click('[data-cls="spellblade"]');await page.click('#c-begin');
+ await expect(page.locator('#pro-who')).toHaveText('Bearer of the Last Flame');
+ await expect(page.locator('#pro-story')).toContainText('keeper of the western gate');
+ await expect(page.locator('#pro-motive')).toContainText('souls in your lantern');
+ await expect(page.locator('#screen-prologue [data-voice-background]')).toBeHidden();
  expect(errors).toEqual([]);
 });
 
@@ -69,4 +74,40 @@ test('the hidden hero descends with a sword and lantern, casts runes, and resume
  await page.evaluate(()=>Game.save());await page.reload();await page.click('#btn-continue');
  expect(await page.evaluate(()=>[Game.player().cls,Game.player().effects.runicEdge.src])).toEqual(['spellblade','runic_fire']);
  expect(errors).toEqual([]);
+});
+
+test('the Silver Lantern is carried visibly on ordinary and dark floors and disappears when put away @mobile',async({page})=>{
+ await unlock(page);await startGame(page,{cls:'Spellblade',seed:'wayfarer-lantern-view'});
+ await page.evaluate(()=>{Game.skipPrelude();Game.level().monsters=[];});
+ const inspect=()=>page.evaluate(()=>{
+   const rs=Game.renderState(performance.now()),f=Assets.carried(rs.fx.view.shield,'spellblade');
+   const pixels=f?.img.getContext('2d').getImageData(0,0,f.img.width,f.img.height).data||[];
+   let blue=0,silver=0;
+   for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]){if(pixels[i+2]>pixels[i]+35&&pixels[i+1]>100)blue++;if(pixels[i]>130&&pixels[i+1]>140&&pixels[i+2]>150)silver++;}
+   Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,performance.now());
+   return {shield:rs.fx.view.shield,amber:Renderer.lantern,blue,silver,hands:Renderer.hands.length};
+ });
+ let held=await inspect();expect(held.shield).toBe('wayfarer_lantern');expect(held.blue).toBeGreaterThan(0);expect(held.silver).toBeGreaterThan(0);expect(held.hands).toBeGreaterThanOrEqual(2);
+ await page.evaluate(()=>Game.level().twist='dark');held=await inspect();expect(held.amber).toBe(0);
+ await page.evaluate(()=>{Game.level().twist=null;Game.player().eq.shield=null;});
+ expect(await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield)).toBeNull();
+});
+
+test('Wayfarer level-up cards teach exclusive talents and lantern memories @mobile',async({page})=>{
+ await unlock(page);await startGame(page,{cls:'Spellblade',seed:'wayfarer-level-cards'});
+ await page.evaluate(()=>{Game.skipPrelude();Game.level().monsters=[];});
+ async function levelUp(level){await page.evaluate(async level=>{
+   const {XP_TABLE}=await import('/js/data.js');const p=Game.player();p.xp=XP_TABLE[level-1];
+   const m={id:'rat',uid:9000+level,x:p.x+1,y:p.y,hp:1,maxHp:1,nextAct:1e12};Game.level().monsters.push(m);Game.hurtMonster(m,999);
+ },level);}
+ await levelUp(2);await expect(page.locator('#boon-title')).toContainText("Spellblade's talent");
+ await expect(page.locator('#boon-list .boon')).toHaveCount(3);
+ expect(await page.evaluate(()=>Game.pendingBoons().every(id=>id.startsWith('wf_')))).toBe(true);
+ const before=await page.evaluate(()=>({hp:Game.player().maxHp,sp:Game.player().maxSp}));
+ await expect(page.locator('#boon-list')).toContainText('5 maximum hit points and 2 maximum spell points');
+ await page.locator('#boon-list .boon').first().click();
+ expect(await page.evaluate(()=>({hp:Game.player().maxHp,sp:Game.player().maxSp}))).toEqual({hp:before.hp+5,sp:before.sp+2});
+ await levelUp(3);await expect(page.locator('#boon-title')).toContainText('what the delve taught you');
+ expect(await page.evaluate(()=>Game.pendingBoons().every(id=>id.startsWith('wf_')))).toBe(true);
+ await expect(page.locator('#boon-list')).toContainText('Memories return through the blue flame');
 });

@@ -1,7 +1,7 @@
 // Combat: the hero's blows and a monster's on the hero, and the rules for groups
 // sharing a square, packs and how a fight's damage is counted. What it borrows
 // from the game comes through K, read live.
-import { BOONS, CAPSTONE_LEVEL, ITEMS, MAX_LEVEL, MONSTERS, PATHS, PATH_LEVEL, RENOWN, RENOWN_XP, TALENTS, XP_TABLE } from './data.js';
+import { BOONS, CAPSTONE_LEVEL, CLASSES, ITEMS, MAX_LEVEL, MONSTERS, PATHS, PATH_LEVEL, RENOWN, RENOWN_XP, TALENTS, XP_TABLE } from './data.js';
 import { Dungeon } from './dungeon.js';
 import { Progress } from './progress.js';
 import { RELICS } from './relics.js';
@@ -745,7 +745,7 @@ export function makeCombat(K) {
     const taken = p.boons || [];
     // a stat lesson twice at most: stacking one every level was the whole of a build
     const times = id => taken.filter(t => t === id).length;
-    return BOONS.filter(b => (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
+    return BOONS.filter(b => (p.cls !== 'spellblade' || b.id.startsWith('wf_')) && (!b.when || b.when(p)) && !(b.unique && taken.includes(b.id)) && !(b.max && times(b.id) >= b.max));
   }
   /** The class talents a hero can still be offered. */
   function talentPool() {
@@ -863,6 +863,12 @@ export function makeCombat(K) {
     const talent = (TALENTS[p.cls] || []).find(t => t.id === id);
     if (talent) {
       p.talents = (p.talents || []).concat(id);
+      if (p.cls === 'spellblade') {
+        const memory = CLASSES.spellblade.memory;
+        p.maxHp += memory.hp; p.hp += memory.hp;
+        p.bonusSp = (p.bonusSp || 0) + memory.sp;
+        p.maxSp = spMax(p); p.sp = Math.min(p.maxSp, p.sp + memory.sp);
+      }
       // the first card not chosen is held over to the next talent offer
       p.talentHeld = offer.find(x => x !== id && (TALENTS[p.cls] || []).some(t => t.id === x));
       K.G.pendingBoons.shift(); if (K.G.pendingLevels) K.G.pendingLevels.shift();

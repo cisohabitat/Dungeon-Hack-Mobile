@@ -160,6 +160,12 @@ const JOURNAL = [
 
 // On every level gained, three of these are offered and one is kept.
 const BOONS = [
+  { id: 'wf_ember', name: 'A Name in the Flame', desc: 'Remember one of the lost: Runic Edge deals 1 more elemental damage per landed hit.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+  { id: 'wf_oath', name: 'The First Oath', desc: 'Your cast Spellguard catches 1 more damage from its one hit.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+  { id: 'wf_echo', name: 'An Unfinished Debt', desc: 'After a guard catches a hit, its returned strike waits seven seconds instead of five.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+  { id: 'wf_glass', name: 'Letters on the Glass', desc: 'Runic Edge lasts five seconds longer.', unique: true, when: p => p.cls === 'spellblade', apply: () => {} },
+  { id: 'wf_vigor', name: 'What Death Left Behind', desc: '+6 maximum hit points, and healed by 6 now.', when: p => p.cls === 'spellblade', apply: p => { p.maxHp += 6; p.hp += 6; } },
+  { id: 'wf_well', name: 'Oil from the Other Side', desc: '+4 maximum spell points.', when: p => p.cls === 'spellblade', apply: p => { p.bonusSp = (p.bonusSp || 0) + 4; } },
   // The one stat lesson: two points placed where the player likes, both in one score if they
   // want, a build planned rather than dealt. (The five lessons that each raised one score by a
   // point were folded into it: a lesson should change a rule, not a number.)
@@ -199,6 +205,14 @@ const RENOWN = [
 // class's own, each taken once. They change how a class plays rather than
 // adding a point here and there; game.js honours each by id.
 const TALENTS = {
+  spellblade: [
+    { id: 'wf_long_edge', name: 'Deathless Inscription', desc: 'Your Runic Edge lasts sixty seconds instead of thirty.' },
+    { id: 'wf_deep_cut', name: 'Sever the Veil', desc: 'While Runic Edge burns, your sword or dagger gains +1 to hit and 1 more elemental damage per landed hit.' },
+    { id: 'wf_long_step', name: 'The Forgotten Road', desc: 'Lantern Step can cross three clear, explored floor squares instead of two. Traps and occupants still stop it.' },
+    { id: 'wf_step_guard', name: 'Threshold Ward', desc: 'Lantern Step raises a small Spellguard for 1.2 seconds: absorb 3 damage, plus 1 per four hero levels, from one hit. Preserves a stronger guard already raised.' },
+    { id: 'wf_patient_guard', name: 'Hold Back the Night', desc: 'A cast Spellguard lasts 3.5 seconds instead of 2.2.' },
+    { id: 'wf_requital', name: 'The Debt Repaid', desc: 'After Spellguard catches a hit, your next landed blade hit carries 5 extra damage instead of 3.' },
+  ],
   fighter: [
     { id: 'cleave', name: 'Cleave', desc: 'Strike a group and the one behind the front takes half the blow.' },
     { id: 'riposte', name: 'Riposte', desc: 'A blow that misses you, or swings at the air where you stood, opens a riposte: your next swing within two and a half seconds comes at once, with +4 to hit and +2 damage.' },
@@ -518,8 +532,10 @@ const CLASSES = {
   spellblade: {
     hidden: true, name: 'Spellblade', plural: 'Spellblades', title: 'Bearer of the Last Flame', hitDie: 9, startHp: 5, hitProg: 1, armor: 'light', shield: false, focus: 'spellblade', castMs: 650, spMul: 0.8, spells: 'spellblade', primary: 'int',
     ease: 'The Wayfarer: sword, runes and a silver lantern.',
-    story: 'Before the first stair was cut into the mountain, you stood beneath it. Kings sent armies to seal the breach. You descended alone, carrying a soldier\'s sword and a gravekeeper\'s lantern. Seven nights later, the mountain fell silent. Your blade was broken. The lantern burned blue. Your name had vanished from every record. Centuries have passed. You have not aged. Now something beneath the stone speaks your forgotten name. You return with the blade reforged and the last flame from the other side. The creatures in the deep recognise it. Some flee. The oldest kneel.',
-    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and lessons in place of paths. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
+    memory: { hp: 5, sp: 2 },
+    motive: 'The Heart has opened the road you sealed. Carry its fire home, close the breach, and lead the souls in your lantern across at last.',
+    story: 'You were the keeper of the western gate when the mountain opened. You held it for seven nights while the valley fled. On the eighth, the dead behind you rose and asked to be let home. You broke your sword across the threshold and bound the breach with your own name. The gate closed. The world forgot its keeper. Only the gravekeeper\'s silver lantern remembered: each blue spark behind its glass is a soul you promised to lead out. Centuries pass; you do not age. Now the stolen Heart has stirred the old gate, and your lantern burns with voices you thought lost. You return with the sword reforged. You seek no throne, treasure or pardon. You have come to finish the crossing. The creatures in the deep recognise the flame. Some flee. The oldest kneel.',
+    desc: 'Intelligence guides your sword and magic. Enchant a blade with fire, frost or lightning; Lantern Step crosses up to two clear, explored squares ahead. Spellguard catches one hit for just over two seconds and lends its light to your next sword strike. Light armour, a small reserve of spell points, and exclusive rune, road and ward talents in place of paths. Each remembered talent strengthens your life and spell reserve. Deepward: from floor 9, your silver lantern adds +1 armour class, another every two floors, up to +4.',
     startKit: ['longsword', 'studded', 'wayfarer_lantern', 'ration', 'ration', 'potion_heal', 'potion_heal'],
   },
   fighter: {

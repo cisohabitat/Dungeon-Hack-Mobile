@@ -1,0 +1,290 @@
+[
+  {
+    "name": "memory-8-normal-bench0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-normal-bench1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-normal-bench0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-normal-bench1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-hard-bench0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-hard-bench1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-hard-bench0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-hard-bench1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-normal-alt0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-normal-alt1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-normal-alt0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-normal-alt1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-hard-alt0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-8-hard-alt1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-hard-alt0",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "memory-16-hard-alt1",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt1"
+    },
+    "cwd": "/tmp/wayfarer-identity-candidate",
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  }
+]

@@ -632,7 +632,7 @@ const Game = (() => {
   function toHit() {
     const p = P();
     return Math.floor(p.level * cls().hitProg) + mod(armStat(p)) + effect('hit') + weapon().e + (weapon().px === 'true' ? 1 : 0) + bargained()
-      + (p.perkHit || 0) + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0)
+      + (p.perkHit || 0) + spellblade.aim() + (effect('might') ? 2 : 0) + jewelBonus('might') + (hasTalent('eagle_eye') && weapon().range ? 1 : 0)
       - ((p.dazzled || 0) > G.t ? DAZZLED_HIT : 0);
   }
   function playerAC() {

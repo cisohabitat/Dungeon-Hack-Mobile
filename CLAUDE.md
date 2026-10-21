@@ -420,8 +420,15 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Deepward derives only from a held silver lantern beyond floor eight, capped
   at +4 armour; the ordinary eight-floor delve and all public classes gain none.
 - Keep the six public class identities, challenge pools and Quick Start unchanged.
-  Spellblade has lessons rather than paths or a Mythic; guard offers without a
+  Spellblade has exclusive `TALENTS.spellblade` at even levels and `wf_` lantern
+  lessons at odd levels rather than paths or a Mythic; guard offers without a
   matching Mythic. Keep it out of public trophy requirements and unopened cards.
+  `wayfarerMagic` shares learned rune/ward limits with save validation and spell
+  descriptions. Each learned talent grants the life/spell reserve in
+  `CLASSES.spellblade.memory` exactly once; apply and restore it in talent selection.
+  Sever the Veil's accuracy requires an active rune and a held blade. Preserve older saves' generic lessons; future offers are exclusive.
+  `heldart.js` carries the Silver Lantern as a focus on all floors, using its
+  existing silver cage and blue flame; omit the duplicate amber dark-floor lamp.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock

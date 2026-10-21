@@ -1,0 +1,383 @@
+
+Running 697 tests using 4 workers
+
+(node:465793) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465791) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465790) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465793) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465791) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:465790) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [phone] › test/browser/a11y.spec.js:145:1 › an encounter (23.8s)
+  ✓    3 [phone] › test/browser/a11y.spec.js:133:1 › a keeper introduction (27.6s)
+  ✓    5 [phone] › test/browser/a11y.spec.js:174:1 › the divided stair (24.7s)
+  ✓    6 [phone] › test/browser/a11y.spec.js:192:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (33.3s)
+  ✓    7 [phone] › test/browser/a11y.spec.js:209:1 › the dungeon on a wide screen, with the map docked beside the view (22.9s)
+  ✓    8 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (30.1s)
+  ✓    9 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (31.5s)
+  ✘   10 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (1.2m)
+(node:467154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:467154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   11 [phone] › test/browser/access.spec.js:28:3 › text at twice its size fits the phone: every screen, the dungeon's bars and controls, and every overlay (1.3m)
+  ✘    2 [phone] › test/browser/a11y.spec.js:26:1 › the title, the hero's making and the screens off the title (2.8m)
+(node:467404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:467404) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   12 [phone] › test/browser/access.spec.js:28:3 › text at twice its size fits the small phone: every screen, the dungeon's bars and controls, and every overlay (34.0s)
+  ✓   14 [phone] › test/browser/access.spec.js:66:1 › a screen reader hears each log line once as it shows, the view put into words as the hero turns, and the bars by name (23.5s)
+  ✓   13 [phone] › test/browser/access.spec.js:28:3 › text at twice its size fits the phone on its side: every screen, the dungeon's bars and controls, and every overlay (33.0s)
+  ✓   15 [phone] › test/browser/access.spec.js:96:1 › the colour-blind safe colours tell a blow from a trick by blue and orange, and recolour the map and its legend (20.7s)
+  ✓   16 [phone] › test/browser/access.spec.js:120:1 › Calm view stills every animation on the page as well as the view (13.0s)
+  ✓   17 [phone] › test/browser/access.spec.js:137:3 › one-handed (right thumb) puts every control a fight needs within the thumb's reach, the drink with them (16.1s)
+  ✓   18 [phone] › test/browser/access.spec.js:137:3 › one-handed (left thumb) puts every control a fight needs within the thumb's reach, the drink with them (15.8s)
+  ✘    4 [phone] › test/browser/a11y.spec.js:75:1 › the dungeon and every overlay in it (3.5m)
+(node:467897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   19 [phone] › test/browser/access.spec.js:167:1 › with the largest text a long tip takes the view's height and scrolls: a drag reads on, only a tap closes it (16.9s)
+(node:467897) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   23 [phone] › test/browser/art.spec.js:53:3 › art › an elite colour keeps its cached picture, shades and pose links when first shown (9.6s)
+  ✓   21 [phone] › test/browser/art.spec.js:27:3 › art › a creature is painted a piece at a time, a floor's own kinds first, and drawn plain until its poses are ready (27.5s)
+  ✘   20 [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after (37.2s)
+(node:468189) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:468189) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   25 [phone] › test/browser/art.spec.js:138:3 › art › each class has its hero's face: on its card, on the hero sheet, and at the end of a run, grey if they fell (18.4s)
+  ✓   26 [phone] › test/browser/art.spec.js:170:3 › art › water drips from the roof here and there, more where the floor has flooded (15.6s)
+  ✓   27 [phone] › test/browser/art.spec.js:179:3 › art › a stair is drawn as a stairwell behind its arch, from the side it is come at by, and as plain wall from any other (19.9s)
+  ✓   28 [phone] › test/browser/art.spec.js:208:3 › art › a door stands back in its doorway, the stone of the doorway either side of it (21.9s)
+  ✘   22 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (1.2m)
+(node:468527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:468527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   24 [phone] › test/browser/art.spec.js:104:3 › art › what is upon a monster is drawn on it, and each kind dies its own way (1.1m)
+(node:468672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:468672) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   29 [phone] › test/browser/art.spec.js:229:3 › art › each set piece is drawn as what it is, the ways between rooms are laid as paths, and corners wear webs (27.1s)
+  ✓   30 [phone] › test/browser/art.spec.js:288:3 › art › a pillar standing free in a room is drawn narrower than its square; a block joined to a wall is not (18.8s)
+  ✓   34 [phone] › test/browser/art.spec.js:388:3 › art › walls said to be black glass are drawn as glass, not the brick of the other floors (10.1s)
+  ✓   31 [phone] › test/browser/art.spec.js:313:3 › art › a door slides into the wall as it is pushed open (18.0s)
+  ✓   32 [phone] › test/browser/art.spec.js:335:3 › art › a new floor rises out of the dark of the stair, and a level gained sends light up through the view (20.5s)
+  ✓   36 [phone] › test/browser/art.spec.js:437:5 › art › the lich right in front fits under its bar and is drawn finely, held sideways (17.7s)
+  ✓   35 [phone] › test/browser/art.spec.js:414:3 › art › the two-handed sword is held in both fists, and is a far bigger blade than the long sword (19.3s)
+  ✓   37 [phone] › test/browser/art.spec.js:437:5 › art › the lich right in front fits under its bar and is drawn finely, held upright (17.5s)
+  ✓   38 [phone] › test/browser/art.spec.js:456:3 › art › a number rising from a creature about to strike goes up beside its warning mark, never over it (18.2s)
+  ✓   39 [phone] › test/browser/art.spec.js:487:3 › art › held sideways, the warning mark over a big one close in stands beside its head, not on its face (17.3s)
+  ✓   40 [phone] › test/browser/art.spec.js:511:5 › art › a creature right in front stands with its feet in the view, held sideways (17.1s)
+  ✓   41 [phone] › test/browser/art.spec.js:511:5 › art › a creature right in front stands with its feet in the view, held upright (26.3s)
+  ✓   42 [phone] › test/browser/art.spec.js:528:3 › art › on a portrait phone the view stands taller than it is wide, and a room's dressing is drawn in it (26.8s)
+  ✘   45 [phone] › test/browser/art.spec.js:599:3 › art › candles left burning light the floor around them, a smaller pool than a torch's (932ms)
+  ✘   43 [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held sideways (20.3s)
+  ✘   33 [phone] › test/browser/art.spec.js:357:3 › art › a lantern lights a dark floor, loot worth having glints, and a fallen hero's shade wears the gear of their trade (1.2m)
+  ✘   44 [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held narrow (4.6s)
+
+
+  1) [phone] › test/browser/a11y.spec.js:26:1 › the title, the hero's making and the screens off the title 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/a11y-the-title-the-hero-s--8ea11-d-the-screens-off-the-title-phone/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/a11y-the-title-the-hero-s--8ea11-d-the-screens-off-the-title-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/a11y-the-title-the-hero-s--8ea11-d-the-screens-off-the-title-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [phone] › test/browser/a11y.spec.js:75:1 › the dungeon and every overlay in it ────────────────
+
+    [31mTest timeout of 180000ms exceeded.[39m
+
+    Error: page.addInitScript: Test timeout of 180000ms exceeded.
+
+       at helpers.js:48
+
+      46 |   // behind it (only when the tip happened to be up: a flake). A test that
+      47 |   // has set the key itself keeps what it set.
+    > 48 |   if (!opts.tips) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.tipsOff') === null) localStorage.setItem('deepdelve.tipsOff', '1'); });
+         |                   ^
+      49 |   // the first-time card on the title is put away unless a test is about it
+      50 |   if (!opts.firstTime) await page.addInitScript(() => { if (localStorage.getItem('deepdelve.firstSeen') === null) localStorage.setItem('deepdelve.firstSeen', '1'); });
+      51 |   // The menu's testing tools are folded away for a player; many tests use
+        at startGame (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:48:19)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/a11y.spec.js:123:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/a11y-the-dungeon-and-every-overlay-in-it-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/a11y-the-dungeon-and-every-overlay-in-it-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/a11y-the-dungeon-and-every-overlay-in-it-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/a11y-the-dungeon-and-every-overlay-in-it-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle0 exposes its clues and controls to assistive technology 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: frame.evaluate: Test timeout of 60000ms exceeded.
+
+      12 | async function scan(page, where, found) {
+      13 |   await page.waitForTimeout(250);   // overlays fade in
+    > 14 |   const r = await new AxeBuilder({ page }).withTags(TAGS).analyze();
+         |             ^
+      15 |   for (const v of r.violations) {
+      16 |     for (const n of v.nodes) found.push({ where, rule: v.id, impact: v.impact, target: n.target.join(' '), help: v.help, summary: n.failureSummary });
+      17 |   }
+        at AxeBuilder.runPartialRecursive (/workspace/Dungeon-Hack-Mobile/node_modules/@axe-core/playwright/dist/index.js:318:34)
+        at AxeBuilder.analyze (/workspace/Dungeon-Hack-Mobile/node_modules/@axe-core/playwright/dist/index.js:245:28)
+        at scan (/workspace/Dungeon-Hack-Mobile/test/browser/a11y.spec.js:14:13)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/a11y.spec.js:232:3
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/a11y-optional-cache-puzzle-709de-ols-to-assistive-technology-phone/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/a11y-optional-cache-puzzle-709de-ols-to-assistive-technology-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/a11y-optional-cache-puzzle-709de-ols-to-assistive-technology-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m309[39m
+
+    Call Log:
+    - Timeout 25000ms exceeded while waiting on the predicate
+
+      21 |     // and the rest are painted in the time to spare, well before a first floor
+      22 |     // (a creature a piece at a time, so frames stay smooth, takes a few seconds longer in all)
+    > 23 |     await expect.poll(async () => (await waiting()).length, { timeout: 25_000 }).toBe(0);
+         |     ^
+      24 |     expect(errors).toEqual([]);
+      25 |   });
+      26 |
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:23:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: page.waitForFunction: Test timeout of 60000ms exceeded.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:80:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-struck-monster-i-b8910--its-kind-in-another-colour-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-a-struck-monster-i-b8910--its-kind-in-another-colour-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-struck-monster-i-b8910--its-kind-in-another-colour-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-a-struck-monster-i-b8910--its-kind-in-another-colour-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [phone] › test/browser/art.spec.js:104:3 › art › what is upon a monster is drawn on it, and each kind dies its own way 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: page.waitForFunction: Test timeout of 60000ms exceeded.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:107:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-what-is-upon-a-mon-ed575--each-kind-dies-its-own-way-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-what-is-upon-a-mon-ed575--each-kind-dies-its-own-way-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-what-is-upon-a-mon-ed575--each-kind-dies-its-own-way-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-what-is-upon-a-mon-ed575--each-kind-dies-its-own-way-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [phone] › test/browser/art.spec.js:357:3 › art › a lantern lights a dark floor, loot worth having glints, and a fallen hero's shade wears the gear of their trade 
+
+    [31mTest timeout of 60000ms exceeded.[39m
+
+    Error: page.waitForFunction: Test timeout of 60000ms exceeded.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:360:11
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-a-lantern-lights-a-d39f2-ars-the-gear-of-their-trade-phone/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-lantern-lights-a-d39f2-ars-the-gear-of-their-trade-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-a-lantern-lights-a-d39f2-ars-the-gear-of-their-trade-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held sideways 
+
+    Test was interrupted.
+
+    Error: page.click: Test ended.
+    Call log:
+    [2m  - waiting for locator('#c-begin')[22m
+    [2m    - locator resolved to <button id="c-begin" class="big primary">Descend</button>[22m
+    [2m  - attempting click action[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+
+
+       at helpers.js:67
+
+      65 |   if (opts.permadeath === false) await page.uncheck('#c-permadeath');
+      66 |   await page.fill('#c-seed', opts.seed || 'spec');
+    > 67 |   await page.click('#c-begin');
+         |              ^
+      68 |   await expect(page.locator('#screen-prologue')).toBeVisible();
+      69 |   if (opts.puzzles) await page.check('#pro-puzzles');
+      70 |   await page.click('#pro-begin');
+        at startGame (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:67:14)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:569:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-20f67-n-plain-sight-held-sideways-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-20f67-n-plain-sight-held-sideways-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-20f67-n-plain-sight-held-sideways-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-20f67-n-plain-sight-held-sideways-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held narrow 
+
+    Test was interrupted.
+
+    Error: locator.evaluate: Test ended.
+    Call log:
+    [2m  - waiting for locator('#c-customise')[22m
+    [2m    - locator resolved to visible <details id="c-customise" class="create-customise">…</details>[22m
+
+
+       at helpers.js:30
+
+      28 |   // Some New Game checks stop at the saved-hero replacement question.
+      29 |   if (!(await page.locator('#screen-create').isVisible())) return;
+    > 30 |   if (!(await page.locator('#c-customise').evaluate(el => el.open))) await page.locator('#c-customise > summary').click();
+         |                                            ^
+      31 | }
+      32 | /** Collections stay folded until wanted; use the same disclosure as a player. */
+      33 | async function selectJournalTab(page, tab) {
+        at customiseCreation (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:30:44)
+        at startGame (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:56:3)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:569:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-752e6--in-plain-sight-held-narrow-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-752e6--in-plain-sight-held-narrow-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-752e6--in-plain-sight-held-narrow-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/wayfarer-identity-browser-results/art-art-a-ranger-s-bow-and-752e6--in-plain-sight-held-narrow-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7 failed
+    [phone] › test/browser/a11y.spec.js:26:1 › the title, the hero's making and the screens off the title 
+    [phone] › test/browser/a11y.spec.js:75:1 › the dungeon and every overlay in it ─────────────────
+    [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle0 exposes its clues and controls to assistive technology 
+    [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after 
+    [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour 
+    [phone] › test/browser/art.spec.js:104:3 › art › what is upon a monster is drawn on it, and each kind dies its own way 
+    [phone] › test/browser/art.spec.js:357:3 › art › a lantern lights a dark floor, loot worth having glints, and a fallen hero's shade wears the gear of their trade 
+  3 interrupted
+    [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held sideways 
+    [phone] › test/browser/art.spec.js:559:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held narrow 
+    [phone] › test/browser/art.spec.js:599:3 › art › candles left burning light the floor around them, a smaller pool than a torch's 
+  652 did not run
+  35 passed (6.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

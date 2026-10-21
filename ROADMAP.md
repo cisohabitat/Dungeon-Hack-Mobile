@@ -442,4 +442,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] Painted portrait, biography, pixel fallback and silver-lantern kit.
 - [x] Runic Edge, explored-ground Lantern Step and timed Spellguard.
 - [x] Complete local rules, mobile and recorded balance validation.
-- [ ] Publish after full Chromium, Safari mobile and performance CI passes.
+- [x] Published the original hero in v0.9.14 after all seven CI jobs passed.
+- [x] Personal gatekeeper opening, carried silver lantern and exclusive talents/lessons.
+- [x] Record the final three-set progression comparison and require full Chromium,
+  Safari mobile and performance checks for v0.9.15 publication.

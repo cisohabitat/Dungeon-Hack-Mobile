@@ -22,7 +22,15 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   every two floors, capped at +4 (Deepward).
   Runes replace each other, magic shares attack recovery, and poison and hunger
   pass through the guard. The class wears light armour, carries its own silver
-  lantern, and gains ordinary lessons rather than paths or a Mythic trial.
+  lantern, and gains six exclusive talents plus lantern lessons rather than paths or a Mythic trial.
+  Remember the gatekeeper's oath through Deathless Inscription, Sever the Veil,
+  The Forgotten Road, Threshold Ward, Hold Back the Night and The Debt Repaid.
+  Each talent also adds five maximum hit points and two maximum spell points,
+  restoring those amounts. Sever the Veil guides an active runed blade with +1 to hit.
+  The Silver Lantern is visible in the left hand throughout the dungeon, with its blue flame.
+  His own gatekeeper origin and motive appear before descent; the shared background
+  still supplies its chosen starting modifiers. Older Wayfarer saves retain their
+  learned lessons and receive the new choices on future levels.
   Its painted portrait, pixel fallback, rune clocks and class survive offline saves.
 
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
@@ -653,6 +661,16 @@ remains more demanding for this Fire/Spellguard bot; these figures do not
 establish equal class strength or human win rates. The public-class rows above
 remain historical. Exact revisions, settings, compatibility comparisons,
 resources and raw records are in the [Wayfarer audit](docs/balance/2026-10-20-wayfarer/).
+
+The **21 October 2026 progression update** replaces ordinary level choices with
+Wayfarer-only talents and lantern lessons. The selected three-set, 400-run-per-cell
+comparison measured **90.58% Normal / 69.75% Hard** over eight floors and
+**80.83% Normal / 41.00% Hard** over sixteen, versus v0.9.14’s 86.08% / 62.92%
+and 80.42% / 35.42%. The policy still makes limited use of movement and elemental
+combinations; these are bot results, not human forecasts. All 144 public-class
+state/log regression pairs matched. The first implementation’s losses, three
+tuning candidates and 9,566 fresh retained outcomes are documented in the
+[progression comparison](docs/balance/2026-10-20-wayfarer-identity/RESULTS.md).
 
 ### Earlier benchmark history
 

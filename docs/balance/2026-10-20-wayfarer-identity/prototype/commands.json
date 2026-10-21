@@ -1,0 +1,857 @@
+[
+  {
+    "name": "new-8-normal-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-normal-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-normal-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "bench",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-normal-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "bench",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-normal-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-normal-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-normal-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-normal-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-8-hard-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-hard-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-hard-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "bench",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-hard-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "bench",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-hard-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-hard-bench",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "bench",
+      "SEEDONLY": "bench0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-hard-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-hard-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-8-hard+3-bench",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard+3",
+      "SEEDN": "4",
+      "SEEDPFX": "bench"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-8-normal-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-normal-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-normal-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "alt",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-normal-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "alt",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-normal-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-normal-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-normal-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-normal-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-8-hard-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-hard-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-hard-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "alt",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-hard-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "alt",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-hard-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-hard-alt",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "alt",
+      "SEEDONLY": "alt0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-hard-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-hard-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-8-hard+3-alt",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard+3",
+      "SEEDN": "4",
+      "SEEDPFX": "alt"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-8-normal-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-normal-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-normal-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "third",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-normal-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "normal",
+      "SEEDN": "2",
+      "SEEDPFX": "third",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-normal-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "third",
+      "SEEDONLY": "third0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-normal-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "normal",
+      "SEEDN": "40",
+      "SEEDPFX": "third",
+      "SEEDONLY": "third0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-normal-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-normal-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "normal",
+      "SEEDN": "4",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-8-hard-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-16-hard-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-public-hard-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "third",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "new-public-hard-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "DIFF": "hard",
+      "SEEDN": "2",
+      "SEEDPFX": "third",
+      "FP": "1"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js"
+    ]
+  },
+  {
+    "name": "baseline-pilot-8-hard-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "third",
+      "SEEDONLY": "third0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "baseline-pilot-16-hard-third",
+    "cwd": "/tmp/wayfarer-identity-baseline",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "16",
+      "DIFF": "hard",
+      "SEEDN": "40",
+      "SEEDPFX": "third",
+      "SEEDONLY": "third0"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "10"
+    ]
+  },
+  {
+    "name": "new-pilot-2-hard-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "2",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-12-hard-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "12",
+      "DIFF": "hard",
+      "SEEDN": "4",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  },
+  {
+    "name": "new-pilot-8-hard+3-third",
+    "cwd": "/workspace/Dungeon-Hack-Mobile",
+    "env": {
+      "FIT": "1",
+      "LEVELS": "8",
+      "DIFF": "hard+3",
+      "SEEDN": "4",
+      "SEEDPFX": "third"
+    },
+    "argv": [
+      "node",
+      "test/playtest.js",
+      "spellblade",
+      "5"
+    ]
+  }
+]
