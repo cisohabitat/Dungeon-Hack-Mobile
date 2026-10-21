@@ -309,8 +309,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   monster health bars, save/load to local storage with autosave on every level change, and a
   Hall of Heroes that remembers your best runs. The pack compares any weapon or armour against
   what you are already wearing, in damage per second or armour class. Equipment surrounds
-  a compact neutral silhouette shared by all classes: weapon by the right hand,
-  armour at the chest, and one left-hand slot for a shield, focus or second weapon.
+  a shaded neutral mannequin shared by all classes, with a subtle class accent. It keeps
+  its proportions as the screen turns; lines join the cards to the chest, neck and hands.
+  Weapon is by the right hand, armour below the torso, and one left-hand slot holds
+  a shield, focus or second weapon. Selecting equipment also highlights its body area.
   Selecting an item highlights its valid equipment slots; its details open in a bottom
   sheet with actions kept in reach. Escape or controller Back closes the details first.
   Tap a slot to browse compatible replacements; filters separate weapons, worn gear

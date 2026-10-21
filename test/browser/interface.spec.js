@@ -1165,6 +1165,18 @@ for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
     await page.click('[data-open="inv"]');
     const figure = page.locator('.equipment-figure');
     await expect(figure).toBeVisible();
+    await expect(figure).toHaveAttribute('data-hero', cls);
+    const proportions = async () => figure.locator('.equipment-silhouette').evaluate(svg => {
+      const m = svg.getScreenCTM(); return Math.abs(m.a - m.d);
+    });
+    expect(await proportions()).toBeLessThan(0.001);
+    if (cls === 'fighter') {
+      const viewport = page.viewportSize();
+      await page.setViewportSize({ width: 851, height: 393 });
+      expect(await proportions()).toBeLessThan(0.001);
+      await expect(figure.locator('.equipment-links [data-link="armor"] path')).toHaveAttribute('d', /^M.+ L.+/);
+      await page.setViewportSize(viewport);
+    }
     const weapon = figure.locator('[data-slot="weapon"]');
     const shield = figure.locator('[data-hand="left"]');
     const armour = figure.locator('[data-slot="armor"]');
@@ -1176,6 +1188,7 @@ for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
     await expect(figure.locator('[data-hand="left"]')).toHaveCount(1);
     const gear = await page.evaluate(() => JSON.stringify(Game.player().eq));
     await weapon.click();
+    await expect(figure.locator('.figure-body [data-region="weapon"]')).toHaveClass(/active/);
     await expect(page.locator('#item-detail')).toBeInViewport();
     await expect(page.locator('#item-detail button', { hasText: /^Unequip$/ })).toBeVisible();
     await page.locator('#item-detail button', { hasText: /^Unequip$/ }).click();

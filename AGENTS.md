@@ -179,7 +179,12 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   detail sheet is a sibling of the scrolling bag, with lore and actions scrolling
   separately. Escape/controller Back dismiss details first and restore item focus.
   Preserve class-specific focus/off-hand labels, hidden quality and existing actions.
-  Large text hides the silhouette and returns equipment to a two-column list.
+  Keep the mannequin SVG at a uniform scale. Its separately measured connector SVG
+  joins actual card edges to authored body anchors on resize, outside the game loop.
+  Armour sits below the torso so the figure stays visible; selection regions follow
+  existing equip destinations, with both hands highlighted for two-handed weapons.
+  Class accents use a fixed CSS palette, never item grades or hidden quality.
+  Large text hides both decorative SVGs and returns equipment to a two-column list.
   Slot-first browsing filters by existing equip restrictions; the chosen ring slot
   must be passed explicitly when putting it on. The default All view keeps 20
   cells; compact/filter views hide unused rows without changing inventory capacity.

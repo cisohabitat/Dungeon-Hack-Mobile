@@ -495,14 +495,43 @@
       <div class="ov-head"><h2>Pack</h2><button class="close" data-close aria-label="Close">✕</button></div>
       <div class="ov-body">
         <div class="equipment-figure" role="group" aria-label="Equipped items">
-          <svg class="equipment-silhouette" viewBox="0 0 360 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <ellipse class="figure-ground" cx="180" cy="288" rx="68" ry="6"/>
-            <path class="figure-body" transform="translate(0 14) scale(1 .82)" d="M180 66 C167 66 162 75 162 87 L163 99 Q165 108 171 112 L170 120 L148 128 Q139 132 135 147 L124 175 L111 199 L108 212 Q108 220 112 220 L115 211 L115 224 Q118 227 120 222 L122 212 L126 216 Q130 216 128 211 L124 202 L139 181 L151 156 L153 195 L146 226 L151 266 L151 307 L143 322 Q139 329 147 330 L164 330 Q168 329 168 322 L169 288 L174 254 L180 229 L186 254 L191 288 L192 322 Q192 329 196 330 L213 330 Q221 329 217 322 L209 307 L209 266 L214 226 L207 195 L209 156 L221 181 L236 202 L232 211 Q230 216 234 216 L238 212 L240 222 Q242 227 245 224 L245 211 L248 220 Q252 220 252 212 L249 199 L236 175 L225 147 Q221 132 212 128 L190 120 L189 112 Q195 108 197 99 L198 87 C198 75 193 66 180 66 Z"/>
-            <g class="figure-links">
-              <path d="M180 52 V66 M100 75 L148 130 M100 153 L115 190 M260 153 L242 190 M100 224 L118 191 M260 224 L242 191"/>
-              <circle cx="148" cy="130" r="2"/><circle cx="115" cy="190" r="2"/><circle cx="242" cy="190" r="2"/>
-              <circle cx="118" cy="191" r="2"/><circle cx="242" cy="191" r="2"/>
+          <svg class="equipment-silhouette" viewBox="0 0 360 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            <defs>
+              <linearGradient id="mannequin-shade" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#20222d"/><stop offset=".45" stop-color="#373b48"/>
+                <stop offset=".64" stop-color="#2b303c"/><stop offset="1" stop-color="#191c26"/>
+              </linearGradient>
+            </defs>
+            <ellipse class="figure-ground" cx="180" cy="287" rx="48" ry="5"/>
+            <g class="figure-body">
+              <path d="M167 61 L167 76 Q180 85 193 76 L193 61 Z"/>
+              <path d="M164 30 Q180 20 196 30 L197 49 Q195 65 186 69 L174 69 Q165 65 163 49 Z"/>
+              <path data-region="armor" d="M167 76 L146 83 Q139 86 138 99 L145 133 L153 158 Q180 170 207 158 L215 133 L222 99 Q221 86 214 83 L193 76 Q180 86 167 76 Z"/>
+              <path data-region="cloak" d="M146 83 Q137 85 134 98 L138 121 L147 116 L150 94 L167 81 L167 76 Z"/>
+              <path d="M139 99 L129 126 L117 151 L125 157 L141 134 L148 113 Z M221 99 L231 126 L243 151 L235 157 L219 134 L212 113 Z"/>
+              <path data-region="weapon" d="M117 149 L111 158 L108 170 Q108 175 112 173 L115 164 L114 178 Q117 182 119 176 L121 166 L124 170 Q128 171 126 166 L125 157 Z"/>
+              <path data-region="left" d="M243 149 L249 158 L252 170 Q252 175 248 173 L245 164 L246 178 Q243 182 241 176 L239 166 L236 170 Q232 171 234 166 L235 157 Z"/>
+              <path d="M153 158 L149 181 L156 219 L157 264 L171 264 L174 220 L180 187 L186 220 L189 264 L203 264 L204 219 L211 181 L207 158 Q180 170 153 158 Z"/>
+              <path d="M157 257 L156 274 L147 279 Q144 284 150 285 L171 285 L172 258 Z M188 258 L189 285 L210 285 Q216 284 213 279 L204 274 L203 257 Z"/>
             </g>
+            <g class="figure-detail">
+              <path d="M180 36 V54 M174 60 Q180 63 186 60 M151 92 Q180 104 209 92 M155 106 L160 140 M205 106 L200 140 M159 151 Q180 157 201 151 M158 178 L173 180 M187 180 L202 178 M162 224 L169 224 M191 224 L198 224 M160 271 L169 271 M191 271 L200 271"/>
+              <path class="figure-trim" d="M165 32 Q180 25 195 32 M149 86 L163 81 M197 81 L211 86 M158 161 Q180 168 202 161"/>
+            </g>
+            <g class="figure-zones">
+              <ellipse data-region="amulet" cx="180" cy="89" rx="8" ry="10"/>
+              <circle data-region="ring" cx="116" cy="169" r="6"/>
+              <circle data-region="ring2" cx="244" cy="169" r="6"/>
+            </g>
+          </svg>
+          <svg class="equipment-links" aria-hidden="true" focusable="false">
+            <g data-link="weapon" data-region="weapon" data-anchor="118 160"><path/><circle r="2"/></g>
+            <g data-link="left" data-region="left" data-anchor="242 160"><path/><circle r="2"/></g>
+            <g data-link="armor" data-region="armor" data-anchor="180 128"><path/><circle r="2"/></g>
+            <g data-link="cloak" data-region="cloak" data-anchor="146 87"><path/><circle r="2"/></g>
+            <g data-link="amulet" data-region="amulet" data-anchor="180 89"><path/><circle r="2"/></g>
+            <g data-link="ring" data-region="ring" data-anchor="116 169"><path/><circle r="2"/></g>
+            <g data-link="ring2" data-region="ring2" data-anchor="244 169"><path/><circle r="2"/></g>
           </svg>
           <div class="equip" id="equip"></div>
           <div class="equip jewels" id="equip-jewels"></div>

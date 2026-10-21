@@ -49,8 +49,29 @@ export function makePack(K) {
     while (grid.childElementCount > cells) grid.lastElementChild.remove();
     while (grid.childElementCount < cells) grid.appendChild(slotEl(null, null));
   }
+  // Measure only when the pack changes size; the mannequin keeps its proportions
+  // while each thread joins the actual card edge to its place on the body.
+  function fitFigure() {
+    const figure = $('.equipment-figure'), body = $('.equipment-silhouette'), links = $('.equipment-links');
+    const bounds = figure.getBoundingClientRect(), matrix = body.getScreenCTM();
+    if (!bounds.width || !bounds.height || getComputedStyle(body).display === 'none' || !matrix) return;
+    links.setAttribute('viewBox', `0 0 ${bounds.width} ${bounds.height}`);
+    for (const link of links.querySelectorAll('[data-link]')) {
+      const slot = link.dataset.link;
+      const button = figure.querySelector(slot === 'left' ? '[data-hand="left"]' : `[data-slot="${slot}"]`);
+      const rect = button.getBoundingClientRect(), point = body.createSVGPoint();
+      [point.x, point.y] = link.dataset.anchor.split(' ').map(Number);
+      const target = point.matrixTransform(matrix), x = target.x - bounds.x, y = target.y - bounds.y;
+      const edgeX = Math.max(rect.left, Math.min(target.x, rect.right)) - bounds.x;
+      const edgeY = Math.max(rect.top, Math.min(target.y, rect.bottom)) - bounds.y;
+      link.querySelector('path').setAttribute('d', `M${edgeX} ${edgeY} L${x} ${y}`);
+      link.querySelector('circle').setAttribute('cx', String(x));
+      link.querySelector('circle').setAttribute('cy', String(y));
+    }
+  }
   function bindPack() {
     window.addEventListener('resize', fitBagRows);
+    new ResizeObserver(fitFigure).observe($('.equipment-figure'));
     compact = K.store('deepdelve.packCompact') === '1';
     for (const button of $('#ov-inv').querySelectorAll('[data-bag-filter]')) button.addEventListener('click', () => {
       slotTarget = ''; filter = button.dataset.bagFilter; K.selectedItem = null; K.selectedSlot = null; renderInv();
@@ -123,6 +144,11 @@ export function makePack(K) {
       if (fits) el.dataset.hint = K.selectedSlot ? 'Selected' : 'Fits here';
       else delete el.dataset.hint;
     }
+    const regions = new Set([...slots, slotTarget].map(slot => ['shield', 'offhand', 'left'].includes(slot) ? 'left' : slot));
+    if (slots.includes('weapon') && K.selectedItem && ITEMS[K.selectedItem.t].twoHanded) regions.add('left');
+    for (const el of $('.equipment-figure').querySelectorAll('[data-region]')) {
+      el.classList.toggle('active', regions.has(el.dataset.region));
+    }
   }
 
   function slotEl(it, label) {
@@ -156,6 +182,7 @@ export function makePack(K) {
   }
   function renderInv() {
     const p = Game.player();
+    $('.equipment-figure').dataset.hero = p.cls;
     recent.sync(); GearTools.sync();
     const eq = $('#equip');
     eq.innerHTML = '';
