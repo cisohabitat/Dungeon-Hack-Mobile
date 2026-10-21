@@ -1676,11 +1676,11 @@ const Assets = (() => {
     return trim(paintParts(h.parts.map(p => ({ ...p, smooth: 1 })), h.grid, SCALE, 'soft'), outline, h.anchor.map(v => v * SCALE), m);
   };
   const outlineFor = id => (id && id.startsWith('mythic_') ? '#e2bcff' : id && id.startsWith('relic_') ? '#e8b84a' : id && id.startsWith('legend_') ? LEGEND_EDGE : '#0a0810');
-  /** One pose of a held weapon (or bare fist, id null) with the hand on it. */
-  function held(id, pose, cls, two) {
-    const key = `${id}|${pose}|${cls}|${two ? 2 : 1}`;
+  /** One pose with its hand; lantern reflections have a separate cached frame. */
+  function held(id, pose, cls, two, lit = false) {
+    const key = `${id}|${pose}|${cls}|${two ? 2 : 1}|${lit ? 1 : 0}`;
     if (heldCache.has(key)) return heldCache.get(key);
-    const h = heldParts(id, pose, cls, two);
+    const h = heldParts(id, pose, cls, two, lit);
     const fr = h ? paintHeld(h, outlineFor(id)) : null;
     heldCache.set(key, fr);
     return fr;

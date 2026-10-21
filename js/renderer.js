@@ -458,10 +458,23 @@ const Renderer = (() => {
     fist: [0.85, 0.95], punch: [0.64, 0.83], left: [0.13, 0.95], cast: [0.26, 0.93], shield: [0.08, 0.96], bow: [0.2, 0.86],
   };
   const at = (pose, lift = 0) => [POSE_AT[pose][0] * W, (POSE_AT[pose][1] - lift) * H];
+  // Visual inertia only: a small settling motion after a completed step.
+  // It never feeds the camera, controls or the run's clock, and Calm view resets it.
+  const lanternMotion = { walk: 0, steps: -1, time: -1e9, stopped: -1e9, held: false };
+  function lanternSettle(v, now, held) {
+    const walk = v.walk || 0;
+    if (calm || !held || !lanternMotion.held || now < lanternMotion.time || v.steps < lanternMotion.steps) lanternMotion.stopped = -1e9;
+    else if (lanternMotion.walk > 0 && !walk) lanternMotion.stopped = now;
+    lanternMotion.walk = walk; lanternMotion.steps = v.steps; lanternMotion.time = now; lanternMotion.held = held;
+    const t = (now - lanternMotion.stopped) / 260;
+    return !calm && held && !walk && t >= 0 && t < 1 ? Math.sin(t * Math.PI * 2) * Math.exp(-t * 3) * 2 : 0;
+  }
   function drawView(fx, now) {
     handBoxes.length = 0;
     const v = fx.view;
     if (!v) return;
+    const lamp = v.shield === 'wayfarer_lantern', reflected = lamp && v.cls === 'spellblade';
+    const settling = lanternSettle(v, now, lamp);
     // a step's bob and a slow sway at rest (held still in a calm view)
     const step = calm ? 0 : Math.sin((v.walk || 0) * Math.PI);
     const bx = calm ? 0 : Math.sin(now / 900) * 1.5 + (v.steps % 2 ? 1 : -1) * step * 3, by = calm ? 0 : Math.abs(step) * 7 + Math.sin(now / 700) * 1.2;
@@ -550,7 +563,8 @@ const Renderer = (() => {
       // Lower the raised grip just as far out of sight when casting or
       // bringing up a scroll or drink, leaving only the acting hand visible.
       const lower = lantern ? Math.max(0, H * 0.63 - y) * Math.max(cast, put_down / (H * 0.45)) : 0;
-      put(frame, x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + lower + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
+      const weight = lantern ? by * -0.45 + settling : 0;
+      put(frame, x + dx - hurt * 4 + sh * W * 0.3, y + dy + weight + cast * H * 0.4 + put_down + lower + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
     } else if (v.offhand) {
       const [x, y] = at('left');
       put(Assets.held(v.offhand, opose, v.cls, false), x + dx + ox, y + dy + oy + cast * H * 0.4 + put_down, os);
@@ -632,7 +646,7 @@ const Renderer = (() => {
       }
       // the lower hand of a two-handed grip is the one that casts, reads, drinks
       // and eats: it lets go of the grip, or a third hand would bring the bottle up
-      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using), p[0] + rdx, p[1] + rdy);
+      put(Assets.held(v.weapon, pose, v.cls, v.two && !cast && !reading && !using, reflected), p[0] + rdx, p[1] + rdy);
     } else {
       const punch = swinging && u < 0.55 && !bashing;
       const p = punch ? lerp(at('fist'), at('punch'), Math.sin(u / 0.55 * Math.PI)) : at('fist');
