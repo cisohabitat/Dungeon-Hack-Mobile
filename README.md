@@ -43,8 +43,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Cuts pass through cached intermediate angles and recover with the grip attached;
   staffs and spears drive forward, and staffs lean into casting. Bows flex under the
   draw, with string ends on their nocks and the arrow passing over the bow grip.
-  The drawing hand follows through at release before returning to the string. Their
-  arrow and the thrown knife leave at the existing combat release times, including
+  The left hand raises the bow towards the centre to aim; the right hand reaches
+  from the right, draws back towards the cheek, then follows through and relaxes
+  low on the right. Calm view omits the extra aiming lift. Arrows and thrown knives
+  leave at the existing combat release times, including
   Vashti. The object fits short views while its sleeve may continue off-screen.
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.

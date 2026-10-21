@@ -39,13 +39,13 @@ test('bow grips follow fitted nocks, release matches combat, and action hands ar
    ctx.fillRect=function(...a){if(this.fillStyle==='#e04838')arrow++;return old.fill.call(this,...a);};
    const fx={...rs.fx,swingAt:10000,swingMs:300,offAt:-1e9,castAt:-1e9,readAt:-1e9,useAt:-1e9,throwAt:-1e9,bashAt:-1e9,arriveAt:-1e9,damageUntil:0,view:{weapon:'longbow',two:true,drawn:true,shield:null,offhand:null,cls:'ranger',steps:0,walk:0}};
    Renderer.setCalm(false);Renderer.setHeight(160);
-   for(const u of [0,.3,.719,.721,.8,.95,.999,1]){
+   for(const u of [0,.001,.159,.161,.3,.5,.719,.721,.8,.95,.999,1]){
     draws=[];string=null;arrow=0;shaft=null;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000+u*300);
     const bow=draws.find(d=>d.id==='longbow'),hand=draws.find(d=>d.id===null),tip=key=>[bow.x+bow.f.at[key][0]*bow.w/bow.f.img.width,bow.y+bow.f.at[key][1]*bow.h/bow.f.img.height];
     const grip=[hand.x+hand.f.ax*hand.w/hand.f.img.width,hand.y+hand.f.ay*hand.h/hand.f.img.height];
     const rest=[bow.x+(bow.f.ax-2)*bow.w/bow.f.img.width,bow.y+(bow.f.ay-8)*bow.h/bow.f.img.height];
     const shaftGap=shaft?Math.abs((shaft[1][0]-shaft[0][0])*(shaft[0][1]-rest[1])-(shaft[0][0]-rest[0])*(shaft[1][1]-shaft[0][1]))/Math.hypot(shaft[1][0]-shaft[0][0],shaft[1][1]-shaft[0][1]):null;
-    rows.push({u,arrow,grip,shaftGap,shaftPastRest:shaft?shaft[1][0]<rest[0]:null,endpoints:[tip('top'),tip('bot')].map((p,i)=>Math.hypot(p[0]-string[i*2][0],p[1]-string[i*2][1])),gripGap:Math.abs(hand.x+hand.f.ax*hand.w/hand.f.img.width-string[1][0])});
+    rows.push({u,arrow,grip,bowGrip:bow.x+bow.f.ax*bow.w/bow.f.img.width,width:Renderer.W,shaftGap,shaftPastRest:shaft?shaft[1][0]<rest[0]:null,endpoints:[tip('top'),tip('bot')].map((p,i)=>Math.hypot(p[0]-string[i*2][0],p[1]-string[i*2][1])),gripGap:Math.abs(hand.x+hand.f.ax*hand.w/hand.f.img.width-string[1][0])});
    }
    fx.swingAt=-1e9;fx.castAt=10000;const start=[];for(const at of [10000,10000.1]){draws=[];Renderer.render(rs.level,rs.cam,rs.sprites,fx,at);start.push(draws.find(d=>d.id==='longbow').y);}draws=[];Renderer.render(rs.level,rs.cam,rs.sprites,fx,10260);const castHands=draws.length;const castJump=Math.abs(start[1]-start[0]);
    fx.castAt=-1e9;fx.view={...fx.view,weapon:'throwknife',drawn:false,two:false};fx.swingAt=10000;
@@ -53,7 +53,10 @@ test('bow grips follow fitted nocks, release matches combat, and action hands ar
    return {rows,castHands,knife,castJump};
   }finally{Assets.held=old.held;ctx.drawImage=old.draw;ctx.moveTo=old.move;ctx.lineTo=old.line;ctx.beginPath=old.begin;ctx.stroke=old.stroke;ctx.fillRect=old.fill;}
  });
- for(const row of result.rows){for(const gap of row.endpoints)expect(gap).toBeLessThan(1.5);if(row.u<.72||row.u===1)expect(row.gripGap).toBeLessThan(1.5);expect(row.arrow>0).toBe(row.u<.72||row.u===1);if(row.shaftGap!==null){expect(row.shaftGap).toBeLessThan(1.5);expect(row.shaftPastRest).toBe(true);}}
+ for(const row of result.rows){for(const gap of row.endpoints)expect(gap).toBeLessThan(1.5);if(row.u>=.16&&row.u<.72)expect(row.gripGap).toBeLessThan(1.5);expect(row.arrow>0).toBe(row.u<.72||row.u===1);if(row.shaftGap!==null){expect(row.shaftGap).toBeLessThan(1.5);expect(row.shaftPastRest).toBe(true);}}
+ const drawn=result.rows.find(r=>r.u===.5);expect(drawn.bowGrip/drawn.width).toBeGreaterThan(.4);expect(drawn.bowGrip/drawn.width).toBeLessThan(.5);expect(drawn.grip[0]/drawn.width).toBeGreaterThan(.72);
+ const resting=result.rows.find(r=>r.u===0);expect(resting.grip[0]/resting.width).toBeGreaterThan(.8);
+ for(const [a,b] of [[0,.001],[.159,.161]]){const p=result.rows.find(r=>r.u===a),q=result.rows.find(r=>r.u===b);expect(Math.hypot(p.grip[0]-q.grip[0],p.grip[1]-q.grip[1])).toBeLessThan(2);}
  const before=result.rows.find(r=>r.u===.719),after=result.rows.find(r=>r.u===.721);expect(Math.hypot(before.grip[0]-after.grip[0],before.grip[1]-after.grip[1])).toBeLessThan(2);
  const end=result.rows.find(r=>r.u===.999),idle=result.rows.find(r=>r.u===1);expect(Math.hypot(end.grip[0]-idle.grip[0],end.grip[1]-idle.grip[1])).toBeLessThan(2);
  expect(result.castHands).toBe(2);expect(result.castJump).toBeLessThanOrEqual(1);expect(result.knife).toEqual([[true,false],[true,false]]);expect(errors).toEqual([]);
@@ -71,14 +74,15 @@ test('cached bow flex and surface glints respect Calm view and preserve existing
    const paint=calm=>{glints=0;Renderer.setCalm(calm);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10260);return glints;};
    const lit=paint(false),calm=paint(true);
    fx.castAt=-1e9;fx.swingAt=10000;fx.view={...fx.view,weapon:'mythic_horizon',drawn:true};
-   poses=[];Renderer.setCalm(false);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10180);const flex=poses.includes('bowfull');
-   poses=[];Renderer.setCalm(true);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10180);const still=!poses.includes('bowfull')&&!poses.includes('bowdraw');
+   poses=[];Renderer.setCalm(false);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10180);const flex=poses.includes('bowfull'),raisedX=Renderer.hands[0][0];
+   poses=[];Renderer.setCalm(true);Renderer.render(rs.level,rs.cam,rs.sprites,fx,10180);const still=!poses.includes('bowfull')&&!poses.includes('bowdraw'),calmBow=Renderer.hands[0].slice();
+   fx.swingAt=-1e9;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10180);const calmBowStill=calmBow.every((v,i)=>v===Renderer.hands[0][i]);
    const a=held('mythic_horizon','bowfull','ranger',false),b=held('mythic_horizon','rest','ranger',false);
    const hidden=Game.spriteFor({t:'throwknife',u:'vashti',e:2,q:1,h:true});
-   return {lit,calm,flex,still,cached:a===held('mythic_horizon','bowfull','ranger',false),different:a.img.toDataURL()!==b.img.toDataURL(),hidden};
+   return {lit,calm,flex,still,calmBowStill,aimShift:raisedX-calmBow[0],cached:a===held('mythic_horizon','bowfull','ranger',false),different:a.img.toDataURL()!==b.img.toDataURL(),hidden};
   }finally{ctx.stroke=stroke;Assets.held=held;Renderer.setCalm(oldCalm);}
  });
- expect(result.lit).toBeGreaterThan(0);expect(result.calm).toBe(0);expect(result.flex).toBe(true);expect(result.still).toBe(true);expect(result.cached).toBe(true);expect(result.different).toBe(true);expect(result.hidden).toBe('relic_vashti');expect(errors).toEqual([]);
+ expect(result.lit).toBeGreaterThan(0);expect(result.calm).toBe(0);expect(result.flex).toBe(true);expect(result.still).toBe(true);expect(result.calmBowStill).toBe(true);expect(result.aimShift).toBeGreaterThan(50);expect(result.cached).toBe(true);expect(result.different).toBe(true);expect(result.hidden).toBe('relic_vashti');expect(errors).toEqual([]);
 });
 
 test('fitted shields and foci leave floor loot visible in a tall view @mobile',async({page})=>{
