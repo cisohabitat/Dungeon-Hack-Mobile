@@ -277,7 +277,7 @@ function lanternParts(cls) {
     limb(C + 3.5, C, C + 5, C + 1, 0.65, 0.65, '#bac8d8'),
     limb(C + 5, C + 1, C + 5, C + 9, 0.65, 0.65, '#bac8d8'),
   ];
-  return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...handle, ...cage, ...h.front] };
+  return { grid: GRID, anchor: [C, C], marks: { base: [C, C + 22] }, parts: [...h.behind, ...handle, ...cage, ...h.front] };
 }
 function focusParts(base, cls, name = null) {
   const art = (name && NAMED_ART[name]) || ITEM_ART[base];
