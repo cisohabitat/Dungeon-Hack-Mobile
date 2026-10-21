@@ -183,7 +183,7 @@ function bowParts(cls, base, id = null, draw = 0) {
   const a = deg(-94);
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
   const P = (u, v = 0) => {
-    const bend = draw * 2.4 * (u / (B.seg * 4)) ** 2;
+    const bend = (4 + draw * 2.4) * (u / (B.seg * 4)) ** 2;
     return [C + ux * u + vx * (v + bend), C + uy * u + vy * (v + bend)];
   };
   const stave = [];
@@ -205,7 +205,7 @@ function bowParts(cls, base, id = null, draw = 0) {
   const bands = B.wrap > 4 ? [-3.3, -1.65, 0, 1.65, 3.3] : [-2.4, -0.8, 0.8, 2.4];
   const h = hand(C, C, a, deg(150), cls, { left: true });
   return {
-    grid: GRID, anchor: [C, C], marks: { top: P(-tip, end), bot: P(tip, end), min: [C - 5, C - tip - 2], max: [C + 7, C + tip + 2] },
+    grid: GRID, anchor: [C, C], marks: { top: P(-tip, end), bot: P(tip, end), min: [C - 5, C - tip - 2], max: [C + 11, C + tip + 2] },
     parts: [
       ...h.behind,
       ...stave,
