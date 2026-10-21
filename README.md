@@ -27,7 +27,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   The Forgotten Road, Threshold Ward, Hold Back the Night and The Debt Repaid.
   Each talent also adds five maximum hit points and two maximum spell points,
   restoring those amounts. Sever the Veil guides an active runed blade with +1 to hit.
-  The Silver Lantern is visible in the left hand throughout the dungeon, with its blue flame.
+  The Silver Lantern hangs from a carry handle gripped in the left fist throughout
+  the dungeon, with its blue flame visible below the hand.
   His own gatekeeper origin and motive appear before descent; the shared background
   still supplies its chosen starting modifiers. Older Wayfarer saves retain their
   learned lessons and receive the new choices on future levels.

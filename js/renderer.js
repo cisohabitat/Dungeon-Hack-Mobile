@@ -542,7 +542,7 @@ const Renderer = (() => {
     } else if (v.shield) {
       // a Bash drives the shield in toward the middle of the view, rim first, and brings it home
       const lantern = v.shield === 'wayfarer_lantern';
-      const [x, y] = lantern ? [W * 0.19, H * 0.87] : at('shield'), sh = bashing === 'shield' ? shove : 0;
+      const [x, y] = lantern ? [W * 0.23, H * 0.63] : at('shield'), sh = bashing === 'shield' ? shove : 0;
       put(Assets.carried(v.shield, v.cls), x + dx - hurt * 4 + sh * W * 0.3, y + dy + cast * H * 0.4 + put_down + hurt * 6 - sh * H * 0.16, 1 - sh * 0.14);
     } else if (v.offhand) {
       const [x, y] = at('left');
