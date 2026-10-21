@@ -446,3 +446,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] Personal gatekeeper opening, carried silver lantern and exclusive talents/lessons.
 - [x] Record the final three-set progression comparison and require full Chromium,
   Safari mobile and performance checks for v0.9.15 publication.
+
+## Held equipment review (21 October 2026)
+
+- [x] Cached intermediate cuts and attached recovery; staff/spear drive and staff casting.
+- [x] Fitted bow nocks, string contact and draw flex; visual release uses combat timing.
+- [x] Named bow markings and shield rim identity; restrained surface glints.
+- [x] Object bounds for short views, with forearms allowed beyond the edge.

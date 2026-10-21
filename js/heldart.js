@@ -35,8 +35,15 @@ const deg = d => d * Math.PI / 180;
 const POSES = {
   rest:    { a: deg(-100), arm: deg(52) },
   windup:  { a: deg(-58), arm: deg(86) },
+  drawback:{ a: deg(-79), arm: deg(69) },
+  strike:  { a: deg(-105), arm: deg(53) },
   cut:     { a: deg(-152), arm: deg(20) },
+  sweep:   { a: deg(-176), arm: deg(23) },
   through: { a: deg(-200), arm: deg(26) },
+  recover: { a: deg(-150), arm: deg(39) },
+  return:  { a: deg(-123), arm: deg(46) },
+  drive:   { a: deg(-94), arm: deg(48) },
+  channel: { a: deg(-112), arm: deg(58) },
   fist:    { a: deg(-96), arm: deg(58), bare: true },
   punch:   { a: deg(-92), arm: deg(46), bare: true },
   left:    { a: deg(-78), arm: deg(130), left: true },
@@ -57,6 +64,27 @@ function moved(p, f) {
   else if (p.k === 'sheet' || p.k === 'dots' || p.k === 'specks') q.pts = p.pts.map(([x, y]) => f(x, y));
   else { [q.x1, q.y1] = f(p.x1, p.y1); [q.x2, q.y2] = f(p.x2, p.y2); }
   return q;
+}
+
+// Only the object reserves view space; its forearm continues off the screen.
+// These marks are measured once, with the cached pose, rather than per frame.
+function weaponMarks(parts, angle, centre) {
+  const points = [], tips = [];
+  for (const p of parts) {
+    if (p.pts) { points.push(...p.pts); tips.push(...p.pts); }
+    else if (p.k === 'ball') {
+      points.push([p.x - p.rx, p.y - p.ry], [p.x + p.rx, p.y + p.ry]); tips.push([p.x, p.y]);
+    } else {
+      const r = Math.max(p.r1 || 0, p.r2 || 0, 0.5);
+      points.push([p.x1 - r, p.y1 - r], [p.x1 + r, p.y1 + r], [p.x2 - r, p.y2 - r], [p.x2 + r, p.y2 + r]);
+      tips.push([p.x1, p.y1], [p.x2, p.y2]);
+    }
+  }
+  if (!points.length) return {};
+  const projection = p => (p[0] - centre) * Math.cos(angle) + (p[1] - centre) * Math.sin(angle);
+  const tip = tips.reduce((a, b) => projection(a) > projection(b) ? a : b);
+  return { min: [Math.min(...points.map(p => p[0])) - 1, Math.min(...points.map(p => p[1])) - 1],
+    max: [Math.max(...points.map(p => p[0])) + 1, Math.max(...points.map(p => p[1])) + 1], tip };
 }
 
 /**
@@ -148,13 +176,16 @@ const BOWS = {
   shortbow: { seg: 4.8, r: 1.35, taper: 0.17, flare: -0.8, wood: '#9a6a3a', nock: '#6a4424', wrap: 3.4, nockLen: 0 },
   longbow: { seg: 6.3, r: 1.3, taper: 0.13, flare: 0, wood: '#5a3218', nock: '#e2d4b0', wrap: 4.4, nockLen: 2.6, sap: '#b88a54' },
 };
-function bowParts(cls, base, id = null) {
+function bowParts(cls, base, id = null, draw = 0) {
   const name = namedId(id);
   const detail = { horizon: { wood: '#c6b99a', nock: '#62667c', sap: '#e1b9f5' }, heartseeker: { wood: '#87503b', nock: '#eee0bd' }, galewind: { wood: '#ac895c', nock: '#e5e6cd' }, farstrider: { wood: '#302c38', nock: '#bdc6cf', sap: '#8c969e' } }[name];
   const B = { ...BOWS[base], ...detail };
   const a = deg(-94);
   const ux = Math.cos(a), uy = Math.sin(a), vx = -uy, vy = ux;
-  const P = (u, v = 0) => [C + ux * u + vx * v, C + uy * u + vy * v];
+  const P = (u, v = 0) => {
+    const bend = draw * 2.4 * (u / (B.seg * 4)) ** 2;
+    return [C + ux * u + vx * (v + bend), C + uy * u + vy * (v + bend)];
+  };
   const stave = [];
   for (let i = -4; i < 4; i++) {
     const r0 = B.r - Math.abs(i + 0.5) * B.taper, r1 = B.r - Math.abs(i + 1.5) * B.taper;
@@ -174,7 +205,7 @@ function bowParts(cls, base, id = null) {
   const bands = B.wrap > 4 ? [-3.3, -1.65, 0, 1.65, 3.3] : [-2.4, -0.8, 0.8, 2.4];
   const h = hand(C, C, a, deg(150), cls, { left: true });
   return {
-    grid: GRID, anchor: [C, C], marks: { top: P(-tip, end), bot: P(tip, end) },
+    grid: GRID, anchor: [C, C], marks: { top: P(-tip, end), bot: P(tip, end), min: [C - 5, C - tip - 2], max: [C + 7, C + tip + 2] },
     parts: [
       ...h.behind,
       ...stave,
@@ -184,6 +215,11 @@ function bowParts(cls, base, id = null) {
       ...bands.map(u => hair(...P(u, -1.6), ...P(u, 1.6), '#3a2414')),
       ...(name ? [-1, 1].map(s => limb(...P(s * 11, -1), ...P(s * 14, -1), 1.7, 1.7, B.nock)) : []),
       ...(name === 'heartseeker' ? [ball(...P(7), 1.8, 1.8, '#b54a51')] : []),
+      ...(name === 'horizon' ? [-13, 13].flatMap(u => [
+        limb(...P(u, -2), ...P(u, 2), 0.6, 0.6, '#9392ad'), ball(...P(u, 1.3), 0.9, 0.9, '#e1b9f5'),
+      ]) : []),
+      ...(name === 'galewind' ? [-11, 11].map(u => sheet([P(u - 2, 0), P(u, -2.2), P(u + 2.5, 0), P(u, 1)], '#ddd8ac')) : []),
+      ...(name === 'farstrider' ? [-13, 13].map(u => sheet([P(u - 2, -1), P(u + 2, -3), P(u + 2, 1)], '#8c969e')) : []),
       ...h.front,
     ],
   };
@@ -196,11 +232,12 @@ function bowParts(cls, base, id = null) {
  */
 function shieldParts(base, cls, id = null) {
   const name = namedId(id);
+  const rimColour = name === 'sisters_buckler' ? '#dfe4e1' : RIM;
   const round = base === 'buckler' || base === 'quillshield';
   const arm = deg(146), wx = Math.cos(arm), wy = Math.sin(arm);
-  const rim = round ? [ball(C, C, 10.6, 10.6, base === 'quillshield' ? '#4a3020' : RIM)]
-    : base === 'towershield' ? [sheet([[C - 11, C - 9], [C - 8, C - 13.5], [C + 8, C - 13.5], [C + 11, C - 9], [C + 11, C + 17], [C - 11, C + 17]], RIM)]
-    : [sheet([[C - 11.5, C - 12], [C + 11.5, C - 12], [C + 11.5, C - 3], [C + 8, C + 6], [C, C + 12.5], [C - 8, C + 6], [C - 11.5, C - 3]], RIM)];
+  const rim = round ? [ball(C, C, 10.6, 10.6, base === 'quillshield' ? '#4a3020' : rimColour)]
+    : base === 'towershield' ? [sheet([[C - 11, C - 9], [C - 8, C - 13.5], [C + 8, C - 13.5], [C + 11, C - 9], [C + 11, C + 17], [C - 11, C + 17]], rimColour)]
+    : [sheet([[C - 11.5, C - 12], [C + 11.5, C - 12], [C + 11.5, C - 3], [C + 8, C + 6], [C, C + 12.5], [C - 8, C + 6], [C - 11.5, C - 3]], rimColour)];
   const face = round ? [ball(C, C, 9.3, 9.3, base === 'quillshield' ? '#6a4428' : WOOD)]
     : base === 'towershield' ? [sheet([[C - 9.6, C - 8.5], [C - 7.4, C - 12], [C + 7.4, C - 12], [C + 9.6, C - 8.5], [C + 9.6, C + 15.6], [C - 9.6, C + 15.6]], WOOD)]
     : [sheet([[C - 10, C - 10.5], [C + 10, C - 10.5], [C + 10, C - 3.2], [C + 7.2, C + 5.2], [C, C + 10.8], [C - 7.2, C + 5.2], [C - 10, C - 3.2]], WOOD)];
@@ -212,7 +249,7 @@ function shieldParts(base, cls, id = null) {
   const h = hand(C, C, deg(-90), arm, cls, { left: true });
   const strap = (w, r) => limb(C + wx * w - wy * r, C + wy * w + wx * r, C + wx * w + wy * r, C + wy * w - wx * r, 1, 1, LEATHER);
   return {
-    grid: GRID, anchor: [C, C],
+    grid: GRID, anchor: [C, C], marks: { min: [C - 16, C - 16], max: [C + 16, C + 18] },
     parts: [
       ...rim,
       ...(base === 'quillshield' ? Array.from({ length: 30 }, (_, i) => {
@@ -245,7 +282,7 @@ function shieldParts(base, cls, id = null) {
 function heldParts(id, pose, cls, two = false, lit = false) {
   const P = POSES[pose];
   const base = id && namedBase(id), name = namedId(id);
-  if (base && BOWS[base]) return bowParts(cls, base, id);
+  if (base && BOWS[base]) return bowParts(cls, base, id, pose === 'bowfull' ? 1 : pose === 'bowdraw' ? 0.5 : 0);
   const behind = [], front = [];
   let weapon = [];
   // a weapon too long for the usual room gets more of it
@@ -277,7 +314,7 @@ function heldParts(id, pose, cls, two = false, lit = false) {
   }
   const a = base && GRIPS[base].fixed ? -Math.PI / 2 : P.a;
   const h = hand(c, c, a, P.arm, cls, { open: !!P.open, bare: !!P.bare, left: !!P.left, lit });
-  return { grid, anchor: [c, c], parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
+  return { grid, anchor: [c, c], marks: weaponMarks(weapon, a, c), parts: [...behind, ...h.behind, ...weapon, ...front, ...h.front] };
 }
 
 /** The back of a shield, by its sprite. */
@@ -329,7 +366,7 @@ function focusParts(base, cls, name = null) {
   const size = 0.62, lift = 5;
   const item = art().map(p => moved(p, (x, y) => [C + (x - 16) * size, C + (y - 16) * size - lift]));
   const h = hand(C, C + 4, deg(-90), deg(128), cls, { left: true, open: true });
-  return { grid: GRID, anchor: [C, C], parts: [...h.behind, ...item, ...h.front] };
+  return { grid: GRID, anchor: [C, C], marks: weaponMarks(item, -Math.PI / 2, C), parts: [...h.behind, ...item, ...h.front] };
 }
 
 export { heldParts, carriedParts, POSES, HAND_COLORS };

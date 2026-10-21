@@ -444,6 +444,18 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   view and on equipment/time resets; move the entire grip and cage together.
   Held throwing knives and Vashti use one blade; keep their pack fans unchanged.
   Carry the Quill Shield from behind with a closed grip and forearm strap, not as a focus.
+  `heldview.js` owns presentation-only melee paths and fitting from cached object
+  bounds, excluding sleeves. Resting left-hand gear fits within the left 42% of
+  the view so full shield rims cannot cover the square ahead. Off-hand strikes
+  may reach inward. Use the fitted placement for bow nocks, string and
+  drawing hand together. Lower carried bows during left-hand actions and omit the
+  spare fist. Resolve named handling through `namedBase`, not suffix matching;
+  bow release is 0.72 and knife release 0.4 of the existing swing, as in combat.js.
+  Cache intermediate poses and draw-flex frames; never paint item parts per frame.
+  Surface glints follow existing named sprite materials, never read hidden powers
+  or enchantments, never add world lights,
+  and are omitted in Calm view. `held-equipment.spec.js` covers fitting, contact,
+  release and non-duplicated hands in both Chromium sizes and mobile WebKit.
   Portrait sources/exports and its lantern sprite retain the hood, sword and blue
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
