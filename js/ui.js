@@ -714,6 +714,9 @@ const UI = (() => {
     const at = performance.now();
     if (!now && !hudDirty && at - hudAt < 100) return;
     hudAt = at; hudDirty = false;
+    const intentEl = fixedEl('#combat-intent'), intent = !preluding && G.status === 'playing' ? Renderer.intent : '';
+    if (intentEl.textContent !== intent) intentEl.textContent = intent;
+    intentEl.hidden = !intent;
     GearTools.renderBelt($('#quick-belt'));
     const quiet = at > logLivelyUntil && !L.monsters.some(m => m.awake && m.hp > 0 && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     const log = $('#log');
@@ -726,7 +729,7 @@ const UI = (() => {
     // life and spell points as they should show this moment: what a draught
     // gave is on the bars once it is down
     const vit = Game.vitals();
-    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.renown || 0, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, p.webbed > G.t, (p.dazzled || 0) > G.t, p.hexed && p.hexed.until > G.t ? p.hexed.kind : '', p.held > G.t, !!p.grabbed, p.mirrors || 0, p.riposteUntil > G.t, p.shadowUntil > G.t, secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
+    const sig = [vit.hp, p.maxHp, vit.sp, p.maxSp, p.food, p.gold, G.depth, p.dir, p.level, p.renown || 0, p.poison ? left(p.poison.until) : 0, secs('ac'), secs('hit'), secs('might'), secs('boon_ac'), secs('boon_hit'), p.x, p.y, champ ? champ.uid : 0, left(p.webbed || 0), left(p.dazzled || 0), p.hexed && p.hexed.until > G.t ? p.hexed.kind + left(p.hexed.until) : '', left(p.held || 0), p.grabbed ? left(p.grabbed.until || 0) || 'grip' : '', p.mirrors || 0, left(p.riposteUntil || 0), left(p.shadowUntil || 0), secs('crew_hit'), L.press || 0, L.twist || '', p.smokeUntil > G.t ? left(p.smokeUntil) : 0, houndSig(), p.coating ? p.coating.t + p.coating.left : '', Game.bountyChip(), Game.shapeChip(), Game.testingOn() || Game.tested(), underfoot(), L.quake && L.quake.falls.some(f => f.x === p.x && f.y === p.y) ? 'rock' : '', ventUnder() ? 'vent' : ''].join('|');
     if (sig === hudSig) return;
     hudSig = sig;
     $('#hud-name').textContent = p.name;
@@ -755,11 +758,11 @@ const UI = (() => {
     // a floor readier for a strong hero says so while you are on it
     if (L.twist && TWISTS[L.twist]) st.push(`<span class="${L.twist === 'market' || (L.twist === 'overgrown' && p.cls === 'druid') ? 'good' : 'bad'}" title="${escapeHtml(TWISTS[L.twist].chip)}">${escapeHtml(TWISTS[L.twist].name)}</span>`);
     if ((L.press || 0) > 0) st.push(`<span class="bad" title="You are ahead of most who come this far, and this floor's creatures are readier for it">Foes +${Game.pressSturdier(L)}%</span>`);
-    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : p.heldBy === 'snare' ? 'Snared' : 'Frozen'}</span>`);
-    if (p.webbed > G.t) st.push('<span class="bad">Webbed</span>');
-    if ((p.dazzled || 0) > G.t) st.push('<span class="bad" title="A glimmer moth\'s flare: your blows go wide until it fades">Dazzled</span>');
-    if (p.hexed && p.hexed.until > G.t) st.push(p.hexed.kind === 'silence' ? '<span class="bad" title="A goblin hexer\'s hex: no spells until it lifts">Silenced</span>' : '<span class="bad" title="A goblin hexer\'s hex: your steps and blows come slow until it lifts">Slowed</span>');
-    if (p.grabbed) st.push('<span class="bad">Grabbed</span>');
+    if (p.held > G.t) st.push(`<span class="bad">${p.heldBy === 'down' ? 'Knocked down' : p.heldBy === 'stone' ? 'Stone' : p.heldBy === 'snare' ? 'Snared' : 'Frozen'} ${left(p.held)}s</span>`);
+    if (p.webbed > G.t) st.push(`<span class="bad">Webbed ${left(p.webbed)}s</span>`);
+    if ((p.dazzled || 0) > G.t) st.push(`<span class="bad" title="A glimmer moth\'s flare: your blows go wide until it fades">Dazzled ${left(p.dazzled)}s</span>`);
+    if (p.hexed && p.hexed.until > G.t) st.push(p.hexed.kind === 'silence' ? `<span class="bad" title="A goblin hexer\'s hex: no spells until it lifts">Silenced ${left(p.hexed.until)}s</span>` : `<span class="bad" title="A goblin hexer\'s hex: your steps and blows come slow until it lifts">Slowed ${left(p.hexed.until)}s</span>`);
+    if (p.grabbed) st.push(`<span class="bad">Grabbed${p.grabbed.until > G.t ? ` ${left(p.grabbed.until)}s` : ''}</span>`);
     // what the hero stands in, which the view cannot show under their own feet: a burning
     // arrow looks for oil, and an acolyte's lightning for water
     const under = underfoot();
@@ -777,8 +780,8 @@ const UI = (() => {
     if (p.smokeUntil > G.t) st.push(`<span class="good" title="Lost in your smoke: what was near has lost you">In smoke ${left(p.smokeUntil)}s</span>`);
     if (secs('crew_hit')) st.push(`<span class="good" title="The crew you buried march with you: +2 to hit">Crew's song ${Math.ceil(secs('crew_hit') / 60)}m</span>`);
     if (p.mirrors > 0) st.push(`<span class="good">Images \u00d7${Number(p.mirrors)}</span>`);
-    if (p.riposteUntil > G.t) st.push('<span class="good">Riposte ready</span>');
-    if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push('<span class="good">In shadow</span>');
+    if (p.riposteUntil > G.t) st.push(`<span class="good">Riposte ready ${left(p.riposteUntil)}s</span>`);
+    if (p.shadowUntil > G.t && (p.talents || []).includes('shadow_step')) st.push(`<span class="good">In shadow ${left(p.shadowUntil)}s</span>`);
     // a Berserker's rage is worth seeing grow
     if (Game.berserkerRage() > 0) st.push(`<span class="good" title="Berserker: +${Game.berserkerRage()} damage on every blow${p.hp < p.maxHp / 2 ? ', and a quicker swing' : ''}">Rage +${Game.berserkerRage()}${p.hp < p.maxHp / 2 ? ', frenzied' : ''}</span>`);
     if (secs('hit')) st.push(`<span class="good">Blessed ${secs('hit')}s</span>`);
@@ -802,6 +805,7 @@ const UI = (() => {
     for (const span of [...$('#hud-status').children]) {
       const button = document.createElement('button'); button.type = 'button';
       button.className = span.className; button.innerHTML = span.innerHTML; button.title = span.getAttribute('title') || '';
+      button.dataset.tone = span.classList.contains('bad') ? 'warning' : span.classList.contains('good') ? 'benefit' : 'note';
       button.dataset.guideTab = span.classList.contains('bounty') ? 'quests' : hound && span.textContent.startsWith(hound.name) ? 'companions' : 'effects';
       button.dataset.statusKey = span.className + ':' + span.textContent.replace(/[0-9]+/g, '');
       button.setAttribute('aria-label', `${span.textContent}. Show details`); span.replaceWith(button);

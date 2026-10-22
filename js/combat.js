@@ -110,12 +110,12 @@ export function makeCombat(K) {
   const weapon = (/** @type {any[]} */ ...a) => K.weapon(...a);
 
   // ---------- combat ----------
-  function floatText(m, text, color) {
+  function floatText(m, text, color, outcome = '') {
     // words over the same creature at nearly the same moment stack a line apart
     // ('weak!' over its number, an off-hand blow over the main one), not on top
     const x = m.rx + 0.5, y = m.ry + 0.5, born = K.realNow + K.fxDelay;
     const lift = fx.texts.filter(t => t.x === x && t.y === y && Math.abs(t.born - born) < 300).length;
-    fx.texts.push({ x, y, text: String(text), color, born, until: born + 750, lift });
+    fx.texts.push({ x, y, text: String(text), color, born, until: born + 750, lift, outcome });
   }
   // A missile is seen to fly: a knife spun, a stone slung, an arrow loosed,
   // leaving the hand at its moment in the throw (a fraction of the swing) and
@@ -251,7 +251,7 @@ export function makeCombat(K) {
     if (crit && capped('shadows_edge') && !mb.boss && m.hp <= m.maxHp / 3 && dmg < m.hp) { dmg = m.hp; floatText(m, 'cut down', '#ffb040'); }
     // a thief's blow from the shadows finds the gaps in an Armoured champion's plates, and spends them
     if (sneak && m.elite === 'Armoured' && !m.plated) { m.plated = true; log(`Your blow from the shadows finds the gaps in the ${mb.name}'s plates!`, 'good'); }
-    damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note);
+    damageMonster(m, dmg, open ? 'opening' : crit ? (rip ? 'riposte-crit' : (lucky ? 'lucky' : 'crit')) : (sneak ? 'sneak' : (rip ? 'riposte' : null)), open ? '' : note, crit);
     // what a felling blow gives back: Quick Smoke (the foe fell in the smoke), Swift Draw (the next arrow
     // is nocked at once) and Dire Bear (the one behind is thrown down)
     if (!lvl().monsters.includes(m) || m.hp <= 0 || m.collapsed) {
@@ -349,7 +349,7 @@ export function makeCombat(K) {
   /** What hurts a monster without being a blow struck or shot: an Armoured champion's plates do not turn it. */
   // (nor the goblin you spared, whose knife knows where the gaps are)
   const NOT_BLOWS = new Set(['burn', 'burning', 'blaze', 'fire', 'bleed', 'venom', 'poison', 'snare', 'rockfall', 'shock', 'thorns', 'spared', 'trap']);
-  function damageMonster(m, dmg, tag, note) {
+  function damageMonster(m, dmg, tag, note, critical = tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky') {
     // the lich, wrapped in shadow while its fight turns, cannot be hurt: each
     // act gets its moment instead of three going by in as many blows
     // a spell flies over the Warlord's shield-bearers: on his throne it is the one thing that reaches him
@@ -420,7 +420,7 @@ export function makeCombat(K) {
       const hard = dmg / Math.max(1, m.maxHp);
       if (tag !== 'burning' && tag !== 'blaze' && tag !== 'venom') spray(m, null, hard + (tag === 'crit' || tag === 'riposte-crit' || tag === 'opening' ? 0.4 : 0), hard >= 0.3 || m.hp <= 0);
     }
-    floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'));
+    floatText(m, dmg, tag === 'crit' || tag === 'riposte-crit' || tag === 'lucky' || tag === 'opening' ? '#ff4' : (tag === 'fire' || tag === 'burn' ? '#f84' : '#fff'), critical ? 'critical' : 'damage');
     { const o = heard(m, { tag, gore: K.GORE_OF[m.id], w: tag === 'companion' || wild.shaped() ? 'fists' : tag === 'offhand' ? P().eq.offhand.t : P().eq.weapon ? P().eq.weapon.t : 'fists' }); soon(() => Sound.play('hit', o)); }
     buzz(12);
     if (m.hp <= 0) {

@@ -1,3 +1,15 @@
+// Names describe only the wind-up already shown, never an unrevealed ability.
+const INTENTS = { crush: 'Crushing blow', charge: 'Charging', web: 'Spinning a web', mend: 'Mending', nova: 'Gathering a blast', grab: 'Reaching to grab', paralyse: 'Paralysing touch', rite: 'Performing a rite', drum: 'Beating the drum', gaze: 'Fixing its gaze', dazzle: 'Gathering a flare', thrust: 'Thrusting', snatch: 'Reaching to snatch', hex: 'Casting a hex', rust: 'Reaching to corrode', rally: 'Rallying', drink: 'Drinking', blink: 'Preparing to blink', bristle: 'Raising quills', parry: 'Ready to parry', breath: 'Drawing fiery breath', firepot: 'Throwing fire', firearrow: 'Aiming a fire arrow', chill: 'Breathing frost', storm: 'Calling lightning', snare: 'Setting a snare', flare: 'Gathering a flare', stamp: 'Stamping', enlarge: 'Growing', aim: 'Taking aim', sweep: 'Sweeping blow' };
+export function intentLabel(windup, kind, volley) {
+  if (windup?.kind === 'pet') return 'Attacking companion';
+  if (volley) return 'Firing a volley';
+  return windup?.move ? (Object.hasOwn(INTENTS, windup.move) ? INTENTS[windup.move] : 'Preparing a trick') : kind === 'shot' ? 'Aiming a shot' : kind === 'magic' ? 'Casting' : 'Drawing back to strike';
+}
+
+export function combatText(text, outcome) {
+  return outcome === 'critical' ? `CRIT ${text}` : outcome === 'damage' ? `−${text}` : text === 'miss' ? 'MISS' : text;
+}
+
 // A small mark where a blow lands, below the face and its warning symbol.
 // No pause or camera movement: the fight keeps its own time.
 export function drawMeleeImpact(ctx, impact, x, y, radius, calm) {

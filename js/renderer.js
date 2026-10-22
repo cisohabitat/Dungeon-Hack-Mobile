@@ -4,7 +4,7 @@ import { THEMES } from './data.js';
 import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 import { makeSpellFx } from './spellfx.js';
 import { makeOverlay } from './overlay.js';
-import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat } from './meleeview.js';
+import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } from './meleeview.js';
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
 
@@ -1119,8 +1119,9 @@ const Renderer = (() => {
   // off it is, and how many of the view's pixels each of its own covers
   /** @type {{top: number, bottom: number, dist: number, texel: number, markX?: number, markY?: number, markSize?: number, midX?: number, width?: number}[]} */
   const shown = [];
-  /** @type {{text: string, x: number, y: number, half: number}[]} where each floating word was written this frame: for the tests */
+  /** @type {{text: string, label: string, x: number, y: number, half: number}[]} where each floating word was written this frame: for the tests */
   const numbers = [];
+  let intent = '', intentDistance = Infinity, intentCount = 0;
   const FLOOR_BEHIND = 0.45;
   const drawOrder = [];   // what the last frame drew, back to front: 'floor' or 'stand', for the tests
   const litLast = [];     // what the last frame warmed with firelight, and how much, for the tests
@@ -1418,6 +1419,7 @@ const Renderer = (() => {
     dressedN = 0;
     shown.length = 0;
     numbers.length = 0;
+    intent = ''; intentDistance = Infinity; intentCount = 0;
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const flames = flamesOf(level, lights, sprites, fx, now);
     litLast.length = 0; leanedN = 0; afflictedN.n = 0; glintsN = 0; lanternN = 0;
@@ -1549,6 +1551,12 @@ const Renderer = (() => {
       const pushed = s.tell && markLow > markAt + markSize * 0.5;
       const markX = pushed ? Math.min(W - markSize, Math.round(screenX + Math.min(sw * 0.3 + markSize * 0.7, sw * 0.4))) : Math.round(screenX);
       if (s.maxHp != null && seenR >= 0 && s.tell) Object.assign(shown[shown.length - 1], { markX, markY, markSize, midX: screenX, width: sw });
+      // Only a sprite that survived the ordinary visibility and wall-column
+      // checks can contribute words. Packs name their marked leader once.
+      if (s.maxHp != null && seenR >= 0 && s.tell && s.intent) {
+        intentCount++;
+        if (tY < intentDistance) { intentDistance = tY; intent = s.intent; }
+      }
       // an ogre up close is taller than the view: its bar stays inside it,
       // and under the mark when a tip has pushed the mark down
       if (barred) {
@@ -1624,7 +1632,7 @@ const Renderer = (() => {
     ctx.lineJoin = 'round';
     const marked = shown.some(m => m.markSize);
     for (const t of fx.texts) {
-      const text = t.text === 'miss' ? 'MISS' : t.text;
+      const text = combatText(t.text, t.outcome);
       if (now < t.born) continue;          // a number from a fireball still in the air
       const sx = t.x - px, sy = t.y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
@@ -1639,19 +1647,27 @@ const Renderer = (() => {
       // when both are pressed against the top of the view (they used to meet there)
       const line = (t.lift || 0) * (textPx + 1);
       const yAt = a => Math.max(textPx + 2 + line, Math.min(H - 10, H / 2 + hFull * 0.05 - a * 22 - line));
-      const y = yAt(age);
+      let y = yAt(age);
       // A number whose climb passes through a warning mark would hide the one
       // thing that says a blow is coming: it rises beside the mark instead,
       // the whole way up, rather than jumping aside as it reaches it.
-      let x = screenX;
       // (a word is measured once, not every frame: a fight is full of them)
       if (t.halfAt !== textPx) { t.half = ctx.measureText(text).width / 2 + 2; t.halfAt = textPx; }
       const half = t.half, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
-      if (marked) for (const m of shown) {
-        if (!m.markSize) continue;
-        const reach = m.markSize * 0.62 + 2;
-        if (lo > m.markY - m.markSize - 2 && hi < m.markY + 2 && Math.abs(x - m.markX) < reach + half) {
-          x = m.markX + reach + half <= W ? m.markX + reach + half : m.markX - reach - half;
+      const fitX = value => Math.max(half, Math.min(W - half, value));
+      let x = fitX(screenX);
+      if (marked) {
+        const warnings = shown.filter(m => m.markSize && lo > m.markY - m.markSize - 2 && hi < m.markY + 2);
+        const fits = value => warnings.every(m => Math.abs(value - m.markX) >= m.markSize * 0.62 + 3 + half);
+        if (!fits(x)) {
+          const candidates = warnings.flatMap(m => [fitX(m.markX + m.markSize * 0.62 + 3 + half), fitX(m.markX - m.markSize * 0.62 - 3 - half)]).filter(fits);
+          if (candidates.length) x = candidates.reduce((a, b) => Math.abs(a - screenX) <= Math.abs(b - screenX) ? a : b);
+          else {
+            // A wide critical receipt may fit on neither side of a crowd's
+            // marks. Keep it below them, or omit it if that would leave the view.
+            y = Math.max(y, ...warnings.map(m => m.markY + textPx + 4));
+            if (y > H - 4) continue;
+          }
         }
       }
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
@@ -1661,7 +1677,7 @@ const Renderer = (() => {
       ctx.strokeText(text, x, y);
       ctx.fillStyle = t.color;
       ctx.fillText(text, x, y);
-      numbers.push({ text: t.text, x, y, half });
+      numbers.push({ text: t.text, label: text, x, y, half });
       ctx.globalAlpha = 1;
     }
 
@@ -1796,7 +1812,7 @@ const Renderer = (() => {
     const ramp = (TELLS[palette] || TELLS.standard)[special ? 'special' : 'normal'];
     return ramp[tell >= 1 ? 2 : tell > 0.5 ? 1 : 0];
   }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get intent() { return intent ? intent + (intentCount > 1 ? ` · +${intentCount - 1} readying` : '') : ''; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

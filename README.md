@@ -72,6 +72,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Brief BLOCK, DODGED and MISSED YOU receipts distinguish avoided attacks from
   damage; flank misses no longer paint the damage rim red. Calm view keeps
   flank warnings steady. Attack timing, armour checks and damage stay the same.
+  A text strip names the nearest visible foe's current wind-up, including shots,
+  spells and charges; it never names a foe hidden behind stone or outside the view.
+  Damage numbers carry a minus sign and critical hits say CRIT, so colour is not
+  the only distinction. Short conditions show seconds remaining; their scrollable
+  chip row keeps 44px touch targets without covering the fight. The death screen
+  adds advice for the recorded killing source and a disclosure of conditions at
+  the fall, alongside the killing blow and final messages.
 
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings

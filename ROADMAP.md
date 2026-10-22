@@ -333,6 +333,7 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] **Collection browsing**: remembered Field notes/Gallery layout, search of discovered text, folded discovery/region/type filters, and New markers cleared through inspection. Title and Journal share browsing selections without revealing unknown entries or changing game state.
 - [x] **Boss portraits**: painted Dread Lich, Goblin Warlord and Heartforged introductions, held until dismissed; portraits unlock in the bestiary on meeting them, with a closer look and offline support.
 - [x] **Melee feedback preview**: short marks where close blows land, distinct blunt and blade shapes, a metallic ring when an Armoured foe turns a blade, and a pale rim for the final quarter of an enemy wind-up. Calm view uses a smaller, still mark; combat timing stays the same.
+- [x] **Combat clarity**: visible foe intent text, explicit critical/damage labels, short-condition countdowns, bounded touchable status rows, and death advice with conditions at the fall; preserve combat rules, timing and visibility.
 - [x] **Burning Hands preview**: a compact flare at impact and a few fading embers; Calm view keeps a small, still target glow. Damage, cost and timing stay the same.
 - [x] **Elemental feedback**: the fire scroll and Flame Strike share the fire impacts; cold spells and scrolls fracture into frost, with a brittle crack; lightning uses steady branching arcs. Calm view keeps only small, still impacts. Scrolls keep their existing impact delays, and Insect Plague keeps its separate swarm.
 

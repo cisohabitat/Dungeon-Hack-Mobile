@@ -454,6 +454,7 @@
           <button id="feet" class="feet" data-tap="take" hidden><span class="feet-icons"></span><small>Take</small></button>
           <canvas id="minimap" width="90" height="90" title="Open map"></canvas>
         </div>
+        <div id="combat-intent" class="combat-intent" role="status" aria-live="polite" aria-atomic="true" hidden></div>
         <!-- the history opens from its own button, in the corner furthest from
              the d-pad: the whole log used to be a button, right above it -->
         <div class="log-more-anchor"><button id="log-more" class="log-more" aria-label="Message history">≡ Log</button></div>
@@ -730,6 +731,7 @@
       <div class="row voice-controls" data-voice-context="end" hidden><button type="button" data-voice-toggle>Pause narration</button><button type="button" data-voice-stop>Skip narration</button><label>Voice volume <input data-voice-volume type="range" min="0" max="100" step="5" value="85"></label></div>
       <div id="end-epilogue" class="epilogue"></div>
       <div id="end-cause" class="cause"></div>
+      <div id="end-lesson" class="end-summary" hidden></div>
       <section id="end-goal" class="return-goal" aria-labelledby="end-goal-heading" hidden></section>
       <div id="end-summary" class="end-summary"></div>
       <div id="end-stats" class="stats end-stats"></div>
