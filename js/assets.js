@@ -1478,9 +1478,9 @@ const Assets = (() => {
     const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true, grid: gridOf(k) });
     const s = makeSprite(def(), scale);
     const painted = (sprite, pose) => {
-      if (scale || k !== 'drow_warrior') return;
-      bindPaintedCreature(sprite, pose);
-      for (const e of ELITES) bindPaintedCreature(sprite.elite[e.prefix], pose, e.tint);
+      if (scale) return;
+      bindPaintedCreature(sprite, k, pose);
+      for (const e of ELITES) bindPaintedCreature(sprite.elite[e.prefix], k, pose, e.tint);
     };
     painted(s, 'idle');
     // a champion drawn as itself is painted from its own parts, poses and all, into
@@ -1490,6 +1490,7 @@ const Assets = (() => {
       if (CHAMPION_OF[id] !== k || !MONSTERS[id] || MONSTERS[id].sprite !== k) continue;
       const own = pose => ({ parts: CHAMPIONS[id](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: false, fine: true, grim: true, grid: gridOf(k) });
       s.elite[id] = makeSprite(own(), scale);
+      if (!scale) bindPaintedCreature(s.elite[id], id);
       champs.push({ id, own });
     }
     if (fine) {
@@ -1509,7 +1510,10 @@ const Assets = (() => {
         s[pose] = ps;
         // (the finer painting's champions are found through the pose: see finerOf)
         if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];
-        for (const c of champs) { const o = s.elite[c.id]; o[pose] = makeSprite(c.own(pose), scale); ps.elite[c.id] = o[pose]; }
+        for (const c of champs) {
+          const o = s.elite[c.id]; o[pose] = makeSprite(c.own(pose), scale); ps.elite[c.id] = o[pose];
+          if (!scale) bindPaintedCreature(o[pose], c.id, pose);
+        }
         if (fine) {
           ps.near = fine(x => x[pose]);
           // (the finer painting is itself painted a piece at a time: a pose of it may not be there yet)

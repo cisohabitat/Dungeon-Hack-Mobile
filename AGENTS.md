@@ -103,13 +103,21 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps the Dark Elf Warrior's existing pose objects to
-  an approved nine-pose atlas, selected only by the renderer. Keep procedural
+  `js/paintedcreatures.js` maps thirteen creatures' existing pose objects to
+  approved nine-pose atlases, selected only by the renderer. Each kind has its
+  own lazy image and palette cache; one failed atlas cannot disable another.
+  Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
+  while other named champions retain their own procedural identities. Keep procedural
   objects, motion, warnings, elite identities and the renegade companion intact.
   Decode only on demand; build shade/flash canvases once between frames and
   switch a complete palette together, falling back during loading or failure.
   The 256px cells are registered to body centres and foot baselines by
-  `python3 art/creatures/export.py`; `--check` reproduces the shipped atlas.
+  `python3 art/creatures/export.py` for the warrior;
+  `python3 art/creatures/export-batch.py` handles the next twelve, requiring
+  Pillow, NumPy, SciPy and ImageMagick. `--check` reproduces shipped bytes.
+  Batch sources and replacements are listed in `generation-batch.json`.
+  Do not invent game actions for unused atlas cells: creatures without a
+  `special` pose keep their existing wind-up fallback.
   Sources stay under `art/creatures/`, exports under `img/creatures/`; review both
   before recording hashes. `painted-creatures.spec.js` covers cached poses,
   lighting, elite colours, dice, warnings, occlusion, failure and offline reload.
@@ -597,6 +605,11 @@ a pushed change as verified.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
   three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
   to `main`.
+  `tools/install-browser.sh` retries the same browser/dependency install up to
+  three times for transient package-mirror failures. Exhaustion fails the job;
+  it never skips a browser project or changes test retries and assertions.
+  On GitHub runners it replaces the stalled Azure Ubuntu mirror with Ubuntu's
+  canonical HTTPS archive; package signature verification stays enabled.
 - `.githooks/pre-push` checks the version against the remote main commit, then
   runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
@@ -743,6 +756,10 @@ and its raw records live in `docs/balance/2026-10-16/`.
   so the seven-second reading timer cannot expire during initial art work.
 - A browser test that waits for a monster's blow to land must allow for
   misses: take the hero's armour off, or give it several seconds.
+- Playwright 1.59's `waitForFunction` treats an async predicate's Promise as
+  truthy rather than polling its eventual boolean. Import a module once through
+  `page.evaluate`, then poll a synchronous predicate using that captured function.
+  Do not relax assertions or deadlines to compensate for unfinished atlas work.
 - A creature's poses, champions and close-up are painted after its plain
   picture, in spare moments: a test about how one is drawn calls `artReady(page)`
   (helpers.js) first. When asserting specific poses, pass their names, for

@@ -1,6 +1,19 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v102';
+const CACHE = 'deepdelve-v103';
 const ASSETS = [
+  './img/creatures/hound.webp',
+  './img/creatures/wyrm.webp',
+  './img/creatures/lizardfolk.webp',
+  './img/creatures/dwarf_arbalest.webp',
+  './img/creatures/slime.webp',
+  './img/creatures/rustmaw.webp',
+  './img/creatures/skarrow.webp',
+  './img/creatures/drow_mage.webp',
+  './img/creatures/grey_dwarf.webp',
+  './img/creatures/lizard_shaman.webp',
+  './img/creatures/eyeless.webp',
+  './img/creatures/puffcap.webp',
+
   './js/paintedcreatures.js', './img/creatures/drow_warrior.webp',
   './js/heldview.js', './js/collectionview.js',
   './js/hiddenhero.js', './js/spellblade.js', './img/portraits/spellblade.webp',

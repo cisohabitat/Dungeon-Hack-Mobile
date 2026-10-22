@@ -3,11 +3,11 @@
 const links = new WeakMap();
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 const shades = [0, 0.25, 0.45, 0.62, 0.78];
-const palettes = new Map();
-let image = null, state = 'idle';
+const kinds = new Set(['drow_warrior', 'hound', 'wyrm', 'lizardfolk', 'dwarf_arbalest', 'slime', 'rustmaw', 'skarrow', 'drow_mage', 'grey_dwarf', 'lizard_shaman', 'eyeless', 'puffcap']);
+const atlases = new Map();
 
-function bindPaintedCreature(sprite, pose = 'idle', tint = '') {
-  links.set(sprite, { pose, tint });
+function bindPaintedCreature(sprite, kind, pose = 'idle', tint = '') {
+  if (kinds.has(kind)) links.set(sprite, { kind, pose, tint });
 }
 
 function canvas() {
@@ -22,7 +22,8 @@ function wash(base, colour, amount) {
   return c;
 }
 
-function palette(tint) {
+function palette(atlas, tint) {
+  const { palettes, image } = atlas;
   if (palettes.has(tint)) return;
   palettes.set(tint, null);
   const frames = {};
@@ -41,29 +42,32 @@ function palette(tint) {
         flash: wash(base, '#fff', 0.85),
       };
       if (++i < poses.length) setTimeout(next, 0);
-      else { palettes.set(tint, frames); if (!tint) state = 'ready'; }
-    } catch { state = 'failed'; }
+      else { palettes.set(tint, frames); if (!tint) atlas.state = 'ready'; }
+    } catch { atlas.state = 'failed'; }
   };
   setTimeout(next, 0);
 }
 
-function load() {
-  state = 'loading'; image = new Image();
+function load(kind) {
+  const atlas = { state: 'loading', image: new Image(), palettes: new Map() };
+  atlases.set(kind, atlas);
+  const { image } = atlas;
   image.onload = () => {
-    if (image.naturalWidth !== 768 || image.naturalHeight !== 768) { state = 'failed'; return; }
-    palette('');
+    if (image.naturalWidth !== 768 || image.naturalHeight !== 768) { atlas.state = 'failed'; return; }
+    palette(atlas, '');
   };
-  image.onerror = () => { state = 'failed'; };
-  image.src = 'img/creatures/drow_warrior.webp';
+  image.onerror = () => { atlas.state = 'failed'; };
+  image.src = `img/creatures/${kind}.webp`;
+  return atlas;
 }
 
 function paintedCreature(sprite) {
   const link = links.get(sprite);
   if (!link) return sprite;
-  if (state === 'idle') load();
-  if (state !== 'ready') return sprite;
-  const frames = palettes.get(link.tint);
-  if (!frames) { palette(link.tint); return sprite; }
+  const atlas = atlases.get(link.kind) || load(link.kind);
+  if (atlas.state !== 'ready') return sprite;
+  const frames = atlas.palettes.get(link.tint);
+  if (!frames) { palette(atlas, link.tint); return sprite; }
   return frames[link.pose] || sprite;
 }
 
