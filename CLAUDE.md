@@ -472,6 +472,16 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
 
 ## Visual presentation
 
+- Combat warning glyphs come from the actual wind-up kind and base creature
+  sprite, including named variants. Group leaders retain special/boss metadata;
+  followers never duplicate the mark. Special tricks keep their burst and
+  exclamation; ordinary shots use an arrow and ranged magic a diamond.
+  `meleeview.js` draws transient defence receipts from `fx.defence`, never saved
+  state. Only genuine shield deflections say BLOCK. Avoided blows must not set
+  the damage rim or consume dice; new/load clears receipts and damage takes
+  priority. Calm flank chevrons retain urgency through size/brightness without
+  pulsing. `melee-feedback.spec.js` covers outcomes, expiry, dice and glyphs.
+
 - Portrait views can use up to 464 buffer rows; keep the CSS view cap at 1.45
   times its width so pixels stay square. Held-equipment checks include this
   tallest buffer. A ResizeObserver fits the buffer when log, belt or HUD layout

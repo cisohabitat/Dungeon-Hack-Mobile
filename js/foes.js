@@ -127,6 +127,11 @@ export function makeFoes(K) {
     for (let i = 1; i < dist; i++) if (!K.passable(m.x + dx * i, m.y + dy * i)) return null;
     return dist;
   }
+  // An avoided blow is feedback, never damage: keep it out of the red rim.
+  function defence(m, kind) {
+    const bearing = K.relativeBearing(m);
+    K.fx.defence = { kind, rel: bearing ? bearing.rel : 0, at: K.realNow, until: K.realNow + 700 };
+  }
   function rangedAttack(m) {
     const mb = K.mstat(m), r = mb.ranged;
     m.lungeAt = K.realNow;
@@ -136,12 +141,13 @@ export function makeFoes(K) {
     const ac = K.playerAC();
     const note = K.rollNote(roll, mb.hit, ac, roll === 20);
     Sound.play(m.id === 'archer' ? 'arrow' : 'darkbolt', K.heard(m));
-    if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { K.log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
-    if (K.hasTalent('evasion') && rnd() < 1 / 3) { K.log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
+    if (roll === 1 || (roll !== 20 && roll + mb.hit < ac)) { defence(m, 'miss'); K.log(`The ${mb.name} ${r.verb} you and misses.${note}`); return; }
+    if (K.hasTalent('evasion') && rnd() < 1 / 3) { defence(m, 'dodge'); K.log(`You twist aside as the ${mb.name} ${r.verb} you.`, 'good'); return; }
     // a mage's Shield is woven against exactly this: bolts of magic break on it
     if (m.id !== 'archer' && K.effectFrom('ac', 'shield')) {
       K.log(`The ${mb.name} ${r.verb} you, and it breaks on your Shield.`, 'good');
       Sound.play('block', K.heard(m));
+      defence(m, 'block');
       return;
     }
     let dmg = Math.max(1, d(...r.dmg));
@@ -172,17 +178,17 @@ export function makeFoes(K) {
       // (a bear's shield stays behind, and turns nothing)
       const onShield = p.eq.shield && !K.shaped() && roll !== 1 && roll + hit >= ac - ITEMS[p.eq.shield.t].ac - (ITEMS[p.eq.shield.t].focus ? 0 : p.eq.shield.e || 0);
       Sound.play(onShield ? 'block' : 'whiff', K.heard(m));
+      defence(m, onShield ? 'block' : 'miss');
       const miss = K.relativeBearing(m);
       K.log(`The ${mb.name} ${missed || 'misses you'}${miss && miss.rel !== 0 ? ` ${miss.word}` : ''}.${note}`, miss && miss.rel !== 0 ? 'bad' : '');
-      if (miss && miss.rel !== 0) { K.fx.hurtFrom = miss.rel; K.fx.hurtFromUntil = K.realNow + 700; }
       return false;
     }
     // a Trickster slips an ordinary blow now and then; a warned trick is not so easily slipped
-    if (!heavy && K.tricksterSlip()) { K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
+    if (!heavy && K.tricksterSlip()) { defence(m, 'dodge'); K.log(`You slip aside from the ${mb.name}'s blow.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
     // Vanish: the first blow from each foe finds the hero gone (the mirror of Opening Blow)
-    if (!heavy && !m.vanishedOn && K.capped('vanish')) { m.vanishedOn = true; K.log(`The ${mb.name} strikes at where you were, and you are not there.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
+    if (!heavy && !m.vanishedOn && K.capped('vanish')) { m.vanishedOn = true; defence(m, 'dodge'); K.log(`The ${mb.name} strikes at where you were, and you are not there.`, 'good'); Sound.play('whiff', K.heard(m)); K.legends.mocked(m); return false; }
     // Wild Bulwark: a snared foe's blows at the Warden swing at the air
-    if (!heavy && m.snaredUntil > K.G.t && K.capped('wild_bulwark')) { K.log(`The ${mb.name} tears at the cord and its blow swings wide.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
+    if (!heavy && m.snaredUntil > K.G.t && K.capped('wild_bulwark')) { defence(m, 'dodge'); K.log(`The ${mb.name} tears at the cord and its blow swings wide.`, 'good'); Sound.play('whiff', K.heard(m)); return false; }
     // a sellsword at your side may step into an ordinary blow and take it
     if (!heavy && K.companionGuards(m, mb)) return false;
     // rounded, since a blow and a half (the tail's sweep) would otherwise leave half a point of hurt
@@ -1472,7 +1478,7 @@ export function makeFoes(K) {
     }
     m.volley.left--;
     if (!inReach || m.volley.left <= 0) {
-      if (!inReach) { K.log(`The rest of the ${mb.name}s swing at the air where you stood.`, 'good'); m.pressing = true; }
+      if (!inReach) { defence(m, 'dodge'); K.log(`The rest of the ${mb.name}s swing at the air where you stood.`, 'good'); m.pressing = true; }
       m.nextAct = Math.max(G.t + 120, m.volley.next);
       m.volley = null;
     } else m.nextAct = G.t + K.BLOW_GAP;
@@ -1505,6 +1511,7 @@ export function makeFoes(K) {
         return;
       }
     } else {
+      defence(m, 'dodge');
       K.log(w.kind === 'melee' ? `The ${mb.name} swings at the air where you stood.` : `The ${mb.name}'s shot flies wide as you move.`, 'good');
       Sound.play('whiff', K.heard(m));
       // made to miss, it presses in: the next blow is drawn back faster, so

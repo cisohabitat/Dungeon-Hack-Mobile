@@ -225,6 +225,9 @@ export function makeMotion(K) {
       const tell = m.volley ? 1 : m.windup ? Math.min(1, Math.max(0.05, (K.G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
       // a monster's own trick is marked in violet, so it reads as more than a blow
       const special = !!(m.windup && m.windup.move);
+      // Keep named variants with their base art: arrows, darts and spears
+      // share a shot symbol, while workings carry a diamond.
+      const tellKind = m.windup?.kind === 'shot' ? (['archer', 'kobold', 'dwarf_arbalest', 'warlord'].includes(mb.sprite) ? 'shot' : 'magic') : 'melee';
       // just struck, it reels: its flinching picture, through the white of the hit and a
       // moment after, unless it is winding up, whose warning must never be hidden
       const reeling = !tell && now >= (m.flashAt || 0) && now < (m.flashUntil || 0) + REEL_MS;
@@ -256,7 +259,7 @@ export function makeMotion(K) {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reaction, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, special, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, reaction, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, tellKind, special, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > K.G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;
@@ -269,7 +272,7 @@ export function makeMotion(K) {
         const b2 = mb.fly ? Math.sin(now / 250 + m.uid + i * 1.7) * 0.05 : 0;
         const mo = motion(m, now, i, i === 0 ? tell : 0);
         sprites.push({ x: m.rx + 0.5 + sx * side + ax * back + mo.dx, y: m.ry + 0.5 + sy * side + ay * back + mo.dy, img: i === 0 ? shown : walking, ...(i === 0 ? { reaction, reeling, aff, step } : {}), scale: mb.scale * 0.88 * big, yOff: (mb.fly || 0) + b2 + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery && i === 0 ? FIERY_GLOW : 0,
-          flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { impact, hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell } : {}) });
+          flash: i === 0 && now >= (m.flashAt || 0) ? m.flashUntil : 0, ...(i === 0 ? { impact, hp: now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp, maxHp: m.maxHp, tell, tellKind, special, boss: !!mb.boss || m === topNamed } : {}) });
       });
     }
     // flames standing on a burning square (its glow on the floor is drawn by the renderer),

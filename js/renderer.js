@@ -4,7 +4,7 @@ import { THEMES } from './data.js';
 import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
 import { makeSpellFx } from './spellfx.js';
 import { makeOverlay } from './overlay.js';
-import { drawMeleeImpact } from './meleeview.js';
+import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat } from './meleeview.js';
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
 
@@ -1610,15 +1610,7 @@ const Renderer = (() => {
         const fillTop = bottom - (bottom - top) * rise;
         ctx.fillRect(tx - size, fillTop, size * 2, bottom - fillTop + 1);
         ctx.restore();
-        // A dark outline keeps the pale exclamation readable against both
-        // the unfilled mark and its bright fill, throughout the wind-up.
-        const mx = s.special ? cy - size * 0.3 : ty - size * 0.68, mh = s.special ? size * 0.34 : size * 0.38;
-        ctx.fillStyle = '#1a0a08';
-        ctx.fillRect(tx - 2, mx - 1, 4, mh + 2);
-        ctx.fillRect(tx - 2, mx + mh + 1, 4, 4);
-        ctx.fillStyle = '#fff0cf';
-        ctx.fillRect(tx - 1, mx, 2, mh);
-        ctx.fillRect(tx - 1, mx + mh + 2, 2, 2);
+        drawTellGlyph(ctx, s.special ? 'melee' : s.tellKind, tx, ty, size);
       }
     }
 
@@ -1749,26 +1741,11 @@ const Renderer = (() => {
       for (const t of fx.threats) {
         if (drawn.has(t.rel)) continue;        // one per side; nearest wins, it is sorted first
         drawn.add(t.rel);
-        // big and bright enough to catch the corner of the eye mid-fight
-        const a = t.tell ? 0.85 + 0.15 * Math.sin(now / 45) : (t.near ? 0.75 + 0.25 * Math.sin(now / 110) : 0.6);
-        const s = t.tell ? 17 : (t.near ? 14 : 11);
-        let cx, cy, ang;
-        if (t.rel === 1) { cx = W - 14; cy = H / 2; ang = 0; }
-        else if (t.rel === 3) { cx = 14; cy = H / 2; ang = Math.PI; }
-        else { cx = W / 2; cy = H - 14; ang = Math.PI / 2; }
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(ang);
-        ctx.globalAlpha = a;
-        ctx.lineJoin = 'round';
-        ctx.beginPath();
-        ctx.moveTo(-s * 0.6, -s); ctx.lineTo(s * 0.5, 0); ctx.lineTo(-s * 0.6, s);
-        ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(0,0,0,0.85)'; ctx.stroke();
-        ctx.lineWidth = 4.5; ctx.strokeStyle = '#ff4030'; ctx.stroke();
-        ctx.restore();
+        drawThreat(ctx, t, now, calm, W, H);
       }
       ctx.globalAlpha = 1;
     }
+    drawDefence(ctx, fx.defence, now, W, H, keepClear, !!fx.boss, shown);
     // a thief's smoke: a grey haze, thickest at the edges, thinning as it clears
     if (now < (fx.smokeUntil || 0)) {
       const a = Math.min(1, (fx.smokeUntil - now) / 800);
