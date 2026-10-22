@@ -979,6 +979,7 @@ export function makeCombat(K) {
       if (msg) msg += ' (The rime of your Shield holds it back.)';
     }
     noteTaken(dmg, from, cause);
+    if (dmg > 0) fx.defence = null;
     p.hp -= dmg;
     // (with endless life on for testing, no blow is the last)
     if (aids.on('hp') && p.hp < 1) { p.hp = p.maxHp; K.G.tested = true; }

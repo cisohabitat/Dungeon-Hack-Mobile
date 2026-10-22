@@ -61,6 +61,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   equipment icons are larger, and new devices start with Compact bags; choosing
   the full grid is remembered without changing the twenty-square capacity.
 
+- **Clearer combat warnings.** Ordinary attack triangles carry an exclamation
+  for a close blow, an arrow for a missile and a diamond for ranged magic.
+  Special tricks retain their larger spiked warning, including grouped foes.
+  Brief BLOCK, DODGED and MISSED YOU receipts distinguish avoided attacks from
+  damage; flank misses no longer paint the damage rim red. Calm view keeps
+  flank warnings steady. Attack timing, armour checks and damage stay the same.
+
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings
   sit under **Customise hero & dungeon**; mastery goals have their own disclosure.

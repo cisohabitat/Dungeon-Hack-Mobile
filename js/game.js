@@ -60,7 +60,8 @@ const Game = (() => {
   let distField = null, distFieldAt = -1e9;
   let realNow = 0;
   const fx = { damageUntil: 0, healUntil: 0, healAt: 0, smokeUntil: 0, /** @type {{dhp: number, dsp: number, until: number}|null} */ hold: null, swingUntil: 0, castUntil: 0, shakeUntil: 0,
-               hurtFrom: -1, hurtFromUntil: 0, castColor: '#fff', texts: [], hpFrac: 1,
+               hurtFrom: -1, hurtFromUntil: 0,
+               /** @type {{kind: string, rel: number, at: number, until: number}|null} */ defence: null, castColor: '#fff', texts: [], hpFrac: 1,
                /** @type {Array<{style: string, color: string, born: number, until: number, pts: Array<{x: number, y: number}>, ahead?: {x: number, y: number}, from?: {x: number, y: number}|null}>} */ spells: [],
                swingAt: -1e9, swingMs: 300, offAt: -1e9, castAt: -1e9, readAt: -1e9, readColor: '#fe8', readKind: '',
                useAt: -1e9, useKind: '', useSprite: '', useColor: '#fff',
@@ -92,6 +93,7 @@ const Game = (() => {
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {
     fxGen++;
+    fx.defence = null;
     fx.texts = []; fx.spells = []; fx.corpses = []; fx.doors = {}; fx.bits = []; fx.stains = {}; fx.drops = []; fx.heartAt = -1; fx.deadAt = -1; fx.smokeUntil = 0; fx.landings = [];
   }
   // the phone in the hand feels the blows, a level, a death and a door forced; Vibration in the Menu turns it off
