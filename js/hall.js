@@ -1,3 +1,4 @@
+import { bindCollectionGallery } from './collectionview.js';
 import { setTracker } from './settracker.js';
 import { fillRelicPortraits } from './relicart.js';
 import { itemPicture, itemHeading, itemFacts, itemComparison } from './itemdisplay.js';
@@ -85,6 +86,7 @@ function renderBestiary(el) {
     return `<div class="beast" data-beast="${id}">${bigImg}<div>${bits.join('')}</div></div>`;
   }).join('') + '</div>';
   fillBestiaryPortraits(el);
+  bindCollectionGallery(el, '.beasts');
   // a tap (or Enter) on a met creature's picture looks at it close
   const zoom = /** @param {Event} e */ e => {
     const t = /** @type {HTMLElement} */ (e.target);
@@ -122,6 +124,7 @@ function renderCodex(el) {
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';
   fillRelicPortraits(el);
+  bindCollectionGallery(el, '.codex');
   const mythics = Object.keys(RELICS).filter(id => RELICS[id].mythic);
   const set = toCollect(), legends = Object.keys(RELICS).filter(id => RELICS[id].legend);
   return `${set.filter(id => found.includes(id)).length} of ${set.length} found · legends ${legends.filter(id => found.includes(id)).length} of ${legends.length} · mythics ${mythics.filter(id => found.includes(id)).length} of ${mythics.length}`;

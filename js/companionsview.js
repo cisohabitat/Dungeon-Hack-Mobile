@@ -1,3 +1,4 @@
+import { bindCollectionGallery } from './collectionview.js';
 import { COMPANIONS, companionBook, recoverCompanions } from './companionbook.js';
 import { Game } from './game.js';
 import { escapeHtml } from './uikit.js';
@@ -33,6 +34,7 @@ export function renderCompanions(root, state = null) {
     face.setAttribute('aria-pressed', String(face.classList.toggle('zoom')));
   };
   root.onclick = zoom; root.onkeydown = zoom;
+  bindCollectionGallery(root, '.beasts');
   return `${known.length} of ${ids.length} met`;
 }
 

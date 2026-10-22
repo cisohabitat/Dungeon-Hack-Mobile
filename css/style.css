@@ -1512,3 +1512,39 @@ body.big-text .hud-status button { white-space: normal; overflow-wrap: anywhere;
 }
 body.big-text #inv-grid { --bag-columns: 3; }
 body.big-text .map-legend { grid-template-columns: 1fr; }
+
+/* More of the dungeon, with stable touch targets and a quiet one-line log. */
+@media (orientation: portrait) {
+  body:not(.big-text) .view-wrap { max-height: calc(100vw * 1.45); }
+  body:not(.big-text) .controls { padding-top: 8px; padding-bottom: 6px; gap: 8px; }
+  body:not(.big-text) .dpad, body:not(.big-text) .actions { height: clamp(112px, 18dvh, 148px); }
+  body:not(.big-text) .view-col:not(:has(#tip.show, #quick-scroll:not([hidden]), #feet:not([hidden]))) .log.quiet {
+    flex: 0 0 48px; height: 48px; min-height: 48px;
+  }
+}
+/* Equipment remains readable around the uniformly scaled figure. */
+.equipment-figure .slot img { width: 36px; height: 36px; }
+.equipment-figure .slot .lbl { font-size: var(--t-xs); }
+.equipment-figure .slot { min-height: 72px; }
+/* The selected hero gets the portrait space; the full story is one tap away. */
+.class-intro { justify-content: center; }
+.class-intro .portrait-toggle { flex: 0 1 clamp(180px, 53vw, 224px); }
+.class-intro .portrait-toggle.expanded { flex: 0 0 calc(100% + 20px); max-width: calc(100% + 20px); margin-inline: -10px; }
+.class-intro > div { flex-basis: 100%; }
+.class-biography summary { min-height: 44px; padding: 12px 0; color: var(--gold); cursor: pointer; }
+.class-biography p { margin-bottom: 12px; }
+.class-play { margin-top: 8px; }
+/* Art and field notes are separate views of the same discovered entries. */
+.collection-layout { display: flex; gap: 8px; margin: 12px 0; }
+.collection-layout button { flex: 1; min-height: 44px; }
+.collection-layout button[aria-pressed="true"] { border-color: var(--gold); background: var(--sel-bg); color: var(--gold); }
+.collection-notes > summary { display: none; }
+.collection-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.collection-gallery > :is(.beast, .relic-row) { flex-direction: column; min-width: 0; margin: 0; padding: 10px; }
+.collection-gallery > :is(.beast, .relic-row) > div { width: 100%; min-width: 0; }
+.collection-gallery :is(.beast, .relic-row) > img { flex: none; width: 100%; height: auto; aspect-ratio: 1; max-width: none; object-fit: contain; }
+.collection-gallery .collection-notes > summary { display: list-item; min-height: 44px; padding: 10px 0; font-size: var(--t-sm); color: var(--text-soft); cursor: pointer; }
+.collection-gallery > :has(img.zoom, details[open]) { grid-column: 1 / -1; }
+.collection-gallery :is(.beast, .relic-row) > img.zoom { width: 100%; max-width: 512px; height: auto; }
+body.big-text .collection-gallery { grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 700px) { .collection-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

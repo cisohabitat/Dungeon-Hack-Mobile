@@ -341,3 +341,130 @@ test('landmark textures keep clear arches, deterministic shade caches and game s
   await testInfo.attach('landmark-surfaces', { body: Buffer.from(result.sheet, 'base64'), contentType: 'image/png' });
   expect(errors).toEqual([]);
 });
+
+// The visual review: room for the world, readable equipment, and an art-first
+// option that never changes what a hero has discovered.
+test('@mobile the quiet log gives the dungeon room and fresh warnings restore the full log', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'visual-quiet' });
+  await page.evaluate(() => { Game.skipPrelude(); Game.level().monsters = []; Game.level().items = []; });
+  await expect(page.locator('#log')).toHaveClass(/quiet/);
+  const size = await page.locator('.view-wrap').boundingBox();
+  expect(size.height).toBeGreaterThan(page.viewportSize().height * 0.45);
+  await expect.poll(() => page.locator('#view').evaluate(c => { const b = c.getBoundingClientRect(); return Math.abs((b.width / c.width) / (b.height / c.height) - 1); })).toBeLessThan(0.03);
+  for (const control of await page.locator('.dpad .ctl, .actions .ctl').all()) {
+    const box = await control.boundingBox();
+    expect(box.width).toBeGreaterThanOrEqual(44); expect(box.height).toBeGreaterThanOrEqual(44);
+  }
+  const height = (await page.locator('#log').boundingBox()).height;
+  await page.evaluate(() => Game.log('A fresh warning stays readable.', 'bad'));
+  await expect(page.locator('#log')).not.toHaveClass(/quiet/);
+  expect((await page.locator('#log').boundingBox()).height).toBeGreaterThan(height);
+  await expect.poll(() => page.locator('#view').evaluate(c => { const b = c.getBoundingClientRect(); return Math.abs((b.width / c.width) / (b.height / c.height) - 1); })).toBeLessThan(0.03);
+  await page.click('#log-more');
+  await expect(page.locator('#log-history')).toContainText('A fresh warning stays readable.');
+  expect(errors).toEqual([]);
+});
+
+test('@mobile sparse bags start compact and preserve an explicit full-grid preference', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'visual-compact' });
+  await page.click('[data-open="inv"]');
+  await expect(page.locator('#inv-compact')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(4);
+  const icon = await page.locator('.equipment-figure .slot.filled img').first().boundingBox();
+  expect(icon.width).toBeGreaterThanOrEqual(36);
+  await page.locator('#inv-compact').click();
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
+  await page.evaluate(() => Game.save(true));
+  await page.reload(); await page.click('#btn-continue'); await page.click('[data-open="inv"]');
+  await expect(page.locator('#inv-compact')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
+  expect(await page.evaluate(() => Game.INV_MAX)).toBe(20);
+  expect(errors).toEqual([]);
+});
+
+test('@mobile the first visit shows one introduction and the selected hero has an expandable biography', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.goto('/');
+  await expect(page.locator('#first-time')).toBeVisible();
+  await expect(page.locator('#game-fact')).toBeHidden();
+  await page.click('#btn-new');
+  const story = page.locator('.class-backstory');
+  await expect(story).toBeHidden();
+  expect((await page.locator('#c-portrait').boundingBox()).width).toBeGreaterThanOrEqual(180);
+  await page.locator('.class-biography summary').focus(); await page.keyboard.press('Enter');
+  await expect(story).toBeVisible();
+  await expect(story).toHaveText(await page.evaluate(() => CLASSES.fighter.story));
+  await page.locator('.class-biography summary').press('Enter');
+  await expect(story).toBeHidden();
+  expect(errors).toEqual([]);
+});
+
+test('@mobile all three collections offer galleries with expandable notes and keep unknown entries hidden', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.addInitScript(() => localStorage.setItem('deepdelve.firstSeen', '1'));
+  await page.goto('/');
+  await page.evaluate(async () => {
+    localStorage.setItem('deepdelve.bestiary', JSON.stringify({ rat: { met: 1, kills: 0 } }));
+    localStorage.setItem('deepdelve.companions', JSON.stringify(['hound']));
+    const { Progress } = await import('/js/progress.js'); Progress.noteRelic('grimtooth');
+  });
+  for (const kind of ['beasts', 'companions', 'relics']) {
+    if (kind === 'relics') { await page.click('#btn-hall'); await page.click('#hall-relics'); }
+    else await page.click(`#btn-${kind}`);
+    const root = page.locator(`#${kind}-list`), gallery = root.locator('[data-collection-layout="gallery"]');
+    await gallery.click();
+    await expect(gallery).toHaveAttribute('aria-pressed', 'true');
+    const notes = root.locator('.collection-notes').first();
+    await expect(notes).not.toHaveAttribute('open', '');
+    await notes.locator('summary').focus(); await page.keyboard.press('Enter');
+    await expect(notes).toHaveAttribute('open', '');
+    expect((await notes.boundingBox()).width).toBeGreaterThan(page.viewportSize().width * 0.65);
+    if (kind === 'beasts') {
+      await expect(notes).toContainText('Kill one to take its measure.');
+      await expect(root.locator('[data-beast="ogre"]')).toContainText('???');
+      await expect(root.locator('[data-beast="ogre"] img[role="button"]')).toHaveCount(0);
+    }
+    const AxeBuilder = require('@axe-core/playwright').default;
+    const audit = await new AxeBuilder({ page }).include(`#screen-${kind}`).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    expect(audit.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+    await root.locator('[data-collection-layout="notes"]').click();
+    await expect(notes).toHaveAttribute('open', '');
+    expect(await root.evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
+    await page.click(`#${kind}-back`);
+    if (kind === 'relics') await page.click('#hall-back');
+  }
+  expect(errors).toEqual([]);
+});
+
+test('@mobile hidden walls keep the same surface detail as ordinary stone near and far', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'surface-secrets' });
+  const result = await page.evaluate(() => {
+    const T = Dungeon.T, now = performance.now(), rs = Game.renderState(now);
+    const before = JSON.stringify(Game.state()), height = Renderer.H, calm = Renderer.calm;
+    const canvas = document.querySelector('#view'), differences = [];
+    try {
+      Renderer.setHeight(200);
+      Renderer.setCalm(true); // Compare surfaces without independently drifting dust.
+      for (const end of [8, 10]) {
+        const level = { ...Game.level(), w: 20, h: 20, theme: 0, twist: null, tiles: Array(400).fill(T.WALL), explored: new Uint8Array(400), roomId: new Int16Array(400).fill(-1), rooms: [], piece: null, lights: [], dressing: [], features: {}, locks: {}, caved: [] };
+        for (let y = 6; y <= 10; y++) for (let x = 4; x < end; x++) level.tiles[y * 20 + x] = T.FLOOR;
+        const cam = { x: 5.5, y: 8.5, angle: 0 }, fx = { ...rs.fx, view: null, doorShut: null, arriveAt: -1e9, damageUntil: 0 };
+        Renderer.render(level, cam, [], fx, now);
+        const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        level.tiles[8 * 20 + end] = T.SECRET;
+        Renderer.render(level, cam, [], fx, now);
+        const secret = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        differences.push({ distance: end - 5.5, changed: pixels.reduce((n, value, i) => n + Number(value !== secret[i]), 0) });
+      }
+      return { differences, unchanged: JSON.stringify(Game.state()) === before };
+    } finally { Renderer.setHeight(height); Renderer.setCalm(calm); }
+  });
+  expect(result.differences).toEqual([
+    { distance: 2.5, changed: 0 }, { distance: 4.5, changed: 0 },
+  ]);
+  expect(result.unchanged).toBe(true);
+  expect(errors).toEqual([]);
+});

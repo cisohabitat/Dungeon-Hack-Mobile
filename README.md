@@ -51,6 +51,16 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.
 
+- **Art and readable mobile views.** Bestiary, companion and relic collections
+  offer Field notes and Gallery layouts; Gallery puts the paintings first with
+  expandable lore and statistics, preserving what each hero has learned. The
+  selected hero has a larger portrait and a folded Backstory. On upright phones,
+  tighter controls and a quiet log leave more room for the dungeon; fresh
+  messages restore the log, and its full history stays one tap away. Distant
+  surfaces use cached softer detail while nearby textures remain crisp. Pack
+  equipment icons are larger, and new devices start with Compact bags; choosing
+  the full grid is remembered without changing the twenty-square capacity.
+
 - **A focused first run.** Choose any class and descend with the existing eight-floor,
   one-life defaults. Backgrounds, rolled or bought scores, seed and dungeon settings
   sit under **Customise hero & dungeon**; mastery goals have their own disclosure.

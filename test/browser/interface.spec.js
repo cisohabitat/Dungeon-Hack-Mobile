@@ -578,7 +578,7 @@ test.describe('interface', () => {
   });
 
   for (const setting of ['sound', 'music']) test(`dismissing a fact respects ${setting} being turned off`, { tag: '@mobile' }, async ({ page }) => {
-    await page.addInitScript(key => localStorage.setItem(`deepdelve.${key}`, 'off'), setting);
+    await page.addInitScript(key => { localStorage.setItem('deepdelve.firstSeen', '1'); localStorage.setItem(`deepdelve.${key}`, 'off'); }, setting);
     await page.goto('/');
     await page.locator('#game-fact-close').tap();
     await expect(page.locator('#game-fact')).toBeHidden();
@@ -1198,6 +1198,7 @@ for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
     await page.locator('#inv-grid .slot').nth(index).click();
     await page.locator('#item-detail button', { hasText: /^Equip$/ }).click();
     expect(await page.evaluate(() => JSON.stringify(Game.player().eq))).toBe(gear);
+    if (await page.locator('#inv-compact').getAttribute('aria-pressed') === 'true') await page.locator('#inv-compact').click();
     await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
     expect(errors).toEqual([]);
   });
@@ -1341,7 +1342,8 @@ test('@mobile bag categories and compact view preserve capacity and item actions
   await startGame(page, { cls: 'fighter', seed: 'bag-tools' });
   await page.evaluate(() => { Game.player().inv = [{ t: 'dagger', q: 1, e: 0 }, { t: 'shortsword', q: 1, e: 0 }, { t: 'leather', q: 1, e: 0 }, { t: 'potion_heal', q: 2, e: 0 }]; });
   await page.click('[data-open="inv"]');
-  await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
+  if (await page.locator('#inv-compact').getAttribute('aria-pressed') === 'true') await page.locator('#inv-compact').click();
+    await expect(page.locator('#inv-grid .slot')).toHaveCount(20);
   await page.locator('[data-bag-filter="weapon"]').click();
   await expect(page.locator('#inv-grid button')).toHaveCount(2);
   await expect(page.locator('[data-bag-filter="weapon"]')).toContainText('(2)');

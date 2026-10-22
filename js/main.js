@@ -69,6 +69,7 @@ function loop(now) {
     // (the reports count the frame rate in play, and send a run's note as it ends: only if turned on)
     Telemetry.frame(G, now, G.status === 'playing' && !UI.paused());
     if (G.status === 'playing' || G.status === 'dead' || G.status === 'won') {
+      UI.fitViewIfNeeded();
       const rs = Game.renderState(now);
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
       // a boss's bar along the top of the view: the chips and tips make way for it

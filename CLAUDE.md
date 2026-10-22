@@ -184,8 +184,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Class accents use a fixed CSS palette, never item grades or hidden quality.
   Large text hides both decorative SVGs and returns equipment to a two-column list.
   Slot-first browsing filters by existing equip restrictions; the chosen ring slot
-  must be passed explicitly when putting it on. The default All view keeps 20
-  cells; compact/filter views hide unused rows without changing inventory capacity.
+  must be passed explicitly when putting it on. New devices default to Compact; an explicit full-grid preference keeps 20
+  cells in All. Compact/filter views hide unused rows without changing inventory capacity.
   Compact rows read the CSS `--bag-columns` once per render so narrow phones and
   large text keep complete rows; resize only adds or removes blank cells, preserving
   focused item buttons. Never infer or change capacity from that column count.
@@ -267,6 +267,10 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   with hidden unmet entries, keyboard/touch zoom and sprite fallbacks. Portraits
   live in `img/companions/`; sources/crops are in `art/companions/` and use the
   shared portrait exporter. Keep all six exports and both modules cached offline.
+- `js/collectionview.js`: the shared Field notes/Gallery switch for bestiary,
+  companions and relics, on the title and in the Journal. Gallery notes use native
+  disclosures; switching back to Field notes restores all notes. Never discover
+  entries, reveal hidden traits or alter game state while changing layout.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
@@ -465,6 +469,28 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   silver-lantern identity. The class unlock is not a save dependency.
   Locked class-picker fixtures enumerate the six public heroes; dedicated unlock
   fixtures cover the seventh, including its portrait and biography.
+
+## Visual presentation
+
+- Portrait views can use up to 464 buffer rows; keep the CSS view cap at 1.45
+  times its width so pixels stay square. Held-equipment checks include this
+  tallest buffer. A ResizeObserver fits the buffer when log, belt or HUD layout
+  changes, as well as rotation. The observer only marks fitting pending; the game
+  animation frame flushes it before drawing. This avoids Safari resize-loop errors
+  and clearing a freshly drawn frame. Preserve projection, fog, lighting and visibility distances.
+- The quiet log keeps a 48px strip after six seconds without new messages and
+  no awake foe within six squares. Tips, quick scrolls and floor pickups retain
+  the roomy log. Fresh messages restore it; full history remains under Log.
+  Large text and landscape retain their existing log/control layouts.
+- Distant surface detail uses cached softened variants beyond three squares,
+  never creature art, doors or lock plates. Hidden secret walls must use the
+  same distant filter as ordinary stone; pixel comparisons cover both distances. No surface painting repeats per
+  frame, and original near textures and light/shade levels remain unchanged.
+  Soft wall canvases use `willReadFrequently: true`, matching the CPU-backed
+  source textures so column draws do not repeatedly read GPU textures back.
+- The first-time title card takes priority over a random greeting for that
+  visit. Hero biographies are native disclosures below the selected portrait;
+  class changes reset both the portrait zoom and biography.
 
 ## Checks
 

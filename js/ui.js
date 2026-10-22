@@ -714,6 +714,9 @@ const UI = (() => {
     if (!now && !hudDirty && at - hudAt < 100) return;
     hudAt = at; hudDirty = false;
     GearTools.renderBelt($('#quick-belt'));
+    const quiet = at > logLivelyUntil && !L.monsters.some(m => m.awake && m.hp > 0 && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
+    const log = $('#log');
+    if (log.classList.contains('quiet') !== quiet) { log.classList.toggle('quiet', quiet); fitLog(log); }
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
@@ -939,6 +942,7 @@ const UI = (() => {
     btn.querySelector('small').textContent = quaffs ? 'Quaff' : label;
     btn.setAttribute('aria-label', label === 'Quaff' ? 'Quaff a healing draught' : quaffs ? 'Quaff: no known healing draught' : `Cast ${label}`);
   }
+  let logLivelyUntil = 0;
   function refreshLog() {
     const G = Game.state();
     // count messages ever written, not the length of a capped array
@@ -946,14 +950,20 @@ const UI = (() => {
     const now = performance.now();
     if (!G || (G.logSeq === logCount && !(logDue && now >= logDue))) return;
     logCount = G.logSeq;
+    logLivelyUntil = now + 6000;
     const held = G.log.filter(e => e.at > now);
     logDue = held.length ? Math.min(...held.map(e => e.at)) : 0;
     const el = $('#log');
+    el.classList.remove('quiet');
     // a Bestiary note shows while it is the newest line, then gives way to the
     // fight: in the short box it was pushing the blows out (it stays in the history)
     const live = G.log.filter(e => !e.gone && !(e.at > now));
     el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${escapeHtml(e.c)}">${logLine(e.m)}</div>`).join('');
     access.readLog();
+    fitLog(el);
+  }
+  /** Keep whole recent lines when the log changes height. @param {HTMLElement} el */
+  function fitLog(el) {
     // Lines wrap on a narrow phone, so four of them can overflow the panel.
     // Drop whole old lines rather than leave half of one clipped at the top;
     // the full history is a tap on Log away. The panel stacks from the bottom, so
@@ -969,6 +979,12 @@ const UI = (() => {
   }
   // Render exactly as many rows as the box the view was given has room for,
   // so its pixels stay square however tall the phone is.
+  let viewFitPending = false;
+  // The game frame fits before drawing, never during observer delivery or after paint.
+  function fitViewIfNeeded() {
+    if (!viewFitPending) return;
+    viewFitPending = false; fitView(); miniSig = '';
+  }
   function fitView() {
     if (!$('#screen-game').classList.contains('active')) return;
     const box = $('#view').parentElement.getBoundingClientRect();
@@ -1659,6 +1675,7 @@ const UI = (() => {
     refreshTitle();
     // (a resize may move between layouts: the corner map and the docked one are drawn afresh)
     window.addEventListener('resize', () => { fitView(); miniSig = ''; if (overlay === 'map') renderMap(); });
+    new ResizeObserver(() => { viewFitPending = true; }).observe($('.view-wrap'));
   }
 
   // ---------- titlemenu: see titlemenu.js ----------
@@ -1747,7 +1764,7 @@ const UI = (() => {
     },
   });
 
-  return { voicePlaying: () => narration.active(), init, paused, fitView, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
+  return { voicePlaying: () => narration.active(), init, paused, fitView, fitViewIfNeeded, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** The title's key art, which picture and how it lies: for the tests. */

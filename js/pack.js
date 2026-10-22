@@ -72,7 +72,7 @@ export function makePack(K) {
   function bindPack() {
     window.addEventListener('resize', fitBagRows);
     new ResizeObserver(fitFigure).observe($('.equipment-figure'));
-    compact = K.store('deepdelve.packCompact') === '1';
+    compact = K.store('deepdelve.packCompact') !== '0';
     for (const button of $('#ov-inv').querySelectorAll('[data-bag-filter]')) button.addEventListener('click', () => {
       slotTarget = ''; filter = button.dataset.bagFilter; K.selectedItem = null; K.selectedSlot = null; renderInv();
     });
