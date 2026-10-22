@@ -608,6 +608,8 @@ a pushed change as verified.
   `tools/install-browser.sh` retries the same browser/dependency install up to
   three times for transient package-mirror failures. Exhaustion fails the job;
   it never skips a browser project or changes test retries and assertions.
+  On GitHub runners it replaces the stalled Azure Ubuntu mirror with Ubuntu's
+  canonical HTTPS archive; package signature verification stays enabled.
 - `.githooks/pre-push` checks the version against the remote main commit, then
   runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
