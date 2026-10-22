@@ -10,6 +10,7 @@ import { heldParts, carriedParts } from './heldart.js';
 import { makeWallDecor } from './walldecor.js';
 import { makePortrait } from './portraits.js';
 import { makeRegionArt } from './regionart.js';
+import { bindPaintedCreature } from './paintedcreatures.js';
 
 /** The edge a legendary piece wears, on the floor, in the pack and in the hand: warmer than a relic's gold. */
 const LEGEND_EDGE = '#ffa040';
@@ -1476,6 +1477,12 @@ const Assets = (() => {
   function creaturePieces(k, scale, fine = null) {
     const def = pose => ({ parts: CREATURES[k](pose), shadow: FLOATING.has(k) ? 0 : 1, elites: true, named: named(k), fine: true, grim: true, grid: gridOf(k) });
     const s = makeSprite(def(), scale);
+    const painted = (sprite, pose) => {
+      if (scale || k !== 'drow_warrior') return;
+      bindPaintedCreature(sprite, pose);
+      for (const e of ELITES) bindPaintedCreature(sprite.elite[e.prefix], pose, e.tint);
+    };
+    painted(s, 'idle');
     // a champion drawn as itself is painted from its own parts, poses and all, into
     // the place its wash would take, so whatever looks a champion up finds it there
     const champs = [];
@@ -1498,6 +1505,7 @@ const Assets = (() => {
     const rest = groups.map(group => () => {
       for (const pose of group) {
         const ps = makeSprite(def(pose), scale);
+        painted(ps, pose);
         s[pose] = ps;
         // (the finer painting's champions are found through the pose: see finerOf)
         if (!scale) for (const e in ps.elite) s.elite[e][pose] = ps.elite[e];

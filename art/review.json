@@ -1,7 +1,7 @@
 {
   "date": "2026-10-19",
   "scope": "All 114 shipped paintings: 50 bestiary, three bosses, six classes, two title compositions, six companions and 47 relic portraits. Visual source/export review; not a claim about every procedural animation frame.",
-  "finding": "Repaired the Dark Elf Warrior sword connection and refreshed six hero paintings. Lich, Warlord and Heartforged are bestiary creatures: their current paintings directly match the creature entries in brushwork, upper-body framing, characteristic equipment and dungeon habitat; they are shared by bestiary and introductions. Source/export anatomy and equipment continuity visually reviewed. The approved 19 October hero refinement preserves identities with clearer expressions and quieter backgrounds; all six source crops and shipped exports were visually inspected. The four approved relic sheets and all 47 exports were inspected for identity, connected construction and crop edges; captions were removed from exported portraits. The five 19 October bestiary repairs were inspected as full-resolution sources and 512px exports: Lizardfolk turtle-shell shield, clearer Arbalest crossbow, faceless Slime, less-obscured Blink Hound anatomy, and separated Rustmaw mandibles and legs.",
+  "finding": "Repaired the Dark Elf Warrior sword connection and refreshed six hero paintings. Lich, Warlord and Heartforged are bestiary creatures: their current paintings directly match the creature entries in brushwork, upper-body framing, characteristic equipment and dungeon habitat; they are shared by bestiary and introductions. Source/export anatomy and equipment continuity visually reviewed. The approved 19 October hero refinement preserves identities with clearer expressions and quieter backgrounds; all six source crops and shipped exports were visually inspected. The four approved relic sheets and all 47 exports were inspected for identity, connected construction and crop edges; captions were removed from exported portraits. The five 19 October bestiary repairs were inspected as full-resolution sources and 512px exports: Lizardfolk turtle-shell shield, clearer Arbalest crossbow, faceless Slime, less-obscured Blink Hound anatomy, and separated Rustmaw mandibles and legs. The approved Dark Elf Warrior dungeon atlas was reviewed as source and shipped export: nine frontal poses, alternating legs, registered feet/body centres, connected paired swords, lighting and guard warning readability.",
   "sha256": {
     "art/bestiary/overrides/drow_warrior.png": "5bc81d238ecefca93a2e88cecf838f081fcdb1e6b7d8bf84a6019903850dbb6c",
     "art/bestiary/overrides/dwarf_arbalest.png": "e814b05d41e710253576d3686a6f84cae55216041f6293eebe0a065b292004f0",
@@ -170,7 +170,9 @@
     "img/relics/whisper.webp": "ed87134f51e0d93f862effadbb4459e016e82badcc220cf93deeb83d76dbd91b",
     "art/portraits/spellblade.png": "02856a8fd167fac49a9bdaae640193bc5cc76b89cf8b91b9eee7d588e5c9d227",
     "art/portraits/spellblade-epic.png": "52ca6797ea9d84bb6c192a38c75776d650226d9cd871350fc32f853ccd0bfb05",
-    "img/portraits/spellblade.webp": "605ca4e640d5b17025df130530e2a28f9508b59d26a6b277fb58c4df7e74e346"
+    "img/portraits/spellblade.webp": "605ca4e640d5b17025df130530e2a28f9508b59d26a6b277fb58c4df7e74e346",
+    "art/creatures/drow_warrior.png": "45e313983986de742906ea562b60ecc79771eaa47fc4a9c9d0f1fb124f48e252",
+    "img/creatures/drow_warrior.webp": "b4e707d14e401556e57078715fa8f1ef6317598f77b19e066604cc9ef49444f4"
   },
   "proceduralReview": {
     "scope": "All creature poses, champion defaults, shade gear, base and named item icons; base and named first-person weapons in rest/windup/cut/through; carried named shields/foci; encounter props, floor dressing and fallback class portraits. Reviewed rendered inspection sheets for obvious disconnected parts.",

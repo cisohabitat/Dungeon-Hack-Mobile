@@ -7,6 +7,7 @@ import { makeOverlay } from './overlay.js';
 import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } from './meleeview.js';
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
+import { paintedCreature } from './paintedcreatures.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -1447,6 +1448,7 @@ const Renderer = (() => {
       let hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
       let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : (!calm && s.reaction) || s.img;
+      art = paintedCreature(art);
       // a monster winding up a blow swells a little toward you as it draws back
       let floorY = H / 2 + hFull / 2;
       // Held sideways the view is short, and a creature right in front of you

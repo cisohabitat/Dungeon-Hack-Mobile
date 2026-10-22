@@ -1,6 +1,7 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v101';
+const CACHE = 'deepdelve-v102';
 const ASSETS = [
+  './js/paintedcreatures.js', './img/creatures/drow_warrior.webp',
   './js/heldview.js', './js/collectionview.js',
   './js/hiddenhero.js', './js/spellblade.js', './img/portraits/spellblade.webp',
   './js/packmemory.js', './js/geartools.js', './js/settracker.js', './js/delveguide.js', './js/maplandmarks.js',

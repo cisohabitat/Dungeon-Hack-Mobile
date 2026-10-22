@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-22",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "source": "drow_warrior.png",
+  "references": [
+    "../bestiary/overrides/drow_warrior.png",
+    "approved full-body and nine-pose previews"
+  ],
+  "promptSummary": "Refine a transparent 3x3 Dark Elf Warrior atlas. Preserve ash-grey skin, white hair, black armour, two continuously connected curved swords held by gloved fists, frontal face and torso, and amber-left/cool-right lighting. Idle; walking with viewer-left leg forward; walking with viewer-right leg forward; two raised swords wind-up; paired downward strike; recovery; crossed-blade chest guard; hurt recoil; idle blink. Complete limbs, boots, hair and sword tips inside each tile. No floor, lettering, UI, particles or extra weapons. Separate cells with transparent space.",
+  "export": {
+    "tool": "export.py",
+    "cell": 256,
+    "rows": [
+      0,
+      355,
+      682,
+      1024
+    ],
+    "centres": [
+      296,
+      242,
+      245,
+      299,
+      252,
+      245,
+      290,
+      247,
+      243
+    ],
+    "baseline": 500,
+    "workingCell": 512,
+    "quality": 90
+  }
+}
