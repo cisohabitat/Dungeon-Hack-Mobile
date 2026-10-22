@@ -51,10 +51,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.
 
-- **Art and readable mobile views.** The Dark Elf Warrior uses
-  nine frontal poses with alternating walking legs, raised blades and a crossed
-  guard. Its painting loads on demand, keeps the normal lighting and warnings,
-  and works offline; procedural poses remain available if the picture cannot load.
+- **Art and readable mobile views.** Thirteen creatures use painted dungeon
+  poses: the Dark Elf Warrior and Mage, Blink Hound, Cave Wyrm, Skarrow,
+  Lizardfolk and Shaman, Grey Dwarf and Arbalest, Slime, Rustmaw, Eyeless Stalker
+  and Puffcap. Each painting loads on demand with its own poses, normal
+  lighting and warnings, and works offline. Skarrow keeps her distinct
+  scarred, three-horned identity; other named champions and companions keep
+  their own appearances. Procedural art remains available if an atlas cannot load.
   Bestiary, companion and relic collections
   offer Field notes and Gallery layouts; Gallery puts the paintings first with
   expandable lore and statistics, preserving what each hero has learned. Layout

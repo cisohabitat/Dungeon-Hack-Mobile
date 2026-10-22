@@ -103,13 +103,21 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps the Dark Elf Warrior's existing pose objects to
-  an approved nine-pose atlas, selected only by the renderer. Keep procedural
+  `js/paintedcreatures.js` maps thirteen creatures' existing pose objects to
+  approved nine-pose atlases, selected only by the renderer. Each kind has its
+  own lazy image and palette cache; one failed atlas cannot disable another.
+  Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
+  while other named champions retain their own procedural identities. Keep procedural
   objects, motion, warnings, elite identities and the renegade companion intact.
   Decode only on demand; build shade/flash canvases once between frames and
   switch a complete palette together, falling back during loading or failure.
   The 256px cells are registered to body centres and foot baselines by
-  `python3 art/creatures/export.py`; `--check` reproduces the shipped atlas.
+  `python3 art/creatures/export.py` for the warrior;
+  `python3 art/creatures/export-batch.py` handles the next twelve, requiring
+  Pillow, NumPy, SciPy and ImageMagick. `--check` reproduces shipped bytes.
+  Batch sources and replacements are listed in `generation-batch.json`.
+  Do not invent game actions for unused atlas cells: creatures without a
+  `special` pose keep their existing wind-up fallback.
   Sources stay under `art/creatures/`, exports under `img/creatures/`; review both
   before recording hashes. `painted-creatures.spec.js` covers cached poses,
   lighting, elite colours, dice, warnings, occlusion, failure and offline reload.

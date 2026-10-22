@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-22",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "hound": {
+      "source": "hound.png",
+      "reference": "../../img/bestiary/hound.webp",
+      "method": "crop",
+      "rows": [
+        0,
+        445,
+        830,
+        1254
+      ],
+      "centres": [
+        244,
+        235,
+        240,
+        240,
+        230,
+        240,
+        240,
+        244,
+        240
+      ],
+      "scale": 0.6
+    },
+    "wyrm": {
+      "source": "wyrm.png",
+      "reference": "../../img/bestiary/wyrm.webp",
+      "method": "crop",
+      "rows": [
+        0,
+        418,
+        836,
+        1254
+      ],
+      "centres": [
+        220,
+        220,
+        200,
+        220,
+        220,
+        200,
+        220,
+        230,
+        200
+      ],
+      "scale": 0.65
+    },
+    "lizardfolk": {
+      "source": "lizardfolk.png",
+      "reference": "../../img/bestiary/lizardfolk.webp",
+      "method": "islands",
+      "stepB": "lizardfolk-stepB.png"
+    },
+    "dwarf_arbalest": {
+      "source": "dwarf_arbalest.png",
+      "reference": "../../img/bestiary/dwarf_arbalest.webp",
+      "method": "islands"
+    },
+    "slime": {
+      "source": "slime.png",
+      "reference": "../../img/bestiary/slime.webp",
+      "method": "islands"
+    },
+    "rustmaw": {
+      "source": "rustmaw.png",
+      "reference": "../../img/bestiary/rustmaw.webp",
+      "method": "islands"
+    },
+    "skarrow": {
+      "source": "skarrow.png",
+      "reference": "../../img/bestiary/skarrow.webp",
+      "method": "islands"
+    },
+    "drow_mage": {
+      "source": "drow_mage.png",
+      "reference": "../../img/bestiary/drow_mage.webp",
+      "method": "islands",
+      "stepB": "drow_mage-stepB.png"
+    },
+    "grey_dwarf": {
+      "source": "grey_dwarf.png",
+      "reference": "../../img/bestiary/grey_dwarf.webp",
+      "method": "islands",
+      "stepB": "grey_dwarf-stepB.png"
+    },
+    "lizard_shaman": {
+      "source": "lizard_shaman.png",
+      "reference": "../../img/bestiary/lizard_shaman.webp",
+      "method": "islands"
+    },
+    "eyeless": {
+      "source": "eyeless.png",
+      "reference": "../../img/bestiary/eyeless.webp",
+      "method": "islands"
+    },
+    "puffcap": {
+      "source": "puffcap.png",
+      "reference": "../../img/bestiary/puffcap.webp",
+      "method": "islands"
+    }
+  }
+}

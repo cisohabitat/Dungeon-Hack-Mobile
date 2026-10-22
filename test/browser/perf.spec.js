@@ -94,12 +94,12 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.evaluate(() => {
     Game.level().twist = null;
-    for (const m of Game.level().monsters) if (m.id === 'orc') m.id = 'drow_warrior';
+    const kinds=['drow_warrior','hound','wyrm','skarrow','lizardfolk','dwarf_arbalest','drow_mage','lizard_shaman'];
+    let i=0;for (const m of Game.level().monsters) if (m.id === 'orc') m.id = kinds[i++%kinds.length];
   });
   await page.waitForFunction(async () => {
     const { paintedCreature } = await import('/js/paintedcreatures.js');
-    const art = Assets.sprites.drow_warrior;
-    return art && paintedCreature(art) !== art;
+    return ['drow_warrior','hound','wyrm','skarrow','lizardfolk','dwarf_arbalest','drow_mage','lizard_shaman'].map(k=>k==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[k]).map(art=>art&&paintedCreature(art)!==art).every(Boolean);
   });
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   await measure(page, cdp, 3000);
