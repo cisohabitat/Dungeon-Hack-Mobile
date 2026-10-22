@@ -39,7 +39,7 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: sh tools/install-browser.sh chromium
       - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3
       - uses: actions/upload-artifact@v4
         if: failure()
@@ -62,7 +62,7 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: sh tools/install-browser.sh chromium
       - run: npx playwright test --project=perf --workers=1
         # the first reading on a runner was 47, 48 and 60 fps against a bar of 30
         env:
@@ -79,7 +79,7 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - run: npx playwright install --with-deps webkit
+      - run: sh tools/install-browser.sh webkit
       - run: npm run test:webkit
         env:
           DEBUG: pw:browser
@@ -109,7 +109,7 @@ jobs:
         with:
           node-version: 24
       - run: npm ci
-      - run: npx playwright install --with-deps chromium
+      - run: sh tools/install-browser.sh chromium
       - run: npx playwright test --project=small
       - uses: actions/upload-artifact@v4
         if: failure()

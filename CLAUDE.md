@@ -603,6 +603,9 @@ a pushed change as verified.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
   three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
   to `main`.
+  `tools/install-browser.sh` retries the same browser/dependency install up to
+  three times for transient package-mirror failures. Exhaustion fails the job;
+  it never skips a browser project or changes test retries and assertions.
 - `.githooks/pre-push` checks the version against the remote main commit, then
   runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on
@@ -749,6 +752,10 @@ and its raw records live in `docs/balance/2026-10-16/`.
   so the seven-second reading timer cannot expire during initial art work.
 - A browser test that waits for a monster's blow to land must allow for
   misses: take the hero's armour off, or give it several seconds.
+- Playwright 1.59's `waitForFunction` treats an async predicate's Promise as
+  truthy rather than polling its eventual boolean. Import a module once through
+  `page.evaluate`, then poll a synchronous predicate using that captured function.
+  Do not relax assertions or deadlines to compensate for unfinished atlas work.
 - A creature's poses, champions and close-up are painted after its plain
   picture, in spare moments: a test about how one is drawn calls `artReady(page)`
   (helpers.js) first. When asserting specific poses, pass their names, for

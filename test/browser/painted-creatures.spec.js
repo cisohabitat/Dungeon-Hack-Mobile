@@ -6,6 +6,12 @@ const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, wa
 const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap'];
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 
+async function paintedModule(page) {
+  // This Playwright version treats an async predicate's Promise as truthy.
+  // Import once through evaluate, then poll a synchronous readiness check.
+  await page.evaluate(async()=>{window.__paintedCreature=(await import('/js/paintedcreatures.js')).paintedCreature;});
+}
+
 async function scene(page) {
   await page.addInitScript(() => { localStorage.setItem('deepdelve.sound', 'off'); localStorage.setItem('deepdelve.prelude', 'off'); });
   await startGame(page, { seed: 'combat-clarity', name: 'Art check' });
@@ -13,10 +19,12 @@ async function scene(page) {
   expect(await faceOpenGround(page, 3)).toBeGreaterThanOrEqual(3);
   await placeMonster(page, 'drow_warrior', 1, { hp: 999, maxHp: 999 });
   await artReady(page, { drow_warrior: poses.slice(1) });
+  await paintedModule(page);
 }
 async function ready(page, elite = '') {
-  await page.waitForFunction(async elite => {
-    const { paintedCreature } = await import('/js/paintedcreatures.js');
+  await paintedModule(page);
+  await page.waitForFunction(elite => {
+    const paintedCreature = window.__paintedCreature;
     const base = elite ? Assets.sprites.drow_warrior.elite[elite] : Assets.sprites.drow_warrior;
     return paintedCreature(base) !== base;
   }, elite, { timeout: 10000 });
@@ -58,13 +66,13 @@ test.describe('painted dungeon creature', () => {
     await scene(page);
     const required = await page.evaluate(async kinds=>{const {POSES}=await import('/js/creatures.js');return Object.fromEntries(kinds.filter(k=>k!=='skarrow').map(k=>[k,POSES[k]]));},kinds);
     await artReady(page, required);
-    await page.waitForFunction(async kinds => {
-      const { paintedCreature } = await import('/js/paintedcreatures.js');
+    await page.waitForFunction(kinds => {
+      const paintedCreature = window.__paintedCreature;
       return kinds.map(k => k === 'skarrow' ? Assets.sprites.wyrm.elite.skarrow : Assets.sprites[k]).map(a => paintedCreature(a) !== a).every(Boolean);
     }, kinds);
     const elite = await page.evaluate(() => ELITES[0].prefix);
-    await page.waitForFunction(async ({kinds,elite}) => {
-      const { paintedCreature } = await import('/js/paintedcreatures.js');
+    await page.waitForFunction(({kinds,elite}) => {
+      const paintedCreature = window.__paintedCreature;
       return kinds.filter(k=>k!=='skarrow').map(k=>{const a=Assets.sprites[k].elite[elite];return paintedCreature(a)!==a;}).every(Boolean);
     }, {kinds,elite});
     const results = await page.evaluate(async ({kinds,poses,elite}) => {
@@ -75,7 +83,7 @@ test.describe('painted dungeon creature', () => {
         return {h:h>>>0,n,minX,minY,maxX,maxY};};
       return {species:kinds.map(kind=>{const a=kind==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[kind];
         const supported=poses.filter(p=>p==='idle'||a[p]);
-        const frames=supported.map(p=>{const fallback=p==='idle'?a:a[p],art=paintedCreature(fallback);return {...hash(art.levels[0]),painted:art!==fallback,cached:art===paintedCreature(fallback),levels:art.levels.length};});
+        const frames=supported.map(p=>{const fallback=p==='idle'?a:a[p],art=paintedCreature(fallback);return {pose:p,...hash(art.levels[0]),painted:art!==fallback,cached:art===paintedCreature(fallback),levels:art.levels.length};});
         return {kind,frames,expected:POSES[kind==='skarrow'?'wyrm':kind].length+1,tint:kind==='skarrow'||hash(paintedCreature(a.elite[elite]).levels[0]).h!==frames[0].h};}),
         other:['orc','dog','renegade'].every(k=>paintedCreature(Assets.sprites[k])===Assets.sprites[k]),
         champion:paintedCreature(Assets.sprites.drow_mage.elite.vaelith)===Assets.sprites.drow_mage.elite.vaelith,
@@ -83,7 +91,7 @@ test.describe('painted dungeon creature', () => {
     }, {kinds,poses,elite});
     for(const species of results.species){
       expect(species.tint,species.kind).toBe(true);expect(species.frames.length,species.kind).toBe(species.expected);expect(new Set(species.frames.map(f=>f.h)).size,species.kind).toBe(species.frames.length);
-      for(const f of species.frames){expect(f.painted&&f.cached,species.kind).toBe(true);expect(f.levels).toBe(5);expect(f.n).toBeGreaterThan(1500);expect(f.minX).toBeGreaterThan(0);expect(f.minY).toBeGreaterThan(0);expect(f.maxX).toBeLessThan(255);expect(f.maxY).toBeLessThan(255);}
+      for(const f of species.frames){expect(f.painted&&f.cached,species.kind+':'+f.pose).toBe(true);expect(f.levels).toBe(5);expect(f.n).toBeGreaterThan(1500);expect(f.minX).toBeGreaterThan(0);expect(f.minY).toBeGreaterThan(0);expect(f.maxX).toBeLessThan(255);expect(f.maxY).toBeLessThan(255);}
       expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
     }
     expect(new Set(results.species.map(s=>s.frames[0].h)).size).toBe(kinds.length);
@@ -94,7 +102,7 @@ test.describe('painted dungeon creature', () => {
     const errors=watchForErrors(page);
     await page.route('**/img/creatures/hound.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
     await scene(page);await artReady(page,{hound:poses.slice(1),wyrm:poses.slice(1)});
-    await page.waitForFunction(async()=>{const {paintedCreature}=await import('/js/paintedcreatures.js');paintedCreature(Assets.sprites.hound);return paintedCreature(Assets.sprites.wyrm)!==Assets.sprites.wyrm;});
+    await page.waitForFunction(()=>{const paintedCreature=window.__paintedCreature;paintedCreature(Assets.sprites.hound);return paintedCreature(Assets.sprites.wyrm)!==Assets.sprites.wyrm;});
     expect(await page.evaluate(async poses=>{const {paintedCreature}=await import('/js/paintedcreatures.js');const a=Assets.sprites.hound;return poses.every(p=>{const s=p==='idle'?a:a[p];return paintedCreature(s)===s;});},poses)).toBe(true);
     expect(errors).toEqual([]);
   });
@@ -152,7 +160,7 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     await artReady(page,{drow_warrior:poses.slice(1)});await ready(page);
     expect(await page.evaluate(async kinds=>{for(const k of kinds){const r=await fetch('/img/creatures/'+k+'.webp');if(!r.ok||(await r.blob()).size<10000)return false;}return true;},kinds)).toBe(true);
     await artReady(page,{hound:poses.slice(1),wyrm:poses.slice(1)});
-    await page.waitForFunction(async()=>{const {paintedCreature}=await import('/js/paintedcreatures.js');return [Assets.sprites.hound,Assets.sprites.wyrm.elite.skarrow].map(a=>paintedCreature(a)!==a).every(Boolean);});
+    await page.waitForFunction(()=>{const paintedCreature=window.__paintedCreature;return [Assets.sprites.hound,Assets.sprites.wyrm.elite.skarrow].map(a=>paintedCreature(a)!==a).every(Boolean);});
     expect(errors).toEqual([]);
   }finally{
     await context.setOffline(false);
