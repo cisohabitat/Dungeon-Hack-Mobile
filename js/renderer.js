@@ -1362,7 +1362,7 @@ const Renderer = (() => {
         ctx.drawImage(shadedArch(img, Math.max(0, Math.min(20, Math.round((shade - lit / 7) * 20)))), tx, 0, 1, 64, col, top, 1, lineH);
         continue;
       }
-      const surface = dist > 3 && tile === T.WALL && !jamb && !shutAt ? softWall(img) : img;
+      const surface = dist > 3 && (tile === T.WALL || tile === T.SECRET) && !jamb && !shutAt ? softWall(img) : img;
       ctx.drawImage(surface, tx, 0, 1, 64, col, top, 1, lineH);
       if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
       if (shutAt) shutN++;

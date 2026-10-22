@@ -979,6 +979,12 @@ const UI = (() => {
   }
   // Render exactly as many rows as the box the view was given has room for,
   // so its pixels stay square however tall the phone is.
+  let viewFitPending = false;
+  // The game frame fits before drawing, never during observer delivery or after paint.
+  function fitViewIfNeeded() {
+    if (!viewFitPending) return;
+    viewFitPending = false; fitView(); miniSig = '';
+  }
   function fitView() {
     if (!$('#screen-game').classList.contains('active')) return;
     const box = $('#view').parentElement.getBoundingClientRect();
@@ -1669,7 +1675,7 @@ const UI = (() => {
     refreshTitle();
     // (a resize may move between layouts: the corner map and the docked one are drawn afresh)
     window.addEventListener('resize', () => { fitView(); miniSig = ''; if (overlay === 'map') renderMap(); });
-    new ResizeObserver(() => { fitView(); miniSig = ''; }).observe($('.view-wrap'));
+    new ResizeObserver(() => { viewFitPending = true; }).observe($('.view-wrap'));
   }
 
   // ---------- titlemenu: see titlemenu.js ----------
@@ -1758,7 +1764,7 @@ const UI = (() => {
     },
   });
 
-  return { voicePlaying: () => narration.active(), init, paused, fitView, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
+  return { voicePlaying: () => narration.active(), init, paused, fitView, fitViewIfNeeded, pumpHeld, pollPad: pad.poll, refreshHud, refreshLog, refreshMinimap, renderTitle, handleEvents, showScreen,
     isPlaying: () => $('#screen-game').classList.contains('active'), pauseIfThreatened,
     isTitle: () => $('#screen-title').classList.contains('active'),
     /** The title's key art, which picture and how it lies: for the tests. */

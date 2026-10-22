@@ -477,13 +477,16 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
 - Portrait views can use up to 464 buffer rows; keep the CSS view cap at 1.45
   times its width so pixels stay square. Held-equipment checks include this
   tallest buffer. A ResizeObserver fits the buffer when log, belt or HUD layout
-  changes, as well as rotation. Preserve projection, fog, lighting and visibility distances.
+  changes, as well as rotation. The observer only marks fitting pending; the game
+  animation frame flushes it before drawing. This avoids Safari resize-loop errors
+  and clearing a freshly drawn frame. Preserve projection, fog, lighting and visibility distances.
 - The quiet log keeps a 48px strip after six seconds without new messages and
   no awake foe within six squares. Tips, quick scrolls and floor pickups retain
   the roomy log. Fresh messages restore it; full history remains under Log.
   Large text and landscape retain their existing log/control layouts.
 - Distant surface detail uses cached softened variants beyond three squares,
-  never creature art, doors or lock plates. No surface painting repeats per
+  never creature art, doors or lock plates. Hidden secret walls must use the
+  same distant filter as ordinary stone; pixel comparisons cover both distances. No surface painting repeats per
   frame, and original near textures and light/shade levels remain unchanged.
   Soft wall canvases use `willReadFrequently: true`, matching the CPU-backed
   source textures so column draws do not repeatedly read GPU textures back.

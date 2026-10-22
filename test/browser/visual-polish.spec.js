@@ -437,3 +437,34 @@ test('@mobile all three collections offer galleries with expandable notes and ke
   }
   expect(errors).toEqual([]);
 });
+
+test('@mobile hidden walls keep the same surface detail as ordinary stone near and far', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { cls: 'fighter', seed: 'surface-secrets' });
+  const result = await page.evaluate(() => {
+    const T = Dungeon.T, now = performance.now(), rs = Game.renderState(now);
+    const before = JSON.stringify(Game.state()), height = Renderer.H, calm = Renderer.calm;
+    const canvas = document.querySelector('#view'), differences = [];
+    try {
+      Renderer.setHeight(200);
+      Renderer.setCalm(true); // Compare surfaces without independently drifting dust.
+      for (const end of [8, 10]) {
+        const level = { ...Game.level(), w: 20, h: 20, theme: 0, twist: null, tiles: Array(400).fill(T.WALL), explored: new Uint8Array(400), roomId: new Int16Array(400).fill(-1), rooms: [], piece: null, lights: [], dressing: [], features: {}, locks: {}, caved: [] };
+        for (let y = 6; y <= 10; y++) for (let x = 4; x < end; x++) level.tiles[y * 20 + x] = T.FLOOR;
+        const cam = { x: 5.5, y: 8.5, angle: 0 }, fx = { ...rs.fx, view: null, doorShut: null, arriveAt: -1e9, damageUntil: 0 };
+        Renderer.render(level, cam, [], fx, now);
+        const pixels = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        level.tiles[8 * 20 + end] = T.SECRET;
+        Renderer.render(level, cam, [], fx, now);
+        const secret = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+        differences.push({ distance: end - 5.5, changed: pixels.reduce((n, value, i) => n + Number(value !== secret[i]), 0) });
+      }
+      return { differences, unchanged: JSON.stringify(Game.state()) === before };
+    } finally { Renderer.setHeight(height); Renderer.setCalm(calm); }
+  });
+  expect(result.differences).toEqual([
+    { distance: 2.5, changed: 0 }, { distance: 4.5, changed: 0 },
+  ]);
+  expect(result.unchanged).toBe(true);
+  expect(errors).toEqual([]);
+});
