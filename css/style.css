@@ -1485,7 +1485,13 @@ body.big-text #ov-journal .tabs { grid-template-columns: repeat(2, minmax(0, 1fr
 .companion-orders { display: flex; flex-wrap: wrap; gap: var(--s-6); margin-top: var(--s-8); }
 .companion-orders button { flex: 1; }
 .hud-status button { pointer-events: auto; min-height: 44px; min-width: 44px; font-size: var(--t-sm); padding: var(--s-4) var(--s-6); background: rgba(0, 0, 0, .8); }
+.hud-status { max-height: 96px; overflow-y: auto; overscroll-behavior: contain; pointer-events: auto; scrollbar-width: thin; align-content: start; }
+.hud-status:empty { pointer-events: none; }
+.hud-status button[data-tone="warning"]::before { content: '! '; font-weight: bold; }
+.hud-status button[data-tone="benefit"]::before { content: '+ '; font-weight: bold; }
+.combat-intent { flex: 0 0 auto; min-width: 0; padding: var(--s-4) var(--s-8); background: #17121d; color: #fff0cf; border-bottom: 1px solid var(--border); font-size: var(--t-sm); line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 body.big-text .hud-status button { white-space: normal; overflow-wrap: anywhere; }
+@media (orientation: landscape) and (max-height: 500px) { .hud-status { max-height: 44px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; } .hud-status button, body.big-text .hud-status button { flex: none; white-space: nowrap; } }
 
 /* Keep optional setup and collections within reach without crowding the first choice. */
 .create-customise, .journal-collection, .map-key { border: 1px solid var(--border); border-radius: var(--s-8); margin: var(--s-12) 0; padding: 0 var(--s-10); }

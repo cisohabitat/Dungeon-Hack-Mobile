@@ -497,6 +497,23 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   the damage rim or consume dice; new/load clears receipts and damage takes
   priority. Calm flank chevrons retain urgency through size/brightness without
   pulsing. `melee-feedback.spec.js` covers outcomes, expiry, dice and glyphs.
+  `meleeview.js` also names current wind-ups. `motion.js` attaches intent only to
+  a creature or pack leader; the renderer selects the nearest one only after its
+  normal fog, projection and wall-column checks. `Renderer.intent` feeds a text
+  strip outside the canvas, updated only when its words change. Never identify
+  off-screen or occluded foes there. Damage text carries presentation-only outcome
+  metadata so CRIT also covers Lucky and critical opening blows without changing
+  their existing combat tags. Keep the original numeric `Renderer.numbers.text`
+  for observers and its drawn `label` separately. Bound wider labels to the
+  viewport and keep the full rise clear of every warning; crowded warnings take
+  priority when a receipt cannot fit. A continuing volley retains its shot/magic
+  glyph even after its initial wind-up has ended. Short HUD condition clocks
+  participate in the redraw signature and retain focus across ticks; the chip
+  row scrolls within two rows (one in short landscape) with 44px touch targets.
+  `deathLesson` reads the existing killing source and active conditions, never
+  invents a damage history or assumes a supply could have been used while held.
+  `combat-clarity.spec.js` covers intent visibility, actual hit outcomes, warning
+  legibility, clocks/focus, death advice and crowded mobile/accessibility views.
 
 - Portrait views can use up to 464 buffer rows; keep the CSS view cap at 1.45
   times its width so pixels stay square. Held-equipment checks include this

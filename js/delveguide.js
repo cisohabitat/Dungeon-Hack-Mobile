@@ -76,6 +76,23 @@ export function effectsView() {
     + (chips.length ? section('Around you', list([...new Set(chips)])) : '');
 }
 
+/** Advice uses only the recorded killing source and the hero's own state. */
+export function deathLesson() {
+  const G = Game.state();
+  if (!G || G.status !== 'dead') return '';
+  const killer = Game.lastAttacker(), cause = killer?.cause ? killer.name : '';
+  const advice = cause === 'poison' ? 'Cure poison with an antidote or a suitable spell. A healing draught restores life but does not remove poison.'
+    : cause === 'hunger' ? 'Keep food for the journey. Eat before food runs out; resting also uses food.'
+    : cause === 'bloodstar' ? 'Bloodstar spends life to cast. Leave enough life to survive the next blow.'
+    : killer?.encounter ? 'Choices can cost life. Read the offered risk before committing a wounded hero.'
+    : killer?.cause ? 'Watch the ground and its warnings. Step clear of rising fire or falling rock before it lands.'
+    : killer?.bearing && /left|right|behind/.test(killer.bearing) ? 'Watch the edge chevrons for foes beside or behind you. Turn to face the danger, or move to a doorway to narrow the fight.'
+    : 'Watch a foe’s filling warning. Step aside before the blow lands, and use doorways to narrow a crowd.';
+  const bad = new Set(['Poisoned', 'Knocked down', 'Stone', 'Snared', 'Frozen', 'Webbed', 'Dazzled', 'Silenced', 'Slowed', 'Grabbed', 'Starving']);
+  const conditions = activeEffects().filter(e => bad.has(e.name)).map(e => `${e.name} · ${e.remaining}`);
+  return section('For the next delve', `<p>${esc(advice)}</p>${conditions.length ? `<details><summary>Conditions at the fall</summary>${list(conditions)}</details>` : ''}`);
+}
+
 export function recapView() {
   const G = Game.state(), p = G.player, s = G.stats, kills = s?.kills || {};
   const bosses = Object.entries(kills).filter(([id, n]) => n > 0 && MONSTERS[id] && (MONSTERS[id].boss || MONSTERS[id].named)).map(([id, n]) => `${MONSTERS[id].name}${n > 1 ? ` ×${n}` : ''}`);

@@ -1,4 +1,4 @@
-import { recapView } from './delveguide.js';
+import { recapView, deathLesson } from './delveguide.js';
 // The end of a run: the screen that sums it up, what it is remembered for, the line
 // and the picture card to share. ui.js shows it, and lends what it needs through K.
 import { Assets } from './assets.js';
@@ -215,6 +215,8 @@ export function makeEndScreen(K) {
     } else if (!won) {
       cause.textContent = 'Killed by the dungeon itself.';
     } else cause.textContent = '';
+    $('#end-lesson').innerHTML = won ? '' : deathLesson();
+    $('#end-lesson').hidden = won;
     // one thing to go down for next
     const goal = Progress.nextGoals(Progress.load(), p.cls, Math.max(p.deepest || G.depth, ...Game.hall().map(e => e.depth || 0)))[0], goalEl = $('#end-goal');
     goalEl.hidden = !goal;
