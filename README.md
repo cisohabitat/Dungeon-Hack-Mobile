@@ -53,7 +53,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 - **Art and readable mobile views.** Bestiary, companion and relic collections
   offer Field notes and Gallery layouts; Gallery puts the paintings first with
-  expandable lore and statistics, preserving what each hero has learned. The
+  expandable lore and statistics, preserving what each hero has learned. Layout
+  is remembered on the device. Search matches discovered text, with folded
+  discovery, region and type filters drawn only from known entries. Searches and
+  filters stay while browsing between title and Journal. New discoveries carry
+  a New marker until you inspect their portrait, open their notes or tap the
+  marker; existing discoveries start viewed when upgrading. The
   selected hero has a larger portrait and a folded Backstory. On upright phones,
   tighter controls and a quiet log leave more room for the dungeon; fresh
   messages restore the log, and its full history stays one tap away. Distant

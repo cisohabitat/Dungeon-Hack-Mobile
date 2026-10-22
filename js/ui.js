@@ -1,3 +1,4 @@
+import { initCollectionMemory } from './collectionview.js';
 import { questsView, effectsView, recapView } from './delveguide.js';
 import { visitedPlace } from './rooms.js';
 import { rememberLandmarks } from './maplandmarks.js';
@@ -1458,7 +1459,7 @@ const UI = (() => {
         return;
       }
       const target = /** @type {HTMLElement} */ (e.target);
-      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) { if (target.id === 'inv-search' && e.code === 'Escape') { e.preventDefault(); goBack(); } return; }
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'SELECT' || target.tagName === 'TEXTAREA')) { if ((target.id === 'inv-search' || target.closest('.collection-browser')) && e.code === 'Escape') { e.preventDefault(); goBack(); } return; }
       // Escape is every screen's Back, as B is on a pad
       if (e.code === 'Escape' && !$('#screen-game').classList.contains('active')) { goBack(); e.preventDefault(); return; }
       if (!$('#screen-game').classList.contains('active')) return;
@@ -1544,6 +1545,7 @@ const UI = (() => {
   }
 
   function init() {
+    initCollectionMemory();
     // a state left from before a reload stands for nothing now
     try { if (histState()) history.replaceState(null, ''); } catch (e) { /* ignore */ }
     window.addEventListener('popstate', onBack);

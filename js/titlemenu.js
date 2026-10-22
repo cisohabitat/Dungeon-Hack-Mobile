@@ -54,7 +54,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'combat-readability-2026-10-22', text: "Read distinct warnings for missiles and magic, see blocks and missed attacks clearly, and keep flank warnings steady in Calm view." };
+  const NEWS = { id: 'collection-browsing-2026-10-22', text: "Search your discoveries, filter collection galleries, and revisit new finds with a remembered layout and clear New markers." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

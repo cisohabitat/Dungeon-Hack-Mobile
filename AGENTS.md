@@ -271,8 +271,22 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   shared portrait exporter. Keep all six exports and both modules cached offline.
 - `js/collectionview.js`: the shared Field notes/Gallery switch for bestiary,
   companions and relics, on the title and in the Journal. Gallery notes use native
-  disclosures; switching back to Field notes restores all notes. Never discover
-  entries, reveal hidden traits or alter game state while changing layout.
+  disclosures; switching back to Field notes restores all notes. The shared
+  layout and bounded viewed-ID lists live in `deepdelve.collections`, excluded
+  from recording starting memories and saves. `UI.init` seeds existing device
+  discoveries as viewed before a new delve starts. Later discoveries stay New
+  until a portrait, closed notes or their marker is activated; layout switches
+  and filtering never mark them viewed. Keep an inspected New-filter card in
+  place until the next filter action, preserving its notes and keyboard focus.
+  Queries and filters are session-only, per collection, shared by title and
+  Journal. Filter existing nodes, never rebuild them on input. Folded filters
+  retain their selections. Search only rendered discovered text; region/type
+  options come only from revealed entries, with numeric traits gated by kills.
+  Unknown entries never match text or facets. Storage failures keep session
+  preferences working, and Escape from collection inputs uses normal Back.
+  `collection-browser.spec.js` covers discovery boundaries, persistence, state
+  and dice invariants, inaccessible storage and large-text accessibility.
+  Never discover entries, reveal hidden traits or alter game state to browse.
 - `js/bestiaryart.js`: painted bestiary and Journal portraits, with creature
   sprites as fallbacks. The exports are in `img/bestiary/`, their source sheets,
   prompts and export tool in `art/bestiary/`; bosses reuse `img/bosses/`.
@@ -630,8 +644,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
   Validate items in floor loot and NPC stock with the same checks as carried
   equipment; those items can enter the inventory after loading. Escape belt
   counts in both text and attributes even after validation.
-  Legacy Hall migration and progress writes must require own table IDs, not
-  inherited properties. Stored counters accept finite numeric primitives and
+  Legacy Hall migration, bestiary reads and progress writes must require own
+  table IDs, not inherited properties. Stored counters accept finite numeric primitives and
   legacy numeric strings; never coerce stored objects through `Number`.
 - Telemetry accepts bounded fields, rejects cross-origin browser submissions and
   throttles using short-lived keyed address digests. The public stats API must

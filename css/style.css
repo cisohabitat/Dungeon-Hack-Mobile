@@ -1548,3 +1548,19 @@ body.big-text .map-legend { grid-template-columns: 1fr; }
 .collection-gallery :is(.beast, .relic-row) > img.zoom { width: 100%; max-width: 512px; height: auto; }
 body.big-text .collection-gallery { grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 700px) { .collection-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* Collection controls use the same entry nodes while filtering, preserving zoom and focus. */
+.collection-browser { margin-block: var(--s-12); }
+.collection-browser .collection-layout { margin-top: 0; }
+.collection-search, .collection-filters label { display: flex; flex-direction: column; gap: var(--s-4); font-size: var(--t-sm); color: var(--text-soft); min-width: 0; }
+.collection-search input, .collection-filters select { width: 100%; min-width: 0; min-height: 44px; }
+.collection-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-8); margin-top: var(--s-8); }
+.collection-filters label:first-child { grid-column: 1 / -1; }
+.collection-results { display: flex; align-items: center; justify-content: space-between; gap: var(--s-8); }
+.collection-results button { min-height: 44px; font-size: var(--t-sm); }
+.collection-new { margin-left: var(--s-8); min-height: 44px; padding: var(--s-4) var(--s-8); font-size: var(--t-xs); color: var(--gold); border-color: var(--gold); }
+.collection-empty { padding: var(--s-12); }
+body.big-text .collection-filters { grid-template-columns: minmax(0, 1fr); }
+
+.collection-filter-options { margin-top: var(--s-8); }
+.collection-filter-options > summary { min-height: 44px; padding-block: var(--s-12); color: var(--text-soft); cursor: pointer; }

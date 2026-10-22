@@ -291,10 +291,13 @@ export function makeChronicle(K) {
     if (!v || typeof v !== 'object' || Array.isArray(v)) v = {};
     // whatever was stored, each record comes back as numbers, never a crash
     const out = {};
+    const n = x => {
+      const value = typeof x === 'number' || typeof x === 'string' ? Number(x) : 0;
+      return Number.isFinite(value) ? Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(value))) : 0;
+    };
     for (const id in v) {
-      if (!MONSTERS[id]) continue;
+      if (!Object.hasOwn(MONSTERS, id)) continue;
       const r = v[id] && typeof v[id] === 'object' ? v[id] : {};
-      const n = x => Math.max(0, Math.floor(Number(x) || 0));
       // what fire, cold and lightning were found to do to it, and nothing else
       const el = {};
       if (r.el && typeof r.el === 'object') for (const k of ['fire', 'cold', 'lightning']) if (r.el[k] === 'weak' || r.el[k] === 'resist') el[k] = r.el[k];
