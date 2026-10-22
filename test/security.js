@@ -121,6 +121,24 @@ async function main() {
     if (oldProgress === undefined) store.delete('deepdelve.progress'); else store.set('deepdelve.progress', oldProgress);
   }
 
+  // Collection preferences now read the book at startup: corrupt counters
+  // must neither abort that read nor introduce inherited creature IDs.
+  const oldBook = store.get('deepdelve.bestiary');
+  try {
+    store.set('deepdelve.bestiary', JSON.stringify(Object.fromEntries([
+      ['rat', { met: '2', kills: '3', deaths: -1 }],
+      ['skeleton', { met: { valueOf: 1, toString: 1 }, kills: 'Infinity' }],
+      ['__proto__', { met: 1 }], ['constructor', { met: 1 }], ['toString', { met: 1 }],
+    ])));
+    const book = Game.bestiary();
+    assert.deepEqual(book.rat, { met: 2, kills: 3, deaths: 0 });
+    assert.deepEqual(book.skeleton, { met: 0, kills: 0, deaths: 0 });
+    for (const id of ['__proto__', 'constructor', 'toString']) assert.equal(Object.hasOwn(book, id), false);
+    assert.equal(Object.getPrototypeOf(book), Object.prototype);
+  } finally {
+    if (oldBook === undefined) store.delete('deepdelve.bestiary'); else store.set('deepdelve.bestiary', oldBook);
+  }
+
   const root = path.resolve(__dirname, '..');
   const deployment = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
   const headers = deployment.headers.find(h => h.source === '/(.*)').headers;

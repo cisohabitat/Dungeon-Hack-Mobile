@@ -34,7 +34,7 @@ export function renderCompanions(root, state = null) {
     face.setAttribute('aria-pressed', String(face.classList.toggle('zoom')));
   };
   root.onclick = zoom; root.onkeydown = zoom;
-  bindCollectionGallery(root, '.beasts');
+  bindCollectionGallery(root, '.beasts', 'companions', known.map(id => ({ id, types: [id === 'mender' ? 'Healer' : id === 'goblin' ? 'Scout' : 'Fighting companion'] })));
   return `${known.length} of ${ids.length} met`;
 }
 

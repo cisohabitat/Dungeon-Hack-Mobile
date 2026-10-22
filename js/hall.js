@@ -41,7 +41,7 @@ function beastTraits(id, mb) {
 }
 /** Fill el with the bestiary; returns the count line. */
 function renderBestiary(el) {
-  const known = Game.bestiary();
+  const known = Game.bestiary(), facets = [];
   // what has been met comes first, then what has not, each shallowest first
   const seen = id => known[id] && known[id].met ? 0 : 1;
   // the named champions come after the common kinds, then your own shades, and the lich last of all
@@ -65,6 +65,10 @@ function renderBestiary(el) {
       : people ? (homeFloor ? `Only on floor ${homeFloor}, ${homeWord}` : `Only in ${homeWord}, ${(Dungeon.PEOPLES[people].from - Dungeon.PEOPLES[people].back) * 2 > Dungeon.PEOPLES[people].from ? 'deep in' : 'partway down'} a ${Dungeon.PEOPLES[people].from >= 16 ? 'sixteen-floor ' : ''}Long Delve`)
       : mb.named ? 'Holds one floor partway down some delves' : first > levels ? 'Deeper than this delve goes' : `From floor ${first} down`;
     if (!r.met) return `<div class="beast unmet" data-beast="${id}">${img}<div><h3>???</h3><p class="locked">Not yet met. ${where}.</p></div></div>`;
+    const home = people ? Dungeon.PEOPLES[people].word : Dungeon.REGIONS[mb.named?.home]?.word;
+    facets.push({ id, regions: [upFirst(home || (mb.boss ? 'the Heart’s hall' : mb.shade ? 'a fallen hero’s floor' : 'across the dungeon'))],
+      types: [mb.boss ? 'Keeper' : mb.named ? 'Named champion' : mb.shade ? 'Shade' : 'Ordinary creature',
+        ...(r.kills && mb.undead ? ['Undead'] : []), ...(r.kills && mb.fly ? ['Flying'] : []), ...(r.kills && mb.ranged ? ['Ranged'] : [])] });
     const bits = [`<h3${mb.named ? ' class="named"' : ''}>${escapeHtml(mb.named ? `${mb.named.called}, the ${mb.name}` : mb.name)}</h3>`, `<p>${escapeHtml(lore.lore || '')}</p>`];
     // each shade is made to the floor it keeps: there is no one measure of them
     if (mb.shade) bits.push('<p class="beast-stats">As strong as the floor it keeps, and it fights as its hero did.</p>');
@@ -86,7 +90,7 @@ function renderBestiary(el) {
     return `<div class="beast" data-beast="${id}">${bigImg}<div>${bits.join('')}</div></div>`;
   }).join('') + '</div>';
   fillBestiaryPortraits(el);
-  bindCollectionGallery(el, '.beasts');
+  bindCollectionGallery(el, '.beasts', 'beasts', facets);
   // a tap (or Enter) on a met creature's picture looks at it close
   const zoom = /** @param {Event} e */ e => {
     const t = /** @type {HTMLElement} */ (e.target);
@@ -124,7 +128,10 @@ function renderCodex(el) {
       + `<p class="relic-lore">${escapeHtml(r.lore)}</p></div></div>`;
   }).join('') + '</div>';
   fillRelicPortraits(el);
-  bindCollectionGallery(el, '.codex');
+  bindCollectionGallery(el, '.codex', 'relics', ids.filter(id => found.includes(id)).map(id => ({ id,
+    types: [KIND_NAMES[ITEMS[RELICS[id].t].kind] || ITEMS[RELICS[id].t].kind, RELICS[id].mythic ? 'Mythic' : RELICS[id].legend ? 'Legendary' : 'Relic'],
+    regions: RELICS[id].route && ROUTES[RELICS[id].route] ? [ROUTES[RELICS[id].route].name] : [],
+  })));
   const mythics = Object.keys(RELICS).filter(id => RELICS[id].mythic);
   const set = toCollect(), legends = Object.keys(RELICS).filter(id => RELICS[id].legend);
   return `${set.filter(id => found.includes(id)).length} of ${set.length} found · legends ${legends.filter(id => found.includes(id)).length} of ${legends.length} · mythics ${mythics.filter(id => found.includes(id)).length} of ${mythics.length}`;
