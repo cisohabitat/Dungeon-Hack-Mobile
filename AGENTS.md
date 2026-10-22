@@ -113,6 +113,9 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Sources stay under `art/creatures/`, exports under `img/creatures/`; review both
   before recording hashes. `painted-creatures.spec.js` covers cached poses,
   lighting, elite colours, dice, warnings, occlusion, failure and offline reload.
+  Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
+  keep native reloads and error assertions. WebKit's browser-offline emulation
+  aborts controlled navigations before the service worker can answer.
   `js/creatureidentity.js` aligns older anatomy, equipment and colours to the
   painted portraits before deriving cached movement poses. Creature redraws belong
   there so named champions inherit the same anatomy. Combat creatures face the

@@ -1,6 +1,8 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { startGame, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
+const http = require('node:http');
+const { serve } = require('../server');
+const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 
 async function scene(page) {
@@ -79,12 +81,31 @@ test.describe('painted dungeon creature', () => {
   });
 });
 
-test('painted creature survives an installed offline native reload @mobile',async({page,context})=>{
+test('painted creature survives an installed offline native reload @mobile',async({page,context,browserName})=>{
   const errors=watchForErrors(page);
-  await page.addInitScript(()=>{localStorage.setItem('deepdelve.sound','off');localStorage.setItem('deepdelve.prelude','off');});
-  await page.goto('/');await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
-  await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller),{timeout:30000}).toBe(true);
-  await context.setOffline(true);await scene(page);await ready(page);
-  expect(await page.evaluate(async()=>{const r=await fetch('/img/creatures/drow_warrior.webp');return r.ok&&(await r.blob()).size>10000;})).toBe(true);
-  expect(errors).toEqual([]);
+  let connected=true,rejected=0;
+  const server=http.createServer((req,res)=>{if(!connected){rejected++;req.socket.destroy();return;}serve(req,res);});
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  try{
+    await page.addInitScript(()=>{for(const [k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});
+    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
+    await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');
+    // As in offline.spec.js, disconnect the actual origin. WebKit's browser
+    // offline emulation aborts controlled navigations before the worker runs.
+    connected=false;await page.reload();expect(rejected).toBeGreaterThan(0);
+    if(browserName!=='webkit'){await context.setOffline(true);await page.reload();}
+    await page.click('#btn-new');await customiseCreation(page);await page.fill('#c-seed','combat-clarity');
+    await page.click('#c-begin');await page.click('#pro-begin');
+    await expect(page.locator('#screen-game')).toBeVisible();
+    await page.evaluate(()=>{Game.level().monsters.length=0;});
+    expect(await faceOpenGround(page,3)).toBeGreaterThanOrEqual(3);
+    await placeMonster(page,'drow_warrior',1,{hp:999,maxHp:999});
+    await artReady(page,{drow_warrior:poses.slice(1)});await ready(page);
+    expect(await page.evaluate(async()=>{const r=await fetch('/img/creatures/drow_warrior.webp');return r.ok&&(await r.blob()).size>10000;})).toBe(true);
+    expect(errors).toEqual([]);
+  }finally{
+    await context.setOffline(false);
+    const closed=new Promise(resolve=>server.close(resolve));server.closeAllConnections();await closed;
+  }
 });
