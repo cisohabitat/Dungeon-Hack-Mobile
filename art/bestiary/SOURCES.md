@@ -33,4 +33,6 @@ The three keeper portraits still come from `img/bosses/` (see
 therefore has its own painting, including the ten champions and the shade.
 The title bestiary and Journal share these portraits. Unmet creatures' pictures
 are darkened and blurred, with names and details still concealed. The dungeon
-retains its animated sprites, which also serve as missing-file fallbacks.
+retains its animated sprites, which also serve as missing-file fallbacks. The
+Dark Elf Warrior now has a painted nine-pose dungeon counterpart, documented
+in [`../creatures/SOURCES.md`](../creatures/SOURCES.md).

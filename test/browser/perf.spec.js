@@ -89,6 +89,21 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await page.evaluate(() => { Game.level().twist = 'flooded'; });
   await measure(page, cdp, 1000);
   out.flooded = await measure(page, cdp, 4000);
+  // The same crowd using painted poses: their cached shades must hold the
+  // existing budget too, including ordinary combat motion and warning marks.
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  await page.evaluate(() => {
+    Game.level().twist = null;
+    for (const m of Game.level().monsters) if (m.id === 'orc') m.id = 'drow_warrior';
+  });
+  await page.waitForFunction(async () => {
+    const { paintedCreature } = await import('/js/paintedcreatures.js');
+    const art = Assets.sprites.drow_warrior;
+    return art && paintedCreature(art) !== art;
+  });
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
+  await measure(page, cdp, 3000);
+  out.painted = await measure(page, cdp, 4000);
   // the last floor, the lich awake two squares ahead and working its rite
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.evaluate(() => { Game.level().twist = null; Game.testFloor(Game.state().opts.levels || 8); });

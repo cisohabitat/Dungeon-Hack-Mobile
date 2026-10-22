@@ -103,6 +103,19 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
+  `js/paintedcreatures.js` maps the Dark Elf Warrior's existing pose objects to
+  an approved nine-pose atlas, selected only by the renderer. Keep procedural
+  objects, motion, warnings, elite identities and the renegade companion intact.
+  Decode only on demand; build shade/flash canvases once between frames and
+  switch a complete palette together, falling back during loading or failure.
+  The 256px cells are registered to body centres and foot baselines by
+  `python3 art/creatures/export.py`; `--check` reproduces the shipped atlas.
+  Sources stay under `art/creatures/`, exports under `img/creatures/`; review both
+  before recording hashes. `painted-creatures.spec.js` covers cached poses,
+  lighting, elite colours, dice, warnings, occlusion, failure and offline reload.
+  Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
+  keep native reloads and error assertions. WebKit's browser-offline emulation
+  aborts controlled navigations before the service worker can answer.
   `js/creatureidentity.js` aligns older anatomy, equipment and colours to the
   painted portraits before deriving cached movement poses. Creature redraws belong
   there so named champions inherit the same anatomy. Combat creatures face the
