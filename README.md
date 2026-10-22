@@ -1153,6 +1153,7 @@ tools/agent-docs.mjs  generates and checks AGENTS.md
 tools/check-art.mjs   verifies reviewed source/export hashes and offline art coverage
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
+art/creatures/ATLAS-BRIEFS.md  all pending dungeon atlas briefs, batches and live inventory
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
 art/bestiary/overrides/  individual corrected paintings, preserved across re-exports
 ```
