@@ -1,0 +1,382 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "ATLAS-ROADMAP.md",
+  "status": "generated, repaired, source/export visually reviewed; review-only dungeon previews; not runtime-integrated or published",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "shade_spellblade": {
+      "source": "shade_spellblade.png",
+      "reference": "../../img/portraits/spellblade.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/spellblade.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Create ONE production painted dark fantasy sprite atlas: exactly nine COMPLETE full-body spectral figures in a precise 3x3 grid, TRUE transparent alpha, no text, borders, ground, scenery or detached particles. Each figure fits with generous 12% margins inside its cell, all weapon tips intact. Reference 1 supplies spectral body style and nine-pose layout; reference 2 supplies class clothing identity ONLY, not a living face or background. Every head and chest face viewer, no side views. Same body scale, torso height, clothing palette and equipment in every cell. Hovering ragged spectral lower body fading into attached blue mist: NO LEGS OR BOOTS. Undead skull-like shadowed face and blue eye-light, no living skin. Cold pale class colours, detailed painted materials and restrained rim light. Anatomical right is viewer LEFT. Continuous arm-wrist-closed grip-handle-weapon construction. Row-major cells: idle; subtle drift A; distinct opposite drift B (reserve, not walking); draw sword back windup; forward sword attack strike; attached sword recovery; reserve brace; torso recoil hurt; idle with dimmed eye-light blink. Never mirror equipment. SPELLBLADE SHADE: tattered charcoal/slate embroidered hood and mantle, chainmail accents, spectral fallen Wayfarer. Sword held in anatomical RIGHT hand on viewer LEFT. Silver cage lantern with small blue flame hangs from carry handle CLOSED IN LEFT FIST viewer RIGHT; lantern below hand, attached handle always visible. NO SHIELD, no second lantern, no new spell. Hood/mantle and silver lantern distinguish this class in ALL nine figures. Retain spectral skull/shadowed face, not living portrait face.",
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_spellblade; only existing supported poses",
+      "registration": "Visually measured upper-torso centres in source pixels; one uniform scale and fixed target anchor, independent of robe fringe.",
+      "generated_file": "/workspace/generated_images/exec-60f06a0f-1622-401c-882a-b151de1edf83.png",
+      "anchors": [
+        [
+          225,
+          210
+        ],
+        [
+          645,
+          215
+        ],
+        [
+          1060,
+          210
+        ],
+        [
+          215,
+          620
+        ],
+        [
+          645,
+          620
+        ],
+        [
+          1065,
+          620
+        ],
+        [
+          225,
+          1030
+        ],
+        [
+          645,
+          1030
+        ],
+        [
+          1060,
+          1030
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "review_atlas": "batch-e-preview/shade_spellblade.webp"
+    },
+    "shade_thief": {
+      "source": "shade_thief.png",
+      "reference": "../../img/portraits/thief.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/thief.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_thief; only existing supported poses",
+      "registration": "Visually measured upper-torso centres, source pixels, fixed target and shared scale.",
+      "generated_file": "/workspace/generated_images/exec-b8c65e4d-c38a-4129-9eff-661b05b0e8d6.png",
+      "anchors": [
+        [
+          225,
+          210
+        ],
+        [
+          640,
+          210
+        ],
+        [
+          1060,
+          210
+        ],
+        [
+          225,
+          620
+        ],
+        [
+          645,
+          620
+        ],
+        [
+          1060,
+          620
+        ],
+        [
+          225,
+          1030
+        ],
+        [
+          645,
+          1030
+        ],
+        [
+          1060,
+          1030
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "prompt": "undefinedTHIEF SHADE: blue-grey ragged hood and cloak identifying the Thief portrait, cold spectral armour. Retain existing Shade sword RIGHT hand viewer LEFT and shield LEFT viewer RIGHT, no knives replacing existing kit. Feminine skeletal/shadowed face, not living flesh. Hood frames the skull, never a crowned knight helmet.",
+      "review_atlas": "batch-e-preview/shade_thief.webp"
+    },
+    "shade_mage": {
+      "source": "shade_mage.png",
+      "reference": "../../img/portraits/mage.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/mage.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_mage; only existing supported poses",
+      "registration": "Visually measured upper-torso source centres, fixed target and shared scale.",
+      "anchors": [
+        [
+          225,
+          215
+        ],
+        [
+          640,
+          215
+        ],
+        [
+          1060,
+          215
+        ],
+        [
+          225,
+          620
+        ],
+        [
+          645,
+          620
+        ],
+        [
+          1060,
+          620
+        ],
+        [
+          225,
+          1040
+        ],
+        [
+          645,
+          1040
+        ],
+        [
+          1060,
+          1040
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "selected_source": "shade_mage-corrected.png",
+      "prompt": "undefinedMAGE SHADE: cold violet-blue full robe, gold trim dulled to silver-blue; uncovered spectral head with short tightly curled grey hair and short beard echoes class portrait as an undead skull. RIGHT hand viewer LEFT retains sword. LEFT hand viewer RIGHT holds a connected straight staff with pale blue crystal focus, not shield. Retain same sword-attack windup/strike; no invented casting attack. Robe fades into attached mist.",
+      "generated_file": "/workspace/generated_images/exec-5fcfd1a1-61fd-474a-95cc-ecde7960e455.png",
+      "repairs": [
+        {
+          "tool": "image_gen.imagegen",
+          "source": "shade_mage-corrected.png",
+          "reference": "shade_mage.png",
+          "prompt": "Repair this COMPLETE nine-pose 3x3 Mage SHADE atlas. Keep all nine exact poses, violet-blue robes, sword viewer LEFT and staff viewer RIGHT, same scale, transparent background, and complete grips. Critical correction: every head and BOTH hands must be UNDEAD SKELETAL, no living brown/tan skin anywhere. Replace every face with a cold pale blue-grey weathered SKULL with hollow eye sockets containing small blue eye lights, exposed cheekbone/jaw and nasal cavity. Retain short curly grey hair and beard framing skull as class identity. Both hands are skeletal blue-grey bones closed around handles, not skin. Bottom-right blink has dimmed eyes. Shrink all nine whole figures uniformly 10% inside their own cells to create wide empty transparent margins around crystal and sword tips; keep all heads frontal. Preserve same exposure, violet palette, outfit and connected equipment throughout. No new actions, particles, floor or text.",
+          "generated_file": "/workspace/generated_images/exec-c1d479eb-9e49-4b4a-8c21-450e4aa07ad2.png"
+        }
+      ],
+      "review_atlas": "batch-e-preview/shade_mage.webp"
+    },
+    "shade_cleric": {
+      "source": "shade_cleric.png",
+      "reference": "../../img/portraits/cleric.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/cleric.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_cleric; only existing supported poses",
+      "registration": "Visually measured upper-torso source centres, fixed target and shared scale.",
+      "anchors": [
+        [
+          225,
+          220
+        ],
+        [
+          640,
+          220
+        ],
+        [
+          1060,
+          220
+        ],
+        [
+          215,
+          635
+        ],
+        [
+          640,
+          635
+        ],
+        [
+          1060,
+          635
+        ],
+        [
+          225,
+          1040
+        ],
+        [
+          645,
+          1040
+        ],
+        [
+          1060,
+          1040
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "prompt": "undefinedCLERIC SHADE: pale spectral tabard and cloak over mail, sun emblem on chest, short tightly curled grey hair on shadowed skeletal feminine head. Sword in RIGHT hand viewer LEFT and shield LEFT viewer RIGHT remain existing Shade gear. No mitre, no living skin, no new mace. Gold sun motif restrained and consistent.",
+      "generated_file": "/workspace/generated_images/exec-b88afd8e-8599-46d0-a080-cfcbd9064362.png",
+      "review_atlas": "batch-e-preview/shade_cleric.webp"
+    },
+    "shade_ranger": {
+      "source": "shade_ranger.png",
+      "reference": "../../img/portraits/ranger.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/ranger.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_ranger; only existing supported poses",
+      "registration": "Visually measured upper-torso source centres, fixed target and shared scale.",
+      "prompt": "undefinedRANGER SHADE: muted cold green hood and cloak, spectral reddish hair muted grey-blue, quiver attached behind shoulder. RIGHT hand viewer LEFT retains sword, LEFT hand viewer RIGHT carries bow with connected visible string, no shield. Existing sword attack in middle row, bow remains carried not fired. No invented ranged action.",
+      "generated_file": "/workspace/generated_images/exec-1ce07208-df15-4747-8fbc-2da88160eb57.png",
+      "selected_source": "shade_ranger-corrected.png",
+      "repairs": [
+        {
+          "tool": "image_gen.imagegen",
+          "source": "shade_ranger-corrected.png",
+          "reference": "shade_ranger.png",
+          "prompt": "Repair complete nine-pose Ranger SHADE atlas. Keep every body pose, same green cloak, right-hand sword VIEWER LEFT, left-hand bow VIEWER RIGHT and attached taut bowstring, quiver, transparent background. Replace EVERY living face with FRONTAL cold blue-grey SKELETAL SKULL looking directly at viewer: exposed teeth/jaw, hollow nasal cavity, hollow sockets with tiny blue eye lights. No living flesh. Long grey wispy hair frames skull; pull cold green hood up around head in ALL NINE poses. Heads NEVER turn to side, including drift/recovery/hurt. Bottom-right dimmed-eye blink. Hands remain cold dark gloves holding connected equipment. All lower bodies remain floating spectral cloth without legs. Uniformly shrink each complete figure 10% in its own grid cell for safe margins. Same skull, hood, green palette, body scale, gear and light throughout. No new spell or attack.",
+          "generated_file": "/workspace/generated_images/exec-a83aebf9-6fb8-46f1-89df-a7bb0608b73d.png"
+        }
+      ],
+      "anchors": [
+        [
+          225,
+          225
+        ],
+        [
+          645,
+          225
+        ],
+        [
+          1065,
+          225
+        ],
+        [
+          225,
+          635
+        ],
+        [
+          645,
+          635
+        ],
+        [
+          1065,
+          635
+        ],
+        [
+          225,
+          1045
+        ],
+        [
+          645,
+          1045
+        ],
+        [
+          1065,
+          1045
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "review_atlas": "batch-e-preview/shade_ranger.webp"
+    },
+    "shade_druid": {
+      "source": "shade_druid.png",
+      "reference": "../../img/portraits/druid.webp",
+      "references": [
+        "shade-corrected.png",
+        "../../img/portraits/druid.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected source and nine exported cells visually reviewed; review-only dungeon captures",
+      "runtime_binding": "planned: shade.elite.shade_druid; only existing supported poses",
+      "registration": "Visually measured upper-torso source centres, fixed target and shared scale.",
+      "prompt": "undefinedDRUID SHADE: muted spectral green leaf mantle and leaf brow, long grey wavy hair, feminine shadowed skeletal face; no antlers. RIGHT hand viewer LEFT retains sword, LEFT hand viewer RIGHT holds leaf-tipped staff with continuous closed grip, no shield. Existing sword attack retained, no invented casting action. Leaves remain attached to clothing and staff.",
+      "generated_file": "/workspace/generated_images/exec-fb6ec83e-eebb-4d2b-9853-b4e1917e3dd8.png",
+      "anchors": [
+        [
+          225,
+          200
+        ],
+        [
+          645,
+          200
+        ],
+        [
+          1065,
+          200
+        ],
+        [
+          225,
+          610
+        ],
+        [
+          645,
+          610
+        ],
+        [
+          1065,
+          610
+        ],
+        [
+          225,
+          1020
+        ],
+        [
+          645,
+          1020
+        ],
+        [
+          1065,
+          1020
+        ]
+      ],
+      "target_anchor": [
+        128,
+        120
+      ],
+      "review_atlas": "batch-e-preview/shade_druid.webp"
+    }
+  }
+}

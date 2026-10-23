@@ -1,0 +1,1074 @@
+{
+  "mode": "review-only image route and explicit pose substitution; no runtime integration",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 112.6232328790756,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 116.4807888926363,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 112,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen spellblade · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 114.35798556419215,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 116.30393492737007,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 111.33945230437723,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_spellblade",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 99.78665438444449,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 101.3292388937227,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 94.35512633144023,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 90,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen thief · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 95.4111028660173,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 109.940227609226,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 111.54517274155862,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_thief",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 112.04157942814791,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 108.33601650364997,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 111.44515754808299,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 107,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen mage · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 107.50111907056288,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 116.35222619664938,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 105.47503866002097,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_mage",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 103.31188118194783,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 126.64098471489005,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 114.47000568973974,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 110,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen cleric · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 108.51862850342926,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 113.89327926376501,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 106.61021493718485,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_cleric",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 104.76084594874311,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 95.43318350598216,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 89.65128571856687,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 85,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen ranger · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 95.49075921066327,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 117.01686873646793,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 114.41318842040336,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_ranger",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 105.01306353636993,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 92.89475060620585,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 96.93021454999388,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 92,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen druid · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 99.35666144797406,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 117.25243228487456,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 114.99800737592447,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade_druid",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 119.67316281294498,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 140.69435874042222,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 139.68909422707557,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 135,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen spellblade · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 140.9362785996698,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 133.63982089013592,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 130.08249280583067,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_spellblade",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 121.44099542699598,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 127.71871510589833,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 119.60244070298327,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 115,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen thief · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 128.57420952514104,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 135.6965720528687,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 138.3113721378138,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_thief",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 138.9452355212207,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 138.24281727600618,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 137.53792357753355,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 133,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen mage · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 137.4750877251689,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 137.79027579243257,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 125.2744024293118,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_mage",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 124.64919663958818,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 146.96828930237822,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 141.70938016516106,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 137,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen cleric · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 149.7750864478702,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 153.3572656983486,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 147.8344143869646,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_cleric",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 144.61833355075208,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 122.69450297816684,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 118.96450702032496,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 114,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen ranger · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 131.77546976808335,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 139.04038661580495,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 137.0384858398574,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_ranger",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 135.16727695882855,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 139.55023505582267,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 141.62831158956268,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 137,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade of Fallen druid · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 144.20824583281555,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 144.0150564426609,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 128.7555430900505,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade_druid",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 126.90625364445586,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    }
+  ]
+}

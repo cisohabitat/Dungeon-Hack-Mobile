@@ -194,3 +194,18 @@ atlas. Other fallen classes retain their procedural class gear even while that
 gear is loading. Unsupported reserve cells do not introduce actions. Combat,
 scale, warnings, opacity and saved identities retain their existing rules.
 Local integration does not publish the batch.
+
+## Batch E — class Shades, 23 October 2026
+
+Six original nine-pose sheets and two selected Mage/Ranger full-sheet repairs
+were generated with `image_gen.imagegen` using the reviewed spectral Shade body
+and current class portraits. The model was not disclosed. Exact prompts,
+references and output paths are in `generation-batch-e.json`. Both rejected
+living-face originals remain preserved. Selected sources and all 54 registered
+export cells were visually inspected. Torso anchors align floating bodies;
+`export-batch-e.py --check` reproduces all six preview atlases and comparisons.
+
+`preview-batch-e.cjs` produces review-only substituted draws for six supported
+poses at 390px/320px, with warning assertions and page/console error checks.
+See [the review](batch-e-preview/REVIEW.md) for selection decisions and limits.
+There are no shipped atlases or runtime/offline changes in this stage.

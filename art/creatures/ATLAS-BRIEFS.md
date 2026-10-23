@@ -13,7 +13,9 @@ more than one atlas for an entry, especially Shade and Mimic.
 
 See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for proposed Batches E–K: class Shades,
 companions, barrel Mimic, boss variants, traders and encounter sheets. Start with
-Spellblade Shade. These are planned deliverables, not generated or approved art.
+Spellblade Shade. Batch E sources and six preview atlases are now generated,
+repaired and visually reviewed; see [the Batch E review](batch-e-preview/REVIEW.md).
+Runtime integration/publication are pending; Batches F–K remain planned.
 
 ## Requesting work later
 

@@ -150,6 +150,11 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Shades remain procedural even before their class gear has finished painting;
   the default sword-and-shield atlas cannot represent those kits. Only supported
   pose objects are bound; reserve drift/special cells do not add actions.
+  Batch E class Shade sources and review atlases use `generation-batch-e.json`,
+  `export-batch-e.py --check` and `preview-batch-e.cjs`. This is preview-only:
+  the harness substitutes image requests and frozen draws, not runtime bindings.
+  Keep exact class gear, measured floating torso anchors and original/repair
+  provenance. Review assets are not offline-shipped or integration evidence.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

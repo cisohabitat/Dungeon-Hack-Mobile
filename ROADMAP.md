@@ -470,7 +470,9 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 
 Detailed inventory and acceptance gates: [atlas roadmap](art/creatures/ATLAS-ROADMAP.md).
 
-- [ ] Batch E: six class-specific Shades, starting with Spellblade Shade.
+- [x] Batch E source/review art: six class-specific Shades, starting with Spellblade;
+  repaired Mage/Ranger faces, reproducible exports and 390px/320px review captures.
+- [ ] Batch E runtime integration, real-loader/offline/performance validation and publication.
 - [ ] Batch F: six companion atlases with supported rest/healing coverage.
 - [ ] Batch G: revealed barrel/default Mimic.
 - [ ] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.

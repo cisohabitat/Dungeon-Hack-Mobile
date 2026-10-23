@@ -1166,6 +1166,7 @@ art/creatures/generation-batch-a.json  Batch A prompts, references and registrat
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
 art/creatures/generation-batch-d.json  Shade/champion sources, repairs and torso registration
+art/creatures/generation-batch-e.json  class Shade sources, selected repairs and review registration
 art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
 art/creatures/batch-d-preview/  champion atlases, phone captures and local validation results
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
@@ -1206,6 +1207,12 @@ Shade and Orla register their floating torsos. Non-fighter fallen heroes retain
 their procedural class gear throughout loading. Existing supported poses and
 special fallbacks remain unchanged. See [the Batch D review](art/creatures/batch-d-preview/REVIEW.md)
 and [local checks](art/creatures/batch-d-preview/integration-checks.md).
+
+Batch E has six class-specific Shade review atlases, with Mage/Ranger skeletal
+repairs and measured floating torso anchors. Reproduce them with
+`python3 art/creatures/export-batch-e.py --check`; capture substituted review
+draws with `node art/creatures/preview-batch-e.cjs`. These are preview assets,
+not shipped runtime bindings. See [the review](art/creatures/batch-e-preview/REVIEW.md).
 
 ## Keeping documentation current
 
