@@ -147,3 +147,26 @@ authorised integration and publication on 23 October 2026. Exports reproduce
 review and shipped bytes; all ten are cached offline with existing supported
 poses. Named champion identities and gameplay remain unchanged.
 Review images and findings are under `batch-b-preview/`.
+
+## Batch C — 23 October 2026
+
+OpenAI `image_gen.imagegen` generated Lookout, Hexer, Pikeman, Quillback,
+Drowned One, Emberling, chest Mimic, Lich, Heartforged and Warlord from the
+existing bestiary/keeper portraits. Model name was not disclosed. Original PNGs,
+actual prompts, references and every selected or rejected repair are preserved
+in `generation-batch-c.json`. Character repairs use the image tool; the exporter
+only extracts, uniformly scales and registers the existing pixels.
+
+`export-batch-c.py --check` reproduces ten 768px atlases, measurements and neutral,
+walking and action contact sheets. Grounded alpha ends at row236 with at least
+12px clearance; Lich registers its floating torso rather than invented feet.
+`preview-batch-c.cjs` exercises shipped images through the real runtime loader
+and dungeon renderer at 390px and 320px.
+
+Barrel Mimics remain procedural. The chest atlas is selected only after a chest
+Mimic is revealed. All keeper phases after the first and the Warlord's throne
+and spear throws keep procedural art; concealment, ripples and gameplay effects
+stay with their existing code. No abilities, timing, scale or saves change.
+
+The user authorised Batch C publication on 23 October 2026 after reviewing the
+local checks and baseline performance limitation. Normal release/CI gates apply.

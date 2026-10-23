@@ -286,3 +286,21 @@ The twelve legends and six mythics are included. Gameplay, held weapons and
 inventory slots retain their pixel sprites. Zoomed portraits put descriptions
 below the image, and missing paintings fall back to the existing named sprite.
 This is presentation-only work; no loot, combat or balance rules changed.
+
+## Batch C dungeon atlases — 23 October 2026
+
+Generated and reviewed the ten remaining ordinary-creature/keeper identities in
+`art/creatures/ATLAS-BRIEFS.md`, briefs 21–30. Originals, actual prompts and selected
+repairs are preserved in `generation-batch-c.json`; all ninety registered cells,
+contact sheets and actual 390px/320px dungeon overviews were visually inspected.
+Lookout/Hexer and the two grounded keepers have corrected opposite steps; Lookout
+has a coherent palette and one whistle, chest Mimic stays frontal, and Lich keeps
+cold-blue casting in the same hand. The floating Lich gains no new walking poses.
+
+The lazy loader and offline cache include ten matching reviewed exports. Chest
+Mimics paint only after revelation; barrel/default forms remain procedural, as do
+keeper phases after the initial phase zero and Warlord throne/spear handling.
+Drowned concealment, named champions and companions remain unchanged. No gameplay,
+scale, timing or save fields changed, so no balance simulations were required.
+Local validation and remaining publication/engine limits are recorded in
+`art/creatures/batch-c-preview/integration-checks.md`. Publication was authorised by the user on 23 October 2026; CI gates remain required.

@@ -51,11 +51,14 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.
 
-- **Art and readable mobile views.** Twenty-three creatures use painted dungeon
+- **Art and readable mobile views.** Forty-three creature identities have painted dungeon
   poses: the Dark Elf Warrior and Mage, Blink Hound, Cave Wyrm, Skarrow,
   Lizardfolk and Shaman, Grey Dwarf and Arbalest, Slime, Rustmaw, Eyeless Stalker
   and Puffcap, plus Rat, Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith
-  and Ogre. Each painting loads on demand with its own poses, normal
+  and Ogre; Troll, Minotaur, Kobold, Archer, Basilisk, Acolyte, Moth, Thornhog,
+  Imp and Cutpurse; Lookout, Hexer, Pikeman, Quillback, Drowned One, Emberling,
+  chest Mimic, Lich, Heartforged and Warlord. Barrel Mimics and later keeper
+  phases retain procedural art. Each painting loads on demand with its own poses, normal
   lighting and warnings, and works offline. Skarrow keeps her distinct
   scarred, three-horned identity; other named champions and companions keep
   their own appearances. Procedural art remains available if an atlas cannot load.

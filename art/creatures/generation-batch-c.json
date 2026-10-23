@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "ATLAS-BRIEFS.md",
+  "status": "generated, repaired, visually reviewed and integrated; publication authorised 23 October 2026, CI pending",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "lookout": {
+      "source": "lookout.png",
+      "reference": "../../img/bestiary/lookout.webp",
+      "generated_file": "/workspace/generated_images/exec-3b5e8f0c-2738-4dc2-a9ea-e2209408e9d4.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "selected_source": "lookout-final.png",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GOBLIN LOOKOUT: olive green goblin sentry, hooked goblin nose, pointed ears, brown head wrap, ragged dark shoulder cape and leather, two arms/two legs. Short knife in RIGHT hand (viewer left); bone whistle attached to cord at chest; free LEFT hand raises whistle to mouth in special. Idle knife low, steps retain hand assignment; windup draws knife arm back; strike short frontal knife thrust; recover low guard; hurt shoulders recoil retaining gear; blink idle eyes shut. No banner, extra hand, sound rings, detached whistle. Save original PNG to /workspace/Dungeon-Hack-Mobile/art/creatures/lookout.png if file output supported.",
+      "repairs": [
+        {
+          "prompt": "Edit ONLY the legs of this goblin. The big forward leg is currently on LEFT SIDE OF IMAGE. Move that LEFT-SIDE leg BACK behind body, small foot higher up. Move the RIGHT-SIDE leg FORWARD toward camera, with large foot planted LOW at BOTTOM RIGHT. We need the RIGHT SIDE OF IMAGE knee and foot in foreground and the LEFT SIDE OF IMAGE foot behind. Keep upper body, knife on image LEFT, whistle, cape, face, palette exactly unchanged. Do NOT mirror whole image. Full body isolated true transparent background, no ground or shadows, no crop.",
+          "file": "/workspace/generated_images/exec-141c6042-f2a7-4c5b-95b3-d02e8bb77754.png",
+          "source": "lookout-corrected.png",
+          "tool": "image_gen.imagegen"
+        },
+        {
+          "source": "lookout-final.png",
+          "prompt": "Edit this complete nine-pose goblin sentry atlas. Keep each pose exactly, including top-right RIGHT SIDE OF IMAGE foot leading while top-middle LEFT SIDE OF IMAGE foot leads. Colour-match TOP-RIGHT figure to other eight: muted dark olive green skin, dark brown leather and ragged cape, same exposure and warm lighting, no brighter orange skin highlights. Retain knife on image LEFT in every cell. EVERY figure except BOTTOM-LEFT must have ONE small bone whistle hanging from the neck cord at chest, not an empty metal ring. BOTTOM-LEFT has exactly ONE bone whistle held at mouth by image RIGHT hand and its neck cord leads there, no second chest whistle. Same proportions, full body, transparent background and wide gutters. Do not add shadows, backgrounds or halos. Preserve all other poses and details.",
+          "generated_file": "/workspace/generated_images/exec-fd9d9976-bfc8-4b54-896a-5f70d7e10ef5.png",
+          "tool": "image_gen.imagegen",
+          "history": [
+            {
+              "prompt": "Edit this complete 3x3 nine-pose goblin sentry atlas. Remove ALL brown/black gradient background: true transparent alpha ZERO outside each figure, no shadows or halos. Preserve original figures and palette. Also correct TOP-RIGHT figure ONLY to advance anatomical LEFT leg (VIEWER RIGHT) clearly forward, right foot VIEWER LEFT behind, without mirroring knife or equipment. Top-middle already advances viewer left and remains unchanged. In BOTTOM-LEFT special, remove duplicate whistle dangling at chest: cord must lead to the SINGLE bone whistle held at mouth in left hand. Keep knife in right hand viewer left in every cell. Other poses unchanged. Return complete nine-figure transparent sheet with generous gutters and all figure edges intact.",
+              "generated_file": "/workspace/generated_images/exec-0d649055-c9dc-465e-8cd8-6f8f10bb3bfd.png",
+              "tool": "image_gen.imagegen",
+              "source": "lookout-attempt-1.png"
+            },
+            {
+              "prompt": "Produce ONE full-body goblin sentry in the TOP-RIGHT pose from this reference, isolated on transparent background. Anatomical LEFT leg (VIEWER RIGHT) must extend FORWARD towards viewer and bear weight, with VIEWER RIGHT knee and foot visibly larger and lower; anatomical RIGHT leg viewer left trails BEHIND, smaller and higher. This is opposite to reference's top-middle. Do not mirror equipment: knife in RIGHT hand viewer LEFT, single bone whistle dangling at chest, free left hand viewer right. Same dark olive skin, brown headwrap, ragged dark cape, muted leather, lighting/exposure exactly reference top-left. Frontal head and torso eye contact, not side view. Exactly two arms two legs, continuous grip. Generous transparent margin. No background/ground/shadows, no added gear, no enlarged highlights.",
+              "generated_file": "/workspace/generated_images/exec-79c96d3f-48b5-4f01-85d7-619b9bbf4534.png",
+              "tool": "image_gen.imagegen",
+              "source": "lookout-attempt-2.png"
+            },
+            {
+              "prompt": "Edit ONLY the legs of this goblin. The big forward leg is currently on LEFT SIDE OF IMAGE. Move that LEFT-SIDE leg BACK behind body, small foot higher up. Move the RIGHT-SIDE leg FORWARD toward camera, with large foot planted LOW at BOTTOM RIGHT. We need the RIGHT SIDE OF IMAGE knee and foot in foreground and the LEFT SIDE OF IMAGE foot behind. Keep upper body, knife on image LEFT, whistle, cape, face, palette exactly unchanged. Do NOT mirror whole image. Full body isolated true transparent background, no ground or shadows, no crop.",
+              "generated_file": "/workspace/generated_images/exec-141c6042-f2a7-4c5b-95b3-d02e8bb77754.png",
+              "tool": "image_gen.imagegen",
+              "source": "lookout-attempt-3.png"
+            }
+          ]
+        }
+      ],
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/lookout.webp"
+    },
+    "hexer": {
+      "source": "hexer.png",
+      "reference": "../../img/bestiary/hexer.webp",
+      "generated_file": "/workspace/generated_images/exec-a5b5cb73-71e1-4649-b57c-e8a7d085484b.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GOBLIN HEXER: green hooked goblin face, pointed ears, dark violet ragged cloth, skull cap with attached bone charms, bone-charm skull staff held in LEFT hand viewer right, free RIGHT hand casts. Idle staff planted; opposite steps under robes; windup gather tiny violet light free palm; strike extend free palm; recover retract; special lift free palm for hex; hurt hunch back; blink eyes closed. No detached bones, human face or projectile. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/hexer.png if file output supported.",
+      "repairs": [
+        {
+          "prompt": "Edit only TOP-RIGHT walking goblin in this complete 3x3 atlas: its RIGHT SIDE OF IMAGE leg must lead FORWARD with large foot low at bottom right; LEFT SIDE OF IMAGE foot is BEHIND, smaller and higher. Top-middle has opposite lead; keep it unchanged. Do not mirror staff or body. Staff stays LEFT hand VIEWER RIGHT, casting hand VIEWER LEFT. Keep all eight other figures unchanged, original olive skin and muted violet robe palette and exposure. All full body figures inside own cell with generous clear gutters, transparent background.",
+          "file": "/workspace/generated_images/exec-35658263-f528-458b-b374-8268f95ad3fc.png",
+          "source": "hexer-corrected.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "selected_source": "hexer-corrected.png",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "runtime_atlas": "../../img/creatures/hexer.webp"
+    },
+    "pikeman": {
+      "source": "pikeman.png",
+      "reference": "../../img/bestiary/pikeman.webp",
+      "generated_file": "/workspace/generated_images/exec-4196b1cb-92a8-4835-bf77-3f695381e5ff.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GOBLIN PIKEMAN: green goblin infantry, dented iron helmet, quilted brown coat and worn iron armour, ONE long continuous pike. Both hands grip same shaft with consistent front/rear hand order. Idle diagonal shaft clear of face with FULL spear tip visible; opposite step legs; windup draw shaft back; strike foreshortened frontal thrust retaining connected tip and both grips; recover retract; special brace pike forward; hurt torso recoil grips retained; blink eyes closed. No extra shaft, detached head, tip clipping. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/pikeman.png if file output supported.",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "runtime_atlas": "../../img/creatures/pikeman.webp"
+    },
+    "quillback": {
+      "source": "quillback.png",
+      "reference": "../../img/bestiary/quillback.webp",
+      "generated_file": "/workspace/generated_images/exec-8b9635c1-32f8-41be-81ef-812c60d4de40.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. QUILLBACK: large brown BEAR-like beast, rounded ears, broad paws, dark bear muzzle, dense mantle of rooted tan quills. Four legs with hindquarters receding behind frontal head. NO pig snout or tusks. Idle bear crouch; right forepaw plus left hind leg forward; opposite pair forward; windup shoulders gather; strike frontal jaws lunge; recover four paws; special quills raised but rooted; hurt shoulders back; blink eyes shut. No detached quills. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/quillback.png if file output supported.",
+      "body_centres": [
+        256.0,
+        768.0,
+        1280.0,
+        256.0,
+        768.0,
+        1280.0,
+        256.0,
+        768.0,
+        1280.0
+      ],
+      "runtime_atlas": "../../img/creatures/quillback.webp"
+    },
+    "drowned": {
+      "source": "drowned.png",
+      "reference": "../../img/bestiary/drowned.webp",
+      "generated_file": "/workspace/generated_images/exec-706f1403-f236-40b9-8fe7-ca4330d78883.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. DROWNED ONE: waterlogged humanoid corpse, pale grey green rotting skin, slack open mouth, wet heavy hair, weeds ATTACHED to ragged dripping brown clothes. Complete body with TWO arms and TWO legs and feet visible, NO water plane. Idle reaching hands; right dragging leg forward; LEFT dragging leg forward; windup draw both hands back; strike both hands reach forward existing grab; recover arms lower; special rising threat still full body visible; hurt recoil; blink subtle eye closure. No pool, loose weeds or missing lower body. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/drowned.png if file output supported.",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "runtime_atlas": "../../img/creatures/drowned.webp"
+    },
+    "emberling": {
+      "source": "emberling.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. EMBERLING: small black basalt rock creature, orange fissures, furnace chest and rocky face. TWO attached articulated arms and TWO legs. Dark basalt remains most of body, no white fire silhouette. Idle compact squat; opposite foot leads visibly; windup rocky arms back; strike short frontal rocky arm blow; recover settle; special contained fissure flare; hurt recoil with every boulder attached; blink idle fissure variation NO fleshy eyelids. No floating rocks, embers or ground lava. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/emberling.png if file output supported.",
+      "generated_file": "/workspace/generated_images/exec-c4e92f33-3704-4969-808b-153e48874369.png",
+      "reference": "../../img/bestiary/emberling.webp",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "runtime_atlas": "../../img/creatures/emberling.webp"
+    },
+    "mimic": {
+      "source": "mimic.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. MIMIC CHEST: toothed brown wooden chest, metal bands, hinged connected lid, continuous fleshy gum line, long tongue attached inside mouth. NO eyes, arms or human legs. Idle lid slightly open; stepA subtle right lean; stepB subtle left lean; windup connected lid tilts back tongue withdraws; strike mouth and attached tongue lunge forward; recover withdraw; special gape threat; hurt hinged body recoil; ninth idle jaw-gap variation NO eyes/lids. Consistent hinges and band positions. No detached lid or tongue. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/mimic.png if file output supported.",
+      "generated_file": "/workspace/generated_images/exec-a60e57ca-50de-4bff-adc7-a7bb27175e54.png",
+      "reference": "../../img/bestiary/mimic.webp",
+      "repairs": [
+        {
+          "prompt": "Edit complete nine-pose 3x3 chest Mimic atlas to face straight FORWARD in EVERY cell. NO mirrored chest. Same central lock, metal bands, side ring fittings and back hinge positions in all nine cells, symmetrical front with only small readable side thickness. Mouth tongue attached inside chest. Top-left idle lid partly open; top-middle slight weight right; top-right slight weight left WITHOUT mirroring any chest features or tongue root. Middle-left lid opens tongue pulls back; middle-centre attached tongue thrust FORWARD towards viewer; middle-right tongue retracts. Bottom-left gape, bottom-middle hurt tilt back, bottom-right smaller jaw gap. No eyes or human limbs, generous transparent cell margins. Retain dark wood and metal materials and palette across every pose. Transparent background no ground shadows.",
+          "file": "/workspace/generated_images/exec-788ca352-bf24-48e3-84ea-c73a3bf5e91b.png",
+          "source": "mimic-corrected.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "selected_source": "mimic-corrected.png",
+      "body_centres": [
+        256.0,
+        768.0,
+        1280.0,
+        256.0,
+        768.0,
+        1280.0,
+        256.0,
+        768.0,
+        1280.0
+      ],
+      "runtime_atlas": "../../img/creatures/mimic.webp",
+      "coverage": "Revealed chest form only; barrel/default forms remain procedural."
+    },
+    "lich": {
+      "source": "lich.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. DREAD LICH: undead bare skull with dark empty eye sockets and small COLD blue eye lights, dark ragged hooded robes, aged gold crown and ornate gold fittings, TWO skeletal arms. FULL robe fringe visible with stable torso; floating figure NO feet needed. Idle regal float; stepA right robe drift; stepB left robe drift; windup small contained cold blue light near one palm; strike extend same skeletal hand; recover withdraw; special both arms raised nova preparation with only contained palm light; hurt shoulders recoil crown attached; ninth neutral eye light variation NO eyelids. No living face, guards, throne or scenery. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/lich.png if file output supported.",
+      "generated_file": "/workspace/generated_images/exec-5ceca9a7-d59a-40f9-b059-60f66765de41.png",
+      "reference": "../../img/bosses/lich.webp",
+      "repairs": [
+        {
+          "prompt": "Edit this complete 3x3 nine-pose Lich atlas. Preserve same undead skull, crown and robes. Shrink EACH figure within its own cell to give 8% clear transparent margins on ALL edges: top crown and bottom robe tips must never touch image/cell edge. Change ALL violet magical light to restrained COLD ICE BLUE. Middle-left WINDUP must gather blue light in RIGHT hand on VIEWER LEFT, and middle-centre strike extend SAME RIGHT hand toward viewer. Middle-right recover retract same hand. Bottom-left special both hands raised with contained blue light. Keep neutral/frontal skull throughout, no eyelids. Stable chest centre through robe drifts. True transparent background, no floor or detached particles.",
+          "file": "/workspace/generated_images/exec-bc3d4553-2f17-407b-8aea-a4ac64fb7551.png",
+          "source": "lich-corrected.png",
+          "tool": "image_gen.imagegen"
+        },
+        {
+          "source": "lich-final.png",
+          "prompt": "Edit ONLY MIDDLE-LEFT figure in this full 3x3 Lich atlas. That windup currently holds blue light on RIGHT SIDE OF IMAGE. REMOVE light from that right-side hand and lower that right-side palm empty. Gather a small contained cold BLUE glow in the LEFT SIDE OF IMAGE palm instead, with connected elbow and skeletal wrist. Middle-centre strike and middle-right recover already use LEFT SIDE OF IMAGE hand and remain unchanged. Crown skull robes and fixed palette unchanged. Keep every other figure exactly unchanged and full body within clear margins. Output complete nine-pose transparent sheet, no background shadows or disconnected particles.",
+          "generated_file": "/workspace/generated_images/exec-7d6e2d3b-9ec5-4aaf-b0b0-b0fee6dec675.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "selected_source": "lich-final.png",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "anchors": [
+        [
+          209,
+          210
+        ],
+        [
+          627,
+          210
+        ],
+        [
+          1045,
+          210
+        ],
+        [
+          209,
+          630
+        ],
+        [
+          627,
+          630
+        ],
+        [
+          1045,
+          630
+        ],
+        [
+          209,
+          1048
+        ],
+        [
+          627,
+          1048
+        ],
+        [
+          1045,
+          1048
+        ]
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "runtime_atlas": "../../img/creatures/lich.webp",
+      "source_pose_order": [
+        "idle",
+        "stepA",
+        "stepB",
+        "recover",
+        "strike",
+        "windup",
+        "special",
+        "hurt",
+        "blink"
+      ],
+      "coverage": "Initial phase (zero) only; later phases remain procedural.",
+      "registration": "Measured torso anchors at atlas (128,128); reserve drift cells do not bind new steps."
+    },
+    "heartforged": {
+      "source": "heartforged.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. HEARTFORGED: massive dark iron furnace guardian, rivets, heavy articulated attached metal limbs, orange glowing CHEST furnace grille, geometric armoured face. TWO arms TWO legs and ONE heavy smith hammer. Both gauntlets visibly grip SAME continuous hammer shaft, same hand order in all cells. Idle hammer low across body; opposite metal feet lead; windup hammer raised through connected elbows; strike hammer forward down with both grips; recover lower; special planted stamp brace with contained chest glow; hurt articulated torso recoils; ninth furnace brightness variation NO eyelids. No detached hammerhead, lava pool or floating armour. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/heartforged.png if file output supported.",
+      "generated_file": "/workspace/generated_images/exec-924d2b18-b10d-4cbc-b08a-77a2c8d249f6.png",
+      "reference": "../../img/bosses/heartforged.webp",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "repairs": [
+        {
+          "prompt": "Edit complete 3x3 atlas of iron furnace guardian, ONLY TOP-RIGHT walking figure. Currently its big forward leg is on LEFT SIDE OF IMAGE. Move that LEFT-SIDE leg BACK behind body, smaller foot higher up. Move RIGHT-SIDE leg FORWARD toward camera, large foot planted LOW at BOTTOM RIGHT of that cell. Upper body and equipment unchanged: hammer remains same shaft and same grip hand order viewer left and viewer right. Do NOT mirror whole figure. Retain same original palette, exposure, full body proportions and clear transparent cell margins. All other eight figures unchanged. Return complete nine-pose sheet on transparent background.",
+          "file": "/workspace/generated_images/exec-f84d52f7-ac95-428b-93b8-2988b562595c.png",
+          "source": "heartforged-stepB.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "sheet_corrections": {
+        "source": "heartforged-stepB.png",
+        "poses": {
+          "stepB": 2
+        },
+        "body_centres": {
+          "stepB": 1045
+        }
+      },
+      "runtime_atlas": "../../img/creatures/heartforged.webp",
+      "coverage": "Initial phase (zero) only; later phases remain procedural."
+    },
+    "warlord": {
+      "source": "warlord.png",
+      "transparent_background": true,
+      "status": "source and registered export visually reviewed; existing supported poses integrated locally",
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical creature, exactly NINE full-body figures in a precise 3x3 grid. Transparent background, no scenery, ground, shadows, text, borders or detached particles. Wide empty gutters and 8% margins in EVERY cell including weapon tips. Every face and torso faces viewer directly. Match supplied portrait identity and detailed painted materials, fixed warm amber upper-left lighting and restrained cool right rim. Identical proportions, exposure, colour and equipment through nine cells. Do not mirror equipment. Anatomical right is viewer left. Row-major order: idle; right leg leads; LEFT leg leads visibly opposite without mirroring; windup; strike; recover; special preparation/reserve; hurt; neutral eyes closed (or idle variation if no eyelids). Keep same body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GOBLIN WARLORD: large olive green goblin king, hammered GOLD crown, dark leather and fur, ragged red cloak, war drum STRAPPED at LEFT hip viewer right. ONE cleaver in RIGHT hand viewer left; free left hand near drum. Idle cleaver low; right leg then left leg leads NO mirroring; windup cleaver raised; strike frontal cleaver cut; recover low guard; special free left hand prepares to beat attached drum while right retains cleaver; hurt chest recoil retaining crown drum; blink eyes closed. No third hand, floating drum, spear, throne, bucket or spoon crown. Preserve original PNG at /workspace/Dungeon-Hack-Mobile/art/creatures/warlord.png if file output supported.",
+      "generated_file": "/workspace/generated_images/exec-25b22f36-76c0-4fd4-9f03-cd70d5455bd7.png",
+      "reference": "../../img/bosses/warlord.webp",
+      "body_centres": [
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0,
+        209.0,
+        627.0,
+        1045.0
+      ],
+      "repairs": [
+        {
+          "prompt": "Edit complete 3x3 atlas of goblin king, ONLY TOP-RIGHT walking figure. Currently its big forward leg is on LEFT SIDE OF IMAGE. Move that LEFT-SIDE leg BACK behind body, smaller foot higher up. Move RIGHT-SIDE leg FORWARD toward camera, large foot planted LOW at BOTTOM RIGHT of that cell. Upper body and equipment unchanged: cleaver stays on LEFT SIDE OF IMAGE, drum stays strapped RIGHT SIDE OF IMAGE. Do NOT mirror whole figure. Retain same original palette, exposure, full body proportions and clear transparent cell margins. All other eight figures unchanged. Return complete nine-pose sheet on transparent background.",
+          "file": "/workspace/generated_images/exec-fa094585-de91-4257-8ddb-a9bfe644b386.png",
+          "source": "warlord-stepB.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "sheet_corrections": {
+        "source": "warlord-stepB.png",
+        "poses": {
+          "stepB": 2
+        },
+        "body_centres": {
+          "stepB": 1045
+        }
+      },
+      "runtime_atlas": "../../img/creatures/warlord.webp",
+      "coverage": "Initial phase (zero) only; later phases remain procedural. Throne and spear windups remain procedural."
+    }
+  }
+}
