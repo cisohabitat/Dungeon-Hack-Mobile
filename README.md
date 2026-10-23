@@ -51,17 +51,20 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.
 
-- **Art and readable mobile views.** Forty-three creature identities have painted dungeon
+- **Art and readable mobile views.** Fifty-three creature identities have painted dungeon
   poses: the Dark Elf Warrior and Mage, Blink Hound, Cave Wyrm, Skarrow,
   Lizardfolk and Shaman, Grey Dwarf and Arbalest, Slime, Rustmaw, Eyeless Stalker
   and Puffcap, plus Rat, Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith
   and Ogre; Troll, Minotaur, Kobold, Archer, Basilisk, Acolyte, Moth, Thornhog,
   Imp and Cutpurse; Lookout, Hexer, Pikeman, Quillback, Drowned One, Emberling,
-  chest Mimic, Lich, Heartforged and Warlord. Barrel Mimics and later keeper
-  phases retain procedural art. Each painting loads on demand with its own poses, normal
-  lighting and warnings, and works offline. Skarrow keeps her distinct
-  scarred, three-horned identity; other named champions and companions keep
-  their own appearances. Procedural art remains available if an atlas cannot load.
+  chest Mimic, Lich, Heartforged and Warlord; the default knight Shade, Grisk,
+  Vessra, Ushgar, Morrow, Orla, Gorrum, Vaelith, Hissra and Durgrim. Fallen heroes
+  of other classes retain their procedural class equipment. Barrel Mimics and
+  later keeper phases retain procedural art. Each painting loads on demand with
+  its own poses, normal lighting and warnings, and works offline. Skarrow keeps her distinct
+  scarred, three-horned identity; the other named champions have their own
+  atlases, while companions retain their separate appearances. Procedural art
+  remains available if an atlas cannot load.
   Bestiary, companion and relic collections
   offer Field notes and Gallery layouts; Gallery puts the paintings first with
   expandable lore and statistics, preserving what each hero has learned. Layout
@@ -1160,12 +1163,15 @@ art/identity.json     identifying traits reviewed for every bestiary entry and c
 art/creatures/ATLAS-BRIEFS.md  all pending dungeon atlas briefs, batches and live inventory
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
+art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
+art/creatures/generation-batch-d.json  Shade/champion sources, repairs and torso registration
 art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
+art/creatures/batch-d-preview/  champion atlases, phone captures and local validation results
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
 art/bestiary/overrides/  individual corrected paintings, preserved across re-exports
 ```
 
-Thirty-three creatures now use painted dungeon poses, including Batch A's Rat,
+Fifty-three creature identities now use painted dungeon poses, including Batch A's Rat,
 Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith and Ogre. Their atlases
 are cached for offline play; named champions retain their own identities.
 Reproduce Batch A's review and shipped exports with
@@ -1185,6 +1191,20 @@ registration. `node art/creatures/preview-batch-b.cjs` captures existing support
 poses at 390px and 320px through the real runtime loader and shipped images.
 All ten are integrated and cached offline. Review files stay under
 `art/creatures/batch-b-preview/`. See [the review](art/creatures/batch-b-preview/REVIEW.md).
+
+Batch C covers Lookout through the three keepers. Reproduce its exports with
+`python3 art/creatures/export-batch-c.py --check` and capture supported poses with
+`node art/creatures/preview-batch-c.cjs`. Barrel Mimics and later keeper phases
+retain their procedural forms; chest Mimics use painted art only after revelation.
+
+Batch D covers the default knight Shade and nine named champions. Reproduce its
+ten atlases and neutral/walking/action sheets with
+`python3 art/creatures/export-batch-d.py --check`; capture the integrated dungeon
+poses at both phone widths with `node art/creatures/preview-batch-d.cjs`.
+Shade and Orla register their floating torsos. Non-fighter fallen heroes retain
+their procedural class gear throughout loading. Existing supported poses and
+special fallbacks remain unchanged. See [the Batch D review](art/creatures/batch-d-preview/REVIEW.md)
+and [local checks](art/creatures/batch-d-preview/integration-checks.md).
 
 ## Keeping documentation current
 

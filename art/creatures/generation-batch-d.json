@@ -1,0 +1,404 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "ATLAS-BRIEFS.md",
+  "status": "generated, repaired, visually reviewed and integrated locally; all local regression cases covered; not published",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "shade": {
+      "source": "shade.png",
+      "reference": "../../img/bestiary/shade.webp",
+      "generated_file": "/workspace/generated_images/exec-6dbab14f-eedc-4c41-b7be-1a97d8a0f462.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. Cold blue spectral fallen KNIGHT matching reference: armoured skull helmet with blue eye light, ragged spectral skirt, sword in anatomical RIGHT hand viewer LEFT, heraldic shield in LEFT viewer RIGHT. Full body. Idle frontal guard; subtle opposing drift steps; windup draw sword back; strike sword thrust forward; recover guard; special shield brace; hurt torso recoils retaining gear; last neutral helm/eye-light variation. Connected sword and shield grips, restrained transparent edges. No new living face.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/shade.webp",
+      "selected_source": "shade-corrected.png",
+      "repairs": [
+        {
+          "source": "shade-corrected.png",
+          "prompt": "Edit this complete 3x3 nine-pose spectral knight atlas. Preserve identities, colours, sword on image LEFT, shield on RIGHT, connected grips and each upper-body pose. REMOVE all legs and boots from EVERY figure: below the belt is only a trailing ragged spectral surcoat and blue mist tapering away, no feet. This is a hovering fallen knight. Make each figure 15% smaller inside its own cell with wide transparent gutters and margins, especially TOP-LEFT crown currently touches sheet edge; rebuild intact crown and sword tips completely within margins. Front-facing heads. Keep SAME torso height and body scale throughout, differing robe fringes allowed. No background, floor, shadows, detached mist blobs, text or new glow. True transparent alpha. Nine complete figures remain in precise 3x3 grid.",
+          "generated_file": "/workspace/generated_images/exec-729f1069-7b3b-4770-ac2b-6b9d7ac258ae.png",
+          "reference": "shade.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "anchors": [
+        [
+          225,
+          235
+        ],
+        [
+          645,
+          235
+        ],
+        [
+          1064,
+          235
+        ],
+        [
+          220,
+          640
+        ],
+        [
+          640,
+          640
+        ],
+        [
+          1065,
+          640
+        ],
+        [
+          225,
+          1050
+        ],
+        [
+          640,
+          1050
+        ],
+        [
+          1065,
+          1050
+        ]
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "Measured upper-torso centres in source coordinates, with one shared scale and target anchor; robe fringe does not determine vertical placement.",
+      "runtime_binding": "shade base and existing generic elite poses only; other fallen classes remain procedural"
+    },
+    "grisk": {
+      "source": "grisk.png",
+      "reference": "../../img/bestiary/grisk.webp",
+      "generated_file": "/workspace/generated_images/exec-c9f8241a-4bdd-4daa-9968-472a057e0cd9.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GRISK green goblin KING matching reference hooked goblin nose, bucket iron crown with attached BENT SPOONS, ragged RED cloak, junk belt. Short knife RIGHT hand viewer LEFT, free left hand. Two arms two legs. No throne or staff. Idle royal guard; opposite walking legs; windup knife back; strike knife thrust; recover guard; special free left hand raised rally; hurt recoil; blink eyes closed. Same dented bucket and attached spoons every frame, never gold warlord crown.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/grisk.webp",
+      "selected_source": "grisk-corrected.png",
+      "repairs": [
+        {
+          "source": "grisk-corrected.png",
+          "prompt": "Edit this complete nine-pose Grisk goblin king atlas. Keep all nine character poses, exact colours/exposure and attached knife on VIEWER LEFT, red cloak, bucket crown with spoons. Add generous true transparent padding INSIDE EACH of nine grid cells: shrink each entire figure uniformly about 12%, without clipping any spoon, boot, finger or cape tip. TOP-LEFT and TOP-RIGHT spoon tips currently touch outer sheet edge: restore intact tips within clear margins. Maintain current opposite leading legs in top-middle vs top-right, do not mirror equipment or change poses. Preserve full-body frontal identity and the same body scale across all figures. No ground/shadow/text/background. Exactly 3x3 figures.",
+          "generated_file": "/workspace/generated_images/exec-f5847980-82a4-48d9-8021-e65c511f7c2d.png",
+          "reference": "grisk.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.grisk and its existing supported poses"
+    },
+    "vessra": {
+      "source": "vessra.png",
+      "reference": "../../img/bestiary/vessra.webp",
+      "generated_file": "/workspace/generated_images/exec-682d24cb-7c72-40e1-ad4a-b7748b6bff0f.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. VESSRA elder SPIDER QUEEN matching reference broad mottled brown hairy abdomen with PALE marking, eight jointed walking legs, TWO small pedipalps, paired fangs, front-facing black eyes. Abdomen recedes behind frontal head. Short silk strands ATTACHED beneath abdomen only. Idle low frontal; opposing coordinated walking leg groups; windup forebody raised fangs back; strike forward connected bite; recover settle; special silk-threat brace with NO projectile; hurt bent joint recoil; final neutral palp variation NO eyelids. EXACTLY eight legs in every figure, no loose web backdrop.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/vessra.webp",
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.vessra and its existing supported poses"
+    },
+    "ushgar": {
+      "source": "ushgar.png",
+      "reference": "../../img/bestiary/ushgar.webp",
+      "generated_file": "/workspace/generated_images/exec-7a4e804e-7a71-44bb-ba5f-9196d91f840a.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. USHGAR green ORC WARCHIEF reference horned iron helmet, RED face paint, fur mantle and skull straps. Heavy axe in RIGHT hand viewer LEFT; left hand free. Two arms/two legs, full body. Idle axe ready; opposite walking leads; windup axe raised above right shoulder; strike forward axe cut; recover lower axe; special charge brace; hurt recoil; blink eyes closed. Horns rooted in HELMET, skull ornaments strapped to fur, all grips continuous. No drum.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/ushgar.webp",
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.ushgar and its existing supported poses"
+    },
+    "morrow": {
+      "source": "morrow.png",
+      "reference": "../../img/bestiary/morrow.webp",
+      "generated_file": "/workspace/generated_images/exec-8fc82d01-8910-453d-b9a7-871ad8f50bbf.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. MORROW yellow-grey corpulent elder GHOUL LORD reference heavy BELLY, finger-bone CROWN and thighbone held horizontally BETWEEN JAWS in EVERY pose. Long clawed arms, ragged dark clothes, two arms/two legs. Idle hungry crouch; opposing walking leads; windup claws drawn back; strike BOTH claws reach forward while identifying thighbone STAYS clamped in mouth; recover hands belly; special threat retaining jaw bone; hurt recoil retaining crown; blink eyes shut. No thin ordinary ghoul, floating bone or extra jaw.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/morrow.webp",
+      "selected_source": "morrow-corrected.png",
+      "repairs": [
+        {
+          "source": "morrow-corrected.png",
+          "prompt": "Edit this complete 3x3 nine-pose Morrow Ghoul Lord atlas for safe margins ONLY. Preserve all nine poses, palette/exposure, heavy belly, attached finger-bone crown, and thighbone clamped IN JAWS in EVERY pose. Reduce each figure uniformly 15% within its own cell, keeping same body scale throughout, with wide transparent gutters. Restore intact finger-bone crown tips in TOP row which currently touch outer canvas edge, and intact toes clear of bottom canvas edge. Keep opposite leading feet in top-middle vs top-right; equipment never mirrors. Full frontal head and torso, unchanged claw poses, closed eyes bottom-right. True transparent background, no shadow, ground or text.",
+          "generated_file": "/workspace/generated_images/exec-b166bc61-76bb-4d98-bffc-55ba56014b8a.png",
+          "reference": "morrow.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.morrow and its existing supported poses"
+    },
+    "orla": {
+      "source": "orla.png",
+      "reference": "../../img/bestiary/orla.webp",
+      "generated_file": "/workspace/generated_images/exec-0b19c111-00cc-4c64-9c50-626cfa9e3fa9.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. ORLA HOLLOW ABBESS reference grey spectral habit, white wimple, completely EMPTY BLACK face opening. NO skull, eyes, nose, mouth, feet in ANY cell. Thin connected spectral hands hold prayer BEADS; cracked gold halo attached behind hood. Idle frontal prayer hover; gentle opposite habit drifts, stable hood and torso; windup draw right hand back beads in left; strike reach right hand towards viewer beads left; recover prayer; special raise both hands with beads still held; hurt hood shoulders recoil; final neutral halo/bead variation NEVER eyes. Same cracked halo and empty opening in all nine. Full robe fringe, no detached beads.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/orla.webp",
+      "selected_source": "orla-corrected.png",
+      "repairs": [
+        {
+          "source": "orla-corrected.png",
+          "prompt": "Edit this complete 3x3 nine-pose Hollow Abbess atlas. Preserve ALL poses, grey habit/white wimple, connected hands and prayer beads, exact colours and EMPTY BLACK face opening with absolutely NO facial features. Halo must be visibly CRACKED: one distinct narrow missing wedge at viewer upper RIGHT of ring, consistent in every pose. Currently halo top touches sheet edge; restore complete outer halo tips. Shrink every full figure uniformly by 15% in its own cell to give wide transparent margins on ALL sides, including robe ends and reaching fingers. Same torso scale throughout, no feet. No background, ground, shadows, separate props or detached particles. Keep true transparent alpha and nine complete figures.",
+          "generated_file": "/workspace/generated_images/exec-52fb0578-8e01-44da-b4bc-1cac975b8eb7.png",
+          "reference": "orla.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "anchors": [
+        [
+          230,
+          230
+        ],
+        [
+          650,
+          230
+        ],
+        [
+          1070,
+          230
+        ],
+        [
+          230,
+          640
+        ],
+        [
+          650,
+          640
+        ],
+        [
+          1070,
+          640
+        ],
+        [
+          230,
+          1050
+        ],
+        [
+          650,
+          1050
+        ],
+        [
+          1070,
+          1050
+        ]
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "Measured upper-torso centres in source coordinates, with one shared scale and target anchor; robe fringe does not determine vertical placement.",
+      "runtime_binding": "base.elite.orla and its existing supported poses"
+    },
+    "gorrum": {
+      "source": "gorrum.png",
+      "reference": "../../img/bestiary/gorrum.webp",
+      "generated_file": "/workspace/generated_images/exec-5fa510c5-7c54-49ab-b2c6-0c90202ac883.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. GORRUM ancient grey-green TROLL FATHER matching reference massive hooked features, long WHITE moss beard and mane rooted under jaw, skull necklace on cord, stone-textured skin and moss patches. Two long clawed arms/two legs. Idle frontal hunch; distinct opposing walking leads; windup right claw back; strike heavy frontal claw swipe; recover lower arm; special looming threat; hurt recoil; blink eyes closed. No weapon, no club, no ordinary green hair; beard and skull cord remain attached all poses.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/gorrum.webp",
+      "selected_source": "gorrum-corrected.png",
+      "repairs": [
+        {
+          "source": "gorrum-corrected.png",
+          "prompt": "Edit ONLY TOP-RIGHT walking Troll in this complete 3x3 atlas. Its RIGHT SIDE OF IMAGE leg must lead FORWARD: large right-image knee and foot planted LOW in foreground. Its LEFT SIDE OF IMAGE leg must trail BACK: smaller foot higher, partially behind belly. This must be opposite to TOP-MIDDLE which already leads with LEFT SIDE OF IMAGE foot. Do NOT mirror entire troll or shift necklace/beard. Keep all other eight figures and all upper bodies, white beard/mane, grey-green stone skin, moss, skull necklace, exact palette/exposure unchanged. All figures stay complete inside their cells. True transparent background, no ground/shadow, no extra limbs.",
+          "generated_file": "/workspace/generated_images/exec-63d7f3e9-c72a-4532-bfbc-ded8c0b2a4d1.png",
+          "reference": "gorrum.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.gorrum and its existing supported poses"
+    },
+    "vaelith": {
+      "source": "vaelith.png",
+      "reference": "../../img/bestiary/vaelith.webp",
+      "generated_file": "/workspace/generated_images/exec-df267df1-a1fb-4479-8cbb-2fea82cbc7a3.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. VAELITH ash-grey elf HIGH PRIESTESS matching reference long WHITE hair, SILVER spider CROWN, black and WINE RED robes, silver fittings and red gems. Spider topped STAFF held LEFT hand viewer RIGHT in every pose, free RIGHT hand viewer LEFT casts. Idle composed frontal; opposing walking legs beneath robe; windup small restrained shadow light free palm; strike extend free palm, staff retained; recover retract palm; special raise free hand and staff for chant; hurt recoil; blink eyes closed. Same attached silver spider ornament and closed staff grip all cells. No generic violet mage.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/vaelith.webp",
+      "selected_source": "vaelith-corrected.png",
+      "repairs": [
+        {
+          "source": "vaelith-corrected.png",
+          "prompt": "Edit complete 3x3 nine-pose Vaelith High Priestess atlas. Fix top-row crown and staff finial edge clipping: shrink EACH entire figure by 15% inside own grid cell, restore complete silver spider crown/staff tips within wide transparent margins; same body scale all nine. Keep ash-grey skin, long white hair, black/wine-red robes and silver fittings, palette/exposure exactly. Preserve staff in LEFT hand VIEWER RIGHT in every pose, free casting hand VIEWER LEFT. Make TOP-MIDDLE step clearly lead with VIEWER LEFT boot, opposite TOP-RIGHT step leading with VIEWER RIGHT boot; show two boot tips beneath robe so the opposite leads can be checked. Do not mirror equipment or turn face. Other seven poses remain exactly, bottom-right closed eyes. True transparent background, no ground/shadow/text or new light.",
+          "generated_file": "/workspace/generated_images/exec-06cb44ed-61bf-4f97-8faa-da25b25d120e.png",
+          "reference": "vaelith.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.vaelith and its existing supported poses"
+    },
+    "hissra": {
+      "source": "hissra.png",
+      "reference": "../../img/bestiary/hissra.webp",
+      "generated_file": "/workspace/generated_images/exec-14a1410b-bee3-4432-a8bc-a3c6b75f0ec8.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. HISSRA elder dark GREEN LIZARD warrior woman matching reference WHITE crest and reed mantle, tooth collar, projecting REPTILIAN snout, one heavy connected tail. SPEAR held RIGHT hand viewer LEFT, turtle-shell SHIELD held LEFT viewer RIGHT inherited warrior kit. Two arms/two legs. Idle frontal guard; distinct opposite walking leads without swapping spear/shield; windup spear back; strike connected spear thrust; recover guard; special coil tail sweep brace without turning face away; hurt recoil; blink reptilian eyes closed. Keep white crest and shield grip, no orange crest, no human lips, no shaman staff.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/hissra.webp",
+      "selected_source": "hissra-corrected.png",
+      "repairs": [
+        {
+          "source": "hissra-corrected.png",
+          "prompt": "Edit this complete 3x3 Hissra elder lizard warrior atlas. Restore spear tips currently touching upper sheet edge: shrink each entire figure uniformly 15% inside its cell with generous transparent margins. Keep spear in RIGHT hand VIEWER LEFT and turtle-shell shield in LEFT VIEWER RIGHT, same white crest, dark green scales, tooth collar/reed mantle, one attached heavy tail, exact colours/exposure. Correct TOP-MIDDLE walking pose: VIEWER LEFT knee and foot large and forward, VIEWER RIGHT foot behind smaller/higher. TOP-RIGHT must be opposite: VIEWER RIGHT knee and foot forward, VIEWER LEFT behind. Do NOT mirror gear. All heads look directly at viewer with projecting reptilian snout, both eyes readable, no human lips. Other poses unchanged, shield retains grip even in tail sweep. True transparent background, no ground/shadow/text.",
+          "generated_file": "/workspace/generated_images/exec-d6a8d28f-635f-43ed-8416-c1a4faf328b2.png",
+          "reference": "hissra.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.hissra and its existing supported poses"
+    },
+    "durgrim": {
+      "source": "durgrim.png",
+      "reference": "../../img/bestiary/durgrim.webp",
+      "generated_file": "/workspace/generated_images/exec-5dfe6f2b-f18c-4a39-b997-9a94a6745690.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas of ONE identical character, exactly NINE full-body figures in a precise 3x3 grid, true transparent background. No scenery, ground, shadows, text, borders, detached particles. Wide empty gutters, 8% transparent margins in EVERY cell including weapon/crown tips. Every face and torso faces viewer directly. Match supplied portrait identity, detailed painted materials, warm upper-left light and cool rim. Identical proportions, exposure, colour and equipment throughout. Do NOT mirror equipment. Anatomical right is viewer LEFT. Row-major order: idle; stepA anatomical right leg VIEWER LEFT leads; stepB anatomical LEFT leg VIEWER RIGHT leads clearly opposite, other leg behind; windup; strike; recover; special reserve; hurt; blink/idle variation. Stable body scale and foot baseline. Continuous attached limbs and arm-wrist-grip-weapon chain. DURGRIM grey DWARF FORGE THANE matching reference long WHITE beard bound copper rings, dark IRON crown with copper fittings, scorched RED cloak, smith apron and block-headed heavy smith HAMMER. Hammer RIGHT hand viewer LEFT, closed grip every pose; free left hand. Idle hammer low; opposite walking leads; windup hammer above right shoulder; strike forward/down hammer blow; recover low; special planted enlargement brace but SAME body size; hurt recoil; blink eyes closed. No ordinary dark beard, gold crown, detached copper rings or floating hammer head.",
+      "body_centres": [
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045,
+        209,
+        627,
+        1045
+      ],
+      "runtime_atlas": "../../img/creatures/durgrim.webp",
+      "selected_source": "durgrim-corrected.png",
+      "repairs": [
+        {
+          "source": "durgrim-corrected.png",
+          "prompt": "Edit ONLY TOP-RIGHT walking dwarf in this complete 3x3 nine-pose Durgrim atlas. The RIGHT SIDE OF IMAGE knee and boot must lead FORWARD: larger and LOW at bottom right. LEFT SIDE OF IMAGE leg must go BACK: smaller boot visibly higher to left behind apron. This is opposite to TOP-MIDDLE which already leads with image LEFT boot. DO NOT mirror upper body or hammer. Hammer stays in RIGHT hand VIEWER LEFT, same white beard/copper rings, iron/copper crown, dark red cloak, skin and exact exposure. Other eight figures and all upper bodies remain unchanged. Every entire figure must stay clear of outer canvas edges with transparent gutters, no background/ground/shadow.",
+          "generated_file": "/workspace/generated_images/exec-5e3c5416-9710-4038-85ee-74a0521a915f.png",
+          "reference": "durgrim.png",
+          "tool": "image_gen.imagegen"
+        }
+      ],
+      "status": "selected source and all nine registered export cells visually reviewed; existing supported poses integrated locally",
+      "registration": "One uniform scale; source grid body centres and visible grounded baseline row236.",
+      "runtime_binding": "base.elite.durgrim and its existing supported poses"
+    }
+  }
+}

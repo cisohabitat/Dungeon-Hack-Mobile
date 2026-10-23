@@ -3,7 +3,7 @@
 const links = new WeakMap();
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 const shades = [0, 0.25, 0.45, 0.62, 0.78];
-const kinds = new Set(['drow_warrior', 'hound', 'wyrm', 'lizardfolk', 'dwarf_arbalest', 'slime', 'rustmaw', 'skarrow', 'drow_mage', 'grey_dwarf', 'lizard_shaman', 'eyeless', 'puffcap', 'rat', 'bat', 'spider', 'goblin', 'skeleton', 'zombie', 'orc', 'ghoul', 'wraith', 'ogre', 'troll', 'minotaur', 'kobold', 'archer', 'basilisk', 'acolyte', 'moth', 'thornhog', 'imp', 'cutpurse', 'lookout', 'hexer', 'pikeman', 'quillback', 'drowned', 'emberling', 'mimic', 'lich', 'heartforged', 'warlord']);
+const kinds = new Set(['drow_warrior', 'hound', 'wyrm', 'lizardfolk', 'dwarf_arbalest', 'slime', 'rustmaw', 'skarrow', 'drow_mage', 'grey_dwarf', 'lizard_shaman', 'eyeless', 'puffcap', 'rat', 'bat', 'spider', 'goblin', 'skeleton', 'zombie', 'orc', 'ghoul', 'wraith', 'ogre', 'troll', 'minotaur', 'kobold', 'archer', 'basilisk', 'acolyte', 'moth', 'thornhog', 'imp', 'cutpurse', 'lookout', 'hexer', 'pikeman', 'quillback', 'drowned', 'emberling', 'mimic', 'lich', 'heartforged', 'warlord', 'shade', 'grisk', 'vessra', 'ushgar', 'morrow', 'orla', 'gorrum', 'vaelith', 'hissra', 'durgrim']);
 const atlases = new Map();
 
 function bindPaintedCreature(sprite, kind, pose = 'idle', tint = '') {

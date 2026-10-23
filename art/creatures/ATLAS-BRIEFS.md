@@ -4,8 +4,8 @@ Canonical planning file for all pending painted dungeon monster atlases.
 Prepared 22 October 2026 against main `a6472543f4ee5469447c652e0a90b16f06a920fc`.
 
 **Status:** Batch A's ten creatures generated, corrected and integrated on 23 October 2026.
-Batch B is generated, repaired, visually reviewed and integrated; Batch C is generated, repaired, visually reviewed and integrated locally; ten Batch D briefs await generation.
-The runtime supports 43 painted identities, with unmatched Mimic and keeper variants procedural.
+Batch B is generated, repaired, visually reviewed and integrated; Batch C is generated, repaired, visually reviewed and integrated locally; Batch D is generated, repaired and integrated locally.
+The runtime supports 53 painted identities, with unmatched Mimic and keeper variants procedural.
 Variant requirements may require
 more than one atlas for an entry, especially Shade and Mimic.
 
@@ -22,7 +22,7 @@ for integration. Keep the status current as each atlas is actually completed.
 | A | 1–10 | Rat through Ogre | Generated, revised and integrated |
 | B | 11–20 | Troll through Cutpurse | Generated, repaired, reviewed and integrated |
 | C | 21–30 | Remaining ordinary creatures and three keepers | Generated, reviewed and integrated locally |
-| D | 31–40 | Shade and nine unpainted named champions | Briefs ready; generation pending |
+| D | 31–40 | Shade and nine unpainted named champions | Generated, repaired and integrated locally |
 
 Batch A generation succeeded with `image_gen.imagegen` on 22 October 2026.
 Actual prompts, references and repair requests are preserved in
@@ -721,7 +721,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 31. Shade
 
-**Kind:** `shade`. **Reference:** `img/bestiary/shade.webp`. **Status:** brief ready; generation pending.
+**Kind:** `shade`. **Reference:** `img/bestiary/shade.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Cold blue spectral fallen knight in armour with sword and shield for the default identity. Keep a readable helmet/face opening, connected gear and restrained translucent edges. This default must not replace the existing fallen hero’s class-specific equipment.
 
@@ -741,7 +741,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 32. Grisk — Goblin King
 
-**Kind:** `grisk`. **Reference:** `img/bestiary/grisk.webp`. **Status:** brief ready; generation pending.
+**Kind:** `grisk`. **Reference:** `img/bestiary/grisk.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Green goblin king, dented bucket crown with bent spoons, ragged red cloak, junk belt and short knife. More important than a common goblin, but not the gold-crowned Warlord. Keep spoons physically fixed to the crown.
 
@@ -761,7 +761,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 33. Vessra — Web-Mother
 
-**Kind:** `vessra`. **Reference:** `img/bestiary/vessra.webp`. **Status:** brief ready; generation pending.
+**Kind:** `vessra`. **Reference:** `img/bestiary/vessra.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Elder spider queen, broad body with pale abdomen marking and attached hanging silk. Eight jointed walking legs, two pedipalps and paired fangs. Front-facing head; abdomen recedes behind, with pale marking readable where visible.
 
@@ -781,7 +781,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 34. Ushgar — Orc Warchief
 
-**Kind:** `ushgar`. **Reference:** `img/bestiary/ushgar.webp`. **Status:** brief ready; generation pending.
+**Kind:** `ushgar`. **Reference:** `img/bestiary/ushgar.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Green orc chief, horned iron helmet, red face paint, fur and skull ornaments, with his heavy axe. Keep horn roots and skull straps attached. Larger authority and richer equipment than an ordinary Orc.
 
@@ -801,7 +801,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 35. Morrow — Ghoul Lord
 
-**Kind:** `morrow`. **Reference:** `img/bestiary/morrow.webp`. **Status:** brief ready; generation pending.
+**Kind:** `morrow`. **Reference:** `img/bestiary/morrow.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Yellow-grey elder ghoul with a heavy belly, finger-bone crown and a thighbone held across its jaws. Long clawed arms and ragged clothing. Keep it recognisably different from the ordinary gaunt Ghoul.
 
@@ -821,7 +821,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 36. Orla — Hollow Abbess
 
-**Kind:** `orla`. **Reference:** `img/bestiary/orla.webp`. **Status:** brief ready; generation pending.
+**Kind:** `orla`. **Reference:** `img/bestiary/orla.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Grey spectral habit, white wimple, completely empty black face opening, prayer beads in connected hands and a cracked halo behind the hood. No skull, eyes, nose, mouth or feet.
 
@@ -841,7 +841,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 37. Gorrum — Troll-Father
 
-**Kind:** `gorrum`. **Reference:** `img/bestiary/gorrum.webp`. **Status:** brief ready; generation pending.
+**Kind:** `gorrum`. **Reference:** `img/bestiary/gorrum.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Ancient grey-green troll, long white moss beard and mane, heavy hooked features and skull necklace. Two long arms and two legs. Keep beard rooted beneath the jaw and necklace fixed to its cord.
 
@@ -861,7 +861,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 38. Vaelith — High Priestess
 
-**Kind:** `vaelith`. **Reference:** `img/bestiary/vaelith.webp`. **Status:** brief ready; generation pending.
+**Kind:** `vaelith`. **Reference:** `img/bestiary/vaelith.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Ash-skinned elf priestess, long white hair, silver spider crown and black/wine-red robes with silver fittings. Preserve the current painting’s staff and frontal face; connected left-hand staff grip and free right casting hand.
 
@@ -881,7 +881,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 39. Hissra — Marsh-Mother
 
-**Kind:** `hissra`. **Reference:** `img/bestiary/hissra.webp`. **Status:** brief ready; generation pending.
+**Kind:** `hissra`. **Reference:** `img/bestiary/hissra.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Dark green elder lizard, white crest, tooth collar and reed mantle. Proper projecting reptilian snout, one heavy tail, spear in right hand and turtle-shell shield in left consistent with her inherited warrior kit.
 
@@ -901,7 +901,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 40. Durgrim — Forge-Thane
 
-**Kind:** `durgrim`. **Reference:** `img/bestiary/durgrim.webp`. **Status:** brief ready; generation pending.
+**Kind:** `durgrim`. **Reference:** `img/bestiary/durgrim.webp`. **Status:** generated, repaired and visually reviewed; integrated locally with class/variant safeguards.
 
 **Identity:** Grey dwarf with long white beard bound in copper rings, iron crown, forge-scorched red cloak, smith apron and heavy smith hammer. Keep the block head and shaft joined; right-hand grip stays closed throughout.
 
