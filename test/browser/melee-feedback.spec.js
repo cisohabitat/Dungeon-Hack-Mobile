@@ -103,6 +103,9 @@ test('shot warnings distinguish missiles and magic, including grouped special at
   await setup(page);
   const result = await page.evaluate(async () => {
     const { Dice, Odds } = await import('/js/rng.js');
+    // Integer fixture milliseconds make the exact 80% warning independent
+    // of the fractional browser frame on which this evaluation starts.
+    Game.state().t = Math.floor(Game.state().t);
     const m = Game.level().monsters[0], at = performance.now(), t = Game.state().t;
     const dice = [Dice.s, Odds.s];
     m.windup = { kind: 'shot', at: t - 800, until: t + 200 };

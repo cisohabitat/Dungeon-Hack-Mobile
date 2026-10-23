@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const http = require('node:http');
 const { serve } = require('../server');
 const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
-const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap'];
+const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre'];
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 
 async function paintedModule(page) {
@@ -48,7 +48,7 @@ test.describe('painted dungeon creature', () => {
         return {n,minX,maxX,minY,maxY,light,hash:hash>>>0};
       };
       const frames=poses.map(pose=>{const fallback=pose==='idle'?art:art[pose],p=paintedCreature(fallback);return {pose,cached:p===paintedCreature(fallback),different:p!==fallback,levels:p.levels.length,base:read(p.levels[0]),dark:read(p.levels.at(-1)),flash:read(p.flash)};});
-      return {frames,elite:read(paintedCreature(art.elite[elite]).levels[0]).hash!==frames[0].base.hash,other:paintedCreature(Assets.sprites.orc)===Assets.sprites.orc,dice:Dice.s===before[0]&&Odds.s===before[1]};
+      return {frames,elite:read(paintedCreature(art.elite[elite]).levels[0]).hash!==frames[0].base.hash,other:paintedCreature(Assets.sprites.dog)===Assets.sprites.dog,dice:Dice.s===before[0]&&Odds.s===before[1]};
     }, { poses, elite });
     for(const f of result.frames){
       expect(f.cached&&f.different).toBe(true);expect(f.levels).toBe(5);expect(f.base.n).toBeGreaterThan(3000);
@@ -80,30 +80,33 @@ test.describe('painted dungeon creature', () => {
       const { Dice, Odds } = await import('/js/rng.js'); const {POSES}=await import('/js/creatures.js');const before=[Dice.s,Odds.s];
       const hash = c => { const px=c.getContext('2d').getImageData(0,0,256,256).data;let h=2166136261,n=0,minX=256,minY=256,maxX=-1,maxY=-1;
         for(let i=0;i<px.length;i+=4){h=Math.imul(h^px[i],16777619);if(px[i+3]>32){n++;const x=i/4%256,y=Math.floor(i/4/256);minX=Math.min(minX,x);minY=Math.min(minY,y);maxX=Math.max(maxX,x);maxY=Math.max(maxY,y);}}
-        return {h:h>>>0,n,minX,minY,maxX,maxY};};
+        let anchorAlpha=0;for(let y=140;y<156;y++)for(let x=120;x<136;x++)anchorAlpha+=px[(y*256+x)*4+3];
+        return {h:h>>>0,n,minX,minY,maxX,maxY,anchorAlpha};};
       return {species:kinds.map(kind=>{const a=kind==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[kind];
         const supported=poses.filter(p=>p==='idle'||a[p]);
         const frames=supported.map(p=>{const fallback=p==='idle'?a:a[p],art=paintedCreature(fallback);return {pose:p,...hash(art.levels[0]),painted:art!==fallback,cached:art===paintedCreature(fallback),levels:art.levels.length};});
         return {kind,frames,expected:POSES[kind==='skarrow'?'wyrm':kind].length+1,tint:kind==='skarrow'||hash(paintedCreature(a.elite[elite]).levels[0]).h!==frames[0].h};}),
-        other:['orc','dog','renegade'].every(k=>paintedCreature(Assets.sprites[k])===Assets.sprites[k]),
-        champion:paintedCreature(Assets.sprites.drow_mage.elite.vaelith)===Assets.sprites.drow_mage.elite.vaelith,
+        other:['dog','wolf','renegade'].every(k=>paintedCreature(Assets.sprites[k])===Assets.sprites[k]),
+        champion:[['drow_mage','vaelith'],['goblin','grisk'],['spider','vessra'],['orc','ushgar'],['ghoul','morrow'],['wraith','orla']].every(([kind,id])=>{const a=Assets.sprites[kind].elite[id];return poses.every(p=>{const sprite=p==='idle'?a:a[p];return !sprite||paintedCreature(sprite)===sprite;});}),
         dice:before[0]===Dice.s&&before[1]===Odds.s};
     }, {kinds,poses,elite});
     for(const species of results.species){
       expect(species.tint,species.kind).toBe(true);expect(species.frames.length,species.kind).toBe(species.expected);expect(new Set(species.frames.map(f=>f.h)).size,species.kind).toBe(species.frames.length);
       for(const f of species.frames){expect(f.painted&&f.cached,species.kind+':'+f.pose).toBe(true);expect(f.levels).toBe(5);expect(f.n).toBeGreaterThan(1500);expect(f.minX).toBeGreaterThan(0);expect(f.minY).toBeGreaterThan(0);expect(f.maxX).toBeLessThan(255);expect(f.maxY).toBeLessThan(255);}
-      expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
+      // Wingbeats register the Bat's torso instead of a grounded foot baseline.
+      if(species.kind==='bat')for(const f of species.frames)expect(f.anchorAlpha,species.kind+':'+f.pose).toBeGreaterThan(128*256);
+      else expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
     }
     expect(new Set(results.species.map(s=>s.frames[0].h)).size).toBe(kinds.length);
     expect(results).toMatchObject({other:true,champion:true,dice:true});expect([...requested].sort()).toEqual([...kinds].sort());expect(errors).toEqual([]);
   });
 
-  test('a corrupt species atlas cannot break a different species @mobile',async({page})=>{
+  for(const failedKind of ['hound','rat'])test(`a corrupt ${failedKind} atlas cannot break a different species @mobile`,async({page})=>{
     const errors=watchForErrors(page);
-    await page.route('**/img/creatures/hound.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
-    await scene(page);await artReady(page,{hound:poses.slice(1),wyrm:poses.slice(1)});
-    await page.waitForFunction(()=>{const paintedCreature=window.__paintedCreature;paintedCreature(Assets.sprites.hound);return paintedCreature(Assets.sprites.wyrm)!==Assets.sprites.wyrm;});
-    expect(await page.evaluate(async poses=>{const {paintedCreature}=await import('/js/paintedcreatures.js');const a=Assets.sprites.hound;return poses.every(p=>{const s=p==='idle'?a:a[p];return paintedCreature(s)===s;});},poses)).toBe(true);
+    await page.route('**/img/creatures/'+failedKind+'.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
+    await scene(page);const failedPoses=await page.evaluate(async kind=>(await import('/js/creatures.js')).POSES[kind],failedKind);await artReady(page,{[failedKind]:failedPoses,wyrm:poses.slice(1)});
+    await page.waitForFunction(kind=>{const paintedCreature=window.__paintedCreature;paintedCreature(Assets.sprites[kind]);return paintedCreature(Assets.sprites.wyrm)!==Assets.sprites.wyrm;},failedKind);
+    expect(await page.evaluate(async({kind,poses})=>{const {paintedCreature}=await import('/js/paintedcreatures.js');const a=Assets.sprites[kind];return poses.every(p=>{const s=p==='idle'?a:a[p];return paintedCreature(s)===s;});},{kind:failedKind,poses:['idle',...failedPoses]})).toBe(true);
     expect(errors).toEqual([]);
   });
 
@@ -124,6 +127,38 @@ test.describe('painted dungeon creature', () => {
     for(const r of [result.normal,result.calm]){expect(r.marked).toBe(true);expect(r.intent).toBe('Dark Elf Warrior · Ready to parry');}
     expect(result.hidden).toEqual({marked:false,intent:''});
     await page.screenshot({path:info.outputPath('painted-guard.png')});expect(errors).toEqual([]);
+  });
+
+  test('Batch A keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile', async ({ page }) => {
+    const errors=watchForErrors(page);await scene(page);
+    const batch=kinds.slice(-10);
+    const required=await page.evaluate(async kinds=>{const {POSES}=await import('/js/creatures.js');return Object.fromEntries(kinds.map(k=>[k,POSES[k]]));},batch);
+    await artReady(page,required);
+    for(const kind of batch){
+      await page.evaluate(()=>{Game.level().monsters.length=0;});
+      await placeMonster(page,kind,1,{hp:999,maxHp:999});
+      const result=await page.evaluate(async kind=>{
+        const {Dice,Odds}=await import('/js/rng.js');const {recordingPrint}=await import('/js/recording.js');
+        const {paintedCreature}=await import('/js/paintedcreatures.js');
+        const G=Game.state(),L=Game.level(),m=L.monsters[0],now=performance.now();
+        m.lungeAt=now;m.flashAt=now;m.flashUntil=now+130;
+        m.windup={kind:'move',move:kind==='wraith'?'chill':kind==='spider'?'web':null,at:G.t-800,until:G.t+1e6};
+        const rs=Game.renderState(now+50),foe=rs.sprites.find(s=>s.maxHp===999);
+        const selected=(foe.special&&foe.img.special)||foe.img.windup||foe.img;
+        paintedCreature(selected);
+        const before=recordingPrint(G),dice=[Dice.s,Odds.s];
+        const paint=calm=>{Renderer.setCalm(calm);Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,now+50);return {marked:Renderer.shown.some(s=>s.markSize>0),intent:Renderer.intent};};
+        const normal=paint(false),calm=paint(true);
+        const idx=m.y*L.w+m.x,tile=L.tiles[idx];L.tiles[idx]=Dungeon.T.WALL;const hidden=paint(true);L.tiles[idx]=tile;Renderer.setCalm(false);
+        return {normal,calm,hidden,priority:!!foe.tell&&!foe.reaction,
+          selected:kind==='wraith'?selected===foe.img.special:selected===foe.img.windup,
+          unchanged:recordingPrint(G)===before&&dice[0]===Dice.s&&dice[1]===Odds.s};
+      },kind);
+      expect(result.priority&&result.selected&&result.unchanged,kind).toBe(true);
+      for(const view of [result.normal,result.calm]){expect(view.marked,kind).toBe(true);expect(view.intent,kind).not.toBe('');}
+      expect(result.hidden,kind).toEqual({marked:false,intent:''});
+    }
+    expect(errors).toEqual([]);
   });
 
   for(const kind of ['delayed','corrupt'])test(`${kind} art retains every procedural fallback pose @mobile`,async({page})=>{
@@ -159,8 +194,9 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     await placeMonster(page,'drow_warrior',1,{hp:999,maxHp:999});
     await artReady(page,{drow_warrior:poses.slice(1)});await ready(page);
     expect(await page.evaluate(async kinds=>{for(const k of kinds){const r=await fetch('/img/creatures/'+k+'.webp');if(!r.ok||(await r.blob()).size<10000)return false;}return true;},kinds)).toBe(true);
-    await artReady(page,{hound:poses.slice(1),wyrm:poses.slice(1)});
-    await page.waitForFunction(()=>{const paintedCreature=window.__paintedCreature;return [Assets.sprites.hound,Assets.sprites.wyrm.elite.skarrow].map(a=>paintedCreature(a)!==a).every(Boolean);});
+    const required=await page.evaluate(async kinds=>{const {POSES}=await import('/js/creatures.js');return Object.fromEntries(kinds.filter(k=>k!=='skarrow').map(k=>[k,POSES[k]]));},kinds);
+    await artReady(page,required);
+    await page.waitForFunction(kinds=>{const paintedCreature=window.__paintedCreature;return kinds.map(k=>k==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[k]).every(a=>paintedCreature(a)!==a);},kinds);
     expect(errors).toEqual([]);
   }finally{
     await context.setOffline(false);

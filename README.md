@@ -51,10 +51,11 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Named bows retain their Pack markings; small relic glints stay on the equipment
   surface during attacks or staff casting and are absent in Calm view.
 
-- **Art and readable mobile views.** Thirteen creatures use painted dungeon
+- **Art and readable mobile views.** Twenty-three creatures use painted dungeon
   poses: the Dark Elf Warrior and Mage, Blink Hound, Cave Wyrm, Skarrow,
   Lizardfolk and Shaman, Grey Dwarf and Arbalest, Slime, Rustmaw, Eyeless Stalker
-  and Puffcap. Each painting loads on demand with its own poses, normal
+  and Puffcap, plus Rat, Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith
+  and Ogre. Each painting loads on demand with its own poses, normal
   lighting and warnings, and works offline. Skarrow keeps her distinct
   scarred, three-horned identity; other named champions and companions keep
   their own appearances. Procedural art remains available if an atlas cannot load.
@@ -1154,9 +1155,24 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  all pending dungeon atlas briefs, batches and live inventory
+art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
+art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
 art/bestiary/overrides/  individual corrected paintings, preserved across re-exports
 ```
+
+Twenty-three creatures now use painted dungeon poses, including Batch A's Rat,
+Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith and Ogre. Their atlases
+are cached for offline play; named champions retain their own identities.
+Reproduce Batch A's review and shipped exports with
+`python3 art/creatures/export-batch-a.py --check` (Pillow, NumPy and SciPy).
+Capture the integrated dungeon artwork at 390px and 320px with
+`node art/creatures/preview-batch-a.cjs` after `npm ci`; this uses system Chromium
+at `/usr/bin/chromium`, overridable with `CHROMIUM_PATH`, and the real runtime
+loader. Captures include corrected walking, hurt and blink frames. Correction
+sheets replace only named cells in the manifest, preserving other original poses.
+See [the Batch A review](art/creatures/batch-a-preview/REVIEW.md) for provenance
+and repairs.
 
 ## Keeping documentation current
 

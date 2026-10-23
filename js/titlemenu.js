@@ -54,7 +54,7 @@ export function makeTitleMenu(K) {
   // A returning player hears once, on the title, what has changed since they
   // last played; it goes when dismissed or when a run starts. A new player,
   // with nothing to compare it with, is not told. Change `id` with the text.
-  const NEWS = { id: 'painted-creatures-2026-10-22', text: "Twelve more creatures now have painted dungeon poses, with their own movements, familiar warning signs and offline support." };
+  const NEWS = { id: 'painted-creatures-batch-a-2026-10-23', text: "Ten more creatures, from Giant Rat to Ogre, now have painted dungeon poses and work offline." };
   const NEWS_SEEN = 'deepdelve.news';
   const returning = () => ['deepdelve.save', 'deepdelve.hall', 'deepdelve.bestiary', 'deepdelve.companions', 'deepdelve.progress'].some(k => store(k));
   let greetingChosen = false;

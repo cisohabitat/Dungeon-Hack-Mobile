@@ -1,0 +1,1782 @@
+{
+  "rat": {
+    "source_sha256": "29f12d63c1592223667c201a66d154037a5d16e3cd574dd49873443985d5fec1",
+    "atlas_sha256": "d3648a968406b0b7025132a03734fedb025e637e1fd2f101e2389e42ea3f0a44",
+    "scale": 0.4172661870503597,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          35,
+          8,
+          451,
+          334
+        ],
+        "visible_bounds": [
+          16,
+          103,
+          188,
+          237
+        ],
+        "offset": [
+          15,
+          102
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          533,
+          8,
+          937,
+          323
+        ],
+        "visible_bounds": [
+          18,
+          108,
+          184,
+          237
+        ],
+        "offset": [
+          17,
+          107
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          1052,
+          16,
+          1433,
+          345
+        ],
+        "visible_bounds": [
+          21,
+          102,
+          178,
+          237
+        ],
+        "offset": [
+          20,
+          101
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          28,
+          347,
+          457,
+          660
+        ],
+        "visible_bounds": [
+          13,
+          109,
+          190,
+          237
+        ],
+        "offset": [
+          12,
+          107
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          530,
+          329,
+          1000,
+          679
+        ],
+        "visible_bounds": [
+          14,
+          93,
+          207,
+          237
+        ],
+        "offset": [
+          13,
+          92
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1060,
+          352,
+          1473,
+          669
+        ],
+        "visible_bounds": [
+          25,
+          107,
+          195,
+          237
+        ],
+        "offset": [
+          24,
+          106
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          27,
+          661,
+          472,
+          996
+        ],
+        "visible_bounds": [
+          13,
+          100,
+          197,
+          237
+        ],
+        "offset": [
+          12,
+          98
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          545,
+          662,
+          976,
+          984
+        ],
+        "visible_bounds": [
+          18,
+          105,
+          196,
+          237
+        ],
+        "offset": [
+          17,
+          104
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          1057,
+          676,
+          1470,
+          996
+        ],
+        "visible_bounds": [
+          23,
+          105,
+          193,
+          237
+        ],
+        "offset": [
+          22,
+          104
+        ]
+      }
+    ]
+  },
+  "bat": {
+    "source_sha256": "489200ab61d3ad9ba26292d97e285cd97249bdfb5bed96a240834063118c2707",
+    "atlas_sha256": "fdd434aff003d3c1a73fd2c8beaff38017b2c73db793e7cd4cb88005b3bfe467",
+    "scale": 0.3493975903614458,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          5,
+          42,
+          557,
+          322
+        ],
+        "visible_bounds": [
+          33,
+          80,
+          224,
+          176
+        ],
+        "offset": [
+          32,
+          79
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          550,
+          9,
+          994,
+          323
+        ],
+        "visible_bounds": [
+          49,
+          68,
+          202,
+          176
+        ],
+        "offset": [
+          48,
+          67
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          1051,
+          103,
+          1511,
+          328
+        ],
+        "visible_bounds": [
+          49,
+          92,
+          208,
+          169
+        ],
+        "offset": [
+          48,
+          91
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          52,
+          374,
+          460,
+          637
+        ],
+        "visible_bounds": [
+          53,
+          88,
+          194,
+          178
+        ],
+        "offset": [
+          52,
+          87
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          496,
+          408,
+          1027,
+          643
+        ],
+        "visible_bounds": [
+          35,
+          94,
+          219,
+          174
+        ],
+        "offset": [
+          34,
+          93
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          978,
+          376,
+          1536,
+          643
+        ],
+        "visible_bounds": [
+          29,
+          88,
+          222,
+          179
+        ],
+        "offset": [
+          28,
+          87
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          6,
+          666,
+          596,
+          980
+        ],
+        "visible_bounds": [
+          30,
+          72,
+          234,
+          180
+        ],
+        "offset": [
+          29,
+          71
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          639,
+          715,
+          889,
+          991
+        ],
+        "visible_bounds": [
+          81,
+          86,
+          166,
+          180
+        ],
+        "offset": [
+          80,
+          85
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          933,
+          686,
+          1534,
+          965
+        ],
+        "visible_bounds": [
+          13,
+          83,
+          221,
+          178
+        ],
+        "offset": [
+          12,
+          82
+        ]
+      }
+    ]
+  },
+  "spider": {
+    "source_sha256": "c1724bed851bea498b0874e90b37ce67aa5891dd30e9049a32c6f037f4bfb99c",
+    "atlas_sha256": "0a9fb131f70d0c49cb91262dca963db34cae1e973b42ecf15770dbd6f857e504",
+    "scale": 0.4117647058823529,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          36,
+          23,
+          485,
+          335
+        ],
+        "visible_bounds": [
+          37,
+          111,
+          220,
+          237
+        ],
+        "offset": [
+          36,
+          110
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          565,
+          23,
+          982,
+          338
+        ],
+        "visible_bounds": [
+          43,
+          110,
+          213,
+          237
+        ],
+        "offset": [
+          42,
+          108
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          1057,
+          23,
+          1504,
+          338
+        ],
+        "visible_bounds": [
+          35,
+          109,
+          217,
+          237
+        ],
+        "offset": [
+          34,
+          108
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          44,
+          350,
+          496,
+          690
+        ],
+        "visible_bounds": [
+          40,
+          99,
+          224,
+          237
+        ],
+        "offset": [
+          39,
+          98
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          544,
+          370,
+          994,
+          690
+        ],
+        "visible_bounds": [
+          34,
+          107,
+          217,
+          237
+        ],
+        "offset": [
+          33,
+          106
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1056,
+          380,
+          1503,
+          674
+        ],
+        "visible_bounds": [
+          35,
+          119,
+          217,
+          237
+        ],
+        "offset": [
+          34,
+          117
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          23,
+          681,
+          533,
+          1008
+        ],
+        "visible_bounds": [
+          31,
+          104,
+          239,
+          237
+        ],
+        "offset": [
+          30,
+          103
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          576,
+          710,
+          988,
+          996
+        ],
+        "visible_bounds": [
+          47,
+          122,
+          215,
+          237
+        ],
+        "offset": [
+          46,
+          120
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          1029,
+          694,
+          1512,
+          1010
+        ],
+        "visible_bounds": [
+          24,
+          109,
+          221,
+          237
+        ],
+        "offset": [
+          23,
+          108
+        ]
+      }
+    ]
+  },
+  "goblin": {
+    "source_sha256": "6f34b56f486b50a9e59087a36c0101a2446d2d04a66a17214d1c980040b32e22",
+    "atlas_sha256": "5bef0b0a693d291e198c4c9b7e244ddab4bde29b85b2cfe6fde9f736b61d2d6e",
+    "scale": 0.5426356589147286,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          44,
+          24,
+          373,
+          400
+        ],
+        "visible_bounds": [
+          39,
+          36,
+          216,
+          237
+        ],
+        "offset": [
+          38,
+          34
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          473,
+          26,
+          799,
+          412
+        ],
+        "visible_bounds": [
+          45,
+          31,
+          219,
+          237
+        ],
+        "offset": [
+          43,
+          29
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          0,
+          0,
+          320,
+          386
+        ],
+        "visible_bounds": [
+          49,
+          31,
+          219,
+          237
+        ],
+        "offset": [
+          47,
+          29
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          25,
+          426,
+          398,
+          823
+        ],
+        "visible_bounds": [
+          29,
+          24,
+          229,
+          237
+        ],
+        "offset": [
+          28,
+          23
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          468,
+          437,
+          797,
+          835
+        ],
+        "visible_bounds": [
+          42,
+          25,
+          217,
+          237
+        ],
+        "offset": [
+          40,
+          23
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          878,
+          447,
+          1243,
+          822
+        ],
+        "visible_bounds": [
+          36,
+          37,
+          231,
+          237
+        ],
+        "offset": [
+          35,
+          35
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          36,
+          890,
+          394,
+          1228
+        ],
+        "visible_bounds": [
+          35,
+          57,
+          227,
+          237
+        ],
+        "offset": [
+          34,
+          55
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          465,
+          842,
+          808,
+          1229
+        ],
+        "visible_bounds": [
+          39,
+          31,
+          222,
+          237
+        ],
+        "offset": [
+          38,
+          29
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          882,
+          854,
+          1218,
+          1228
+        ],
+        "visible_bounds": [
+          38,
+          38,
+          218,
+          237
+        ],
+        "offset": [
+          37,
+          36
+        ]
+      }
+    ]
+  },
+  "skeleton": {
+    "source_sha256": "c44edff73489b3c72d5c05e738eddd19ef10dec7b07bf94a1805a00a4a05779c",
+    "atlas_sha256": "c55fd890ef7b5a7ce6fc4bb0fb81070050321001bf508f822cd2b3e1b45a9340",
+    "scale": 0.5446009389671361,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          134,
+          11,
+          455,
+          337
+        ],
+        "visible_bounds": [
+          30,
+          62,
+          202,
+          237
+        ],
+        "offset": [
+          29,
+          61
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          589,
+          10,
+          923,
+          351
+        ],
+        "visible_bounds": [
+          20,
+          54,
+          200,
+          237
+        ],
+        "offset": [
+          19,
+          52
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          1093,
+          10,
+          1396,
+          351
+        ],
+        "visible_bounds": [
+          33,
+          54,
+          196,
+          237
+        ],
+        "offset": [
+          32,
+          52
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          158,
+          335,
+          450,
+          683
+        ],
+        "visible_bounds": [
+          46,
+          50,
+          203,
+          237
+        ],
+        "offset": [
+          45,
+          48
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          590,
+          364,
+          928,
+          684
+        ],
+        "visible_bounds": [
+          20,
+          66,
+          202,
+          237
+        ],
+        "offset": [
+          19,
+          64
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1104,
+          365,
+          1419,
+          681
+        ],
+        "visible_bounds": [
+          36,
+          67,
+          206,
+          237
+        ],
+        "offset": [
+          35,
+          66
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          120,
+          688,
+          440,
+          1002
+        ],
+        "visible_bounds": [
+          32,
+          70,
+          202,
+          237
+        ],
+        "offset": [
+          30,
+          68
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          577,
+          679,
+          958,
+          1003
+        ],
+        "visible_bounds": [
+          13,
+          64,
+          218,
+          237
+        ],
+        "offset": [
+          12,
+          62
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          1089,
+          686,
+          1417,
+          1003
+        ],
+        "visible_bounds": [
+          28,
+          67,
+          204,
+          237
+        ],
+        "offset": [
+          27,
+          65
+        ]
+      }
+    ]
+  },
+  "zombie": {
+    "source_sha256": "7c8eea341a0b406ad0a3e42c5005e79484cfed967f051dd8304f6e4f84ef5f35",
+    "atlas_sha256": "afeb66e033afb81f606c49d5e1d191b9be828f84e821ddcf3a48555750f883ba",
+    "scale": 0.5263157894736842,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          160,
+          4,
+          415,
+          341
+        ],
+        "visible_bounds": [
+          66,
+          63,
+          198,
+          237
+        ],
+        "offset": [
+          65,
+          61
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          1131,
+          5,
+          1389,
+          343
+        ],
+        "visible_bounds": [
+          49,
+          62,
+          182,
+          237
+        ],
+        "offset": [
+          47,
+          60
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          630,
+          4,
+          893,
+          343
+        ],
+        "visible_bounds": [
+          48,
+          62,
+          183,
+          237
+        ],
+        "offset": [
+          46,
+          60
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          0,
+          0,
+          249,
+          329
+        ],
+        "visible_bounds": [
+          65,
+          67,
+          194,
+          237
+        ],
+        "offset": [
+          64,
+          65
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          618,
+          344,
+          918,
+          674
+        ],
+        "visible_bounds": [
+          41,
+          67,
+          196,
+          237
+        ],
+        "offset": [
+          40,
+          65
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1123,
+          349,
+          1417,
+          676
+        ],
+        "visible_bounds": [
+          44,
+          68,
+          197,
+          237
+        ],
+        "offset": [
+          43,
+          66
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          84,
+          668,
+          483,
+          1009
+        ],
+        "visible_bounds": [
+          26,
+          60,
+          234,
+          237
+        ],
+        "offset": [
+          25,
+          59
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          0,
+          0,
+          283,
+          341
+        ],
+        "visible_bounds": [
+          51,
+          60,
+          197,
+          237
+        ],
+        "offset": [
+          50,
+          59
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          0,
+          0,
+          260,
+          337
+        ],
+        "visible_bounds": [
+          48,
+          64,
+          182,
+          237
+        ],
+        "offset": [
+          47,
+          62
+        ]
+      }
+    ]
+  },
+  "orc": {
+    "source_sha256": "a38be62f693b588cf953ce269c31d6461cd6de8b248b95e3cf84b4bece6c2cd4",
+    "atlas_sha256": "048e3ef7b9a62e1cf5c4190f8b5f90aebea3fbd23ab670c705a49ba2fbc77f20",
+    "scale": 0.5072463768115942,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          138,
+          3,
+          471,
+          343
+        ],
+        "visible_bounds": [
+          37,
+          68,
+          204,
+          237
+        ],
+        "offset": [
+          36,
+          66
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          589,
+          3,
+          917,
+          346
+        ],
+        "visible_bounds": [
+          25,
+          65,
+          189,
+          237
+        ],
+        "offset": [
+          24,
+          64
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          0,
+          0,
+          398,
+          343
+        ],
+        "visible_bounds": [
+          24,
+          64,
+          206,
+          237
+        ],
+        "offset": [
+          17,
+          63
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          152,
+          337,
+          478,
+          692
+        ],
+        "visible_bounds": [
+          46,
+          60,
+          209,
+          237
+        ],
+        "offset": [
+          45,
+          58
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          647,
+          370,
+          927,
+          692
+        ],
+        "visible_bounds": [
+          55,
+          77,
+          194,
+          237
+        ],
+        "offset": [
+          53,
+          75
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1114,
+          365,
+          1460,
+          692
+        ],
+        "visible_bounds": [
+          45,
+          73,
+          219,
+          237
+        ],
+        "offset": [
+          44,
+          72
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          88,
+          689,
+          502,
+          1019
+        ],
+        "visible_bounds": [
+          15,
+          74,
+          221,
+          237
+        ],
+        "offset": [
+          13,
+          72
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          594,
+          671,
+          920,
+          1016
+        ],
+        "visible_bounds": [
+          28,
+          64,
+          189,
+          237
+        ],
+        "offset": [
+          26,
+          63
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          1081,
+          674,
+          1418,
+          1016
+        ],
+        "visible_bounds": [
+          28,
+          66,
+          197,
+          237
+        ],
+        "offset": [
+          27,
+          65
+        ]
+      }
+    ]
+  },
+  "ghoul": {
+    "source_sha256": "33f52a9d46473c4528d48c01498d3750f741d6b9bea46c83a8edbf9dce90db59",
+    "atlas_sha256": "375e73446833417d2e8c03f4f289010663e460c198b9cbd85ddc228733af0b67",
+    "scale": 0.43388429752066116,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          86,
+          12,
+          391,
+          399
+        ],
+        "visible_bounds": [
+          67,
+          72,
+          197,
+          237
+        ],
+        "offset": [
+          66,
+          70
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          890,
+          16,
+          1182,
+          415
+        ],
+        "visible_bounds": [
+          57,
+          66,
+          182,
+          237
+        ],
+        "offset": [
+          56,
+          65
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          493,
+          9,
+          774,
+          418
+        ],
+        "visible_bounds": [
+          63,
+          62,
+          183,
+          237
+        ],
+        "offset": [
+          62,
+          61
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          29,
+          434,
+          453,
+          833
+        ],
+        "visible_bounds": [
+          43,
+          66,
+          224,
+          237
+        ],
+        "offset": [
+          41,
+          65
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          449,
+          433,
+          830,
+          832
+        ],
+        "visible_bounds": [
+          44,
+          66,
+          207,
+          237
+        ],
+        "offset": [
+          43,
+          65
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          892,
+          453,
+          1227,
+          816
+        ],
+        "visible_bounds": [
+          58,
+          81,
+          201,
+          237
+        ],
+        "offset": [
+          57,
+          80
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          10,
+          854,
+          494,
+          1233
+        ],
+        "visible_bounds": [
+          34,
+          76,
+          242,
+          237
+        ],
+        "offset": [
+          33,
+          74
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          521,
+          857,
+          753,
+          1235
+        ],
+        "visible_bounds": [
+          76,
+          75,
+          173,
+          237
+        ],
+        "offset": [
+          74,
+          74
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          872,
+          856,
+          1208,
+          1230
+        ],
+        "visible_bounds": [
+          50,
+          77,
+          194,
+          237
+        ],
+        "offset": [
+          49,
+          76
+        ]
+      }
+    ]
+  },
+  "wraith": {
+    "source_sha256": "1d0d8eb99be14f0be472802de272943559d3aee4d53ab09452c5c062e19eec00",
+    "atlas_sha256": "3c0614e21bd1698770c46216260c310445075f91cc0283706ce717e948f3d3a9",
+    "scale": 0.464,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          108,
+          5,
+          500,
+          349
+        ],
+        "visible_bounds": [
+          26,
+          79,
+          206,
+          237
+        ],
+        "offset": [
+          25,
+          78
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          581,
+          6,
+          968,
+          346
+        ],
+        "visible_bounds": [
+          23,
+          81,
+          201,
+          237
+        ],
+        "offset": [
+          22,
+          80
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          1058,
+          7,
+          1472,
+          350
+        ],
+        "visible_bounds": [
+          21,
+          80,
+          211,
+          237
+        ],
+        "offset": [
+          20,
+          79
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          114,
+          350,
+          515,
+          672
+        ],
+        "visible_bounds": [
+          29,
+          90,
+          213,
+          237
+        ],
+        "offset": [
+          28,
+          89
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          560,
+          350,
+          981,
+          676
+        ],
+        "visible_bounds": [
+          13,
+          88,
+          206,
+          237
+        ],
+        "offset": [
+          12,
+          87
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          1053,
+          350,
+          1446,
+          676
+        ],
+        "visible_bounds": [
+          19,
+          89,
+          199,
+          237
+        ],
+        "offset": [
+          18,
+          88
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          89,
+          671,
+          502,
+          1018
+        ],
+        "visible_bounds": [
+          17,
+          79,
+          207,
+          237
+        ],
+        "offset": [
+          16,
+          78
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          570,
+          681,
+          990,
+          1009
+        ],
+        "visible_bounds": [
+          18,
+          87,
+          211,
+          237
+        ],
+        "offset": [
+          17,
+          86
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          1051,
+          681,
+          1445,
+          1017
+        ],
+        "visible_bounds": [
+          18,
+          83,
+          199,
+          237
+        ],
+        "offset": [
+          17,
+          82
+        ]
+      }
+    ]
+  },
+  "ogre": {
+    "source_sha256": "632c9f818a6af5c8f2e030ea25eddf8da091eb279cf175a21060e793c3c69784",
+    "atlas_sha256": "6251a6685972c288996ba9bc3f436fe5d29b61a3f7901d781dbf3f13616153ea",
+    "scale": 0.4549019607843137,
+    "frames": [
+      {
+        "pose": "idle",
+        "source_bounds": [
+          41,
+          26,
+          385,
+          400
+        ],
+        "visible_bounds": [
+          38,
+          69,
+          192,
+          237
+        ],
+        "offset": [
+          37,
+          68
+        ]
+      },
+      {
+        "pose": "stepA",
+        "source_bounds": [
+          446,
+          24,
+          788,
+          408
+        ],
+        "visible_bounds": [
+          36,
+          64,
+          190,
+          237
+        ],
+        "offset": [
+          35,
+          63
+        ]
+      },
+      {
+        "pose": "stepB",
+        "source_bounds": [
+          0,
+          0,
+          342,
+          384
+        ],
+        "visible_bounds": [
+          46,
+          68,
+          197,
+          237
+        ],
+        "offset": [
+          42,
+          65
+        ]
+      },
+      {
+        "pose": "windup",
+        "source_bounds": [
+          42,
+          404,
+          436,
+          820
+        ],
+        "visible_bounds": [
+          39,
+          50,
+          216,
+          237
+        ],
+        "offset": [
+          38,
+          49
+        ]
+      },
+      {
+        "pose": "strike",
+        "source_bounds": [
+          486,
+          461,
+          808,
+          832
+        ],
+        "visible_bounds": [
+          54,
+          70,
+          198,
+          237
+        ],
+        "offset": [
+          53,
+          69
+        ]
+      },
+      {
+        "pose": "recover",
+        "source_bounds": [
+          805,
+          457,
+          1240,
+          820
+        ],
+        "visible_bounds": [
+          13,
+          74,
+          209,
+          237
+        ],
+        "offset": [
+          12,
+          73
+        ]
+      },
+      {
+        "pose": "special",
+        "source_bounds": [
+          40,
+          813,
+          466,
+          1222
+        ],
+        "visible_bounds": [
+          38,
+          53,
+          230,
+          237
+        ],
+        "offset": [
+          37,
+          52
+        ]
+      },
+      {
+        "pose": "hurt",
+        "source_bounds": [
+          450,
+          849,
+          814,
+          1226
+        ],
+        "visible_bounds": [
+          38,
+          68,
+          202,
+          237
+        ],
+        "offset": [
+          37,
+          67
+        ]
+      },
+      {
+        "pose": "blink",
+        "source_bounds": [
+          853,
+          835,
+          1199,
+          1220
+        ],
+        "visible_bounds": [
+          35,
+          64,
+          190,
+          237
+        ],
+        "offset": [
+          34,
+          63
+        ]
+      }
+    ]
+  }
+}

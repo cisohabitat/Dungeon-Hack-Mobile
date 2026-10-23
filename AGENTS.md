@@ -103,7 +103,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps thirteen creatures' existing pose objects to
+  `js/paintedcreatures.js` maps twenty-three creatures' existing pose objects to
   approved nine-pose atlases, selected only by the renderer. Each kind has its
   own lazy image and palette cache; one failed atlas cannot disable another.
   Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
@@ -121,6 +121,17 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Sources stay under `art/creatures/`, exports under `img/creatures/`; review both
   before recording hashes. `painted-creatures.spec.js` covers cached poses,
   lighting, elite colours, dice, warnings, occlusion, failure and offline reload.
+  Batch A generation is recorded in `art/creatures/generation-batch-a.json`.
+  `python3 art/creatures/export-batch-a.py --check` reproduces its shipped atlases,
+  review atlases and labelled contact sheets under `art/creatures/batch-a-preview/`.
+  `node art/creatures/preview-batch-a.cjs` captures the integrated runtime loader
+  and dungeon renderer at 390px and 320px; it needs the project Playwright
+  dependency and system Chromium (`CHROMIUM_PATH` may override
+  `/usr/bin/chromium`). Bat wingbeats use a fixed torso anchor rather than a
+  foot baseline; Wraith registers its robe fringe. Keep step repairs, original
+  sources and measured registration in the manifest.
+  Correction sheets replace only the manifest's named cells, keeping other
+  original poses. Preview corrected steps, hurt and blink as well as wind-ups.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

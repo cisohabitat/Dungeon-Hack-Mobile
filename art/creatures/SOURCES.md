@@ -56,3 +56,63 @@ Each atlas decodes only when its monster is first drawn. Normal and elite shade
 palettes are independent per species, cached and switched only when complete.
 A missing/corrupt atlas keeps that species procedural without disabling others.
 All thirteen atlases are in the installed offline cache.
+
+## Batch A review generation — 22 October 2026
+
+OpenAI's `image_gen.imagegen` generated nine-pose originals for Rat, Bat,
+Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith and Ogre. Each request
+used that creature's current `img/bestiary/<kind>.webp` for identity and
+`drow_warrior.png` for painted style and layout. The model was not disclosed;
+the same OpenAI terms linked above apply. All requests enabled transparency.
+Original PNGs remain as `<kind>.png`. Exact prompts, tool output locations,
+references, repair requests and registration anchors are recorded in
+`generation-batch-a.json`.
+
+Goblin, Orc and Ogre needed separately generated opposite-leg steps; the rejected
+first Orc repair is retained as `orc-stepB-rejected.png`. Zombie and Ghoul had
+opposite leads in reversed source cells, so their manifests reorder those
+two existing cells without mirroring equipment. Repairs and source ordering
+are applied only by the reproducible exporter; original sheets remain intact.
+
+`python3 art/creatures/export-batch-a.py` extracts connected pose islands,
+registers body centres, scales uniformly and writes transparent 768×768 review
+atlases with nine 256×256 cells under `batch-a-preview/`. Grounded figures end
+on visible row 236 with at least 12px clearance at the other edges. Bat uses
+measured torso centres at a fixed (128,148) anchor. Wraith uses its lowest solid
+robe fringe, without adding feet. `--check` compares all exported bytes and
+measurements. This workflow requires Pillow, NumPy and SciPy.
+
+`node art/creatures/preview-batch-a.cjs` uses the real dungeon renderer with
+temporary Playwright routes to preview these atlases at 390px and 320px.
+Review results, images and remaining checks are listed in
+`batch-a-preview/REVIEW.md`. These are generated review assets: no owner
+approval, runtime integration, offline support or publication is implied.
+
+## Colour and Zombie pose corrections — 23 October 2026
+
+The same image-generation tool edited the Goblin, Orc and Ogre opposite-leg
+steps against their original idle palettes. All previous PNGs and intermediate
+attempts remain as provenance. `generation-batch-a.json` selects the active
+colour source and records every exact prompt, reference and generated output.
+The first Goblin passes were too muted, bright or dark. The final edit matched
+the replacement within the complete nine-pose atlas; only the top-right cell
+from `goblin-colour-sheet.png` is selected, retaining eight original poses
+and their previous common registration scale.
+No runtime colour filter is added.
+
+`zombie-colour.png` contains generated skin/lighting and blink corrections.
+Only its wind-up, hurt and blink cells are selected by `sheet_corrections`;
+the other six original source poses remain in use. Blink retains the tilted
+head and open mouth of idle with closed eyes. Offline export crops and
+registers these tool-drawn figures; it does not paint or colour-grade them.
+The exporter also reproduces `batch-a-preview/correction-sheet.png`, comparing
+the corrected walking frames and Zombie poses against idle at 256px cell size.
+
+## Batch A runtime integration — 23 October 2026
+
+On the user's instruction, the ten selected review atlases are copied byte for
+byte into `img/creatures/`, bound to existing supported pose objects and added
+to the offline cache. The Batch A exporter now reproduces both review and
+shipped copies. The capture script uses the actual runtime loader without
+substituting modules or images. Named champions retain their procedural art;
+unused special cells do not introduce game actions. No combat rules changed.

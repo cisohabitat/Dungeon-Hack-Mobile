@@ -1,0 +1,806 @@
+{
+  "mode": "integrated runtime loader and renderer; no substituted modules or atlases",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "rat",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 233.0555933191544,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.47022488026696474
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "rat",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 236.5118880744606,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4635328751904312,
+          "markX": 160,
+          "markY": 232,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 120.66779197562482
+        }
+      ],
+      "intent": "Giant Rat · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "bat",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 129.14987655315738,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.390625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "bat",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 128.54895071031342,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.3906250000000001,
+          "markX": 160,
+          "markY": 124,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 100.00000000000003
+        }
+      ],
+      "intent": "Cave Bat · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "spider",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 216.25541791888526,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.5361695315938947
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "spider",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 209.58114114113772,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.535478213925581,
+          "markX": 160,
+          "markY": 205,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 141.45878861752567
+        }
+      ],
+      "intent": "Cave Spider · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "goblin",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 161.28514607354253,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.6032493360293522
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "goblin",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 165.4119679042803,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6001691932033348,
+          "markX": 160,
+          "markY": 161,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 148.17834326997317
+        }
+      ],
+      "intent": "Goblin · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "goblin",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 171.3910574865379,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5938175222820538
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "skeleton",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 168.59375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "skeleton",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 148.8074707274539,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 144,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Skeleton · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "zombie",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 158.296875,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "zombie",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 160.7605957274539,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 156,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Zombie · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "zombie",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 156.1875,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "zombie",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 170,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orc",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 162.45336740566157,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7582267691188215
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orc",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 154.85704538180778,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.76425599666146,
+          "markX": 160,
+          "markY": 150,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 187.17523242733316
+        }
+      ],
+      "intent": "Orc · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "orc",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 157.35652834355983,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7689764148772926
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ghoul",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 175.625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ghoul",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 171.0574707274539,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 167,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Ghoul · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "wraith",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 131.94793586157854,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "wraith",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 146.89907479805788,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7421875000000001,
+          "markX": 160,
+          "markY": 142,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.00000000000003
+        }
+      ],
+      "intent": "Wraith · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "ogre",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 110.49516592231802,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9813092731426843
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ogre",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 91.16606748043722,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9829376371214404,
+          "markX": 160,
+          "markY": 87,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 264.1839824484557
+        }
+      ],
+      "intent": "Ogre · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "ogre",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 108.70062599285818,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9856349681230948
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "rat",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 259.4343047488773,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.474285589876619
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "rat",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 259.01883795397276,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.46688695764272914,
+          "markX": 160,
+          "markY": 255,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 120.23846942173068
+        }
+      ],
+      "intent": "Giant Rat · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "bat",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 179.1372356325119,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.390625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "bat",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 185.29191791046884,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.3906250000000001,
+          "markX": 160,
+          "markY": 181,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 100.00000000000003
+        }
+      ],
+      "intent": "Cave Bat · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "spider",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 254.16376499877438,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5368016206981077
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "spider",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 247.59471405759038,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5353917622284304,
+          "markX": 160,
+          "markY": 243,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 141.46985443476095
+        }
+      ],
+      "intent": "Cave Spider · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "goblin",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 203.38503860921207,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5846134608672179
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "goblin",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 193.9784570808814,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5934170846835024,
+          "markX": 160,
+          "markY": 189,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 149.04261316051173
+        }
+      ],
+      "intent": "Goblin · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "goblin",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 197.06302777415695,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5997198765593025
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "skeleton",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 195.59375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "skeleton",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 186.8074707274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 182,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Skeleton · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "zombie",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 192.296875,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "zombie",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 198.7605957274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 194,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Zombie · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "zombie",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 190.1875,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "zombie",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 197,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orc",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 192.5027329950941,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7420067393877974
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orc",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 185.00377460248538,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7482012557396356,
+          "markX": 160,
+          "markY": 181,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 189.23023926532667
+        }
+      ],
+      "intent": "Orc · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "orc",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 186.84685527598924,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7560059621042227
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ghoul",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 202.625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.703125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ghoul",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 198.0574707274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7031250000000002,
+          "markX": 160,
+          "markY": 194,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 180.00000000000006
+        }
+      ],
+      "intent": "Ghoul · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "wraith",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 166.30324330082624,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "wraith",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 175.06315393579007,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7421875000000001,
+          "markX": 160,
+          "markY": 171,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.00000000000003
+        }
+      ],
+      "intent": "Wraith · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "ogre",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 143.7086498980226,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.9855152411870449
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ogre",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 129.14899457285725,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9830205153135763,
+          "markX": 160,
+          "markY": 125,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 264.1733740398623
+        }
+      ],
+      "intent": "Ogre · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "ogre",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 143.54554637418437,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.981140710775615
+        }
+      ],
+      "intent": ""
+    }
+  ]
+}

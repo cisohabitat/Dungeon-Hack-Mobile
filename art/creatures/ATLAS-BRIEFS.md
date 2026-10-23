@@ -3,9 +3,9 @@
 Canonical planning file for all pending painted dungeon monster atlases.
 Prepared 22 October 2026 against main `a6472543f4ee5469447c652e0a90b16f06a920fc`.
 
-**Status:** 40 pending creature briefs; 13 creature atlases already live.
-These 40 briefs describe work to generate later. They are not generated images,
-review approvals or integrated game content. Variant requirements may require
+**Status:** Batch A's ten creatures generated, corrected and integrated on 23 October 2026.
+Thirty briefs still await generation; the runtime now supports 23 painted creatures.
+Variant requirements may require
 more than one atlas for an entry, especially Shade and Mimic.
 
 ## Requesting work later
@@ -18,14 +18,16 @@ for integration. Keep the status current as each atlas is actually completed.
 
 | Batch | Brief numbers | Scope | Current status |
 |---|---|---|---|
-| A | 1–10 | Rat through Ogre | Briefs ready; generation pending |
+| A | 1–10 | Rat through Ogre | Generated, revised and integrated |
 | B | 11–20 | Troll through Cutpurse | Briefs ready; generation pending |
 | C | 21–30 | Remaining ordinary creatures and three keepers | Briefs ready; generation pending |
 | D | 31–40 | Shade and nine unpainted named champions | Briefs ready; generation pending |
 
-The image-generation integration last rejected requests with
-`Unknown parameter: 'reasoning'`. Recheck tool availability when generation is
-requested; do not mark pending work completed based on a request alone.
+Batch A generation succeeded with `image_gen.imagegen` on 22 October 2026.
+Actual prompts, references and repair requests are preserved in
+`generation-batch-a.json`; originals remain under `art/creatures/`.
+Review exports and integrated dungeon captures are under `batch-a-preview/`;
+matching shipped atlases are under `img/creatures/`. See its `REVIEW.md` for completed checks and limitations.
 
 ## Complete pending index
 
@@ -136,9 +138,11 @@ motion timing, attack warnings and Calm view behaviour stay unchanged.
 - Portrait scenery and attendants are references for context, not part of a
   dungeon sprite. Do not bake throne rooms, guards, hoards or web backgrounds in.
 
-## Batch A — first ten pending creatures
+## Batch A — first ten creatures, integrated
 
 ## 1. Giant Rat
+
+**Kind:** `rat`. **Reference:** `img/bestiary/rat.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/rat.webp`, runtime integrated.
 
 **Identity:** coarse brown fur, round pink ears, amber eyes, whiskered rodent
 muzzle, yellow incisors, pink paws and one long bare pink tail. Four legs.
@@ -155,6 +159,8 @@ incisors, detached whisker clumps or a tail crossing another cell.
 
 ## 2. Cave Bat
 
+**Kind:** `bat`. **Reference:** `img/bestiary/bat.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/bat.webp`, runtime integrated.
+
 **Identity:** brown furry torso, enormous ears, fanged muzzle and warm leathery
 wings. Two wings attached to its arms and two small hind feet. No extra human arms.
 
@@ -168,6 +174,8 @@ Hurt curls the wings inward; blink closes both eyes in the neutral hover.
 side-on flight or huge body shifts between wingbeat frames.
 
 ## 3. Cave Spider
+
+**Kind:** `spider`. **Reference:** `img/bestiary/spider.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/spider.webp`, runtime integrated.
 
 **Identity:** dark violet cave spider, clustered red eyes, red abdomen marking,
 eight jointed walking legs, two small pedipalps and paired fangs. Keep the
@@ -185,6 +193,8 @@ roots, unreadable tangled silhouettes or a newly invented web-casting action.
 
 ## 4. Goblin
 
+**Kind:** `goblin`. **Reference:** `img/bestiary/goblin.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/goblin.webp`, runtime integrated.
+
 **Identity:** small green pointed-eared humanoid, yellow eyes, hooked nose,
 worn brown leather and ragged clothing. One knife held in its anatomical right
 hand, on the viewer's left. No crown, banner or companion kit.
@@ -199,6 +209,8 @@ chest back; blink closes the eyes while keeping the neutral knife position.
 extra fingers, side-facing head or Grisk's crown and cloak.
 
 ## 5. Skeleton
+
+**Kind:** `skeleton`. **Reference:** `img/bestiary/skeleton.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/skeleton.webp`, runtime integrated.
 
 **Identity:** bone soldier in a rusty iron helmet and remnants of mail, carrying
 a rusty straight sword in the right hand and a round wooden shield on the left.
@@ -216,6 +228,8 @@ fleshy face or a new resurrection animation bound to the reserve cell.
 
 ## 6. Zombie
 
+**Kind:** `zombie`. **Reference:** `img/bestiary/zombie.webp`. **Status:** skin/lighting and blink revised and reviewed; preview in `batch-a-preview/zombie.webp`, runtime integrated.
+
 **Identity:** pale decaying humanoid with sparse matted hair, clouded eyes and
 ragged brown clothing. Heavy, slack posture; two arms and two legs. No weapon.
 
@@ -229,6 +243,8 @@ blink briefly narrows or closes the existing eyes.
 instead of fleshy limbs, or gore that conceals arm and neck connections.
 
 ## 7. Orc
+
+**Kind:** `orc`. **Reference:** `img/bestiary/orc.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/orc.webp`, runtime integrated.
 
 **Identity:** muscular green tusked warrior, black scalp lock, worn leather and
 iron armour, with one heavy axe held in its right hand. Larger and more solid
@@ -246,6 +262,8 @@ face, duplicate weapon or Ushgar's champion identity.
 
 ## 8. Ghoul
 
+**Kind:** `ghoul`. **Reference:** `img/bestiary/ghoul.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/ghoul.webp`, runtime integrated.
+
 **Identity:** gaunt pale humanoid, needle teeth, sparse lank hair, long clawed
 hands and ragged loincloth. Human ear shapes; no large pointed goblin ears.
 Keep its lean, hungry silhouette distinct from Zombie's heavy shamble.
@@ -260,6 +278,8 @@ without hiding the face in a new hood or mane.
 belly or Morrow's finger-bone crown and thighbone.
 
 ## 9. Wraith
+
+**Kind:** `wraith`. **Reference:** `img/bestiary/wraith.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/wraith.webp`, runtime integrated.
 
 **Identity:** tattered purple hood and robes around a visible spectral skull and
 cold glowing eyes. Two spectral arms; no physical legs or feet. Preserve the
@@ -276,6 +296,8 @@ Final idle variation dims the eye lights slightly; it does not grow eyelids.
 background fog, detached glow particles or Abbess Orla's empty face and wimple.
 
 ## 10. Ogre
+
+**Kind:** `ogre`. **Reference:** `img/bestiary/ogre.webp`. **Status:** generated and visually reviewed; preview in `batch-a-preview/ogre.webp`, runtime integrated.
 
 **Identity:** huge brown-skinned, broad, bare-chested humanoid with a heavy belly,
 small balding head, hide belt/loincloth and a thick wooden club with rough knots

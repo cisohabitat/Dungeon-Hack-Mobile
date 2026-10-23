@@ -1,0 +1,581 @@
+{
+  "date": "2026-10-22",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "ATLAS-BRIEFS.md",
+  "status": "generated, selected colour and Zombie pose corrections reviewed, runtime integrated and locally verified for release 0.9.29",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "rat": {
+      "source": "rat.png",
+      "reference": "../../img/bestiary/rat.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. GIANT RAT: coarse brown fur, round pink ears, amber eyes, whiskered rodent muzzle with yellow incisors, pink paws, exactly four legs and one long bare pink tail. Row 1 neutral crouch both front paws visible; right forepaw/opposite hind leg advanced; left forepaw/opposite hind leg advanced. Row 2 lower head and gather hindquarters; frontal biting lunge; settle back onto paws. Row 3 bare incisors threat; shoulders recoil; neutral with eyes closed. All four legs anatomically present, single tail contained in each cell. No wolf/canine teeth, boar, duplicate tail, humanoid or detached whiskers. Save original PNG to /workspace/dungeon-hack/art/creatures/rat.png if output files can be written.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        305,
+        800,
+        1310,
+        305,
+        805,
+        1310,
+        305,
+        810,
+        1310
+      ],
+      "generated_file": "/workspace/generated_images/exec-cea19522-ffaf-4f72-b33a-d58341c59aa3.png",
+      "preview": "batch-a-preview/rat.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/rat.webp"
+    },
+    "bat": {
+      "source": "bat.png",
+      "reference": "../../img/bestiary/bat.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. CAVE BAT: brown furry torso, enormous ears, fanged muzzle, warm leather membranes. Exactly two wings attached to its arms and two small hind feet, no extra arms. Row 1 frontal hover wings open; wings lifted; wings lowered. Torso/head remain at same centre in all wingbeats. Row 2 draw wing arms back mouth opening; frontal biting reach; wings open to brake. Row 3 spread wide threat; wings curl inward recoil; neutral hover eyes closed. No feathers, four wings, disconnection, clipping, side flight or large torso shifts.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "anchors": [
+        [
+          280,
+          240
+        ],
+        [
+          780,
+          240
+        ],
+        [
+          1280,
+          265
+        ],
+        [
+          270,
+          550
+        ],
+        [
+          765,
+          565
+        ],
+        [
+          1265,
+          550
+        ],
+        [
+          290,
+          885
+        ],
+        [
+          775,
+          895
+        ],
+        [
+          1265,
+          875
+        ]
+      ],
+      "target_anchor": [
+        128,
+        148
+      ],
+      "registration": "Measured torso centres in source coordinates; fixed target (128,148), uniform scale across all nine poses.",
+      "generated_file": "/workspace/generated_images/exec-af874c6a-ec79-4bba-83d0-4b017fe2a3b8.png",
+      "preview": "batch-a-preview/bat.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/bat.webp"
+    },
+    "spider": {
+      "source": "spider.png",
+      "reference": "../../img/bestiary/spider.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. CAVE SPIDER: dark violet furry chitin, clustered red eyes, red abdomen marking. Exactly EIGHT jointed walking legs, four per side attached to body, plus two small pedipalps and paired fangs distinct from legs. Abdomen recedes behind frontal face. Row 1 even crouch; one coordinated leg group advances; opposite group advances keeping leg count. Row 2 forebody raised fangs drawn back; face/fangs thrust forward; body lowers. Row 3 front legs spread fangs parted; bent-joint recoil; neutral with slight palp change and NO eyelids. No web projectiles, scorpion tail, humanoid face, six/ten legs or tangled merged leg roots.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        260,
+        775,
+        1285,
+        260,
+        775,
+        1285,
+        260,
+        775,
+        1285
+      ],
+      "generated_file": "/workspace/generated_images/exec-1f649764-4060-440f-a9cf-656a23ae227b.png",
+      "preview": "batch-a-preview/spider.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/spider.webp"
+    },
+    "goblin": {
+      "source": "goblin.png",
+      "reference": "../../img/bestiary/goblin.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. GOBLIN: small green humanoid, pointed ears, yellow eyes, hooked nose, worn brown leather and ragged clothing. One knife closed grip in anatomical RIGHT hand viewer LEFT, left hand free, never swap. Row 1 knife low idle; right leg lead; left leg lead. Row 2 knife drawn back free hand raised; connected frontal knife thrust; withdraw knife. Row 3 defensive crouch knife visible; chest recoil; neutral eyes closed. No crown, banner, red cloak, extra fingers, floating blade, disconnected wrist, side head or Grisk identity.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        210,
+        630,
+        1050,
+        210,
+        630,
+        1050,
+        210,
+        630,
+        1050
+      ],
+      "generated_file": "/workspace/generated_images/exec-0bd542ba-502c-407e-a6d4-99e468c74732.png",
+      "preview": "batch-a-preview/goblin.webp",
+      "colour_review": {
+        "status": "revised and visually reviewed as preview art",
+        "finding": "Selected the top-right correction from a full-sheet colour edit against adjacent idle/stepA figures; other eight original source poses retained.",
+        "date": "2026-10-23"
+      },
+      "previous_replacements": {
+        "stepB": {
+          "source": "goblin-stepB-colour-matched.png",
+          "body_fraction": 0.5,
+          "reason": "Original two walking cells both led with the anatomical right leg; generated a left-leading step without mirroring equipment. Colour-matched to the original idle with image_gen.imagegen.",
+          "previous_source": "goblin-stepB.png"
+        }
+      },
+      "sheet_corrections": {
+        "source": "goblin-colour-sheet.png",
+        "poses": {
+          "stepB": 2
+        },
+        "body_centres": {
+          "stepB": 1045.0
+        },
+        "match_height_to": {
+          "stepB": "stepA"
+        },
+        "reason": "Match only the replacement step to adjacent original poses in the complete atlas; retain all eight other original source poses."
+      },
+      "max_scale": 0.5426356589147286,
+      "registration_note": "Retain the pre-correction common scale so all eight untouched source poses keep their original pixel registration.",
+      "runtime_atlas": "../../img/creatures/goblin.webp"
+    },
+    "skeleton": {
+      "source": "skeleton.png",
+      "reference": "../../img/bestiary/skeleton.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. SKELETON SOLDIER: all bone no flesh, rusty iron helmet, mail remnants, rusty straight sword in anatomical RIGHT hand viewer LEFT; round wooden shield anatomical LEFT viewer RIGHT, held through connected grip and forearm. Readable ribs, pelvis, knees, bone hands. Row 1 separated sword shield guard; right leg lead; left leg lead without swapping gear. Row 2 lift sword; forward sword cut; return guard. Row 3 brace shield; bend back through intact spine; neutral skull tilted slightly, empty sockets NO eyes or lids. No resurrection, detached bones/shield/grips, extra arms or missing legs.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        315,
+        790,
+        1270,
+        310,
+        790,
+        1275,
+        300,
+        790,
+        1275
+      ],
+      "generated_file": "/workspace/generated_images/exec-6a50ad3c-242d-4332-a00a-b91a3a0fea12.png",
+      "preview": "batch-a-preview/skeleton.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/skeleton.webp"
+    },
+    "zombie": {
+      "source": "zombie.png",
+      "reference": "../../img/bestiary/zombie.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. ZOMBIE: pale decaying humanoid, sparse matted hair, clouded eyes, ragged brown clothes, heavy slack body with TWO arms TWO legs and no weapon. Row 1 idle one hand reaches; right dragging leg leads; left dragging leg leads. Row 2 both hands drawn towards chest; frontal grab both arms reaching; arms sink back. Row 3 lean mouth open; shoulders fold back; neutral eyes narrow/close. No detached fingers, extra hands, skeletal instead of fleshy limbs, acrobatics or gore obscuring connections.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        280,
+        785,
+        1285,
+        280,
+        785,
+        1285,
+        280,
+        785,
+        1285
+      ],
+      "source_pose_order": [
+        "idle",
+        "stepB",
+        "stepA",
+        "windup",
+        "strike",
+        "recover",
+        "special",
+        "hurt",
+        "blink"
+      ],
+      "generated_file": "/workspace/generated_images/exec-29789854-e5b6-4681-8916-58820089d0e4.png",
+      "ordering_note": "Source stepA/stepB cells lead with opposite anatomical legs; source_pose_order swaps the existing two cells without mirroring or redrawing.",
+      "preview": "batch-a-preview/zombie.webp",
+      "colour_review": {
+        "status": "revised and visually reviewed as preview art",
+        "finding": "Selected corrected windup, hurt and blink cells only; matched skin lighting more closely to idle and retained all six other original source poses.",
+        "date": "2026-10-23"
+      },
+      "pose_review": {
+        "status": "blink corrected and visually reviewed",
+        "finding": "Tilted idle head and open mouth retained with eyes closed. Opposite walking leads remain ordered by the original manifest.",
+        "date": "2026-10-23"
+      },
+      "sheet_corrections": {
+        "source": "zombie-colour.png",
+        "poses": {
+          "windup": 3,
+          "hurt": 7,
+          "blink": 8
+        },
+        "body_centres": {
+          "windup": 280,
+          "hurt": 785,
+          "blink": 1285
+        },
+        "match_height_to": {
+          "blink": "idle"
+        },
+        "reason": "Select only three generated corrections; retain the six unaffected original source poses. Blink keeps idle head tilt and open mouth with eyes closed."
+      },
+      "runtime_atlas": "../../img/creatures/zombie.webp"
+    },
+    "orc": {
+      "source": "orc.png",
+      "reference": "../../img/bestiary/orc.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. ORC: muscular solid green tusked warrior, black scalp lock, worn leather and iron armour. ONE heavy axe held closed grip in anatomical RIGHT hand viewer LEFT. Row 1 axe ready beside torso; right leg lead; left leg lead gear never changes sides. Row 2 connected axe raised above right shoulder; frontal forward cut; follow through beginning return. Row 3 charge brace with no motion effects; shoulders recoil slightly head stays frontal; neutral eyes closed. No chief horned helmet, red paint, skull ornaments, duplicate axe, floating head, broken shaft, blade through face or Ushgar identity.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        320,
+        795,
+        1280,
+        315,
+        795,
+        1280,
+        315,
+        795,
+        1280
+      ],
+      "replacements": {
+        "stepB": {
+          "source": "orc-stepB-colour.png",
+          "body_fraction": 0.55,
+          "reason": "Two source steps and first repair led with anatomical right leg; second image edit advances the left leg without mirroring equipment. Colour-matched to the original idle with image_gen.imagegen.",
+          "previous_source": "orc-stepB.png"
+        }
+      },
+      "generated_file": "/workspace/generated_images/exec-cf4e93ab-75bc-403f-adab-2a5ad06d153a.png",
+      "preview": "batch-a-preview/orc.webp",
+      "colour_review": {
+        "status": "revised and visually reviewed as preview art",
+        "finding": "Reduced excess orange/gold saturation and brightness against the original idle palette.",
+        "date": "2026-10-23"
+      },
+      "runtime_atlas": "../../img/creatures/orc.webp"
+    },
+    "ghoul": {
+      "source": "ghoul.png",
+      "reference": "../../img/bestiary/ghoul.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. GHOUL: gaunt pale humanoid with needle teeth, sparse lank hair, long clawed hands, human ears NOT large goblin ears, ragged loincloth, lean hungry two-legged crouch. Row 1 hands low idle; right bent leg lead; left bent leg lead. Row 2 shoulders long hands pulled back; thrust jaw and claws forwards; sink back crouch. Row 3 part hands bare teeth; retract chest; neutral eyes closed. TWO arms TWO legs, claws attached to fingers. No belly, goblin anatomy, crown, jaw-held bone, mane or hood.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        230,
+        645,
+        1055,
+        230,
+        645,
+        1055,
+        230,
+        645,
+        1055
+      ],
+      "source_pose_order": [
+        "idle",
+        "stepB",
+        "stepA",
+        "windup",
+        "strike",
+        "recover",
+        "special",
+        "hurt",
+        "blink"
+      ],
+      "generated_file": "/workspace/generated_images/exec-9f211a52-7432-4e36-98af-cf8486ced87c.png",
+      "ordering_note": "Source stepA/stepB cells lead with opposite anatomical legs; source_pose_order swaps the existing two cells without mirroring or redrawing.",
+      "preview": "batch-a-preview/ghoul.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/ghoul.webp"
+    },
+    "wraith": {
+      "source": "wraith.png",
+      "reference": "../../img/bestiary/wraith.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. WRAITH: visible spectral SKULL with cold glowing eyes inside tattered PURPLE hood and robes; TWO visible connected spectral arms. No physical legs or feet. Translucent fringes restrained, skull and limb connections readable. All poses consistent lowest solid robe fringe anchor, no hover height changes. Row 1 neutral float; cloth/arm drift right; opposite drift left. Row 2 one hand gathers to chest; forward cold-touch reach; arm draws back. Row 3 existing special both hands raised around COMPACT cold glow; hood shoulders fold back; neutral eye lights DIM slightly with no eyelids. No empty faceless hood, white wimple, fog, detached glow particles or opaque smoke.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        330,
+        810,
+        1290,
+        330,
+        810,
+        1290,
+        330,
+        810,
+        1290
+      ],
+      "registration": "Lowest solid robe fringe at alpha >32 ends on row236; measured torso x centres retained, no feet or ground contact.",
+      "generated_file": "/workspace/generated_images/exec-1ec627a2-7c69-4274-bac2-c877017d72f2.png",
+      "preview": "batch-a-preview/wraith.webp",
+      "colour_review": {
+        "status": "no comparable palette outlier observed",
+        "finding": "Smaller pose/material/lighting variations remain; no claim of identical per-material colours."
+      },
+      "runtime_atlas": "../../img/creatures/wraith.webp"
+    },
+    "ogre": {
+      "source": "ogre.png",
+      "reference": "../../img/bestiary/ogre.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production fantasy game sprite atlas: exactly nine complete figures of ONE identical creature in a precise 3 by 3 grid on transparent background. No text, borders, scenery, ground plane, cast/contact shadows, fog, detached particles, or labels. Equal square cells, generous empty gutters, every appendage fully inside its own cell with at least 8% margins. Same individual, proportions, scale and materials across nine cells. Painted realistic dark fantasy matching provided identity portrait; warm amber upper-left lighting, restrained cool right rim. All heads and torsos face viewer directly; quadruped body recedes behind frontal head, never side-on. Front facing full body. Anatomical right is viewer left. Never mirror equipment. Grounded poses share foot baseline; floating body centres stable. Cell order row-major: idle, stepA (anatomical right leads), stepB (anatomical left leads), windup, strike, recover, reserve special threat, hurt, blink (or stated non-eyelid idle variation). Distinct connected poses with consistent anatomy. Match first reference identity; second reference is style/layout only, ignore its character and opaque background. OGRE: huge brown-skinned bare-chested humanoid, very broad heavy belly, small balding head, hide belt/loincloth. TWO arms TWO legs. ONE thick wooden club with rough knots or embedded spikes held closed grip anatomical RIGHT hand viewer LEFT. Row 1 club low; right heavy leg leads; left heavy leg leads restrained sway. Row 2 club raised over right shoulder connected shoulder elbow wrist fist shaft head; frontal forward-down club blow; lower back idle. Row 3 wide threat stance; chest rocks backwards; neutral eyes closed. No extra forearms, green troll moss, tiny body, detached club, shaft through fist without grip, second weapon or clipping raised club.",
+      "status": "generated, visually reviewed and runtime integrated",
+      "body_centres": [
+        240,
+        650,
+        1060,
+        240,
+        650,
+        1060,
+        240,
+        650,
+        1060
+      ],
+      "generated_file": "/workspace/generated_images/exec-63068676-4154-4ea7-9db6-c85dab3ac383.png",
+      "replacements": {
+        "stepB": {
+          "source": "ogre-stepB-colour.png",
+          "body_fraction": 0.55,
+          "reason": "Original source repeats anatomical right lead; separate generated left-leading step keeps club in right hand. Colour-matched to the original idle with image_gen.imagegen.",
+          "previous_source": "ogre-stepB.png"
+        }
+      },
+      "preview": "batch-a-preview/ogre.webp",
+      "colour_review": {
+        "status": "revised and visually reviewed as preview art",
+        "finding": "Reduced orange skin cast and bright replacement highlights against idle.",
+        "date": "2026-10-23"
+      },
+      "runtime_atlas": "../../img/creatures/ogre.webp"
+    }
+  },
+  "repair_requests": {
+    "goblin": {
+      "prompt": "Generate ONE complete full-body frontal goblin sprite only on transparent background, a replacement Step B for the attached atlas. Match the exact same creature, identity, armour, materials, proportions, lighting and weapon. Advance its ANATOMICAL LEFT leg, on the VIEWER'S RIGHT, towards the viewer: that viewer-right knee and foot are visibly ahead and lower/larger; its anatomical RIGHT leg/viewer LEFT is trailing behind, visibly smaller/higher. This must be the opposite lead from the top-middle reference pose. Do NOT mirror the image or exchange weapon hands: knife remains held by anatomical RIGHT hand on VIEWER LEFT, shoulder-arm-wrist-closed grip-handle continuous. Torso, nose, eyes and head face straight to camera. Keep entire weapon, both legs, both feet, both arms, ears/head tips complete with wide transparent margin. No text, scenery, ground plane, shadow, duplicates or particles. ONE figure only.",
+      "tool": "image_gen.imagegen",
+      "reference": "goblin.png",
+      "result": "Generated images are saved to /workspace/generated_images as /workspace/generated_images/exec-35514777-efa6-410c-9f3d-c840e5ff11f9.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "accepted for preview"
+    },
+    "orc": {
+      "prompt": "Generate ONE complete full-body frontal orc sprite only on transparent background, a replacement Step B for the attached atlas. Match the exact same creature, identity, armour, materials, proportions, lighting and weapon. Advance its ANATOMICAL LEFT leg, on the VIEWER'S RIGHT, towards the viewer: that viewer-right knee and foot are visibly ahead and lower/larger; its anatomical RIGHT leg/viewer LEFT is trailing behind, visibly smaller/higher. This must be the opposite lead from the top-middle reference pose. Do NOT mirror the image or exchange weapon hands: axe remains held by anatomical RIGHT hand on VIEWER LEFT, shoulder-arm-wrist-closed grip-handle continuous. Torso, nose, eyes and head face straight to camera. Keep entire weapon, both legs, both feet, both arms, ears/head tips complete with wide transparent margin. No text, scenery, ground plane, shadow, duplicates or particles. ONE figure only.",
+      "tool": "image_gen.imagegen",
+      "reference": "orc.png",
+      "result": "Generated images are saved to /workspace/generated_images as /workspace/generated_images/exec-5b026d61-bc2d-4028-95f6-c09f826d6d1a.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "rejected; same lead leg"
+    },
+    "orcSecond": {
+      "prompt": "Edit this one orc sprite. Its current walking lead is WRONG: the boot on the LEFT SIDE OF THE IMAGE is closest to us. Change ONLY the legs and stance so the boot on the RIGHT SIDE OF THE IMAGE is the large foreground foot at the bottom, with that right-side knee thrust forward. The LEFT SIDE boot must move back behind the body, higher and smaller. Keep the metal knee plate on the character's anatomical RIGHT knee, which is on the LEFT SIDE OF THE IMAGE: this plated left-side knee recedes; the unplated RIGHT SIDE knee advances. Do not mirror the image. The axe remains in the hand on the LEFT SIDE OF THE IMAGE, and the fur shoulder remains on LEFT SIDE. Same green tusked face looking directly forwards, black scalp lock, equipment, armour, body, light and proportions. All body parts complete with wide margin. ONE full figure, transparent background, no text or ground/shadow. Required result: IMAGE-RIGHT foot advanced, IMAGE-LEFT foot trailing.",
+      "reference": "orc-stepB-rejected.png",
+      "result": "Generated images are saved to /workspace/generated_images as /workspace/generated_images/exec-74a52774-7833-4f41-bda2-a579ca863faa.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "accepted for preview"
+    },
+    "ogre": {
+      "prompt": "Create ONE full-body frontal walking ogre matching the attached atlas, as a replacement opposite step. The FOOT ON THE RIGHT SIDE OF THE IMAGE must be the LARGE FOREGROUND FOOT at the lowest edge of the figure; its right-side knee is forward. The FOOT ON THE LEFT SIDE OF THE IMAGE is behind the body, higher, smaller, heel lifting. This is the anatomical LEFT leg leading. This is the opposite of the top-middle reference pose. Do NOT mirror identity or equipment: the one wooden spiked club remains gripped by the hand on the LEFT SIDE OF THE IMAGE; the right-side hand is empty. Same brown skin, bald small head, heavy broad bare belly, hide belt and loincloth, wrapped ankles, warm left/cool right painted fantasy light. Face and torso front-facing. Complete two arms, two legs, closed grip, continuous club, all feet and club tips inside wide margins. ONE figure on transparent background with no labels, scenery, ground or shadows. IMAGE-RIGHT boot visibly ahead; IMAGE-LEFT foot visibly behind.",
+      "reference": "ogre.png",
+      "generated_file": "/workspace/generated_images/exec-84d06dfd-fab9-431f-96e1-6a6795a7500c.png",
+      "status": "accepted for preview"
+    }
+  },
+  "preview_directory": "batch-a-preview",
+  "export_command": "python3 art/creatures/export-batch-a.py",
+  "preview_command": "node art/creatures/preview-batch-a.cjs",
+  "base_revision": "ebe9c981cdcb9b7d022f77cffef5f8b41926d2a8",
+  "colour_correction_requests": [
+    {
+      "kind": "goblin",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Colour-match the FIRST image (single replacement walking goblin) to the neutral IDLE goblin in the TOP LEFT of the SECOND image (original nine-pose sheet). Perform a conservative colour/lighting edit ONLY: slightly darken and mute the single figure's skin and brown leather so it has the same subdued olive-green skin, brown leather, metal and warm-left/cool-right light as the original idle. Remove the replacement's extra orange warmth and bright highlights. Do not brighten the original reference. Preserve the first image's exact frontal pose and geometry: anatomical LEFT leg/viewer RIGHT leads, anatomical RIGHT leg/viewer LEFT trails, knife held in the RIGHT hand/viewer LEFT. Keep all anatomy, face, fingers, knife grip, texture, proportions, canvas framing, full feet and transparency. ONE figure only, no sheet, scenery, shadow, labels, new particles or changed equipment.",
+      "references": [
+        "goblin-stepB.png",
+        "goblin.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-e602371b-d998-4a1b-81ca-844cebd53348.png",
+      "saved_as": "goblin-stepB-colour.png",
+      "review": "rejected: too desaturated",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "orc",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Colour-match the FIRST image (single replacement walking orc) to the neutral IDLE orc in the TOP LEFT of the SECOND image (original nine-pose sheet). Conservative colour/lighting edit ONLY: the replacement is too bright, saturated and orange, especially leather, metal and skin. Match the original's darker muted olive-green skin, dark brown leather, worn dark iron, restrained amber upper-left light and restrained cool right rim. Reduce the replacement's orange bloom and vivid gold/orange metal highlights substantially; do not introduce global grey desaturation or change the reference. Preserve the FIRST image's exact pose/geometry and brush detail: image-RIGHT foot is the large foreground foot, image-LEFT leg is trailing with its knee plate; axe remains in the hand on image LEFT; fur stays image LEFT. Same face, scalp lock, anatomy, two arms/two legs, continuous axe grip, all tips complete and transparent background. ONE figure, no text or scenery.",
+      "references": [
+        "orc-stepB.png",
+        "orc.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-702058da-f492-4868-815d-f37128ddb3a2.png",
+      "saved_as": "orc-stepB-colour.png",
+      "review": "selected; source and registered cells visually reviewed",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "ogre",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Colour-match the FIRST image (single replacement walking ogre) to the neutral IDLE ogre in the TOP LEFT of the SECOND image (original nine-pose sheet). Conservative colour/lighting correction ONLY: replacement skin is too bright and orange. Match the idle's darker muted brown/taupe flesh, rough dark hide clothing, wood and iron spikes, with restrained warm-left and cool-right lighting. Lower replacement skin brightness and orange saturation while retaining texture and natural volume. Do not brighten the reference. Preserve FIRST image exact pose, silhouette and anatomy: image-RIGHT foot large and forward, image-LEFT foot back, club in image-LEFT hand with continuous grip, same belly/head, two arms/two legs, all toes and club tips contained. ONE figure with transparent background; no sheet, text, scenery, cast shadow or extra effects.",
+      "references": [
+        "ogre-stepB.png",
+        "ogre.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-6c4a1409-4b7f-4539-bf1f-a9a50b1e2ba0.png",
+      "saved_as": "ogre-stepB-colour.png",
+      "review": "selected; source and registered cells visually reviewed",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "zombie",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit this existing 3x3 nine-pose zombie sprite sheet very conservatively. Keep all nine positions and the exact same character, identity, scale, geometry, ragged brown clothing, sparse hair, connected limbs, walking leads and extraction gutters. Fix only these issues: (1) MIDDLE LEFT wind-up: match its pale-but-muted decayed skin colour and restrained lighting to TOP LEFT idle; forehead/face currently too white/pale. Keep both hands drawn back towards chest. (2) BOTTOM MIDDLE hurt: match chest skin midtones and highlight strength to TOP LEFT idle, reducing over-bright chest; preserve backward recoil. (3) BOTTOM RIGHT blink: make this an exact duplicate of TOP LEFT idle pose, head tilt and wide open mouth/jaw/expression, SAME forward-reaching hand and leg stance, with ONLY the eyes closed. Do not straighten/lower the head or close the mouth. All other six cells must retain their appearance and poses. Maintain the same muted decayed skin and warm upper-left/cool right rim across every cell; no new orange/gold grading. Preserve exactly nine full figures and alpha transparency with wide empty gutters; no background, ground, cast shadows, labels, particles or extra limbs.",
+      "references": [
+        "zombie.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-bd1f4cfc-3398-4331-abf2-abc2456d8a2f.png",
+      "saved_as": "zombie-colour.png",
+      "review": "selected; source and registered cells visually reviewed",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "goblin",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Refine colours ONLY on the FIRST single goblin image to match the TOP LEFT idle figure in the SECOND original nine-pose sheet. The first correction went too dull/grey/dark: restore some of the reference's yellow-olive GREEN skin colour and warm amber left-side light, and the richer warm brown leather. Match material colours to that idle exactly by visual comparison: same yellow-olive skin midtone, same brown leather saturation, same metal. Keep this between the previous too-bright orange and the present too-muted grey; do not globally desaturate. Preserve EXACTLY the first image's existing left-leg-leading pose, face, open eyes, all limbs and gear, right-hand knife on viewer LEFT, transparent background and canvas framing. ONE figure only. No anatomy or composition edits, no background, shadows or new effects.",
+      "references": [
+        "goblin-stepB-colour.png",
+        "goblin.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-89a883b0-69ed-439a-bfbd-698fb4662b37.png",
+      "saved_as": "goblin-stepB-colour-final.png",
+      "review": "rejected: colour restored but too bright",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "goblin",
+      "date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Make a strict exposure-only correction to the FIRST single goblin image. Its yellow-olive skin and warm brown leather hues and saturation now match the SECOND sheet's TOP LEFT idle reasonably, but it is still too BRIGHT. Lower the first figure's overall midtone/exposure brightness by approximately 15 percent to match that darker idle. Keep hue and saturation unchanged: do NOT mute/desaturate, do NOT boost gold/orange or saturation. Preserve every pixel-level detail/shape as closely as possible, exact same head/face, limb/weapon placement and texture, anatomical left leg on IMAGE RIGHT still forward, right-hand knife on IMAGE LEFT. Retain subdued left amber and right cool edge lighting without new glows. Same transparent background, one full-body figure, same canvas and margins. No new drawing details, anatomy or composition changes. Only make the single replacement darker.",
+      "references": [
+        "goblin-stepB-colour-final.png",
+        "goblin.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-64a44a15-1da1-4d98-9c98-111682ee0c02.png",
+      "saved_as": "goblin-stepB-colour-matched.png",
+      "review": "not selected: darker candidate used as input to the final full-sheet matching pass",
+      "requested_date": "2026-10-22",
+      "review_date": "2026-10-23"
+    },
+    {
+      "kind": "goblin",
+      "date": "2026-10-23",
+      "requested_date": "2026-10-23",
+      "review_date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "One final very small exposure-only adjustment to FIRST image: brighten its midtones by about 8 percent, keeping its current hues and saturation exactly. It is currently slightly too dark versus the TOP LEFT idle goblin in SECOND image. The target is the idle's subdued olive-yellow skin and dark warm brown leather at the SAME brightness; do not make gold/orange highlights stronger, do not change hue, do not add saturation. Preserve all current anatomy, exact pose, facial expression, gear, grip, full-body silhouette, transparent background, canvas and margins. Anatomical left leg on image RIGHT still leads; right-hand knife on image LEFT stays put. ONE figure only, no other edits.",
+      "references": [
+        "goblin-stepB-colour-matched.png",
+        "goblin.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-fba25656-cb5d-422f-80a0-0427f9ac55aa.png",
+      "saved_as": "goblin-stepB-colour-balanced.png",
+      "review": "not selected: added brightness and gloss; the preceding darker edit retains the closer subdued presentation"
+    },
+    {
+      "kind": "goblin",
+      "date": "2026-10-23",
+      "requested_date": "2026-10-23",
+      "review_date": "2026-10-23",
+      "tool": "image_gen.imagegen",
+      "prompt": "Edit ONLY the TOP RIGHT goblin in this transparent 3x3 sprite sheet, and match its colours to the TOP MIDDLE and TOP LEFT figures immediately beside it. The top-right currently looks brown and dark; it must have the SAME GREEN/YELLOW-OLIVE skin as the adjacent goblins, same warm brown leather, same amber left lighting strength and same cool rim strength. Match visible skin on the forehead, cheeks, hands and legs material by material, not an overall brightness filter. Match skin colour and exposure EXACTLY by direct visual comparison with the adjacent top-middle figure. Keep the top-right's current anatomical left-leg-leading pose (foot on viewer RIGHT forward), right-hand knife (viewer LEFT), full body, face, fingers and continuous grip. Do not mirror any pose or change anatomy, scale, foot baseline or positions. Keep the other EIGHT cells unchanged. Output the same complete nine-figure 3x3 sheet with transparent background, equal cells and gutters, no text or scenery. Only top-right material colours should change.",
+      "references": [
+        "batch-a-preview/goblin.webp (preceding darker version)"
+      ],
+      "generated_file": "/workspace/generated_images/exec-86b1b10f-cb43-45c4-a6a5-376072403575.png",
+      "saved_as": "goblin-colour-sheet.png",
+      "review": "selected: top-right cell matched in full-sheet context; eight original source poses retained"
+    }
+  ],
+  "colour_correction_review_date": "2026-10-23",
+  "integration": {
+    "date": "2026-10-23",
+    "status": "runtime integrated on user instruction; all local regression and performance checks passed; publication uses main-branch CI",
+    "species": [
+      "rat",
+      "bat",
+      "spider",
+      "goblin",
+      "skeleton",
+      "zombie",
+      "orc",
+      "ghoul",
+      "wraith",
+      "ogre"
+    ],
+    "scope": "Existing supported pose objects only; named champions and companions retain their own art.",
+    "release": "0.9.29",
+    "local_browser_checks": {
+      "projects": [
+        "phone",
+        "small"
+      ],
+      "distinct_passes": 767,
+      "missing": 0
+    }
+  }
+}
