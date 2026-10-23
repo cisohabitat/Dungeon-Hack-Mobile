@@ -1,0 +1,616 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "ATLAS-BRIEFS.md",
+  "status": "generated, repaired, visually reviewed and integrated; publication authorised 23 October 2026",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "troll": {
+      "source": "troll.png",
+      "reference": "../../img/bestiary/troll.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. TROLL: huge moss-green humanoid, hunched torso, very long mossy brown hair, long hooked nose, pointed ears, heavy clawed hands. Exactly two arms and two legs. Same moss patches, scars and ragged brown waist wrap throughout. No club, beard, skull necklace or foliage background. Nine cells: hunched idle arms hanging; RIGHT foot forward LEFT arm slightly forward; LEFT foot forward RIGHT arm slightly forward; right clawed arm drawn back; frontal right-claw sweep with face still directly forward; retract that arm towards hunch; both clawed hands spread threat teeth bared; chest recoils feet planted; idle eyes closed. Continuous wrists and readable claw digits. Preserve the original PNG as /workspace/dungeon-hack/art/creatures/troll.png if files can be written.",
+      "generated_file": "/workspace/generated_images/exec-0c18a196-916a-4e8b-9f83-bc845ed3e43e.png",
+      "status": "reviewed and integrated with existing supported poses",
+      "repairs": [
+        {
+          "out": "troll-stepB.png",
+          "prompt": "Edit ONLY the TOP-RIGHT figure, step B, of this 3x3 nine-pose troll sheet. Make that figure advance its ANATOMICAL LEFT leg, which is on the VIEWER'S RIGHT: left knee/left foot at viewer RIGHT clearly closer, larger and planted FORWARD; right foot at viewer LEFT visibly BEHIND and smaller. The top-middle figure already advances viewer LEFT and must stay unchanged. Do NOT mirror the body or swap moss, scars, claws or hair. Match precisely the same olive-green skin, saturation, exposure, warm top-left lighting and cool right rim as top-left idle and top-middle walking. Same hunched torso, long nose, two arms/two legs, waist wrap. Keep every other figure identical and in place, same transparent background, generous margins. We will extract ONLY the edited top-right cell; preserve its height and body centre.",
+          "generated_file": "/workspace/generated_images/exec-ea4b0bce-30f2-4833-9ecb-e082bfc4d573.png",
+          "reference": "troll.png",
+          "tool": "image_gen.imagegen",
+          "selection": "single replacement stepB; eight original cells retained",
+          "status": "rejected for opaque gradient background"
+        },
+        {
+          "prompt": "Remove the ENTIRE coloured/gradient background from this troll image and output a clean transparent PNG cutout. Preserve the exact existing troll's pose, anatomy, colours, skin tones, lighting, moss, hair, claws and cloth. This is a background-removal edit only: no new painting, no ground plane, no shadows, no coloured halo, no dark rectangle. Every pixel outside the troll silhouette must have alpha ZERO, including all four corners and all empty space around the hair and between limbs. Preserve delicate attached hair strands with antialiased alpha only at silhouette edges. Keep anatomical LEFT leg/viewer RIGHT forward. Full figure contained with transparent clearance.",
+          "generated_file": "/workspace/generated_images/exec-1273c53c-87cf-4b61-ad04-f6c3a286d4ba.png",
+          "source": "troll-stepB-cutout.png",
+          "reference": "troll-stepB.png",
+          "tool": "image_gen.imagegen",
+          "selection": "background removal for replacement stepB"
+        },
+        {
+          "prompt": "Return a COMPLETE 3x3 NINE-FIGURE transparent atlas, NOT an isolated enlarged character. Edit the FIRST reference atlas: only colour-correct its TOP-RIGHT walking figure so its material palette and exposure match TOP-LEFT idle and TOP-MIDDLE walking exactly. The TOP-RIGHT replacement is currently too bright, warm, saturated and cleanly lit. Preserve its current correct LEFT-leg-forward (viewer RIGHT leg forward) pose and all geometry/equipment. Match original dark olive-green skin, muted moss and brown hair; remove pale/pink/orange skin highlights and excess yellow light from the other eight cells. Fixed light direction and strength. SECOND reference shows original palette in high resolution, not pose to copy. Keep the other eight figures unchanged and same scale. Exact nine-cell layout idle, right step, LEFT step, windup, strike, recover, special/reserve, hurt, blink. Anatomical right remains viewer left. Full body, wide transparent gutters, no scenery/ground/shadows/background tint. Preserve all claws/knife/purse/hair/limb connections. No mirroring. Output all nine figures on true transparent background.",
+          "generated_file": "/workspace/generated_images/exec-ee4edf03-37a2-45b2-a267-70ff46664f07.png",
+          "source": "troll-colour-sheet.png",
+          "tool": "image_gen.imagegen",
+          "references": [
+            "batch-b-preview/troll.webp",
+            "troll.png"
+          ],
+          "selection": "complete coherent palette sheet, all nine cells",
+          "reference_note": "The preview atlas reference was the pre-colour composite of the original eight cells and recorded single-step replacement; that mutable review export has since been superseded. Original source and intermediate replacement PNGs remain preserved."
+        }
+      ],
+      "body_centres": [
+        205.0,
+        625.0,
+        1070.0,
+        204.99,
+        625.0,
+        1069.99,
+        205.0,
+        625.0,
+        1069.89
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        205,
+        625,
+        1070,
+        205,
+        625,
+        1070,
+        205,
+        625,
+        1070
+      ],
+      "preview": "batch-b-preview/troll.webp",
+      "supported_poses": [
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "previous_replacements": {
+        "stepB": {
+          "source": "troll-stepB-cutout.png",
+          "body_fraction": 0.446259
+        }
+      },
+      "selected_source": "troll-colour-sheet.png",
+      "previous_sheet_corrections": {
+        "source": "troll-colour-sheet.png",
+        "poses": {
+          "stepB": 2
+        },
+        "body_centres": {
+          "stepB": 1070.0
+        },
+        "match_height_to": {
+          "stepB": "stepA"
+        }
+      },
+      "palette_selection_note": "A single corrected cell still differed from original lighting. Select the entire tool-revised sheet for a coherent palette; all original and intermediate PNGs are retained.",
+      "runtime_atlas": "../../img/creatures/troll.webp"
+    },
+    "minotaur": {
+      "source": "minotaur.png",
+      "reference": "../../img/bestiary/minotaur.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. MINOTAUR: muscular brown bull-headed warrior with two swept bull horns, gold nose ring, iron/leather shoulder armour and harness, cloven hooves. ONE double-headed iron axe on ONE continuous wooden shaft. BOTH hands hold the SAME shaft at separated positions in every cell. Horns and axe fully contained. Nine cells: axe diagonal at guard face clear; RIGHT hoof steps forward; LEFT hoof steps forward with unchanged grips and armour; raise two-handed axe for windup; forward frontal axe cut keeping head facing viewer; connected follow-through returning guard; lowered-shoulder charge brace, eyes visible; chest recoil retaining both axe grips; neutral eyes closed. No human face, antlers, separate axes, floating blade or mismatched shafts.",
+      "generated_file": "/workspace/generated_images/exec-0810fccd-d073-42ca-8d69-71a7a6860d7c.png",
+      "status": "reviewed and integrated with existing supported poses",
+      "body_centres": [
+        323.14,
+        786.11,
+        1282.45,
+        328.95,
+        794.14,
+        1277.89,
+        329.99,
+        785.9,
+        1278.36
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        330,
+        790,
+        1288,
+        330,
+        795,
+        1282,
+        330,
+        790,
+        1285
+      ],
+      "preview": "batch-b-preview/minotaur.webp",
+      "supported_poses": [
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/minotaur.webp"
+    },
+    "kobold": {
+      "source": "kobold.png",
+      "reference": "../../img/bestiary/kobold.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. KOBOLD TRAPPER: small rust-red reptile with long proper snout, amber eyes, ONE tail, ragged brown leather hood, straps and attached wicker trap supplies. ONE short spear held in anatomical LEFT hand (viewer right), retained there in ALL cells; right hand handles small darts. Nine cells: idle spear in left, right near accessible dart; RIGHT foot forward; LEFT foot forward without changing spear hands; RIGHT arm draws a small dart back; RIGHT hand opens to release towards viewer, NO projectile painted in flight, left still grips spear; right hand returns belt; reserve trap-setting crouch with both hands visible spear retained; shoulders recoil; neutral eyes closed. Snout never becomes a human mouth. No shield, bow, duplicate tail, green scales or newly spawned trap.",
+      "generated_file": "/workspace/generated_images/exec-10e24591-9b01-4de9-aa0e-35752d9753e3.png",
+      "status": "reviewed and integrated with existing supported poses",
+      "repairs": [
+        {
+          "out": "kobold-frontal.png",
+          "prompt": "Correct the head direction in ALL NINE figures of this kobold atlas. Keep identical nine poses, equipment hands, walking leads, proportions, materials, rust-red skin colour, leather, body scale, fixed amber top-left light and cool right rim. Turn EACH kobold's reptilian head directly towards the camera: frontal symmetrical snout with nose centred between TWO equally visible amber eyes looking into camera, left and right cheeks equally visible. Full frontal shoulders too, tail can recede behind. Do not shorten the true reptilian snout into a human face. Keep short spear in anatomical LEFT/viewer RIGHT hand, dart casting in anatomical RIGHT/viewer LEFT hand. Four limbs, one tail, attached trap gear. Same 3x3 layout, each complete figure separated by wide transparent gutters, no scenery/shadows. Actual transparency, no opaque colour field.",
+          "generated_file": "/workspace/generated_images/exec-469a77d7-52a8-48ef-9c12-93d2b1f552d7.png",
+          "reference": "kobold.png",
+          "tool": "image_gen.imagegen",
+          "selection": "complete revised sheet"
+        }
+      ],
+      "selected_source": "kobold-frontal.png",
+      "body_centres": [
+        269.99,
+        770,
+        1283,
+        270,
+        769.99,
+        1279.99,
+        270,
+        770,
+        1279.99
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        270,
+        770,
+        1283,
+        270,
+        770,
+        1280,
+        270,
+        770,
+        1280
+      ],
+      "preview": "batch-b-preview/kobold.webp",
+      "supported_poses": [
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/kobold.webp"
+    },
+    "archer": {
+      "source": "archer.png",
+      "reference": "../../img/bestiary/archer.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. GOBLIN ARCHER: olive-green goblin, pointed ears, visible face, simple brown leather hood and kit, attached quiver, ONE wooden bow in anatomical LEFT hand (viewer RIGHT); RIGHT hand draws bow string. Nine cells: undrawn bow down at side; RIGHT foot leads; LEFT foot leads, bow always viewer RIGHT; drawn windup with ONE nocked arrow, right hand on nock and connected bent string; RELEASE: right fingers open near cheek, string returns to straight tip-to-tip line, NO arrow remains on string and NO projectile in flight; recover drawing arm lowers, bow undrawn; special fire-arrow preparation with ONE nocked arrow and tiny attached warm arrow-tip glow, drawn string; hurt bow lowered retaining grip; neutral idle eyes closed. Arrow rests ABOVE the bow grip, not through fist. Continuous stave, string attached at both tips; when drawn, string has two segments meeting right hand/nock. Frontal torso and eyes, no side view, extra hands, detached bow/string/quiver.",
+      "generated_file": "/workspace/generated_images/exec-97d74e49-6e2f-417d-b302-a0d65da6d119.png",
+      "status": "reviewed and integrated with existing supported poses",
+      "repairs": [
+        {
+          "out": "archer-spacing.png",
+          "prompt": "Repair spacing of this nine-pose goblin archer atlas. Keep same olive-green goblin individual, SAME nine poses and correct opposite walking leads, SAME leather palette/exposure/amber light and cool rim, SAME bow/string/arrow construction and hand orientation. Scale ALL NINE COMPLETE figures uniformly smaller to about 80% of their current height and centre each inside its own equal 3x3 cell, so bow tips, heads and boots have WIDE EMPTY TRANSPARENT GUTTERS at least 25 pixels from every cell edge. In particular separate middle-left windup and bottom-left special: their bow tips currently touch neighbouring figures. No figure touches another. Do not clip, shorten or erase bow tips. Keep bow in LEFT hand/viewer RIGHT, RIGHT hand draws. Windup and special have exactly one nocked arrow above bow grip with string meeting right hand/nock; release middle-centre has NO arrow and an undrawn straight tip-to-tip string, drawing fingers open. Keep face front and baseline consistent. Fully transparent background, no colour field, ground, shadows, labels or extra figures.",
+          "generated_file": "/workspace/generated_images/exec-22b2ff77-b456-4c9c-9b67-a1054530bfe3.png",
+          "reference": "archer.png",
+          "tool": "image_gen.imagegen",
+          "selection": "complete revised sheet"
+        }
+      ],
+      "selected_source": "archer-spacing.png",
+      "body_centres": [
+        340.29,
+        775.34,
+        1219.59,
+        337.97,
+        774.73,
+        1212.23,
+        338.01,
+        774.98,
+        1211.29
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        340,
+        775,
+        1220,
+        338,
+        775,
+        1220,
+        338,
+        775,
+        1220
+      ],
+      "preview": "batch-b-preview/archer.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/archer.webp"
+    },
+    "basilisk": {
+      "source": "basilisk.png",
+      "reference": "../../img/bestiary/basilisk.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. BASILISK: low heavy brown stony-scaled reptile with frontal wedge snout, amber eyes, plated/spined back and crown, ONE substantial tail. Exactly SIX legs in THREE PAIRS with readable roots: front pair fully visible, middle pair extends outside torso, rear pair visible farther back with sensible occlusion. Body recedes behind FRONTAL head, no side profile. No wings, fire throat or large wyrm horns. Nine cells: low idle; right-front/left-middle/right-rear coordinated forward group; opposite left-front/right-middle/left-rear group forward; jaw lowers and head draws back; frontal biting lunge; closes jaw settles; special head rises plated crown spreads with restrained amber-green eye highlight, NO beams; head withdraws in hurt; neutral reptilian eyes closed. Six connected limbs in every cell, tail not separate snake.",
+      "generated_file": "/workspace/generated_images/exec-ba4b534e-eea5-4ae1-97ad-71c21d04704c.png",
+      "status": "reviewed and integrated with existing supported poses",
+      "body_centres": [
+        311.35,
+        818.1,
+        1329.8,
+        312.09,
+        817.96,
+        1327.82,
+        306.99,
+        816.55,
+        1324.66
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        320,
+        822,
+        1330,
+        313,
+        821,
+        1330,
+        307,
+        817,
+        1326
+      ],
+      "preview": "batch-b-preview/basilisk.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/basilisk.webp"
+    },
+    "acolyte": {
+      "source": "acolyte.png",
+      "reference": "../../img/bestiary/acolyte.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. DARK ACOLYTE: gaunt LIVING HUMAN man with pale visible face and human ears under black hood, worn charcoal-black robes and attached bone/metal charms. Wooden staff topped with a small horned animal skull, physically attached to shaft, held in anatomical LEFT hand (viewer RIGHT) throughout. Free RIGHT hand casts. Nine cells: neutral staff beside body; RIGHT foot step beneath robe; LEFT foot step beneath robe; windup small compact violet light TOUCHING right palm; strike right arm extends towards viewer with palm glow, no detached projectile; recover retracts right hand; special raises staff preparing mending with restrained violet highlight; hurt recoils keeping staff grip and attached arms; neutral eyes closed under hood. Same black cloth every pose, never purple replacement robes. No undead skull face, crown, elf ears, free-floating staff top, cloud or floating hand.",
+      "status": "reviewed and integrated with existing supported poses",
+      "generated_file": "/workspace/generated_images/exec-2bc68d14-84f4-4d8f-9daa-fd73605fb8e8.png",
+      "repairs": [
+        {
+          "out": "acolyte-spacing.png",
+          "prompt": "Repair only the layout spacing of this nine-pose Dark Acolyte atlas. Keep same nine actions, identical black robes, human face, skin tone, violet palm magic and left-hand staff, same fixed amber upper-left light and cool rim. Uniformly scale ALL nine complete figures down to 78% of current height and centre each within its equal 3x3 cell. Need WIDE EMPTY TRANSPARENT gaps between rows, at least 25px clearance around every staff tip and foot. Middle-left windup and bottom-left special currently touch through staff/magic at the row gap: separate them fully, don't shorten or cut the staff or erase the attached skull top. Keep consistent body size and grounded baseline across poses. Full frontal face and shoulders, correct opposite walking leads. Exactly two arms with staff in anatomical LEFT hand/viewer RIGHT; right free palm casting. Actual transparency, no opaque background, cast shadow, labels or extra figures.",
+          "generated_file": "/workspace/generated_images/exec-d6ded792-53bb-4f65-b80b-8562a6dc7956.png",
+          "reference": "acolyte.png",
+          "tool": "image_gen.imagegen",
+          "selection": "complete revised sheet"
+        }
+      ],
+      "selected_source": "acolyte-spacing.png",
+      "body_centres": [
+        317.03,
+        771.92,
+        1228.12,
+        315.59,
+        770.24,
+        1232.28,
+        309.75,
+        774.38,
+        1234.03
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        320,
+        775,
+        1230,
+        320,
+        775,
+        1230,
+        320,
+        775,
+        1230
+      ],
+      "preview": "batch-b-preview/acolyte.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/acolyte.webp"
+    },
+    "moth": {
+      "source": "moth.png",
+      "reference": "../../img/bestiary/moth.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. GLIMMER MOTH: pale GOLDEN cave moth, fuzzy segmented cream-gold torso, two dark insect eyes, TWO feathered antennae, SIX small attached legs. Exactly FOUR wing lobes: TWO larger FOREWINGS plus TWO distinct smaller HINDWINGS, cream/gold/brown patterned translucent membranes, subtle eyespot markings only. Frontal hover body vertical; torso centre fixed across all nine wing phases. Nine cells: neutral wings spread; fore/hind wings raised; fore/hind wings lowered; wings angled back windup; wings beat forward strike; wings reopen recover; special spread four patterned lobes with compact golden highlights, NO particle halo; hurt wings inward while still attached; idle variation antennae slightly lowered, NO eyelids/blink invented. Preserve pale gold material and wing markings throughout, all four wing tips contained with large gutters. No bird feathers, butterfly colours or extra antennae.",
+      "status": "reviewed and integrated with existing supported poses",
+      "generated_file": "/workspace/generated_images/exec-1cee8a4e-2d80-4d63-9529-ec0bf0abba43.png",
+      "anchors": [
+        [
+          283,
+          230
+        ],
+        [
+          767,
+          233
+        ],
+        [
+          1267,
+          221
+        ],
+        [
+          274,
+          556
+        ],
+        [
+          765,
+          545
+        ],
+        [
+          1265,
+          555
+        ],
+        [
+          282,
+          872
+        ],
+        [
+          768,
+          840
+        ],
+        [
+          1269,
+          856
+        ]
+      ],
+      "target_anchor": [
+        128,
+        144
+      ],
+      "registration_note": "Measured thorax centres; wing tips and hanging legs do not set the floating baseline.",
+      "preview": "batch-b-preview/moth.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/moth.webp"
+    },
+    "thornhog": {
+      "source": "thornhog.png",
+      "reference": "../../img/bestiary/thornhog.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. THORNHOG: small compact BROWN BOAR, pig snout with round nostrils, small pointed pig ears, short neck and FOUR short cloven-hoof legs. Brown quill mantle rooted firmly along back, short modest tusks, small attached tail. Body recedes behind FRONTAL face, distinct from bear-like Quillback. Nine cells: frontal crouch with all four leg roots accounted for; RIGHT foreleg/left hindleg lead; LEFT foreleg/right hindleg lead; windup head tucks shoulders bunch; frontal snout drive; recover settles; special back quill mantle rises while quills stay ROOTED in same locations; hurt chest rocks back; neutral eyes closed. Identical brown fur and cream-brown quills throughout, no loose/fired quills, huge tusks, armour plates, bear paws or side view.",
+      "status": "reviewed and integrated with existing supported poses",
+      "generated_file": "/workspace/generated_images/exec-87d7380f-a08a-4472-a550-af91f95f73f0.png",
+      "body_centres": [
+        329.99,
+        790,
+        1242.99,
+        329.99,
+        799.97,
+        1240.01,
+        325.99,
+        780,
+        1240.01
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        330,
+        790,
+        1243,
+        330,
+        800,
+        1240,
+        326,
+        780,
+        1240
+      ],
+      "preview": "batch-b-preview/thornhog.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/thornhog.webp"
+    },
+    "imp": {
+      "source": "imp.png",
+      "reference": "../../img/bestiary/imp.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. GUTTER IMP: small reddish-brown wiry humanoid demon, curled horns, pointed ears, visible yellow eyes and toothy grin, ONE barbed tail. Exactly TWO clawed arms, TWO legs and TWO leathery wings with separate wing roots BEHIND shoulders. No smoking cup or tool. Nine cells: grounded crouch wings partly open; RIGHT foot leads; LEFT foot leads with unchanged tail/horns; claws draw back jaw opens; frontal claw/bite lunge; crouch recovery; special limbs gather in existing blink preparation with only a restrained translucent body edge, no aura or detached effect; chest retracts hurt; neutral eyes closed. Same red-brown skin saturation and warm/cool lighting throughout. No extra arms, duplicate tail, disconnected horns, trident or permanent fire.",
+      "status": "reviewed and integrated with existing supported poses",
+      "generated_file": "/workspace/generated_images/exec-3ab11b20-c16b-475a-896d-ee510b2208bf.png",
+      "body_centres": [
+        309.65,
+        779.96,
+        1283.25,
+        308.65,
+        790.24,
+        1292.22,
+        270.01,
+        782.42,
+        1299.81
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        310,
+        780,
+        1280,
+        310,
+        790,
+        1290,
+        270,
+        780,
+        1300
+      ],
+      "preview": "batch-b-preview/imp.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "runtime_atlas": "../../img/creatures/imp.webp"
+    },
+    "cutpurse": {
+      "source": "cutpurse.png",
+      "reference": "../../img/bestiary/cutpurse.webp",
+      "style_reference": "drow_warrior.png",
+      "transparent_background": true,
+      "prompt": "Create a production painted dark-fantasy game sprite atlas: exactly NINE complete figures of ONE identical creature in a precise 3 by 3 grid on a truly transparent background. No text, borders, ground plane, cast/contact shadows, scenery, fog, labels or detached particles. Equal square cells, wide transparent gutters, every appendage fully inside its cell with at least 8% margins. Full-body heads and torsos FACE VIEWER DIRECTLY in ALL cells. Same individual, proportions, equipment, material hues, saturation and exposure across all nine: fixed warm amber upper-left light, restrained cool right rim. Do not brighten/recolour the alternate step or attack poses. Anatomical RIGHT is viewer LEFT. Opposite walking leads must be unmistakably different without mirroring hands or equipment. Row-major order idle, stepA (RIGHT leg leads), stepB (LEFT leg leads), windup, strike, recover, special/reserve, hurt, blink. Same body scale and grounded foot baseline; generous clearance for raised weapons. Match reference 1 creature identity; reference 2 is STYLE/LAYOUT ONLY, ignore its character and opaque background. GOBLIN CUTPURSE: olive-green goblin thief, dark charcoal leather hood/clothes with face and mouth visible, one short knife in anatomical RIGHT hand (viewer LEFT) throughout. One stolen PURSE attached to LEFT belt or held by free LEFT hand (viewer RIGHT); bag never floats. Nine cells: crouched idle knife low; RIGHT foot leads; LEFT foot leads, knife still viewer LEFT; knife arm draws back; short frontal right-hand knife thrust; knife retracts close; special free LEFT hand extends to snatch while right keeps knife controlled; shoulders pull back hurt retaining gear; neutral eyes closed beneath hood. Same dark cloth and olive skin in all cells. Reference portrait holds knife differently: follow specified right-hand dungeon equipment orientation, do not mirror poses. No third hand, mask covering mouth, crown, companion kit or gold in flight.",
+      "status": "reviewed and integrated with existing supported poses",
+      "generated_file": "/workspace/generated_images/exec-5dd1a7dd-3874-48a0-b9ac-7f1d8cdac9ae.png",
+      "repairs": [
+        {
+          "out": "cutpurse-stepB.png",
+          "prompt": "Edit ONLY TOP-RIGHT step B figure in this nine-pose goblin cutpurse atlas. The current top-middle and top-right both lead with the viewer LEFT knee. Correct TOP-RIGHT to advance ANATOMICAL LEFT leg, on VIEWER RIGHT, left knee and left boot clearly forward/closer/larger, right leg/viewer LEFT behind. Keep knife in anatomical RIGHT hand (viewer LEFT), purse attached to left belt/viewer RIGHT, same arms and hood. Do not mirror the goblin. Match exact olive skin and charcoal leather colours, lighting, saturation and exposure of top-left idle and top-middle. Keep all eight other figures unchanged. Same body size, transparent background, complete margins; only the new top-right cell will be used.",
+          "generated_file": "/workspace/generated_images/exec-260bd99c-ecc5-4690-8607-a82fc0585b5b.png",
+          "reference": "cutpurse.png",
+          "tool": "image_gen.imagegen",
+          "selection": "single replacement stepB; eight original cells retained"
+        },
+        {
+          "prompt": "Return a COMPLETE 3x3 NINE-FIGURE transparent atlas, NOT an isolated enlarged character. Edit the FIRST reference atlas: only colour-correct its TOP-RIGHT walking figure so its material palette and exposure match TOP-LEFT idle and TOP-MIDDLE walking exactly. The TOP-RIGHT replacement is currently too bright, warm, saturated and cleanly lit. Preserve its current correct LEFT-leg-forward (viewer RIGHT leg forward) pose and all geometry/equipment. Match original muted olive-green skin and dark charcoal leather; remove excess golden/orange leather edge lighting and brighter skin from the other eight cells. Fixed light direction and strength. SECOND reference shows original palette in high resolution, not pose to copy. Keep the other eight figures unchanged and same scale. Exact nine-cell layout idle, right step, LEFT step, windup, strike, recover, special/reserve, hurt, blink. Anatomical right remains viewer left. Full body, wide transparent gutters, no scenery/ground/shadows/background tint. Preserve all claws/knife/purse/hair/limb connections. No mirroring. Output all nine figures on true transparent background.",
+          "generated_file": "/workspace/generated_images/exec-30cb0c91-6f22-4ac3-8cb8-f202d1a1d72e.png",
+          "source": "cutpurse-colour-sheet.png",
+          "tool": "image_gen.imagegen",
+          "references": [
+            "batch-b-preview/cutpurse.webp",
+            "cutpurse.png"
+          ],
+          "selection": "complete coherent palette sheet, all nine cells",
+          "reference_note": "The preview atlas reference was the pre-colour composite of the original eight cells and recorded single-step replacement; that mutable review export has since been superseded. Original source and intermediate replacement PNGs remain preserved."
+        }
+      ],
+      "body_centres": [
+        217.83,
+        630.0,
+        1073.6,
+        218.0,
+        630.0,
+        1073.09,
+        218.0,
+        630.0,
+        1074.6
+      ],
+      "registration_note": "Alpha-weighted frontal head/upper-torso centre in recorded central 91px ROI, 16\u201330% of visible source height; shared scale and foot baseline.",
+      "registration_roi_centres": [
+        218,
+        630,
+        1075,
+        218,
+        630,
+        1075,
+        218,
+        630,
+        1075
+      ],
+      "preview": "batch-b-preview/cutpurse.webp",
+      "supported_poses": [
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ],
+      "previous_replacements": {
+        "stepB": {
+          "source": "cutpurse-stepB.png",
+          "body_fraction": 0.542234
+        }
+      },
+      "selected_source": "cutpurse-colour-sheet.png",
+      "previous_sheet_corrections": {
+        "source": "cutpurse-colour-sheet.png",
+        "poses": {
+          "stepB": 2
+        },
+        "body_centres": {
+          "stepB": 1072.33
+        },
+        "match_height_to": {
+          "stepB": "stepA"
+        }
+      },
+      "palette_selection_note": "A single corrected cell still differed from original lighting. Select the entire tool-revised sheet for a coherent palette; all original and intermediate PNGs are retained.",
+      "runtime_atlas": "../../img/creatures/cutpurse.webp"
+    }
+  },
+  "review": {
+    "date": "2026-10-23",
+    "atlases": 10,
+    "distinct_cells": 90,
+    "dungeon_captures": 100,
+    "widths": [
+      390,
+      320
+    ],
+    "console_errors": [],
+    "export_check": "passed",
+    "runtime_integration": true
+  }
+}

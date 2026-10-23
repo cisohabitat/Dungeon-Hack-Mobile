@@ -130,6 +130,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   sources and measured registration in the manifest.
   Correction sheets replace only the manifest's named cells, keeping other
   original poses. Preview corrected steps, hurt and blink as well as wind-ups.
+  Batch B review follows `generation-batch-b.json`; `export-batch-b.py --check`
+  reproduces its ten review and shipped atlases and neutral/walking/action contact sheets.
+  `preview-batch-b.cjs` uses the real runtime loader at both phone widths.
+  Keep shipped bytes identical to reviewed exports and cache every atlas offline.
+  Keep Moth's measured torso anchor steady through wingbeats. Single-frame
+  replacements reject opaque backgrounds and detached large parts, then retain
+  only the connected figure plus its antialiased edge before registration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

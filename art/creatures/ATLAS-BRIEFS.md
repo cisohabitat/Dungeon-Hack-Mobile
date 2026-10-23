@@ -4,7 +4,8 @@ Canonical planning file for all pending painted dungeon monster atlases.
 Prepared 22 October 2026 against main `a6472543f4ee5469447c652e0a90b16f06a920fc`.
 
 **Status:** Batch A's ten creatures generated, corrected and integrated on 23 October 2026.
-Thirty briefs still await generation; the runtime now supports 23 painted creatures.
+Batch B is generated, repaired, visually reviewed and integrated; twenty briefs still await generation.
+The runtime supports 33 painted creatures.
 Variant requirements may require
 more than one atlas for an entry, especially Shade and Mimic.
 
@@ -19,7 +20,7 @@ for integration. Keep the status current as each atlas is actually completed.
 | Batch | Brief numbers | Scope | Current status |
 |---|---|---|---|
 | A | 1–10 | Rat through Ogre | Generated, revised and integrated |
-| B | 11–20 | Troll through Cutpurse | Briefs ready; generation pending |
+| B | 11–20 | Troll through Cutpurse | Generated, repaired, reviewed and integrated |
 | C | 21–30 | Remaining ordinary creatures and three keepers | Briefs ready; generation pending |
 | D | 31–40 | Shade and nine unpainted named champions | Briefs ready; generation pending |
 
@@ -317,6 +318,8 @@ a grip, green moss-covered troll features, tiny body or clipped raised weapon.
 
 ## 11. Troll
 
+**Kind:** `troll`. **Reference:** `img/bestiary/troll.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/troll.webp`, integrated and cached offline.
+
 **Identity:** large green troll, long mossy hair, hooked nose, long arms and
 heavy claws. Hunched but unmistakably humanoid, with two arms and two legs.
 Natural moss lies on the body rather than becoming background foliage.
@@ -339,6 +342,8 @@ require a new spell animation.
 
 ## 12. Minotaur
 
+**Kind:** `minotaur`. **Reference:** `img/bestiary/minotaur.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/minotaur.webp`, integrated and cached offline.
+
 **Identity:** muscular brown bull-headed warrior, swept horns, nose ring,
 leather/iron fittings, cloven hooves and one double-headed axe. Hold its shaft
 with both hands, separated along the same continuous haft.
@@ -353,6 +358,8 @@ two separate axes, disconnected blades, hands on different shafts or horn and
 axe tips clipped at the cell boundary. Charge keeps its existing wind-up fallback.
 
 ## 13. Kobold Trapper
+
+**Kind:** `kobold`. **Reference:** `img/bestiary/kobold.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/kobold.webp`, integrated and cached offline.
 
 **Identity:** small rust-red reptilian scavenger with a proper snout, amber
 eyes, one tail, rough leather hood/kit, trapping supplies and a short spear.
@@ -372,6 +379,8 @@ spawned floor trap. The reserve pose remains unused unless an existing object
 supports it.
 
 ## 14. Goblin Archer
+
+**Kind:** `archer`. **Reference:** `img/bestiary/archer.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/archer.webp`, integrated and cached offline.
 
 **Identity:** green goblin bowman with leather hood, quiver and simple wooden
 bow. Bow in anatomical left hand (viewer right); right hand draws the string.
@@ -393,6 +402,8 @@ arrow through the fist, string in front of the bow tips or a detached quiver.
 
 ## 15. Basilisk
 
+**Kind:** `basilisk`. **Reference:** `img/bestiary/basilisk.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/basilisk.webp`, integrated and cached offline.
+
 **Identity:** low brown reptile with stony scales, amber eyes, a spined back
 and one substantial tail. Preserve the existing multi-legged creature rather
 than defaulting to a dragon: plan three leg pairs with readable roots and
@@ -410,6 +421,8 @@ Do not change the actual gaze warning, range, visibility or effect to fit art.
 
 ## 16. Dark Acolyte
 
+**Kind:** `acolyte`. **Reference:** `img/bestiary/acolyte.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/acolyte.webp`, integrated and cached offline.
+
 **Identity:** gaunt living human in a black hood and dark robes, a visible human
 face, violet magic and a bone-topped wooden staff. Staff in the left hand
 (viewer right), free right hand casting. Bone top remains physically joined
@@ -426,6 +439,8 @@ detached staff top, a floating casting hand or a large spell cloud hiding joints
 The existing spell effects retain their own colours and timing.
 
 ## 17. Glimmer Moth
+
+**Kind:** `moth`. **Reference:** `img/bestiary/moth.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/moth.webp`, integrated and cached offline.
 
 **Identity:** pale golden cave moth, fuzzy segmented body, patterned wings,
 feathered antennae and dark insect eyes. Two forewings plus two hindwings,
@@ -446,6 +461,8 @@ vertically between wingbeat frames. Do not add a new blink object for this cell.
 
 ## 18. Thornhog
 
+**Kind:** `thornhog`. **Reference:** `img/bestiary/thornhog.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/thornhog.webp`, integrated and cached offline.
+
 **Identity:** small brown boar, short legs, blunt pig snout, small ears and a
 mantle of quills rooted in its back. Four legs. Keep its pig silhouette distinct
 from the larger bear-like Quillback, with a low body and short neck.
@@ -460,6 +477,8 @@ legs, armour plates replacing quills, huge invented tusks or side-on body.
 Quills remain rooted in the same mantle across poses, not newly fired projectiles.
 
 ## 19. Gutter Imp
+
+**Kind:** `imp`. **Reference:** `img/bestiary/imp.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/imp.webp`, integrated and cached offline.
 
 **Identity:** small red-brown imp with curled horns, pointed ears, leathery
 wings and one barbed tail. Two arms, two legs and two wings, with distinguishable
@@ -477,6 +496,8 @@ small smoking cup is incidental; do not introduce a held tool or new attack.
 Teleport location, disappearance and travel effects stay with existing gameplay.
 
 ## 20. Goblin Cutpurse
+
+**Kind:** `cutpurse`. **Reference:** `img/bestiary/cutpurse.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-b-preview/cutpurse.webp`, integrated and cached offline.
 
 **Identity:** hooded green goblin thief in dark leather, short knife and stolen
 purse. Knife in anatomical right hand (viewer left); purse hangs on the left

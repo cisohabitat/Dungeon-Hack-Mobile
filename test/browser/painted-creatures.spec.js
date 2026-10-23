@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const http = require('node:http');
 const { serve } = require('../server');
 const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
-const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre'];
+const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre','troll','minotaur','kobold','archer','basilisk','acolyte','moth','thornhog','imp','cutpurse'];
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 
 async function paintedModule(page) {
@@ -87,21 +87,21 @@ test.describe('painted dungeon creature', () => {
         const frames=supported.map(p=>{const fallback=p==='idle'?a:a[p],art=paintedCreature(fallback);return {pose:p,...hash(art.levels[0]),painted:art!==fallback,cached:art===paintedCreature(fallback),levels:art.levels.length};});
         return {kind,frames,expected:POSES[kind==='skarrow'?'wyrm':kind].length+1,tint:kind==='skarrow'||hash(paintedCreature(a.elite[elite]).levels[0]).h!==frames[0].h};}),
         other:['dog','wolf','renegade'].every(k=>paintedCreature(Assets.sprites[k])===Assets.sprites[k]),
-        champion:[['drow_mage','vaelith'],['goblin','grisk'],['spider','vessra'],['orc','ushgar'],['ghoul','morrow'],['wraith','orla']].every(([kind,id])=>{const a=Assets.sprites[kind].elite[id];return poses.every(p=>{const sprite=p==='idle'?a:a[p];return !sprite||paintedCreature(sprite)===sprite;});}),
+        champion:[['drow_mage','vaelith'],['goblin','grisk'],['spider','vessra'],['orc','ushgar'],['ghoul','morrow'],['wraith','orla'],['troll','gorrum']].every(([kind,id])=>{const a=Assets.sprites[kind].elite[id];return poses.every(p=>{const sprite=p==='idle'?a:a[p];return !sprite||paintedCreature(sprite)===sprite;});}),
         dice:before[0]===Dice.s&&before[1]===Odds.s};
     }, {kinds,poses,elite});
     for(const species of results.species){
       expect(species.tint,species.kind).toBe(true);expect(species.frames.length,species.kind).toBe(species.expected);expect(new Set(species.frames.map(f=>f.h)).size,species.kind).toBe(species.frames.length);
       for(const f of species.frames){expect(f.painted&&f.cached,species.kind+':'+f.pose).toBe(true);expect(f.levels).toBe(5);expect(f.n).toBeGreaterThan(1500);expect(f.minX).toBeGreaterThan(0);expect(f.minY).toBeGreaterThan(0);expect(f.maxX).toBeLessThan(255);expect(f.maxY).toBeLessThan(255);}
-      // Wingbeats register the Bat's torso instead of a grounded foot baseline.
-      if(species.kind==='bat')for(const f of species.frames)expect(f.anchorAlpha,species.kind+':'+f.pose).toBeGreaterThan(128*256);
+      // Wingbeats register the Bat/Moth torso instead of a grounded foot baseline.
+      if(['bat','moth'].includes(species.kind))for(const f of species.frames)expect(f.anchorAlpha,species.kind+':'+f.pose).toBeGreaterThan(128*256);
       else expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
     }
     expect(new Set(results.species.map(s=>s.frames[0].h)).size).toBe(kinds.length);
     expect(results).toMatchObject({other:true,champion:true,dice:true});expect([...requested].sort()).toEqual([...kinds].sort());expect(errors).toEqual([]);
   });
 
-  for(const failedKind of ['hound','rat'])test(`a corrupt ${failedKind} atlas cannot break a different species @mobile`,async({page})=>{
+  for(const failedKind of ['hound','rat','troll'])test(`a corrupt ${failedKind} atlas cannot break a different species @mobile`,async({page})=>{
     const errors=watchForErrors(page);
     await page.route('**/img/creatures/'+failedKind+'.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
     await scene(page);const failedPoses=await page.evaluate(async kind=>(await import('/js/creatures.js')).POSES[kind],failedKind);await artReady(page,{[failedKind]:failedPoses,wyrm:poses.slice(1)});
@@ -129,9 +129,9 @@ test.describe('painted dungeon creature', () => {
     await page.screenshot({path:info.outputPath('painted-guard.png')});expect(errors).toEqual([]);
   });
 
-  test('Batch A keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile', async ({ page }) => {
+  for(const batchName of ['A','B'])test(`Batch ${batchName} keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile`, async ({ page }) => {
     const errors=watchForErrors(page);await scene(page);
-    const batch=kinds.slice(-10);
+    const batch=kinds.slice(batchName==='A'?13:23,batchName==='A'?23:33);
     const required=await page.evaluate(async kinds=>{const {POSES}=await import('/js/creatures.js');return Object.fromEntries(kinds.map(k=>[k,POSES[k]]));},batch);
     await artReady(page,required);
     for(const kind of batch){
@@ -142,7 +142,8 @@ test.describe('painted dungeon creature', () => {
         const {paintedCreature}=await import('/js/paintedcreatures.js');
         const G=Game.state(),L=Game.level(),m=L.monsters[0],now=performance.now();
         m.lungeAt=now;m.flashAt=now;m.flashUntil=now+130;
-        m.windup={kind:'move',move:kind==='wraith'?'chill':kind==='spider'?'web':null,at:G.t-800,until:G.t+1e6};
+        const move={wraith:'chill',spider:'web',archer:'firearrow',basilisk:'gaze',acolyte:'mend',moth:'dazzle',thornhog:'bristle',imp:'blink',cutpurse:'snatch'}[kind];
+        m.windup={kind:move?'move':['kobold'].includes(kind)?'shot':'attack',move,at:G.t-800,until:G.t+1e6};
         const rs=Game.renderState(now+50),foe=rs.sprites.find(s=>s.maxHp===999);
         const selected=(foe.special&&foe.img.special)||foe.img.windup||foe.img;
         paintedCreature(selected);
@@ -151,7 +152,7 @@ test.describe('painted dungeon creature', () => {
         const normal=paint(false),calm=paint(true);
         const idx=m.y*L.w+m.x,tile=L.tiles[idx];L.tiles[idx]=Dungeon.T.WALL;const hidden=paint(true);L.tiles[idx]=tile;Renderer.setCalm(false);
         return {normal,calm,hidden,priority:!!foe.tell&&!foe.reaction,
-          selected:kind==='wraith'?selected===foe.img.special:selected===foe.img.windup,
+          selected:foe.special&&foe.img.special?selected===foe.img.special:selected===foe.img.windup,
           unchanged:recordingPrint(G)===before&&dice[0]===Dice.s&&dice[1]===Odds.s};
       },kind);
       expect(result.priority&&result.selected&&result.unchanged,kind).toBe(true);

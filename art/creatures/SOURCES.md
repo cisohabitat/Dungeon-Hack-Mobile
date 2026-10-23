@@ -116,3 +116,34 @@ to the offline cache. The Batch A exporter now reproduces both review and
 shipped copies. The capture script uses the actual runtime loader without
 substituting modules or images. Named champions retain their procedural art;
 unused special cells do not introduce game actions. No combat rules changed.
+
+## Batch B review generation — 23 October 2026
+
+OpenAI `image_gen.imagegen` generated Troll, Minotaur, Kobold Trapper, Goblin
+Archer, Basilisk, Dark Acolyte, Glimmer Moth, Thornhog, Gutter Imp and Goblin
+Cutpurse from their existing bestiary portraits and the Warrior style sheet.
+Original PNGs remain as `<kind>.png`; the tool did not disclose its model.
+Exact prompts, references, generated paths, selected repairs and measured
+registration are recorded in `generation-batch-b.json`.
+
+Tool edits repaired the Troll and Cutpurse's opposite-leg steps, turned all
+Kobold heads forward, and separated neighbouring Archer bow/Acolyte staff
+figures. The first Troll replacement had an opaque gradient background and is
+retained as rejected provenance; a further tool edit removed that background.
+Initial single-frame repairs were reviewed against the original eight cells.
+The final Troll and Cutpurse selections use complete tool-revised palette sheets,
+which keep their lighting coherent across all nine poses; every earlier source
+and intermediate remains preserved.
+
+`python3 art/creatures/export-batch-b.py --check` reproduces review WebPs with
+nine 256px cells, a shared per-creature scale, visible grounded baseline row236
+and at least 12px clearance. Moth uses measured thorax anchors at (128,144).
+Only extraction, antialiased raster scaling and registration happen offline;
+no runtime colour filter or new painting is applied by the exporter.
+
+`node art/creatures/preview-batch-b.cjs` previews existing supported poses in
+the actual dungeon renderer and runtime loader with shipped images. The user
+authorised integration and publication on 23 October 2026. Exports reproduce
+review and shipped bytes; all ten are cached offline with existing supported
+poses. Named champion identities and gameplay remain unchanged.
+Review images and findings are under `batch-b-preview/`.

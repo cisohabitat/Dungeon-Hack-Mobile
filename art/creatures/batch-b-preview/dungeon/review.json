@@ -1,0 +1,1576 @@
+{
+  "mode": "integrated runtime loader and shipped images; real dungeon renderer",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "troll",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 132.90123880893634,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0430227950973554
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "troll",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 132.93429598548965,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0344393056744838,
+          "markX": 160,
+          "markY": 128,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 257.5917688736662
+        }
+      ],
+      "intent": "Troll · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "troll",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 121.69953811700131,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.0255979873988017
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "troll",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 133.19165719731276,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0166174130336523
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "minotaur",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 90.20127019760402,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0848420697090706
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "minotaur",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 72.01099436425119,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.091823775188191,
+          "markX": 160,
+          "markY": 68,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 265.24655677591176
+        }
+      ],
+      "intent": "Minotaur · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "minotaur",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 70.13981871279735,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.0973538298392287
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "minotaur",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 84.55934181281194,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.1022032909359403
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "minotaur",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 91.68584140090556,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.1052547077673287
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "kobold",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 209.7348534070657,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.4987704010101273
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "kobold",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 200.91455063033962,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4959180219097023,
+          "markX": 160,
+          "markY": 196,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 122.52249319555814
+        }
+      ],
+      "intent": "Kobold Trapper · Aiming a shot"
+    },
+    {
+      "width": 390,
+      "kind": "kobold",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 200.89541104234172,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.4900241524087279
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "kobold",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 212.62617087518018,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.48363261321895185
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "kobold",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 216.0040858140759,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.47847265691357044
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 186.11673286441402,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5771032385222621
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 182.786243780905,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5830860140983203,
+          "markX": 160,
+          "markY": 178,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 150.36499019541503
+        }
+      ],
+      "intent": "Goblin Archer · Aiming a shot"
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 171.6595281713883,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.5910167721188971
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 181.2427702691355,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5978610131925821
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 167.11171514739596,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6025690741907523,
+          "markX": 160,
+          "markY": 163,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 147.87115850358376
+        }
+      ],
+      "intent": "Goblin Archer · Aiming a fire arrow"
+    },
+    {
+      "width": 390,
+      "kind": "archer",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 167.35367275817484,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.6030777487705961
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "basilisk",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 177.58995701335937,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9300003137710994
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "basilisk",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 174.01994943696178,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9330805092178013,
+          "markX": 160,
+          "markY": 170,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 225.56569482012148
+        }
+      ],
+      "intent": "Basilisk · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "basilisk",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 165.9969611983505,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9343287503770037
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "basilisk",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 174.28444095156658,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9336825646316674
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "basilisk",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 162.19169482668767,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9311080124233091,
+          "markX": 160,
+          "markY": 158,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 225.81817440981646
+        }
+      ],
+      "intent": "Basilisk · Fixing its gaze"
+    },
+    {
+      "width": 390,
+      "kind": "acolyte",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 148.69692481793805,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7303882017853361
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "acolyte",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 152.5419535814411,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7348273775169704,
+          "markX": 160,
+          "markY": 148,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.94209567782784
+        }
+      ],
+      "intent": "Dark Acolyte · Casting"
+    },
+    {
+      "width": 390,
+      "kind": "acolyte",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 133.37416056747406,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.7402112416245434
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "acolyte",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 143.20535641846539,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7455974358596066
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "acolyte",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 130.6944851237091,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.753059461488073,
+          "markX": 160,
+          "markY": 126,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 188.60838892952668
+        }
+      ],
+      "intent": "Dark Acolyte · Mending"
+    },
+    {
+      "width": 390,
+      "kind": "moth",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 119.0885172887053,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "moth",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 126.39913402788947,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.42968750000000017,
+          "markX": 160,
+          "markY": 122,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 110.00000000000004
+        }
+      ],
+      "intent": "Glimmer Moth · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "moth",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 101.83967725784662,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "moth",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 123.1712724628866,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "moth",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 105.8480172797326,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.42968750000000017,
+          "markX": 160,
+          "markY": 101,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 110.00000000000004
+        }
+      ],
+      "intent": "Glimmer Moth · Gathering a flare"
+    },
+    {
+      "width": 390,
+      "kind": "thornhog",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 199.39984890531463,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.4683175796766604
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "thornhog",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 202.9066414513586,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4726280170629967,
+          "markX": 160,
+          "markY": 198,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 119.50361381593645
+        }
+      ],
+      "intent": "Thornhog · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "thornhog",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 207.24442154295824,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.47685648027825256
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "thornhog",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 208.05584136695757,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.4799215773912993
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "thornhog",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 189.99349686584802,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.48212894819351604,
+          "markX": 160,
+          "markY": 185,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 118.28749463122998
+        }
+      ],
+      "intent": "Thornhog · Raising quills"
+    },
+    {
+      "width": 390,
+      "kind": "imp",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 230.65289590109316,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.46178325527271336
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "imp",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 230.13197716965186,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.45999533060371656,
+          "markX": 160,
+          "markY": 226,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 121.1205976827243
+        }
+      ],
+      "intent": "Gutter Imp · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "imp",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 219.64542897869643,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.4589788334648369
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "imp",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 229.6918855417542,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.4591958198673525
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "imp",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 228.1918258697219,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4605987642032053,
+          "markX": 160,
+          "markY": 224,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 121.04335818198975
+        }
+      ],
+      "intent": "Gutter Imp · Preparing to blink"
+    },
+    {
+      "width": 390,
+      "kind": "cutpurse",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 188.48588290047985,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.5553374584185271
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "cutpurse",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 195.76848263234325,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5527042542899021,
+          "markX": 160,
+          "markY": 191,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 145.2538554508926
+        }
+      ],
+      "intent": "Goblin Cutpurse · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "cutpurse",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 183.7861062622712,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.551069468688644
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "cutpurse",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 195.9560792827745,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5507268723092197
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "cutpurse",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 192.6950173039373,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5515083912488505,
+          "markX": 160,
+          "markY": 188,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 145.4069259201472
+        }
+      ],
+      "intent": "Goblin Cutpurse · Reaching to snatch"
+    },
+    {
+      "width": 320,
+      "kind": "troll",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 157.04895568271078,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0603093594987225
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "troll",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 154.9705852654439,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0643411774819884,
+          "markX": 160,
+          "markY": 150,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 253.76432928230557
+        }
+      ],
+      "intent": "Troll · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "troll",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 148.92502156362065,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.0659224906927343
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "troll",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 151.77768300765058,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0664042425582807
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "minotaur",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 113.12380282834744,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.1054353392507705
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "minotaur",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 106.92723580258286,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.1070147040634044,
+          "markX": 160,
+          "markY": 102,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 263.3021178798844
+        }
+      ],
+      "intent": "Minotaur · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "minotaur",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 102.09472189385633,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.1073788142458023
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "minotaur",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 110.70911306805283,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.1064544346597358
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "minotaur",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 118.85774257026135,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.1043640281333609
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "kobold",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 240.6787571392499,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.47812169037041935
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "kobold",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 242.85966974765313,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.47482112823422895,
+          "markX": 160,
+          "markY": 238,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 125.22289558601872
+        }
+      ],
+      "intent": "Kobold Trapper · Aiming a shot"
+    },
+    {
+      "width": 320,
+      "kind": "kobold",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 237.88751754685867,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.47427622343758596
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "kobold",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 240.93691590696287,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.47677007378553465
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "kobold",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 242.32867697727434,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.4821038872189551
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 212.65061343348987,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5793659542063598
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 207.52921790999847,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5747464249639018,
+          "markX": 160,
+          "markY": 203,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 151.43245760462062
+        }
+      ],
+      "intent": "Goblin Archer · Aiming a shot"
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 209.1788617576004,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.5740151605913024
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 212.54786235953557,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.577063466862147
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 204.92527373290727,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5844092714026033,
+          "markX": 160,
+          "markY": 200,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 150.1956132604668
+        }
+      ],
+      "intent": "Goblin Archer · Aiming a fire arrow"
+    },
+    {
+      "width": 320,
+      "kind": "archer",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 203.56058366727353,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.5925686492034594
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "basilisk",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 211.6114063716352,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8787488586012028
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "basilisk",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 208.1178573730868,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8823811668169083,
+          "markX": 160,
+          "markY": 204,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 232.0552106474358
+        }
+      ],
+      "intent": "Basilisk · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "basilisk",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 206.4453509683217,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.8872602119100605
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "basilisk",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 207.00665303959886,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8928096211457224
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "basilisk",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 194.14676916406063,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8987219056430937,
+          "markX": 160,
+          "markY": 190,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 229.96359607768406
+        }
+      ],
+      "intent": "Basilisk · Fixing its gaze"
+    },
+    {
+      "width": 320,
+      "kind": "acolyte",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 169.03748531994697,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.7428154891591263
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "acolyte",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 179.12394946458647,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7368467210766546,
+          "markX": 160,
+          "markY": 175,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.68361970218825
+        }
+      ],
+      "intent": "Dark Acolyte · Casting"
+    },
+    {
+      "width": 320,
+      "kind": "acolyte",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 173.13940272546205,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7320764851361196
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "acolyte",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 174.017140161623,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7280316121584194
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "acolyte",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 164.3391249694797,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7242947868310574,
+          "markX": 160,
+          "markY": 160,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 192.2902672856247
+        }
+      ],
+      "intent": "Dark Acolyte · Mending"
+    },
+    {
+      "width": 320,
+      "kind": "moth",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 164.62692115809557,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "moth",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 161.02978479639035,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.42968750000000017,
+          "markX": 160,
+          "markY": 157,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 110.00000000000004
+        }
+      ],
+      "intent": "Glimmer Moth · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "moth",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 145.02056252436157,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "moth",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 153.62108632684547,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.42968750000000006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "moth",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 141.8182769274122,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.42968750000000017,
+          "markX": 160,
+          "markY": 137,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 110.00000000000004
+        }
+      ],
+      "intent": "Glimmer Moth · Gathering a flare"
+    },
+    {
+      "width": 320,
+      "kind": "thornhog",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 234.90995298443042,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.4806437971067801
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "thornhog",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 235.90352991998202,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4778525562889163,
+          "markX": 160,
+          "markY": 231,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 118.83487279501874
+        }
+      ],
+      "intent": "Thornhog · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "thornhog",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 234.86191490905446,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.47384431751680745
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "thornhog",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 237.20261167622405,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.4692940016028513
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "thornhog",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 227.4825380365973,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.46590084972491463,
+          "markX": 160,
+          "markY": 223,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 120.36469123521094
+        }
+      ],
+      "intent": "Thornhog · Raising quills"
+    },
+    {
+      "width": 320,
+      "kind": "imp",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 253.97806785520515,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.4597635536943778
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "imp",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 256.8749680563088,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.4615818066120075,
+          "markX": 160,
+          "markY": 252,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 120.91752875366306
+        }
+      ],
+      "intent": "Gutter Imp · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "imp",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 252.81209329762208,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.464122880878876
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "imp",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 255.33537966693945,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.4674671971528081
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "imp",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 253.3521462537007,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.47168117152863404,
+          "markX": 160,
+          "markY": 249,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 119.62481004433486
+        }
+      ],
+      "intent": "Gutter Imp · Preparing to blink"
+    },
+    {
+      "width": 320,
+      "kind": "cutpurse",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 222.85834135206483,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.5533771507786062
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "cutpurse",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 222.05596140170817,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5563211133286589,
+          "markX": 160,
+          "markY": 218,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 144.7908974939317
+        }
+      ],
+      "intent": "Goblin Cutpurse · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "cutpurse",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 216.00509773235464,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.5599745113382267
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "cutpurse",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 220.24534644580336,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5644174421929123
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "cutpurse",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 215.9106567638513,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5701505613970573,
+          "markX": 160,
+          "markY": 211,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 143.0207281411767
+        }
+      ],
+      "intent": "Goblin Cutpurse · Reaching to snatch"
+    }
+  ]
+}

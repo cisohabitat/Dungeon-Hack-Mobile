@@ -94,13 +94,13 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.evaluate(() => {
     Game.level().twist = null;
-    const kinds=['drow_warrior','hound','wyrm','skarrow','lizardfolk','dwarf_arbalest','drow_mage','lizard_shaman'];
+    const kinds=['drow_warrior','hound','wyrm','skarrow','troll','minotaur','archer','moth'];
     let i=0;for (const m of Game.level().monsters) if (m.id === 'orc') m.id = kinds[i++%kinds.length];
   });
   await page.evaluate(async()=>{window.__paintedCreature=(await import('/js/paintedcreatures.js')).paintedCreature;});
   await page.waitForFunction(() => {
     const paintedCreature = window.__paintedCreature;
-    return ['drow_warrior','hound','wyrm','skarrow','lizardfolk','dwarf_arbalest','drow_mage','lizard_shaman'].map(k=>k==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[k]).map(art=>art&&paintedCreature(art)!==art).every(Boolean);
+    return ['drow_warrior','hound','wyrm','skarrow','troll','minotaur','archer','moth'].map(k=>k==='skarrow'?Assets.sprites.wyrm.elite.skarrow:Assets.sprites[k]).map(art=>art&&paintedCreature(art)!==art).every(Boolean);
   });
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   await measure(page, cdp, 3000);

@@ -1,0 +1,1106 @@
+{
+  "method": "Whole-cell HSV medians for alpha>=224 and V in [0.15,0.85]; screening only, not a per-material colour match. Visual review determines palette selections.",
+  "selection": "Complete coherent palette sheets for Troll/Cutpurse; original/intermediate sources remain preserved.",
+  "frames": {
+    "troll": [
+      {
+        "pose": "idle",
+        "pixels": 14947,
+        "bounds": [
+          54,
+          91,
+          199,
+          237
+        ],
+        "median_s": 0.5,
+        "median_v": 0.298
+      },
+      {
+        "pose": "stepA",
+        "pixels": 14240,
+        "bounds": [
+          60,
+          88,
+          198,
+          237
+        ],
+        "median_s": 0.4951,
+        "median_v": 0.298
+      },
+      {
+        "pose": "stepB",
+        "pixels": 14797,
+        "bounds": [
+          48,
+          87,
+          198,
+          237
+        ],
+        "median_s": 0.5,
+        "median_v": 0.3059
+      },
+      {
+        "pose": "windup",
+        "pixels": 15859,
+        "bounds": [
+          35,
+          90,
+          210,
+          237
+        ],
+        "median_s": 0.5099,
+        "median_v": 0.3098
+      },
+      {
+        "pose": "strike",
+        "pixels": 15110,
+        "bounds": [
+          36,
+          90,
+          214,
+          237
+        ],
+        "median_s": 0.4921,
+        "median_v": 0.3059
+      },
+      {
+        "pose": "recover",
+        "pixels": 14702,
+        "bounds": [
+          49,
+          93,
+          194,
+          237
+        ],
+        "median_s": 0.4938,
+        "median_v": 0.302
+      },
+      {
+        "pose": "special",
+        "pixels": 17737,
+        "bounds": [
+          24,
+          88,
+          232,
+          237
+        ],
+        "median_s": 0.5,
+        "median_v": 0.298
+      },
+      {
+        "pose": "hurt",
+        "pixels": 15022,
+        "bounds": [
+          55,
+          84,
+          213,
+          237
+        ],
+        "median_s": 0.4795,
+        "median_v": 0.3059
+      },
+      {
+        "pose": "blink",
+        "pixels": 15380,
+        "bounds": [
+          44,
+          89,
+          190,
+          237
+        ],
+        "median_s": 0.5,
+        "median_v": 0.3098
+      }
+    ],
+    "minotaur": [
+      {
+        "pose": "idle",
+        "pixels": 17482,
+        "bounds": [
+          42,
+          58,
+          213,
+          237
+        ],
+        "median_s": 0.5673,
+        "median_v": 0.3333
+      },
+      {
+        "pose": "stepA",
+        "pixels": 17154,
+        "bounds": [
+          49,
+          52,
+          220,
+          237
+        ],
+        "median_s": 0.5522,
+        "median_v": 0.3216
+      },
+      {
+        "pose": "stepB",
+        "pixels": 17384,
+        "bounds": [
+          44,
+          56,
+          212,
+          237
+        ],
+        "median_s": 0.5841,
+        "median_v": 0.3333
+      },
+      {
+        "pose": "windup",
+        "pixels": 17998,
+        "bounds": [
+          36,
+          53,
+          216,
+          237
+        ],
+        "median_s": 0.5727,
+        "median_v": 0.3255
+      },
+      {
+        "pose": "strike",
+        "pixels": 17517,
+        "bounds": [
+          41,
+          63,
+          222,
+          237
+        ],
+        "median_s": 0.5344,
+        "median_v": 0.3333
+      },
+      {
+        "pose": "recover",
+        "pixels": 17703,
+        "bounds": [
+          44,
+          58,
+          216,
+          237
+        ],
+        "median_s": 0.5652,
+        "median_v": 0.3294
+      },
+      {
+        "pose": "special",
+        "pixels": 19716,
+        "bounds": [
+          21,
+          70,
+          228,
+          237
+        ],
+        "median_s": 0.557,
+        "median_v": 0.3294
+      },
+      {
+        "pose": "hurt",
+        "pixels": 16960,
+        "bounds": [
+          58,
+          63,
+          227,
+          237
+        ],
+        "median_s": 0.55,
+        "median_v": 0.3412
+      },
+      {
+        "pose": "blink",
+        "pixels": 16808,
+        "bounds": [
+          46,
+          69,
+          219,
+          237
+        ],
+        "median_s": 0.5561,
+        "median_v": 0.3333
+      }
+    ],
+    "kobold": [
+      {
+        "pose": "idle",
+        "pixels": 16136,
+        "bounds": [
+          38,
+          65,
+          229,
+          237
+        ],
+        "median_s": 0.698,
+        "median_v": 0.3922
+      },
+      {
+        "pose": "stepA",
+        "pixels": 15808,
+        "bounds": [
+          37,
+          66,
+          231,
+          237
+        ],
+        "median_s": 0.6963,
+        "median_v": 0.4
+      },
+      {
+        "pose": "stepB",
+        "pixels": 15917,
+        "bounds": [
+          39,
+          65,
+          233,
+          237
+        ],
+        "median_s": 0.7022,
+        "median_v": 0.4078
+      },
+      {
+        "pose": "windup",
+        "pixels": 17216,
+        "bounds": [
+          36,
+          69,
+          240,
+          237
+        ],
+        "median_s": 0.6932,
+        "median_v": 0.4
+      },
+      {
+        "pose": "strike",
+        "pixels": 15647,
+        "bounds": [
+          42,
+          70,
+          233,
+          237
+        ],
+        "median_s": 0.6923,
+        "median_v": 0.3922
+      },
+      {
+        "pose": "recover",
+        "pixels": 16476,
+        "bounds": [
+          29,
+          69,
+          237,
+          237
+        ],
+        "median_s": 0.698,
+        "median_v": 0.4039
+      },
+      {
+        "pose": "special",
+        "pixels": 16679,
+        "bounds": [
+          40,
+          80,
+          238,
+          237
+        ],
+        "median_s": 0.6947,
+        "median_v": 0.3961
+      },
+      {
+        "pose": "hurt",
+        "pixels": 16020,
+        "bounds": [
+          42,
+          73,
+          239,
+          237
+        ],
+        "median_s": 0.6986,
+        "median_v": 0.4
+      },
+      {
+        "pose": "blink",
+        "pixels": 16039,
+        "bounds": [
+          39,
+          71,
+          234,
+          237
+        ],
+        "median_s": 0.7018,
+        "median_v": 0.4
+      }
+    ],
+    "archer": [
+      {
+        "pose": "idle",
+        "pixels": 15830,
+        "bounds": [
+          66,
+          50,
+          209,
+          237
+        ],
+        "median_s": 0.7238,
+        "median_v": 0.4
+      },
+      {
+        "pose": "stepA",
+        "pixels": 15211,
+        "bounds": [
+          68,
+          49,
+          206,
+          237
+        ],
+        "median_s": 0.7143,
+        "median_v": 0.3961
+      },
+      {
+        "pose": "stepB",
+        "pixels": 15312,
+        "bounds": [
+          58,
+          49,
+          195,
+          237
+        ],
+        "median_s": 0.7143,
+        "median_v": 0.3922
+      },
+      {
+        "pose": "windup",
+        "pixels": 17013,
+        "bounds": [
+          53,
+          47,
+          234,
+          237
+        ],
+        "median_s": 0.7348,
+        "median_v": 0.4118
+      },
+      {
+        "pose": "strike",
+        "pixels": 17360,
+        "bounds": [
+          47,
+          46,
+          220,
+          237
+        ],
+        "median_s": 0.7154,
+        "median_v": 0.4039
+      },
+      {
+        "pose": "recover",
+        "pixels": 15644,
+        "bounds": [
+          58,
+          53,
+          198,
+          237
+        ],
+        "median_s": 0.7165,
+        "median_v": 0.4118
+      },
+      {
+        "pose": "special",
+        "pixels": 17637,
+        "bounds": [
+          53,
+          46,
+          242,
+          237
+        ],
+        "median_s": 0.7353,
+        "median_v": 0.4157
+      },
+      {
+        "pose": "hurt",
+        "pixels": 17105,
+        "bounds": [
+          46,
+          52,
+          217,
+          237
+        ],
+        "median_s": 0.6954,
+        "median_v": 0.4039
+      },
+      {
+        "pose": "blink",
+        "pixels": 16065,
+        "bounds": [
+          59,
+          50,
+          200,
+          237
+        ],
+        "median_s": 0.7143,
+        "median_v": 0.4157
+      }
+    ],
+    "basilisk": [
+      {
+        "pose": "idle",
+        "pixels": 11639,
+        "bounds": [
+          18,
+          119,
+          200,
+          237
+        ],
+        "median_s": 0.475,
+        "median_v": 0.3569
+      },
+      {
+        "pose": "stepA",
+        "pixels": 11299,
+        "bounds": [
+          14,
+          119,
+          197,
+          237
+        ],
+        "median_s": 0.4898,
+        "median_v": 0.3529
+      },
+      {
+        "pose": "stepB",
+        "pixels": 11312,
+        "bounds": [
+          20,
+          116,
+          197,
+          237
+        ],
+        "median_s": 0.4885,
+        "median_v": 0.3608
+      },
+      {
+        "pose": "windup",
+        "pixels": 12022,
+        "bounds": [
+          20,
+          116,
+          197,
+          237
+        ],
+        "median_s": 0.503,
+        "median_v": 0.3569
+      },
+      {
+        "pose": "strike",
+        "pixels": 13129,
+        "bounds": [
+          13,
+          114,
+          204,
+          237
+        ],
+        "median_s": 0.5,
+        "median_v": 0.3725
+      },
+      {
+        "pose": "recover",
+        "pixels": 11480,
+        "bounds": [
+          23,
+          120,
+          199,
+          237
+        ],
+        "median_s": 0.4955,
+        "median_v": 0.3608
+      },
+      {
+        "pose": "special",
+        "pixels": 13481,
+        "bounds": [
+          21,
+          103,
+          209,
+          237
+        ],
+        "median_s": 0.5365,
+        "median_v": 0.3451
+      },
+      {
+        "pose": "hurt",
+        "pixels": 12429,
+        "bounds": [
+          20,
+          116,
+          203,
+          237
+        ],
+        "median_s": 0.4946,
+        "median_v": 0.3569
+      },
+      {
+        "pose": "blink",
+        "pixels": 12207,
+        "bounds": [
+          22,
+          115,
+          201,
+          237
+        ],
+        "median_s": 0.4935,
+        "median_v": 0.3608
+      }
+    ],
+    "acolyte": [
+      {
+        "pose": "idle",
+        "pixels": 18412,
+        "bounds": [
+          56,
+          42,
+          194,
+          237
+        ],
+        "median_s": 0.4144,
+        "median_v": 0.2745
+      },
+      {
+        "pose": "stepA",
+        "pixels": 17479,
+        "bounds": [
+          63,
+          39,
+          191,
+          237
+        ],
+        "median_s": 0.4643,
+        "median_v": 0.2824
+      },
+      {
+        "pose": "stepB",
+        "pixels": 18560,
+        "bounds": [
+          64,
+          39,
+          195,
+          237
+        ],
+        "median_s": 0.4231,
+        "median_v": 0.2784
+      },
+      {
+        "pose": "windup",
+        "pixels": 18578,
+        "bounds": [
+          52,
+          49,
+          196,
+          237
+        ],
+        "median_s": 0.4307,
+        "median_v": 0.2824
+      },
+      {
+        "pose": "strike",
+        "pixels": 20102,
+        "bounds": [
+          50,
+          45,
+          202,
+          237
+        ],
+        "median_s": 0.4722,
+        "median_v": 0.3059
+      },
+      {
+        "pose": "recover",
+        "pixels": 19309,
+        "bounds": [
+          62,
+          44,
+          204,
+          237
+        ],
+        "median_s": 0.4421,
+        "median_v": 0.2941
+      },
+      {
+        "pose": "special",
+        "pixels": 23466,
+        "bounds": [
+          42,
+          25,
+          222,
+          237
+        ],
+        "median_s": 0.381,
+        "median_v": 0.2784
+      },
+      {
+        "pose": "hurt",
+        "pixels": 20072,
+        "bounds": [
+          47,
+          41,
+          199,
+          237
+        ],
+        "median_s": 0.4037,
+        "median_v": 0.2863
+      },
+      {
+        "pose": "blink",
+        "pixels": 19170,
+        "bounds": [
+          61,
+          44,
+          205,
+          237
+        ],
+        "median_s": 0.4182,
+        "median_v": 0.2706
+      }
+    ],
+    "moth": [
+      {
+        "pose": "idle",
+        "pixels": 11141,
+        "bounds": [
+          35,
+          78,
+          222,
+          187
+        ],
+        "median_s": 0.6848,
+        "median_v": 0.7216
+      },
+      {
+        "pose": "stepA",
+        "pixels": 9779,
+        "bounds": [
+          54,
+          56,
+          204,
+          190
+        ],
+        "median_s": 0.686,
+        "median_v": 0.7176
+      },
+      {
+        "pose": "stepB",
+        "pixels": 9343,
+        "bounds": [
+          31,
+          86,
+          226,
+          191
+        ],
+        "median_s": 0.6802,
+        "median_v": 0.7176
+      },
+      {
+        "pose": "windup",
+        "pixels": 6434,
+        "bounds": [
+          47,
+          80,
+          179,
+          187
+        ],
+        "median_s": 0.7243,
+        "median_v": 0.7059
+      },
+      {
+        "pose": "strike",
+        "pixels": 8084,
+        "bounds": [
+          25,
+          86,
+          233,
+          181
+        ],
+        "median_s": 0.6831,
+        "median_v": 0.702
+      },
+      {
+        "pose": "recover",
+        "pixels": 11680,
+        "bounds": [
+          34,
+          69,
+          224,
+          187
+        ],
+        "median_s": 0.6774,
+        "median_v": 0.7216
+      },
+      {
+        "pose": "special",
+        "pixels": 13256,
+        "bounds": [
+          29,
+          74,
+          228,
+          189
+        ],
+        "median_s": 0.6784,
+        "median_v": 0.7216
+      },
+      {
+        "pose": "hurt",
+        "pixels": 5206,
+        "bounds": [
+          86,
+          105,
+          170,
+          202
+        ],
+        "median_s": 0.6973,
+        "median_v": 0.6784
+      },
+      {
+        "pose": "blink",
+        "pixels": 10863,
+        "bounds": [
+          30,
+          94,
+          224,
+          191
+        ],
+        "median_s": 0.6796,
+        "median_v": 0.7059
+      }
+    ],
+    "thornhog": [
+      {
+        "pose": "idle",
+        "pixels": 19942,
+        "bounds": [
+          30,
+          54,
+          195,
+          237
+        ],
+        "median_s": 0.6341,
+        "median_v": 0.3725
+      },
+      {
+        "pose": "stepA",
+        "pixels": 19864,
+        "bounds": [
+          23,
+          51,
+          188,
+          237
+        ],
+        "median_s": 0.621,
+        "median_v": 0.3765
+      },
+      {
+        "pose": "stepB",
+        "pixels": 19198,
+        "bounds": [
+          35,
+          54,
+          195,
+          237
+        ],
+        "median_s": 0.619,
+        "median_v": 0.3686
+      },
+      {
+        "pose": "windup",
+        "pixels": 21206,
+        "bounds": [
+          13,
+          64,
+          205,
+          237
+        ],
+        "median_s": 0.6296,
+        "median_v": 0.3725
+      },
+      {
+        "pose": "strike",
+        "pixels": 19334,
+        "bounds": [
+          24,
+          62,
+          192,
+          237
+        ],
+        "median_s": 0.6154,
+        "median_v": 0.3804
+      },
+      {
+        "pose": "recover",
+        "pixels": 19698,
+        "bounds": [
+          32,
+          63,
+          201,
+          237
+        ],
+        "median_s": 0.6226,
+        "median_v": 0.3725
+      },
+      {
+        "pose": "special",
+        "pixels": 24644,
+        "bounds": [
+          15,
+          41,
+          215,
+          237
+        ],
+        "median_s": 0.6356,
+        "median_v": 0.3647
+      },
+      {
+        "pose": "hurt",
+        "pixels": 21110,
+        "bounds": [
+          26,
+          49,
+          197,
+          237
+        ],
+        "median_s": 0.6296,
+        "median_v": 0.3373
+      },
+      {
+        "pose": "blink",
+        "pixels": 20112,
+        "bounds": [
+          37,
+          54,
+          202,
+          237
+        ],
+        "median_s": 0.6174,
+        "median_v": 0.3647
+      }
+    ],
+    "imp": [
+      {
+        "pose": "idle",
+        "pixels": 13043,
+        "bounds": [
+          14,
+          95,
+          198,
+          237
+        ],
+        "median_s": 0.6714,
+        "median_v": 0.4431
+      },
+      {
+        "pose": "stepA",
+        "pixels": 11988,
+        "bounds": [
+          24,
+          94,
+          214,
+          237
+        ],
+        "median_s": 0.6806,
+        "median_v": 0.4392
+      },
+      {
+        "pose": "stepB",
+        "pixels": 11650,
+        "bounds": [
+          41,
+          92,
+          216,
+          237
+        ],
+        "median_s": 0.6757,
+        "median_v": 0.4392
+      },
+      {
+        "pose": "windup",
+        "pixels": 14247,
+        "bounds": [
+          19,
+          94,
+          207,
+          237
+        ],
+        "median_s": 0.6702,
+        "median_v": 0.4157
+      },
+      {
+        "pose": "strike",
+        "pixels": 14515,
+        "bounds": [
+          16,
+          91,
+          224,
+          237
+        ],
+        "median_s": 0.6962,
+        "median_v": 0.4431
+      },
+      {
+        "pose": "recover",
+        "pixels": 13034,
+        "bounds": [
+          32,
+          98,
+          214,
+          237
+        ],
+        "median_s": 0.6667,
+        "median_v": 0.451
+      },
+      {
+        "pose": "special",
+        "pixels": 13620,
+        "bounds": [
+          50,
+          90,
+          202,
+          237
+        ],
+        "median_s": 0.6568,
+        "median_v": 0.4431
+      },
+      {
+        "pose": "hurt",
+        "pixels": 13068,
+        "bounds": [
+          38,
+          87,
+          204,
+          237
+        ],
+        "median_s": 0.6838,
+        "median_v": 0.4431
+      },
+      {
+        "pose": "blink",
+        "pixels": 14037,
+        "bounds": [
+          28,
+          92,
+          217,
+          237
+        ],
+        "median_s": 0.6767,
+        "median_v": 0.4627
+      }
+    ],
+    "cutpurse": [
+      {
+        "pose": "idle",
+        "pixels": 17366,
+        "bounds": [
+          34,
+          66,
+          193,
+          237
+        ],
+        "median_s": 0.4324,
+        "median_v": 0.2745
+      },
+      {
+        "pose": "stepA",
+        "pixels": 17030,
+        "bounds": [
+          40,
+          56,
+          201,
+          237
+        ],
+        "median_s": 0.431,
+        "median_v": 0.2667
+      },
+      {
+        "pose": "stepB",
+        "pixels": 18426,
+        "bounds": [
+          22,
+          58,
+          196,
+          237
+        ],
+        "median_s": 0.4103,
+        "median_v": 0.2745
+      },
+      {
+        "pose": "windup",
+        "pixels": 18778,
+        "bounds": [
+          18,
+          59,
+          200,
+          237
+        ],
+        "median_s": 0.4268,
+        "median_v": 0.2706
+      },
+      {
+        "pose": "strike",
+        "pixels": 18015,
+        "bounds": [
+          36,
+          61,
+          201,
+          237
+        ],
+        "median_s": 0.4286,
+        "median_v": 0.2745
+      },
+      {
+        "pose": "recover",
+        "pixels": 19637,
+        "bounds": [
+          24,
+          59,
+          196,
+          237
+        ],
+        "median_s": 0.413,
+        "median_v": 0.2745
+      },
+      {
+        "pose": "special",
+        "pixels": 21350,
+        "bounds": [
+          26,
+          53,
+          229,
+          237
+        ],
+        "median_s": 0.4615,
+        "median_v": 0.2824
+      },
+      {
+        "pose": "hurt",
+        "pixels": 20013,
+        "bounds": [
+          22,
+          51,
+          229,
+          237
+        ],
+        "median_s": 0.4323,
+        "median_v": 0.2863
+      },
+      {
+        "pose": "blink",
+        "pixels": 19428,
+        "bounds": [
+          28,
+          54,
+          192,
+          237
+        ],
+        "median_s": 0.4177,
+        "median_v": 0.2784
+      }
+    ]
+  }
+}

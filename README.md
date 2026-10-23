@@ -1156,12 +1156,13 @@ art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  all pending dungeon atlas briefs, batches and live inventory
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
+art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
 art/bestiary/overrides/  individual corrected paintings, preserved across re-exports
 ```
 
-Twenty-three creatures now use painted dungeon poses, including Batch A's Rat,
+Thirty-three creatures now use painted dungeon poses, including Batch A's Rat,
 Bat, Spider, Goblin, Skeleton, Zombie, Orc, Ghoul, Wraith and Ogre. Their atlases
 are cached for offline play; named champions retain their own identities.
 Reproduce Batch A's review and shipped exports with
@@ -1173,6 +1174,14 @@ loader. Captures include corrected walking, hurt and blink frames. Correction
 sheets replace only named cells in the manifest, preserving other original poses.
 See [the Batch A review](art/creatures/batch-a-preview/REVIEW.md) for provenance
 and repairs.
+
+Batch B's Troll through Goblin Cutpurse have preserved review sources and atlases.
+Use `python3 art/creatures/export-batch-b.py --check` to reproduce the ten
+nine-pose sheets, neutral contact sheet, walking/action comparisons and measured
+registration. `node art/creatures/preview-batch-b.cjs` captures existing supported
+poses at 390px and 320px through the real runtime loader and shipped images.
+All ten are integrated and cached offline. Review files stay under
+`art/creatures/batch-b-preview/`. See [the review](art/creatures/batch-b-preview/REVIEW.md).
 
 ## Keeping documentation current
 
