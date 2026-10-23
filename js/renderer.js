@@ -1448,7 +1448,7 @@ const Renderer = (() => {
       let hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
       let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : (!calm && s.reaction) || s.img;
-      art = paintedCreature(art);
+      if (!s.procedural) art = paintedCreature(art);
       // a monster winding up a blow swells a little toward you as it draws back
       let floorY = H / 2 + hFull / 2;
       // Held sideways the view is short, and a creature right in front of you

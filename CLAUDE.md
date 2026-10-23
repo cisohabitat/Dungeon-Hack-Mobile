@@ -101,7 +101,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps twenty-three creatures' existing pose objects to
+  `js/paintedcreatures.js` maps forty-three creature identities' existing pose objects to
   approved nine-pose atlases, selected only by the renderer. Each kind has its
   own lazy image and palette cache; one failed atlas cannot disable another.
   Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
@@ -134,6 +134,12 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   reproduces its ten review and shipped atlases and neutral/walking/action contact sheets.
   `preview-batch-b.cjs` uses the real runtime loader at both phone widths.
   Keep shipped bytes identical to reviewed exports and cache every atlas offline.
+  Batch C uses `generation-batch-c.json`, `export-batch-c.py --check` and
+  `preview-batch-c.cjs` for ten further identities. Lich uses measured torso
+  anchors; its selected source orders recover before windup. Only chest Mimics
+  use the chest atlas: the render state's `procedural` flag retains barrel
+  forms, keeper phases after the first (the initial phase is zero) and the Warlord's throne/spear handling.
+  Concealed Mimics and submerged Drowned remain scenery, never revealed sprites.
   Keep Moth's measured torso anchor steady through wingbeats. Single-frame
   replacements reject opaque backgrounds and detached large parts, then retain
   only the connected figure plus its antialiased edge before registration.

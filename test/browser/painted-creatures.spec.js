@@ -3,7 +3,7 @@ const { test, expect } = require('@playwright/test');
 const http = require('node:http');
 const { serve } = require('../server');
 const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
-const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre','troll','minotaur','kobold','archer','basilisk','acolyte','moth','thornhog','imp','cutpurse'];
+const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre','troll','minotaur','kobold','archer','basilisk','acolyte','moth','thornhog','imp','cutpurse','lookout','hexer','pikeman','quillback','drowned','emberling','mimic','lich','heartforged','warlord'];
 const poses = ['idle', 'stepA', 'stepB', 'windup', 'strike', 'recover', 'special', 'hurt', 'blink'];
 
 async function paintedModule(page) {
@@ -94,14 +94,14 @@ test.describe('painted dungeon creature', () => {
       expect(species.tint,species.kind).toBe(true);expect(species.frames.length,species.kind).toBe(species.expected);expect(new Set(species.frames.map(f=>f.h)).size,species.kind).toBe(species.frames.length);
       for(const f of species.frames){expect(f.painted&&f.cached,species.kind+':'+f.pose).toBe(true);expect(f.levels).toBe(5);expect(f.n).toBeGreaterThan(1500);expect(f.minX).toBeGreaterThan(0);expect(f.minY).toBeGreaterThan(0);expect(f.maxX).toBeLessThan(255);expect(f.maxY).toBeLessThan(255);}
       // Wingbeats register the Bat/Moth torso instead of a grounded foot baseline.
-      if(['bat','moth'].includes(species.kind))for(const f of species.frames)expect(f.anchorAlpha,species.kind+':'+f.pose).toBeGreaterThan(128*256);
+      if(['bat','moth','lich'].includes(species.kind))for(const f of species.frames)expect(f.anchorAlpha,species.kind+':'+f.pose).toBeGreaterThan(128*256);
       else expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
     }
     expect(new Set(results.species.map(s=>s.frames[0].h)).size).toBe(kinds.length);
     expect(results).toMatchObject({other:true,champion:true,dice:true});expect([...requested].sort()).toEqual([...kinds].sort());expect(errors).toEqual([]);
   });
 
-  for(const failedKind of ['hound','rat','troll'])test(`a corrupt ${failedKind} atlas cannot break a different species @mobile`,async({page})=>{
+  for(const failedKind of ['hound','rat','troll','hexer'])test(`a corrupt ${failedKind} atlas cannot break a different species @mobile`,async({page})=>{
     const errors=watchForErrors(page);
     await page.route('**/img/creatures/'+failedKind+'.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'invalid image'}));
     await scene(page);const failedPoses=await page.evaluate(async kind=>(await import('/js/creatures.js')).POSES[kind],failedKind);await artReady(page,{[failedKind]:failedPoses,wyrm:poses.slice(1)});
@@ -129,20 +129,20 @@ test.describe('painted dungeon creature', () => {
     await page.screenshot({path:info.outputPath('painted-guard.png')});expect(errors).toEqual([]);
   });
 
-  for(const batchName of ['A','B'])test(`Batch ${batchName} keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile`, async ({ page }) => {
+  for(const batchName of ['A','B','C'])test(`Batch ${batchName} keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile`, async ({ page }) => {
     const errors=watchForErrors(page);await scene(page);
-    const batch=kinds.slice(batchName==='A'?13:23,batchName==='A'?23:33);
+    const batch=kinds.slice(batchName==='A'?13:batchName==='B'?23:33,batchName==='A'?23:batchName==='B'?33:43);
     const required=await page.evaluate(async kinds=>{const {POSES}=await import('/js/creatures.js');return Object.fromEntries(kinds.map(k=>[k,POSES[k]]));},batch);
     await artReady(page,required);
     for(const kind of batch){
       await page.evaluate(()=>{Game.level().monsters.length=0;});
-      await placeMonster(page,kind,1,{hp:999,maxHp:999});
+      await placeMonster(page,kind,1,{hp:999,maxHp:999,disguised:false,sunk:false,disguise:'chest',phase:0,spoke:true});
       const result=await page.evaluate(async kind=>{
         const {Dice,Odds}=await import('/js/rng.js');const {recordingPrint}=await import('/js/recording.js');
         const {paintedCreature}=await import('/js/paintedcreatures.js');
         const G=Game.state(),L=Game.level(),m=L.monsters[0],now=performance.now();
         m.lungeAt=now;m.flashAt=now;m.flashUntil=now+130;
-        const move={wraith:'chill',spider:'web',archer:'firearrow',basilisk:'gaze',acolyte:'mend',moth:'dazzle',thornhog:'bristle',imp:'blink',cutpurse:'snatch'}[kind];
+        const move={wraith:'chill',spider:'web',archer:'firearrow',basilisk:'gaze',acolyte:'mend',moth:'dazzle',thornhog:'bristle',imp:'blink',cutpurse:'snatch',hexer:'hex',pikeman:'thrust',quillback:'bristle',lich:'nova'}[kind];
         m.windup={kind:move?'move':['kobold'].includes(kind)?'shot':'attack',move,at:G.t-800,until:G.t+1e6};
         const rs=Game.renderState(now+50),foe=rs.sprites.find(s=>s.maxHp===999);
         const selected=(foe.special&&foe.img.special)||foe.img.windup||foe.img;
@@ -158,6 +158,40 @@ test.describe('painted dungeon creature', () => {
       expect(result.priority&&result.selected&&result.unchanged,kind).toBe(true);
       for(const view of [result.normal,result.calm]){expect(view.marked,kind).toBe(true);expect(view.intent,kind).not.toBe('');}
       expect(result.hidden,kind).toEqual({marked:false,intent:''});
+    }
+    expect(errors).toEqual([]);
+  });
+
+  test('Batch C preserves mimic disguises, submerged corpses and keeper phases @mobile', async ({ page }) => {
+    const errors = watchForErrors(page); await scene(page);
+    for (const kind of ['mimic', 'drowned', 'lich', 'heartforged', 'warlord']) {
+      await page.evaluate(() => { Game.level().monsters.length = 0; });
+      await placeMonster(page, kind, 1, { hp: 999, maxHp: 999, disguised: false, sunk: false, phase: 0, spoke: true });
+      const result = await page.evaluate(kind => {
+        const m = Game.level().monsters[0], G = Game.state(), now = performance.now();
+        const sprite = () => Game.renderState(now).sprites.find(s => s.maxHp === 999);
+        if (kind === 'mimic') {
+          m.disguise = 'barrel'; const barrel = sprite().procedural;
+          m.disguise = 'chest'; const chest = !sprite().procedural;
+          m.disguised = true; const hidden = !sprite();
+          return { barrel, chest, hidden };
+        }
+        if (kind === 'drowned') {
+          const revealed = !!sprite(); m.sunk = true;
+          return { revealed, hidden: !sprite() };
+        }
+        const first = !sprite().procedural;
+        m.phase = 1; const second = sprite().procedural;
+        m.phase = 2; const third = sprite().procedural;
+        m.phase = 0;
+        if (kind === 'warlord') {
+          m.throne = true; const throne = sprite().procedural;
+          m.throne = false; m.windup = { kind: 'shot', at: G.t, until: G.t + 1000 };
+          return { first, second, third, throne, spear: sprite().procedural };
+        }
+        return { first, second, third };
+      }, kind);
+      expect(Object.values(result).every(Boolean), kind).toBe(true);
     }
     expect(errors).toEqual([]);
   });

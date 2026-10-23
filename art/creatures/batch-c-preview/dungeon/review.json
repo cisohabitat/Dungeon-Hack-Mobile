@@ -1,0 +1,2200 @@
+{
+  "mode": "integrated runtime loader and shipped images; real dungeon renderer",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 195.88441966017996,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5510887895950507
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 180.94893318735433,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5524621938240177,
+          "markX": 160,
+          "markY": 176,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 145.2848391905258
+        }
+      ],
+      "intent": "Goblin Lookout · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 180.5582308417071,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.5615929166252125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 187.76724596363243,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5718670928603297
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 189.945169553429,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5781649771184473
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 193.9251620327498,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5785147810794281
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 193.88939939375123,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5640132010469481
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lookout",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 194.27997575271175,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.551856224873711,
+          "markX": 160,
+          "markY": 190,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 145.36240321616503
+        }
+      ],
+      "intent": "Goblin Lookout · Preparing a trick"
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 166.7471599679092,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.5581264913688193
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 179.91295805283994,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5519392153743983,
+          "markX": 160,
+          "markY": 175,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 145.35178043207708
+        }
+      ],
+      "intent": "Goblin Hexer · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 177.05950076158427,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5514676691311022
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 173.25086861011616,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5703425601293672
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 171.2520159802759,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5789956018169875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 174.52551383762915,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.5697575814950693
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 180.2492478220814,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.559420413353895
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hexer",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 178.71302919831405,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5523604891628944,
+          "markX": 160,
+          "markY": 174,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 145.29785738714958
+        }
+      ],
+      "intent": "Goblin Hexer · Casting a hex"
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 184.05848776245315,
+          "bottom": 303,
+          "dist": 1,
+          "texel": 0.6429270931759289
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 179.6823242534585,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6475505481477015,
+          "markX": 160,
+          "markY": 175,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 157.1135298370943
+        }
+      ],
+      "intent": "Goblin Pikeman · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 173.80087185831863,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.6497250169820614
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 183.97766352927331,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.6471782698969342
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 188.9210991246464,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.6413198943389702
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 186.54396763153017,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.6300852785556905
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 197.15032257208443,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.6198257323443424
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "pikeman",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 194.05705212285957,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.614778818546879,
+          "markX": 160,
+          "markY": 190,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 161.3083112259996
+        }
+      ],
+      "intent": "Goblin Pikeman · Thrusting"
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 144.74660416843506,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.8528765476089426
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 148.22550422235423,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8454983517738357,
+          "markX": 160,
+          "markY": 144,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 206.77621097294912
+        }
+      ],
+      "intent": "Quillback · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 158.9509725356681,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8345658712247539
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 159.97791935879897,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8239890945522785
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 162.20785687124047,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8067352719138957
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 165.74537167883597,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8003139558687588
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 163.7841707020743,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7978295440560773
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "quillback",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 153.8107689836158,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8023428284246712,
+          "markX": 160,
+          "markY": 149,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 212.30011796164217
+        }
+      ],
+      "intent": "Quillback · Raising quills"
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 140.9765625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 141.36997072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7421875000000001,
+          "markX": 160,
+          "markY": 137,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.00000000000003
+        }
+      ],
+      "intent": "Drowned One · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 126.265625,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 139.4921875,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 140.234375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 138.75,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "drowned",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 138.75,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 206.5625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 209.49497072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5468750000000001,
+          "markX": 160,
+          "markY": 205,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 140.00000000000003
+        }
+      ],
+      "intent": "Emberling · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 193.375,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 205.46875,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 204.375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 208.203125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "emberling",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 207.65625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 208.125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 199.02622072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6250000000000002,
+          "markX": 160,
+          "markY": 195,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 160.00000000000006
+        }
+      ],
+      "intent": "Mimic · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 210,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 208.125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 200.625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 200,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "mimic",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 201.875,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 99.6875,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 93.71372072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 89,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 94.0625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 94.0625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 86.5625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 86.21372072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 82,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 58.84375,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 58.55747072745391,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 160,
+          "markY": 58,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 55.5625,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 66.5625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 85.15625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 67.65625,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 68.75,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 107.79246648741187,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0010534696070463
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 58.66638482553279,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.008518609021121,
+          "markX": 160,
+          "markY": 58,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 260.9096180452966
+        }
+      ],
+      "intent": "Goblin Warlord · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 88.74520597831261,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.0161128416915217
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 98.16449919619285,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0290323423074983
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 104.01914277513583,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0413515918386744
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 100.42659848188619,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.049094366759558
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 90.62973354734456,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.056011164791406
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 222.85672699783157,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5512286515261032
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 213.38217183136885,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5601423965494368,
+          "markX": 160,
+          "markY": 209,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 144.30177324167212
+        }
+      ],
+      "intent": "Goblin Lookout · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 215.64983518081024,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5759909149464839
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 213.49044427191484,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5780953937955374
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 219.24516131235944,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5666072295861334
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 225.7520834533554,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5533745653471074
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 222.89913194756275,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5538115129565343
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lookout",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 213.5354905375782,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5705786509493788,
+          "markX": 160,
+          "markY": 209,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 142.96593267847956
+        }
+      ],
+      "intent": "Goblin Lookout · Preparing a trick"
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 201.47899931319344,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.572460529328099
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 203.19279255578826,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5507010096091403,
+          "markX": 160,
+          "markY": 199,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 145.51027077003008
+        }
+      ],
+      "intent": "Goblin Hexer · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 199.0290493803383,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5731506492226797
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 203.89051726767156,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5545865053347552
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 203.00281834593915,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5584293578097872
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 199.3525035671258,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5792467093138611
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 208.7570135685152,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.5526591319797525
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hexer",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 195.55376027620994,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.579374826540544,
+          "markX": 160,
+          "markY": 191,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 141.84002220281042
+        }
+      ],
+      "intent": "Goblin Hexer · Casting a hex"
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 213.24783108046827,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6419036157812525
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 213.43173446424962,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6489743537682066,
+          "markX": 160,
+          "markY": 209,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 156.93128271766963
+        }
+      ],
+      "intent": "Goblin Pikeman · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 213.50046587258848,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6405380223103325
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 216.12785417679692,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6196371434395888
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 221.80737680166118,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6087990231952422
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 217.62962414693655,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6083530630482098
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 224.92724766571803,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.6153606455993217
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "pikeman",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 224.96351149198995,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6338747483670617,
+          "markX": 160,
+          "markY": 220,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 158.8640322090162
+        }
+      ],
+      "intent": "Goblin Pikeman · Thrusting"
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 189.9626515032419,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8116419914100463
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 189.61588218259584,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8025310380515006,
+          "markX": 160,
+          "markY": 185,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 212.276027129408
+        }
+      ],
+      "intent": "Quillback · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 192.08501757224843,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7995141853014375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 188.4102568770765,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.815850813198429
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 184.79604588125892,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8316607577330004
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 183.57556338924957,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.85301400351006
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 185.2018828317963,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8293678936056706
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "quillback",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 177.36846188493197,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7993763768219254,
+          "markX": 160,
+          "markY": 173,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 212.67982376679362
+        }
+      ],
+      "intent": "Quillback · Raising quills"
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 167.9765625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 164.36997072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7421875000000001,
+          "markX": 160,
+          "markY": 160,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 190.00000000000003
+        }
+      ],
+      "intent": "Drowned One · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 164.265625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 166.4921875,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 167.234375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 165.75,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "drowned",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 165.75,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7421875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 233.5625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 232.49497072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.5468750000000001,
+          "markX": 160,
+          "markY": 228,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 140.00000000000003
+        }
+      ],
+      "intent": "Emberling · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 231.375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 232.46875,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 231.375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 235.203125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "emberling",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 234.65625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.546875
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 235.125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 226.02622072745393,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6250000000000002,
+          "markX": 160,
+          "markY": 222,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 160.00000000000006
+        }
+      ],
+      "intent": "Mimic · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 233,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 235.125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 227.625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 227,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "mimic",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 228.875,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 126.6875,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 116.71372072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 112,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 121.0625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 121.0625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 113.5625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 109.21372072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 105,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 96.84375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 81.5574707274539,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 160,
+          "markY": 77,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 93.5625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 93.5625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 112.15625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 94.65625,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 95.75,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 138.375614752645,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9828648997327665
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 103.04564205757453,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9811398226175083,
+          "markX": 160,
+          "markY": 99,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 264.414102704959
+        }
+      ],
+      "intent": "Goblin Warlord · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 132.3373614815469,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9884289035566985
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 130.46325471583225,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0026703745480983
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 135.91928553944877,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.015962251090939
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 130.2372997885377,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0346805139049349
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 117.78247837599673,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0552587272118388
+        }
+      ],
+      "intent": ""
+    }
+  ]
+}

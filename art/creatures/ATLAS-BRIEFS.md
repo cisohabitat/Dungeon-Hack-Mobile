@@ -4,8 +4,8 @@ Canonical planning file for all pending painted dungeon monster atlases.
 Prepared 22 October 2026 against main `a6472543f4ee5469447c652e0a90b16f06a920fc`.
 
 **Status:** Batch A's ten creatures generated, corrected and integrated on 23 October 2026.
-Batch B is generated, repaired, visually reviewed and integrated; twenty briefs still await generation.
-The runtime supports 33 painted creatures.
+Batch B is generated, repaired, visually reviewed and integrated; Batch C is generated, repaired, visually reviewed and integrated locally; ten Batch D briefs await generation.
+The runtime supports 43 painted identities, with unmatched Mimic and keeper variants procedural.
 Variant requirements may require
 more than one atlas for an entry, especially Shade and Mimic.
 
@@ -21,7 +21,7 @@ for integration. Keep the status current as each atlas is actually completed.
 |---|---|---|---|
 | A | 1–10 | Rat through Ogre | Generated, revised and integrated |
 | B | 11–20 | Troll through Cutpurse | Generated, repaired, reviewed and integrated |
-| C | 21–30 | Remaining ordinary creatures and three keepers | Briefs ready; generation pending |
+| C | 21–30 | Remaining ordinary creatures and three keepers | Generated, reviewed and integrated locally |
 | D | 31–40 | Shade and nine unpainted named champions | Briefs ready; generation pending |
 
 Batch A generation succeeded with `image_gen.imagegen` on 22 October 2026.
@@ -518,7 +518,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 21. Goblin Lookout
 
-**Kind:** `lookout`. **Reference:** `img/bestiary/lookout.webp`. **Status:** brief ready; generation pending.
+**Kind:** `lookout`. **Reference:** `img/bestiary/lookout.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Green goblin sentry, rough shoulder cape and a bone whistle on a cord; a short knife remains in the right hand. No large banner. Match the current portrait and procedural whistle hand.
 
@@ -538,7 +538,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 22. Goblin Hexer
 
-**Kind:** `hexer`. **Reference:** `img/bestiary/hexer.webp`. **Status:** brief ready; generation pending.
+**Kind:** `hexer`. **Reference:** `img/bestiary/hexer.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Green goblin witch in dark violet cloth, skull cap and bone-charm staff. Hold staff in left hand, cast with right; retain the visible hooked goblin face and attached charms.
 
@@ -558,7 +558,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 23. Goblin Pikeman
 
-**Kind:** `pikeman`. **Reference:** `img/bestiary/pikeman.webp`. **Status:** brief ready; generation pending.
+**Kind:** `pikeman`. **Reference:** `img/bestiary/pikeman.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Green goblin infantry, dented iron helmet, quilted coat, worn armour and one long pike. Both hands visibly grip the same continuous shaft; keep hands in consistent front/rear positions.
 
@@ -578,7 +578,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 24. Quillback
 
-**Kind:** `quillback`. **Reference:** `img/bestiary/quillback.webp`. **Status:** brief ready; generation pending.
+**Kind:** `quillback`. **Reference:** `img/bestiary/quillback.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Large brown bear-like quilled beast, rounded ears, dark muzzle and broad paws. Four legs; a dense mantle of rooted quills. Distinct from the small pig-like Thornhog; no boar tusks.
 
@@ -598,7 +598,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 25. Drowned One
 
-**Kind:** `drowned`. **Reference:** `img/bestiary/drowned.webp`. **Status:** brief ready; generation pending.
+**Kind:** `drowned`. **Reference:** `img/bestiary/drowned.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Waterlogged humanoid corpse with weeds attached to ragged dripping clothes. Two arms and two legs; slack face and heavy wet hair. Show a complete body for the revealed monster, not a permanent pool hiding its legs.
 
@@ -618,7 +618,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 26. Emberling
 
-**Kind:** `emberling`. **Reference:** `img/bestiary/emberling.webp`. **Status:** brief ready; generation pending.
+**Kind:** `emberling`. **Reference:** `img/bestiary/emberling.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Small black basalt creature with orange fissures, glowing furnace core and a rocky face. Two arms and two legs with visibly connected stone joints; rock must retain dark material between fissures.
 
@@ -638,7 +638,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 27. Mimic
 
-**Kind:** `mimic`. **Reference:** `img/bestiary/mimic.webp`. **Status:** brief ready; generation pending.
+**Kind:** `mimic`. **Reference:** `img/bestiary/mimic.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Toothed wooden chest with metal bands, hinged lid, continuous gum line and long tongue attached inside the mouth. Chest is the bestiary identity; the game also has a valid barrel disguise that must remain supported.
 
@@ -658,7 +658,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 28. Dread Lich
 
-**Kind:** `lich`. **Reference:** `img/bosses/lich.webp`. **Status:** brief ready; generation pending.
+**Kind:** `lich`. **Reference:** `img/bosses/lich.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Undead skull in a dark hood and robes, gold crown and aged gold fittings. Two skeletal arms; skull and crown remain visible. Match the current keeper/bestiary painting, preserving the existing cold spell light even where the portrait has violet accents.
 
@@ -678,7 +678,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 29. Heartforged
 
-**Kind:** `heartforged`. **Reference:** `img/bosses/heartforged.webp`. **Status:** brief ready; generation pending.
+**Kind:** `heartforged`. **Reference:** `img/bosses/heartforged.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Dark iron furnace guardian with articulated limbs, glowing chest furnace and one heavy smith hammer. Preserve iron mass, rivets and furnace grille from the current boss painting. Both gauntlets grip the same hammer shaft where a two-handed pose requires it.
 
@@ -698,7 +698,7 @@ goblin kit. Do not paint stolen gold in flight or change real snatch behaviour.
 
 ## 30. Goblin Warlord
 
-**Kind:** `warlord`. **Reference:** `img/bosses/warlord.webp`. **Status:** brief ready; generation pending.
+**Kind:** `warlord`. **Reference:** `img/bosses/warlord.webp`. **Status:** generated, repaired and visually reviewed; atlas in `batch-c-preview/`, integrated locally with variant safeguards.
 
 **Identity:** Large olive goblin king with hammered-gold crown, dark leather, fur, red cloak and war drum at the hip. Keep his existing cleaver and drum attachments; distinguish his real gold crown from Grisk’s bucket-and-spoon crown.
 

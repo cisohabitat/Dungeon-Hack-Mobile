@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-23",
+  "baseline_revision": "39361ad",
+  "browser": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+  "cpu_throttle": 4,
+  "workers": 1,
+  "seed": "perf-budget",
+  "target_fps": {
+    "fight": 30,
+    "wide": 27,
+    "flooded": 30,
+    "painted": 30,
+    "rite": 30
+  },
+  "startup_limit_ms": 6000,
+  "runs": {
+    "batch_c_first": {
+      "scenes": {
+        "fight": {
+          "fps": 21.8,
+          "scriptMs": 22.2
+        },
+        "wide": {
+          "fps": 18.2,
+          "scriptMs": 23.4
+        },
+        "flooded": {
+          "fps": 22,
+          "scriptMs": 24.1
+        },
+        "painted": {
+          "fps": 15.9,
+          "scriptMs": 46.8
+        },
+        "rite": {
+          "fps": 43.2,
+          "scriptMs": 13.8
+        }
+      },
+      "startup": {
+        "ms": 4931
+      },
+      "passed": false
+    },
+    "baseline": {
+      "scenes": {
+        "fight": {
+          "fps": 19.3,
+          "scriptMs": 29.5
+        },
+        "wide": {
+          "fps": 24.3,
+          "scriptMs": 21.2
+        },
+        "flooded": {
+          "fps": 27.6,
+          "scriptMs": 18.7
+        },
+        "painted": {
+          "fps": 22.3,
+          "scriptMs": 32
+        },
+        "rite": {
+          "fps": 43.6,
+          "scriptMs": 14.1
+        }
+      },
+      "startup": {
+        "ms": 4278
+      },
+      "passed": false
+    },
+    "batch_c_final": {
+      "scenes": {
+        "fight": {
+          "fps": 23.1,
+          "scriptMs": 21.8
+        },
+        "wide": {
+          "fps": 25.3,
+          "scriptMs": 18.7
+        },
+        "flooded": {
+          "fps": 26.9,
+          "scriptMs": 18.2
+        },
+        "painted": {
+          "fps": 24.1,
+          "scriptMs": 27.7
+        },
+        "rite": {
+          "fps": 26.9,
+          "scriptMs": 25.4
+        }
+      },
+      "startup": {
+        "ms": 3258
+      },
+      "passed": false
+    }
+  }
+}
