@@ -225,3 +225,21 @@ then substitutes review images into real dungeon draws at 390px/320px. All 86
 captures report no page/console errors. See [the review](batch-f-preview/REVIEW.md)
 for source selections, remaining visual differences and explicit preview limits.
 No companion atlas is runtime-bound or cached offline in this stage.
+
+## Batch G — barrel Mimic, 23 October 2026
+
+`image_gen.imagegen` generated the original and selected full-sheet repair in
+`generation-batch-g.json`; the model was not disclosed. The legacy barrel drawer
+provides anatomy, while the existing painted chest atlas provides materials.
+The active procedural identity override currently draws a chest-shaped fallback;
+both active and legacy reference captures are retained and accurately labelled.
+The repaired sheet reverses the second rocking pose and adds margins. Source
+sheets and all nine registered export cells were visually inspected.
+
+`export-batch-g.py --check` reproduces the preview atlas and comparisons.
+`preview-batch-g.cjs` captures seven supported poses at both phone widths and
+checks concealed/revealed barrel, default and chest states before substitution.
+All 14 captures and 12 variant cases pass, with warnings visible and no
+page/console errors. Special/blink remain reserves. See
+[the review](batch-g-preview/REVIEW.md) for identity findings and preview limits.
+No runtime or offline integration is included.

@@ -163,6 +163,12 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   body-span registration and the source repair provenance. The preview asserts
   real companion pose selection and scale 0.62, then substitutes review pictures;
   these are not runtime bindings or offline integration evidence.
+  Batch G barrel Mimic review tooling uses `generation-batch-g.json`,
+  `export-batch-g.py --check`, `reference-batch-g.cjs` and `preview-batch-g.cjs`.
+  The active identity repair currently draws a chest even for procedural barrel
+  variants; label legacy barrel design references separately. Special/blink
+  cells are reserves. Keep concealment scenery and approved chest art intact.
+  Preview substitutions do not establish runtime/offline integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

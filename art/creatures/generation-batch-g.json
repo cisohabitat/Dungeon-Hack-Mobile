@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-g.md",
+  "status": "generated, repaired, selected source/export visually reviewed; review-only dungeon previews; no runtime integration/publication",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "mimic_barrel": {
+      "source": "mimic_barrel.png",
+      "references": [
+        "batch-g-preview/legacy-barrel-reference.png",
+        "../../img/creatures/mimic.webp"
+      ],
+      "transparent_background": true,
+      "status": "selected repair and all nine registered cells visually reviewed; seven supported-pose previews at 390px/320px",
+      "runtime_binding": "planned: revealed non-chest/default Mimic only; concealment remains actual scenery",
+      "prompt": "Create a production painted dark fantasy monster SPRITE ATLAS, exactly NINE COMPLETE figures in a precise 3x3 grid with TRUE TRANSPARENT ALPHA. Reference FIRST image is the identity authority: an upright CYLINDRICAL WOODEN BARREL MIMIC, round lid hinged at rear, TWO attached eyestalks sprouting from wooden knots near the lid, pale eyeballs with red pupils, two iron hoops around lower barrel body, dark wet mouth between lid/rim, gums/uneven ivory teeth, ONE long red tongue rooted in mouth and hanging down front. SECOND image is materials/lighting only (painted chest Mimic): do NOT copy rectangular chest shape, chest lock plate, handles or lid arch. Barrel must look round with vertically bowed staves and oval round rim, no chest, arms, legs, feet, tentacle limbs or extra eyes. All mouths and pupils face DIRECTLY toward viewer, barrel never turns to side. Same barrel, wood grain asymmetric knot on VIEWER LEFT, two hoops, eyestalk placement, proportions and warm-left/cool-right palette in all cells. No ground, scenery, cast shadows, floor, text, grid lines, detached teeth/staves, particles or drool blobs. Wide transparent margins at least 12% INSIDE EVERY cell; all eye tips, lid, tongue and barrel base complete, clear empty gutters. Uniform body scale throughout with base resting at same ground line. Row-major cells: (1) idle partially open mouth tongue down front; (2) stepA subtle rocking lean toward VIEWER LEFT, base shifted/hitched at right edge, no limbs; (3) stepB opposite lean toward VIEWER RIGHT, base hitched at left edge, same grain/equipment not mirrored; (4) windup round lid hinges far back to gape wider, eyes attached, tongue draws into mouth; (5) strike attached tongue thrust straight toward viewer; (6) recover tongue retracts, lid lowers toward idle; (7) reserve threat mouth open with tongue curled, no new appendage; (8) hurt barrel/lid recoil modestly, hoops and eyes stay joined; (9) reserve blink closes BOTH stalk eyes but retains stalks and idle tongue. Keep rear lid hinge visibly connected in EVERY frame, upper teeth rooted in lid gums and lower teeth in barrel rim.",
+      "generated_file": "/workspace/generated_images/exec-7a104e8f-be9c-4f04-a396-bd477206e18d.png",
+      "selected_source": "mimic_barrel-corrected.png",
+      "repairs": [
+        {
+          "source": "mimic_barrel-corrected.png",
+          "reference": "mimic_barrel.png",
+          "prompt": "Repair this complete transparent 3x3 nine-pose BARREL MIMIC sprite atlas. Preserve EXACT same cylindrical barrel, wood grain knot on viewer LEFT, TWO body hoops, TWO rooted eyestalks, red pupils, connected rear lid hinge, teeth and ONE tongue in all nine. Critical TOP-RIGHT stepB must rock in OPPOSITE direction to TOP-MIDDLE stepA: top-middle has VIEWER LEFT eye HIGHER and viewer RIGHT eye LOWER, so make top-right VIEWER LEFT eye LOWER and viewer RIGHT eye HIGHER, tilt lid/rim and upper barrel correspondingly to opposite lean. Do NOT mirror textures: distinctive wooden knot stays on viewer LEFT and anatomy remains frontal. Keep same body proportions and colours/exposure throughout. Uniformly shrink ALL NINE entire figures 18% INSIDE their respective cells to create generous true transparent padding ABOVE eyes and BELOW barrel bases; bottom row currently crowds bottom sheet edge, restore complete barrel bottom edge with no clipping. Retain idle tongue down, windup gape, tongue thrust, recovery, reserve threat, hurt and closed-eye blink. No ground, shadows, text, scenery, extra limbs, detached droplets or new eyes. True alpha background, 3x3 complete figures.",
+          "generated_file": "/workspace/generated_images/exec-58536855-0221-45d3-ad28-b8fda502f694.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "body_centres": [
+        276.5,
+        648.5,
+        1052.0,
+        270.0,
+        651.0,
+        1056.0,
+        272.0,
+        651.0,
+        1058.0
+      ],
+      "registration": "Measured horizontal midpoint of connected barrel-base alpha within its lowest 12 visible source rows; one shared scale and visible ground baseline row 236.",
+      "review_atlas": "batch-g-preview/mimic_barrel.webp",
+      "selection_notes": "Full-sheet correction reverses stepB lid/eye tilt while preserving left-side knot and adds source margins. Special and blink remain reserves."
+    }
+  },
+  "runtime_supported_poses": [
+    "idle",
+    "windup",
+    "strike",
+    "recover",
+    "hurt",
+    "stepA",
+    "stepB"
+  ],
+  "reserve_poses": [
+    "special",
+    "blink"
+  ],
+  "identity_note": "Legacy barrel drawer defines new barrel design; active creatureidentity.js currently replaces all procedural Mimics with a chest-shaped fallback. No runtime appearance change in this stage."
+}

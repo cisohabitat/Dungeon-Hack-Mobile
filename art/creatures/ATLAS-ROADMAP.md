@@ -4,8 +4,11 @@ Prepared 23 October 2026 from the checked-out `main` source and Batch C/D review
 This is a production plan, not a record of generated or approved artwork.
 Batch E sources and review atlases are generated, repaired and visually reviewed;
 runtime integration remains pending (review assets published as `b7960b5`).
-Batch F sources, repairs, review atlases and Mender heal extension are complete;
-see [Batch F review](batch-f-preview/REVIEW.md). Batches G–K remain planned.
+Batch F sources, repairs, review atlases and Mender heal extension are complete
+and review assets are published as `5ca1779`;
+see [Batch F review](batch-f-preview/REVIEW.md). Batch G barrel Mimic is generated, repaired and reviewed locally; integration
+and publication remain pending. See [Batch G review](batch-g-preview/REVIEW.md).
+Batches H–K remain planned.
 See [Batch E review](batch-e-preview/REVIEW.md). Batch letters E–K are assigned here.
 
 ## Baseline and scope
@@ -99,8 +102,11 @@ painted rest cells where the encounter composition allows it.
 |---|---|
 | `mimic_barrel` | Revealed barrel/default form: continuous staves and hoops, attached jaws/tongue, frontal attacks and distinct steps |
 
-Use the current barrel creature in `js/creatures.js` as the structural reference;
-match the painted chest Mimic's materials and rendering style without turning the
+Use the legacy barrel drawer in `js/creatures.js` as the structural reference.
+The active `alignCreature` override currently draws a chest-shaped fallback even
+for barrel/default forms; preserve active/legacy reference captures and do not
+claim the new barrel art is already runtime-bound.
+Match the painted chest Mimic's materials and rendering style without turning the
 barrel into a chest. Audit default/missing disguise values before binding.
 Concealed forms retain their actual chest/barrel scenery. Submerged Drowned
 remain ripples; neither is a missing combat pose.
@@ -197,7 +203,9 @@ Batch E has completed generation, repair and source/export review, with review-o
 dungeon captures. Integration, full validation and publication remain pending.
 Batch F has completed source/export review and 86 review-only companion captures;
 integration, full runtime validation and publication remain pending.
-Batches G–K are not generated. Track each deliverable through:
+Batch G has completed source/export review and 14 supported-pose review captures,
+with 12 existing variant cases checked; integration/publication remain pending.
+Batches H–K are not generated. Track each deliverable through:
 **briefed → generated → repaired → visually reviewed → integrated locally →
 validated → published**. Keep each stage separate, record evidence links and
 update this roadmap and the canonical atlas brief library as work progresses.

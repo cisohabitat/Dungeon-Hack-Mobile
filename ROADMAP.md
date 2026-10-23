@@ -476,7 +476,9 @@ Detailed inventory and acceptance gates: [atlas roadmap](art/creatures/ATLAS-ROA
 - [x] Batch F source/review art: six companion atlases, custom rest cells and
   separate Mender healing frame; 86 live-pose review captures at both phone widths.
 - [ ] Batch F runtime integration, real-loader/offline/performance validation and publication.
-- [ ] Batch G: revealed barrel/default Mimic.
+- [x] Batch G source/review art: revealed barrel/default Mimic, opposite rocking
+  poses, reproducible export, 14 phone captures and 12 variant checks.
+- [ ] Batch G runtime integration, real-loader/offline/performance validation and publication.
 - [ ] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.
 - [ ] Batch I: static figures for Merchant, Wick and Pedlar.
 - [ ] Batch J: encounter figures and creature scenes, reusing companion rest art where possible.

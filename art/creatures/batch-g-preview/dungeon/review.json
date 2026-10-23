@@ -1,0 +1,296 @@
+{
+  "mode": "review-only frozen painted-cell substitutions; unchanged actual variant guards and renderer",
+  "console_errors": [],
+  "variants": [
+    {
+      "width": 390,
+      "checks": [
+        {
+          "disguise": "barrel",
+          "concealed": false,
+          "procedural": true,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "barrel",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        },
+        {
+          "disguise": "missing/default",
+          "concealed": false,
+          "procedural": true,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "missing/default",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        },
+        {
+          "disguise": "chest",
+          "concealed": false,
+          "procedural": false,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "chest",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "checks": [
+        {
+          "disguise": "barrel",
+          "concealed": false,
+          "procedural": true,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "barrel",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        },
+        {
+          "disguise": "missing/default",
+          "concealed": false,
+          "procedural": true,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "missing/default",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        },
+        {
+          "disguise": "chest",
+          "concealed": false,
+          "procedural": false,
+          "uses_scenery": false
+        },
+        {
+          "disguise": "chest",
+          "concealed": true,
+          "procedural": false,
+          "uses_scenery": true
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "width": 390,
+      "pose": "idle",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 169.375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "pose": "stepA",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 166.25,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "pose": "stepB",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 166.25,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "pose": "windup",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 159.6512207274539,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6250000000000002,
+          "markX": 160,
+          "markY": 155,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 160.00000000000006
+        }
+      ],
+      "intent": "Mimic · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "pose": "strike",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 152.125,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "pose": "recover",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 165,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "pose": "hurt",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 171.25,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "idle",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 196.375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "stepA",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 193.25,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "stepB",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 193.25,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "windup",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 186.6512207274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.6250000000000002,
+          "markX": 160,
+          "markY": 182,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 160.00000000000006
+        }
+      ],
+      "intent": "Mimic · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "pose": "strike",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 186.125,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "recover",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 192,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "pose": "hurt",
+      "scale": 0.8,
+      "shown": [
+        {
+          "top": 198.25,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.625
+        }
+      ],
+      "intent": ""
+    }
+  ]
+}

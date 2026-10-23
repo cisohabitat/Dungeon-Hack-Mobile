@@ -17,7 +17,10 @@ Spellblade Shade. Batch E sources and six preview atlases are now generated,
 repaired and visually reviewed; see [the Batch E review](batch-e-preview/REVIEW.md).
 Runtime integration is pending. Batch F companion sheets and Mender heal extension
 are generated, repaired and reviewed; see [Batch F review](batch-f-preview/REVIEW.md).
-Batch F integration/publication are pending; Batches G–K remain planned.
+Batch F review assets are published; runtime integration is pending.
+Batch G barrel Mimic is generated, repaired and reviewed locally; see
+[Batch G review](batch-g-preview/REVIEW.md). Integration/publication are pending;
+Batches H–K remain planned.
 
 ## Requesting work later
 

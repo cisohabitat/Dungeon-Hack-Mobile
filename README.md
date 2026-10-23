@@ -1168,6 +1168,7 @@ art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants an
 art/creatures/generation-batch-d.json  Shade/champion sources, repairs and torso registration
 art/creatures/generation-batch-e.json  class Shade sources, selected repairs and review registration
 art/creatures/generation-batch-f.json  companion sources, step repairs, rest poses and Mender heal extension
+art/creatures/generation-batch-g.json  barrel Mimic sources, rocking repair and registration
 art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
 art/creatures/batch-d-preview/  champion atlases, phone captures and local validation results
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
@@ -1221,6 +1222,14 @@ pose. Reproduce with `python3 art/creatures/export-batch-f.py --check`; capture
 live-pose review substitutions with `node art/creatures/preview-batch-f.cjs`.
 These are preview assets with no runtime/offline integration. See
 [the review](art/creatures/batch-f-preview/REVIEW.md).
+
+Batch G adds a barrel/default Mimic review atlas. Reproduce it with
+`python3 art/creatures/export-batch-g.py --check`; capture supported poses and
+check existing concealment/variant guards with `node art/creatures/preview-batch-g.cjs`.
+The legacy barrel anatomy and active chest-shaped fallback are captured separately
+by `node art/creatures/reference-batch-g.cjs`. This is preview artwork with no
+runtime/offline integration; special and blink cells remain reserves. See
+[the review](art/creatures/batch-g-preview/REVIEW.md).
 
 ## Keeping documentation current
 
