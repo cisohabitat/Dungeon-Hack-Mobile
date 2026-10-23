@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v106';
+const CACHE = 'deepdelve-v107';
 const ASSETS = [
   './img/creatures/troll.webp',
   './img/creatures/minotaur.webp',
@@ -11,6 +11,16 @@ const ASSETS = [
   './img/creatures/thornhog.webp',
   './img/creatures/imp.webp',
   './img/creatures/cutpurse.webp', './img/creatures/lookout.webp', './img/creatures/hexer.webp', './img/creatures/pikeman.webp', './img/creatures/quillback.webp', './img/creatures/drowned.webp', './img/creatures/emberling.webp', './img/creatures/mimic.webp', './img/creatures/lich.webp', './img/creatures/heartforged.webp', './img/creatures/warlord.webp',
+  './img/creatures/shade.webp',
+  './img/creatures/grisk.webp',
+  './img/creatures/vessra.webp',
+  './img/creatures/ushgar.webp',
+  './img/creatures/morrow.webp',
+  './img/creatures/orla.webp',
+  './img/creatures/gorrum.webp',
+  './img/creatures/vaelith.webp',
+  './img/creatures/hissra.webp',
+  './img/creatures/durgrim.webp',
   './img/creatures/rat.webp',
   './img/creatures/bat.webp',
   './img/creatures/spider.webp',

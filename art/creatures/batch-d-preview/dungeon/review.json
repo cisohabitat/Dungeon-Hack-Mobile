@@ -1,0 +1,2386 @@
+{
+  "mode": "integrated runtime loader and shipped images; real dungeon renderer",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 116.67433840436107,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 95.26342375110227,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 91,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 107.94157107422116,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 103.86068797597056,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 101.51209404810822,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "shade",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 108.32011984238734,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 118.94771459329353,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8124553947891112
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 111.62648410467823,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8089988294345588,
+          "markX": 160,
+          "markY": 107,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 196.44814983237657
+        }
+      ],
+      "intent": "Goblin King · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 122.93299435323209,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8020572935980965
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 122.64505805151553,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7928475736890629
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 129.96847826341946,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.781390722038306
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 131.00822694271693,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7732967691434803
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 137.42506672617247,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7651823437161074
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "grisk",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 132.37736227527702,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7604521485670616
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 165.96758805353892,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7597399559915906
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 147.79122940241902,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7596874548178904,
+          "markX": 160,
+          "markY": 143,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 202.7600057833101
+        }
+      ],
+      "intent": "Web-Mother · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 163.19671053530902,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7623832766918869
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 164.6312989721912,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7670420821191738
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 157.36891374008692,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7729376243974506
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 165.28895366503423,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7805086387428255
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 170.4300098846603,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7915881771490569
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vessra",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 163.85998323657847,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8019319134285314
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 103.57480577674735,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9114262182047631
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 81.22781801133385,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9116884236743352,
+          "markX": 160,
+          "markY": 77,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 243.30388176968512
+        }
+      ],
+      "intent": "Orc Warchief · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 99.16894892553627,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.914804671442061
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 98.34676512322439,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9184588216745583
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 98.61524001120456,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9213605356642653
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 99.62372405554152,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9251183601101733
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 106.24918524860433,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9287421250065218
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "ushgar",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 100.7908744271181,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9324617606067667
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 105.54687500000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 95.09653322745393,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8984375000000001,
+          "markX": 160,
+          "markY": 91,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 230.00000000000003
+        }
+      ],
+      "intent": "Ghoul Lord · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 107.34375000000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 104.64843750000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 109.14062500000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 106.44531250000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 105.54687500000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "morrow",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 106.44531250000003,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 46.504315875536186,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 37.00915609957815,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 249,
+          "markY": 58,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Hollow Abbess · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 53.03776834407414,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 54.634074563772934,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 55.13548493096738,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 48.739610962202086,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "orla",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 35.04468167195266,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 253,
+          "markY": 64,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Hollow Abbess · Drinking"
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 39.99093624815687,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3119260581774412
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 30,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.2987744863421378,
+          "markX": 269,
+          "markY": 58,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 308.740748348516
+        }
+      ],
+      "intent": "Troll-Father · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 38.59607575824954,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3123346021761106
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 38.759647922060225,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3115288279701467
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 42.93721896986639,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.310313905150668
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 43.343485386128506,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3082825730693575
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 39.87881686261687,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3060156804797198
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "gorrum",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 41.71689081083963,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.3033817286592098
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 112.77528035334404,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.873748725666618
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 98.58139664877692,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8747525743438432,
+          "markX": 160,
+          "markY": 94,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 233.0316704839881
+        }
+      ],
+      "intent": "High Priestess · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 109.53027412719067,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8765458559318804
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 110.64109081282014,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8794520777700446
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 107.35565921317433,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8823408070840432
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 110.1839120104284,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8855276726798709
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 103.10617187848402,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8894001238833303
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 106.61425062784778,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8936295016763613
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "vaelith",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 85.34644508101091,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8978654122691511,
+          "markX": 160,
+          "markY": 81,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 230.07322722954868
+        }
+      ],
+      "intent": "High Priestess · Mending"
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 97.79748472899183,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9461302067169323
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 103.22901990653239,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9521110041046079,
+          "markX": 160,
+          "markY": 99,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 238.12979147461022
+        }
+      ],
+      "intent": "Marsh-Mother · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 91.38704940110297,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9579056080668028
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 94.62542310540712,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9650209949293251
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 113.2948349882256,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9682079040998707
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 92.34120722500613,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9710447158675519
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 116.1971136944109,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9732107541525211
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 92.55558900458351,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9745156467679655
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "hissra",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 101.57687198003565,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9749966941493315,
+          "markX": 160,
+          "markY": 97,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 235.20042314888562
+        }
+      ],
+      "intent": "Marsh-Mother · Sweeping blow"
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 137.2849680021629,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7837151027936312
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 110.65247839076075,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7887876824857466,
+          "markX": 160,
+          "markY": 106,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 199.0351766418245
+        }
+      ],
+      "intent": "Forge-Thane · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 135.7906711197117,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.7944099947431376
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 133.72058256581352,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8003711095055442
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 138.46649473848962,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8045096872536733
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 136.17168448494925,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8077909833256016
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 133.22358618953282,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8102661028795621
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 132.06509581002814,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.8119009586383655
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "durgrim",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 118.25395829672237,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.823461325965876,
+          "markX": 160,
+          "markY": 114,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 198.64695027636796
+        }
+      ],
+      "intent": "Forge-Thane · Growing"
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 125.69107643042409,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 120.29143829427349,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7812500000000002,
+          "markX": 160,
+          "markY": 116,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 200.00000000000006
+        }
+      ],
+      "intent": "Shade · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 140.86711214146135,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 147.50257109819802,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 146.9011546570063,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "shade",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 144.95460085148628,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.78125
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 154.5016439192231,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7751019916191131
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 154.86426013040082,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.767942047098014,
+          "markX": 160,
+          "markY": 150,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 201.70341797145431
+        }
+      ],
+      "intent": "Goblin King · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 158.78777122009842,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7630494659907558
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 157.21731824832872,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.759924703268136
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 161.87824237962718,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7594721322338073
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 160.64760429859248,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7615662031173668
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 164.3120158127545,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7656985579326279
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "grisk",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 156.67255919149505,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7723675806542069
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 192.7468953198427,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7609459272139742
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 181.8510923305126,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7593756687340695,
+          "markX": 160,
+          "markY": 177,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 202.7999144020392
+        }
+      ],
+      "intent": "Web-Mother · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 190.56434371680396,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7604067542107313
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 192.16151961393263,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7641447015632097
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 184.84150554422428,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7704633217579882
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 191.81351923757526,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7831646969967863
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 196.3380345287569,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7980115615955476
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vessra",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 189.84225313936332,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8077144707990721
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 122.05588290119135,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9499733805375957
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 109.24316859621321,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9373736142971706,
+          "markX": 160,
+          "markY": 105,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.0161773699622
+        }
+      ],
+      "intent": "Orc Warchief · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 122.62598198375142,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9305511911833271
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 124.2555857718242,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9233085076807813
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 126.5323654219379,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9172662257949201
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 129.21007688107244,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9134681221573313
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 136.93793466690846,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9115049781920165
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "ushgar",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 132.3745293146825,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9115318296133219
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 132.54687500000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 129.09653322745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8984375000000001,
+          "markX": 160,
+          "markY": 125,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 230.00000000000003
+        }
+      ],
+      "intent": "Ghoul Lord · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 134.34375000000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 131.64843750000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 136.14062500000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 133.44531250000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 132.54687500000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "morrow",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 133.44531250000003,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8984374999999999
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 82.86661957290309,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 72.58049081302674,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 68,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Hollow Abbess · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 72.31044867831812,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 66.13998078503244,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 62.92784129030561,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 59.56797815223607,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "orla",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 59.573048153905646,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 64,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Hollow Abbess · Drinking"
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 86.53661495282728,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.215165272510756
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 80.10280552127088,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.2194503212127246,
+          "markX": 160,
+          "markY": 76,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 323.9103588847715
+        }
+      ],
+      "intent": "Troll-Father · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 83.4563469686319,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.2243529705978724
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 82.41048113126392,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.2295050190578132
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 85.3161562442829,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.2334192187785855
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 84.51890849983081,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.237405457500846
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 80.03500881377354,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.2412068531341205
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "gorrum",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 80.49171771648405,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.2450905063540394
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 139.69507513853662,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8741132948248336
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 132.8877006819602,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8733790136569226,
+          "markX": 160,
+          "markY": 128,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 233.20748625191393
+        }
+      ],
+      "intent": "High Priestess · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 137.24237663697576,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8733525711346378
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 138.83813930978354,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8740355687340111
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 135.93845514818867,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8752747538027291
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 139.01181954860687,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8772190020517869
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 132.34009232899575,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8795590646299747
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 135.99519170732626,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.8829045418588908
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "vaelith",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 122.14901567776414,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.8857853665934906,
+          "markX": 160,
+          "markY": 118,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 231.61947307603327
+        }
+      ],
+      "intent": "High Priestess · Mending"
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 129.21977596722797,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9259370960400549
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 143.29056986143192,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9218032543301102,
+          "markX": 160,
+          "markY": 139,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 242.00918344574595
+        }
+      ],
+      "intent": "Marsh-Mother · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 127.0274235174592,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9191595357961471
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 132.20089323726182,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9165096640492577
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 150.94346563847847,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9144269412198057
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 132.10783123666934,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9127496290563044
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 155.11682305656507,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.911768953316675
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 133.34336596932923,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9112689634434439
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "hissra",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 148.11105423999916,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9113714034896183,
+          "markX": 160,
+          "markY": 144,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 243.34446035332894
+        }
+      ],
+      "intent": "Marsh-Mother · Sweeping blow"
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "idle",
+      "shown": [
+        {
+          "top": 167.96214706274313,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7665320230712938
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "windup",
+      "shown": [
+        {
+          "top": 150.66378113424344,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7628768947983212,
+          "markX": 160,
+          "markY": 146,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 202.35175746581496
+        }
+      ],
+      "intent": "Forge-Thane · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "stepA",
+      "shown": [
+        {
+          "top": 169.9595327147807,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7607533675362409
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "stepB",
+      "shown": [
+        {
+          "top": 169.41878023580156,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7597253260009272
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "strike",
+      "shown": [
+        {
+          "top": 174.80763090779377,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7593834255662137
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "recover",
+      "shown": [
+        {
+          "top": 173.16753001546297,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7599639712178805
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "hurt",
+      "shown": [
+        {
+          "top": 170.6273443734114,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.761191771823531
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "blink",
+      "shown": [
+        {
+          "top": 169.46150624424874,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.7630915199800529
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "durgrim",
+      "pose": "special",
+      "shown": [
+        {
+          "top": 162.40363233543485,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.7758102741409348,
+          "markX": 160,
+          "markY": 158,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 204.7462849099604
+        }
+      ],
+      "intent": "Forge-Thane · Growing"
+    }
+  ]
+}

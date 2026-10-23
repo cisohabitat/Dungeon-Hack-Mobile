@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-23",
+  "collection": "full phone and small Chromium projects, 55 files",
+  "expected_cases": 785,
+  "unique_passing_cases": 785,
+  "missing": [],
+  "unexpected": [],
+  "project_counts": {
+    "phone": 532,
+    "small": 253
+  },
+  "expected_names_sha256": "47e20e12ceaa5ca5a48733a3e9485096e71a691b261f4e7f783ef6dff0d6c6b8",
+  "passing_names_sha256": "47e20e12ceaa5ca5a48733a3e9485096e71a691b261f4e7f783ef6dff0d6c6b8",
+  "phases": [
+    {
+      "phase": "initial_four_workers",
+      "passing_results": 70
+    },
+    {
+      "phase": "art_isolated_retry",
+      "passing_results": 4
+    },
+    {
+      "phase": "continued_four_workers",
+      "passing_results": 12
+    },
+    {
+      "phase": "server_shutdown_attempt",
+      "passing_results": 2
+    },
+    {
+      "phase": "final_two_workers",
+      "passing_results": 697
+    },
+    {
+      "phase": "companion_isolated_retry",
+      "passing_results": 1
+    }
+  ],
+  "notes": "Coverage is the exact union of passing results across the resumed full collection. Four art timing failures passed isolated without assertion/deadline changes; an unchanged companion pose assertion passed isolated in 6.5s. A resumed runner briefly reused a shutting-down server; connection failures were discarded and cases rerun with a dedicated fresh server. No test case was waived."
+}

@@ -170,3 +170,27 @@ stay with their existing code. No abilities, timing, scale or saves change.
 
 The user authorised Batch C publication on 23 October 2026 after reviewing the
 local checks and baseline performance limitation. Normal release/CI gates apply.
+
+## Batch D — 23 October 2026
+
+OpenAI `image_gen.imagegen` generated the default knight Shade, Grisk, Vessra,
+Ushgar, Morrow, Orla, Gorrum, Vaelith, Hissra and Durgrim from their existing
+bestiary portraits. The model name was not disclosed. Original PNGs, exact
+prompts, references, generated paths and selected repairs are preserved in
+`generation-batch-d.json`. All character changes use the image tool; the
+exporter only extracts, uniformly scales and registers existing pixels.
+
+Full-sheet repairs restore crown/halo/spear clearance, the Shade's floating
+lower body, Orla's consistent cracked halo, and distinct opposite walking leads
+for Gorrum, Vaelith, Hissra and Durgrim. Selected complete sheets keep palettes
+coherent. `export-batch-d.py --check` reproduces ten review/shipped atlases,
+contact sheets and registration measurements. Shade and Orla use measured torso
+anchors rather than feet; grounded figures retain visible baseline row236.
+
+`preview-batch-d.cjs` uses shipped images through the real runtime loader and
+renderer at 390px and 320px. Each named champion binds its own existing
+`base.elite[id]` pose objects. Only the default/fighter Shade uses the knight
+atlas. Other fallen classes retain their procedural class gear even while that
+gear is loading. Unsupported reserve cells do not introduce actions. Combat,
+scale, warnings, opacity and saved identities retain their existing rules.
+Local integration does not publish the batch.

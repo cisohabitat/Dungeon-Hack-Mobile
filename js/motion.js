@@ -221,9 +221,11 @@ export function makeMotion(K) {
       // a champion wears its colour, or is drawn as itself; a hero's shade wears the gear of their trade
       const tint = m.elite || (mb.named ? m.id : '') || (m.shade && base && base.elite && base.elite['shade_' + m.shade.cls] ? 'shade_' + m.shade.cls : '');
       const img = (tint && base && base.elite && base.elite[tint]) ? base.elite[tint] : base;
-      // The chest painting cannot stand in for a barrel; later keeper phases
-      // retain their existing equipment and furnace/shadow handling.
-      const procedural = mb.sprite === 'mimic' && m.disguise !== 'chest'
+      // Keep unmatched forms on their own art: barrel Mimics, later keeper
+      // phases and every non-fighter Shade. The knight atlas cannot stand in
+      // for class gear even while those procedural objects are still painting.
+      const procedural = !!m.shade && m.shade.cls !== 'fighter'
+        || mb.sprite === 'mimic' && m.disguise !== 'chest'
         || !!mb.boss && (m.phase > 0 || !!m.throne || mb.sprite === 'warlord' && m.windup?.kind === 'shot');
       const n = packSize(m);
       // how far through its wind-up it is, for the tell drawn over it

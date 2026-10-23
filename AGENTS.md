@@ -103,11 +103,11 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps forty-three creature identities' existing pose objects to
+  `js/paintedcreatures.js` maps fifty-three creature identities' existing pose objects to
   approved nine-pose atlases, selected only by the renderer. Each kind has its
   own lazy image and palette cache; one failed atlas cannot disable another.
   Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
-  while other named champions retain their own procedural identities. Keep procedural
+  and other named champions through their own `elite[id]` objects. Keep procedural
   objects, motion, warnings, elite identities and the renegade companion intact.
   Decode only on demand; build shade/flash canvases once between frames and
   switch a complete palette together, falling back during loading or failure.
@@ -145,6 +145,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Keep Moth's measured torso anchor steady through wingbeats. Single-frame
   replacements reject opaque backgrounds and detached large parts, then retain
   only the connected figure plus its antialiased edge before registration.
+  Batch D uses `generation-batch-d.json`, `export-batch-d.py --check` and
+  `preview-batch-d.cjs` for the default Shade and nine named champions. Bind
+  champions through their base kind's `elite[id]` pose objects, never a generic
+  elite tint. Shade and Orla register measured torso anchors. Non-fighter fallen
+  Shades remain procedural even before their class gear has finished painting;
+  the default sword-and-shield atlas cannot represent those kits. Only supported
+  pose objects are bound; reserve drift/special cells do not add actions.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

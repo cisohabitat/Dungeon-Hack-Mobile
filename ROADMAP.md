@@ -458,3 +458,10 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
 - [x] Object bounds for short views, with forearms allowed beyond the edge.
 
 - [x] **Painted creature expansion**: twelve further approved atlases with species-specific lazy loading, Skarrow identity, cached lighting, procedural fallback and offline support.
+
+## Named champion atlases (23 October 2026)
+
+- [x] Batch D: default knight Shade and nine named champions, each with reviewed
+  nine-pose sources, reproducible exports, independent lazy loading and offline support.
+- [x] Preserve other fallen classes' procedural equipment throughout deferred loading;
+  keep existing special-pose fallbacks, warnings, motion and gameplay rules.

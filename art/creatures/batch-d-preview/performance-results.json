@@ -1,0 +1,135 @@
+{
+  "date": "2026-10-23",
+  "baseline_commit": "c698f5ae9e0f5df55d6d5dd590814e3c897e269a",
+  "batch_d_revision": "local Batch D changes on codex/batch-d-atlases, release 0.9.32, build 47",
+  "browser": "Chromium 154.0.8037.57 on Debian 13",
+  "cpu_throttle": 4,
+  "workers": 1,
+  "minimum_fps": 30,
+  "wide_minimum_fps": 27,
+  "startup_limit_ms": 6000,
+  "settings": "Existing perf.spec.js, perf-budget and perf-start seeds; no threshold, timeout or assertion changes; each run isolated from exports, rule checks and other browser workers.",
+  "results": [
+    {
+      "run": "baseline-first",
+      "scenes": {
+        "fight": {
+          "fps": 57.4,
+          "scriptMs": 8.9
+        },
+        "wide": {
+          "fps": 57.1,
+          "scriptMs": 7.3
+        },
+        "flooded": {
+          "fps": 44.7,
+          "scriptMs": 12
+        },
+        "painted": {
+          "fps": 36.9,
+          "scriptMs": 17.7
+        },
+        "rite": {
+          "fps": 60.1,
+          "scriptMs": 8.5
+        }
+      },
+      "start": {
+        "ms": 2051
+      },
+      "passed": true,
+      "source_log": "/tmp/deepdelve-d-baseline-perf.log"
+    },
+    {
+      "run": "batch-d-first",
+      "scenes": {
+        "fight": {
+          "fps": 45.4,
+          "scriptMs": 12
+        },
+        "wide": {
+          "fps": 38.7,
+          "scriptMs": 12.1
+        },
+        "flooded": {
+          "fps": 37.9,
+          "scriptMs": 13.2
+        },
+        "painted": {
+          "fps": 20.9,
+          "scriptMs": 33.4
+        },
+        "rite": {
+          "fps": 58.3,
+          "scriptMs": 8.3
+        }
+      },
+      "start": {
+        "ms": 1675
+      },
+      "passed": false,
+      "source_log": "/tmp/deepdelve-d-perf.log"
+    },
+    {
+      "run": "baseline-repeat",
+      "scenes": {
+        "fight": {
+          "fps": 45.8,
+          "scriptMs": 11.9
+        },
+        "wide": {
+          "fps": 51.1,
+          "scriptMs": 8.3
+        },
+        "flooded": {
+          "fps": 39.5,
+          "scriptMs": 13.3
+        },
+        "painted": {
+          "fps": 37.9,
+          "scriptMs": 15.3
+        },
+        "rite": {
+          "fps": 57,
+          "scriptMs": 10.9
+        }
+      },
+      "start": {
+        "ms": 2049
+      },
+      "passed": true,
+      "source_log": "/tmp/deepdelve-d-baseline-perf-repeat.log"
+    },
+    {
+      "run": "batch-d-repeat",
+      "scenes": {
+        "fight": {
+          "fps": 53.1,
+          "scriptMs": 8.9
+        },
+        "wide": {
+          "fps": 48.4,
+          "scriptMs": 9
+        },
+        "flooded": {
+          "fps": 46.9,
+          "scriptMs": 10.3
+        },
+        "painted": {
+          "fps": 36.6,
+          "scriptMs": 16.2
+        },
+        "rite": {
+          "fps": 48.9,
+          "scriptMs": 13.9
+        }
+      },
+      "start": {
+        "ms": 2085
+      },
+      "passed": true,
+      "source_log": "/tmp/deepdelve-d-perf-repeat.log"
+    }
+  ],
+  "finding": "The first Batch D painted-crowd measurement missed the budget. Both baseline runs and the repeated Batch D run passed every unchanged threshold. Measurements vary between runs; these single-run pairs do not establish a stable regression estimate."
+}
