@@ -209,3 +209,19 @@ export cells were visually inspected. Torso anchors align floating bodies;
 poses at 390px/320px, with warning assertions and page/console error checks.
 See [the review](batch-e-preview/REVIEW.md) for selection decisions and limits.
 There are no shipped atlases or runtime/offline changes in this stage.
+
+## Batch F — companions, 23 October 2026
+
+Six nine-pose sheets plus a separate Mender healing source were generated with
+`image_gen.imagegen`, using the six existing companion portraits. The model was
+not disclosed. `generation-batch-f.json` records all actual prompts, output paths,
+originals, full-sheet repairs and isolated step replacements. First-pass repeated
+walking leads were corrected; a Mender repair closing all eyes was rejected.
+Selected sources, 54 main cells and the healing export were visually inspected.
+
+`export-batch-f.py --check` reproduces preview bytes and measured registration.
+`preview-batch-f.cjs` asserts existing live companion pose selection and scale,
+then substitutes review images into real dungeon draws at 390px/320px. All 86
+captures report no page/console errors. See [the review](batch-f-preview/REVIEW.md)
+for source selections, remaining visual differences and explicit preview limits.
+No companion atlas is runtime-bound or cached offline in this stage.

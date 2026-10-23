@@ -157,6 +157,12 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   the harness substitutes image requests and frozen draws, not runtime bindings.
   Keep exact class gear, measured floating torso anchors and original/repair
   provenance. Review assets are not offline-shipped or integration evidence.
+  Batch F companion review tooling uses `generation-batch-f.json`,
+  `export-batch-f.py --check` and `preview-batch-f.cjs`. Slot seven is `sit`,
+  not `special`; Mender healing is a separate 256px export. Keep its measured
+  body-span registration and the source repair provenance. The preview asserts
+  real companion pose selection and scale 0.62, then substitutes review pictures;
+  these are not runtime bindings or offline integration evidence.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

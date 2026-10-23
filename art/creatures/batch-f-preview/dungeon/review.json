@@ -1,0 +1,694 @@
+{
+  "mode": "review-only frame substitutions; real companion pose selection and dungeon renderer; no runtime bindings",
+  "console_errors": [],
+  "results": [
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "dog",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "wolf",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "scrag",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "sellsword",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "mender",
+      "pose": "heal",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 390,
+      "kind": "renegade",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "dog",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "wolf",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "scrag",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "sellsword",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "mender",
+      "pose": "heal",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "idle",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "stepA",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "stepB",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "windup",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "sit",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "hurt",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    },
+    {
+      "width": 320,
+      "kind": "renegade",
+      "pose": "blink",
+      "scale": 0.62,
+      "selected_live_pose": true,
+      "drawn": []
+    }
+  ]
+}

@@ -1,0 +1,358 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-f.md",
+  "status": "generated, repaired, selected source/export visually reviewed; review-only companion dungeon captures; no runtime integration or publication",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "sit",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "dog": {
+      "source": "companion_dog.png",
+      "reference": "../../img/companions/hound.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: dog and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "selected_source": "companion_dog-corrected.png",
+      "body_centres": [
+        245,
+        640,
+        1040,
+        245,
+        640,
+        1040,
+        245,
+        640,
+        1040
+      ],
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. Scruffy brown companion HOUND matching portrait, floppy ears, cream muzzle/chest, frayed RED collar with attached round brass tag. Brown eyes, warm friendly alert expression, sturdy medium dog, no violet eyes or blink-hound magic. Idle standing head frontal; distinct opposite front paws; windup crouched head/jaw draws back for bite; strike jaw lunges forward teeth visible; recover head returns; bottom-left naturally SITTING on haunches forepaws planted; hurt head/shoulders recoil with four legs intact; blink eyelids closed. Tail attached and tucked behind, never separate fifth leg.",
+      "generated_file": "/workspace/generated_images/exec-119bbe49-b0e8-45f9-b327-5e0df69983b8.png",
+      "repairs": [
+        {
+          "source": "companion_dog-corrected.png",
+          "prompt": "Repair this nine-pose 3x3 companion Hound atlas, true transparent background. Keep SAME scruffy brown dog, cream muzzle/chest, red collar, brass tag, colour/exposure and each pose. Critical TOP-RIGHT stepB: raise and advance anatomical LEFT front paw on VIEWER RIGHT, while front paw on VIEWER LEFT is planted behind. Top-MIDDLE keeps its raised front paw on VIEWER LEFT. Opposite steps MUST have visibly opposite lead paws, never mirror collar/tag/fur or reuse same lead. Keep head facing directly forward. All dogs have exactly four connected legs and one attached tail. Uniformly shrink ALL nine entire figures by 12% inside their cells to leave full transparent margins, including head fur, tails and toes; no outline touches sheet edges. Bottom-left remains naturally sitting, bottom-right eyes closed. No other pose changes, no floor, shadows, text or detached particles.",
+          "generated_file": "/workspace/generated_images/exec-48a779f7-7d53-496a-907a-2c4a6c05ea38.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_dog.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/dog.webp",
+      "selection_notes": "Full-sheet opposite-paw and margin repair."
+    },
+    "wolf": {
+      "source": "companion_wolf.png",
+      "reference": "../../img/companions/wolf.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: wolf and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. Lean GREY WOLF matching portrait, pricked triangular ears, amber eyes, pale cheek/ruff, long legs, tail held low. NO COLLAR, no red tag, no dog substitute. Idle frontal alert; clearly opposite front paw leads; windup crouched bite preparation; strike jaw forward; recovery; bottom-left LYING DOWN with head raised, ears alert, front paws together under chest and rear legs folded naturally; hurt recoil retaining four connected legs; blink eyes closed.",
+      "generated_file": "/workspace/generated_images/exec-10158221-6fab-401d-83a3-e341981126ad.png",
+      "selected_source": "companion_wolf-corrected.png",
+      "body_centres": [
+        245,
+        645,
+        1040,
+        245,
+        645,
+        1040,
+        270,
+        645,
+        1040
+      ],
+      "repairs": [
+        {
+          "source": "companion_wolf-corrected.png",
+          "prompt": "Repair complete 3x3 nine-pose GREY WOLF companion sheet. Preserve all nine poses, same grey coat/amber eyes, no collar, frontal heads and exactly four connected legs/tail. TOP-RIGHT must show raised leading front paw on VIEWER RIGHT (anatomical LEFT), with VIEWER LEFT front paw planted behind. TOP-MIDDLE keeps raised leading front paw on VIEWER LEFT. Clearly opposite paw leads, do not mirror whole animal. Uniformly shrink all nine complete wolves 15% inside their grid cells: ear tips currently touch top sheet edge; restore whole ears with generous transparent margins on all sides, including lying-down tail. Bottom-left remains lying down with head raised, bottom-right eyes closed. No change in palette or proportions; sitting/lying must not enlarge body. True transparent background, no floor, shadows, text or particles.",
+          "generated_file": "/workspace/generated_images/exec-980d3373-a6af-45af-9309-4b69b62d73a7.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_wolf.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/wolf.webp",
+      "selection_notes": "Full-sheet opposite-paw/ear-margin repair; resting silhouette uses measured horizontal anchor."
+    },
+    "scrag": {
+      "source": "companion_scrag.png",
+      "reference": "../../img/companions/goblin.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: scrag and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. Freed GOBLIN COMPANION matching portrait: olive green skin, large projecting pointed ears, long hooked nose, amber-brown eyes, warm wary face; ragged brown hood/mantle, patched loincloth, slim ribbed body and bare long feet. Belt has attached lock picks and key ring; worn iron wrist cuffs with SHORT attached broken-chain stubs. Short kinked knife in anatomical RIGHT hand viewer LEFT, left hand free. Do not make an ordinary enemy goblin or royal crown. Idle wary low guard; genuinely opposite feet; windup draw knife back; strike short frontal knife stab; recovery; bottom-left SQUATTING on heels with knife lowered, hands visible; hurt; eyes shut blink. No floating keys, chains or extra fingers.",
+      "generated_file": "/workspace/generated_images/exec-96086e90-3f8b-47be-b906-78648670fe4c.png",
+      "selected_source": "companion_scrag-corrected.png",
+      "body_centres": [
+        230,
+        640,
+        1040,
+        230,
+        640,
+        1040,
+        230,
+        640,
+        1040
+      ],
+      "replacements": {
+        "stepB": {
+          "source": "companion_scrag-stepB.png",
+          "body_fraction": 0.5
+        }
+      },
+      "repairs": [
+        {
+          "source": "companion_scrag-corrected.png",
+          "prompt": "Repair this full 3x3 nine-pose freed GOBLIN companion atlas. Preserve same olive goblin, hood, amber eyes, right-hand knife VIEWER LEFT, left hand free, belt picks/keys and short wrist-chain stubs. TOP-RIGHT walking pose must advance LEFT leg on VIEWER RIGHT clearly forward and down, with RIGHT leg on VIEWER LEFT behind. Top-MIDDLE keeps forward foot on VIEWER LEFT. Do not mirror entire figure or change held knife hand/key belt side. Keep frontal heads and torso; two legs/two arms and connected closed knife grip. Uniformly SHRINK ALL NINE complete figures 15% within own cells, restore full hood tips with generous transparent margins top/bottom/sides and around knife, no clipped edges. Bottom-left squatting hands and knife kept attached. Bottom-right eyes remain closed. Same palette/light/proportions and pose identities, no ground/shadow/text/extra equipment. True transparent alpha.",
+          "generated_file": "/workspace/generated_images/exec-fcee0d47-35a2-4095-816e-2a8edb5668c3.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_scrag.png"
+          ]
+        },
+        {
+          "source": "companion_scrag-stepB.png",
+          "prompt": "Create ONE isolated full-body walking step of this exact freed goblin companion, transparent background, no grid. Same olive skin, brown ragged hood, attached cuff chains, belt picks/keys viewer RIGHT, knife held RIGHT hand on VIEWER LEFT. Frontal face/torso. CRITICAL: LEFT foot on RIGHT SIDE OF IMAGE is the FRONT planted leading foot, large and low. RIGHT foot on LEFT SIDE OF IMAGE is BACK behind, smaller/higher. Large front toes RIGHT of body center, trailing toes LEFT. Do not mirror costume or switch knife. Keep knife viewer LEFT, left hand viewer RIGHT empty, two arms/two legs. Same palette/exposure as source, no brighter lighting. Wide margins around ears/knife/feet, no floor/shadows/particles/text.",
+          "generated_file": "/workspace/generated_images/exec-8e1e6067-dfb7-487b-a8b8-fb1bc5c295ff.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_scrag-corrected.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/scrag.webp",
+      "selection_notes": "Margin-repaired full sheet plus isolated opposite stepB; other eight cells retained."
+    },
+    "sellsword": {
+      "source": "companion_sellsword.png",
+      "reference": "../../img/companions/sellsword.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: sellsword and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. Human SELLSWORD matching portrait: scarred cheek, short brown hair, IRON KETTLE HAT, blue-grey riveted brigandine over mail, muted RED diagonal sash, brown trousers/boots, leather gloves. Two-handed greatsword: continuous two hands closed around ONE handle, RIGHT hand above left, never swap. Idle sword low; opposite walking legs; windup lift greatsword above shoulder with both hands; strike frontal downward cut; recover lower joined sword; bottom-left STANDING REST leaning both hands on pommel of greatsword planted point-down, not sitting on ground; hurt recoil; blink eyelids closed. No shield or new axe.",
+      "generated_file": "/workspace/generated_images/exec-f9f8c691-1504-40f3-a74b-f6f80921a029.png",
+      "selected_source": "companion_sellsword-final.png",
+      "body_centres": [
+        240,
+        635,
+        1060,
+        240,
+        635,
+        1030,
+        240,
+        635,
+        1030
+      ],
+      "repairs": [
+        {
+          "source": "companion_sellsword-corrected.png",
+          "prompt": "Repair complete nine-pose 3x3 SELLSWORD companion sheet. Preserve same individual, kettle hat, scar, blue-grey coat, mail, red sash and ONE two-handed sword. TOP-RIGHT stepB must lead anatomical LEFT foot on VIEWER RIGHT, with VIEWER LEFT foot behind. TOP-MIDDLE retains anatomical RIGHT foot on VIEWER LEFT leading. Do NOT mirror head, red sash, armor or equipment to get opposite feet. In top-right the blade must return to pointing diagonally down toward VIEWER LEFT as in idle/top-middle; both hands remain around SAME handle, right hand nearest guard, left below. Across ALL poses preserve continuous two-hand grips, no crossed detached wrists. Uniformly shrink all nine whole figures 15% INSIDE their own cells to leave full generous transparent margins above hats and around sword tips, especially raised middle-left blade. Keep bottom-left standing rest leaning on planted sword, bottom-right eyes closed. Frontal heads/chests, exact palette/exposure. No shadows/floor/text/particles.",
+          "generated_file": "/workspace/generated_images/exec-bef52ca9-3a6c-4fb8-adff-d9b7ce659389.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_sellsword.png"
+          ]
+        },
+        {
+          "source": "companion_sellsword-stepB-draft.png",
+          "prompt": "Create ONE isolated full-body walking pose of this SAME Sellsword companion (not a grid). Match character from provided sheet: frontal face, kettle hat, blue-grey riveted brigandine, red diagonal sash unchanged, brown trousers, ONE sword in BOTH hands. CRITICAL WALKING ANATOMY: LEFT LEG is on RIGHT SIDE OF IMAGE and is clearly the FRONT leg, knee toward viewer and boot low on image RIGHT. RIGHT LEG is on LEFT SIDE OF IMAGE and is clearly BEHIND, knee tucked back, its foot higher and smaller on image LEFT. Put a LARGE clear front boot on RIGHT and a smaller trailing boot on LEFT. This must be opposite the existing wrong top-middle/top-right poses. Do not mirror costume or swap hands. Sword handle in two closed fists before waist, blade slopes DOWN toward image LEFT. Same warm-left/cool-right light and subdued palette; no brighter single-frame exposure. Generous transparent padding all around figure, intact sword and hat. No floor, cast shadow, words or extra figures.",
+          "generated_file": "/workspace/generated_images/exec-d659bcd1-1dce-4421-8aec-1ad702882287.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_sellsword-corrected.png"
+          ]
+        },
+        {
+          "source": "companion_sellsword-stepB-palette-draft.png",
+          "prompt": "Edit FIRST image only, the single Sellsword walking pose. Keep its correct forward boot on image RIGHT, smaller rear boot image LEFT, exact anatomy and two hands holding sword. REMOVE ENTIRE BACKGROUND and ALL halo/glow/cast shadows: true TRANSPARENT ALPHA outside the figure, not black or checkerboard artwork. Cutout of figure only, including complete sword, hat, boots. Match clothing/material exposure and palette to SECOND reference sheet: subdued blue-grey brigandine, dark brown gloves/leather, same muted dark red sash, same warm-left/cool-right light. The single frame is too bright/copper; make it match the sheet, not recolor to gold. Preserve anatomical pose, no mirroring. Wide transparent padding.",
+          "generated_file": "/workspace/generated_images/exec-85e2ec11-6f67-4f82-aca5-3bde59583d3e.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_sellsword-stepB-draft.png",
+            "companion_sellsword-corrected.png"
+          ]
+        },
+        {
+          "source": "companion_sellsword-final.png",
+          "prompt": "Edit FIRST IMAGE, the TRANSPARENT 3x3 nine-pose companion SPRITE ATLAS. Replace ONLY TOP-RIGHT figure with the walking pose from SECOND IMAGE: large front boot on image RIGHT, small trailing boot on image LEFT, sword points down LEFT, same closed two-hand grip. Scale it to same body height as top-middle. Match FIRST sheet's muted material palette and exposure. All other EIGHT poses remain exactly same identities, clothing, proportions, palette. Ignore/remove ALL background and halo from second reference: every cell has TRUE TRANSPARENT ALPHA behind isolated sprites. No scenery, floor, shadow, text, borders or glow. Wide transparent cell margins, no figure clipping. Need exactly NINE full-body figures in 3x3 layout.",
+          "generated_file": "/workspace/generated_images/exec-f5029d7e-458d-4646-94a5-73bbe1d47de2.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_sellsword-corrected.png",
+            "companion_sellsword-stepB-palette-draft.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/sellsword.webp",
+      "selection_notes": "Final coherent full sheet with opposite stepB and matching sword direction. Earlier single frames retained as drafts."
+    },
+    "mender": {
+      "source": "companion_mender.png",
+      "reference": "../../img/companions/mender.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: mender and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. Human female MENDER matching portrait: tired kind face, brown tousled hair, grey-green hood and robes, ash staff with small brass bell and DRIED HERBS tied securely near head, leather satchel of herbs/bandages at hip, stitched pale leaf over heart. No wizard crystal or large healing glow. Idle staff held left hand viewer RIGHT; opposite boots visible below robe during steps; windup staff lifted overhead in BOTH HANDS with connected grips; strike staff forward/down in both hands; recovery staff returns to left; bottom-left KNEELING rest sorts a roll of linen bandage in satchel, staff laid intact on ground next to knees, no detached duplicate staff. Hurt; eyes closed blink. Keep satchel, bell, herbs and staff size/color consistent. Healing pose will be separate, do not replace kneeling rest.",
+      "generated_file": "/workspace/generated_images/exec-faf6ab84-ded9-44e0-ac28-56c3c1a3ab9f.png",
+      "selected_source": "companion_mender-corrected.png",
+      "body_centres": [
+        245,
+        645,
+        1050,
+        245,
+        645,
+        1050,
+        235,
+        645,
+        1050
+      ],
+      "extension": {
+        "source": "companion_mender-heal-sheet.png",
+        "source_cell": 6,
+        "pose": "heal",
+        "body_centre": 210,
+        "reference_body_span": 390,
+        "source_body_span": 365,
+        "registration": "Measured crown-to-boot span matched to idle before applying atlas scale; same grounded baseline."
+      },
+      "repairs": [
+        {
+          "source": "companion_mender-rejected-eyes.png",
+          "prompt": "Repair this full nine-pose 3x3 MENDER companion sheet. Preserve identical woman, grey-green hood/robe, leaf embroidery, brown hair, satchel, ONE ash staff with attached herbs/bell, and existing poses. TOP-RIGHT stepB: clearly advance LEFT boot on VIEWER RIGHT, other boot VIEWER LEFT behind. Top-MIDDLE keeps leading boot VIEWER LEFT. Do NOT mirror equipment, face, satchel or staff. Uniformly shrink ALL nine complete figures 18% inside each cell: top-left staff currently clips top sheet edge, restore entire staff tip and herbs within wide transparent padding; keep hats, fingers, feet and laid-down rest staff wholly inside their cells with generous gutters. Bottom-left remains kneeling sorting bandages, laid staff beside knees. All staff attack grips connected through wrists to forearms, no detached fingers. Same palette/exposure/body scale. Frontal faces, blink eyes closed. True transparent background, no ground/shadow/text/new glow.",
+          "generated_file": "/workspace/generated_images/exec-30c8943c-d208-44fa-9a41-f7ffe38a1acd.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_mender.png"
+          ]
+        },
+        {
+          "source": "companion_mender-corrected.png",
+          "prompt": "Correct this Mender healer companion 3x3 nine-pose sheet. IMPORTANT: ALL FIRST EIGHT FACES must have OPEN EYES looking at viewer, awake and alert. ONLY BOTTOM-RIGHT is blink with closed eyes. Preserve exact green robe, leaf motif, satchel, ONE staff with attached herbs and bell, complete grips, body scale and generous transparent margins. TOP-RIGHT step: leading boot must be on RIGHT SIDE OF IMAGE, large and lower than the small trailing boot on LEFT SIDE OF IMAGE. Top-MIDDLE keeps leading boot on LEFT. Staff remains viewer RIGHT, satchel viewer LEFT, no mirroring. Bottom-left kneeling sorts bandages, staff on ground. Middle-left staff raised in both hands, middle-center forward staff strike, middle-right recovery, bottom-middle hurt with OPEN EYES. No other changes, no glow/floor/shadow/text. True transparent background.",
+          "generated_file": "/workspace/generated_images/exec-6d07e7c1-5c0e-40ac-b2d9-22daf5066d60.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_mender-rejected-eyes.png"
+          ]
+        },
+        {
+          "source": "companion_mender-heal-draft.png",
+          "prompt": "Create ONE full-body transparent cutout pose of this same female MENDER healer companion, matching supplied sheet exactly in outfit, face, body proportions, subdued grey-green/brown palette and exposure. She faces viewer with OPEN eyes, ash staff securely nestled in crook of LEFT arm (viewer RIGHT), bell and dried herbs tied to staff head; leather satchel and stitched leaf chest motif retained. BOTH HANDS extend forward and cup together before waist, connected fingers, elbows and wrists, a VERY SMALL restrained warm green light BETWEEN palms, no broad glow or detached particles. Two feet planted, full boots and whole staff tip intact, natural standing body height. This is existing healing action, no new equipment. TRUE TRANSPARENT ALPHA everywhere outside the figure; absolutely NO background, coloured halo, ground, cast shadow, text or other figures. Wide transparent margin around staff, boots and all edges.",
+          "generated_file": "/workspace/generated_images/exec-6d20f216-be35-45fd-9167-cc82872ad945.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_mender.png"
+          ]
+        },
+        {
+          "source": "companion_mender-heal-sheet.png",
+          "prompt": "Edit FIRST IMAGE, transparent 3x3 nine-pose MENDER companion SPRITE ATLAS. Change ONLY BOTTOM-LEFT figure into HEALING STANDING pose matching SECOND image's cupped hands: both hands cupped forward, tiny warm green light between palms, staff tucked securely in LEFT arm crook viewer RIGHT, tied herbs/bell, satchel and outfit retained. Use FIRST sheet's SAME face, age, grey-green palette/exposure and body scale, no brighter new lighting. Other EIGHT figures remain unchanged, including eyes OPEN except bottom-right blink. All nine figures complete and intact with true transparent alpha background in each cell. Remove/ignore SECOND image's entire opaque background, halo, ground and shadow. No text, scenery, particles. Wide transparent margins around all equipment. Exactly nine full-body figures, 3x3.",
+          "generated_file": "/workspace/generated_images/exec-19e573d3-ccc0-4c33-90cc-492df4fb317f.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_mender-corrected.png",
+            "companion_mender-heal-draft.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/mender.webp",
+      "selection_notes": "Second correction opens eyes except blink and reverses stepB. First closed-eye repair rejected. Healing selects cell six (zero-based) from separate matching sheet."
+    },
+    "renegade": {
+      "source": "companion_renegade.png",
+      "reference": "../../img/companions/renegade.webp",
+      "transparent_background": true,
+      "status": "selected source and nine registered cells visually reviewed; supported live-pose review captures at 390px/320px",
+      "runtime_binding": "planned: renegade and supported pose objects; no runtime changes",
+      "pose_notes": "sit is existing command/rest pose; strike/recover remain review reserves unless a live caller is found",
+      "prompt": "Create a production painted dark fantasy companion sprite atlas: exactly NINE COMPLETE full-body figures of the SAME individual in a precise 3x3 grid, true transparent alpha. No text, borders, scenery, ground planes, cast shadows, detached effects or particles. At least 12% empty margin INSIDE EACH cell, including raised weapon tips, ears and tails. All heads and chests face viewer directly, eyes toward viewer, never side profiles; quadruped bodies recede behind frontal head. Same body proportions, outfit, equipment, colour/exposure and shared foot baseline throughout; sitting naturally lowers body, never enlarge seated figure. Anatomical RIGHT is viewer LEFT. Continuous anatomy and closed weapon grips. Warm upper-left illumination, subtle cool rim, detailed painted materials consistent with the provided companion portrait. This is a living friendly companion, no skulls, spectral mist or hostile monster substitutions. Row-major poses: idle; stepA anatomical RIGHT leg/front paw viewer LEFT clearly leads; stepB anatomical LEFT leg/front paw viewer RIGHT clearly leads (NOT mirrored equipment); windup; strike; recover; SIT/REST command pose (bottom LEFT); hurt; blink idle with eyes closed. Exactly two arms/two legs for humanoids or exactly four legs for animals; no detached anatomy. RENEGADE dark elf companion matching portrait: ash-grey skin, AMBER eyes not red, long pale silver hair, projecting pointed ears through weathered GREY-GREEN HOOD, worn BROWN LEATHER armour/cloak fittings in dull iron. Exactly TWO curved swords, one in each hand, closed grips with wrists joined continuously. Idle blades crossed before torso; opposite walking legs with hands/swords unchanged; windup raise both swords; strike dual frontal cut; recover crossed guard; bottom-left STANDING REST both blades lowered at sides, vigilant face frontal, no sitting on floor; hurt recoil keeping two swords; closed-eye blink. Do not substitute enemy black-armoured drow warrior.",
+      "generated_file": "/workspace/generated_images/exec-80549c68-0b22-4145-985f-0b9419ea6098.png",
+      "selected_source": "companion_renegade-corrected.png",
+      "body_centres": [
+        245,
+        640,
+        1035,
+        245,
+        640,
+        1035,
+        245,
+        640,
+        1035
+      ],
+      "replacements": {
+        "stepB": {
+          "source": "companion_renegade-stepB.png",
+          "body_fraction": 0.5
+        }
+      },
+      "repairs": [
+        {
+          "source": "companion_renegade-corrected.png",
+          "prompt": "Repair this complete nine-pose 3x3 RENEGADE companion atlas. Keep same grey-skinned amber-eyed elf, pale silver hair, grey-green hood, brown leather outfit, exactly TWO curved swords with continuous wrist/closed grip connections. TOP-RIGHT stepB must clearly lead LEFT leg on VIEWER RIGHT, with foot on VIEWER LEFT behind. TOP-MIDDLE keeps leading foot on VIEWER LEFT. Do NOT mirror head, clothing or blades to reverse feet. All heads/chests remain frontal. Uniformly shrink ALL NINE whole figures 18% INSIDE their own cells for wide transparent margins above full hood tips (currently top edge clips), around raised sword tips, feet and cloak edges. Bottom-left stays STANDING with two blades lowered at sides, not sitting or kneeling. Bottom-right eyes closed. Retain exact coherent palette/exposure and body scale throughout. No red eyes, black enemy armor, detached particles, floor/shadow/text.",
+          "generated_file": "/workspace/generated_images/exec-ec40809d-dee8-4b99-8955-f0d5191a1518.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_renegade.png"
+          ]
+        },
+        {
+          "source": "companion_renegade-stepB-draft.png",
+          "prompt": "ONE isolated full-body frontal walking pose of the SAME Renegade companion from reference, no grid. Grey-skinned AMBER-eyed elf, silver hair, grey-green hood, brown leather, two curved swords held lowered one in each hand. CRITICAL: big FRONT boot on RIGHT SIDE OF IMAGE, attached to LEFT leg/knee on RIGHT; smaller BACK boot on LEFT SIDE OF IMAGE trailing behind. RIGHT-OF-IMAGE foot is closer/lower/larger, LEFT-OF-IMAGE foot higher/back. This is opposite existing sheet's repeated left-side-image front boot. Do not mirror head, costume or sword hands. Head/torso face directly toward viewer. Same dull leather palette, warm-left/cool-right lighting and exposure as supplied sheet, no brighter highlights. Both arms connect to closed fists on sword handles, two legs, no duplicate blades. Full generous transparent margins, no floor, shadows, text or effects.",
+          "generated_file": "/workspace/generated_images/exec-d49b739a-2ea2-42c9-9496-46d2d18d8d0f.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_renegade-corrected.png"
+          ]
+        },
+        {
+          "source": "companion_renegade-stepB.png",
+          "prompt": "Edit FIRST image. Keep upper body, two swords, hood and costume EXACTLY unchanged. Change ONLY legs: move the BIG FORWARD knee and boot to the RIGHT HALF OF THE IMAGE, centered x=650 in this 1024px image; move the SMALL TRAILING boot to LEFT HALF centered x=400. The large boot must be right of belly button and the small boot left of it. Join legs anatomically through hips without crossing. This must reverse the current first image where big boot is on LEFT. DO NOT flip/mirror whole character. REMOVE BACKGROUND completely, true transparent alpha, no halo/shadow/black fill. Match darker muted brown/green exposure of SECOND sheet reference, no brighter gold/orange lighting. Two connected sword grips, frontal head and chest unchanged. Keep wide transparent margins.",
+          "generated_file": "/workspace/generated_images/exec-16b7f156-abf4-4760-9e66-3c30db4077be.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "companion_renegade-stepB-draft.png",
+            "companion_renegade-corrected.png"
+          ]
+        }
+      ],
+      "registration": "One scale across main sheet, measured horizontal body centres, visible ground baseline row 236. Isolated replacement steps match the selected stepA source height before common scaling.",
+      "review_atlas": "batch-f-preview/renegade.webp",
+      "selection_notes": "Margin-repaired full sheet plus opposite isolated stepB; initial single frame repeated the wrong lead."
+    }
+  },
+  "provenance_note": "Draft filenames were clarified after alpha inspection; generated_file records preserve immutable original tool outputs. Reference filenames refer to the identical retained input bytes."
+}

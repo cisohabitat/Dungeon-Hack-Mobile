@@ -15,7 +15,9 @@ See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for proposed Batches E–K: class Shade
 companions, barrel Mimic, boss variants, traders and encounter sheets. Start with
 Spellblade Shade. Batch E sources and six preview atlases are now generated,
 repaired and visually reviewed; see [the Batch E review](batch-e-preview/REVIEW.md).
-Runtime integration/publication are pending; Batches F–K remain planned.
+Runtime integration is pending. Batch F companion sheets and Mender heal extension
+are generated, repaired and reviewed; see [Batch F review](batch-f-preview/REVIEW.md).
+Batch F integration/publication are pending; Batches G–K remain planned.
 
 ## Requesting work later
 

@@ -473,7 +473,9 @@ Detailed inventory and acceptance gates: [atlas roadmap](art/creatures/ATLAS-ROA
 - [x] Batch E source/review art: six class-specific Shades, starting with Spellblade;
   repaired Mage/Ranger faces, reproducible exports and 390px/320px review captures.
 - [ ] Batch E runtime integration, real-loader/offline/performance validation and publication.
-- [ ] Batch F: six companion atlases with supported rest/healing coverage.
+- [x] Batch F source/review art: six companion atlases, custom rest cells and
+  separate Mender healing frame; 86 live-pose review captures at both phone widths.
+- [ ] Batch F runtime integration, real-loader/offline/performance validation and publication.
 - [ ] Batch G: revealed barrel/default Mimic.
 - [ ] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.
 - [ ] Batch I: static figures for Merchant, Wick and Pedlar.

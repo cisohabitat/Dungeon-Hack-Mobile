@@ -1167,6 +1167,7 @@ art/creatures/generation-batch-b.json  Batch B originals, repairs and measured r
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
 art/creatures/generation-batch-d.json  Shade/champion sources, repairs and torso registration
 art/creatures/generation-batch-e.json  class Shade sources, selected repairs and review registration
+art/creatures/generation-batch-f.json  companion sources, step repairs, rest poses and Mender heal extension
 art/creatures/batch-a-preview/  reviewed nine-pose atlases, contact sheets and phone dungeon captures
 art/creatures/batch-d-preview/  champion atlases, phone captures and local validation results
 art/portraits/export.py   exports current class/keeper overrides, retaining original PNGs
@@ -1213,6 +1214,13 @@ repairs and measured floating torso anchors. Reproduce them with
 `python3 art/creatures/export-batch-e.py --check`; capture substituted review
 draws with `node art/creatures/preview-batch-e.cjs`. These are preview assets,
 not shipped runtime bindings. See [the review](art/creatures/batch-e-preview/REVIEW.md).
+
+Batch F adds six companion review atlases and a separate Mender healing frame.
+The seventh atlas cell is explicitly `sit`, preserving each companion's command/rest
+pose. Reproduce with `python3 art/creatures/export-batch-f.py --check`; capture
+live-pose review substitutions with `node art/creatures/preview-batch-f.cjs`.
+These are preview assets with no runtime/offline integration. See
+[the review](art/creatures/batch-f-preview/REVIEW.md).
 
 ## Keeping documentation current
 

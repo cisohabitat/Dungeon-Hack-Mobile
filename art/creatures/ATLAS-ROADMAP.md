@@ -3,7 +3,9 @@
 Prepared 23 October 2026 from the checked-out `main` source and Batch C/D reviews.
 This is a production plan, not a record of generated or approved artwork.
 Batch E sources and review atlases are generated, repaired and visually reviewed;
-runtime integration and publication remain pending. Batches F–K remain planned.
+runtime integration remains pending (review assets published as `b7960b5`).
+Batch F sources, repairs, review atlases and Mender heal extension are complete;
+see [Batch F review](batch-f-preview/REVIEW.md). Batches G–K remain planned.
 See [Batch E review](batch-e-preview/REVIEW.md). Batch letters E–K are assigned here.
 
 ## Baseline and scope
@@ -193,7 +195,9 @@ Painted replacements must not change obstacles, interactions, counts or placemen
 
 Batch E has completed generation, repair and source/export review, with review-only
 dungeon captures. Integration, full validation and publication remain pending.
-Batches F–K are not generated. Track each deliverable through:
+Batch F has completed source/export review and 86 review-only companion captures;
+integration, full runtime validation and publication remain pending.
+Batches G–K are not generated. Track each deliverable through:
 **briefed → generated → repaired → visually reviewed → integrated locally →
 validated → published**. Keep each stage separate, record evidence links and
 update this roadmap and the canonical atlas brief library as work progresses.
