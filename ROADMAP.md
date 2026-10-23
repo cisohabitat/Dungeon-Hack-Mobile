@@ -465,3 +465,18 @@ in the bench. Pointed first at the shallow end, where a new player's first ten r
   nine-pose sources, reproducible exports, independent lazy loading and offline support.
 - [x] Preserve other fallen classes' procedural equipment throughout deferred loading;
   keep existing special-pose fallbacks, warnings, motion and gameplay rules.
+
+## Painted atlas completion plan (23 October 2026)
+
+Detailed inventory and acceptance gates: [atlas roadmap](art/creatures/ATLAS-ROADMAP.md).
+
+- [ ] Batch E: six class-specific Shades, starting with Spellblade Shade.
+- [ ] Batch F: six companion atlases with supported rest/healing coverage.
+- [ ] Batch G: revealed barrel/default Mimic.
+- [ ] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.
+- [ ] Batch I: static figures for Merchant, Wick and Pedlar.
+- [ ] Batch J: encounter figures and creature scenes, reusing companion rest art where possible.
+- [ ] Optional Batch K: remaining encounter objects and scenery sheets.
+
+These batches are planned; generation, visual approval, integration, validation
+and publication remain separate completion stages.

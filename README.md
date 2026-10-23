@@ -1160,7 +1160,8 @@ tools/agent-docs.mjs  generates and checks AGENTS.md
 tools/check-art.mjs   verifies reviewed source/export hashes and offline art coverage
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
-art/creatures/ATLAS-BRIEFS.md  all pending dungeon atlas briefs, batches and live inventory
+art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
+art/creatures/ATLAS-ROADMAP.md  post-Batch-D priorities, remaining variants, companions and encounter sheets
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs

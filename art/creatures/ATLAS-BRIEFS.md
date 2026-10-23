@@ -9,6 +9,12 @@ The runtime supports 53 painted identities, with unmatched Mimic and keeper vari
 Variant requirements may require
 more than one atlas for an entry, especially Shade and Mimic.
 
+## Work after Batch D
+
+See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for proposed Batches E–K: class Shades,
+companions, barrel Mimic, boss variants, traders and encounter sheets. Start with
+Spellblade Shade. These are planned deliverables, not generated or approved art.
+
 ## Requesting work later
 
 Say **“Generate batch A from art/creatures/ATLAS-BRIEFS.md”**, or choose
