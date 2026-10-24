@@ -1,0 +1,304 @@
+{
+  "mode": "review-only frozen painted-cell substitutions; actual trader selection checked before substitution; shop input uses unchanged game",
+  "console_errors": [],
+  "captures": [
+    {
+      "width": 390,
+      "kind": "merchant",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 390,
+      "kind": "merchant",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    },
+    {
+      "width": 390,
+      "kind": "wick",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 390,
+      "kind": "wick",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    },
+    {
+      "width": 390,
+      "kind": "pedlar",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 390,
+      "kind": "pedlar",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "merchant",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "merchant",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "wick",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "wick",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "pedlar",
+      "distance": 1,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693,
+      "order": [
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "stand",
+        "floor"
+      ]
+    },
+    {
+      "width": 320,
+      "kind": "pedlar",
+      "distance": 3,
+      "scale": 0.95,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536,
+      "order": [
+        "floor",
+        "floor",
+        "stand",
+        "floor",
+        "floor",
+        "floor",
+        "floor",
+        "floor"
+      ]
+    }
+  ],
+  "shops": [
+    {
+      "width": 390,
+      "kind": "merchant",
+      "title": "Lampfolk trader",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 390,
+      "kind": "wick",
+      "title": "Wick, of the Lampfolk",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 390,
+      "kind": "pedlar",
+      "title": "Goblin pedlar",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 390,
+      "market_wick_flag_uses_pedlar": true
+    },
+    {
+      "width": 320,
+      "kind": "merchant",
+      "title": "Lampfolk trader",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 320,
+      "kind": "wick",
+      "title": "Wick, of the Lampfolk",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 320,
+      "kind": "pedlar",
+      "title": "Goblin pedlar",
+      "x": 6,
+      "y": 6,
+      "opened": true
+    },
+    {
+      "width": 320,
+      "market_wick_flag_uses_pedlar": true
+    }
+  ]
+}

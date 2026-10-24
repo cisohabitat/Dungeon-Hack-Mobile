@@ -1238,6 +1238,13 @@ capture frozen phone previews with `node art/creatures/preview-batch-h.cjs`.
 See [review and state audit](art/creatures/batch-h-preview/REVIEW.md).
 Runtime integration remains pending; these sources and reviews are published separately.
 
+Batch I adds three static trader review figures in one sheet: Merchant, Wick and
+Pedlar, revised to match the existing monster paintings with weathered faces,
+muted colours and worn materials. Reproduce the active references with `node art/creatures/reference-batch-i.cjs`,
+exports with `python3 art/creatures/export-batch-i.py --check`, and phone previews
+with `node art/creatures/preview-batch-i.cjs`. These are static review assets;
+source/review assets are published separately; runtime integration remains pending. See [review](art/creatures/batch-i-preview/REVIEW.md).
+
 ## Keeping documentation current
 
 Review this README with every change and update affected features, controls, setup,

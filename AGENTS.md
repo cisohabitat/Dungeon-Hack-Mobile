@@ -175,6 +175,15 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   including while standing after throne exit/no bearer spawn. Seated step slots
   are reserves. Keep projectiles and helpers separate; reuse current Lich casts
   and phase-2 cleaver/drum. Read `batch-h-preview/STATE-AUDIT.md` before integration.
+  Batch I static trader review uses `generation-batch-i.json`,
+  `reference-batch-i.cjs`, `export-batch-i.py --check` and `preview-batch-i.cjs`.
+  One source has three figures; exports are 256px singles and a 768x256 strip,
+  not a nine-pose atlas. The current creature loader cannot load this format.
+  Trader paintings should match approved monster rendering: weathered anatomy,
+  recessed eyes, muted colours and rough materials; avoid cute mascot faces.
+  Merchant/Wick are grey Lampfolk; Pedlar is green. Market selection overrides
+  the Wick flag. Preserve scale 0.95 and shop/collision rules; wait for the
+  shop's closing fade before capturing dungeon previews.
   Preview substitutions do not establish runtime/offline integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation

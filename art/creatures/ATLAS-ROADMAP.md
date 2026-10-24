@@ -144,6 +144,12 @@ exact mapping, and retain per-state fallbacks afterwards.
 
 ## Batch I — traders
 
+Generated and reviewed locally: one three-figure source, three static exports and
+one combined atlas. The selected style revision matches the existing monster
+paintings; the rejected cartoon draft is retained. See [Batch I review](batch-i-preview/REVIEW.md).
+Source/review publication complete; runtime integration pending. No new action poses or shop changes.
+
+
 One proposed static figure sheet: `merchant`, `wick`, `pedlar` from `js/folk.js`.
 Preserve each current silhouette, clothes and trade equipment. These are static
 NPCs: use one approved figure per identity, not nine invented fighting poses.

@@ -997,3 +997,9 @@ Batch H boss variants have four locally reviewed atlases and a documented reuse
 plan for Lich casts and Warlord frenzy. See [Batch H review](batch-h-preview/REVIEW.md)
 and [state/equipment audit](batch-h-preview/STATE-AUDIT.md). Runtime integration
 is pending; this source/review publication does not remove procedural guards.
+
+Batch I has three static trader review figures: Merchant, Wick and Pedlar,
+revised to match the approved monster paintings after the cartoon draft was rejected.
+See [Batch I review](batch-i-preview/REVIEW.md). One horizontal source exports
+three 256px cells plus a combined 768x256 strip; this is not a nine-pose atlas.
+Source/review assets are published separately; runtime integration remains pending.

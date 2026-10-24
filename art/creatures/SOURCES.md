@@ -255,3 +255,16 @@ Warlord sheets keep spear release hands empty. No external projectiles/helpers
 are baked in. Rejected originals retain closed grilles or repeated foot leads;
 isolated steps retain foreshortening/lead errors. All provenance remains intact.
 See `batch-h-preview/REVIEW.md`; these are review assets, not shipped art.
+
+## Batch I — static traders, 24 October 2026
+
+`traders.png` contains Merchant, Wick and Pedlar, generated with
+`image_gen.imagegen` (model not disclosed) from captured active `Assets.sprites`
+references. Full prompt, original generated path, reference paths and body
+registration are in `generation-batch-i.json`. The original cartoon-like source was rejected by the user; selected
+`traders-painted.png` is a full-sheet revision referenced against approved
+`img/creatures/goblin.webp` and `warlord.webp`. Both generated originals and exact
+style-revision prompt/reference provenance remain preserved.
+All three identities retain current trade gear and no combat poses. Static WebPs,
+combined strip and review captures are under `batch-i-preview/`; see its review
+for selection/shop checks and preview limits. No runtime images are shipped.

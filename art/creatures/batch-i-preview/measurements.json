@@ -1,0 +1,63 @@
+{
+  "source_sha256": "4468596d98987e807bfd2f6c35a5dfdba0d285518c615b3eaa79c95c7b495f7c",
+  "common_scale": 0.3012912482065997,
+  "figures": {
+    "merchant": {
+      "source_bounds": [
+        92,
+        21,
+        668,
+        709
+      ],
+      "visible_bounds": [
+        45,
+        32,
+        218,
+        237
+      ],
+      "offset": [
+        45,
+        31
+      ],
+      "export_sha256": "b837a39063d400eb302f3f415e6c6ddadd1ce2aaced6864faa63c88fb44b8259"
+    },
+    "wick": {
+      "source_bounds": [
+        810,
+        12,
+        1376,
+        709
+      ],
+      "visible_bounds": [
+        51,
+        29,
+        220,
+        237
+      ],
+      "offset": [
+        50,
+        28
+      ],
+      "export_sha256": "eea4c4ab2892333cead86afca9e818c3e7b519480380358d70ecb5c8f58a6a3e"
+    },
+    "pedlar": {
+      "source_bounds": [
+        1531,
+        22,
+        2105,
+        710
+      ],
+      "visible_bounds": [
+        43,
+        32,
+        214,
+        237
+      ],
+      "offset": [
+        42,
+        31
+      ],
+      "export_sha256": "a5bf4540a08a72cef3fc900dfd33383bea72a1639c32005107c787863ab86b21"
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-i.md",
+  "source": "traders.png",
+  "references": [
+    "batch-i-preview/merchant-reference.png",
+    "batch-i-preview/wick-reference.png",
+    "batch-i-preview/pedlar-reference.png"
+  ],
+  "prompt": "Create ONE production painted dark fantasy TRADER SPRITE SHEET with exactly THREE COMPLETE full-body frontal standing figures in ONE HORIZONTAL ROW, evenly spaced, one figure per equal square cell. TRUE TRANSPARENT ALPHA background. The three references in order are exact identity/equipment authorities, upgrade their pixel art to detailed hand-painted dungeon sprites with readable silhouettes, warm left / cool right restrained highlights, neutral calm friendly traders. LEFT CELL MERCHANT: short stocky grey-skinned Lampfolk, extremely broad drooping ears, bald round head, HUGE pale cream eyes with dark pupils, tiny scrap grey beard. Long patched frayed brown robe and BARE GREY FEET, enormous backpack with red-brown blanket roll piled above head, attached hanging pan on viewer RIGHT and metal cup on viewer LEFT. ONE straight wooden staff held in hand on viewer LEFT with a sideways top bracket and ONE warm lamp hanging from it; other hand on viewer RIGHT holds ONE gold coin between long fingers, clearly joined to hand. MIDDLE CELL WICK: same short grey Lampfolk species and enormous pale eyes, older wrinkled face, brass ROUND SPECTACLES joined over nose, NO PACK. Long BLUE GREY cloak with hood thrown BACK around shoulders, rust-orange scarf, bare grey feet. Crook staff taller than himself held in hand on viewer RIGHT, ONE brass lamp suspended from its curved hook; small closed brown ledger held against chest by hand on viewer LEFT, visibly supported. RIGHT CELL PEDLAR: short pot-bellied GREEN goblin, wide swept ears, grinning toothy hopeful face, floppy RED cap with pale pom, stained brown short tunic, belt with fat purse, bandy bare green legs and long bare feet. Huge scavenged goods pack behind with attached pots, pan, small packed lantern and ONE sheathed sword with HILT showing above shoulder; NO weapon held in hands. Hand on viewer LEFT holds a STRING OF CHARMS hanging down, all charms attached by continuous cord; hand on viewer RIGHT raised beckoning with long fingers. Every prop must be visibly attached to hand, staff or pack, no floating loose pieces. All THREE figures face squarely toward viewer and stand with both feet resting on same baseline, short body proportions matching references. Full staff tops, pack items, ears and feet inside their own cells with generous 15% empty transparent margins and clear gaps between characters. NO scenery, ground, cast shadow, aura, text, labels, border, extra characters, alternate poses, fighting action or modern items. Exactly three figures, one per identity.",
+  "generated_file": "/workspace/generated_images/exec-55e9de7d-af4c-47b6-b581-22c7e1a6ba59.png",
+  "transparent_background": true,
+  "status": "monster-style revision source/export visually reviewed; twelve refreshed phone review substitutions and trader checks passed; source/review publication; no runtime integration",
+  "layout": "Three static full figures in one horizontal row: merchant, wick, pedlar; no animation poses",
+  "repairs": [
+    {
+      "source": "traders-painted.png",
+      "tool": "image_gen.imagegen",
+      "model": "not disclosed",
+      "transparent_background": true,
+      "prompt": "Redesign FIRST image's THREE traders to match the exact gritty painted MONSTER ART STYLE of SECOND and THIRD reference atlases. Generate one horizontal row of exactly THREE complete frontal static full-body figures with TRUE TRANSPARENT ALPHA. First image supplies ONLY identities and equipment placement; radically replace its cute cartoon rendering and baby faces. Second and third images are the STYLE AUTHORITY: grounded dark fantasy game sprites, mature angular facial anatomy, leathery wrinkled skin, strong brows and deep sockets, small subdued eye catchlights, hard directional warm-left/cool-right lighting, deep charcoal creases, dark earthy desaturated palettes, scratched metal and ragged woven cloth. No glossy toy surfaces, bulbous cheeks, round baby heads, enormous black pupils, comic grin or smooth mascot anatomy. Match monster reference level of realistic painterly anatomical detail and menace of the dungeon, while traders remain calm noncombatants. Lampfolk eyes remain noticeably large and pale as species feature but set deeply into weathered faces, upper lids partly lowered, small dark pupils not huge glossy black spheres; heads proportionally smaller, longer torsos, sinewy bony long fingers, knuckled bare feet. LEFT MERCHANT: grey-skinned Lampfolk, broad long drooping ears, weathered bald face with sparse beard, patched frayed dark brown robe, towering dirty pack topped by russet blanket roll, attached pan viewerRIGHT and cup viewerLEFT. Grips ONE straight staff viewerLEFT, warm lamp suspended from its top bracket. Holds ONE coin between fingers viewerRIGHT. MIDDLE WICK: older grey Lampfolk, severe thoughtful lined face, brass round spectacles with clear glass showing eyes, dark blue-grey hood-back cloak, faded rust scarf, NO PACK. Closed battered brown ledger held to chest by viewerLEFT hand; ONE tall crook staff gripped viewerRIGHT with ONE brass hanging lamp. RIGHT PEDLAR: wiry green goblin closely matching SECOND monster reference's species/head anatomy but a wry closed-mouth half-smile instead of attacking snarl; long pointed swept ears, narrow yellowish eyes, floppy faded dark red cap, stained ragged short brown tunic, fat belt purse, scavenged pack with attached pots/pan, small lantern and sheathed sword HILT visible. ViewerLEFT hand holds one continuous string of attached charms; viewerRIGHT hand beckons. NO weapon in hands. All props connected, exactly TWO hands and TWO bare feet each. Retain distinct species, all three fully frontal and standing. No weapons/crowns copied from style refs, no alternate poses. Generous transparent cell padding and gutters, all staff tops/pack gear/ears/fingers/feet complete. No scenery, ground, shadows, particles, labels or borders. Dark hand-painted dungeon realism matching existing monster sprites is the key requirement.",
+      "references": [
+        "traders.png",
+        "../../img/creatures/goblin.webp",
+        "../../img/creatures/warlord.webp"
+      ],
+      "generated_file": "/workspace/generated_images/exec-ed42b0df-ffbd-4004-b76c-2d3076283c6c.png",
+      "reason": "User rejected the original cute/cartoon rendering; match approved monster painting style",
+      "status": "selected and visually reviewed against Goblin/Warlord style references; original rejected cartoon draft retained"
+    }
+  ],
+  "figures": {
+    "merchant": {
+      "body_centre": 367,
+      "identity": "Grey Lampfolk, pale eyes, drooping ears, patched brown robe, blanket pack, pan/cup, viewer-left lamp staff, viewer-right coin; bare grey feet",
+      "cell_index": 0,
+      "review_export": "batch-i-preview/merchant.webp",
+      "pose": "static",
+      "review": "Reference, source, registered export and near/far phone captures visually reviewed"
+    },
+    "wick": {
+      "body_centre": 1068,
+      "identity": "Older grey Lampfolk, brass spectacles, rust scarf, blue-grey hood-back cloak, viewer-left held ledger, viewer-right crook lamp, no pack; bare grey feet",
+      "cell_index": 1,
+      "review_export": "batch-i-preview/wick.webp",
+      "pose": "static",
+      "review": "Reference, source, registered export and near/far phone captures visually reviewed"
+    },
+    "pedlar": {
+      "body_centre": 1815,
+      "identity": "Green goblin, floppy red cap, stained tunic, belt purse, scavenged pack with cookware/sheathed sword/lantern, viewer-left attached charms, viewer-right beckoning hand; bare green feet",
+      "cell_index": 2,
+      "review_export": "batch-i-preview/pedlar.webp",
+      "pose": "static",
+      "review": "Reference, source, registered export and near/far phone captures visually reviewed"
+    }
+  },
+  "registration": "Common uniform scale across three figures; measured body x centres to x128; visible alpha baseline row236; minimum12px margins",
+  "selected_source": "traders-painted.png"
+}
