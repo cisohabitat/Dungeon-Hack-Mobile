@@ -1,0 +1,24 @@
+{
+  "themes": [
+    "Grey Halls",
+    "Brown Catacombs",
+    "Mossy Depths",
+    "Blue Vaults",
+    "Crimson Crypts",
+    "Obsidian Sanctum",
+    "The Ossuary",
+    "The Warrens",
+    "The Dark Elf Halls",
+    "The Grey Hold",
+    "The Sunless Marsh",
+    "The Drowned Halls",
+    "The Old Forges"
+  ],
+  "keys": {
+    "brass": "#c9a24a",
+    "silver": "#cfd8e0",
+    "gold": "#ffd34a",
+    "iron": "#7a7f88",
+    "bone": "#e8e0c8"
+  }
+}

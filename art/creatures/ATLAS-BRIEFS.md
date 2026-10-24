@@ -1025,3 +1025,8 @@ Batch K covers 24 roadmap objects plus the existing `bone_heap`, completing the
 static crops, object-specific cues and low pool/heap framing. See
 [Batch K review](batch-k-preview/REVIEW.md) and [state audit](batch-k-preview/STATE-AUDIT.md).
 Source/review assets are published separately; runtime integration remains pending.
+
+Batch R’s eight baseline architecture sources are reviewed and published; see
+[review](batch-r-preview/REVIEW.md) and [state/format audit](batch-r-preview/STATE-AUDIT.md).
+Thirteen regional kits are not complete. Existing colour-lock variants and exact
+procedural arch mask remain; runtime integration is pending.

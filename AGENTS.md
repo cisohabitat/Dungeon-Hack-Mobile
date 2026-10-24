@@ -250,6 +250,14 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   88 frozen captures, 52 lifetime pixel gates and 14 baseline browser tests pass.
   Loader/cache/offline/native outcomes/performance remain integration gates;
   see batch-q-preview/STATE-AUDIT.md.
+  Batch R uses generation-batch-r.json, reference-batch-r.cjs,
+  export-batch-r.py --check and preview-batch-r.cjs. Eight native64 architecture
+  cells form a Grey Halls baseline, not thirteen regional kits. Keep five-colour
+  locks and regional overlays; the painted arch differs by 26 binary-alpha pixels,
+  so retain original geometry. Pillars use full surface textures, no sprite feet.
+  68 frozen captures and eight native browser tests cover stairs/doors/pillars;
+  small needs a temporary art.spec.js selector. Exact masks, regional materials,
+  loader/offline/fallback/performance remain integration gates.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

@@ -1,0 +1,189 @@
+{
+  "door": {
+    "source": "architecture-r1.png",
+    "source_sha256": "479fa1fa559252c79b59140312cd96de55a25d643a4ccd40e2f5f3372bd68aee",
+    "source_rect": [
+      0,
+      0,
+      723,
+      725
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "e28e9718e5ae259e897d8ffab2be66f5ca1ccbc7add5b9f05b7de75320094da8",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "cellDoor": {
+    "source": "architecture-r5-gate.png",
+    "source_sha256": "96504fa39bb71084839dd53fbf5f5dd349cc7defe1fa0d5bb103deed67b327e1",
+    "source_rect": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "322a1a19d109d97bfcaac74b3d7d1784f791b50cf9c55e1e6179865bb523909e",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "pillar": {
+    "source": "architecture-r1.png",
+    "source_sha256": "479fa1fa559252c79b59140312cd96de55a25d643a4ccd40e2f5f3372bd68aee",
+    "source_rect": [
+      1447,
+      0,
+      2170,
+      725
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "f37d69b12e8d128fffcf8677181f4a22618d25660991de059e0739f65c26080b",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "stairsUp": {
+    "source": "architecture-r2.png",
+    "source_sha256": "ebcd8f8cad3419522f30b5e626050bbacaaa3978aa9501b1f0fa4d73c5e6a0ef",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "9e9450580bb5866b86f8b6ad54f6c981f58d82cdb3bdfb28971defcf1f3b3b96",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "stairsDown": {
+    "source": "architecture-r2.png",
+    "source_sha256": "ebcd8f8cad3419522f30b5e626050bbacaaa3978aa9501b1f0fa4d73c5e6a0ef",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "8319da87b06180d1e3e98986e883b012e09fadfb5f941885337fe74b57e88dd8",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "stairsUpBack": {
+    "source": "architecture-r2.png",
+    "source_sha256": "ebcd8f8cad3419522f30b5e626050bbacaaa3978aa9501b1f0fa4d73c5e6a0ef",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "555d09439ef2e84c04632c3a1c190ac0e7a8dbfe6592bcd4f73545be91392fdb",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "stairsDownBack": {
+    "source": "architecture-r2.png",
+    "source_sha256": "ebcd8f8cad3419522f30b5e626050bbacaaa3978aa9501b1f0fa4d73c5e6a0ef",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "9d9a1074922f115c42bff71cc061009f2e59718227ae5564e5daf1edb3a27461",
+    "alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  "stairArch": {
+    "source": "architecture-r3.png",
+    "source_sha256": "d425e15d42bc5be2e03e6b71542953528f9a052243e3e462ef91728bd1737f07",
+    "source_rect": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "2c83ecbb6f23e832c40a3f7bcdeb194cde4615431cb0f454b7530e7c9312defb",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "mask_mismatched_pixels": 26,
+    "mask_matches_runtime": false,
+    "runtime_policy": "retain original procedural arch; painted candidate is review only unless exact opening is resolved"
+  }
+}

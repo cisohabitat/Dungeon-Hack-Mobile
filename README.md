@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–Q review/publication status and runtime integration follow-up
+art/creatures/ATLAS-ROADMAP.md  E–R review/publication status, R–X painting roadmap and runtime follow-up
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1327,3 +1327,11 @@ and [state/format audit](art/creatures/batch-q-preview/STATE-AUDIT.md). Reproduc
 with `python3 art/creatures/export-batch-q.py --check`; phone review uses
 `node art/creatures/preview-batch-q.cjs`. Calm, poison and triggered traps stay
 procedural. Source/review assets are published; runtime integration remains pending.
+
+Batch R adds eight baseline architecture sources with native64/detail256 reviews,
+68 frozen phone captures and eight native architecture browser checks. See
+[review](art/creatures/batch-r-preview/REVIEW.md). Export with
+`python3 art/creatures/export-batch-r.py --check`; preview with
+`node art/creatures/preview-batch-r.cjs`. The painted arch remains a candidate:
+previews retain the exact original opening and five-colour lock bindings. Regional
+material matching and runtime integration remain pending; source/review assets are published.

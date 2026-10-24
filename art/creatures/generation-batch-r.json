@@ -1,0 +1,201 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-r.md",
+  "status": "baseline source/review published; eight cells,68 frozen captures and8 native baseline browser tests; exact arch mask, regional matching, runtime integration pending",
+  "scope": "Eight baseline architecture paintings;13-theme state audit; five lock colours retained procedural; regional material matching pending",
+  "groups": {
+    "r1": [
+      "door",
+      "pillar"
+    ],
+    "r2": [
+      "stairsUp",
+      "stairsDown",
+      "stairsUpBack",
+      "stairsDownBack"
+    ],
+    "r3": [
+      "stairArch"
+    ],
+    "r5": [
+      "cellDoor"
+    ]
+  },
+  "sheets": {
+    "r1": {
+      "source": "architecture-r1.png",
+      "generated_original": "/workspace/generated_images/exec-ea47c956-0412-4612-8396-a562897d8828.png",
+      "native_source_size": [
+        2170,
+        725
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference's three equal square architecture texture panels in exactly the same 3-column, 1-row layout, no gutters, no captions. Second reference is the approved material/style: gritty hand-painted dungeon realism, weathered Grey Halls stone, muted charcoal grey, chisel texture, restrained diffuse light, mature monster-game art, no cartoon or bevelled UI. This is a texture atlas, not a concept scene. LEFT: six vertical worn oak planks filling a straight rectangular door from x12% to88%, dark narrow frame at x9%-12%/88%-91%, grey masonry at outer edges, two riveted iron straps across y19%-28% and72%-81%, simple iron ring at right around x70%, y52%, no colored lock. MIDDLE: exactly eight straight vertical iron bars at regular spacing, two heavy horizontal iron crossbars around y16%-22% and78%-84%, near-black OPAQUE darkness between bars (not transparent), narrow grey masonry outer edge and neutral dark iron lock box on right at x63%-81%,y41%-60%, black keyhole. RIGHT: an OPAQUE full square pillar SURFACE TEXTURE, not an isolated column: dressed grey masonry face fills EVERY pixel edge-to-edge, rounded cylinder shading dark at left/right, softly lighter at42%width, shallow vertical flutes, full-width straight capital band across top11% and plinth band bottom12%. No perspective on door/gate/pillar: orthographic frontal faces. Preserve full-frame registration, avoid any floor, ground shadow, backdrop, extra doorway arch, vegetation, skulls, text, new lights or decorations. All three panels fully opaque, identical square dimensions, cropped flush to texture edges.",
+      "references": [
+        "batch-r-preview/r1-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ],
+      "selection_note": "Door and pillar selected. Original seven-bar cell gate rejected; r5 supplies eight bars."
+    },
+    "r2": {
+      "source": "architecture-r2.png",
+      "generated_original": "/workspace/generated_images/exec-df533e11-43ad-45d0-8ea7-c73e3cf363c0.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        2,
+        2
+      ],
+      "prompt": "Repaint the supplied FIRST reference into a gritty hand-painted dungeon texture atlas in exactly the same 2 by 2 square panel layout: top-left FLAT stair-up face, top-right FLAT stair-down face, bottom-left stair-up RECESS BACK texture, bottom-right stair-down RECESS BACK texture. Use the SECOND reference's muted weathered Grey Halls stone material. No cartoon, no cinematic scene, no labels, no gutters. All four square panels fully OPAQUE, edge to edge. Keep the exact topology/composition of first reference: top row has grey masonry arch surround at outer edges, broad round opening, nearly black interior; top-left stairs recede and climb toward small dim pale light high inside; top-right stair tread edges recede and descend lower into black, upper opening remains dark. Bottom row has NO ARCH or portal frame: ONLY recessed stairwell interior perspective filling whole square, wall planes at left/right and ceiling above. Bottom-left broad stone steps at bottom edge climb toward upper central vanishing point and a small diffuse grey glow; bottom-right a near horizontal stair lip at bottom, walls slope downward into deep central black well with faint warm glow far below. Preserve the stair direction, horizon, vanishing point and registration of each matching reference. No torches, flames, rails, doors, characters, ornaments, skylight scenery, daylight shaft or new path. The light is subtle source shading only, not a new light source. Orthographic square texture faces except existing internal stair perspective. Rough irregular stone and worn noses, not smooth marble. No extra framing, panel borders or transparent pixels.",
+      "references": [
+        "batch-r-preview/r2-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ]
+    },
+    "r3": {
+      "source": "architecture-r3.png",
+      "generated_original": "/workspace/generated_images/exec-771ac957-dd38-4b59-8ac4-3f38ed2b04f6.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference's exact square stair-arch architecture texture in the weathered hand-painted GREY STONE material of SECOND reference. Keep the FIRST reference alpha silhouette and registration as closely as possible; only change the stone surface rendering. This is a square texture, not an isolated free-standing doorway or scene. OPAQUE grey masonry fills both narrow side strips all the way to the left/right IMAGE EDGES and the corners at the top. A very broad rounded arch opening occupies centre and extends CLEAR/TRANSPARENT all the way through the bottom edge; no threshold or floor. Native geometry: square 64x64 coordinate system, opening centre31.5; at y>=20 opening spans x11 through52 inclusive; above20 opening boundary is ellipse ((x-31.5)/21)^2+((y-20)/22)^2<=1. Therefore top row has a fairly narrow transparent central bite, curving quickly outward; by y20 straight jambs at x10/53. Thin wedge-stone arch band outside this opening; grey small coursed masonry to outer edges. Match existing shape, no extra frame, no scene background, no black-filled opening, no white glow, no fake checkerboard, no floor, no side perspective, no door, no stairs, no light or ornaments. Surface gritty, irregular chipped grey stones with dark mortar, subtle diffuse top-left lighting, mature dungeon painting style, not cartoon. Output one single square RGBA tile, transparency ONLY in the arch opening.",
+      "references": [
+        "batch-r-preview/0-stairArch-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ]
+    },
+    "r5": {
+      "source": "architecture-r5-gate.png",
+      "generated_original": "/workspace/generated_images/exec-8d874681-c159-4d8e-a1d8-47ba55d6ac18.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        1,
+        1
+      ],
+      "prompt": "Repaint this single square iron dungeon gate texture, keeping its original EIGHT vertical iron rods and all original rod positions. Treat the rods as FOUR PAIRS: pair 1 at x14% and24%, pair 2 at x34% and44%, pair 3 at x54% and64%, pair 4 at x74% and84%. There are eight rods, not seven: four pairs of two. Keep both horizontal crossbars and small right-hand neutral dark lock box with keyhole. Replace pixel procedural finish with gritty hand-painted medieval game realism: rough forged grey iron, sparse brown rust, chipped slate-grey masonry outer edges, dark coarse mortar, muted diffuse light, mature monster art. Orthographic square opaque texture, no ground, no scene, no perspective, no transparent pixels. Preserve existing geometry, original lock position and size, no extra frame at bottom. Entire image edge-to-edge, no padding. Count and show FOUR PAIRS of vertical rods. No decorative additional objects or text.",
+      "references": [
+        "batch-r-preview/0-cellDoor-reference.png"
+      ]
+    }
+  },
+  "cells": {
+    "door": {
+      "sheet": "r1",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ]
+    },
+    "cellDoor": {
+      "sheet": "r5",
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ]
+    },
+    "pillar": {
+      "sheet": "r1",
+      "source_rect": [
+        1447,
+        0,
+        2170,
+        725
+      ]
+    },
+    "stairsUp": {
+      "sheet": "r2",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ]
+    },
+    "stairsDown": {
+      "sheet": "r2",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ]
+    },
+    "stairsUpBack": {
+      "sheet": "r2",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ]
+    },
+    "stairsDownBack": {
+      "sheet": "r2",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ]
+    },
+    "stairArch": {
+      "sheet": "r3",
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ]
+    }
+  },
+  "rejected_repairs": [
+    {
+      "source": "architecture-r1-bars.png",
+      "generated_original": "/workspace/generated_images/exec-a0002ba4-7e1e-4269-8e6e-3e0c936c9d63.png",
+      "prompt": "Edit this THREE-PANEL texture atlas with one correction ONLY in the MIDDLE panel: replace its seven vertical gate bars with EXACTLY EIGHT evenly spaced vertical iron bars, at local panel x positions approximately 14%,24%,34%,44%,54%,64%,74%,84%. They must be eight complete separate straight bars from top to bottom, passing behind the existing TWO horizontal crossbars and right-hand neutral lock. Keep lock/right-hand keyhole in same position. Preserve all stonework, dark OPAQUE void, grey iron material, the left oak door panel and right pillar panel completely unchanged. No new shapes, ornaments, perspective, glow, transparency, text or padding. Same three equal square panels in one horizontal strip. This is mature gritty painted game architecture. Preserve the full atlas layout and dimensions.",
+      "references": [
+        "architecture-r1.png"
+      ],
+      "reason": "Seven gate bars remain; full-sheet repair not selected."
+    },
+    {
+      "source": "architecture-r4-gate.png",
+      "generated_original": "/workspace/generated_images/exec-590519b7-c0df-43cf-9ebd-5c828eff87f1.png",
+      "prompt": "One square dungeon CELL GATE texture, orthographic frontal, fully opaque edge-to-edge. Repaint first reference in gritty weathered hand-painted iron and grey masonry matching second reference. EXACTLY EIGHT vertical bars: count from left to right BAR1 BAR2 BAR3 BAR4 BAR5 BAR6 BAR7 BAR8; eight bars at local x14%,24%,34%,44%,54%,64%,74%,84%, each about4% width, running full height, with seven open dark gaps between. No text labels. Two horizontal iron crossbars at y16%-22% and78%-84%. Neutral small dark iron lock box on right x63%-81%,y41%-60%, black keyhole, not colored. Opaque black interior behind bars, never transparent. Narrow grey masonry frame flush to outer texture edges. Preserve first reference's eight-bar layout and lock size. Coarse rusty forged iron and chipped slate-grey stone, muted highlights, no glow, no new ornaments, no arch, no floor, no outside scene. Mature painted monster-game realism. Single square image; no extra panels or captions.",
+      "references": [
+        "batch-r-preview/0-cellDoor-reference.png",
+        "architecture-r1.png"
+      ],
+      "reason": "Still seven bars; not selected."
+    }
+  ],
+  "review": {
+    "captures": 68,
+    "widths": [
+      390,
+      320
+    ],
+    "native_browser_tests": 8,
+    "arch_mask_differences": 26,
+    "report": "batch-r-preview/REVIEW.md"
+  }
+}

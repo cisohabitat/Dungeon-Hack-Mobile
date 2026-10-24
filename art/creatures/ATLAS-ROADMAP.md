@@ -1,8 +1,10 @@
-# Dungeon artwork and atlas roadmap — Batches E–Q
+# Dungeon artwork and atlas roadmap — Batches E–X
 
 Prepared 23 October 2026; extended 24 October 2026. E–N source/review assets
 and O’s baseline surface pass are generated, reviewed and published to main.
-Runtime integration remains pending for E–Q. P and Q source/review assets are published together. O architecture
+Runtime integration remains pending for E–R. R’s baseline architecture source pass
+is published as source/review assets; exact arch-mask resolution and regional matching
+remain pending. P and Q source/review assets are published together. O architecture
 and secondary variants remain procedural. See completion tracking for evidence.
 
 ## Baseline and scope
@@ -39,8 +41,8 @@ revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lightin
 | Reviewed/published | M | Regional dressing details | 5 cells in two source groups; runtime integration pending |
 | Reviewed/published | N | Creature remains | 4 low cells on one atlas; runtime integration pending |
 | Base pass reviewed/published | O | Dungeon surfaces and architecture | 13 base wall/floor/ceiling sets; architecture/variants remain procedural |
-| Locally reviewed | P | Equipment consistency and gaps | 7 regional icons (1 reserve), 2 class Rune shield rear frames; publication/integration pending |
-| Later | Q | Spell, environmental and trap effects | Effect/timing/format audit before generation |
+| Reviewed/published | P | Equipment consistency and gaps | 7 regional icons (1 reserve), 2 class Rune shield rear frames; runtime integration pending |
+| Reviewed/published | Q | Spell, environmental and trap effects | 3 static world cells and 8 impact frames; runtime integration pending |
 
 E–H budget: **17 proposed new character atlases**. Boss reuse findings can change
 that count; companion extension sheets are not included. I–K use a new static-sheet
@@ -350,6 +352,98 @@ for fire/frost. Calm, poison, lightning and triggered traps remain procedural.
 See [review](batch-q-preview/REVIEW.md) and [format audit](batch-q-preview/STATE-AUDIT.md).
 Native integration, offline and performance gates remain pending.
 
+## Remaining painting roadmap — Batches R–X
+
+E–Q complete their selected source-art scope, not every possible art upgrade.
+R–S continue the confirmed unfinished architecture/variant scope of O. T–X are
+proposed coverage audits: their existence does not establish missing paintings
+or authorize wholesale replacement of existing art. Determine actual keys,
+reuse, states and formats before fixing asset counts or generating sources.
+Keep the gritty painted monster style throughout. Runtime integration of E–Q
+remains a separate delivery priority and does not require new paintings.
+
+| Order | Batch | Scope | Status |
+|---|---|---|---|
+| 1 | R | Doors, locks, arches, recesses, stairs and pillars | Eight baseline cells published; arch geometry/regional matching and runtime integration pending |
+| 2 | S | Secondary floors, walls, ceilings, fountains, torches and structural details | Confirmed unfinished O scope; reuse compatible procedural details |
+| 3 | T | First-person weapons, shields, hands and class sleeves | Proposed coverage audit; commission demonstrated gaps only |
+| 4 | U | Hero/class portraits and character selection | Proposed consistency audit; existing portraits already have coverage |
+| 5 | V | Inventory frames, journal, bestiary, shops and status icons | Proposed interface art audit; counts and formats unset |
+| 6 | W | Title, loading, death and victory illustrations | Proposed screen audit; preserve approved existing title/other artwork |
+| 7 | X | Additional projectiles, magical and environmental effects | Optional audit after Q integration; retain procedural rendering where clearer |
+
+### Batch R — architecture and navigation forms
+
+Recommended next painting batch. Audit plank/barred doors and their lock states,
+arches, recess/back pieces, up/down stairs and pillars against O’s materials.
+Preserve transparent openings, secret-wall equivalence, lock colours, stair
+perspective, collision and navigation cues. Reuse existing geometry and details
+where appropriate. Establish renderer sampling and state-specific crops before
+commissioning matching material artwork; these are not creature pose atlases.
+
+R baseline source pass: eight paintings selected after a 234-reference audit across
+thirteen themes. Eight native browser tests and 68 frozen phone captures pass.
+Five-colour lock variants and the exact procedural arch remain; the painted arch
+mask differs by 26 native pixels. This is not thirteen completed regional kits.
+See [R review](batch-r-preview/REVIEW.md) and [state audit](batch-r-preview/STATE-AUDIT.md).
+Runtime integration and regional material matching remain pending.
+
+### Batch S — secondary dungeon materials and details
+
+Audit floor kinds room/path/mosaic/altar/water/rubble/straw; roofs rock/beams/roots/cave;
+and wall kinds plain/rock/fallen plus alternate, damp and cracked variants.
+The base room/plain surfaces may reuse O. Include wet/dry fountains, torch
+frames/animation and wall decorations only where the material pass demonstrates
+a mismatch. Preserve water/solid-ground meaning, transparent geometry, existing
+light sources and interaction states. Check repeats, native texel density,
+near/far views and cached darkness levels for each selected material family.
+
+### Batch T — first-person equipment and class presentation
+
+P covered seven regional inventory paintings and two Rune shield rear frames;
+it did not repaint the full held library. Audit existing weapons, shields, hands
+and class sleeves for visible style gaps. Inventory icons and held views are
+separate deliverables. Map actual rest, attack, recovery, ranged and casting
+motions before specifying sheets. Preserve grip attachment, handedness, weapon
+geometry, gear occlusion, Calm view and short-screen clearance. Reuse P’s shield
+sources and existing item/relic art; do not duplicate them or invent new motions.
+
+### Batch U — hero portraits and character selection
+
+Inventory existing hero/class portraits and selection-screen artwork first.
+Compare faces, equipment, class identity and materials with approved monsters
+and companions. Commission only absent or visibly inconsistent presentation.
+Keep player portraits distinct from fallen Shades and named champions; reuse
+approved portraits when framing and identity fit. No wholesale portrait repaint
+is scheduled by this proposal.
+
+### Batch V — interface art consistency
+
+Audit inventory frames, journal, bestiary, shop presentation and status icons in
+the actual phone layouts. Reuse existing item pictures, portraits and relic
+illustrations. Propose a coherent frame/icon treatment only for demonstrated
+gaps. Preserve readable text, contrast, status meanings, touch targets, double
+text scaling and safe palette cues. Choose scalable or raster formats by use;
+do not bake interface labels into decorative artwork.
+
+### Batch W — major screen illustrations
+
+Audit existing title, loading, death and victory presentation before generation.
+Reuse approved title/screen illustrations where suitable; commission only a
+missing scene or a demonstrated style mismatch. Plan phone/desktop crops and
+safe areas for controls and text. Avoid spoilers in loading art and preserve
+screen purpose, class identity and existing gameplay outcomes.
+
+### Batch X — optional additional effects
+
+Review Q in normal play before selecting more painted effects. Audit existing
+projectiles and magical/environmental visuals for a clear benefit from imagery.
+No blanket effects repaint: Calm, poison/status, lightning, telegraphs and
+triggered traps deliberately retain procedural rendering unless a later audit
+justifies a specific replacement. Do not invent a poison-impact spell or add
+lights, damage or obstacles through art. Define alpha, lifetime, layering,
+warning readability, fallback and memory/frame-time budgets before generation.
+
 ## Acceptance gate for every batch
 
 1. Write exact per-identity briefs and live-pose/state mappings before generation.
@@ -387,8 +481,9 @@ Native integration, offline and performance gates remain pending.
 | M | Source/review published; runtime integration pending | [Regional dressing](batch-m-preview/REVIEW.md) |
 | N | Source/review published; runtime integration pending | [Remains](batch-n-preview/REVIEW.md) |
 | O | Baseline source/review published; architecture/variants procedural; runtime integration pending | [Base surfaces](batch-o-preview/REVIEW.md) |
-| P | Source/review published; runtime integration pending | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
-| Q | Eleven source/review cells published; runtime integration pending | [Effects review](batch-q-preview/REVIEW.md) |
+| P | `1e55f72`; runtime integration pending | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
+| Q | `1e55f72`; eleven cells; runtime integration pending | [Effects review](batch-q-preview/REVIEW.md) |
+| R | Baseline source/review published; exact mask/regional matching and runtime integration pending | [Architecture review](batch-r-preview/REVIEW.md) |
 
 E–Q still require runtime integration and full runtime validation. Their published
 source/review assets are not evidence of live bindings, failure fallback or offline
