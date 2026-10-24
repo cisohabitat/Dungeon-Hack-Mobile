@@ -1,0 +1,337 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-l.md",
+  "status": "generated and source/export visually reviewed; 60 phone world review captures and inventory/selection assertions passed; source/review publication; no runtime integration",
+  "groups": {
+    "l1": [
+      "barrel",
+      "oilcask",
+      "anvil",
+      "chest"
+    ],
+    "l2": [
+      "crate",
+      "shackles",
+      "bones",
+      "rubble"
+    ],
+    "l3": [
+      "candles",
+      "mushrooms",
+      "urn"
+    ]
+  },
+  "sheets": {
+    "l1": {
+      "source": "dressing-l1.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "barrel",
+        "oilcask",
+        "anvil",
+        "chest"
+      ],
+      "prompt": "Create production-quality static dungeon dressing sprite artwork for Deepdelve Batch L. Match the attached approved Goblin painting's gritty hand-painted dungeon realism, physical wear, muted materials, clear dimensional shading. No cartoon or toy appearance. The other reference is the ACTIVE PROCEDURAL identity/composition guide, not a pixel-art style guide. Paint new realistic objects preserving those identities. Transparent RGBA background, no room, floor tile, backdrop, text, labels, borders or cast-shadow rectangle. Slightly above eye view of floor objects, frontal three-quarter showing tops. Upper-left restrained warm light, darker lower/right surfaces; no bright outline. Isolate each complete object in its own equal cell with generous empty gutters: entire silhouette must fit within central 72% of cell width and 72% of cell height, no edge cropping or crossing cells. No extra props, people, treasure or decorative scene additions. Shadows only tight faint contact under each object. All cells share painterly material detail and perspective. Square 2 by 2 sheet, exactly FOUR objects in reading order. TOP LEFT barrel: one closed ordinary brown oak cask, convex staves, circular wooden head seen from above, exactly THREE dark iron hoops, no face, teeth, tongue or eyes. TOP RIGHT oilcask: one closed DARK RED oil-stained cask, exactly TWO iron hoops near top/bottom, small brass stopper in its top, ONE large readable painted GOLD/YELLOW FLAME warning symbol on the front, black oil drip down right and small oily pool at foot; symbol is paint NOT real fire. BOTTOM LEFT anvil: one plain cold iron anvil on a short brown wooden block, worn bright horizontal face, single tapered horn pointing viewer LEFT, no hearth, hammer, tools, blade or ember. BOTTOM RIGHT chest: one closed ordinary BROWN wooden domed-lid chest with THREE dark vertical iron straps and a small brass front hasp/keyhole. Complete domed lid closed, no red/gold paint, tripwire, chain, eyes, teeth or treasure. The four objects are separated with roomy transparent margins.",
+      "references": [
+        "batch-l-preview/l1-reference.png",
+        "goblin.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-cfe6d09f-0a5e-461f-b822-f15bed11bb5e.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "l2": {
+      "source": "dressing-l2.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "crate",
+        "shackles",
+        "bones",
+        "rubble"
+      ],
+      "prompt": "Create production-quality static dungeon dressing sprite artwork for Deepdelve Batch L. Match the attached approved Goblin painting's gritty hand-painted dungeon realism, physical wear, muted materials, clear dimensional shading. No cartoon or toy appearance. The other reference is the ACTIVE PROCEDURAL identity/composition guide, not a pixel-art style guide. Paint new realistic objects preserving those identities. Transparent RGBA background, no room, floor tile, backdrop, text, labels, borders or cast-shadow rectangle. Slightly above eye view of floor objects, frontal three-quarter showing tops. Upper-left restrained warm light, darker lower/right surfaces; no bright outline. Isolate each complete object in its own equal cell with generous empty gutters: entire silhouette must fit within central 72% of cell width and 72% of cell height, no edge cropping or crossing cells. No extra props, people, treasure or decorative scene additions. Shadows only tight faint contact under each object. All cells share painterly material detail and perspective. Square 2 by 2 sheet, exactly FOUR isolated compositions in reading order. TOP LEFT crate: one closed weathered tan wooden slatted cube with diagonal X bracing on front, top visible, a few faded stencil marks and nails. TOP RIGHT shackles: very LOW horizontal arrangement, a rusty iron floor ring on viewer LEFT linked by a short loose chain to exactly TWO OPEN iron manacle cuffs on viewer RIGHT. Cuff interiors and chain-link gaps truly transparent, all connected metalwork complete; nothing standing tall. BOTTOM LEFT bones: very LOW scattered yellowed human long bones, a few ribs and ONE tipped weathered skull with empty DARK eye sockets, no glowing eyes, seated body, cup, dice or cloth. BOTTOM RIGHT rubble: LOW spill of seven or so irregular broken grey stones with smaller grit; no hand, arm, skull, body, wood or treasure. These three low floor arrangements retain shallow vertical silhouettes; do not build tall piles to fill cells. Each complete composition fits inside central 72% cell with big clear gutters.",
+      "references": [
+        "batch-l-preview/l2-reference.png",
+        "goblin.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-9efc6013-6c25-4fb4-9c20-4d3fd88c1d8b.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "l3": {
+      "source": "dressing-l3.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "candles",
+        "mushrooms",
+        "urn"
+      ],
+      "prompt": "Create production-quality static dungeon dressing sprite artwork for Deepdelve Batch L. Match the attached approved Goblin painting's gritty hand-painted dungeon realism, physical wear, muted materials, clear dimensional shading. No cartoon or toy appearance. The other reference is the ACTIVE PROCEDURAL identity/composition guide, not a pixel-art style guide. Paint new realistic objects preserving those identities. Transparent RGBA background, no room, floor tile, backdrop, text, labels, borders or cast-shadow rectangle. Slightly above eye view of floor objects, frontal three-quarter showing tops. Upper-left restrained warm light, darker lower/right surfaces; no bright outline. Isolate each complete object in its own equal cell with generous empty gutters: entire silhouette must fit within central 72% of cell width and 72% of cell height, no edge cropping or crossing cells. No extra props, people, treasure or decorative scene additions. Shadows only tight faint contact under each object. All cells share painterly material detail and perspective. Wide single-row sheet, exactly THREE equal square cells side by side. LEFT candles: exactly THREE uneven-height off-white wax candles, centre tallest, left medium, right shortest, all burning with small amber flames and dark wicks, dripping wax joining a shallow pooled wax base. No candle holder or extra candles, preserve tiny flame tips within generous cell margin, no large halo. CENTRE mushrooms: exactly FOUR pale stalked toadstools, mint/teal blue-green caps with subtle pale speckles, largest tall near centre-right, medium left, small right, smallest far left; pale gills/stalks, faint intrinsic cap luminosity only, no skull, hand, fifth mushroom, bright neon cloud or ground slab. RIGHT urn: one sealed weathered terracotta burial urn with narrow neck, round shoulders and belly, small lid/stopper, worn warm gold band with short diagonal decorative marks around belly and dark lower band. No handles, face, writing, treasure or open mouth. All complete silhouettes inside central 72% of their cells with roomy empty transparent margins.",
+      "references": [
+        "batch-l-preview/l3-reference.png",
+        "goblin.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-2cca5014-d89e-4350-9b68-3e59503877f9.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    }
+  },
+  "scenes": {
+    "barrel": {
+      "sheet": "l1",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        340.5,
+        606
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/barrel.webp"
+    },
+    "oilcask": {
+      "sheet": "l1",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        329.0,
+        610
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/oilcask.webp"
+    },
+    "anvil": {
+      "sheet": "l1",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        324.0,
+        564
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/anvil.webp"
+    },
+    "chest": {
+      "sheet": "l1",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        329.5,
+        560
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/chest.webp"
+    },
+    "crate": {
+      "sheet": "l2",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        318.0,
+        608
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/crate.webp"
+    },
+    "shackles": {
+      "sheet": "l2",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        780
+      ],
+      "source_anchor": [
+        308.0,
+        627
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/shackles.webp",
+      "max_height": 82,
+      "crop_note": "Authored lower edge extends below nominal half-sheet boundary to retain complete cuff; no other composition enters this rectangle."
+    },
+    "bones": {
+      "sheet": "l2",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        331.5,
+        527
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/bones.webp",
+      "max_height": 96
+    },
+    "rubble": {
+      "sheet": "l2",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        319.0,
+        540
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/rubble.webp",
+      "max_height": 96
+    },
+    "candles": {
+      "sheet": "l3",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_anchor": [
+        365.0,
+        650
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/candles.webp"
+    },
+    "mushrooms": {
+      "sheet": "l3",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_anchor": [
+        373.5,
+        646
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/mushrooms.webp"
+    },
+    "urn": {
+      "sheet": "l3",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_anchor": [
+        360.0,
+        650
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "review_export": "batch-l-preview/urn.webp"
+    }
+  },
+  "inventory_audit": {
+    "dressing_total": 18,
+    "batch_l_static": 11,
+    "deferred_effects": 3,
+    "deferred_remains": 4,
+    "direct_reuse": 0,
+    "review_world_captures": 60,
+    "runtime_integration": false
+  }
+}

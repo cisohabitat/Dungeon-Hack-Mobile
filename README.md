@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–K review/publication status and proposed L–Q dressing, surfaces, equipment and effects
+art/creatures/ATLAS-ROADMAP.md  E–L review/publication status and M–Q regional details, remains, surfaces, equipment and effects
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1258,6 +1258,15 @@ the existing collapsed-bones heap. Reproduce references with
 `python3 art/creatures/export-batch-k.py --check`, and phone world/card previews
 with `node art/creatures/preview-batch-k.cjs`. See [review](art/creatures/batch-k-preview/REVIEW.md).
 Source/review assets are published separately; runtime integration remains pending.
+
+Batch L adds eleven ordinary room-dressing review paintings across three sources,
+with static scene anchors and sixty near/far phone captures, including concealed
+Mimics and puzzle chests. Reproduce references with
+`node art/creatures/reference-batch-l.cjs`, exports with
+`python3 art/creatures/export-batch-l.py --check`, and previews with
+`node art/creatures/preview-batch-l.cjs`. See [review](art/creatures/batch-l-preview/REVIEW.md).
+Source/review assets are published separately; runtime integration remains pending.
+Existing smashable containers, oil cues and regional aliases retain their rules.
 
 ## Keeping documentation current
 

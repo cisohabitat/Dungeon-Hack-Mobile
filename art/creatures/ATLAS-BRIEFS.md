@@ -15,11 +15,13 @@ See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for Batches E–Q. E–K source/review
 assets are generated, visually reviewed and published; runtime integration is
 pending. Their review links and publication commits are recorded in the roadmap.
 
-Proposed L–Q cover ordinary room dressing, regional details, creature remains,
-dungeon surfaces/architecture, equipment gaps and effects. Start new art with L;
+Batch L ordinary room dressing is generated and reviewed: eleven static
+cells and sixty phone review captures. See [Batch L review](batch-l-preview/REVIEW.md).
+Source/review assets are published separately; runtime integration remains pending. Proposed M–Q cover regional
+details, creature remains, surfaces/architecture, equipment gaps and effects;
 prioritize E–K runtime integration as a separate delivery track. These later
 systems need their stated format/reuse audits rather than the monster atlas
-loader by default. No L–Q artwork or integration is completed yet.
+loader by default. No M–Q artwork is complete.
 
 ## Requesting work later
 

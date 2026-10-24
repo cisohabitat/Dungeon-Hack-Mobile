@@ -198,6 +198,15 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   rise ring. Preserve shared shrine/bones/barricade aliases and black pool water,
   object counts, closed mechanisms and authored low scene framing.
   Preview substitutions do not establish runtime/offline integration.
+  Batch L room-dressing review uses `generation-batch-l.json`,
+  `reference-batch-l.cjs`, `export-batch-l.py --check` and `preview-batch-l.cjs`.
+  Eleven static keys use the dress_* namespace, not same-named encounter props.
+  Keep ordinary SIZE/offsets/onFloor flags, low floor profiles, three candles,
+  four teal mushrooms and red oil-cask warning. Five containers already smash
+  or kick apart; preserve their loot/oil rules and shared concealed-Mimic and
+  puzzle-chest bindings. Regional aliases belong to M; remains to N; effects to Q.
+  Sixty frozen phone captures check actual selection before substitution;
+  emissive masks, moving rubble callers and offline integration remain separate.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

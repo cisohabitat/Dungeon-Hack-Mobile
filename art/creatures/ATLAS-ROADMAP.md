@@ -2,8 +2,8 @@
 
 Prepared 23 October 2026; extended 24 October 2026 after the E–K source/review
 publications. E–K artwork is generated and reviewed, with source/review assets
-published to main. Runtime integration remains pending. L–Q are proposed future
-art batches; no artwork or runtime changes for those batches are complete.
+published to main. Runtime integration remains pending. Batch L source/review art is complete and published,
+with runtime integration pending. M–Q are proposed future art batches.
 See the completion table below for published review evidence.
 
 ## Baseline and scope
@@ -36,7 +36,7 @@ revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lightin
 | 5 | I | Three traders | 1 static sheet with 3 figures |
 | 6 | J | Remaining encounter characters and scenes | 4 generated source groups plus companion rest-cell reuse |
 | Optional | K | Remaining encounter objects and scenery | 7 generated source groups, including existing bone heap |
-| Next art priority | L | Ordinary room dressing | Static object sheets; exact packing after audit |
+| Reviewed/published | L | Ordinary room dressing | 11 cells on two square atlases and one strip; runtime integration pending |
 | High | M | Regional dressing details | 5 existing regional identities; reuse where possible |
 | High | N | Creature remains | 4 existing remains keys; reuse/composition audit first |
 | High visual impact | O | Dungeon surfaces and architecture | Seamless texture/renderer format audit first |
@@ -217,14 +217,14 @@ per-state and per-key procedural fallbacks, lazy loading, offline caching,
 lighting, warnings and native phone performance. Integration is not completed by
 publishing source sheets or substituting pictures in a review harness.
 
-For the next **art** batch, start with L. Follow with M/N for visual consistency;
+Batch L source/review art is published; next follow with M/N for visual consistency;
 O has high visual impact but requires more renderer work. P/Q follow their audits.
 The sections below define proposed scope, not authorization to regenerate
 approved artwork or claims that runtime integration has been done.
 
 ## Batch L — ordinary room dressing
 
-Paint the static, non-interactive dressing in `js/dressing.js`:
+Eleven static room-dressing identities from `js/dressing.js`:
 `barrel`, `oilcask`, `anvil`, `chest`, `crate`, `shackles`, `bones`, `rubble`,
 `candles`, `mushrooms`, `urn`.
 
@@ -233,8 +233,17 @@ props, even where names match. Keep ordinary chests distinct from wired encounte
 chests and Mimics. Audit reuse of K/J artwork only when identity, silhouette,
 footprint and framing match; do not substitute a whole encounter composition for
 an ordinary object. Preserve existing dressing sizes, floor anchors, placement,
-non-blocking behaviour and Mimic concealment scenery. Proposed output: static
-object sheets with authored crops/anchors; determine packing after the audit.
+existing interactions and Mimic concealment scenery. Five containers (barrel,
+crate, urn, oilcask, chest) are already smashable/kickable; preserve their loot,
+oil spill/burst and movement behaviour. Other decorative pieces remain as before.
+
+Three newly generated sources, eleven 256px exports, two 512px atlases and one
+768×256 strip are reviewed and published. Authored crops/anchors retain low floor
+profiles and complete alpha margins. Sixty review-only phone captures check
+ordinary dressing, concealed Mimics and locked puzzle chests at near/far distances.
+See [Batch L review](batch-l-preview/REVIEW.md) and
+[caller/reuse audit](batch-l-preview/STATE-AUDIT.md). No J/K scene directly fits
+these identities. Runtime integration remains pending.
 
 `flames`, `ripple` and `snare` belong to Q's effect audit. The four `remains_*`
 keys belong to N; avoid generating them twice in L.
@@ -338,9 +347,11 @@ when an image-based effect would be less clear or more expensive.
 | I | `0aec3a1` | [Revised static traders](batch-i-preview/REVIEW.md) |
 | J | `d3307ce` | [Encounter compositions](batch-j-preview/REVIEW.md) |
 | K | `025702c` | [Remaining props and bone heap](batch-k-preview/REVIEW.md) |
-| L–Q | Proposed only; not generated or integrated | Scope and audits above |
+| L | Source/review published; runtime integration pending | [Room dressing](batch-l-preview/REVIEW.md) |
+| M–Q | Proposed only; not generated or integrated | Scope and audits above |
 
-E–K still require runtime integration and full runtime validation. Their published
+E–L still require runtime integration and full runtime validation. E–K
+source/review assets and L room-dressing review assets are published. These
 source/review assets are not evidence of live bindings, failure fallback or offline
 readiness. Track art production and runtime delivery separately; keep links to
 briefs, originals/repairs, visual reviews, integration checks and publication

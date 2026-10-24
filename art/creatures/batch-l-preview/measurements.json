@@ -1,0 +1,398 @@
+{
+  "barrel": {
+    "source": "dressing-l1.png",
+    "source_sha256": "90c34cf81cda28ae4581a9791102f2898399530ec7072c3a0287a345d428f430",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      144,
+      82,
+      537,
+      606
+    ],
+    "source_anchor": [
+      340.5,
+      606
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.39622641509433965,
+    "offset": [
+      49,
+      28
+    ],
+    "visible_bounds": [
+      50,
+      29,
+      206,
+      237
+    ],
+    "export_sha256": "0ab74ce5c5359056c47a792e7b6b518c57f10c5ebaca658d4ea29f861820aade"
+  },
+  "oilcask": {
+    "source": "dressing-l1.png",
+    "source_sha256": "90c34cf81cda28ae4581a9791102f2898399530ec7072c3a0287a345d428f430",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      136,
+      96,
+      522,
+      610
+    ],
+    "source_anchor": [
+      329.0,
+      610
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.40384615384615385,
+    "offset": [
+      49,
+      28
+    ],
+    "visible_bounds": [
+      50,
+      29,
+      206,
+      237
+    ],
+    "export_sha256": "8a939ccb88324b477d546cff907170cbca7440684386533e2bdb62b853b2d576"
+  },
+  "anvil": {
+    "source": "dressing-l1.png",
+    "source_sha256": "90c34cf81cda28ae4581a9791102f2898399530ec7072c3a0287a345d428f430",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      51,
+      138,
+      597,
+      564
+    ],
+    "source_anchor": [
+      324.0,
+      564
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.391304347826087,
+    "offset": [
+      20,
+      69
+    ],
+    "visible_bounds": [
+      21,
+      70,
+      235,
+      237
+    ],
+    "export_sha256": "ff113f0980a33eb31ad00882d81ce09a1a58f2bb29a00993f3ec1c59a2f76696"
+  },
+  "chest": {
+    "source": "dressing-l1.png",
+    "source_sha256": "90c34cf81cda28ae4581a9791102f2898399530ec7072c3a0287a345d428f430",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      85,
+      133,
+      574,
+      560
+    ],
+    "source_anchor": [
+      329.5,
+      560
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.43636363636363634,
+    "offset": [
+      20,
+      49
+    ],
+    "visible_bounds": [
+      21,
+      50,
+      235,
+      237
+    ],
+    "export_sha256": "dfcb6a3c48b71ccc987b3df55d28fc71a1d86d34b930f2bcd64a4affb904e5e2"
+  },
+  "crate": {
+    "source": "dressing-l2.png",
+    "source_sha256": "7ffda9a4a3ec7edd2da6c196d5932eed7cc138c1d8d11138a00bfc07a448288b",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      114,
+      161,
+      522,
+      608
+    ],
+    "source_anchor": [
+      318.0,
+      608
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.46357615894039733,
+    "offset": [
+      32,
+      29
+    ],
+    "visible_bounds": [
+      33,
+      30,
+      222,
+      237
+    ],
+    "export_sha256": "99f6bc16a81e9829b317b1ffcc18352db4f5b53764831cfc4e24376ea4bfd7d8"
+  },
+  "shackles": {
+    "source": "dressing-l2.png",
+    "source_sha256": "7ffda9a4a3ec7edd2da6c196d5932eed7cc138c1d8d11138a00bfc07a448288b",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      780
+    ],
+    "source_visible_bounds": [
+      32,
+      482,
+      584,
+      627
+    ],
+    "source_anchor": [
+      308.0,
+      627
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3870967741935484,
+    "offset": [
+      20,
+      180
+    ],
+    "visible_bounds": [
+      21,
+      181,
+      235,
+      237
+    ],
+    "export_sha256": "c677e7654dbbda5aa9b97629353e434efba54bc6deabdae0cda5cd58efc90d97"
+  },
+  "bones": {
+    "source": "dressing-l2.png",
+    "source_sha256": "7ffda9a4a3ec7edd2da6c196d5932eed7cc138c1d8d11138a00bfc07a448288b",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      58,
+      324,
+      605,
+      527
+    ],
+    "source_anchor": [
+      331.5,
+      527
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.39059674502712477,
+    "offset": [
+      20,
+      156
+    ],
+    "visible_bounds": [
+      21,
+      157,
+      235,
+      237
+    ],
+    "export_sha256": "cddcd545be76a209ee24be2e4b178918182be81f490edb385a9e22ceced34714"
+  },
+  "rubble": {
+    "source": "dressing-l2.png",
+    "source_sha256": "7ffda9a4a3ec7edd2da6c196d5932eed7cc138c1d8d11138a00bfc07a448288b",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      49,
+      320,
+      589,
+      540
+    ],
+    "source_anchor": [
+      319.0,
+      540
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3956043956043956,
+    "offset": [
+      20,
+      149
+    ],
+    "visible_bounds": [
+      21,
+      150,
+      235,
+      237
+    ],
+    "export_sha256": "c4bbd8412829cd6e2c0a2a34393d50ff2351d3a752c6b9ed2b7c33f85cc894c5"
+  },
+  "candles": {
+    "source": "dressing-l3.png",
+    "source_sha256": "c9fdef4fcbdf0a8e13ef347bdbde904dd63ea9f07ded7f7b2110ffb53097d4e7",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "source_visible_bounds": [
+      122,
+      106,
+      608,
+      650
+    ],
+    "source_anchor": [
+      365.0,
+      650
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.38181818181818183,
+    "offset": [
+      34,
+      28
+    ],
+    "visible_bounds": [
+      35,
+      29,
+      221,
+      237
+    ],
+    "export_sha256": "53e5825cf73e5034c6b79dfd608fbe06e6086bef90fd1300b9485c415fb236cf"
+  },
+  "mushrooms": {
+    "source": "dressing-l3.png",
+    "source_sha256": "c9fdef4fcbdf0a8e13ef347bdbde904dd63ea9f07ded7f7b2110ffb53097d4e7",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "source_visible_bounds": [
+      92,
+      186,
+      655,
+      646
+    ],
+    "source_anchor": [
+      373.5,
+      646
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.37961335676625657,
+    "offset": [
+      20,
+      61
+    ],
+    "visible_bounds": [
+      21,
+      62,
+      235,
+      237
+    ],
+    "export_sha256": "548417d463fba1d326103791246fcda1d304fde4f4e8fd64a607d2f2ec148cf7"
+  },
+  "urn": {
+    "source": "dressing-l3.png",
+    "source_sha256": "c9fdef4fcbdf0a8e13ef347bdbde904dd63ea9f07ded7f7b2110ffb53097d4e7",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "source_visible_bounds": [
+      165,
+      82,
+      555,
+      650
+    ],
+    "source_anchor": [
+      360.0,
+      650
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.36585365853658536,
+    "offset": [
+      56,
+      28
+    ],
+    "visible_bounds": [
+      57,
+      29,
+      200,
+      237
+    ],
+    "export_sha256": "b52004fd44aa7efb33525009cc19ca2e2e586dfb0c738ef56872867af6b05ff1"
+  }
+}
