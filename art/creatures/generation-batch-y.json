@@ -1,0 +1,134 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-y.md",
+  "status": "audit/source review included with release0.9.34; three ordinary shield frames integrated",
+  "groups": {
+    "y1": [
+      "fighter-shield",
+      "cleric-shield",
+      "thief-buckler"
+    ]
+  },
+  "sheets": {
+    "y1": {
+      "source": "held-y1.png",
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference as a THREE-CELL horizontal sprite strip of exactly three equal square cells, true transparent RGBA. First reference defines exact object shape, rear view, hand/strap construction and arm direction. SECOND reference supplies only gritty mature painted material quality, not its staff, bare hands, purple clothes or poses. All three cells show the BACK of a carried wooden shield facing the player, one connected LEFT fist at centre-right holding a vertical dark leather handle, LEFT forearm extending diagonally DOWN-LEFT through a snug attached dark leather forearm strap. Exactly one left hand/arm per cell. No front-facing shield emblem, no right arm, no third hand. LEFT CELL Fighter: broad flat-topped pointed-bottom wooden shield with plain weathered iron rim, brown rear planks and rim rivets. Grey armoured leather glove and dark grey cuff, coarse brown sleeve. MIDDLE Cleric: same exact ordinary shield shape, size and construction; brown leather glove, restrained ochre-gold cuff and worn ivory cloth sleeve. RIGHT Thief: small ROUND wooden buckler with plain iron rim and the INSIDE of its central metal boss, charcoal leather glove, brown cuff, muted dark olive sleeve. Round buckler stays visibly round, not pointed. Copy the reference silhouette, fist direction, grip position and down-left arm attachment closely. Fingers curl around the vertical handle with thumb opposing, no disembodied finger fragments. Grip/forearm strap visibly anchored to shield. Rich restrained brushwork, scratched steel, rough grain, stitched matte leather and cloth folds matching painted dungeon monsters, realistic worn materials, no cartoon, glossy chrome or toy finish. Keep same rear camera angle and muted lighting across all three. Entire shield, complete hand/strap and clean sleeve end INSIDE each cell surrounded by at least 8 percent clear transparent margin. No clipped sleeve, scene, cast ground shadow, black matte, backdrop, lettering, cell borders, glow, runes, spikes, gems or decorative heraldry. These are isolated first-person equipment sprites, not portraits or a scene.",
+      "references": [
+        "batch-y-preview/reference-sheet.png",
+        "held-t2.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/generated_images/exec-ca353fa9-5c03-448c-807f-da802d4b43c8.png",
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "repairs": []
+    }
+  },
+  "cells": {
+    "fighter-shield": {
+      "sheet": "y1",
+      "cls": "fighter",
+      "id": "shield",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_grip": [
+        548,
+        310
+      ],
+      "source_object_bounds": [
+        341,
+        86,
+        711,
+        542
+      ]
+    },
+    "cleric-shield": {
+      "sheet": "y1",
+      "cls": "cleric",
+      "id": "shield",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_grip": [
+        538,
+        310
+      ],
+      "source_object_bounds": [
+        332,
+        86,
+        705,
+        541
+      ]
+    },
+    "thief-buckler": {
+      "sheet": "y1",
+      "cls": "thief",
+      "id": "buckler",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_grip": [
+        518,
+        310
+      ],
+      "source_object_bounds": [
+        322,
+        110,
+        679,
+        483
+      ]
+    }
+  },
+  "source_spacing_exception": "Fighter shield retains 13px right-cell clearance and Cleric 19px rather than requested 8% margin; all equipment/sleeves complete, no cross-cell overlap. Registered exports require >=12px.",
+  "review": {
+    "report": "batch-y-preview/REVIEW.md",
+    "painted_frames": 3,
+    "phone_captures": 36,
+    "galleries": 2,
+    "fitting_cases": 108,
+    "original_guard_pairs": 6,
+    "baseline_browser_tests": 12,
+    "baseline_browser_result": "pass in31.2s; phone and small",
+    "export_check": "pass",
+    "console_errors": []
+  },
+  "publication": "Included with the Batch Y native activation publication, release0.9.34.",
+  "runtime_delivery": {
+    "release": "0.9.34",
+    "build": 49,
+    "files": [
+      "img/held/fighter-shield.png",
+      "img/held/cleric-shield.png",
+      "img/held/thief-buckler.png"
+    ],
+    "report": "batch-y-runtime/REVIEW.md",
+    "native_captures": 66,
+    "native_galleries": 2,
+    "native_contexts": 6,
+    "console_errors": [],
+    "full_chromium_cases": 797,
+    "direct_passes": 796,
+    "corrected_fixture_isolated_passes": 1,
+    "isolated_perf": "pass:4xCPU painted35.2FPS, startup1601ms",
+    "rules": "751 checks,74 files pass",
+    "ci": "Main workflow verifies the committed revision, including Safari and publication."
+  }
+}

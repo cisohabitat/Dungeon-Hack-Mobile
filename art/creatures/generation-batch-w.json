@@ -1,0 +1,46 @@
+{
+  "batch": "W",
+  "purpose": "major-screen illustration reuse audit",
+  "tool": "none; no image generation",
+  "model": null,
+  "new_paintings": 0,
+  "runtime_changes": 0,
+  "status": "audit/source review included with release0.9.34; no new painting or runtime edits from this audit",
+  "brief": "REQUEST-batch-w.md",
+  "inventory": "batch-w-preview/inventory.json",
+  "capture_command": "node art/creatures/preview-batch-w.cjs",
+  "layout_command": "python3 art/creatures/export-batch-w.py --check",
+  "reused_provenance": [
+    "../keyart/SOURCES.md",
+    "../portraits/generation.json"
+  ],
+  "validation": {
+    "existing_browser_checks": 7,
+    "duration": "43.7s",
+    "scope": "Focused title framing/opening/Calm, finale/quench, death reset, portrait/share continuity; project filters apply"
+  },
+  "followups": [
+    "At double text, the title fact overlay can cover the logo and reach into New Game; CSS/disclosure follow-up, not a painting gap",
+    "Winning share caption hard-codes Dread Lich instead of actual keeper",
+    "All wins share a generic Heart accent, including quench and keep; audit state-specific composition before painting icons"
+  ],
+  "limitations": [
+    "Frozen encounter/combat setup fixtures, not quest acquisition or combat coverage",
+    "Three representative hero portraits captured; full identity audit is U",
+    "Chromium viewports, not physical iOS or WebKit certification"
+  ],
+  "review": {
+    "native_captures": 58,
+    "overview_sheets": 8,
+    "source_export_layouts": 1,
+    "raster_files": 67,
+    "console_errors": 0,
+    "offline_keyart_framings": 2,
+    "offline_phone_widths": [
+      390,
+      320
+    ],
+    "status": "Final galleries, source/export comparison and representative native captures visually inspected"
+  },
+  "publication": "Included with the Batch Y native activation publication, release0.9.34."
+}

@@ -72,8 +72,10 @@ export function paintedHeld(id, pose, cls, two, lit) {
   const frames = family.map(heldFrame);
   return frames.every(Boolean) ? frames[family.indexOf(meta)] : null;
 }
+const carriedFrames = new Map(Object.values(PAINTED.carried).map(meta => [meta.cls + '|' + meta.id, meta]));
 export function paintedCarried(id, cls) {
-  return id === 'runeshield' && PAINTED.carried[cls] ? heldFrame(PAINTED.carried[cls]) : null;
+  const meta = carriedFrames.get(cls + '|' + id);
+  return meta ? heldFrame(meta) : null;
 }
 export function paintedImpact(family, index) {
   // Prepare the complete family together; an unfinished family stays procedural.

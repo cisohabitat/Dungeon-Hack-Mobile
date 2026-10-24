@@ -296,6 +296,43 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   authored grips/object bounds keep162 fixture cases within160/360/464 views;
   54 captures and12 native held tests pass. Through source sleeve has3px spacing
   but exports>=12px. Native transition/offline/fallback/performance remain gates.
+  Batch Y extends T with exact Fighter/shield, Cleric/shield and Thief/buckler
+  carried rear frames. reference-batch-y.cjs captures original class palettes and
+  grip geometry; export-batch-y.py --check only crops/scales/registers existing
+  pixels at a common scale. preview-batch-y.cjs temporarily proxies exact raw
+  class/id pairs and frozen rest/Bash/Calm/cast/read/drink states; this is source
+  review, not runtime delivery. Drinking fixtures require useKind=drink and the
+  actual seeded Game.spriteFor potion key. Rest/Bash/Calm bounds must fit; action
+  lowering may leave the view and sleeves retain existing cropping. Record raw
+  source spacing exceptions and keep named/off-class/P Rune-shield frames intact.
+  Y is now integrated through paintedcatalog.js/paintedworld.js. Carried metadata
+  includes exact id and cls for all five entries (two P Rune shields, three Y
+  ordinary shields); build the lookup once and never strip named ids. The native
+  preview-batch-y-runtime.cjs observes real equip/Bash/cast/read/drink/Calm/offline
+  flows without asset routes, renderer replacements or frozen updates. Keep the
+  older source-review evidence separate; see batch-y-runtime/REVIEW.md. The common
+  delivery exporter now reproduces187 files (184 E–T plus3 Y); unchanged historical
+  counts describe the original release scope.
+  Batch W is a major-screen reuse audit: preview-batch-w.cjs captures actual
+  title/prologue/death/three Heart endings and native share cards, phone/landscape/
+  desktop/double-text views, delayed key-art recovery and native offline rotation.
+  Export-batch-w.py only lays out existing source/export pictures and records
+  hashes; no new painting or runtime change is commissioned. Use actual Heart
+  pickup and encounter choices with isolated eligibility fixtures, never override
+  win/death functions. A deliberately pending image keeps document load/font-ready
+  promises open: its screenshot uses native CDP after asserting no web fonts;
+  ordinary captures retain font readiness. Review notes double-text title-fact overlap and keeper-caption/generic
+  Heart-accent follow-ups without inventing new ending backgrounds. See
+  batch-w-preview/REVIEW.md. Batch X completes the optional-effects audit without
+  new painting or runtime changes. preview-batch-x.cjs samples the native view
+  after actual casts/scroll use with Game.update and Renderer.render untouched;
+  preserve observed timestamps and distinguish immediate lightning onset from
+  spells with a travelling phase. Fixtures provide resources, a durable target
+  and an existing warning, not complete-run or full-HUD coverage. Record only
+  available native animation frames; do not stretch lifetimes or replace asset
+  routes. Retain Q contact families and procedural travel, swarm, lightning,
+  traps/status/Calm. See batch-x-preview/REVIEW.md; future work requires a specific
+  demonstrated visual gap rather than inventing another atlas batch.
   Batch V is an interface reuse audit: preview-batch-v.cjs captures actual pack,
   detail, collection, shop and labelled status UI at 390/320px with normal 16px
   and double 32px/safe palette. Fixtures reveal existing content without replacing
@@ -955,6 +992,8 @@ and its raw records live in `docs/balance/2026-10-16/`.
   picture, in spare moments: a test about how one is drawn calls `artReady(page)`
   (helpers.js) first. When asserting specific poses, pass their names, for
   example `artReady(page, { grey_dwarf: ['windup', 'special'] })`: this waits
-  for those pictures without waiting for unrelated art. The whole cache can
+  for those pictures without waiting for unrelated art. Base Shade readiness does
+  not include its deferred class gear: wait for each required shade.elite class
+  pose before asserting its native binding, particularly in WebKit. The whole cache can
   take over a minute at 4x CPU slowdown; keep the existing timeout and await
   the relevant readiness signal instead of adding a fixed sleep.

@@ -1,0 +1,1610 @@
+{
+  "scope": "Temporary exact-class/raw-id source proxy, frozen render states; not shipped, native transitions or offline evidence",
+  "audits": [
+    {
+      "width": 390,
+      "legality": [
+        {
+          "key": "fighter-shield",
+          "reason": null
+        },
+        {
+          "key": "cleric-shield",
+          "reason": null
+        },
+        {
+          "key": "thief-buckler",
+          "reason": null
+        }
+      ],
+      "guarded_original_pairs": [
+        {
+          "id": "towershield",
+          "cls": "fighter"
+        },
+        {
+          "id": "shield",
+          "cls": "mage"
+        },
+        {
+          "id": "shield",
+          "cls": "thief"
+        },
+        {
+          "id": "buckler",
+          "cls": "fighter"
+        },
+        {
+          "id": "runeshield",
+          "cls": "cleric"
+        },
+        {
+          "id": "legend_bastion",
+          "cls": "fighter"
+        }
+      ],
+      "fits": [
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            4.1022494887525625,
+            51.69734151329243,
+            88.84662576687117,
+            156.1390593047035
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.83787065439674,
+            32.91177786298569,
+            179.66506901840492,
+            122.66637908997956
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            4.1022494887525625,
+            51.69734151329243,
+            88.84662576687117,
+            156.1390593047035
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            4.1022494887525625,
+            111.69734151329243,
+            88.84662576687117,
+            216.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            4.1022494887525625,
+            123.69734151329243,
+            88.84662576687117,
+            228.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            4.1022494887525625,
+            123.69734151329243,
+            88.84662576687117,
+            228.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            4.527575408997961,
+            200.44681428936605,
+            130.9820743865031,
+            356.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            109.63100715746423,
+            153.26846881390594,
+            218.2097392638037,
+            287.0844197341513
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            4.527575408997961,
+            200.44681428936605,
+            130.9820743865031,
+            356.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            4.527575408997961,
+            334.44681428936605,
+            130.9820743865031,
+            490.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            4.527575408997961,
+            362.44681428936605,
+            130.9820743865031,
+            518.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            4.527575408997961,
+            362.44681428936605,
+            130.9820743865031,
+            518.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            4.527575408997961,
+            304.44681428936605,
+            130.9820743865031,
+            460.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            109.63100715746423,
+            240.26846881390594,
+            218.2097392638037,
+            374.0844197341513
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            4.527575408997961,
+            304.44681428936605,
+            130.9820743865031,
+            460.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            4.527575408997961,
+            477.44681428936605,
+            130.9820743865031,
+            633.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            4.527575408997961,
+            513.4468142893661,
+            130.9820743865031,
+            669.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            4.527575408997961,
+            513.4468142893661,
+            130.9820743865031,
+            669.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            4.040899795501019,
+            51.69734151329243,
+            89.47239263803681,
+            155.91002044989776
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.64452326175869,
+            32.91177786298569,
+            180.06221242331287,
+            122.4695488241309
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            4.040899795501019,
+            51.69734151329243,
+            89.47239263803681,
+            155.91002044989776
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            4.040899795501019,
+            111.69734151329243,
+            89.47239263803681,
+            215.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            4.040899795501019,
+            123.69734151329243,
+            89.47239263803681,
+            227.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            4.040899795501019,
+            123.69734151329243,
+            89.47239263803681,
+            227.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            3.9785196191206467,
+            201.54801731850716,
+            130.45717503834356,
+            355.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            110.20052083333333,
+            154.66927083333331,
+            218.9921875,
+            287.3776041666667
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            3.9785196191206467,
+            201.54801731850716,
+            130.45717503834356,
+            355.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            3.9785196191206467,
+            336.54801731850716,
+            130.45717503834356,
+            490.8316318379346
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            3.9785196191206467,
+            363.54801731850716,
+            130.45717503834356,
+            517.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            3.9785196191206467,
+            363.54801731850716,
+            130.45717503834356,
+            517.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            3.9785196191206467,
+            305.54801731850716,
+            130.45717503834356,
+            459.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            110.20052083333333,
+            242.66927083333331,
+            218.9921875,
+            375.3776041666667
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            3.9785196191206467,
+            305.54801731850716,
+            130.45717503834356,
+            459.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            3.9785196191206467,
+            479.54801731850716,
+            130.45717503834356,
+            633.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            3.9785196191206467,
+            514.5480173185072,
+            130.45717503834356,
+            668.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            3.9785196191206467,
+            514.5480173185072,
+            130.45717503834356,
+            668.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            3.750511247443768,
+            70.19427402862985,
+            85.51738241308794,
+            155.62576687116564
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.11372060327199,
+            51.63570424335377,
+            176.38212551124747,
+            125.05339340490798
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            3.750511247443768,
+            70.19427402862985,
+            85.51738241308794,
+            155.62576687116564
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            3.750511247443768,
+            130.19427402862985,
+            85.51738241308794,
+            215.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            3.750511247443768,
+            142.19427402862985,
+            85.51738241308794,
+            227.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            3.750511247443768,
+            142.19427402862985,
+            85.51738241308794,
+            227.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            4.004697085889575,
+            224.1442676380368,
+            130.48782592024543,
+            356.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            109.90302275051125,
+            176.16427019427402,
+            218.4996485173824,
+            289.62797162576686
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            4.004697085889575,
+            224.1442676380368,
+            130.48782592024543,
+            356.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            4.004697085889575,
+            359.1442676380368,
+            130.48782592024543,
+            491.29610812883436
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            4.004697085889575,
+            386.1442676380368,
+            130.48782592024543,
+            518.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            4.004697085889575,
+            386.1442676380368,
+            130.48782592024543,
+            518.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            4.004697085889575,
+            328.1442676380368,
+            130.48782592024543,
+            460.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            109.90302275051125,
+            263.164270194274,
+            218.4996485173824,
+            376.62797162576686
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            4.004697085889575,
+            328.1442676380368,
+            130.48782592024543,
+            460.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            4.004697085889575,
+            501.1442676380368,
+            130.48782592024543,
+            633.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            4.004697085889575,
+            537.1442676380368,
+            130.48782592024543,
+            669.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            4.004697085889575,
+            537.1442676380368,
+            130.48782592024543,
+            669.2961081288344
+          ],
+          "intentionally_lowered": true
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "legality": [
+        {
+          "key": "fighter-shield",
+          "reason": null
+        },
+        {
+          "key": "cleric-shield",
+          "reason": null
+        },
+        {
+          "key": "thief-buckler",
+          "reason": null
+        }
+      ],
+      "guarded_original_pairs": [
+        {
+          "id": "towershield",
+          "cls": "fighter"
+        },
+        {
+          "id": "shield",
+          "cls": "mage"
+        },
+        {
+          "id": "shield",
+          "cls": "thief"
+        },
+        {
+          "id": "buckler",
+          "cls": "fighter"
+        },
+        {
+          "id": "runeshield",
+          "cls": "cleric"
+        },
+        {
+          "id": "legend_bastion",
+          "cls": "fighter"
+        }
+      ],
+      "fits": [
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            4.1022494887525625,
+            51.69734151329243,
+            88.84662576687117,
+            156.1390593047035
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.83787065439674,
+            32.91177786298569,
+            179.66506901840492,
+            122.66637908997956
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            4.1022494887525625,
+            51.69734151329243,
+            88.84662576687117,
+            156.1390593047035
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            4.1022494887525625,
+            111.69734151329243,
+            88.84662576687117,
+            216.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            4.1022494887525625,
+            123.69734151329243,
+            88.84662576687117,
+            228.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            4.1022494887525625,
+            123.69734151329243,
+            88.84662576687117,
+            228.1390593047035
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            4.527575408997961,
+            200.44681428936605,
+            130.9820743865031,
+            356.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            109.63100715746423,
+            153.26846881390594,
+            218.2097392638037,
+            287.0844197341513
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            4.527575408997961,
+            200.44681428936605,
+            130.9820743865031,
+            356.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            4.527575408997961,
+            334.44681428936605,
+            130.9820743865031,
+            490.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            4.527575408997961,
+            362.44681428936605,
+            130.9820743865031,
+            518.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            4.527575408997961,
+            362.44681428936605,
+            130.9820743865031,
+            518.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            4.527575408997961,
+            304.44681428936605,
+            130.9820743865031,
+            460.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            109.63100715746423,
+            240.26846881390594,
+            218.2097392638037,
+            374.0844197341513
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            4.527575408997961,
+            304.44681428936605,
+            130.9820743865031,
+            460.2934400562373
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            4.527575408997961,
+            477.44681428936605,
+            130.9820743865031,
+            633.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            4.527575408997961,
+            513.4468142893661,
+            130.9820743865031,
+            669.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-shield",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            4.527575408997961,
+            513.4468142893661,
+            130.9820743865031,
+            669.2934400562373
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            4.040899795501019,
+            51.69734151329243,
+            89.47239263803681,
+            155.91002044989776
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.64452326175869,
+            32.91177786298569,
+            180.06221242331287,
+            122.4695488241309
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            4.040899795501019,
+            51.69734151329243,
+            89.47239263803681,
+            155.91002044989776
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            4.040899795501019,
+            111.69734151329243,
+            89.47239263803681,
+            215.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            4.040899795501019,
+            123.69734151329243,
+            89.47239263803681,
+            227.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            4.040899795501019,
+            123.69734151329243,
+            89.47239263803681,
+            227.91002044989776
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            3.9785196191206467,
+            201.54801731850716,
+            130.45717503834356,
+            355.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            110.20052083333333,
+            154.66927083333331,
+            218.9921875,
+            287.3776041666667
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            3.9785196191206467,
+            201.54801731850716,
+            130.45717503834356,
+            355.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            3.9785196191206467,
+            336.54801731850716,
+            130.45717503834356,
+            490.8316318379346
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            3.9785196191206467,
+            363.54801731850716,
+            130.45717503834356,
+            517.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            3.9785196191206467,
+            363.54801731850716,
+            130.45717503834356,
+            517.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            3.9785196191206467,
+            305.54801731850716,
+            130.45717503834356,
+            459.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            110.20052083333333,
+            242.66927083333331,
+            218.9921875,
+            375.3776041666667
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            3.9785196191206467,
+            305.54801731850716,
+            130.45717503834356,
+            459.8316318379346
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            3.9785196191206467,
+            479.54801731850716,
+            130.45717503834356,
+            633.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            3.9785196191206467,
+            514.5480173185072,
+            130.45717503834356,
+            668.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-shield",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            3.9785196191206467,
+            514.5480173185072,
+            130.45717503834356,
+            668.8316318379345
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "rest",
+          "object_box": [
+            3.750511247443768,
+            70.19427402862985,
+            85.51738241308794,
+            155.62576687116564
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "bash",
+          "object_box": [
+            106.11372060327199,
+            51.63570424335377,
+            176.38212551124747,
+            125.05339340490798
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "calm",
+          "object_box": [
+            3.750511247443768,
+            70.19427402862985,
+            85.51738241308794,
+            155.62576687116564
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "cast",
+          "object_box": [
+            3.750511247443768,
+            130.19427402862985,
+            85.51738241308794,
+            215.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "read",
+          "object_box": [
+            3.750511247443768,
+            142.19427402862985,
+            85.51738241308794,
+            227.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 160,
+          "state": "use",
+          "object_box": [
+            3.750511247443768,
+            142.19427402862985,
+            85.51738241308794,
+            227.62576687116564
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "rest",
+          "object_box": [
+            4.004697085889575,
+            224.1442676380368,
+            130.48782592024543,
+            356.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "bash",
+          "object_box": [
+            109.90302275051125,
+            176.16427019427402,
+            218.4996485173824,
+            289.62797162576686
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "calm",
+          "object_box": [
+            4.004697085889575,
+            224.1442676380368,
+            130.48782592024543,
+            356.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "cast",
+          "object_box": [
+            4.004697085889575,
+            359.1442676380368,
+            130.48782592024543,
+            491.29610812883436
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "read",
+          "object_box": [
+            4.004697085889575,
+            386.1442676380368,
+            130.48782592024543,
+            518.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 360,
+          "state": "use",
+          "object_box": [
+            4.004697085889575,
+            386.1442676380368,
+            130.48782592024543,
+            518.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "rest",
+          "object_box": [
+            4.004697085889575,
+            328.1442676380368,
+            130.48782592024543,
+            460.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "bash",
+          "object_box": [
+            109.90302275051125,
+            263.164270194274,
+            218.4996485173824,
+            376.62797162576686
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "calm",
+          "object_box": [
+            4.004697085889575,
+            328.1442676380368,
+            130.48782592024543,
+            460.29610812883436
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "cast",
+          "object_box": [
+            4.004697085889575,
+            501.1442676380368,
+            130.48782592024543,
+            633.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "read",
+          "object_box": [
+            4.004697085889575,
+            537.1442676380368,
+            130.48782592024543,
+            669.2961081288344
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "thief-buckler",
+          "height": 464,
+          "state": "use",
+          "object_box": [
+            4.004697085889575,
+            537.1442676380368,
+            130.48782592024543,
+            669.2961081288344
+          ],
+          "intentionally_lowered": true
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "rest",
+      "file": "390-fighter-shield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "bash",
+      "file": "390-fighter-shield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "calm",
+      "file": "390-fighter-shield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "cast",
+      "file": "390-fighter-shield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "read",
+      "file": "390-fighter-shield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "state": "use",
+      "file": "390-fighter-shield-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "rest",
+      "file": "390-cleric-shield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "bash",
+      "file": "390-cleric-shield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "calm",
+      "file": "390-cleric-shield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "cast",
+      "file": "390-cleric-shield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "read",
+      "file": "390-cleric-shield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "state": "use",
+      "file": "390-cleric-shield-use.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "rest",
+      "file": "390-thief-buckler-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "bash",
+      "file": "390-thief-buckler-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "calm",
+      "file": "390-thief-buckler-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "cast",
+      "file": "390-thief-buckler-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "read",
+      "file": "390-thief-buckler-read.png"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "state": "use",
+      "file": "390-thief-buckler-use.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "rest",
+      "file": "320-fighter-shield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "bash",
+      "file": "320-fighter-shield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "calm",
+      "file": "320-fighter-shield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "cast",
+      "file": "320-fighter-shield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "read",
+      "file": "320-fighter-shield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "state": "use",
+      "file": "320-fighter-shield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "rest",
+      "file": "320-cleric-shield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "bash",
+      "file": "320-cleric-shield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "calm",
+      "file": "320-cleric-shield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "cast",
+      "file": "320-cleric-shield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "read",
+      "file": "320-cleric-shield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "state": "use",
+      "file": "320-cleric-shield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "rest",
+      "file": "320-thief-buckler-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "bash",
+      "file": "320-thief-buckler-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "calm",
+      "file": "320-thief-buckler-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "cast",
+      "file": "320-thief-buckler-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "read",
+      "file": "320-thief-buckler-read.png"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "state": "use",
+      "file": "320-thief-buckler-use.png"
+    }
+  ],
+  "console_errors": []
+}

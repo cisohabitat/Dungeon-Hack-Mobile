@@ -1381,7 +1381,7 @@ with `node art/creatures/preview-batch-v.cjs`. Audit evidence is included with r
 The approved E–T gameplay paintings now load in the game: class Shades,
 companions, barrel Mimics, keeper variants, traders, encounters, room dressing,
 remains, regional base materials, selected equipment and elemental impacts.
-[Runtime delivery](art/creatures/runtime-delivery.json) maps 184 shipped files to
+[Runtime delivery](art/creatures/runtime-delivery.json) maps 187 shipped files (184 E–T plus3 Y) to
 reviewed sources; [integration review](art/creatures/runtime-preview/REVIEW.md)
 records native phone and offline evidence. Reproduce byte-identical exports with
 `python3 tools/export-painted-runtime.py --check` and phone captures with
@@ -1390,3 +1390,36 @@ The exact stair arch mask, seeded amulet appearance, coloured locks and
 unpainted regional/held variants retain their existing rendering. U/V reuse audits
 are included in this publication. Historical batch reports describe their original
 source-only state; the runtime delivery review supersedes those delivery statuses.
+
+Batch W audits the existing major-screen illustrations: approved portrait/landscape
+key art, darkened prologue reuse, hero portraits on death and all three endings,
+native share cards and loading/offline fallback. No new major-scene painting is
+needed in the reviewed layouts. See the [review](art/creatures/batch-w-preview/REVIEW.md)
+and [inventory](art/creatures/batch-w-preview/inventory.json). Reproduce layouts with
+`python3 art/creatures/export-batch-w.py --check` and captures with
+`node art/creatures/preview-batch-w.cjs`. Title-fact overlap at double text and share-card caption/state accents have
+separate follow-ups. This audit evidence is included with release0.9.34.
+
+Batch X completes the optional-effects audit: retain Q's integrated fire/frost
+impacts and the existing procedural travel, lightning, swarm, traps/status and
+Calm effects. No new effects atlas or runtime change is commissioned. Reproduce
+native live-cast evidence with `node art/creatures/preview-batch-x.cjs`; see
+[the X review](art/creatures/batch-x-preview/REVIEW.md) for scope and results.
+W and X audit evidence is included with release0.9.34. The E–X roadmap is audited;
+remaining presentation follow-ups are tracked individually in the roadmap.
+
+Batch Y extends the remaining held library with three painted shield rear views:
+Fighter shield, Cleric shield and Thief buckler. Their source/review evidence and
+native activation ship with release0.9.34. See
+[review](art/creatures/batch-y-preview/REVIEW.md). Reproduce with
+`python3 art/creatures/export-batch-y.py --check`; capture source fits with
+`node art/creatures/preview-batch-y.cjs`. Existing Rune shields and named/off-class
+gear retain their bindings. The roadmap records the next held-weapon priorities.
+
+Release 0.9.34 activates Batch Y's three shield rear paintings through the native
+loader and offline cache. The common delivery exporter now covers187 files:
+`python3 tools/export-painted-runtime.py --check`. Exact class/item matching keeps
+named shields, Rune shields and other kits distinct; an unavailable image retains
+its own procedural fallback. See [native activation evidence](art/creatures/batch-y-runtime/REVIEW.md).
+W/X audits and Y's source review are included in the same release; their historical
+local/source-only reports describe the review stage, not the current bindings.

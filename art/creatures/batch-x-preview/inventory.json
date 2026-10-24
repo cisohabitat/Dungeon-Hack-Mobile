@@ -1,0 +1,167 @@
+{
+  "scope": "Existing integrated effects, unchanged reviewed bytes. No new painting.",
+  "effects": [
+    {
+      "path": "img/effects/fire_0.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4d7b44656ed8da749543cc4e06a1e878922da00dfcccef92238ae0cacadb8bb3",
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "nonzero_bounds": [
+        95,
+        88,
+        161,
+        161
+      ],
+      "bytes": 12183
+    },
+    {
+      "path": "img/effects/fire_1.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "7951ec3c0f5e7eb72a9bf415034d3406cbc25734733b6f84b8c67986c1559dda",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "nonzero_bounds": [
+        74,
+        57,
+        182,
+        173
+      ],
+      "bytes": 27149
+    },
+    {
+      "path": "img/effects/fire_2.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "4b497db086dce79ad5dc0d5eb6eff1833dec577054374c18ce5327366e509457",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "nonzero_bounds": [
+        56,
+        36,
+        208,
+        180
+      ],
+      "bytes": 44884
+    },
+    {
+      "path": "img/effects/fire_3.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "2e415dc948e43502ed16cd849720002ff36e925ad8b10568a727ace2d114d727",
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "nonzero_bounds": [
+        32,
+        13,
+        221,
+        185
+      ],
+      "bytes": 62542
+    },
+    {
+      "path": "img/effects/frost_0.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "0b7f04d460e1cdfee92c09ce61dad00591037a01dfdd19250444c10de1a3d839",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_bounds": [
+        105,
+        93,
+        156,
+        160
+      ],
+      "bytes": 6232
+    },
+    {
+      "path": "img/effects/frost_1.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "e884380954767285318bde5500f3c907af463a1a6ac0ad136fbc063b47335dcc",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_bounds": [
+        87,
+        78,
+        174,
+        172
+      ],
+      "bytes": 9570
+    },
+    {
+      "path": "img/effects/frost_2.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "9e5ae25c2f767969c41ed9d9f40c6aed8533b6aebeca241b5e232a6d6b759e64",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_bounds": [
+        60,
+        34,
+        197,
+        174
+      ],
+      "bytes": 15346
+    },
+    {
+      "path": "img/effects/frost_3.png",
+      "dimensions": [
+        256,
+        256
+      ],
+      "mode": "RGBA",
+      "sha256": "f5fc88b6da740aac57d2098fa355b767de098ee12ce4c4270afca89fdf5fa59f",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "nonzero_bounds": [
+        34,
+        13,
+        233,
+        197
+      ],
+      "bytes": 23472
+    }
+  ],
+  "raw_rgba_bytes": 2097152,
+  "decoded_plus_cached_canvas_pixel_estimate_bytes": 4194304
+}

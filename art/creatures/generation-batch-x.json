@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-24",
+  "tool": "none \u2014 native browser capture and reuse audit",
+  "model": null,
+  "brief": "REQUEST-batch-x.md",
+  "status": "audit/source review included with release0.9.34; no new painting or runtime edits from this audit",
+  "new_paintings": 0,
+  "runtime_changes": 0,
+  "decision": "Retain integrated Batch Q contact families and procedural travel/lightning/swarm/projectiles/telegraphs/traps/status/Calm. No additional atlas commissioned.",
+  "reused_provenance": [
+    "generation-batch-q.json",
+    "runtime-delivery.json"
+  ],
+  "report": "batch-x-preview/REVIEW.md",
+  "evidence": {
+    "live_casts": 24,
+    "native_canvas_frames": 144,
+    "overview_sheets": 4,
+    "widths": [
+      390,
+      320
+    ],
+    "modes": [
+      "normal",
+      "Calm/safe"
+    ],
+    "errors": [],
+    "all_live_game_clocks_advanced": true,
+    "minimum_visible_warnings": 1
+  },
+  "validation": {
+    "browser_tests": 18,
+    "result": "pass",
+    "duration": "1.2 minutes",
+    "command": "npx playwright test '/(fire-feedback|elemental-feedback)\\.spec\\.js$' --project=phone --project=small --workers=2 --output=/tmp/batch-x-browser-results --config=/tmp/batch-x.playwright.cjs",
+    "checks": [
+      "preview syntax",
+      "docs generation/currentness",
+      "art review inventory",
+      "git diff whitespace"
+    ]
+  },
+  "limitations": [
+    "Single durable target and resource/level setup, not a full unassisted run",
+    "Canvas samples omit surrounding HUD",
+    "No new offline/failure injection, crowded-six-target, isolated performance or physical iOS check",
+    "Existing brief white damage flash masks early body detail"
+  ],
+  "audited_code_sha256": {
+    "js/elementfx.js": "d4c98b63bbd2925e4e482387da8f25e3ff892645c85ad756e36d68c2672b83cd",
+    "js/spellfx.js": "af294441ccfa156f30d62a03914ee9ec8832f5e1eace486cfaca73d3f8ab0670",
+    "js/arcanefx.js": "4d00f90f90703a85e662b9585e7f7d90811fe9ce9efdd1c4d0ec6b1b289f1672",
+    "js/overlay.js": "617eac40f2f06fac12ef81f36c145df9cbc8d85099d5b6d182da3dcfaf730952",
+    "js/paintedworld.js": "c2f646ff7ffd2c5f8b29967db06cb2463e0fa49875f8604ef1888738fae91cc5",
+    "js/powers.js": "c5f00b95ea8ebaebdcd5c03a49951a68afd361d0a23444eb8e92c1bd6a73b833",
+    "js/motion.js": "fd887710e49e43602e93d96f72b0aead219343cbf0b538e5b64d00ceedbfb6fb",
+    "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38"
+  },
+  "publication": "Included with the Batch Y native activation publication, release0.9.34."
+}

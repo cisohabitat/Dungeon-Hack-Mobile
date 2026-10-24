@@ -507,6 +507,8 @@ export const PAINTED = {
   "carried": {
     "fighter": {
       "path": "img/held/runeshield-fighter.png",
+      "id": "runeshield",
+      "cls": "fighter",
       "grip": [
         128,
         128
@@ -520,6 +522,8 @@ export const PAINTED = {
     },
     "cleric": {
       "path": "img/held/runeshield-cleric.png",
+      "id": "runeshield",
+      "cls": "cleric",
       "grip": [
         128,
         128
@@ -529,6 +533,51 @@ export const PAINTED = {
         70.83376623376624,
         165.04155844155844,
         198.83376623376623
+      ]
+    },
+    "fighter-shield": {
+      "path": "img/held/fighter-shield.png",
+      "id": "shield",
+      "cls": "fighter",
+      "grip": [
+        127.51329243353783,
+        128.00204498977507
+      ],
+      "bounds": [
+        80.10224948875256,
+        76.69734151329243,
+        164.84662576687117,
+        181.1390593047035
+      ]
+    },
+    "cleric-shield": {
+      "path": "img/held/cleric-shield.png",
+      "id": "shield",
+      "cls": "cleric",
+      "grip": [
+        128.22290388548058,
+        128.00204498977507
+      ],
+      "bounds": [
+        81.04089979550102,
+        76.69734151329243,
+        166.4723926380368,
+        180.91002044989776
+      ]
+    },
+    "thief-buckler": {
+      "path": "img/held/thief-buckler.png",
+      "id": "buckler",
+      "cls": "thief",
+      "grip": [
+        127.64212678936606,
+        128.00204498977507
+      ],
+      "bounds": [
+        82.75051124744377,
+        82.19427402862985,
+        164.51738241308794,
+        167.62576687116564
       ]
     }
   }

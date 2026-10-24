@@ -6,10 +6,12 @@ test('approved world, equipment and material exports load through their native c
  test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'painted-delivery'});
  await page.evaluate(()=>{Game.level().monsters=[];Game.update=()=>{};});
  await artReady(page,{shade:['windup','strike','recover','hurt','blink'],dog:['sit','windup','hurt'],wolf:['sit'],scrag:['sit'],sellsword:['sit'],mender:['sit','heal'],renegade:['sit']});
+ // Class gear is prepared after the base Shade; WebKit can reach the base readiness first.
+ await page.waitForFunction(()=>['mage','cleric','ranger','thief','druid','spellblade'].every(cls=>!!Assets.sprites.shade.elite?.['shade_'+cls]?.windup),null,{timeout:60000,polling:200});
  await page.evaluate(async()=>{const {PAINTED}=await import('/js/paintedcatalog.js'),{paintedHeld,paintedCarried,paintedImpact}=await import('/js/paintedworld.js'),{paintedCreature}=await import('/js/paintedcreatures.js');
  for(const key of Object.keys(PAINTED.static)){if(!Assets.sprites[key]?.url)throw Error('Unbound static '+key);}
  for(const m of Object.values(PAINTED.held))paintedHeld(m.id,m.pose,m.cls,m.two,false);
- for(const cls of Object.keys(PAINTED.carried))paintedCarried('runeshield',cls);
+ for(const meta of Object.values(PAINTED.carried))paintedCarried(meta.id,meta.cls);
  for(const f of ['fire','frost'])paintedImpact(f,0);
  for(const cls of ['mage','cleric','ranger','thief','druid','spellblade']){const s=Assets.sprites.shade.elite['shade_'+cls];if(!s)throw Error('Missing shade '+cls);paintedCreature(s);}
  for(const key of ['dog','wolf','scrag','sellsword','mender','renegade']){paintedCreature(Assets.sprites[key]);paintedCreature(Assets.sprites[key].sit);}
@@ -39,4 +41,36 @@ test('a corrupt painted world image retains its own fallback while other picture
  await expect.poll(()=>page.evaluate(async()=>{const {paintedWorldState}=await import('/js/paintedworld.js');return paintedWorldState()['img/held/fighter-longsword-windup.png'];})).toBe('failed');
  const result=await page.evaluate(async()=>{const {paintedCreature}=await import('/js/paintedcreatures.js'),{paintedHeld}=await import('/js/paintedworld.js');const s=Assets.sprites.shade.elite.shade_mage;return{world:Assets.sprites.merchant.url.startsWith('data:image/'),class:paintedCreature(s)===s,wholeWeapon:paintedHeld('longsword','rest','fighter',false,false)===null,proceduralWeapon:!!Assets.held('longsword','rest','fighter',false)};});
  expect(result).toEqual({world:true,class:true,wholeWeapon:true,proceduralWeapon:true});
+});
+
+test('ordinary painted shields follow exact equipment pairs and survive a native offline reload @mobile',async({browser,browserName},testInfo)=>{
+ let connected=true;const http=require('node:http'),{serve}=require('../server');
+ const server=http.createServer((req,res)=>{if(!connected){req.socket.destroy();return;}serve(req,res);});
+ await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const context=await browser.newContext({baseURL:`http://127.0.0.1:${server.address().port}`,viewport:testInfo.project.use.viewport,isMobile:true,hasTouch:true}),page=await context.newPage();
+ try{
+ const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'painted-shields'});
+ const pairs=[['fighter','shield'],['cleric','shield'],['thief','buckler']];
+ for(const[cls,id]of pairs){await page.evaluate(({cls,id})=>{const p=Game.player(),item={t:id,q:1,e:0};p.cls=cls;p.inv.push(item);if(Game.canEquip(item))throw Error('Illegal test kit');Game.equip(item);},{cls,id});
+  await expect.poll(()=>page.evaluate(()=>{const p=Game.player();return Assets.carried(p.eq.shield.t,p.cls)?.img.width;})).toBe(256);
+  const key=await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield);expect(key).toBe(id);
+ }
+ const guards=await page.evaluate(async()=>{const{paintedCarried}=await import('/js/paintedworld.js');return [['fighter','buckler'],['thief','shield'],['mage','shield'],['fighter','legend_bastion'],['fighter','towershield']].every(([cls,id])=>paintedCarried(id,cls)===null);});expect(guards).toBe(true);
+ await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+ await expect.poll(()=>page.evaluate(async()=>{for(const key of ['fighter-shield','cleric-shield','thief-buckler'])if(!await caches.match('./img/held/'+key+'.png'))return false;return true;}),{timeout:30000}).toBe(true);
+ connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>typeof Assets!=='undefined');
+ for(const[cls,id]of pairs)await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
+ connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
+ }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
+});
+
+test('one corrupt ordinary shield retains its procedural fallback independently @mobile',async({page})=>{
+ await page.route('**/img/held/fighter-shield.png',r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));
+ await startGame(page,{seed:'painted-shield-fallback'});
+ await page.evaluate(()=>{Assets.carried('shield','fighter');Assets.carried('shield','cleric');Assets.carried('buckler','thief');});
+ await expect.poll(()=>page.evaluate(()=>Assets.carried('shield','cleric')?.img.width)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.carried('buckler','thief')?.img.width)).toBe(256);
+ await expect.poll(()=>page.evaluate(async()=>{const{paintedWorldState}=await import('/js/paintedworld.js');return paintedWorldState()['img/held/fighter-shield.png'];})).toBe('failed');
+ expect(await page.evaluate(()=>Assets.carried('shield','fighter')?.img.width)).not.toBe(256);
+ expect(await page.evaluate(()=>!!Assets.carried('shield','fighter')?.img)).toBe(true);
 });

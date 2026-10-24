@@ -1,0 +1,77 @@
+{
+  "new_paintings": 0,
+  "shipped_file_changes": 0,
+  "artwork": [
+    {
+      "path": "art/keyart/portrait.png",
+      "sha256": "ded6b33cef40ee3ac6403b1b0e97723659c6a9805a8114dbe52879d4fb1eb905",
+      "size": [
+        1024,
+        1536
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "img/keyart-portrait.webp",
+      "sha256": "d88e1c6409be6c1cf666962a0850c11baf5afde363126028ecd468cd60798ee9",
+      "size": [
+        1024,
+        1536
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "art/keyart/landscape.png",
+      "sha256": "2c8d533f3382c86609f364745fa2a1896b1d433b53466142d702e5a4267723a3",
+      "size": [
+        1536,
+        1024
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "img/keyart-landscape.webp",
+      "sha256": "77a6d0b455cd6de641355a1414628887912705de6a38e36c2c3ec5517c50b47b",
+      "size": [
+        1536,
+        1024
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "img/portraits/mage.webp",
+      "sha256": "d15885e6c8be01b38f0a433aea6e54542f2ab2f154569a4bdfd1ec96222327e8",
+      "size": [
+        512,
+        512
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "img/portraits/ranger.webp",
+      "sha256": "8de24a4312cfd0817a7eb724b7eed1ce424e27790481fb220c357ca1f3b34fcf",
+      "size": [
+        512,
+        512
+      ],
+      "decision": "reuse unchanged approved artwork"
+    },
+    {
+      "path": "img/portraits/cleric.webp",
+      "sha256": "33390d96b37c928afffb469cfe6d325be7d9761c1bac46b8e13ebb0c6863c99a",
+      "size": [
+        512,
+        512
+      ],
+      "decision": "reuse unchanged approved artwork"
+    }
+  ],
+  "procedural_accents": [
+    "Share-card Heart and killer fallback sprites remain compact procedural art where currently selected"
+  ],
+  "source_provenance": "art/keyart/SOURCES.md; art/portraits/generation.json",
+  "limitations": [
+    "Three representative hero portraits captured; full seven-portrait reuse audit is Batch U",
+    "Caption/ending-icon follow-ups require content/state selection work, not a new major-screen painting"
+  ]
+}

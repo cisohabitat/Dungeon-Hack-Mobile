@@ -86,3 +86,10 @@ Reference adaptation instructions: use the provided portrait as the exact visual
 - Portrait lower 35% and landscape right 45% have no primary focal objects.
 - In-game title overlays, responsive cropping, push-in motion and prologue darkening still need to be checked during integration.
 - No game code, service worker, or original brief changed.
+
+## 24 October 2026 reuse audit
+
+Batch W retains both approved key-art sources and shipped WebPs without edits.
+The [major-screen review](../creatures/batch-w-preview/REVIEW.md) records phone,
+landscape, desktop, double-text, delayed-load and offline evidence. This adds
+review evidence, not a new image generation or a change to these source prompts.

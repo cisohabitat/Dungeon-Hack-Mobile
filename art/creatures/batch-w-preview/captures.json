@@ -1,0 +1,1348 @@
+{
+  "mode": "Actual shipped UI, native death/Heart selection/download/offline flows; isolated setup removes foes and positions hero, no image substitution, no renderer or outcome overrides",
+  "audits": [
+    {
+      "mode": "390",
+      "viewport": [
+        390,
+        844
+      ],
+      "text": 16,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    },
+    {
+      "mode": "320",
+      "viewport": [
+        320,
+        667
+      ],
+      "text": 16,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    },
+    {
+      "mode": "landscape",
+      "viewport": [
+        851,
+        393
+      ],
+      "text": 16,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    },
+    {
+      "mode": "desktop",
+      "viewport": [
+        1280,
+        800
+      ],
+      "text": 16,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    },
+    {
+      "mode": "390-double",
+      "viewport": [
+        390,
+        844
+      ],
+      "text": 32,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    },
+    {
+      "mode": "320-double",
+      "viewport": [
+        320,
+        667
+      ],
+      "text": 32,
+      "outcomes": [
+        "death",
+        "take"
+      ],
+      "console_errors": []
+    }
+  ],
+  "captures": [
+    {
+      "mode": "390",
+      "name": "title",
+      "file": "390-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.043427995115122,
+        "dx": -6.43251251334973,
+        "dy": -4.71026382126043,
+        "dw": 406.9369180948976,
+        "dh": 610.4053771423464,
+        "heart": [
+          0.5052203757284591,
+          0.31343568271168204
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "title-calm",
+      "file": "390-title-calm.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -6.824999999999989,
+        "dy": -5.835374999999971,
+        "dw": 403.65,
+        "dh": 605.4749999999999,
+        "heart": [
+          0.5,
+          0.30874999999999997
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "prologue",
+      "file": "390-prologue.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.079831547322385,
+        "dx": -15.052986441101952,
+        "dy": -10.69092791470671,
+        "dw": 421.1343034557301,
+        "dh": 631.7014551835952,
+        "heart": [
+          0.5013183725301618,
+          0.313599975578922
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "death",
+      "file": "390-death.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.079831547322385,
+        "dx": -15.052986441101952,
+        "dy": -10.69092791470671,
+        "dw": 421.1343034557301,
+        "dh": 631.7014551835952,
+        "heart": [
+          0.5013183725301618,
+          0.313599975578922
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "390",
+      "name": "death-share",
+      "file": "390-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390",
+      "name": "victory",
+      "file": "390-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Rook the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0801669640711282,
+        "dx": -15.017589964781537,
+        "dy": -44.8397563206663,
+        "dw": 421.26511598774,
+        "dh": 631.89767398161,
+        "heart": [
+          0.5015768411002268,
+          0.25046496437794913
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "390",
+      "name": "victory-share",
+      "file": "390-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320",
+      "name": "title",
+      "file": "320-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0426876817691844,
+        "dx": -5.060081855347944,
+        "dy": -56.869702696956864,
+        "dw": 333.660058166139,
+        "dh": 500.4900872492085,
+        "heart": [
+          0.5055310850866299,
+          0.20086644536081394
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320",
+      "name": "title-calm",
+      "file": "320-title-calm.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -5.599999999999994,
+        "dy": -57.787999999999954,
+        "dw": 331.2,
+        "dh": 496.79999999999995,
+        "heart": [
+          0.5,
+          0.1962529274004684
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320",
+      "name": "prologue",
+      "file": "320-prologue.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0798321849313366,
+        "dx": -12.33426724148829,
+        "dy": -61.84857590203826,
+        "dw": 345.5462991780277,
+        "dh": 518.3194487670415,
+        "heart": [
+          0.5013715073360174,
+          0.20110648008564064
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "320",
+      "name": "death",
+      "file": "320-death.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0798321849313366,
+        "dx": -12.33426724148829,
+        "dy": -61.84857590203826,
+        "dw": 345.5462991780277,
+        "dh": 518.3194487670415,
+        "heart": [
+          0.5013715073360174,
+          0.20110648008564064
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "320",
+      "name": "death-share",
+      "file": "320-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320",
+      "name": "victory",
+      "file": "320-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Garnet the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0808364582681478,
+        "dx": -12.460455237485975,
+        "dy": -61.98302830436477,
+        "dw": 345.8676666458073,
+        "dh": 518.8014999687109,
+        "heart": [
+          0.5014793065169302,
+          0.20111334704149375
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "320",
+      "name": "victory-share",
+      "file": "320-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "landscape",
+      "name": "title",
+      "file": "landscape-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0431058902697463,
+        "dx": -7.607947935408498,
+        "dy": -97.55827968114016,
+        "dw": 887.6831126195541,
+        "dh": 591.7887417463694,
+        "heart": [
+          0.28938827529234307,
+          0.24868194680702735
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "landscape",
+      "name": "title-calm",
+      "file": "landscape-title-calm.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -9.829049999999938,
+        "dy": -97.09499999999997,
+        "dw": 880.7849999999999,
+        "dh": 587.1899999999999,
+        "heart": [
+          0.28446,
+          0.24599923664122142
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "landscape",
+      "name": "prologue",
+      "file": "landscape-prologue.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.081175033609006,
+        "dx": -21.712119032441112,
+        "dy": -108.2884865233831,
+        "dw": 920.0799536012642,
+        "dh": 613.3866357341761,
+        "heart": [
+          0.2837024062250533,
+          0.23951425768166676
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "landscape",
+      "name": "death",
+      "file": "landscape-death.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.081175033609006,
+        "dx": -21.712119032441112,
+        "dy": -108.2884865233831,
+        "dw": 920.0799536012642,
+        "dh": 613.3866357341761,
+        "heart": [
+          0.2837024062250533,
+          0.23951425768166676
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "landscape",
+      "name": "death-share",
+      "file": "landscape-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "landscape",
+      "name": "victory",
+      "file": "landscape-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Wystan the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0811736111330206,
+        "dx": -21.601886918273056,
+        "dy": -108.28465411699054,
+        "dw": 920.0787430742005,
+        "dh": 613.3858287161337,
+        "heart": [
+          0.2838315318460026,
+          0.23952333170313891
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "landscape",
+      "name": "victory-share",
+      "file": "landscape-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "desktop",
+      "name": "title",
+      "file": "desktop-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0432125479999097,
+        "dx": -11.603719982533994,
+        "dy": -41.35126094873459,
+        "dw": 1335.3120614398845,
+        "dh": 890.208040959923,
+        "heart": [
+          0.28929338249161946,
+          0.31552174071004996
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "desktop",
+      "name": "title-calm",
+      "file": "desktop-title-calm.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -14.783999999999992,
+        "dy": -41.599999999999966,
+        "dw": 1324.8,
+        "dh": 883.1999999999999,
+        "heart": [
+          0.28446,
+          0.31232000000000004
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "desktop",
+      "name": "prologue",
+      "file": "desktop-prologue.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0795002141052166,
+        "dx": -31.700472566733417,
+        "dy": -56.69892561267487,
+        "dw": 1381.7602740546772,
+        "dh": 921.1735160364515,
+        "heart": [
+          0.28397106704133146,
+          0.3091104183491927
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "desktop",
+      "name": "death",
+      "file": "desktop-death.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0795002141052166,
+        "dx": -31.700472566733417,
+        "dy": -56.69892561267487,
+        "dw": 1381.7602740546772,
+        "dh": 921.1735160364515,
+        "heart": [
+          0.28397106704133146,
+          0.3091104183491927
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "desktop",
+      "name": "death-share",
+      "file": "desktop-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "desktop",
+      "name": "victory",
+      "file": "desktop-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Halvard the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0808358111724399,
+        "dx": -32.35241162849613,
+        "dy": -57.27225212719171,
+        "dw": 1383.469838300723,
+        "dh": 922.3132255338154,
+        "heart": [
+          0.28384372041055517,
+          0.3088638903737092
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "desktop",
+      "name": "victory-share",
+      "file": "desktop-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390-double",
+      "name": "title",
+      "file": "390-double-title.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0428947396931387,
+        "dx": -6.259051532150234,
+        "dy": -49.64262363298097,
+        "dw": 406.7289484803241,
+        "dh": 610.0934227204862,
+        "heart": [
+          0.5053985197641329,
+          0.23006296637473622
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390-double",
+      "name": "title-calm",
+      "file": "390-double-title-calm.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -6.824999999999989,
+        "dy": -50.83537499999997,
+        "dw": 403.65,
+        "dh": 605.4749999999999,
+        "heart": [
+          0.5,
+          0.22541666666666665
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390-double",
+      "name": "prologue",
+      "file": "390-double-prologue.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0791699650245332,
+        "dx": -14.885518535290714,
+        "dy": -55.577095042560266,
+        "dw": 420.8762863595679,
+        "dh": 631.3144295393519,
+        "heart": [
+          0.5014169862679314,
+          0.23027318032621297
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "390-double",
+      "name": "death",
+      "file": "390-double-death.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0791699650245332,
+        "dx": -14.885518535290714,
+        "dy": -55.577095042560266,
+        "dw": 420.8762863595679,
+        "dh": 631.3144295393519,
+        "heart": [
+          0.5014169862679314,
+          0.23027318032621297
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "390-double",
+      "name": "death-share",
+      "file": "390-double-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390-double",
+      "name": "victory",
+      "file": "390-double-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Aldous the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0801657225669279,
+        "dx": -15.000993159933374,
+        "dy": -55.7366280154327,
+        "dw": 421.26463180110187,
+        "dh": 631.8969477016528,
+        "heart": [
+          0.5016187762579937,
+          0.2302851890361821
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "390-double",
+      "name": "victory-share",
+      "file": "390-double-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320-double",
+      "name": "title",
+      "file": "320-double-title.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.043212753660984,
+        "dx": -5.225218726793887,
+        "dy": -56.91588498623141,
+        "dw": 333.8280811715149,
+        "dh": 500.74212175727234,
+        "heart": [
+          0.5052775683092612,
+          0.200926509870237
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320-double",
+      "name": "title-calm",
+      "file": "320-double-title-calm.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": true,
+        "zoom": 1.035,
+        "dx": -5.599999999999994,
+        "dy": -57.787999999999954,
+        "dw": 331.2,
+        "dh": 496.79999999999995,
+        "heart": [
+          0.5,
+          0.1962529274004684
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320-double",
+      "name": "prologue",
+      "file": "320-double-prologue.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0805003469493377,
+        "dx": -12.456460538902187,
+        "dy": -61.94135130892109,
+        "dw": 345.76011102378806,
+        "dh": 518.640166535682,
+        "heart": [
+          0.5013237342905995,
+          0.20110326968090933
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": null
+    },
+    {
+      "mode": "320-double",
+      "name": "death",
+      "file": "320-double-death.png",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0805003469493377,
+        "dx": -12.456460538902187,
+        "dy": -61.94135130892109,
+        "dw": 345.76011102378806,
+        "dh": 518.640166535682,
+        "heart": [
+          0.5013237342905995,
+          0.20110326968090933
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/mage.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "YOU HAVE DIED"
+    },
+    {
+      "mode": "320-double",
+      "name": "death-share",
+      "file": "320-double-death-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320-double",
+      "name": "victory",
+      "file": "320-double-victory.png",
+      "status": "won",
+      "ending": "take",
+      "depth": 4,
+      "face": "img/portraits/ranger.webp",
+      "text": "Halvard the Ranger brought down the Dread Lich and lifted the Heart of the Mountain.",
+      "font": "32px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0815151496114674,
+        "dx": -12.572841448359963,
+        "dy": -62.07618494204932,
+        "dw": 346.0848478756696,
+        "dh": 519.1272718135044,
+        "heart": [
+          0.5014674452796088,
+          0.20111261715409698
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/ranger.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "VICTORY"
+    },
+    {
+      "mode": "320-double",
+      "name": "victory-share",
+      "file": "320-double-victory-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390",
+      "name": "ending-quench",
+      "file": "390-ending-quench.png",
+      "status": "won",
+      "ending": "quench",
+      "depth": 4,
+      "face": "img/portraits/cleric.webp",
+      "text": "Hawise the Cleric brought down the Dread Lich and put out the Heart of the Mountain for good.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0791718590044088,
+        "dx": -14.79465198003479,
+        "dy": -10.569985609268036,
+        "dw": 420.8770250117194,
+        "dh": 631.3155375175791,
+        "heart": [
+          0.5016509244251921,
+          0.3136202640430407
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/cleric.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "THE FIRE GOES OUT"
+    },
+    {
+      "mode": "390",
+      "name": "ending-quench-share",
+      "file": "390-ending-quench-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390",
+      "name": "ending-keep",
+      "file": "390-ending-keep.png",
+      "status": "won",
+      "ending": "keep",
+      "depth": 4,
+      "face": "img/portraits/cleric.webp",
+      "text": "Dunstan the Cleric brought down the Dread Lich and stayed below to keep the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0798334601673762,
+        "dx": -14.978056251683974,
+        "dy": -10.684555997503557,
+        "dw": 421.1350494652767,
+        "dh": 631.702574197915,
+        "heart": [
+          0.5015114576434728,
+          0.31361236601648557
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/cleric.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "KEPT"
+    },
+    {
+      "mode": "390",
+      "name": "ending-keep-share",
+      "file": "390-ending-keep-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320",
+      "name": "ending-quench",
+      "file": "320-ending-quench.png",
+      "status": "won",
+      "ending": "quench",
+      "depth": 4,
+      "face": "img/portraits/cleric.webp",
+      "text": "Brand the Cleric brought down the Dread Lich and put out the Heart of the Mountain for good.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0798301525738796,
+        "dx": -12.28205243168096,
+        "dy": -61.84397228972049,
+        "dw": 345.5456488236415,
+        "dh": 518.3184732354623,
+        "heart": [
+          0.5015336624379368,
+          0.20111661026319966
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/cleric.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "THE FIRE GOES OUT"
+    },
+    {
+      "mode": "320",
+      "name": "ending-quench-share",
+      "file": "320-ending-quench-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "320",
+      "name": "ending-keep",
+      "file": "320-ending-keep.png",
+      "status": "won",
+      "ending": "keep",
+      "depth": 4,
+      "face": "img/portraits/cleric.webp",
+      "text": "Roslyn the Cleric brought down the Dread Lich and stayed below to keep the Heart of the Mountain.",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0778689047144718,
+        "dx": -11.865047307352587,
+        "dy": -61.56859608365921,
+        "dw": 344.918049508631,
+        "dh": 517.3770742629465,
+        "heart": [
+          0.5018561795217591,
+          0.20113318520206216
+        ]
+      },
+      "visible_images": [
+        {
+          "src": "img/portraits/cleric.webp",
+          "loaded": true
+        }
+      ],
+      "end_title": "KEPT"
+    },
+    {
+      "mode": "320",
+      "name": "ending-keep-share",
+      "file": "320-ending-keep-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "mode": "390",
+      "name": "title-loading",
+      "file": "390-title-loading.png",
+      "pending_load": true,
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": false,
+        "still": false
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "title-recovered",
+      "file": "390-title-recovered.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0427915029623458,
+        "dx": -6.254516816648302,
+        "dy": -4.620397802435332,
+        "dw": 406.6886861553149,
+        "dh": 610.0330292329724,
+        "heart": [
+          0.5053585288743824,
+          0.31340558431289217
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "first-visit",
+      "file": "390-first-visit.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0586002210677614,
+        "dx": -10.124417019674572,
+        "dy": -52.12965253359726,
+        "dw": 412.85408621642694,
+        "dh": 619.2811293246405,
+        "heart": [
+          0.5033400668936895,
+          0.23030642467393567
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390",
+      "name": "offline-title",
+      "file": "390-offline-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0588148208432355,
+        "dx": -10.214867471732514,
+        "dy": -52.16335192582514,
+        "dw": 412.93778012886185,
+        "dh": 619.4066701932927,
+        "heart": [
+          0.5032154425453805,
+          0.23031027607270974
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "390-offline-sideways",
+      "name": "title",
+      "file": "390-offline-sideways-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0554989452415073,
+        "dx": -12.548633442594667,
+        "dy": -100.99196461970715,
+        "dw": 898.2296024005227,
+        "dh": 598.8197349336818,
+        "heart": [
+          0.28712694811275535,
+          0.24584872241325156
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320",
+      "name": "first-visit",
+      "file": "320-first-visit.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.0583822147082282,
+        "dx": -8.241797741026646,
+        "dy": -58.90029602271191,
+        "dw": 338.682308706633,
+        "dh": 508.02346305994956,
+        "heart": [
+          0.5034354894134058,
+          0.20113908887441148
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320",
+      "name": "offline-title",
+      "file": "320-offline-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "portrait",
+        "ready": true,
+        "still": false,
+        "zoom": 1.058815265194459,
+        "dx": -8.37258763078749,
+        "dy": -58.956689731162,
+        "dw": 338.8208848622269,
+        "dh": 508.2313272933403,
+        "heart": [
+          0.5032432962510186,
+          0.20114575772234186
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    },
+    {
+      "mode": "320-offline-sideways",
+      "name": "title",
+      "file": "320-offline-sideways-title.png",
+      "font": "16px",
+      "horizontal_overflow": false,
+      "title_art": {
+        "which": "landscape",
+        "ready": true,
+        "still": false,
+        "zoom": 1.055894484350809,
+        "dx": -12.67360264505654,
+        "dy": -101.10385288204205,
+        "dw": 898.5662061825385,
+        "dh": 599.0441374550256,
+        "heart": [
+          0.28709322247138597,
+          0.24575244905373136
+        ]
+      },
+      "visible_images": [],
+      "end_title": null
+    }
+  ],
+  "console_errors": []
+}

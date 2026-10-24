@@ -1,8 +1,16 @@
-# Dungeon artwork and atlas roadmap — Batches E–X
+# Dungeon artwork and atlas roadmap — Batches E–Y
 
 Prepared 23 October 2026; extended and integrated 24 October 2026.
 
-## Runtime delivery — release 0.9.33
+## Runtime delivery — release 0.9.34
+
+Batch Y's three ordinary shield rear frames are now integrated through exact
+class/raw-id matching, lazy per-image fallback and offline cache entries. The
+common delivery inventory covers187 files (184 E–T plus3 Y). W/X audits and Y
+source/review evidence accompany this release. See [Y native review](batch-y-runtime/REVIEW.md).
+The reports below retain the original review-stage scope and exceptions.
+
+### Previous delivery — release 0.9.33
 
 E–T approved gameplay exports now bind to actual game systems and the offline
 cache: 184 newly shipped files. U/V reuse audits are included; their existing
@@ -16,8 +24,9 @@ an unused reserve: the seeded amulet look stays, including after identification.
 Unused pose cells do not create actions. R/S baseline architecture/materials are
 only for Grey Halls; other regions keep their authored architecture and overlays.
 T remains three held families plus P Rune shields, with other kits procedural.
-Regional repeat refinement, further held library painting and W/X audits remain
-separate future work, not missing runtime bindings for approved playable art.
+Regional repeat refinement and further held library painting remain separate
+work, not missing runtime bindings for approved playable art. W/X audits are
+complete locally; Y begins a specific held-library extension below.
 
 ## Baseline and scope
 
@@ -446,11 +455,10 @@ Keep player portraits distinct from fallen Shades and named champions; reuse
 approved portraits when framing and identity fit. No wholesale portrait repaint
 is scheduled by this proposal.
 
-U audit complete locally: retain all seven approved portraits; no missing or
+U audit complete: retain all seven approved portraits; no missing or
 inconsistent face requires a new painting.42 actual native UI captures/downloads
 and32 existing portrait/unlock browser checks pass at 390/320px, including unlocked
-seven-portrait offline reload. Existing portraits are already integrated; only
-publication of the new audit evidence is pending. See
+seven-portrait offline reload. Existing portraits are integrated; audit evidence was published with release 0.9.33. See
 [U review](batch-u-preview/REVIEW.md) and [inventory](batch-u-preview/inventory.json).
 
 ### Batch V — interface art consistency
@@ -462,14 +470,14 @@ gaps. Preserve readable text, contrast, status meanings, touch targets, double
 text scaling and safe palette cues. Choose scalable or raster formats by use;
 do not bake interface labels into decorative artwork.
 
-V audit complete locally: reuse the existing shared CSS frames, SVG controls,
+V audit complete: reuse the existing shared CSS frames, SVG controls,
 compact item sprites and approved bestiary/relic paintings. No new painting or
 runtime change is justified by the reviewed states. Native phone captures cover
 390/320px at normal and double text size, with safe palette on the latter.
 See [V review](batch-v-preview/REVIEW.md) and [inventory](batch-v-preview/inventory.json).
 44 native captures and49 browser checks pass. Track the observed double-text
 header density, tab wrapping and shop gold/Close crowding as CSS/layout follow-ups,
-not painting gaps. Audit evidence is included with release 0.9.33; E–T integration remains separate.
+not painting gaps. Audit evidence is included with release 0.9.33; E–T runtime delivery is recorded above.
 
 ### Batch W — major screen illustrations
 
@@ -478,6 +486,15 @@ Reuse approved title/screen illustrations where suitable; commission only a
 missing scene or a demonstrated style mismatch. Plan phone/desktop crops and
 safe areas for controls and text. Avoid spoilers in loading art and preserve
 screen purpose, class identity and existing gameplay outcomes.
+
+W audit complete locally: retain the approved portrait/landscape key art,
+prologue reuse and class portraits on death and all three ending screens.
+58 native captures/downloads, eight galleries and seven browser checks support
+reuse; no new major-scene painting is justified by the reviewed layouts.
+See [W review](batch-w-preview/REVIEW.md) and [inventory](batch-w-preview/inventory.json).
+Double-text title facts can overlap the logo/New Game area and need a layout
+follow-up. Existing win-share keeper captions and generic Heart accents require
+a separate content/state-selection follow-up. Audit evidence is included with release0.9.34.
 
 ### Batch X — optional additional effects
 
@@ -488,6 +505,30 @@ triggered traps deliberately retain procedural rendering unless a later audit
 justifies a specific replacement. Do not invent a poison-impact spell or add
 lights, damage or obstacles through art. Define alpha, lifetime, layering,
 warning readability, fallback and memory/frame-time budgets before generation.
+
+Batch X audit completed locally: retain the integrated Q fire/frost families and
+procedural travel, lightning, swarm, trap/status and warning effects. No new
+atlas is commissioned. Native live-cast evidence at 390px/320px in normal and
+Calm/safe views is recorded in [X review](batch-x-preview/REVIEW.md).
+X made no runtime changes; its evidence is included with release0.9.34. The E–X art roadmap is now audited; remaining
+work is specific delivery/presentation follow-up, not another automatic batch.
+Keep W's double-text title overlap and share-card state/content issues open.
+
+### Batch Y — ordinary shield rear views (T extension)
+
+Three new source/review frames: Fighter ordinary shield, Cleric ordinary shield
+and Thief buckler. These retain rear wood/iron construction, vertical grip,
+connected left hand/forearm strap and current class palettes. Existing renderer
+motions use one static frame per pair; no new poses/actions are added. Exact raw
+id/class guards preserve named/off-class shields, foci and P Rune shield art.
+See [Y review](batch-y-preview/REVIEW.md) and [brief](REQUEST-batch-y.md).
+36 phone captures,108 fitting cases and12 existing browser checks pass. Source
+spacing exception and native integration gates are recorded. Runtime integrated for0.9.34; see the native review above. This extends the remaining held-library gap identified in T;
+the completed E–X audits did not certify every possible held item as painted.
+
+Next proposed painting priority: Cleric mace poses, then Thief dagger and Druid
+staff, with actual legal-kit/pose audits before generation. Broader regional
+architecture matching remains a separate material project.
 
 ## Acceptance gate for every batch
 
@@ -529,12 +570,21 @@ warning readability, fallback and memory/frame-time budgets before generation.
 | P | `1e55f72`; runtime integrated; see delivery review | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
 | Q | `1e55f72`; eleven cells; runtime integrated; see delivery review | [Effects review](batch-q-preview/REVIEW.md) |
 | R | Baseline source/review published; exact mask/regional matching and runtime integrated; see delivery review | [Architecture review](batch-r-preview/REVIEW.md) |
-| S |20 baseline cells published; runtime integration and repeat/regional matching pending | [Secondary materials](batch-s-preview/REVIEW.md) |
-| T |16 baseline held frames published; runtime integration pending; other library entries procedural | [Held equipment](batch-t-preview/REVIEW.md) |
-| U | Reuse audit complete locally; seven portraits already integrated/offline; zero new painting; audit publication pending | [Portrait reuse](batch-u-preview/REVIEW.md) |
+| S |20 baseline cells published; baseline runtime integrated; broader regional matching remains separate | [Secondary materials](batch-s-preview/REVIEW.md) |
+| T |16 baseline held frames published and integrated; other library entries procedural | [Held equipment](batch-t-preview/REVIEW.md) |
+| U | Reuse audit included in 0.9.33; seven portraits integrated/offline; zero new painting | [Portrait reuse](batch-u-preview/REVIEW.md) |
 
-E–Q still require runtime integration and full runtime validation. Their published
-source/review assets are not evidence of live bindings, failure fallback or offline
-readiness. Track art production and runtime delivery separately; keep links to
-briefs, originals/repairs, visual reviews, integration checks and publication
-commits as each stage is actually completed.
+E–T approved exports are integrated in release 0.9.33 (`8e34f9f`); see the
+[runtime delivery review](runtime-preview/REVIEW.md). Historical source-only
+reports retain their original scope. Track art production and runtime delivery
+separately, including exact-mask and unused-reserve exceptions.
+
+| Later audit | Current status | Review evidence |
+|---|---|---|
+| V | Interface reuse audit included in 0.9.33; zero new painting | [Interface reuse](batch-v-preview/REVIEW.md) |
+| W | Audit included with0.9.34; layout/share follow-ups open | [Major screens](batch-w-preview/REVIEW.md) |
+| X | Audit included with0.9.34; retain Q and procedural controls | [Additional effects](batch-x-preview/REVIEW.md) |
+
+| New source pass | Current status | Review evidence |
+|---|---|---|
+| Y | Three ordinary shield rear frames; integrated for0.9.34 | [Shield rear views](batch-y-preview/REVIEW.md) |

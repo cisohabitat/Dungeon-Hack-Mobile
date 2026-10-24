@@ -1,0 +1,98 @@
+[
+  {
+    "key": "fighter-shield",
+    "cls": "fighter",
+    "id": "shield",
+    "palette": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "grip": [
+      177.37007874015748,
+      102.88188976377953
+    ],
+    "original": {
+      "ax": 92,
+      "ay": 37,
+      "marks": {
+        "min": [
+          44,
+          -11
+        ],
+        "max": [
+          140,
+          91
+        ]
+      },
+      "size": [
+        127,
+        103
+      ]
+    }
+  },
+  {
+    "key": "cleric-shield",
+    "cls": "cleric",
+    "id": "shield",
+    "palette": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "grip": [
+      177.37007874015748,
+      102.88188976377953
+    ],
+    "original": {
+      "ax": 92,
+      "ay": 37,
+      "marks": {
+        "min": [
+          44,
+          -11
+        ],
+        "max": [
+          140,
+          91
+        ]
+      },
+      "size": [
+        127,
+        103
+      ]
+    }
+  },
+  {
+    "key": "thief-buckler",
+    "cls": "thief",
+    "id": "buckler",
+    "palette": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "grip": [
+      179.92,
+      98.96
+    ],
+    "original": {
+      "ax": 92,
+      "ay": 33,
+      "marks": {
+        "min": [
+          44,
+          -15
+        ],
+        "max": [
+          140,
+          87
+        ]
+      },
+      "size": [
+        125,
+        99
+      ]
+    }
+  }
+]

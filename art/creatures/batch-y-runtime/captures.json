@@ -1,0 +1,878 @@
+{
+  "scope": "Native loader/UI/casts/use/Bash/Calm and offline reload; no asset routes, renderer replacements or frozen updates. Setup supplies legal equipment/resources, clears scenery and places a durable Bash target. Not unassisted combat or quest coverage.",
+  "audits": [
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "equipment": {
+        "cls": "fighter",
+        "id": "shield"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 10301.6,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2
+            },
+            {
+              "phase": 0.5498999999999996
+            },
+            {
+              "phase": 1.0666000000000004
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 11451.5,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.21564705882352855
+            },
+            {
+              "phase": 0.5490588235294126
+            },
+            {
+              "phase": 1.0981176470588232
+            }
+          ]
+        },
+        {
+          "action": "bash",
+          "born": 12468.2,
+          "duration": 450,
+          "consumed": null,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2959999999999976
+            },
+            {
+              "phase": 0.5184444444444428
+            },
+            {
+              "phase": 1.1479999999999968
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "equipment": {
+        "cls": "cleric",
+        "id": "shield"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 10741.2,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2
+            },
+            {
+              "phase": 0.5332999999999992
+            },
+            {
+              "phase": 1.0832999999999993
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 11841.1,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.21576470588235253
+            },
+            {
+              "phase": 0.5294117647058824
+            },
+            {
+              "phase": 1.0981176470588232
+            }
+          ]
+        },
+        {
+          "action": "cast",
+          "born": 12824.5,
+          "duration": 520,
+          "consumed": null,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.22423076923076993
+            },
+            {
+              "phase": 0.5126923076923084
+            },
+            {
+              "phase": 1.0896153846153853
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "equipment": {
+        "cls": "thief",
+        "id": "buckler"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 10660.2,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.20009999999999856
+            },
+            {
+              "phase": 0.5
+            },
+            {
+              "phase": 1.0665999999999984
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 11726.8,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.21576470588235466
+            },
+            {
+              "phase": 0.5098823529411782
+            },
+            {
+              "phase": 1.0981176470588252
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "equipment": {
+        "cls": "fighter",
+        "id": "shield"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 8394.5,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2
+            },
+            {
+              "phase": 0.5167000000000007
+            },
+            {
+              "phase": 1.0666000000000004
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 9544.5,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.21552941176470675
+            },
+            {
+              "phase": 0.5096470588235302
+            },
+            {
+              "phase": 1.1176470588235294
+            }
+          ]
+        },
+        {
+          "action": "bash",
+          "born": 10594.4,
+          "duration": 450,
+          "consumed": null,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2591111111111119
+            },
+            {
+              "phase": 0.5184444444444468
+            },
+            {
+              "phase": 1.0740000000000025
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "equipment": {
+        "cls": "cleric",
+        "id": "shield"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 9331.4,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2
+            },
+            {
+              "phase": 0.5001000000000003
+            },
+            {
+              "phase": 1.0667000000000006
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 10464.8,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2548235294117651
+            },
+            {
+              "phase": 0.5096470588235302
+            },
+            {
+              "phase": 1.078352941176471
+            }
+          ]
+        },
+        {
+          "action": "cast",
+          "born": 11414.8,
+          "duration": 520,
+          "consumed": null,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.22403846153846155
+            },
+            {
+              "phase": 0.5126923076923084
+            },
+            {
+              "phase": 1.0896153846153853
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "equipment": {
+        "cls": "thief",
+        "id": "buckler"
+      },
+      "actions": [
+        {
+          "action": "read",
+          "born": 8447.1,
+          "duration": 1000,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2
+            },
+            {
+              "phase": 0.5
+            },
+            {
+              "phase": 1.0666999999999989
+            }
+          ]
+        },
+        {
+          "action": "drink",
+          "born": 9563.8,
+          "duration": 850,
+          "consumed": true,
+          "game_time_advanced": true,
+          "frames": [
+            {
+              "phase": 0.2156470588235307
+            },
+            {
+              "phase": 0.5097647058823542
+            },
+            {
+              "phase": 1.078470588235295
+            }
+          ]
+        }
+      ],
+      "offline_cached_new_shields": 3,
+      "console_errors": []
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "rest",
+      "file": "390-fighter-shield-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "read-0",
+      "file": "390-fighter-shield-read-0.png",
+      "format": "native canvas",
+      "phase": 0.2
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "read-1",
+      "file": "390-fighter-shield-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5498999999999996
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "read-2",
+      "file": "390-fighter-shield-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0666000000000004
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "drink-0",
+      "file": "390-fighter-shield-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.21564705882352855
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "drink-1",
+      "file": "390-fighter-shield-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5490588235294126
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "drink-2",
+      "file": "390-fighter-shield-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.0981176470588232
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "bash-0",
+      "file": "390-fighter-shield-bash-0.png",
+      "format": "native canvas",
+      "phase": 0.2959999999999976
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "bash-1",
+      "file": "390-fighter-shield-bash-1.png",
+      "format": "native canvas",
+      "phase": 0.5184444444444428
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "bash-2",
+      "file": "390-fighter-shield-bash-2.png",
+      "format": "native canvas",
+      "phase": 1.1479999999999968
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "calm",
+      "file": "390-fighter-shield-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "fighter-shield",
+      "name": "offline",
+      "file": "390-fighter-shield-offline.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "rest",
+      "file": "390-cleric-shield-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "read-0",
+      "file": "390-cleric-shield-read-0.png",
+      "format": "native canvas",
+      "phase": 0.2
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "read-1",
+      "file": "390-cleric-shield-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5332999999999992
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "read-2",
+      "file": "390-cleric-shield-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0832999999999993
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "drink-0",
+      "file": "390-cleric-shield-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.21576470588235253
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "drink-1",
+      "file": "390-cleric-shield-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5294117647058824
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "drink-2",
+      "file": "390-cleric-shield-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.0981176470588232
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "cast-0",
+      "file": "390-cleric-shield-cast-0.png",
+      "format": "native canvas",
+      "phase": 0.22423076923076993
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "cast-1",
+      "file": "390-cleric-shield-cast-1.png",
+      "format": "native canvas",
+      "phase": 0.5126923076923084
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "cast-2",
+      "file": "390-cleric-shield-cast-2.png",
+      "format": "native canvas",
+      "phase": 1.0896153846153853
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "calm",
+      "file": "390-cleric-shield-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "cleric-shield",
+      "name": "offline",
+      "file": "390-cleric-shield-offline.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "rest",
+      "file": "390-thief-buckler-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "read-0",
+      "file": "390-thief-buckler-read-0.png",
+      "format": "native canvas",
+      "phase": 0.20009999999999856
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "read-1",
+      "file": "390-thief-buckler-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "read-2",
+      "file": "390-thief-buckler-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0665999999999984
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "drink-0",
+      "file": "390-thief-buckler-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.21576470588235466
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "drink-1",
+      "file": "390-thief-buckler-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5098823529411782
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "drink-2",
+      "file": "390-thief-buckler-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.0981176470588252
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "calm",
+      "file": "390-thief-buckler-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 390,
+      "key": "thief-buckler",
+      "name": "offline",
+      "file": "390-thief-buckler-offline.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "rest",
+      "file": "320-fighter-shield-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "read-0",
+      "file": "320-fighter-shield-read-0.png",
+      "format": "native canvas",
+      "phase": 0.2
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "read-1",
+      "file": "320-fighter-shield-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5167000000000007
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "read-2",
+      "file": "320-fighter-shield-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0666000000000004
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "drink-0",
+      "file": "320-fighter-shield-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.21552941176470675
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "drink-1",
+      "file": "320-fighter-shield-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5096470588235302
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "drink-2",
+      "file": "320-fighter-shield-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.1176470588235294
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "bash-0",
+      "file": "320-fighter-shield-bash-0.png",
+      "format": "native canvas",
+      "phase": 0.2591111111111119
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "bash-1",
+      "file": "320-fighter-shield-bash-1.png",
+      "format": "native canvas",
+      "phase": 0.5184444444444468
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "bash-2",
+      "file": "320-fighter-shield-bash-2.png",
+      "format": "native canvas",
+      "phase": 1.0740000000000025
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "calm",
+      "file": "320-fighter-shield-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "fighter-shield",
+      "name": "offline",
+      "file": "320-fighter-shield-offline.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "rest",
+      "file": "320-cleric-shield-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "read-0",
+      "file": "320-cleric-shield-read-0.png",
+      "format": "native canvas",
+      "phase": 0.2
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "read-1",
+      "file": "320-cleric-shield-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5001000000000003
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "read-2",
+      "file": "320-cleric-shield-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0667000000000006
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "drink-0",
+      "file": "320-cleric-shield-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.2548235294117651
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "drink-1",
+      "file": "320-cleric-shield-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5096470588235302
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "drink-2",
+      "file": "320-cleric-shield-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.078352941176471
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "cast-0",
+      "file": "320-cleric-shield-cast-0.png",
+      "format": "native canvas",
+      "phase": 0.22403846153846155
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "cast-1",
+      "file": "320-cleric-shield-cast-1.png",
+      "format": "native canvas",
+      "phase": 0.5126923076923084
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "cast-2",
+      "file": "320-cleric-shield-cast-2.png",
+      "format": "native canvas",
+      "phase": 1.0896153846153853
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "calm",
+      "file": "320-cleric-shield-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "cleric-shield",
+      "name": "offline",
+      "file": "320-cleric-shield-offline.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "rest",
+      "file": "320-thief-buckler-rest.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "read-0",
+      "file": "320-thief-buckler-read-0.png",
+      "format": "native canvas",
+      "phase": 0.2
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "read-1",
+      "file": "320-thief-buckler-read-1.png",
+      "format": "native canvas",
+      "phase": 0.5
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "read-2",
+      "file": "320-thief-buckler-read-2.png",
+      "format": "native canvas",
+      "phase": 1.0666999999999989
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "drink-0",
+      "file": "320-thief-buckler-drink-0.png",
+      "format": "native canvas",
+      "phase": 0.2156470588235307
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "drink-1",
+      "file": "320-thief-buckler-drink-1.png",
+      "format": "native canvas",
+      "phase": 0.5097647058823542
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "drink-2",
+      "file": "320-thief-buckler-drink-2.png",
+      "format": "native canvas",
+      "phase": 1.078470588235295
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "calm",
+      "file": "320-thief-buckler-calm.png",
+      "format": "native UI"
+    },
+    {
+      "width": 320,
+      "key": "thief-buckler",
+      "name": "offline",
+      "file": "320-thief-buckler-offline.png",
+      "format": "native UI"
+    }
+  ],
+  "console_errors": []
+}

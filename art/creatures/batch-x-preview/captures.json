@@ -1,0 +1,1568 @@
+{
+  "scope": "Actual native casts and scrolling item use; real Game.update and Renderer.render untouched. Setup raises level/resources, positions one durable Orc, and supplies a long existing melee warning. Native view canvas sampled after normal animation frames; live timestamps retained. Not a complete unassisted run, full HUD or isolated performance audit.",
+  "casts": [
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "style": "hands",
+      "duration": 450,
+      "impact": 0.45,
+      "damage": 14,
+      "cost": 3,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "style": "cone",
+      "duration": 520,
+      "impact": 0.3,
+      "damage": 33,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 22,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "style": "fireball",
+      "duration": 750,
+      "impact": 0.35,
+      "damage": 9,
+      "cost": 0,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "style": "pillar",
+      "duration": 700,
+      "impact": 0.15,
+      "damage": 33,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "style": "swarm",
+      "duration": 560,
+      "impact": 0.3,
+      "damage": 29,
+      "cost": 9,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "style": "hands",
+      "duration": 450,
+      "impact": 0.45,
+      "damage": 18,
+      "cost": 3,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "style": "cone",
+      "duration": 520,
+      "impact": 0.3,
+      "damage": 33,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 22,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "style": "fireball",
+      "duration": 750,
+      "impact": 0.35,
+      "damage": 16,
+      "cost": 0,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "style": "pillar",
+      "duration": 700,
+      "impact": 0.15,
+      "damage": 29,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "style": "swarm",
+      "duration": 560,
+      "impact": 0.3,
+      "damage": 35,
+      "cost": 9,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "style": "hands",
+      "duration": 450,
+      "impact": 0.45,
+      "damage": 14,
+      "cost": 3,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "style": "cone",
+      "duration": 520,
+      "impact": 0.3,
+      "damage": 32,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 16,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "style": "fireball",
+      "duration": 750,
+      "impact": 0.35,
+      "damage": 15,
+      "cost": 0,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "style": "pillar",
+      "duration": 700,
+      "impact": 0.15,
+      "damage": 26,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "style": "swarm",
+      "duration": 560,
+      "impact": 0.3,
+      "damage": 35,
+      "cost": 9,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "style": "hands",
+      "duration": 450,
+      "impact": 0.45,
+      "damage": 17,
+      "cost": 3,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "style": "cone",
+      "duration": 520,
+      "impact": 0.3,
+      "damage": 27,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 17,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "style": "fireball",
+      "duration": 750,
+      "impact": 0.35,
+      "damage": 17,
+      "cost": 0,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "style": "pillar",
+      "duration": 700,
+      "impact": 0.15,
+      "damage": 40,
+      "cost": 10,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "style": "swarm",
+      "duration": 560,
+      "impact": 0.3,
+      "damage": 25,
+      "cost": 9,
+      "game_time_advanced": true,
+      "calm": true
+    }
+  ],
+  "captures": [
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-travel.png",
+      "name": "travel",
+      "phase": 0.2591111111111099,
+      "post_impact_age": -0.34707070707070925,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.4813333333333321,
+      "post_impact_age": 0.05696969696969473,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.629333333333333,
+      "post_impact_age": 0.32606060606060533,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7775555555555548,
+      "post_impact_age": 0.5955555555555541,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9257777777777766,
+      "post_impact_age": 0.8650505050505028,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "burning_hands",
+      "file": "390-normal-burning_hands-expired.png",
+      "name": "expired",
+      "phase": 1.0740000000000005,
+      "post_impact_age": 1.1345454545454554,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-travel.png",
+      "name": "travel",
+      "phase": 0.15999999999999964,
+      "post_impact_age": -0.2000000000000005,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35250000000000037,
+      "post_impact_age": 0.07500000000000055,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5126923076923067,
+      "post_impact_age": 0.30384615384615243,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.704999999999999,
+      "post_impact_age": 0.5785714285714272,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9292307692307689,
+      "post_impact_age": 0.8989010989010984,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "cone_cold",
+      "file": "390-normal-cone_cold-expired.png",
+      "name": "expired",
+      "phase": 1.0574999999999992,
+      "post_impact_age": 1.082142857142856,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043684210526314354,
+      "post_impact_age": 0.043684210526314354,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0873684210526311,
+      "post_impact_age": 0.0873684210526311,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421043,
+      "post_impact_age": 0.2628947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5699999999999986,
+      "post_impact_age": 0.5699999999999986,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8768421052631574,
+      "post_impact_age": 0.8768421052631574,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0523684210526307,
+      "post_impact_age": 1.0523684210526307,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-travel.png",
+      "name": "travel",
+      "phase": 0.17760000000000098,
+      "post_impact_age": -0.26523076923076766,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.3777333333333336,
+      "post_impact_age": 0.04266666666666709,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5332000000000007,
+      "post_impact_age": 0.2818461538461549,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7332000000000007,
+      "post_impact_age": 0.5895384615384627,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9110666666666681,
+      "post_impact_age": 0.8631794871794894,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "scroll_fire",
+      "file": "390-normal-scroll_fire-expired.png",
+      "name": "expired",
+      "phase": 1.0442666666666676,
+      "post_impact_age": 1.0681025641025654,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-travel.png",
+      "name": "travel",
+      "phase": 0.09528571428571403,
+      "post_impact_age": -0.06436974789915996,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.1904285714285704,
+      "post_impact_age": 0.04756302521008282,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.38085714285714206,
+      "post_impact_age": 0.27159663865546124,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.6428571428571429,
+      "post_impact_age": 0.5798319327731093,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9047142857142847,
+      "post_impact_age": 0.8878991596638643,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "flame_strike",
+      "file": "390-normal-flame_strike-expired.png",
+      "name": "expired",
+      "phase": 1.0475714285714275,
+      "post_impact_age": 1.0559663865546205,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-travel.png",
+      "name": "travel",
+      "phase": 0.17857142857142858,
+      "post_impact_age": -0.17346938775510204,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35714285714285715,
+      "post_impact_age": 0.08163265306122452,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5060714285714295,
+      "post_impact_age": 0.2943877551020422,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7142857142857143,
+      "post_impact_age": 0.5918367346938777,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9226785714285727,
+      "post_impact_age": 0.8895408163265326,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "insect_plague",
+      "file": "390-normal-insect_plague-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0594387755102046,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-travel.png",
+      "name": "travel",
+      "phase": 0.2591111111111119,
+      "post_impact_age": -0.34707070707070564,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.48133333333333417,
+      "post_impact_age": 0.05696969696969846,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.629777777777779,
+      "post_impact_age": 0.32686868686868903,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7777777777777778,
+      "post_impact_age": 0.5959595959595959,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9257777777777786,
+      "post_impact_age": 0.8650505050505064,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "burning_hands",
+      "file": "390-calm-safe-burning_hands-expired.png",
+      "name": "expired",
+      "phase": 1.0740000000000005,
+      "post_impact_age": 1.1345454545454554,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-travel.png",
+      "name": "travel",
+      "phase": 0.16038461538461468,
+      "post_impact_age": -0.19945054945055046,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35250000000000037,
+      "post_impact_age": 0.07500000000000055,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.512884615384615,
+      "post_impact_age": 0.30412087912087865,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7051923076923073,
+      "post_impact_age": 0.5788461538461533,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.929615384615384,
+      "post_impact_age": 0.8994505494505487,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "cone_cold",
+      "file": "390-calm-safe-cone_cold-expired.png",
+      "name": "expired",
+      "phase": 1.0576923076923077,
+      "post_impact_age": 1.0824175824175823,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04394736842105215,
+      "post_impact_age": 0.04394736842105215,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2631578947368421,
+      "post_impact_age": 0.2631578947368421,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5702631578947364,
+      "post_impact_age": 0.5702631578947364,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-travel.png",
+      "name": "travel",
+      "phase": 0.17759999999999976,
+      "post_impact_age": -0.26523076923076955,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.3777333333333336,
+      "post_impact_age": 0.04266666666666709,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5332000000000007,
+      "post_impact_age": 0.2818461538461549,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7332000000000007,
+      "post_impact_age": 0.5895384615384627,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.910933333333333,
+      "post_impact_age": 0.8629743589743585,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "scroll_fire",
+      "file": "390-calm-safe-scroll_fire-expired.png",
+      "name": "expired",
+      "phase": 1.0442666666666665,
+      "post_impact_age": 1.0681025641025639,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-travel.png",
+      "name": "travel",
+      "phase": 0.09514285714285636,
+      "post_impact_age": -0.06453781512605133,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.19028571428571403,
+      "post_impact_age": 0.04739495798319299,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.38085714285714206,
+      "post_impact_age": 0.27159663865546124,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7141428571428566,
+      "post_impact_age": 0.663697478991596,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9045714285714284,
+      "post_impact_age": 0.8877310924369746,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "flame_strike",
+      "file": "390-calm-safe-flame_strike-expired.png",
+      "name": "expired",
+      "phase": 1.0475714285714288,
+      "post_impact_age": 1.055966386554622,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-travel.png",
+      "name": "travel",
+      "phase": 0.17857142857142858,
+      "post_impact_age": -0.17346938775510204,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35714285714285715,
+      "post_impact_age": 0.08163265306122452,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5060714285714295,
+      "post_impact_age": 0.2943877551020422,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7144642857142863,
+      "post_impact_age": 0.5920918367346948,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9226785714285711,
+      "post_impact_age": 0.8895408163265304,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "insect_plague",
+      "file": "390-calm-safe-insect_plague-expired.png",
+      "name": "expired",
+      "phase": 1.1012499999999996,
+      "post_impact_age": 1.1446428571428566,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-travel.png",
+      "name": "travel",
+      "phase": 0.2591111111111099,
+      "post_impact_age": -0.34707070707070925,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.4813333333333321,
+      "post_impact_age": 0.05696969696969473,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.6664444444444436,
+      "post_impact_age": 0.39353535353535196,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7777777777777778,
+      "post_impact_age": 0.5959595959595959,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9257777777777766,
+      "post_impact_age": 0.8650505050505028,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "burning_hands",
+      "file": "320-normal-burning_hands-expired.png",
+      "name": "expired",
+      "phase": 1.0740000000000005,
+      "post_impact_age": 1.1345454545454554,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-travel.png",
+      "name": "travel",
+      "phase": 0.16038461538461643,
+      "post_impact_age": -0.19945054945054796,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35250000000000037,
+      "post_impact_age": 0.07500000000000055,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.512884615384615,
+      "post_impact_age": 0.30412087912087865,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7051923076923073,
+      "post_impact_age": 0.5788461538461533,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9294230769230772,
+      "post_impact_age": 0.8991758241758248,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "cone_cold",
+      "file": "320-normal-cone_cold-expired.png",
+      "name": "expired",
+      "phase": 1.0576923076923077,
+      "post_impact_age": 1.0824175824175823,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04368421052631675,
+      "post_impact_age": 0.04368421052631675,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421067,
+      "post_impact_age": 0.2628947368421067,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.570000000000001,
+      "post_impact_age": 0.570000000000001,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-travel.png",
+      "name": "travel",
+      "phase": 0.17773333333333358,
+      "post_impact_age": -0.26502564102564063,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.3777333333333336,
+      "post_impact_age": 0.04266666666666709,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5333333333333333,
+      "post_impact_age": 0.28205128205128205,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7333333333333333,
+      "post_impact_age": 0.5897435897435896,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9110666666666657,
+      "post_impact_age": 0.8631794871794857,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "scroll_fire",
+      "file": "320-normal-scroll_fire-expired.png",
+      "name": "expired",
+      "phase": 1.044399999999999,
+      "post_impact_age": 1.0683076923076908,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-travel.png",
+      "name": "travel",
+      "phase": 0.09528571428571403,
+      "post_impact_age": -0.06436974789915996,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.1904285714285717,
+      "post_impact_age": 0.047563025210084355,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.38099999999999973,
+      "post_impact_age": 0.27176470588235263,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.6428571428571429,
+      "post_impact_age": 0.5798319327731093,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8809999999999998,
+      "post_impact_age": 0.8599999999999998,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "flame_strike",
+      "file": "320-normal-flame_strike-expired.png",
+      "name": "expired",
+      "phase": 1.0475714285714288,
+      "post_impact_age": 1.055966386554622,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-travel.png",
+      "name": "travel",
+      "phase": 0.1783928571428565,
+      "post_impact_age": -0.17372448979591928,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35696428571428507,
+      "post_impact_age": 0.08137755102040727,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5057142857142853,
+      "post_impact_age": 0.29387755102040763,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7141071428571422,
+      "post_impact_age": 0.5915816326530603,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9523214285714289,
+      "post_impact_age": 0.9318877551020414,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "insect_plague",
+      "file": "320-normal-insect_plague-expired.png",
+      "name": "expired",
+      "phase": 1.0414285714285711,
+      "post_impact_age": 1.0591836734693874,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-travel.png",
+      "name": "travel",
+      "phase": 0.2593333333333329,
+      "post_impact_age": -0.3466666666666674,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.4815555555555551,
+      "post_impact_age": 0.05737373737373657,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.629777777777779,
+      "post_impact_age": 0.32686868686868903,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7777777777777778,
+      "post_impact_age": 0.5959595959595959,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9259999999999996,
+      "post_impact_age": 0.8654545454545446,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "burning_hands",
+      "file": "320-calm-safe-burning_hands-expired.png",
+      "name": "expired",
+      "phase": 1.0740000000000005,
+      "post_impact_age": 1.1345454545454554,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-travel.png",
+      "name": "travel",
+      "phase": 0.16019230769230805,
+      "post_impact_age": -0.1997252747252742,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35250000000000037,
+      "post_impact_age": 0.07500000000000055,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5126923076923084,
+      "post_impact_age": 0.30384615384615493,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7051923076923073,
+      "post_impact_age": 0.5788461538461533,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9294230769230772,
+      "post_impact_age": 0.8991758241758248,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "cone_cold",
+      "file": "320-calm-safe-cone_cold-expired.png",
+      "name": "expired",
+      "phase": 1.0576923076923077,
+      "post_impact_age": 1.0824175824175823,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043947368421054546,
+      "post_impact_age": 0.043947368421054546,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421067,
+      "post_impact_age": 0.2628947368421067,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.570000000000001,
+      "post_impact_age": 0.570000000000001,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8768421052631598,
+      "post_impact_age": 0.8768421052631598,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.052368421052633,
+      "post_impact_age": 1.052368421052633,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-travel.png",
+      "name": "travel",
+      "phase": 0.17773333333333358,
+      "post_impact_age": -0.26502564102564063,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.3777333333333336,
+      "post_impact_age": 0.04266666666666709,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5333333333333333,
+      "post_impact_age": 0.28205128205128205,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7331999999999995,
+      "post_impact_age": 0.5895384615384608,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.910933333333333,
+      "post_impact_age": 0.8629743589743585,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "scroll_fire",
+      "file": "320-calm-safe-scroll_fire-expired.png",
+      "name": "expired",
+      "phase": 1.0444000000000002,
+      "post_impact_age": 1.0683076923076926,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-travel.png",
+      "name": "travel",
+      "phase": 0.14285714285714285,
+      "post_impact_age": -0.008403361344537818,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.19057142857142806,
+      "post_impact_age": 0.047731092436974196,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.38099999999999973,
+      "post_impact_age": 0.27176470588235263,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.6428571428571429,
+      "post_impact_age": 0.5798319327731093,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.904714285714286,
+      "post_impact_age": 0.8878991596638659,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "flame_strike",
+      "file": "320-calm-safe-flame_strike-expired.png",
+      "name": "expired",
+      "phase": 1.0475714285714288,
+      "post_impact_age": 1.055966386554622,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-travel.png",
+      "name": "travel",
+      "phase": 0.17857142857142858,
+      "post_impact_age": -0.17346938775510204,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.35714285714285715,
+      "post_impact_age": 0.08163265306122452,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.5060714285714295,
+      "post_impact_age": 0.2943877551020422,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7142857142857143,
+      "post_impact_age": 0.5918367346938777,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9226785714285727,
+      "post_impact_age": 0.8895408163265326,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "insect_plague",
+      "file": "320-calm-safe-insect_plague-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0594387755102046,
+      "warnings": 1
+    }
+  ],
+  "console_errors": []
+}

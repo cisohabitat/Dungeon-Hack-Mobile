@@ -919,6 +919,21 @@
       "source": "art/creatures/batch-p-preview/runeshield-cleric-held.png",
       "runtime": "img/held/runeshield-cleric.png",
       "sha256": "b4e1c27051514179535c98cf82fd89050f660cce9a43e09d66c9af2823210b4b"
+    },
+    {
+      "source": "art/creatures/batch-y-preview/fighter-shield.png",
+      "runtime": "img/held/fighter-shield.png",
+      "sha256": "4a4dcf7132d49e7602ae0b750ae1d682e6bbb6124be29da3ac76b639bb7cd4ed"
+    },
+    {
+      "source": "art/creatures/batch-y-preview/cleric-shield.png",
+      "runtime": "img/held/cleric-shield.png",
+      "sha256": "d24da68578f346a7ff33d3a628c0e0bcc9b73633c2161cb32dd225f468513d0a"
+    },
+    {
+      "source": "art/creatures/batch-y-preview/thief-buckler.png",
+      "runtime": "img/held/thief-buckler.png",
+      "sha256": "bfe80cf5932402e01e40ccf85d2767ad144893e67fa7b7a7afe2d4cbfbed73e7"
     }
   ],
   "exclusions": {

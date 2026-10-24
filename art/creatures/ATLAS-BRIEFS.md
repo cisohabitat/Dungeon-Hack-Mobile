@@ -1061,3 +1061,38 @@ E–T approved gameplay exports now bind through the native loaders and offline
 cache. See [delivery inventory](runtime-delivery.json) and
 [integration review](runtime-preview/REVIEW.md). Historical source-only reports
 retain their original scope; unused reserves and exact-mask exceptions stay out.
+
+## Batch W — major-screen reuse audit
+
+Retain the approved two key-art framings and hero portraits in existing title,
+prologue and ending presentation. Review actual phone/desktop/double-text crops,
+all three ending outcomes, loading fallback and offline use before new painting.
+No new major-scene illustration is commissioned. Share-card keeper labels and
+outcome accents are content/state-selection follow-ups. See
+[W review](batch-w-preview/REVIEW.md). Local audit evidence remains unpublished.
+
+## Batch X — optional effects audit
+
+Retain Q's integrated four-frame fire/frost contact families and existing
+procedural travel/arcane/lightning/swarm, projectiles, telegraphs, trap/status
+and Calm effects. No missing identity warrants generation in this audit. Native
+live-cast evidence and future alpha/lifetime/layer/fallback/budget constraints
+are in [X review](batch-x-preview/REVIEW.md). Zero new painting or runtime edit;
+audit local and unpublished. This completes the E–X audit sequence.
+
+## Batch Y — ordinary shield rear views
+
+Three transparent carried frames extend T: fighter/shield, cleric/shield and
+thief/buckler. Preserve rear geometry, connected left-hand grip/strap and class
+palettes. Existing renderer moves the static frame for Bash/cast/read/use/Calm;
+no new pose/actions. See [brief](REQUEST-batch-y.md) and
+[review](batch-y-preview/REVIEW.md). Source/review only, local and unpublished;
+P Rune shields, named/off-class identities and runtime loaders remain unchanged.
+
+### Batch Y runtime activation — release0.9.34
+
+The three approved rear frames now load through native carried bindings and the
+offline cache, with exact class/raw-id guards and per-image fallback. P's two Rune
+shields remain separate entries. See [native review](batch-y-runtime/REVIEW.md).
+The shared delivery exporter reproduces187 files; W/X audit evidence accompanies
+this publication. Historical source-only descriptions above preserve their scope.

@@ -212,6 +212,11 @@ test.describe('the endgame', () => {
     expect(r.carrying).toBe(false);
     expect(r.onFloor, 'the Heart stays where it lies').toBe(true);
     expect(r.said.join(' ')).toMatch(/will not come loose/);
+    // Teleporting to the Heart reveals its keeper on the next native UI frame.
+    // Finish that introduction before opening the Pack underneath it.
+    await expect(page.locator('#ov-boss')).toHaveClass(/open/);
+    await page.getByRole('button', { name: 'Face the keeper' }).click();
+    await expect(page.locator('#ov-boss')).not.toHaveClass(/open|closing/);
     // the pack's floor row says why instead of offering a Take that does nothing to see
     await page.click('[data-open="inv"]');
     await expect(page.locator('#floor-box')).toContainText('held fast while the lich stands');
