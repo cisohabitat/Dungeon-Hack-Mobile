@@ -1,0 +1,283 @@
+{
+  "elvenchain": {
+    "source": "equipment-p1.png",
+    "source_sha256": "a633c9f3d72faafd926ea4ca0322191a7e26d745e198855fc9208c1fe9ff12de",
+    "source_rect": [
+      0,
+      0,
+      627,
+      590
+    ],
+    "source_visible_bounds": [
+      35,
+      60,
+      618,
+      540
+    ],
+    "scale": 0.366723259762309,
+    "offset": [
+      20,
+      39
+    ],
+    "visible_bounds": [
+      21,
+      40,
+      235,
+      216
+    ],
+    "export_sha256": "d3022bbfaeb0369d09265be525fc868596d27c76e5aafc234460628569b72ecb",
+    "anchor_kind": "icon-centre"
+  },
+  "marshhide": {
+    "source": "equipment-p1.png",
+    "source_sha256": "a633c9f3d72faafd926ea4ca0322191a7e26d745e198855fc9208c1fe9ff12de",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      570
+    ],
+    "source_visible_bounds": [
+      19,
+      45,
+      595,
+      551
+    ],
+    "scale": 0.3711340206185567,
+    "offset": [
+      20,
+      33
+    ],
+    "visible_bounds": [
+      21,
+      34,
+      235,
+      222
+    ],
+    "export_sha256": "e89fdd67c27bcaa06ba5e1d9eff5c26accbfcb13f68bd639850241ec43a528ac",
+    "anchor_kind": "icon-centre"
+  },
+  "dwarfplate": {
+    "source": "equipment-p1.png",
+    "source_sha256": "a633c9f3d72faafd926ea4ca0322191a7e26d745e198855fc9208c1fe9ff12de",
+    "source_rect": [
+      0,
+      590,
+      695,
+      1254
+    ],
+    "source_visible_bounds": [
+      26,
+      56,
+      645,
+      592
+    ],
+    "scale": 0.3456,
+    "offset": [
+      20,
+      34
+    ],
+    "visible_bounds": [
+      21,
+      35,
+      235,
+      220
+    ],
+    "export_sha256": "714c6b0f17e5df7c219ad296ec2b1160481d80aeab42f0dc41dc4e851beb09b8",
+    "anchor_kind": "icon-centre"
+  },
+  "runeshield": {
+    "source": "equipment-p1.png",
+    "source_sha256": "a633c9f3d72faafd926ea4ca0322191a7e26d745e198855fc9208c1fe9ff12de",
+    "source_rect": [
+      695,
+      570,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      26,
+      25,
+      453,
+      654
+    ],
+    "scale": 0.3401574803149606,
+    "offset": [
+      54,
+      20
+    ],
+    "visible_bounds": [
+      55,
+      21,
+      200,
+      235
+    ],
+    "export_sha256": "4f01aad220c8a01febbbb542a0b0d1335d7014773752ce6c02eaa72257c69bcf",
+    "anchor_kind": "icon-centre"
+  },
+  "dwarfhammer": {
+    "source": "equipment-p2.png",
+    "source_sha256": "3ef9e0c13059f157956ef621a86132b0fcd3c70c80463fca44ed0f966e23dcea",
+    "source_rect": [
+      0,
+      0,
+      760,
+      724
+    ],
+    "source_visible_bounds": [
+      61,
+      22,
+      751,
+      684
+    ],
+    "scale": 0.3103448275862069,
+    "offset": [
+      20,
+      24
+    ],
+    "visible_bounds": [
+      21,
+      25,
+      235,
+      230
+    ],
+    "export_sha256": "c6b26f6ddc4659ed8655ed42933716210f6bc720928c6a2e26dc23ae2c539e62",
+    "anchor_kind": "icon-centre"
+  },
+  "handxbow": {
+    "source": "equipment-p2.png",
+    "source_sha256": "3ef9e0c13059f157956ef621a86132b0fcd3c70c80463fca44ed0f966e23dcea",
+    "source_rect": [
+      760,
+      0,
+      1520,
+      724
+    ],
+    "source_visible_bounds": [
+      16,
+      63,
+      711,
+      680
+    ],
+    "scale": 0.30813124108416545,
+    "offset": [
+      20,
+      32
+    ],
+    "visible_bounds": [
+      21,
+      33,
+      235,
+      223
+    ],
+    "export_sha256": "3c533408273cdd741bc1c1b205fc022b136b98c094d59006b24aa947f810e5ec",
+    "anchor_kind": "icon-centre"
+  },
+  "amulet_tooth": {
+    "source": "equipment-p2.png",
+    "source_sha256": "3ef9e0c13059f157956ef621a86132b0fcd3c70c80463fca44ed0f966e23dcea",
+    "source_rect": [
+      1520,
+      0,
+      2172,
+      724
+    ],
+    "source_visible_bounds": [
+      56,
+      106,
+      537,
+      678
+    ],
+    "scale": 0.3737024221453287,
+    "offset": [
+      37,
+      20
+    ],
+    "visible_bounds": [
+      38,
+      21,
+      218,
+      235
+    ],
+    "export_sha256": "04940ff2f7cca6993b787830eb38fbfd61a893ffb144f4b76b2bf6d0eb222b5a",
+    "anchor_kind": "icon-centre"
+  },
+  "runeshield_fighter": {
+    "source": "equipment-p3-held.png",
+    "source_sha256": "d779db80a1bcc42ae8de67b4eaf06238e12c7d02a90d1bfc868de263c4c8832a",
+    "source_rect": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "source_visible_bounds": [
+      89,
+      58,
+      757,
+      850
+    ],
+    "scale": 0.16623376623376623,
+    "offset": [
+      53,
+      71
+    ],
+    "visible_bounds": [
+      53,
+      71,
+      165,
+      204
+    ],
+    "export_sha256": "2945c12da7f089fd86889805f566da9c861586ad189b7811a1716cc7f1b048c9",
+    "anchor_kind": "held-grip",
+    "grip": [
+      128,
+      128
+    ],
+    "object_bounds": [
+      88.4077922077922,
+      70.83376623376624,
+      164.8753246753247,
+      198.83376623376623
+    ]
+  },
+  "runeshield_cleric": {
+    "source": "equipment-p3-held.png",
+    "source_sha256": "d779db80a1bcc42ae8de67b4eaf06238e12c7d02a90d1bfc868de263c4c8832a",
+    "source_rect": [
+      887,
+      0,
+      1774,
+      887
+    ],
+    "source_visible_bounds": [
+      88,
+      58,
+      757,
+      850
+    ],
+    "scale": 0.16623376623376623,
+    "offset": [
+      53,
+      71
+    ],
+    "visible_bounds": [
+      53,
+      71,
+      165,
+      204
+    ],
+    "export_sha256": "b4e1c27051514179535c98cf82fd89050f660cce9a43e09d66c9af2823210b4b",
+    "anchor_kind": "held-grip",
+    "grip": [
+      128,
+      128
+    ],
+    "object_bounds": [
+      88.57402597402597,
+      70.83376623376624,
+      165.04155844155844,
+      198.83376623376623
+    ]
+  }
+}

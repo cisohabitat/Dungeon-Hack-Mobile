@@ -2,7 +2,7 @@
 
 Prepared 23 October 2026; extended 24 October 2026. E–N source/review assets
 and O’s baseline surface pass are generated, reviewed and published to main.
-Runtime integration remains pending for E–O. P/Q are proposed; O architecture
+Runtime integration remains pending for E–Q. P and Q source/review assets are published together. O architecture
 and secondary variants remain procedural. See completion tracking for evidence.
 
 ## Baseline and scope
@@ -39,7 +39,7 @@ revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lightin
 | Reviewed/published | M | Regional dressing details | 5 cells in two source groups; runtime integration pending |
 | Reviewed/published | N | Creature remains | 4 low cells on one atlas; runtime integration pending |
 | Base pass reviewed/published | O | Dungeon surfaces and architecture | 13 base wall/floor/ceiling sets; architecture/variants remain procedural |
-| Medium | P | Equipment consistency and gaps | Item-icon and held-view audit before generation |
+| Locally reviewed | P | Equipment consistency and gaps | 7 regional icons (1 reserve), 2 class Rune shield rear frames; publication/integration pending |
 | Later | Q | Spell, environmental and trap effects | Effect/timing/format audit before generation |
 
 E–H budget: **17 proposed new character atlases**. Boss reuse findings can change
@@ -216,7 +216,7 @@ per-state and per-key procedural fallbacks, lazy loading, offline caching,
 lighting, warnings and native phone performance. Integration is not completed by
 publishing source sheets or substituting pictures in a review harness.
 
-Source/review art through N and O’s base surface pass is published. P/Q follow their audits. O architecture matching and secondary
+Source/review art through N and O’s base surface pass is published. P’s targeted equipment pass and Q’s effects pass are published as source/review assets. O architecture matching and secondary
 variants require separate state-aware integration work.
 The sections below define proposed scope, not authorization to regenerate
 approved artwork or claims that runtime integration has been done.
@@ -320,8 +320,15 @@ Keep inventory icons and held views as separate deliverables. Preserve item
 identity, named markings, handedness, grip attachment, weapon geometry, attack
 and recovery timings, occlusion by hands/shields, Calm view and small-screen
 clearance. Existing bows, projectiles, staffs and spears need their supported
-motions audited before any pose sheets are specified. Counts and formats remain
-TBD until the gap audit is complete.
+motions audited before any pose sheets are specified. Counts and formats are set by the gap audit.
+
+The 95-item audit selected seven regional icon paintings (six direct base keys
+and a reserve Tooth Charm fang), plus two separate Fighter/Cleric Rune-Cut Shield
+rear frames for a demonstrated null-carried gap. Seeded amulet appearances and
+named Hissra art remain unchanged; the runtime gap is not fixed by these sources.
+Fifty-six phone captures, 36 held fitting checks and 12 baseline browser checks
+pass locally. See [Batch P review](batch-p-preview/REVIEW.md) and
+[identity/motion audit](batch-p-preview/STATE-AUDIT.md). Runtime integration remains pending.
 
 ## Batch Q — spell, environmental and trap effects
 
@@ -336,6 +343,12 @@ colour-blind palettes, Calm/reduced-motion settings and phone HUD/held gear.
 Do not add damage, range, persistent obstacles or light sources through an art
 replacement. Review frame-rate and memory cost; retain a procedural fallback
 when an image-based effect would be less clear or more expensive.
+
+Source/review pass complete locally: three static world cells and four phases each
+for fire/frost. Calm, poison, lightning and triggered traps remain procedural.
+88 frozen captures, 52 lifetime pixel checks and 14 baseline browser tests pass.
+See [review](batch-q-preview/REVIEW.md) and [format audit](batch-q-preview/STATE-AUDIT.md).
+Native integration, offline and performance gates remain pending.
 
 ## Acceptance gate for every batch
 
@@ -374,9 +387,10 @@ when an image-based effect would be less clear or more expensive.
 | M | Source/review published; runtime integration pending | [Regional dressing](batch-m-preview/REVIEW.md) |
 | N | Source/review published; runtime integration pending | [Remains](batch-n-preview/REVIEW.md) |
 | O | Baseline source/review published; architecture/variants procedural; runtime integration pending | [Base surfaces](batch-o-preview/REVIEW.md) |
-| P–Q | Proposed only; not generated or integrated | Scope and audits above |
+| P | Source/review published; runtime integration pending | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
+| Q | Eleven source/review cells published; runtime integration pending | [Effects review](batch-q-preview/REVIEW.md) |
 
-E–O still require runtime integration and full runtime validation. Their published
+E–Q still require runtime integration and full runtime validation. Their published
 source/review assets are not evidence of live bindings, failure fallback or offline
 readiness. Track art production and runtime delivery separately; keep links to
 briefs, originals/repairs, visual reviews, integration checks and publication

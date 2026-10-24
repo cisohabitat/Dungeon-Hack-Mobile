@@ -1,0 +1,307 @@
+{
+  "all_item_art": [
+    "wayfarer_lantern",
+    "ring_silver",
+    "ring_gold",
+    "ring_garnet",
+    "ring_onyx",
+    "ring_copper",
+    "ring_black",
+    "ring_forge",
+    "ring_jade",
+    "ring_bone",
+    "ring_iron",
+    "amulet_amber",
+    "amulet_silver",
+    "amulet_obsidian",
+    "amulet_bone",
+    "amulet_spider",
+    "scimitar",
+    "dagger",
+    "shortsword",
+    "longsword",
+    "greatsword",
+    "throwknife",
+    "club",
+    "staff",
+    "spear",
+    "mace",
+    "hammer",
+    "flail",
+    "battleaxe",
+    "sling",
+    "shortbow",
+    "longbow",
+    "leather",
+    "studded",
+    "scale",
+    "wyrmscale",
+    "chain",
+    "splint",
+    "plate",
+    "robe_apprentice",
+    "robe_silk",
+    "robe_warded",
+    "robe_magi",
+    "buckler",
+    "shield",
+    "quillshield",
+    "towershield",
+    "cloak_protect",
+    "cloak_elven",
+    "cloak_shadow",
+    "cloak_warmth",
+    "spellbook",
+    "crystal_orb",
+    "orb_storms",
+    "holy_symbol",
+    "silver_symbol",
+    "reliquary",
+    "potion_red",
+    "potion_pink",
+    "potion_green",
+    "potion_orange",
+    "potion_blue",
+    "satchel",
+    "quench",
+    "charm_collar",
+    "charm_fang",
+    "charm_rowan",
+    "charm_whetstone",
+    "oil_fire",
+    "lamp_oil",
+    "oil_silver",
+    "oil_venom",
+    "oil_frost",
+    "scroll",
+    "page",
+    "ration",
+    "meat",
+    "caps",
+    "bread",
+    "gold",
+    "gem",
+    "artifact",
+    "key",
+    "key_brass",
+    "key_silver",
+    "key_gold",
+    "key_iron",
+    "key_bone",
+    "elvenchain",
+    "dwarfplate",
+    "dwarfhammer",
+    "runeshield",
+    "marshhide",
+    "amulet_tooth",
+    "handxbow"
+  ],
+  "selected": [
+    {
+      "key": "elvenchain",
+      "item": {
+        "kind": "armor",
+        "name": "Elven Chain",
+        "ac": 5,
+        "weight": "light",
+        "value": 320,
+        "sprite": "elvenchain",
+        "tier": 99
+      },
+      "grip": null,
+      "separate_held": false
+    },
+    {
+      "key": "marshhide",
+      "item": {
+        "kind": "armor",
+        "name": "Marsh-Hide Armour",
+        "ac": 4,
+        "weight": "light",
+        "power": "pure",
+        "value": 200,
+        "sprite": "marshhide",
+        "tier": 99
+      },
+      "grip": null,
+      "separate_held": false
+    },
+    {
+      "key": "dwarfplate",
+      "item": {
+        "kind": "armor",
+        "name": "Dwarven Plate",
+        "ac": 8,
+        "weight": "heavy",
+        "value": 600,
+        "sprite": "dwarfplate",
+        "tier": 99
+      },
+      "grip": null,
+      "separate_held": false
+    },
+    {
+      "key": "runeshield",
+      "item": {
+        "kind": "shield",
+        "name": "Rune-Cut Shield",
+        "ac": 3,
+        "power": "ward",
+        "value": 240,
+        "sprite": "runeshield",
+        "tier": 99
+      },
+      "grip": null,
+      "separate_held": false
+    },
+    {
+      "key": "dwarfhammer",
+      "item": {
+        "kind": "weapon",
+        "name": "Dwarven Hammer",
+        "dmg": [
+          2,
+          4,
+          2
+        ],
+        "speed": 700,
+        "cls": [
+          "fighter",
+          "cleric"
+        ],
+        "value": 180,
+        "sprite": "dwarfhammer",
+        "tier": 99,
+        "blunt": true
+      },
+      "grip": {
+        "at": [
+          7.676955262170047,
+          24.323044737829953
+        ]
+      },
+      "separate_held": false
+    },
+    {
+      "key": "handxbow",
+      "item": {
+        "kind": "weapon",
+        "name": "Dark Elf Hand Crossbow",
+        "dmg": [
+          1,
+          6,
+          1
+        ],
+        "speed": 900,
+        "range": 5,
+        "cls": [
+          "fighter",
+          "thief",
+          "ranger"
+        ],
+        "value": 220,
+        "sprite": "handxbow",
+        "tier": 99,
+        "aimed": true,
+        "drowse": true
+      },
+      "grip": {
+        "at": [
+          8.242640687119286,
+          23.757359312880716
+        ]
+      },
+      "separate_held": false
+    },
+    {
+      "key": "amulet_tooth",
+      "item": {
+        "kind": "amulet",
+        "name": "Tooth Charm",
+        "value": 180,
+        "sprite": "amulet_tooth",
+        "power": "mend",
+        "tier": 99,
+        "desc": "Heals a hit point every four seconds, even mid-fight."
+      },
+      "grip": null,
+      "separate_held": false
+    }
+  ],
+  "held_pose_keys": [
+    "rest",
+    "windup",
+    "drawback",
+    "strike",
+    "cut",
+    "sweep",
+    "through",
+    "recover",
+    "return",
+    "drive",
+    "channel",
+    "fist",
+    "punch",
+    "left",
+    "thrust",
+    "cast",
+    "loosed"
+  ],
+  "grip_keys": [
+    "dagger",
+    "shortsword",
+    "longsword",
+    "scimitar",
+    "greatsword",
+    "throwknife",
+    "club",
+    "staff",
+    "spear",
+    "mace",
+    "hammer",
+    "dwarfhammer",
+    "handxbow",
+    "flail",
+    "battleaxe",
+    "sling"
+  ],
+  "held_gap": {
+    "key": "runeshield",
+    "actual_carried_null": true,
+    "reference": "existing towershield rear, not an existing Rune-Cut Shield frame",
+    "classes": {
+      "fighter": {
+        "anchor": [
+          92,
+          42
+        ],
+        "object_marks": {
+          "min": [
+            44,
+            -6
+          ],
+          "max": [
+            140,
+            96
+          ]
+        }
+      },
+      "cleric": {
+        "anchor": [
+          92,
+          42
+        ],
+        "object_marks": {
+          "min": [
+            44,
+            -6
+          ],
+          "max": [
+            140,
+            96
+          ]
+        }
+      }
+    }
+  }
+}

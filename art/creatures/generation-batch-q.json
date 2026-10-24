@@ -1,0 +1,380 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-q.md",
+  "status": "source/review complete; runtime integration pending",
+  "groups": {
+    "q1": [
+      "flames",
+      "ripple",
+      "snare"
+    ],
+    "q2": [
+      "fire_0",
+      "fire_1",
+      "fire_2",
+      "fire_3"
+    ],
+    "q3": [
+      "frost_0",
+      "frost_1",
+      "frost_2",
+      "frost_3"
+    ]
+  },
+  "sheets": {
+    "q1": {
+      "source": "effects-q1.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "flames",
+        "ripple",
+        "snare"
+      ],
+      "prompt": "Create a THREE-CELL single-row transparent static dungeon effect/world sprite strip for Deepdelve Batch Q. Match first active procedural reference identities and second approved gritty painted material style. Not cartoon, vector UI icons or toy props. Each complete object inside its equal square cell with very generous transparent margins (central70%), no scenery, text, frame, ground slab, border or backdrop. True RGBA with soft alpha edges for flame, solid materials for wire/wood, no dark matte rectangles. Slightly elevated frontal dungeon view. LEFT FLAMES: one small standing CLUSTER of amber/orange tongues with pale yellow-white hot inner cores and a few close orange sparks, narrow floor base; no logs, brazier, candle, smoke wall, lava or fireball. Keep all complete tips, do not turn it into an explosion or imply new fuel/obstacle. CENTRE RIPPLE: VERY LOW horizontal oval of BLACK/BLUE-BLACK water with THREE restrained pale blue-grey elliptical rings and small inner disturbance. No face, tentacle, body, basin/stone rim, turquoise pond or glowing portal. Height <one-quarter width, transparent outside water oval. RIGHT SNARE: a VERY LOW thin SILVER WIRE loop laid flat horizontally, tied to exactly TWO short brown WOOD PEGS at viewer left/right. Transparent through the loop; no metal jaw trap, chain, spikes, lock or sprung/released state. Wire and knots attached to both pegs, complete tips inside cell. Low silhouette, restrained highlights visible on dark stone.",
+      "references": [
+        "batch-q-preview/q1-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-6c6a40ab-99da-40a8-80bf-6721acb6c527.png",
+      "source_dimensions": [
+        2170,
+        725
+      ],
+      "selected_dimensions": [
+        2170,
+        725
+      ]
+    },
+    "q2": {
+      "source": "effects-q2.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "fire_0",
+        "fire_1",
+        "fire_2",
+        "fire_3"
+      ],
+      "prompt": "Create a small TARGET-LOCAL spell-impact source atlas for Deepdelve Batch Q, exactly FOUR transparent effect frames in precise TWO BY TWO grid, row-major. Use active procedural reference for colour/meaning, upgrade to restrained gritty painted material/light quality, no cartoon starburst/emoji or giant cinematic explosion. This is an alpha SPRITE sheet, not a background scene: TRUE TRANSPARENT RGBA, no black/white panel, border, text, target creature, room, floor or broad solid disc. The SAME fixed impact ORIGIN at EXACT CENTRE of each equal cell, consistent scale/lighting and no recentering across frames. All wisps/shard tips entirely within central70% of each cell and generous gutters. Geometry grows from origin across the four frames corresponding to normalized POST-IMPACT ages .02,.25,.55,.85. Do NOT bake the lifetime fade into frames: retain comparable peak brightness/opacity where material exists, runtime review applies the existing fade curve. Soft real alpha at outer edges, no rectangular halo or large opaque circle. Do not add pre-impact flash, damage, light source, warning symbol or status icon. FIRE IMPACT: warm orange/amber flare with small pale yellow-white core and a few curling tongues/embers. Frame1 compact tight local flare, radius roughly16% cell width. Frame2 modest swelling flame curl, radius20%. Frame3 broader thinning flame tongues with slightly rising embers, radius26%. Frame4 sparse outward/upward fading-GEOMETRY ember curls, radius30%, same peak material brightness (external fade later). Flame remains local contact response, no mushroom cloud, explosive debris, smoke curtain, skull, lightning or circular magic ring. Organic orange shape versus frost's angular pale-blue shards. Sparse translucent gaps keep target readable. No burning body or new persistent fire.",
+      "references": [
+        "batch-q-preview/q2-reference.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-d629e657-5835-444f-b9d4-b2c062cf0e9d.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "selected_dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "q3": {
+      "source": "effects-q3.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "frost_0",
+        "frost_1",
+        "frost_2",
+        "frost_3"
+      ],
+      "prompt": "Create a small TARGET-LOCAL spell-impact source atlas for Deepdelve Batch Q, exactly FOUR transparent effect frames in precise TWO BY TWO grid, row-major. Use active procedural reference for colour/meaning, upgrade to restrained gritty painted material/light quality, no cartoon starburst/emoji or giant cinematic explosion. This is an alpha SPRITE sheet, not a background scene: TRUE TRANSPARENT RGBA, no black/white panel, border, text, target creature, room, floor or broad solid disc. The SAME fixed impact ORIGIN at EXACT CENTRE of each equal cell, consistent scale/lighting and no recentering across frames. All wisps/shard tips entirely within central70% of each cell and generous gutters. Geometry grows from origin across the four frames corresponding to normalized POST-IMPACT ages .02,.25,.55,.85. Do NOT bake the lifetime fade into frames: retain comparable peak brightness/opacity where material exists, runtime review applies the existing fade curve. Soft real alpha at outer edges, no rectangular halo or large opaque circle. Do not add pre-impact flash, damage, light source, warning symbol or status icon. FROST IMPACT: small fan of SEVEN distinct pale blue/white angular ice SLIVERS with restrained dark blue shaded edges and faint close icy mist, separated by transparent gaps. Frame1 tightly clustered near origin, radius12% cell width. Frame2 small outward shard fan radius18%. Frame3 wider separated shards radius25%. Frame4 sparse farther-out slivers and mist radius30%. Exactly seven primary shard motifs in each frame, directions coherent; not a solid ice ball, crystal wall, snowflake badge or blue circle. Short pointed shards make it different from fire without relying only on colour. No body, floor ice sheet, magic rune/ring or new obstacle. Comparable peak shard brightness across frames; external fade later.",
+      "references": [
+        "batch-q-preview/q3-reference.png"
+      ],
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "effects-q3-slivers.png",
+          "references": [
+            "effects-q3.png"
+          ],
+          "prompt": "Correct this 2x2 four-frame FROST impact sprite sheet. It currently looks like a six-petal snowflake badge. Replace the motifs in EACH cell with exactly SEVEN INDIVIDUAL SLENDER ANGULAR ICE SLIVERS, each a sharp fractured chip with long thin taper and dark blue side edge, in an ASYMMETRIC loose outward fan, NOT a flower, snowflake, star, radial badge or perfectly symmetric pattern. Seven slivers clearly separated with open transparent gaps: one upright near top-centre, two unequal diagonal chips left, two unequal diagonals right, one short lower-left and one longer lower-right. Vary their lengths and angles slightly, no repeated six-petal symmetry. Retain pale icy blue/white material and restrained tiny mist local to each sliver, REMOVE broad circular blue haze/cloud/petals. Same fixed origin at centre of each quadrant and common scale across all frames: first compact small fan, second spreading, third wider, fourth widest/separated. Do not enlarge first frame to fill its cell; the first should be about half width of last. Comparable peak sliver brightness (external fade later). Keep all tips/gutters complete, true RGBA transparent, no background/frame/labels/body/floor/new magic or obstacles. All four effects must remain small target-local impacts, not ice walls or solid crystals.",
+          "generated_file": "/workspace/generated_images/exec-771571bc-3d09-48ba-9186-cade2f971cbc.png",
+          "rejected_reason": "early cells still form five/six petal badges and final outer tip crowds image edge"
+        },
+        {
+          "source": "effects-q3-chips.png",
+          "references": [
+            "batch-q-preview/q3-reference.png"
+          ],
+          "prompt": "Create a NEW restrained icy impact alpha sprite sheet, FOUR cells in a 2x2 square grid. Reference only establishes existing PALE BLUE/WHITE effect colour and its small size. Draw seven separate tiny SHATTERED-GLASS-LIKE ICE CHIPS per cell: irregular narrow TRIANGLES and short broken needles, differing lengths and widths, dark blue thin side edges. NOT faceted diamond gems, leaves/petals, snowflake, star, flower, badge, emblem or solid blue disc. Almost NO mist; transparency must dominate between all chips. Angular broken ice fragments, like local frost chips shaken off armour, not a bouquet. Asymmetric staggered outward positions around a fixed impact origin at cell centre, no rotational symmetry. Seven fragments, one at top near centre, three unequally spaced on left, three unequally spaced on right; different angles, no ring outline. Cell1 compact cluster width18% of cell, cell2 width26%, cell3 width34%, cell4 width42%; all retain same sharp pale ice rendering and comparable peak fragment brightness, external fade later. Chips gradually separate outwards in coherent directions across cells; no animated centre drift. Keep ALL fragments WELL within central60% of every cell with lots of transparent margins, no clipped tips or overlapping cells. True transparent RGBA alpha; no black rectangle, backdrop, ground, target, text or border. Flat camera-facing effect sheet, minimal paint shading, no perspective scene. Gritty restrained dark-fantasy spell effect, no cartoon sparkles or massive crystal wall.",
+          "generated_file": "/workspace/generated_images/exec-a972914d-45c5-420a-8adc-1f29a578d2a4.png",
+          "selected": true
+        }
+      ],
+      "generated_file": "/workspace/generated_images/exec-0fb3f437-8d02-44c8-9c07-628e0aeef51e.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "selected_source": "effects-q3-chips.png",
+      "selected_dimensions": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "world": {
+    "flames": {
+      "sheet": "q1",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_anchor": [
+        363.0,
+        608
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "max_height": 210
+    },
+    "ripple": {
+      "sheet": "q1",
+      "source_rect": [
+        723,
+        0,
+        1447,
+        725
+      ],
+      "source_anchor": [
+        360.0,
+        607
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "max_height": 64
+    },
+    "snare": {
+      "sheet": "q1",
+      "source_rect": [
+        1447,
+        0,
+        2170,
+        725
+      ],
+      "source_anchor": [
+        356.5,
+        587
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "max_height": 64
+    }
+  },
+  "effects": {
+    "fire_0": {
+      "sheet": "q2",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_origin": [
+        314,
+        334
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.02,
+      "family": "fire"
+    },
+    "fire_1": {
+      "sheet": "q2",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_origin": [
+        314,
+        334
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.25,
+      "family": "fire"
+    },
+    "fire_2": {
+      "sheet": "q2",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_origin": [
+        314,
+        334
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.55,
+      "family": "fire"
+    },
+    "fire_3": {
+      "sheet": "q2",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_origin": [
+        314,
+        334
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.85,
+      "family": "fire"
+    },
+    "frost_0": {
+      "sheet": "q3",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_origin": [
+        314,
+        330
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.02,
+      "family": "frost"
+    },
+    "frost_1": {
+      "sheet": "q3",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_origin": [
+        314,
+        330
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.25,
+      "family": "frost"
+    },
+    "frost_2": {
+      "sheet": "q3",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_origin": [
+        314,
+        330
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.55,
+      "family": "frost"
+    },
+    "frost_3": {
+      "sheet": "q3",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_origin": [
+        314,
+        330
+      ],
+      "target_origin": [
+        128,
+        128
+      ],
+      "anchor_kind": "effect-origin",
+      "phase_age": 0.85,
+      "family": "frost"
+    }
+  },
+  "effect_policy": {
+    "phase_ages": [
+      0.02,
+      0.25,
+      0.55,
+      0.85
+    ],
+    "frame_boundaries": [
+      0.135,
+      0.4,
+      0.7
+    ],
+    "fire_fade": "(1-age)^2",
+    "frost_fade": "(1-age)^1.6",
+    "active_range": "0 <= age < 1, after existing impact fraction; born <= now < until",
+    "calm": "retain existing procedural Calm rendering, no sprite substitution",
+    "other_effects": "poison/status, triggered traps, lightning, projectiles/telegraphs remain procedural",
+    "scope": "three static world identities plus eight normal-mode impact candidate frames; no new timing, world lights, damage or runtime binding"
+  },
+  "review": {
+    "cells": 11,
+    "captures": 88,
+    "module_pixel_gates": 52,
+    "baseline_browser_tests": 14,
+    "report": "batch-q-preview/REVIEW.md"
+  },
+  "publication": "Source/review published together in the Batch P/Q publication; runtime integration remains pending."
+}

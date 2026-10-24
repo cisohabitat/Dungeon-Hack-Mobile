@@ -1,0 +1,1116 @@
+{
+  "mode": "review-only item DOM/floor and temporary carried-frame substitutions; six live base icons plus one reserved Tooth Charm base; current Rune shield carried gap preserved outside harness; no runtime integration",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "all_item_art": 95,
+      "live_base_keys": [
+        "elvenchain",
+        "marshhide",
+        "dwarfplate",
+        "runeshield",
+        "dwarfhammer",
+        "handxbow"
+      ],
+      "reserve_base_key": "amulet_tooth",
+      "tooth": {
+        "unknown": "amulet_obsidian",
+        "known": "amulet_obsidian",
+        "named": "relic_hissra_tooth",
+        "seeded_look_unchanged": true
+      },
+      "eligible": [
+        {
+          "cls": "spellblade",
+          "allowed": false
+        },
+        {
+          "cls": "fighter",
+          "allowed": true
+        },
+        {
+          "cls": "cleric",
+          "allowed": true
+        },
+        {
+          "cls": "mage",
+          "allowed": false
+        },
+        {
+          "cls": "thief",
+          "allowed": false
+        },
+        {
+          "cls": "ranger",
+          "allowed": false
+        },
+        {
+          "cls": "druid",
+          "allowed": false
+        }
+      ],
+      "held_gap_before_override": true,
+      "held_fitting": [
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "rest",
+          "box": [
+            4.407792207792198,
+            27.83376623376624,
+            80.87532467532469,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "bash",
+          "box": [
+            105.97544642857142,
+            9.872767857142861,
+            171.68973214285717,
+            119.87276785714286
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "calm",
+          "box": [
+            4.407792207792198,
+            27.83376623376624,
+            80.87532467532469,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "rest",
+          "box": [
+            4.08006290584413,
+            144.04173092532469,
+            130.4307122564935,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "bash",
+          "box": [
+            108.70482954545453,
+            99.71676136363638,
+            217.4321022727273,
+            281.71676136363635
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "calm",
+          "box": [
+            4.08006290584413,
+            144.04173092532469,
+            130.4307122564935,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "rest",
+          "box": [
+            4.08006290584413,
+            248.04173092532469,
+            130.4307122564935,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "bash",
+          "box": [
+            108.70482954545453,
+            187.71676136363638,
+            217.4321022727273,
+            369.71676136363635
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "calm",
+          "box": [
+            4.08006290584413,
+            248.04173092532469,
+            130.4307122564935,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "rest",
+          "box": [
+            3.5740259740259717,
+            27.83376623376624,
+            80.04155844155844,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "bash",
+          "box": [
+            105.11830357142857,
+            9.872767857142861,
+            170.83258928571428,
+            119.87276785714286
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "calm",
+          "box": [
+            3.5740259740259717,
+            27.83376623376624,
+            80.04155844155844,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "rest",
+          "box": [
+            4.354738230519473,
+            144.04173092532469,
+            130.70538758116885,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "bash",
+          "box": [
+            108.94119318181818,
+            99.71676136363638,
+            217.6684659090909,
+            281.71676136363635
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "calm",
+          "box": [
+            4.354738230519473,
+            144.04173092532469,
+            130.70538758116885,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "rest",
+          "box": [
+            4.354738230519473,
+            248.04173092532469,
+            130.70538758116885,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "bash",
+          "box": [
+            108.94119318181818,
+            187.71676136363638,
+            217.6684659090909,
+            369.71676136363635
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "calm",
+          "box": [
+            4.354738230519473,
+            248.04173092532469,
+            130.70538758116885,
+            459.54173092532466
+          ]
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "all_item_art": 95,
+      "live_base_keys": [
+        "elvenchain",
+        "marshhide",
+        "dwarfplate",
+        "runeshield",
+        "dwarfhammer",
+        "handxbow"
+      ],
+      "reserve_base_key": "amulet_tooth",
+      "tooth": {
+        "unknown": "amulet_obsidian",
+        "known": "amulet_obsidian",
+        "named": "relic_hissra_tooth",
+        "seeded_look_unchanged": true
+      },
+      "eligible": [
+        {
+          "cls": "spellblade",
+          "allowed": false
+        },
+        {
+          "cls": "fighter",
+          "allowed": true
+        },
+        {
+          "cls": "cleric",
+          "allowed": true
+        },
+        {
+          "cls": "mage",
+          "allowed": false
+        },
+        {
+          "cls": "thief",
+          "allowed": false
+        },
+        {
+          "cls": "ranger",
+          "allowed": false
+        },
+        {
+          "cls": "druid",
+          "allowed": false
+        }
+      ],
+      "held_gap_before_override": true,
+      "held_fitting": [
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "rest",
+          "box": [
+            4.407792207792198,
+            27.83376623376624,
+            80.87532467532469,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "bash",
+          "box": [
+            105.97544642857142,
+            9.872767857142861,
+            171.68973214285717,
+            119.87276785714286
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 160,
+          "state": "calm",
+          "box": [
+            4.407792207792198,
+            27.83376623376624,
+            80.87532467532469,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "rest",
+          "box": [
+            4.08006290584413,
+            144.04173092532469,
+            130.4307122564935,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "bash",
+          "box": [
+            108.70482954545453,
+            99.71676136363638,
+            217.4321022727273,
+            281.71676136363635
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 360,
+          "state": "calm",
+          "box": [
+            4.08006290584413,
+            144.04173092532469,
+            130.4307122564935,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "rest",
+          "box": [
+            4.08006290584413,
+            248.04173092532469,
+            130.4307122564935,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "bash",
+          "box": [
+            108.70482954545453,
+            187.71676136363638,
+            217.4321022727273,
+            369.71676136363635
+          ]
+        },
+        {
+          "cls": "fighter",
+          "height": 464,
+          "state": "calm",
+          "box": [
+            4.08006290584413,
+            248.04173092532469,
+            130.4307122564935,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "rest",
+          "box": [
+            3.5740259740259717,
+            27.83376623376624,
+            80.04155844155844,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "bash",
+          "box": [
+            105.11830357142857,
+            9.872767857142861,
+            170.83258928571428,
+            119.87276785714286
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 160,
+          "state": "calm",
+          "box": [
+            3.5740259740259717,
+            27.83376623376624,
+            80.04155844155844,
+            155.83376623376623
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "rest",
+          "box": [
+            4.354738230519473,
+            144.04173092532469,
+            130.70538758116885,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "bash",
+          "box": [
+            108.94119318181818,
+            99.71676136363638,
+            217.6684659090909,
+            281.71676136363635
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 360,
+          "state": "calm",
+          "box": [
+            4.354738230519473,
+            144.04173092532469,
+            130.70538758116885,
+            355.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "rest",
+          "box": [
+            4.354738230519473,
+            248.04173092532469,
+            130.70538758116885,
+            459.54173092532466
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "bash",
+          "box": [
+            108.94119318181818,
+            187.71676136363638,
+            217.6684659090909,
+            369.71676136363635
+          ]
+        },
+        {
+          "cls": "cleric",
+          "height": 464,
+          "state": "calm",
+          "box": [
+            4.354738230519473,
+            248.04173092532469,
+            130.70538758116885,
+            459.54173092532466
+          ]
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "kind": "elvenchain",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-elvenchain-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "elvenchain",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-elvenchain-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "marshhide",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-marshhide-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "marshhide",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-marshhide-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfplate",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-dwarfplate-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfplate",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-dwarfplate-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-runeshield-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-runeshield-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfhammer",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-dwarfhammer-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfhammer",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-dwarfhammer-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "handxbow",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-handxbow-floor-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "handxbow",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "390-handxbow-floor-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "elvenchain",
+      "mode": "pack",
+      "name": "Elven Chain",
+      "title": "Elven Chain",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-elvenchain-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "marshhide",
+      "mode": "pack",
+      "name": "Marsh-Hide Armour",
+      "title": "Marsh-Hide Armour",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-marshhide-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfplate",
+      "mode": "pack",
+      "name": "Dwarven Plate",
+      "title": "Dwarven Plate",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-dwarfplate-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield",
+      "mode": "pack",
+      "name": "Rune-Cut Shield",
+      "title": "Rune-Cut Shield",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-runeshield-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "dwarfhammer",
+      "mode": "pack",
+      "name": "Dwarven Hammer",
+      "title": "Dwarven Hammer",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-dwarfhammer-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "handxbow",
+      "mode": "pack",
+      "name": "Dark Elf Hand Crossbow",
+      "title": "Dark Elf Hand Crossbow",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "390-handxbow-pack.png"
+    },
+    {
+      "width": 390,
+      "kind": "amulet_tooth",
+      "mode": "seeded-appearance",
+      "known": false,
+      "sprite": "amulet_obsidian",
+      "title": "Obsidian Amulet",
+      "painted_reserve_not_substituted": true,
+      "file": "390-amulet_tooth-unknown.png"
+    },
+    {
+      "width": 390,
+      "kind": "amulet_tooth",
+      "mode": "seeded-appearance",
+      "known": true,
+      "sprite": "amulet_obsidian",
+      "title": "Tooth Charm",
+      "painted_reserve_not_substituted": true,
+      "file": "390-amulet_tooth-known.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "rest",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-fighter-rest.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "bash",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-fighter-bash.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "calm",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-fighter-calm.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "cast-lowered",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-fighter-cast-lowered.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "rest",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-cleric-rest.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "bash",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-cleric-bash.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "calm",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-cleric-calm.png"
+    },
+    {
+      "width": 390,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "cast-lowered",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "390-runeshield-cleric-cast-lowered.png"
+    },
+    {
+      "width": 320,
+      "kind": "elvenchain",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-elvenchain-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "elvenchain",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-elvenchain-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "marshhide",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-marshhide-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "marshhide",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-marshhide-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfplate",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-dwarfplate-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfplate",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-dwarfplate-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-runeshield-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-runeshield-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfhammer",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-dwarfhammer-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfhammer",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-dwarfhammer-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "handxbow",
+      "mode": "floor",
+      "distance": 1,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-handxbow-floor-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "handxbow",
+      "mode": "floor",
+      "distance": 3,
+      "scale": 0.32,
+      "onFloor": true,
+      "unchanged_item_record": true,
+      "file": "320-handxbow-floor-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "elvenchain",
+      "mode": "pack",
+      "name": "Elven Chain",
+      "title": "Elven Chain",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-elvenchain-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "marshhide",
+      "mode": "pack",
+      "name": "Marsh-Hide Armour",
+      "title": "Marsh-Hide Armour",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-marshhide-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfplate",
+      "mode": "pack",
+      "name": "Dwarven Plate",
+      "title": "Dwarven Plate",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-dwarfplate-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield",
+      "mode": "pack",
+      "name": "Rune-Cut Shield",
+      "title": "Rune-Cut Shield",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-runeshield-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "dwarfhammer",
+      "mode": "pack",
+      "name": "Dwarven Hammer",
+      "title": "Dwarven Hammer",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-dwarfhammer-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "handxbow",
+      "mode": "pack",
+      "name": "Dark Elf Hand Crossbow",
+      "title": "Dark Elf Hand Crossbow",
+      "actions": [
+        "Equip",
+        "Drop",
+        "Close"
+      ],
+      "unchanged_item_record": true,
+      "file": "320-handxbow-pack.png"
+    },
+    {
+      "width": 320,
+      "kind": "amulet_tooth",
+      "mode": "seeded-appearance",
+      "known": false,
+      "sprite": "amulet_obsidian",
+      "title": "Obsidian Amulet",
+      "painted_reserve_not_substituted": true,
+      "file": "320-amulet_tooth-unknown.png"
+    },
+    {
+      "width": 320,
+      "kind": "amulet_tooth",
+      "mode": "seeded-appearance",
+      "known": true,
+      "sprite": "amulet_obsidian",
+      "title": "Tooth Charm",
+      "painted_reserve_not_substituted": true,
+      "file": "320-amulet_tooth-known.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "rest",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-fighter-rest.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "bash",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-fighter-bash.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "calm",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-fighter-calm.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "fighter",
+      "state": "cast-lowered",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-fighter-cast-lowered.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "rest",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-cleric-rest.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "bash",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-cleric-bash.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "calm",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-cleric-calm.png"
+    },
+    {
+      "width": 320,
+      "kind": "runeshield-rear",
+      "mode": "held",
+      "class": "cleric",
+      "state": "cast-lowered",
+      "actual_equipped_key": "runeshield",
+      "review_only_gap_override": true,
+      "file": "320-runeshield-cleric-cast-lowered.png"
+    }
+  ]
+}

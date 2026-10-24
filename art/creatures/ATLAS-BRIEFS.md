@@ -25,10 +25,12 @@ pending. Batch N remains are generated/repaired, reviewed and published; see
 [Batch N review](batch-n-preview/REVIEW.md). Runtime integration remains pending.
 Batch O’s thirteen baseline surface sets are reviewed and published; see
 [Batch O review](batch-o-preview/REVIEW.md). Runtime integration and
-state-aware architecture/variant matching remain pending. Proposed P/Q cover
-equipment gaps and effects. Prioritize runtime integration as a separate delivery track. These later
+state-aware architecture/variant matching remain pending. Batch P regional icons
+and two carried Rune shield rear sources are reviewed and published; see
+[Batch P review](batch-p-preview/REVIEW.md). Runtime integration remains pending;
+the live carried gap and seeded Tooth appearance are documented. Q effects are reviewed and published; see [Batch Q review](batch-q-preview/REVIEW.md). Prioritize runtime integration as a separate delivery track. These later
 systems need their stated format/reuse audits rather than the monster atlas
-loader by default. No P/Q artwork is complete.
+loader by default. Q includes three static world cells and eight fire/frost phases; procedural controls remain.
 
 ## Requesting work later
 

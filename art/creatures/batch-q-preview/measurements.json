@@ -1,0 +1,426 @@
+{
+  "family_scale": {
+    "fire": 0.3917525773195876,
+    "frost": 0.5560975609756098
+  },
+  "cells": {
+    "flames": {
+      "source": "effects-q1.png",
+      "source_sha256": "1ecc7c68ad3c51c0451749d6946a9c40d8e1b68575284d5b23a709b6ff8b2112",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_visible_bounds": [
+        179,
+        122,
+        547,
+        608
+      ],
+      "alpha_threshold": 32,
+      "visible_bounds": [
+        50,
+        29,
+        206,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "source_anchor": [
+        363.0,
+        608
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "scale": 0.4268292682926829,
+      "offset": [
+        48,
+        28
+      ],
+      "export_sha256": "317b176cd385eb9d303a39418e914e138ff1c2f2a2b1424991e96c27a3b5b0f3"
+    },
+    "ripple": {
+      "source": "effects-q1.png",
+      "source_sha256": "1ecc7c68ad3c51c0451749d6946a9c40d8e1b68575284d5b23a709b6ff8b2112",
+      "source_rect": [
+        723,
+        0,
+        1447,
+        725
+      ],
+      "source_visible_bounds": [
+        23,
+        457,
+        697,
+        607
+      ],
+      "alpha_threshold": 32,
+      "visible_bounds": [
+        21,
+        189,
+        235,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "source_anchor": [
+        360.0,
+        607
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "scale": 0.3176470588235294,
+      "offset": [
+        20,
+        188
+      ],
+      "export_sha256": "1d828c71c9bd76c52845ff247996c4f63c5b90f20d575b7d8c0e5e30657ed7ee"
+    },
+    "snare": {
+      "source": "effects-q1.png",
+      "source_sha256": "1ecc7c68ad3c51c0451749d6946a9c40d8e1b68575284d5b23a709b6ff8b2112",
+      "source_rect": [
+        1447,
+        0,
+        2170,
+        725
+      ],
+      "source_visible_bounds": [
+        87,
+        443,
+        626,
+        587
+      ],
+      "alpha_threshold": 32,
+      "visible_bounds": [
+        21,
+        180,
+        235,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "source_anchor": [
+        356.5,
+        587
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "scale": 0.3963302752293578,
+      "offset": [
+        20,
+        179
+      ],
+      "export_sha256": "c2e7ddca824a957e9fd035cc6e985fcd7b1324957dfe0d0a6af8fe13e5a2e777"
+    },
+    "fire_0": {
+      "source": "effects-q2.png",
+      "source_sha256": "eedf0be5ca5a07cfa4ab32909d85a6724e504f823b0c1147ae1587acda5d76cf",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_visible_bounds": [
+        232,
+        234,
+        394,
+        415
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        97,
+        89,
+        159,
+        160
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        334
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.3917525773195876,
+      "offset": [
+        95,
+        88
+      ],
+      "export_sha256": "4d7b44656ed8da749543cc4e06a1e878922da00dfcccef92238ae0cacadb8bb3"
+    },
+    "fire_1": {
+      "source": "effects-q2.png",
+      "source_sha256": "eedf0be5ca5a07cfa4ab32909d85a6724e504f823b0c1147ae1587acda5d76cf",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_visible_bounds": [
+        178,
+        155,
+        448,
+        444
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        76,
+        58,
+        181,
+        172
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        334
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.3917525773195876,
+      "offset": [
+        74,
+        57
+      ],
+      "export_sha256": "7951ec3c0f5e7eb72a9bf415034d3406cbc25734733b6f84b8c67986c1559dda"
+    },
+    "fire_2": {
+      "source": "effects-q2.png",
+      "source_sha256": "eedf0be5ca5a07cfa4ab32909d85a6724e504f823b0c1147ae1587acda5d76cf",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_visible_bounds": [
+        134,
+        102,
+        515,
+        464
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        58,
+        37,
+        207,
+        178
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        334
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.3917525773195876,
+      "offset": [
+        56,
+        36
+      ],
+      "export_sha256": "4b497db086dce79ad5dc0d5eb6eff1833dec577054374c18ce5327366e509457"
+    },
+    "fire_3": {
+      "source": "effects-q2.png",
+      "source_sha256": "eedf0be5ca5a07cfa4ab32909d85a6724e504f823b0c1147ae1587acda5d76cf",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        72,
+        43,
+        548,
+        475
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        34,
+        14,
+        220,
+        184
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        334
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.3917525773195876,
+      "offset": [
+        32,
+        13
+      ],
+      "export_sha256": "2e415dc948e43502ed16cd849720002ff36e925ad8b10568a727ace2d114d727"
+    },
+    "frost_0": {
+      "source": "effects-q3-chips.png",
+      "source_sha256": "54f6c26ee8b492e7b4a20f296d40e9b405724195511d5f3823ea7ce0696f08ba",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_visible_bounds": [
+        275,
+        270,
+        360,
+        384
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        106,
+        95,
+        155,
+        158
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        330
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.5560975609756098,
+      "offset": [
+        105,
+        93
+      ],
+      "export_sha256": "0b7f04d460e1cdfee92c09ce61dad00591037a01dfdd19250444c10de1a3d839"
+    },
+    "frost_1": {
+      "source": "effects-q3-chips.png",
+      "source_sha256": "54f6c26ee8b492e7b4a20f296d40e9b405724195511d5f3823ea7ce0696f08ba",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_visible_bounds": [
+        244,
+        242,
+        394,
+        406
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        89,
+        78,
+        172,
+        170
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        330
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.5560975609756098,
+      "offset": [
+        87,
+        77
+      ],
+      "export_sha256": "e884380954767285318bde5500f3c907af463a1a6ac0ad136fbc063b47335dcc"
+    },
+    "frost_2": {
+      "source": "effects-q3-chips.png",
+      "source_sha256": "54f6c26ee8b492e7b4a20f296d40e9b405724195511d5f3823ea7ce0696f08ba",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_visible_bounds": [
+        194,
+        163,
+        435,
+        410
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        62,
+        34,
+        195,
+        173
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        330
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.5560975609756098,
+      "offset": [
+        60,
+        33
+      ],
+      "export_sha256": "9e5ae25c2f767969c41ed9d9f40c6aed8533b6aebeca241b5e232a6d6b759e64"
+    },
+    "frost_3": {
+      "source": "effects-q3-chips.png",
+      "source_sha256": "54f6c26ee8b492e7b4a20f296d40e9b405724195511d5f3823ea7ce0696f08ba",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        148,
+        125,
+        500,
+        452
+      ],
+      "alpha_threshold": 8,
+      "visible_bounds": [
+        35,
+        13,
+        232,
+        195
+      ],
+      "anchor_kind": "effect-origin",
+      "source_anchor": [
+        314,
+        330
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "scale": 0.5560975609756098,
+      "offset": [
+        34,
+        12
+      ],
+      "export_sha256": "f5fc88b6da740aac57d2098fa355b767de098ee12ce4c4270afca89fdf5fa59f"
+    }
+  }
+}

@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–O review/publication status, architecture follow-up and proposed P/Q equipment/effects
+art/creatures/ATLAS-ROADMAP.md  E–Q review/publication status and runtime integration follow-up
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1294,6 +1294,17 @@ Source/review assets are published separately; runtime integration remains pendi
 Existing state-bearing architecture/secondary variants remain procedural; repeat,
 native offline/fallback and performance integration gates are documented.
 
+Batch P audits 95 ordinary item pictures and adds seven regional inventory sources
+(six live base keys plus a reserve Tooth Charm fang), with two separate Fighter/
+Cleric Rune-Cut Shield rear views. 56 phone captures, 36 fitting checks and 12 existing
+held-equipment browser checks pass. Reproduce references with
+`node art/creatures/reference-batch-p.cjs`, exports with
+`python3 art/creatures/export-batch-p.py --check`, and previews with
+`node art/creatures/preview-batch-p.cjs`. See [review](art/creatures/batch-p-preview/REVIEW.md)
+and [caller/motion audit](art/creatures/batch-p-preview/STATE-AUDIT.md).
+Source/review assets are published; runtime integration remains pending.
+The live carried-shield gap remains unfixed; seeded/named Tooth art stays unchanged.
+
 ## Keeping documentation current
 
 Review this README with every change and update affected features, controls, setup,
@@ -1309,3 +1320,10 @@ hook, rejects a missing or outdated generated copy.
 MIT. See [LICENSE](LICENSE).
 
 The six public hero portraits use the approved 19 October refinement, with source crops and provenance in `art/portraits/refined/` and `art/portraits/SOURCES.md`. The hidden Spellblade has its own approved epic source and square adaptation recorded in `art/portraits/generation.json`.
+
+Batch Q adds three static world effects and eight fire/frost impact phases as
+local source/review artwork. See [review](art/creatures/batch-q-preview/REVIEW.md)
+and [state/format audit](art/creatures/batch-q-preview/STATE-AUDIT.md). Reproduce
+with `python3 art/creatures/export-batch-q.py --check`; phone review uses
+`node art/creatures/preview-batch-q.cjs`. Calm, poison and triggered traps stay
+procedural. Source/review assets are published; runtime integration remains pending.

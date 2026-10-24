@@ -1,0 +1,250 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-p.md",
+  "status": "generated and source/export visually reviewed; seven inventory paintings (six live base selections plus reserved Tooth Charm), two class shield rear frames; 56 phone captures,36 fitting checks and12 baseline browser tests passed; source/review only; current runtime carried gap, integration remains pending",
+  "groups": {
+    "p1": [
+      "elvenchain",
+      "marshhide",
+      "dwarfplate",
+      "runeshield"
+    ],
+    "p2": [
+      "dwarfhammer",
+      "handxbow",
+      "amulet_tooth"
+    ]
+  },
+  "sheets": {
+    "p1": {
+      "source": "equipment-p1.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "elvenchain",
+        "marshhide",
+        "dwarfplate",
+        "runeshield"
+      ],
+      "prompt": "Paint isolated inventory equipment icons for Deepdelve Batch P. FIRST reference is ACTIVE procedural identity, SECOND approved Batch L gritty painted materials. Weathered realistic hand-painted metal, hide, mail and wood, muted colours, restrained warm upper-left light and deep shaded crevices. No cartoon/toy appearance, labels, borders, ground, cast-shadow slab, body, mannequin, hands or scenery. True transparent RGBA. Each full object isolated inside its equal cell with >=12% clear margins on every side and complete tips, no crossing gutters. Front-facing armour/shield silhouettes; weapons point diagonally lower-left grip to upper-right head/tip, following reference. Keep identity rather than inventing extra ornament. Square precise TWO BY TWO sheet, four objects in reading order. TOP LEFT ELVEN CHAIN: empty short-sleeved blue-grey fine mithral chain shirt, visible individual interlocking metal rings, darker blue-violet seams and VIOLET edging around neck/lower hem, small shoulder openings, no wearer or helmet. TOP RIGHT MARSH-HIDE ARMOUR: empty dark OLIVE-GREEN/BROWN leather coat/cuirass with structured shoulder flaps, dark centre fastening, restrained olive scutes and brass/green rivets, visibly scaled/hide texture, not metal or green cloth robe. BOTTOM LEFT DWARVEN PLATE: empty DARK IRON breastplate with articulated layered shoulder pauldrons, narrow worn COPPER trim, central reinforced panel, no arms/head/legs, solid broad heavy geometry not chain mail. BOTTOM RIGHT RUNE-CUT SHIELD FRONT: tall heavy rectangular IRON tower shield with shallow tapered point at bottom, dark grey vertical plate divisions, exactly TWO horizontal riveted bars, round central metal boss, ONE thin pale CYAN Y-shaped cut rune with short baseline across/down boss. Rune is restrained luminous surface incision only, not new world light or giant glowing aura. No crest/animal/head/eyes, no wood front or handheld arm.",
+      "references": [
+        "batch-p-preview/p1-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-0fe94f60-4ea8-4ecf-b0da-b6d3dee32cd4.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "p2": {
+      "source": "equipment-p2.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "dwarfhammer",
+        "handxbow",
+        "amulet_tooth"
+      ],
+      "prompt": "Paint isolated inventory equipment icons for Deepdelve Batch P. FIRST reference is ACTIVE procedural identity, SECOND approved Batch L gritty painted materials. Weathered realistic hand-painted metal, hide, mail and wood, muted colours, restrained warm upper-left light and deep shaded crevices. No cartoon/toy appearance, labels, borders, ground, cast-shadow slab, body, mannequin, hands or scenery. True transparent RGBA. Each full object isolated inside its equal cell with >=12% clear margins on every side and complete tips, no crossing gutters. Front-facing armour/shield silhouettes; weapons point diagonally lower-left grip to upper-right head/tip, following reference. Keep identity rather than inventing extra ornament. Wide single row of THREE EQUAL SQUARE cells. LEFT DWARVEN HAMMER: one dark IRON war hammer with broad square striking face and tapered pick on opposite side, head firmly joined across one long brown wooden haft, worn copper collar/detail and dark wrapped grip. Grip lower-left, head upper-right, whole shaft/hammerhead complete; no forge, second hammer, magic or giant stone maul. CENTRE DARK ELF HAND CROSSBOW: compact one-handed black-purple stock with ONE small VIOLET inset gem near grip, small steel transverse prod with TWO limbs connected at stock head, taut pale string connects BOTH prod tips back to the trigger nut in a triangle, ONE wooden bolt resting straight along stock, steel point extending past prod at upper-right. Stock diagonal lower-left to upper-right, physically connected bow/stock/string/bolt, not longbow/gun/full-size siege arbalest. Transparent gaps around string; no extra limbs, loose bow/string or detached bolt. RIGHT TOOTH CHARM: exactly ONE long tapered aged PALE YELLOW fang suspended by its top from a simple brown hide thong loop, tied joint complete, subtly worn surface; no chain, skull, multiple fangs, beads, runes, frame or wearer.",
+      "references": [
+        "batch-p-preview/p2-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-d949b029-eaaf-4b10-9a4c-d5dc861d6a41.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "p3": {
+      "source": "equipment-p3-held.png",
+      "grid": [
+        2,
+        1
+      ],
+      "keys": [
+        "runeshield_fighter",
+        "runeshield_cleric"
+      ],
+      "prompt": "Paint a separate FIRST-PERSON HELD REAR-VIEW source sheet for Deepdelve Rune-Cut Shield. Exactly TWO EQUAL SQUARE cells side by side, generous true transparent background, no scenery/text/borders. FIRST and SECOND references are procedural tower-shield REAR GRIP/ARM guides for Fighter and Cleric. Third reference is painted material style only. Same heavy rectangular shield in BOTH cells, shallow angled shoulders and tapered bottom matching the inventory Rune-Cut Shield silhouette. View its BACK from the hero, held in the LEFT hand: no front boss, cyan rune or front emblem visible through metal. Rear is dark iron plate with narrow rim, two practical riveted crossbars, a vertical brown leather-wrapped HANDGRIP at centre, ONE brown forearm strap lower-left. Exactly ONE attached left glove/hand per cell, fingers CLOSED around the centre vertical grip; connected wrist and forearm extend diagonally toward bottom-LEFT of cell through the strap. No right hand, extra fingers, disembodied arm, free-floating handle or mirrored arm. Keep rear grip physically attached to shield, forearm passing under strap. LEFT cell Fighter: muted grey steel/mail-backed glove, grey cuff, brown sleeve. RIGHT cell Cleric: worn brown glove, narrow BRASS cuff trim, off-white/ivory sleeve. Preserve class palette and hand attachment. Both entire shield objects within central70% of cells, all shield tips complete and 12% clear margins; a short connected forearm ends in a complete cloth sleeve section within cell, to be cropped off-screen later. Material realism matching gritty monsters/props, weathered dull metal/leather and fabric, restrained warm upper-left shading. Arm cannot obscure whole shield; rear hardware and strap readable. No magical light, gold ceremonial shield or large wooden backboard. Both compositions consistent shield size and perspective.",
+      "references": [
+        "batch-p-preview/held-fighter-reference.png",
+        "batch-p-preview/held-cleric-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-e721c59b-8d10-434b-8ead-f76d4bd343da.png",
+      "source_dimensions": [
+        1774,
+        887
+      ]
+    }
+  },
+  "icons": {
+    "elvenchain": {
+      "sheet": "p1",
+      "source_rect": [
+        0,
+        0,
+        627,
+        590
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/elvenchain.webp"
+    },
+    "marshhide": {
+      "sheet": "p1",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        570
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/marshhide.webp"
+    },
+    "dwarfplate": {
+      "sheet": "p1",
+      "source_rect": [
+        0,
+        590,
+        695,
+        1254
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/dwarfplate.webp"
+    },
+    "runeshield": {
+      "sheet": "p1",
+      "source_rect": [
+        695,
+        570,
+        1254,
+        1254
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/runeshield.webp"
+    },
+    "dwarfhammer": {
+      "sheet": "p2",
+      "source_rect": [
+        0,
+        0,
+        760,
+        724
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/dwarfhammer.webp"
+    },
+    "handxbow": {
+      "sheet": "p2",
+      "source_rect": [
+        760,
+        0,
+        1520,
+        724
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/handxbow.webp"
+    },
+    "amulet_tooth": {
+      "sheet": "p2",
+      "source_rect": [
+        1520,
+        0,
+        2172,
+        724
+      ],
+      "anchor_kind": "icon-centre",
+      "review_export": "batch-p-preview/amulet_tooth.webp",
+      "binding": "reserve base icon only; seeded ordinary amulet appearance and dedicated named Hissra art must not be replaced"
+    }
+  },
+  "held": {
+    "runeshield_fighter": {
+      "sheet": "p3",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        535,
+        400
+      ],
+      "source_object_bounds": [
+        299,
+        54,
+        759,
+        824
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "anchor_kind": "held-grip",
+      "class": "fighter",
+      "review_export": "batch-p-preview/runeshield-fighter-held.png",
+      "max_object_height": 128
+    },
+    "runeshield_cleric": {
+      "sheet": "p3",
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        535,
+        400
+      ],
+      "source_object_bounds": [
+        299,
+        54,
+        759,
+        824
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "anchor_kind": "held-grip",
+      "class": "cleric",
+      "review_export": "batch-p-preview/runeshield-cleric-held.png",
+      "max_object_height": 128
+    }
+  },
+  "crop_note": "Authored icon crops cross empty nominal gutters to preserve complete shoulders/hammer spike. Held sources use explicit grip/object bounds rather than icon centring or foot fitting.",
+  "runtime_scope_note": "Six ordinary regional base sprites have direct live selections. Tooth Charm uses seeded amulet appearances even when identified; painted base fang is reserve only. Hissra named icon/portrait stays separate. Rune shield rear frames are source/review only; current carried null gap remains unfixed in runtime.",
+  "held_registration_note": "Initial export fitted at rest but clipped at top during existing bash in H160. Uniform held source scale capped at128px object height before runtime placement; same actual grip/object bounds and existing bash motion retained.",
+  "inventory_audit": {
+    "ordinary_item_art": 95,
+    "painted_icons": 7,
+    "direct_live_base_icons": 6,
+    "reserved_base_icons": 1,
+    "held_frames": 2,
+    "eligible_shield_classes": [
+      "fighter",
+      "cleric"
+    ],
+    "world_pack_held_captures": 56,
+    "fitting_checks": 36,
+    "baseline_browser_tests": 12,
+    "runtime_integration": false
+  },
+  "publication": "Source/review published together in the Batch P/Q publication; runtime integration remains pending."
+}

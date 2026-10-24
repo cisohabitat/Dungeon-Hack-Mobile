@@ -231,6 +231,23 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   doors/locks/stair openings and non-base kinds remain original. Architecture
   matching, native layouts/offline/fallback and isolated performance remain
   integration gates. See batch-o-preview/FORMAT-AUDIT.md; no creature anchors.
+  Batch P uses `generation-batch-p.json`, `reference-batch-p.cjs`,
+  `export-batch-p.py --check` and `preview-batch-p.cjs`. Audit 95 ordinary icons;
+  seven regional paintings include six direct base keys and reserved amulet_tooth.
+  Keep seeded Tooth appearances and named Hissra art; do not force the base fang.
+  Two grip-registered Rune shield rear sources cover Fighter/Cleric only. Current
+  carriedParts returns null for runeshield; source review is not a runtime fix.
+  Held object height 128px avoids short-view bash clipping; icons use centre fit,
+  not creature feet. 56 captures, 36 held fits and 12 existing baseline tests pass;
+  loader, class actions, rarity/emissive/offline integration remain separate.
+  Batch Q uses generation-batch-q.json, reference-batch-q.cjs,
+  export-batch-q.py --check and preview-batch-q.cjs. Eleven source cells cover
+  three static world effects and four phases each for fire/frost. Impact families
+  share target origins and uniform scales; fade externally. Preserve procedural
+  Calm, poison/status, lightning, projectiles, telegraphs and triggered traps.
+  88 frozen captures, 52 lifetime pixel gates and 14 baseline browser tests pass.
+  Loader/cache/offline/native outcomes/performance remain integration gates;
+  see batch-q-preview/STATE-AUDIT.md.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.
