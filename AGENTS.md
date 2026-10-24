@@ -168,6 +168,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   The active identity repair currently draws a chest even for procedural barrel
   variants; label legacy barrel design references separately. Special/blink
   cells are reserves. Keep concealment scenery and approved chest art intact.
+  Batch H boss review tooling uses `generation-batch-h.json`,
+  `export-batch-h.py --check` and `preview-batch-h.cjs`. The preview freezes game
+  updates and substitutes pictures; it does not prove live state transitions.
+  Warlord phase stats are not cumulative: only phase 1 has ranged attacks,
+  including while standing after throne exit/no bearer spawn. Seated step slots
+  are reserves. Keep projectiles and helpers separate; reuse current Lich casts
+  and phase-2 cleaver/drum. Read `batch-h-preview/STATE-AUDIT.md` before integration.
   Preview substitutions do not establish runtime/offline integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation

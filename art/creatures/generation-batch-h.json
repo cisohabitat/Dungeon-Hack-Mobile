@@ -1,0 +1,191 @@
+{
+  "date": "2026-10-23",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-h.md",
+  "status": "generated, repaired and source/export visually reviewed; review-only phone captures; source/review publication; no runtime integration",
+  "poses": [
+    "idle",
+    "stepA",
+    "stepB",
+    "windup",
+    "strike",
+    "recover",
+    "special",
+    "hurt",
+    "blink"
+  ],
+  "creatures": {
+    "heartforged_open": {
+      "source": "heartforged_open.png",
+      "references": [
+        "../../img/creatures/heartforged.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas, exactly NINE complete frontal figures in a precise 3x3 grid, true transparent alpha. Match supplied approved character reference identity, proportions and painted materials. Every figure fully inside its own cell with generous 15% transparent margins all sides. No floor, shadows, labels, lines, scenery, detached particles, projectiles or extra characters. Constant body size and facing, equipment sides consistent, no mirroring. Same dark iron giant and ONE block hammer on viewer RIGHT, both gauntlets gripping one continuous shaft. Chest armour opens as two attached side panels exposing a large orange furnace; head, limbs and hammer unchanged. No ember creatures. Cells row-major: idle hammer across waist; stepA viewer LEFT boot leads; stepB viewer RIGHT boot leads, opposite gait without mirroring kit; windup both hands lift hammer overhead; strike hammer swung down forward; recover hammer returns across waist; reserve furnace brace; hurt modest recoil; reserve idle with dim eye slits. All furnace panels remain attached.",
+      "generated_file": "/workspace/generated_images/exec-680b02c8-e4c1-4331-99ae-51ab8bf631cc.png",
+      "repairs": [
+        {
+          "source": "heartforged_open-corrected.png",
+          "prompt": "Repair this 3x3 transparent nine-pose iron giant atlas. TWO CRITICAL CHANGES throughout: (1) chest MUST visibly OPEN: remove the vertical central grille bars, hinge the left and right breastplate panels outward sideways like two attached angular doors. Between doors show a broad exposed orange furnace cavity with bright orange core and a dark rim, visibly different from closed barred chest in reference. All doors remain attached to torso in every pose. (2) TOP RIGHT cell must put VIEWER RIGHT boot BIG and FORWARD at bottom foreground, viewer LEFT boot SMALL and RECESSED above, opposite to top middle viewerLEFT-leading step. Keep hammerhead viewerRIGHT and textures unmirrored. Preserve same helmet, two gauntlets gripping one shaft, block hammer, iron palette, all nine row-major poses. Shrink all figures slightly to generous transparent gutters, complete silhouettes, true alpha. No scenery, text, separate particles or extra creatures.",
+          "generated_file": "/workspace/generated_images/exec-5408477b-c811-4c13-9f5c-985ac115c1c5.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "heartforged_open.png"
+          ]
+        },
+        {
+          "source": "heartforged_open-stepB.png",
+          "prompt": "Draw ONE isolated full-body frontal pose of this EXACT open-furnace iron giant, true transparent alpha, no grid. This is opposite walking step: the boot on VIEWER RIGHT must be LARGE and LOW in foreground, thigh advanced, knee bent toward camera. Boot on VIEWER LEFT must be SMALL, HIGH and BEHIND. Asymmetric hammer must stay on VIEWER RIGHT, held across waist with BOTH gauntlets on same shaft, NO MIRROR. Chest has TWO attached outward hinged armour doors around broad orange furnace cavity with NO grille bars. Same dark bronze/charcoal iron, orange seams, slit helmet, proportions and warm/cool palette as reference. Entire giant and hammer inside image with generous empty margins. NO scenery, floor, shadows, particles, additional figure. FACE FRONT, right side of IMAGE foot leads unmistakably.",
+          "references": [
+            "heartforged_open-corrected.png"
+          ],
+          "generated_file": "/workspace/generated_images/exec-f357e11b-4e9f-40c7-9880-cc94be85e18c.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "status": "rejected: exaggerated isolated-step foreshortening and scale drift"
+        },
+        {
+          "source": "heartforged_open-final.png",
+          "prompt": "Correct ONLY TOP-RIGHT walking frame in this 3x3 open-furnace iron guardian atlas. Advance the LEG DIRECTLY UNDER THE HAMMERHEAD at RIGHT SIDE OF IMAGE: rightmost boot at far RIGHT extends DOWN in foreground, knee forward, boot larger. Boot on LEFT SIDE underneath bare shaft end retracts UP behind, boot smaller. HAMMERHEAD-SIDE LEG LEADS, BARE-SHAFT-SIDE LEG TRAILS. Do not mirror: hammerhead stays RIGHT, both hands hold same shaft. Keep squat body proportions, body scale and dark bronze/charcoal palette EXACTLY matching other eight cells. Preserve OPEN CHEST with TWO ATTACHED HINGED DOORS and broad orange furnace, NO grille bars. Keep all other eight figures and poses unchanged, with frontal face, connected equipment, complete silhouettes and generous true transparent margins. No text, floor, particles or added characters.",
+          "reference": "heartforged_open-corrected.png",
+          "generated_file": "/workspace/generated_images/exec-5d696dba-72b9-4c6d-b1a6-5b9e9eb12f4a.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "heartforged_open-final.png",
+      "body_centres": [
+        220,
+        645,
+        1080,
+        220,
+        645,
+        1080,
+        220,
+        645,
+        1080
+      ],
+      "registration": "One uniform scale per creature; measured torso x centres; visible alpha baseline row236; 12px minimum clearance",
+      "review_atlas": "batch-h-preview/heartforged_open.webp",
+      "status": "All source drafts and nine selected export cells visually reviewed; phone previews are frozen review substitutions"
+    },
+    "heartforged_whitehot": {
+      "source": "heartforged_whitehot.png",
+      "references": [
+        "../../img/creatures/heartforged.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas, exactly NINE complete frontal figures in a precise 3x3 grid, true transparent alpha. Match supplied approved character reference identity, proportions and painted materials. Every figure fully inside its own cell with generous 15% transparent margins all sides. No floor, shadows, labels, lines, scenery, detached particles, projectiles or extra characters. Constant body size and facing, equipment sides consistent, no mirroring. Same iron giant and ONE block hammer on viewer RIGHT, both gauntlets gripping one continuous shaft. Open chest furnace burns white-yellow, iron seams glow pale yellow and heated plate centres become pale steel while charcoal edges retain readable anatomy. No aura, bloom, external light or fire particles. Cells row-major: idle hammer across waist; stepA viewer LEFT boot leads; stepB viewer RIGHT boot leads, opposite gait without mirroring kit; windup both hands lift hammer overhead; strike hammer swung down forward; recover hammer returns across waist; reserve furnace brace; hurt modest recoil; reserve idle with dim eye slits. All furnace panels remain attached.",
+      "generated_file": "/workspace/generated_images/exec-6469ab64-0281-456d-a918-980c7729affc.png",
+      "repairs": [
+        {
+          "source": "heartforged_whitehot-corrected.png",
+          "prompt": "Transform this complete nine-pose 3x3 dark iron guardian sheet into its WHITE-HOT PHASE variant. Make a MAJOR VISIBLE MATERIAL CHANGE across all nine: large surfaces of helmet, shoulders, breastplate, forearms, thighs and greaves are now PALE IVORY SILVER WHITE-HOT IRON, with thin charcoal joint gaps and dark outline preserving detail. Chest central grille MUST OPEN: two attached breastplate door panels hinge outward to each side exposing a broad WHITE-YELLOW FURNACE CAVITY without vertical bars. Same connected giant anatomy and two gauntlets gripping ONE hammer shaft, head viewerRIGHT, same nine poses, topmiddle viewerLEFT boot leads, topRIGHT viewerRIGHT boot leads. No full body aura, no external light, no detached sparks, no floor, true transparent alpha. Keep the giant pale ivory with dark iron edges in EVERY cell, clearly different from orange-and-brown previous phase. Complete figures and generous transparent margins.",
+          "generated_file": "/workspace/generated_images/exec-df61c679-c3d5-4c92-8b6d-de698428af1e.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "references": [
+            "heartforged_whitehot.png"
+          ]
+        },
+        {
+          "source": "heartforged_whitehot-final.png",
+          "prompt": "Edit FIRST image nine-pose WHITE-HOT guardian sheet. Keep pale ivory/silver iron material and exact poses, opposite walking boots and complete connected hammer. Replace ONLY chest furnace architecture in EVERY cell to match SECOND image: two large attached breastplate doors opened outward to viewerLEFT and viewerRIGHT exposing a broad round open furnace cavity. REMOVE ALL vertical grille bars from chest; center is unobstructed white-yellow glowing furnace core surrounded by orange inner cavity, bordered by the two hinged doors. The SECOND image shows correct open doors and unbarred chest cavity; first image supplies correct white iron body. Keep all 9 frontal complete figures, no particles or scenery, true transparent background and generous gutters.",
+          "references": [
+            "heartforged_whitehot-corrected.png",
+            "heartforged_open-corrected.png"
+          ],
+          "generated_file": "/workspace/generated_images/exec-64f49304-0dbd-4ce2-b281-75d73530160c.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "heartforged_whitehot-final.png",
+      "body_centres": [
+        200,
+        625,
+        1055,
+        210,
+        620,
+        1060,
+        200,
+        625,
+        1060
+      ],
+      "registration": "One uniform scale per creature; measured torso x centres; visible alpha baseline row236; 12px minimum clearance",
+      "review_atlas": "batch-h-preview/heartforged_whitehot.webp",
+      "status": "All source drafts and nine selected export cells visually reviewed; phone previews are frozen review substitutions"
+    },
+    "warlord_throne": {
+      "source": "warlord_throne.png",
+      "references": [
+        "../../img/creatures/warlord.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas, exactly NINE complete frontal figures in a precise 3x3 grid, true transparent alpha. Match supplied approved character reference identity, proportions and painted materials. Every figure fully inside its own cell with generous 15% transparent margins all sides. No floor, shadows, labels, lines, scenery, detached particles, projectiles or extra characters. Constant body size and facing, equipment sides consistent, no mirroring. Same crowned olive goblin, red fur cloak, leather armour, hip drum on viewer RIGHT. SEATED throughout on a compact rough iron and plunder throne with connected backrest, feet grounded. No shield-bearers. Replace cleaver with ONE short throwing spear in anatomical RIGHT hand on viewer LEFT. No cleaver. Cells row-major: idle seated spear held upright; reserve seated weight shift left; reserve seated weight shift right; windup seated right arm draws spear back overhead; strike seated release followthrough EMPTY throwing hand (projectile rendered separately); recover seated lowers empty hand; reserve seated drum command spear held; hurt seated recoil; reserve seated eyes closed. Never walk or leave seat.",
+      "generated_file": "/workspace/generated_images/exec-bbfad727-c8a3-491f-a78e-8016de5d6be6.png",
+      "repairs": [],
+      "body_centres": [
+        225,
+        645,
+        1060,
+        225,
+        645,
+        1065,
+        225,
+        645,
+        1060
+      ],
+      "registration": "One uniform scale per creature; measured torso x centres; visible alpha baseline row236; 12px minimum clearance",
+      "review_atlas": "batch-h-preview/warlord_throne.webp",
+      "status": "All source drafts and nine selected export cells visually reviewed; phone previews are frozen review substitutions"
+    },
+    "warlord_spear": {
+      "source": "warlord_spear.png",
+      "references": [
+        "../../img/creatures/warlord.webp"
+      ],
+      "transparent_background": true,
+      "prompt": "Create a production painted dark fantasy sprite atlas, exactly NINE complete frontal figures in a precise 3x3 grid, true transparent alpha. Match supplied approved character reference identity, proportions and painted materials. Every figure fully inside its own cell with generous 15% transparent margins all sides. No floor, shadows, labels, lines, scenery, detached particles, projectiles or extra characters. Constant body size and facing, equipment sides consistent, no mirroring. Same crowned olive goblin, red fur cloak, leather armour and hip drum on viewer RIGHT. STANDING, no throne. Replace cleaver with ONE short throwing spear in anatomical RIGHT hand on viewer LEFT. No cleaver. Cells row-major: idle spear upright; stepA viewer LEFT boot leads; stepB viewer RIGHT boot leads, opposite gait without mirroring kit; windup right arm draws spear back overhead; strike release followthrough EMPTY throwing hand (projectile rendered separately); recover lowers empty hand; reserve drum command with spear held; hurt recoil; reserve eyes closed.",
+      "generated_file": "/workspace/generated_images/exec-8737cc21-9d87-4c51-952a-124f18da0106.png",
+      "repairs": [
+        {
+          "source": "warlord_spear-stepB.png",
+          "prompt": "Draw ONE isolated full-body frontal walking pose of this EXACT crowned olive goblin Warlord with red fur cloak, armour and drum on VIEWER RIGHT hip. ONE upright throwing spear gripped in anatomical RIGHT hand at VIEWER LEFT. No cleaver, throne, scenery or additional figure. Critical opposite step: boot on VIEWER RIGHT is BIG and LOW in foreground, its knee advanced; boot on VIEWER LEFT is SMALL and HIGH behind. Do not mirror kit, spear MUST stay on VIEWER LEFT, drum VIEWER RIGHT. Match reference's dark painted muted gold/red/olive palette, body proportions, hammered crown and tooth necklace. Frontal face and torso. True transparent alpha, complete spear tip and feet, generous margins.",
+          "references": [
+            "warlord_spear.png"
+          ],
+          "generated_file": "/workspace/generated_images/exec-1ce26abc-bcfb-4355-b463-9520624319ae.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "status": "rejected: repeats spear-side walking lead"
+        },
+        {
+          "source": "warlord_spear-corrected.png",
+          "prompt": "Correct ONLY TOP-RIGHT walking frame of this 3x3 transparent Warlord atlas. It currently repeats top-middle foot placement. Make TOP-RIGHT advance the LEG DIRECTLY UNDER THE DRUM at RIGHT SIDE OF IMAGE: rightmost boot at far RIGHT must extend DOWN to foreground, visibly larger; boot at LEFT SIDE UNDER SPEAR must retract UP behind him, visibly smaller. DRUM-SIDE LEG LEADS, SPEAR-SIDE LEG TRAILS. Front facing, no mirroring, spear stays at LEFT of image, drum RIGHT. Match exact existing body size, small squat proportions, palette, crown and cape. All other EIGHT cells unchanged, including seated-free standing idle, spear windup, EMPTY HAND release and recover. No detached spear/projectile, no cleaver, no extra figure. Entire 3x3 atlas transparent alpha with complete silhouettes and generous gutters.",
+          "reference": "warlord_spear.png",
+          "generated_file": "/workspace/generated_images/exec-698963f8-5d50-4fa9-9663-fbc639e36c75.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "body_centres": [
+        225,
+        645,
+        1060,
+        225,
+        645,
+        1060,
+        225,
+        645,
+        1060
+      ],
+      "selected_source": "warlord_spear-corrected.png",
+      "registration": "One uniform scale per creature; measured torso x centres; visible alpha baseline row236; 12px minimum clearance",
+      "review_atlas": "batch-h-preview/warlord_spear.webp",
+      "status": "All source drafts and nine selected export cells visually reviewed; phone previews are frozen review substitutions"
+    }
+  }
+}

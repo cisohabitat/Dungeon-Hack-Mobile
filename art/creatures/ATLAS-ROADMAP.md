@@ -113,6 +113,13 @@ remain ripples; neither is a missing combat pose.
 
 ## Batch H — boss variants
 
+Art/review completed locally: four nine-cell atlases, with reused Lich casting
+and standing phase-2 Warlord cells. See [review](batch-h-preview/REVIEW.md) and
+[state audit](batch-h-preview/STATE-AUDIT.md). Source/review publication complete; runtime integration pending.
+Standing phase-1 spear attacks require H4; phase 2 drops ranged equipment because
+phase records replace the current overrides rather than accumulating them.
+
+
 Phase indices are 0, 1 and 2. Existing painted boss atlases cover phase 0 only;
 `js/motion.js` currently retains procedural art for every later phase, throne
 state and Warlord shot windup. A gameplay phase does not automatically require

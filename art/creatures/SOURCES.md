@@ -243,3 +243,15 @@ All 14 captures and 12 variant cases pass, with warnings visible and no
 page/console errors. Special/blink remain reserves. See
 [the review](batch-g-preview/REVIEW.md) for identity findings and preview limits.
 No runtime or offline integration is included.
+
+## Batch H — boss variants, 23 October 2026
+
+Four originals, coherent full-sheet repairs and rejected isolated-step drafts were
+generated with `image_gen.imagegen` (model not disclosed), using approved shipped
+Heartforged/Warlord atlases as references. Prompts, references, original output
+paths, selected sources and registration live in `generation-batch-h.json`.
+Selected open/white-hot sheets expose attached furnace doors; seated/standing
+Warlord sheets keep spear release hands empty. No external projectiles/helpers
+are baked in. Rejected originals retain closed grilles or repeated foot leads;
+isolated steps retain foreshortening/lead errors. All provenance remains intact.
+See `batch-h-preview/REVIEW.md`; these are review assets, not shipped art.

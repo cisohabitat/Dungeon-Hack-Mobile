@@ -1,0 +1,1512 @@
+{
+  "mode": "review-only frozen painted-cell substitutions; unchanged actual variant guards and renderer",
+  "console_errors": [],
+  "variants": [
+    {
+      "width": 390,
+      "checks": [
+        {
+          "id": "heartforged",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1300
+        },
+        {
+          "id": "heartforged",
+          "phase": 1,
+          "ranged": false,
+          "speed": 1200
+        },
+        {
+          "id": "heartforged",
+          "phase": 2,
+          "ranged": false,
+          "speed": 1000
+        },
+        {
+          "id": "warlord",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1100
+        },
+        {
+          "id": "warlord",
+          "phase": 1,
+          "ranged": true,
+          "speed": 1100
+        },
+        {
+          "id": "warlord",
+          "phase": 2,
+          "ranged": false,
+          "speed": 900
+        },
+        {
+          "id": "lich",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1100
+        },
+        {
+          "id": "lich",
+          "phase": 1,
+          "ranged": true,
+          "speed": 1100
+        },
+        {
+          "id": "lich",
+          "phase": 2,
+          "ranged": true,
+          "speed": 850
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "checks": [
+        {
+          "id": "heartforged",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1300
+        },
+        {
+          "id": "heartforged",
+          "phase": 1,
+          "ranged": false,
+          "speed": 1200
+        },
+        {
+          "id": "heartforged",
+          "phase": 2,
+          "ranged": false,
+          "speed": 1000
+        },
+        {
+          "id": "warlord",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1100
+        },
+        {
+          "id": "warlord",
+          "phase": 1,
+          "ranged": true,
+          "speed": 1100
+        },
+        {
+          "id": "warlord",
+          "phase": 2,
+          "ranged": false,
+          "speed": 900
+        },
+        {
+          "id": "lich",
+          "phase": 0,
+          "ranged": false,
+          "speed": 1100
+        },
+        {
+          "id": "lich",
+          "phase": 1,
+          "ranged": true,
+          "speed": 1100
+        },
+        {
+          "id": "lich",
+          "phase": 2,
+          "ranged": true,
+          "speed": 850
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 77.5,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "stepA",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 70.9375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "stepB",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 63.28125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 50.90122072745391,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 265,
+          "markY": 64,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Stamping"
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "strike",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 66.5,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "recover",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 72.03125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_open",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 68.75,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 70.9375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "stepA",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 70.9375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "stepB",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 69.84375,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 54.18247072745391,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 160,
+          "markY": 64,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Stamping"
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "strike",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 73.0625,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "recover",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 68.75,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "heartforged_whitehot",
+      "pose": "hurt",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 72.03125,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_throne",
+      "pose": "idle",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.6497488469318363,
+      "shown": [
+        {
+          "top": 71.53772722592481,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.051631859342681
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_throne",
+      "pose": "windup",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.3515282723022219,
+      "shown": [
+        {
+          "top": 64.71144352606191,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0570034237946786,
+          "markX": 160,
+          "markY": 60,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 254.70356175428122
+        }
+      ],
+      "intent": "Goblin Warlord · Aiming a shot"
+    },
+    {
+      "width": 390,
+      "kind": "warlord_throne",
+      "pose": "strike",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.2957145839943494,
+      "shown": [
+        {
+          "top": 68.09815183284249,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.0605720571228052
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_throne",
+      "pose": "recover",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.6072397387223923,
+      "shown": [
+        {
+          "top": 79.56244100837415,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0633847122246503
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_throne",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.4767400961956495,
+      "shown": [
+        {
+          "top": 76.9743822942767,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0655402696529126
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 88.98512555093367,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0486158953838172
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "stepA",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 96.62841024202395,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0418579487898803
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "stepB",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 97.93536411871868,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0353231794064066
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 77.54118754111269,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0276472089879696,
+          "markX": 160,
+          "markY": 73,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 258.46115724954
+        }
+      ],
+      "intent": "Goblin Warlord · Aiming a shot"
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "strike",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 104.26856693610732,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 1.0200614680854445
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "recover",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 116.61341050277701,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0128311263291558
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_spear",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 114.43219490812268,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 1.0082952650363879
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase1",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 99.6875,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase1",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 93.71372072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 89,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase1",
+      "pose": "special",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 75.21372072745393,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 71,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase2",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 88.6875,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase2",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 93.71372072745393,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 89,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "lich_phase2",
+      "pose": "special",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 75.21372072745393,
+          "bottom": 293.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 71,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 390,
+      "kind": "warlord_frenzy",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 100.3053755368991,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9832214439751314
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_frenzy",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 76.06765260470172,
+          "bottom": 304.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9810453567500096,
+          "markX": 160,
+          "markY": 72,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 264.4261943359989
+        }
+      ],
+      "intent": "Goblin Warlord · Drawing back to strike"
+    },
+    {
+      "width": 390,
+      "kind": "warlord_frenzy",
+      "pose": "strike",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 104.82808339643358,
+          "bottom": 294,
+          "dist": 1,
+          "texel": 0.9801653710029348
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 390,
+      "kind": "warlord_frenzy",
+      "pose": "recover",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 113.84090064837869,
+          "bottom": 305,
+          "dist": 1,
+          "texel": 0.980303073598058
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 104.5,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "stepA",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 97.9375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "stepB",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 90.28125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 77.9012207274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 160,
+          "markY": 73,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Stamping"
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "strike",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 100.5,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "recover",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 99.03125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_open",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 95.75,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 97.9375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "stepA",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 97.9375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "stepB",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 96.84375,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 81.1824707274539,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0937500000000002,
+          "markX": 160,
+          "markY": 77,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 280.00000000000006
+        }
+      ],
+      "intent": "Heartforged · Stamping"
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "strike",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 107.0625,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "recover",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 95.75,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "heartforged_whitehot",
+      "pose": "hurt",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.4,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 99.03125,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.09375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_throne",
+      "pose": "idle",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.35698893016158406,
+      "shown": [
+        {
+          "top": 114.41978169168758,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9800910734608668
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_throne",
+      "pose": "windup",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.32125988437663267,
+      "shown": [
+        {
+          "top": 109.04648971568447,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9806375815496453,
+          "markX": 160,
+          "markY": 105,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 264.4783895616455
+        }
+      ],
+      "intent": "Goblin Warlord · Aiming a shot"
+    },
+    {
+      "width": 320,
+      "kind": "warlord_throne",
+      "pose": "strike",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.6453595943117416,
+      "shown": [
+        {
+          "top": 118.82078498077217,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.9820620423437926
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_throne",
+      "pose": "recover",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.43106887630093826,
+      "shown": [
+        {
+          "top": 123.37045036947436,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9841016492005926
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_throne",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": true,
+      "scale": 1.3,
+      "alpha": 0.2674756326694638,
+      "shown": [
+        {
+          "top": 120.81933443583588,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9868255400194584
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 112.35349356214168,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0662451768828074
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "stepA",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 118.7412624048744,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.066293687975628
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "stepB",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 118.92926154770761,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.065353692261462
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 96.58901056659619,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.0636299102301257,
+          "markX": 160,
+          "markY": 92,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 253.855371490544
+        }
+      ],
+      "intent": "Goblin Warlord · Aiming a shot"
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "strike",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 130.7554537673546,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.0604545496378786
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "recover",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 135.5413326550464,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0562293943277075
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_spear",
+      "pose": "hurt",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 133.31939448060103,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.051220135023275
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase1",
+      "pose": "idle",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 126.6875,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase1",
+      "pose": "windup",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 120.71372072745393,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 116,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase1",
+      "pose": "special",
+      "phase": 1,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 109.21372072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 105,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase2",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 122.6875,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.9375
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase2",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 120.71372072745393,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 116,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "lich_phase2",
+      "pose": "special",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.2,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 109.21372072745393,
+          "bottom": 327.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 0.9375000000000001,
+          "markX": 160,
+          "markY": 105,
+          "markSize": 30,
+          "midX": 159.99999999999997,
+          "width": 240.00000000000003
+        }
+      ],
+      "intent": "Dread Lich · Gathering a blast"
+    },
+    {
+      "width": 320,
+      "kind": "warlord_frenzy",
+      "pose": "idle",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 131.60540053808177,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 0.9969269008219199
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_frenzy",
+      "pose": "windup",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 98.24642933649152,
+          "bottom": 331.65122072745396,
+          "dist": 1.0034999999999998,
+          "texel": 1.001737302107135,
+          "markX": 160,
+          "markY": 94,
+          "markSize": 24,
+          "midX": 159.99999999999997,
+          "width": 261.7776253302868
+        }
+      ],
+      "intent": "Goblin Warlord · Drawing back to strike"
+    },
+    {
+      "width": 320,
+      "kind": "warlord_frenzy",
+      "pose": "strike",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 133.6696727931498,
+          "bottom": 328,
+          "dist": 1,
+          "texel": 1.0068928870821254
+        }
+      ],
+      "intent": ""
+    },
+    {
+      "width": 320,
+      "kind": "warlord_frenzy",
+      "pose": "recover",
+      "phase": 2,
+      "throne": false,
+      "scale": 1.3,
+      "alpha": 1,
+      "shown": [
+        {
+          "top": 134.6705475601585,
+          "bottom": 332,
+          "dist": 1,
+          "texel": 1.0119459099479051
+        }
+      ],
+      "intent": ""
+    }
+  ]
+}

@@ -1231,6 +1231,13 @@ by `node art/creatures/reference-batch-g.cjs`. This is preview artwork with no
 runtime/offline integration; special and blink cells remain reserves. See
 [the review](art/creatures/batch-g-preview/REVIEW.md).
 
+Batch H adds four boss-variant review atlases: open and white-hot Heartforged,
+seated spear Warlord and standing spear Warlord. Existing Lich casting and Warlord
+frenzy art are reused. Reproduce with `python3 art/creatures/export-batch-h.py --check`;
+capture frozen phone previews with `node art/creatures/preview-batch-h.cjs`.
+See [review and state audit](art/creatures/batch-h-preview/REVIEW.md).
+Runtime integration remains pending; these sources and reviews are published separately.
+
 ## Keeping documentation current
 
 Review this README with every change and update affected features, controls, setup,

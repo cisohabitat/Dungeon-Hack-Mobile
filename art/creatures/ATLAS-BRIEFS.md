@@ -992,3 +992,8 @@ records remain in `SOURCES.md`, `generation.json`, `generation-batch.json` and
 | `lizard_shaman` | `img/creatures/lizard_shaman.webp` | Green reptilian shaman with orange crest, reed cloak, bone charms and staff. |
 | `eyeless` | `img/creatures/eyeless.webp` | Pale long-limbed hunter with smooth blind head, needle teeth and claws; no ears or eye sockets. |
 | `puffcap` | `img/creatures/puffcap.webp` | Pale rounded fungus with scabbed skin, gills, stubby roots and spores; no skull face. |
+
+Batch H boss variants have four locally reviewed atlases and a documented reuse
+plan for Lich casts and Warlord frenzy. See [Batch H review](batch-h-preview/REVIEW.md)
+and [state/equipment audit](batch-h-preview/STATE-AUDIT.md). Runtime integration
+is pending; this source/review publication does not remove procedural guards.
