@@ -1245,6 +1245,13 @@ exports with `python3 art/creatures/export-batch-i.py --check`, and phone previe
 with `node art/creatures/preview-batch-i.cjs`. These are static review assets;
 source/review assets are published separately; runtime integration remains pending. See [review](art/creatures/batch-i-preview/REVIEW.md).
 
+Batch J adds 14 static encounter compositions plus three reused Batch F recruitment
+rest cells, with authored scene crops and floating anchors. Reproduce references
+with `node art/creatures/reference-batch-j.cjs`, exports with
+`python3 art/creatures/export-batch-j.py --check`, and phone world/card previews
+with `node art/creatures/preview-batch-j.cjs`. See [review](art/creatures/batch-j-preview/REVIEW.md).
+Source/review assets are published separately; runtime integration remains pending.
+
 ## Keeping documentation current
 
 Review this README with every change and update affected features, controls, setup,

@@ -1003,3 +1003,9 @@ revised to match the approved monster paintings after the cartoon draft was reje
 See [Batch I review](batch-i-preview/REVIEW.md). One horizontal source exports
 three 256px cells plus a combined 768x256 strip; this is not a nine-pose atlas.
 Source/review assets are published separately; runtime integration remains pending.
+
+Batch J has 14 new static encounter compositions in four generated source sheets,
+plus three Batch F companion rest-cell reuses. See [Batch J review](batch-j-preview/REVIEW.md).
+Explicit crop rectangles/anchors preserve composed scenes and shared Wisp;
+phone previews cover dungeon views and unanswered encounter cards. Runtime
+integration remains pending; source/review assets are published separately.

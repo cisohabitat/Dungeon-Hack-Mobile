@@ -1,0 +1,1820 @@
+{
+  "mode": "review-only frozen world cells and card URL substitutions; game update frozen; unchanged actual scene selection and choices; unanswered encounter state cleared by harness between cases",
+  "console_errors": [],
+  "captures": [
+    {
+      "width": 390,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    }
+  ],
+  "dialogs": [
+    {
+      "width": 390,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "buttons": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "mercy",
+      "kind": "goblin_hurt",
+      "title": "A Wounded Goblin",
+      "choices": [
+        "Spare it, and ask what it knows",
+        "Lift its purse while it pleads",
+        "Finish it",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "voice",
+      "kind": "wisp",
+      "title": "Someone Calls Your Name",
+      "choices": [
+        "Answer it",
+        "Give it a false name",
+        "Name the thing that is calling",
+        "Say nothing"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "prisoner",
+      "kind": "prisoner",
+      "title": "The Captive",
+      "choices": [
+        "Break the chains",
+        "Pick the shackles",
+        "Ask what he knows first",
+        "Leave him"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "sleeper",
+      "kind": "ogre_sleep",
+      "title": "A Sleeping Ogre",
+      "choices": [
+        "Creep past and fill your purse",
+        "Crack its skull while it sleeps",
+        "Let it sleep"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "toll",
+      "kind": "goblin_toll",
+      "title": "The Goblin Toll",
+      "choices": [
+        "Pay the toll",
+        "Scare it off",
+        "Tell it you are the new toll-collector",
+        "Back away and find another road"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "mule",
+      "kind": "mule",
+      "title": "A Lost Mule",
+      "choices": [
+        "Take its rope and lead it on",
+        "Strip its packs and send it off",
+        "Let it lead you, as it knows the way",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "bargain",
+      "kind": "wisp",
+      "title": "The Pale One",
+      "choices": [
+        "Take its strength",
+        "Tell it no, and mean it",
+        "Walk past it"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "smith",
+      "kind": "kept_smith",
+      "title": "The Kept Smith",
+      "choices": [
+        "Take the quench",
+        "Ask how the smiths stayed",
+        "Leave him at his anvil"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "duelist",
+      "kind": "duelist_ghost",
+      "title": "The Duellist's Ghost",
+      "choices": [
+        "Cross blades with him",
+        "Match his footwork",
+        "Bow, and ask his name",
+        "Walk around him"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "lampfolk",
+      "kind": "lampfolk_dark",
+      "title": "A Lamp Gone Out",
+      "choices": [
+        "Coax the wick alight",
+        "Talk it back to the light",
+        "Give it oil from your own flask",
+        "Take its pack while it cannot see",
+        "Leave it in the dark"
+      ],
+      "buttons": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "stray",
+      "kind": "stray",
+      "title": "A Starving Hound",
+      "choices": [
+        "Share your food with it",
+        "Call it to you",
+        "Leave it be"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "caged",
+      "kind": "cage",
+      "title": "A Caged Goblin",
+      "choices": [
+        "Wrench the bars apart",
+        "Pick the padlock",
+        "Leave it caged"
+      ],
+      "buttons": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "hire",
+      "kind": "hireling",
+      "title": "A Sellsword for Hire",
+      "choices": [
+        "Pay their price",
+        "Haggle them down to half",
+        "Ask what they have seen down here",
+        "Leave them to their wait"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "exile",
+      "kind": "exile",
+      "title": "A Dark Elf Outcast",
+      "choices": [
+        "Pay their price",
+        "Promise them the High Priestess",
+        "Ask about the halls below",
+        "Leave them to the dark"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "stray_healer",
+      "kind": "stray_healer",
+      "title": "A Healer by a Dead Lamp",
+      "choices": [
+        "Share your food, and ask them along",
+        "Ask them to come with you",
+        "Ask them to see to your wounds",
+        "Leave them to their lamp"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "forgespirit",
+      "kind": "forge_spirit",
+      "title": "The Forge-Spirit",
+      "choices": [
+        "Thrust your blade into its fire",
+        "Lay your armour on its anvil",
+        "Work its bellows for it",
+        "Leave it to its fire"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "lastdelver",
+      "kind": "lastdelver",
+      "title": "The Last Delver",
+      "choices": [
+        "Share a meal with them",
+        "Ask what lies below",
+        "Rob them while they mutter",
+        "Leave them to their fire"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "mapmaker",
+      "kind": "mapmaker",
+      "title": "The Mapmaker",
+      "choices": [
+        "Take the map of this floor",
+        "Follow where the finger points",
+        "Bury the mapmaker with its maps",
+        "Leave it pointing"
+      ],
+      "buttons": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    }
+  ]
+}

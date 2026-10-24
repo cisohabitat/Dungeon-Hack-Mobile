@@ -157,6 +157,12 @@ Keep shop interaction, collision, positioning and facing behavior unchanged.
 
 ## Batch J — encounter figures and composed scenes
 
+Generated/reviewed locally: 14 new static scenes in four source groups, with three
+Batch F rest-cell reuses for J3. See [Batch J review](batch-j-preview/REVIEW.md).
+All 18 encounter IDs using these 17 keys retain their mappings, including shared
+Wisp. Source/review publication complete; runtime integration pending.
+
+
 Inventory below follows every character-bearing entry in `js/props.js` not already
 covered by traders or companions. Proposed sheet groups:
 

@@ -1,0 +1,493 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-j.md",
+  "status": "generated, repaired and source/export visually reviewed; world/unanswered-card review substitutions; source/review publication; no runtime integration",
+  "sheets": {
+    "j1a": {
+      "source": "encounters-j1a.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "forge_spirit",
+        "lastdelver",
+        "wisp",
+        "prisoner"
+      ],
+      "prompt": "Production dark fantasy STATIC ENCOUNTER SPRITE SHEET, TRUE TRANSPARENT ALPHA. FIRST image gives exact scene identities/layout only, upgrade its pixel pictures into the gritty hand-painted monster rendering of the later references: mature weathered anatomy, recessed eyes, dark earthy colours, rough woven cloth, scratched metal, strong directional warm-left/cool-right shading. Absolutely no cute cartoon faces, glossy toy skin or comic proportions. Preserve narrative scene and full attached props, not fighting animation. Complete composition inside each equal cell with at least 12% clear transparent margins, no neighbouring overlap. No background walls, scenery, rectangular ground patch, cast shadow, labels or borders. Small scene-specific ground objects explicitly requested ARE included. Don't expose encounter outcomes. Exactly FOUR distinct scenes in 2x2 grid, row-major. TOP LEFT Forge-Spirit: soot-black aged iron anvil on a cracked rock pedestal, broad anvil horn extending viewerLEFT. Above anvil a separate upright orange/yellow flame with TWO deep dark eyes and a subtle mouth in its hot core, no humanoid limbs, NO fuel. Keep flame hovering visibly above metal with a narrow transparent gap; only a few tiny sparks close to flame. TOP RIGHT Last Delver: ONE gaunt old human with matted grey hair, thin tired face, worn faded navy blue military coat with tarnished gold braid, seated hunched with knees drawn up on viewerLEFT of a SMALL bone-fuel fire on viewerRIGHT. A thin attached hand stretches toward fire; a few ivory bones under the contained orange flame, no big ground slab. BOTTOM LEFT Wisp: ONE floating cold pale BLUE orb, dim near-face suggestion two shadow eyes and little mouth, three tapered trailing wisps underneath, restrained painterly inner light, no wings/arms/legs, no cartoon face, no whole-cell halo. BOTTOM RIGHT Prisoner: ONE exhausted adult human with dark matted hair/beard and eyes CLOSED, ragged beige shirt, dark trousers, bare feet scraping down. Both arms raised and wrists in attached iron cuffs; short chains visibly connect cuffs up to TWO iron wall rings floating as isolated fittings (no drawn wall). Chains end at rings, no severed fingers, slight old red wrist mark only. All heads and feet/scene bases complete.",
+      "references": [
+        "batch-j-preview/j1a-reference.png",
+        "../../img/creatures/warlord.webp"
+      ],
+      "generated_file": "/workspace/generated_images/exec-8cbe1726-53f2-4fbe-b841-59b16d5c25b0.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "encounters-j1a-corrected.png",
+          "prompt": "Repair this FOUR-scene 2x2 transparent encounter atlas. Uniformly SHRINK each whole composition 20% inside its own equal square cell with generous empty gutters at row/column boundaries, especially prisoner wall rings currently touching row boundary, tall flame top, and Last Delver's bone fire at right edge. Keep all props and silhouettes complete. BOTTOM LEFT WISP: make the face only an ALMOST-FACE in swirling cold pale-blue light: two subtle dark hollows and a tiny dark fissure mouth. REMOVE the cute puppy/child facial mask, round glossy eyeballs and button nose; NO NOSE at all. Keep one orb with three trailing tapered wisps and a few close dim motes, restrained inner light, not cartoon. TOP LEFT remains soot-black anvil on rock, orange sentient flame HOVERING just above metal with a narrow transparent gap, no fuel. TOP RIGHT remains gaunt old human in ragged navy/gold coat hunched beside small bone fire. BOTTOM RIGHT remains adult human prisoner eyes CLOSED with raised cuffed hands, short chains attached to two wall rings, beige rags and bare feet, no wall. Preserve gritty painted mature dungeon style and same identities. No scenery, ground slabs, text, extra limbs or severed chains. True transparent alpha.",
+          "reference": "encounters-j1a.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "generated_file": "/workspace/generated_images/exec-9484aec8-3b5c-45d4-a90c-47d3bd57d5e1.png"
+        }
+      ],
+      "selected_source": "encounters-j1a-corrected.png",
+      "status": "Original and selected cells visually reviewed; repairs preserve provenance"
+    },
+    "j1b": {
+      "source": "encounters-j1b.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "duelist_ghost",
+        "lampfolk_dark",
+        "kept_smith",
+        "mapmaker"
+      ],
+      "prompt": "Production dark fantasy STATIC ENCOUNTER SPRITE SHEET, TRUE TRANSPARENT ALPHA. FIRST image gives exact scene identities/layout only, upgrade its pixel pictures into the gritty hand-painted monster rendering of the later references: mature weathered anatomy, recessed eyes, dark earthy colours, rough woven cloth, scratched metal, strong directional warm-left/cool-right shading. Absolutely no cute cartoon faces, glossy toy skin or comic proportions. Preserve narrative scene and full attached props, not fighting animation. Complete composition inside each equal cell with at least 12% clear transparent margins, no neighbouring overlap. No background walls, scenery, rectangular ground patch, cast shadow, labels or borders. Small scene-specific ground objects explicitly requested ARE included. Don't expose encounter outcomes. Exactly FOUR scenes in 2x2 grid row-major. TOP LEFT Duellist Ghost: thin spectral adult HUMAN moustached face, broad-brimmed dark blue hat with ONE long pale feather attached, buttoned pale blue formal coat, sash and lace collar, ragged darker blue cloak. Anatomical RIGHT hand on viewerLEFT holds ONE long pale rapier down diagonally to viewerLEFT, fingers visibly gripping attached guard/hilt. Other hand viewerRIGHT raised. Lower body tapers into BLUE mist instead of legs/feet; no skeleton costume, no extra swords. TOP RIGHT Lamp Gone Out: grey-skinned Lampfolk matching SECOND reference's mature grey species, drooping long ears, tired recessed pale eyes. Seated hunched in patched dark brown robe; BOTH hands cradle ONE COLD UNLIT brass/iron lamp in lap, glass completely dark grey, NO flame or warm glow. Brown pack and russet blanket roll rest BESIDE him on viewerRIGHT, straight staff laid diagonally on viewerLEFT. No spectacles/ledger/standing pose. BOTTOM LEFT Kept Smith: seated ancient grey-skinned DWARF, broad face, VERY LONG white beard, dusty chainmail under brown leather apron, boots, on a small stone block viewerLEFT. One hand rests on knee, other arm raised holding ONE smith's hammer by a continuous short shaft above small cold iron ANVIL on viewerRIGHT. Half-made bare blade lies horizontally on anvil, no fire. Dust on head/shoulders, no crown. BOTTOM RIGHT Mapmaker: SEATED DEAD SKELETON, bare skull tipped slightly, dark EMPTY eye sockets (no light), wrong-buttoned faded moss GREEN coat, legs splayed. Brown satchel in lap with THREE rolled ivory maps protruding. One skeletal arm on viewerRIGHT extends a single pointing index finger sideways; no living face, no magical glow. All complete, full margins.",
+      "references": [
+        "batch-j-preview/j1b-reference.png",
+        "traders-painted.png",
+        "../../img/creatures/warlord.webp"
+      ],
+      "generated_file": "/workspace/generated_images/exec-675bfd72-3e6d-4dd0-b6d2-bed2fc4d5338.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "encounters-j1b-corrected.png",
+          "prompt": "Repair spacing in this EXACT FOUR-scene 2x2 transparent sprite sheet. Uniformly SHRINK each complete scene 22% around its own cell centre so every hat feather, ghost mist, raised hammer, anvil, pack, pointing finger and foot is at least12% away from ALL FOUR edges of its cell. Keep scenes wholly separate, especially ghost mist bottom edge and smith hammer top edge at row boundary. Do not cut/merge limbs or lose props. Preserve same gritty mature monster painting, blue mist duellist with gripped rapier, grey seated Lampfolk with completely UNLIT lamp, dusty white-bearded dwarf holding hammer above cold anvil, green-coated seated skeleton holding3 rolled maps and pointing finger. Exactly four scenes in 2x2; no new actions/figures, text, backgrounds or ground patches. True transparent alpha.",
+          "reference": "encounters-j1b.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "generated_file": "/workspace/generated_images/exec-20ea32b9-87eb-4f9d-84de-8e23938c685f.png"
+        }
+      ],
+      "selected_source": "encounters-j1b-corrected.png",
+      "status": "Original and selected cells visually reviewed; repairs preserve provenance"
+    },
+    "j2a": {
+      "source": "encounters-j2a.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "goblin_hurt",
+        "mule",
+        "ogre_sleep"
+      ],
+      "prompt": "Production dark fantasy STATIC ENCOUNTER SPRITE SHEET, TRUE TRANSPARENT ALPHA. FIRST image gives exact scene identities/layout only, upgrade its pixel pictures into the gritty hand-painted monster rendering of the later references: mature weathered anatomy, recessed eyes, dark earthy colours, rough woven cloth, scratched metal, strong directional warm-left/cool-right shading. Absolutely no cute cartoon faces, glossy toy skin or comic proportions. Preserve narrative scene and full attached props, not fighting animation. Complete composition inside each equal cell with at least 12% clear transparent margins, no neighbouring overlap. No background walls, scenery, rectangular ground patch, cast shadow, labels or borders. Small scene-specific ground objects explicitly requested ARE included. Don't expose encounter outcomes. Exactly THREE scenes in ONE HORIZONTAL ROW. LEFT wounded goblin: adult GREEN goblin matching SECOND reference head/species, thin long ears and narrow yellowish eyes, tattered brown tunic. Seated slumped with both bare legs stretched/splayed forward. One hand on viewerLEFT presses a small dark bloodstain at belly, other hand viewerRIGHT offers ONE short worn knife with connected hilt and blade, low trembling gesture, pained half-closed eyes, no attack. No gore or detached body parts. MIDDLE lost mule: ONE thin BROWN MULE with long ears, lowered head toward viewerLEFT, side-on body so all FOUR legs/hooves anatomically visible (far pair darker), pale muzzle, attached halter and trailing rope. Rope stops within cell. Ragged strapped packs, ONE bag slipped low on viewerRIGHT flank, small iron pot and russet bedroll tied on top, tail down. No rider, no extra animal, no human feet. RIGHT sleeping Ogre: huge bald brown/pink-skinned flabby adult OGRE matching THIRD reference, ragged leather loincloth, heavy bare feet, ONE massive crude wooden club held resting across viewerRIGHT shoulder. Both eyes firmly CLOSED, relaxed sleepy face, standing slumped without attack. SMALL piles of gold coins at feet. NO letter Z or text: sleep communicated only through face/posture. Preserve approved Ogre anatomy, not a green troll or cute giant. Every hand stays joined, club shaft connected and whole head visible.",
+      "references": [
+        "batch-j-preview/j2a-reference.png",
+        "../../img/creatures/goblin.webp",
+        "../../img/creatures/ogre.webp"
+      ],
+      "generated_file": "/workspace/generated_images/exec-ffda908b-3316-47c7-ad9e-e79967c16859.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "encounters-j2a-corrected.png",
+          "prompt": "Repair spacing only in this THREE-scene single-horizontal-row transparent sprite sheet. Shrink ALL THREE complete compositions 20% within their respective equal cells, with generous transparent padding above/below/left/right. Restore the FULL intact rounded top of the Ogre's club head: it currently clips TOP image edge; complete its wood contour and spikes, all well inside cell. Preserve exact green seated wounded goblin holding belly and offering connected knife, brown pack mule with FOUR distinct complete legs/hooves and halter/rope, and bald sleeping Ogre with BOTH eyes CLOSED, held club over shoulder and gold coins at feet. Same mature gritty painterly style, anatomy, materials and equipment. No extra legs, severed limbs, new props, letters Z, floor or background. All complete alpha silhouettes with at least12% empty margin per cell.",
+          "reference": "encounters-j2a.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true,
+          "generated_file": "/workspace/generated_images/exec-47560de6-5145-4779-85f9-25284411048e.png"
+        }
+      ],
+      "selected_source": "encounters-j2a-corrected.png",
+      "status": "Original and selected cells visually reviewed; repairs preserve provenance"
+    },
+    "j2b": {
+      "source": "encounters-j2b.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "goblin_toll",
+        "stray",
+        "cage"
+      ],
+      "prompt": "Production dark fantasy STATIC ENCOUNTER SPRITE SHEET, TRUE TRANSPARENT ALPHA. FIRST image gives exact scene identities/layout only, upgrade its pixel pictures into the gritty hand-painted monster rendering of the later references: mature weathered anatomy, recessed eyes, dark earthy colours, rough woven cloth, scratched metal, strong directional warm-left/cool-right shading. Absolutely no cute cartoon faces, glossy toy skin or comic proportions. Preserve narrative scene and full attached props, not fighting animation. Complete composition inside each equal cell with at least 12% clear transparent margins, no neighbouring overlap. No background walls, scenery, rectangular ground patch, cast shadow, labels or borders. Small scene-specific ground objects explicitly requested ARE included. Don't expose encounter outcomes. Exactly THREE distinct scenes in ONE HORIZONTAL ROW. LEFT goblin toll: ONE standing GREEN goblin matching SECOND reference's mature angular head and species, brown ragged leather tunic, bare bandy feet, narrow yellow eyes. ONE short knife held low in anatomicalLEFT hand on viewerRIGHT. Beside goblin on viewerLEFT a rough upright wooden signpost with attached rectangular sign board; visibly crude daubed letters 'T O' ONLY on board, no other text. Sign and goblin separate but same composition; no barrier or extra goblins. MIDDLE starving stray: ONE thin ribby BROWN HOUND curled low in a resting crouch, all FOUR legs folded under body, head resting on TWO front paws toward viewerRIGHT, ONE ear up and ONE ear flopped. Frayed RED collar with attached round brass tag; tail tucked across rear feet; wary half-open eyes, long canine muzzle. Realistic rough fur, no cute puppy, no monster extra limbs or floating paws, no ground patch. RIGHT caged goblin: ONE squat closed iron CAGE with banded rectangular roof/base, top carry ring and closed hinged front door with LARGE PADLOCK at lower viewerRIGHT. ONE lean green goblin squats fully INSIDE in ragged grey/beige shirt, both hands curl fingers visibly around TWO front bars on either side of its face; face visible in wide central bar gap. Feet inside cage on a little straw. Correct occlusion: front bars over body, fingers wrap bars, no bars through eyes/face; transparent open spaces between bars show empty background, cage has NO solid back wall. Goblin must remain confined, no revealed escape/outcome, no floating extra hands. Complete cage corners/ring and lock with ample margins.",
+      "references": [
+        "batch-j-preview/j2b-reference.png",
+        "../../img/creatures/goblin.webp",
+        "../../img/creatures/ogre.webp"
+      ],
+      "generated_file": "/workspace/generated_images/exec-e5ddeee6-08c6-443d-bbcb-e64d2a1849be.png",
+      "transparent_background": true,
+      "repairs": [],
+      "status": "Original and selected cells visually reviewed; repairs preserve provenance"
+    }
+  },
+  "groups": {
+    "j1a": [
+      "forge_spirit",
+      "lastdelver",
+      "wisp",
+      "prisoner"
+    ],
+    "j1b": [
+      "duelist_ghost",
+      "lampfolk_dark",
+      "kept_smith",
+      "mapmaker"
+    ],
+    "j2a": [
+      "goblin_hurt",
+      "mule",
+      "ogre_sleep"
+    ],
+    "j2b": [
+      "goblin_toll",
+      "stray",
+      "cage"
+    ],
+    "j3": [
+      "hireling",
+      "exile",
+      "stray_healer"
+    ]
+  },
+  "scenes": {
+    "forge_spirit": {
+      "sheet": "j1a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        323.5,
+        602
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/forge_spirit.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "lastdelver": {
+      "sheet": "j1a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        301.5,
+        608
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/lastdelver.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "wisp": {
+      "sheet": "j1a",
+      "anchor_kind": "floating-torso",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        344,
+        272
+      ],
+      "target_anchor": [
+        128,
+        128
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/wisp.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "prisoner": {
+      "sheet": "j1a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        306.5,
+        557
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/prisoner.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "duelist_ghost": {
+      "sheet": "j1b",
+      "anchor_kind": "floating-torso",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        320,
+        265
+      ],
+      "target_anchor": [
+        128,
+        112
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/duelist_ghost.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "lampfolk_dark": {
+      "sheet": "j1b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        297.0,
+        605
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/lampfolk_dark.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "kept_smith": {
+      "sheet": "j1b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        356.5,
+        546
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/kept_smith.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "mapmaker": {
+      "sheet": "j1b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        323.0,
+        544
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/mapmaker.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "goblin_hurt": {
+      "sheet": "j2a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_anchor": [
+        335.0,
+        667
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/goblin_hurt.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "mule": {
+      "sheet": "j2a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        723,
+        0,
+        1446,
+        725
+      ],
+      "source_anchor": [
+        334.5,
+        665
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/mule.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "ogre_sleep": {
+      "sheet": "j2a",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        1446,
+        0,
+        2169,
+        725
+      ],
+      "source_anchor": [
+        358.0,
+        676
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/ogre_sleep.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "goblin_toll": {
+      "sheet": "j2b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_anchor": [
+        317.5,
+        687
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/goblin_toll.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "stray": {
+      "sheet": "j2b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        723,
+        0,
+        1447,
+        725
+      ],
+      "source_anchor": [
+        365.0,
+        662
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "max_height": 96,
+      "pose": "static",
+      "review_export": "batch-j-preview/stray.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "cage": {
+      "sheet": "j2b",
+      "anchor_kind": "scene-ground",
+      "source_rect": [
+        1447,
+        0,
+        2170,
+        725
+      ],
+      "source_anchor": [
+        402.0,
+        686
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "pose": "static",
+      "review_export": "batch-j-preview/cage.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "hireling": {
+      "reuse_source": "batch-f-preview/sellsword.webp",
+      "source_rect": [
+        0,
+        512,
+        256,
+        768
+      ],
+      "anchor_kind": "reuse-existing-registration",
+      "pose": "sit",
+      "review_export": "batch-j-preview/hireling.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "exile": {
+      "reuse_source": "batch-f-preview/renegade.webp",
+      "source_rect": [
+        0,
+        512,
+        256,
+        768
+      ],
+      "anchor_kind": "reuse-existing-registration",
+      "pose": "sit",
+      "review_export": "batch-j-preview/exile.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    },
+    "stray_healer": {
+      "reuse_source": "batch-f-preview/mender.webp",
+      "source_rect": [
+        0,
+        512,
+        256,
+        768
+      ],
+      "anchor_kind": "reuse-existing-registration",
+      "pose": "sit",
+      "review_export": "batch-j-preview/stray_healer.webp",
+      "review": "Reference/source and exported composition visually reviewed; actual encounter-key selection checked before substitution"
+    }
+  }
+}

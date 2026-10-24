@@ -1,0 +1,596 @@
+{
+  "forge_spirit": {
+    "source": "encounters-j1a-corrected.png",
+    "source_sha256": "a30d13dc0bc7a8f05f9ab0df2706c295130ce1ea876e2e21a4c496ce5a8b8db9",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      148,
+      73,
+      499,
+      602
+    ],
+    "source_anchor": [
+      323.5,
+      602
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3925233644859813,
+    "offset": [
+      58,
+      28
+    ],
+    "visible_bounds": [
+      59,
+      29,
+      197,
+      237
+    ],
+    "export_sha256": "3ca3964b96d5c7a4780b0b14a36f265c463e23f9ee40cf49f2e154cd92791664"
+  },
+  "lastdelver": {
+    "source": "encounters-j1a-corrected.png",
+    "source_sha256": "a30d13dc0bc7a8f05f9ab0df2706c295130ce1ea876e2e21a4c496ce5a8b8db9",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      43,
+      192,
+      560,
+      608
+    ],
+    "source_anchor": [
+      301.5,
+      608
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4130019120458891,
+    "offset": [
+      20,
+      64
+    ],
+    "visible_bounds": [
+      21,
+      65,
+      235,
+      237
+    ],
+    "export_sha256": "6d1966afd8eab2e1a066669d48b622007b8bb03e62b26fd89e91965c573e9940"
+  },
+  "wisp": {
+    "source": "encounters-j1a-corrected.png",
+    "source_sha256": "a30d13dc0bc7a8f05f9ab0df2706c295130ce1ea876e2e21a4c496ce5a8b8db9",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      200,
+      116,
+      487,
+      573
+    ],
+    "source_anchor": [
+      344,
+      272
+    ],
+    "target_anchor": [
+      128,
+      128
+    ],
+    "scale": 0.3853820598006645,
+    "offset": [
+      71,
+      67
+    ],
+    "visible_bounds": [
+      72,
+      68,
+      182,
+      244
+    ],
+    "export_sha256": "9014b1e9e888e3505037ee5f838ff89ecaea807eca987bfb6a7a748d0655babb"
+  },
+  "prisoner": {
+    "source": "encounters-j1a-corrected.png",
+    "source_sha256": "a30d13dc0bc7a8f05f9ab0df2706c295130ce1ea876e2e21a4c496ce5a8b8db9",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      153,
+      31,
+      460,
+      557
+    ],
+    "source_anchor": [
+      306.5,
+      557
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.39473684210526316,
+    "offset": [
+      66,
+      28
+    ],
+    "visible_bounds": [
+      67,
+      29,
+      189,
+      237
+    ],
+    "export_sha256": "3f7d39bba1c062532ca6150bf24c88ba8e5adc7de1d4fa50cb7453d25de011f6"
+  },
+  "duelist_ghost": {
+    "source": "encounters-j1b-corrected.png",
+    "source_sha256": "8561d987b2c56bbe8a6ba3d1f8e6f0838c0cf61ce2589c37e736b576b9ba04fb",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      67,
+      57,
+      569,
+      616
+    ],
+    "source_anchor": [
+      320,
+      265
+    ],
+    "target_anchor": [
+      128,
+      112
+    ],
+    "scale": 0.37168141592920356,
+    "offset": [
+      33,
+      34
+    ],
+    "visible_bounds": [
+      34,
+      35,
+      221,
+      243
+    ],
+    "export_sha256": "cedf8fdd2bdc53460df81871df2e13f161138729c9710888628e048088fa36b9"
+  },
+  "lampfolk_dark": {
+    "source": "encounters-j1b-corrected.png",
+    "source_sha256": "8561d987b2c56bbe8a6ba3d1f8e6f0838c0cf61ce2589c37e736b576b9ba04fb",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      35,
+      227,
+      559,
+      605
+    ],
+    "source_anchor": [
+      297.0,
+      605
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4075471698113208,
+    "offset": [
+      20,
+      82
+    ],
+    "visible_bounds": [
+      21,
+      83,
+      235,
+      237
+    ],
+    "export_sha256": "e719122a0f5ce618142131c75ff86d5b3240e703cfc843c128f3e3de224d77e9"
+  },
+  "kept_smith": {
+    "source": "encounters-j1b-corrected.png",
+    "source_sha256": "8561d987b2c56bbe8a6ba3d1f8e6f0838c0cf61ce2589c37e736b576b9ba04fb",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      96,
+      30,
+      617,
+      546
+    ],
+    "source_anchor": [
+      356.5,
+      546
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.40229885057471265,
+    "offset": [
+      22,
+      28
+    ],
+    "visible_bounds": [
+      23,
+      29,
+      233,
+      237
+    ],
+    "export_sha256": "f41acc845a12e052863796c77d97ccc170e51706d8c00f1745f6726314f5c993"
+  },
+  "mapmaker": {
+    "source": "encounters-j1b-corrected.png",
+    "source_sha256": "8561d987b2c56bbe8a6ba3d1f8e6f0838c0cf61ce2589c37e736b576b9ba04fb",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      78,
+      117,
+      568,
+      544
+    ],
+    "source_anchor": [
+      323.0,
+      544
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.43548387096774194,
+    "offset": [
+      20,
+      49
+    ],
+    "visible_bounds": [
+      21,
+      50,
+      235,
+      237
+    ],
+    "export_sha256": "f7c13d2046a5f5908c15e6f7a99dfc38f63d85633675429d11504e810d4e6800"
+  },
+  "goblin_hurt": {
+    "source": "encounters-j2a-corrected.png",
+    "source_sha256": "e0b4a92083de63da0e5570b6fde363e140232b27574d6e2cab4a5225dfddb4a9",
+    "source_rect": [
+      0,
+      0,
+      723,
+      725
+    ],
+    "source_visible_bounds": [
+      86,
+      254,
+      584,
+      667
+    ],
+    "source_anchor": [
+      335.0,
+      667
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.42857142857142855,
+    "offset": [
+      20,
+      58
+    ],
+    "visible_bounds": [
+      21,
+      59,
+      235,
+      237
+    ],
+    "export_sha256": "4a2d8170b209eff185f3242978202559eaf169b0d6ea145e35e5ebc0132b962e"
+  },
+  "mule": {
+    "source": "encounters-j2a-corrected.png",
+    "source_sha256": "e0b4a92083de63da0e5570b6fde363e140232b27574d6e2cab4a5225dfddb4a9",
+    "source_rect": [
+      723,
+      0,
+      1446,
+      725
+    ],
+    "source_visible_bounds": [
+      37,
+      150,
+      632,
+      665
+    ],
+    "source_anchor": [
+      334.5,
+      665
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3594009983361065,
+    "offset": [
+      20,
+      51
+    ],
+    "visible_bounds": [
+      21,
+      52,
+      235,
+      237
+    ],
+    "export_sha256": "92e1daa8a25844403ef765a8367fb816aaab4a5a42042b56ab3834ac14b73f6e"
+  },
+  "ogre_sleep": {
+    "source": "encounters-j2a-corrected.png",
+    "source_sha256": "e0b4a92083de63da0e5570b6fde363e140232b27574d6e2cab4a5225dfddb4a9",
+    "source_rect": [
+      1446,
+      0,
+      2169,
+      725
+    ],
+    "source_visible_bounds": [
+      70,
+      38,
+      646,
+      676
+    ],
+    "source_anchor": [
+      358.0,
+      676
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.32608695652173914,
+    "offset": [
+      33,
+      28
+    ],
+    "visible_bounds": [
+      34,
+      29,
+      222,
+      237
+    ],
+    "export_sha256": "061bc25424474ddcf38b539c6cfd76a0d90a722829ed3e4fa37668f20f7c648f"
+  },
+  "goblin_toll": {
+    "source": "encounters-j2b.png",
+    "source_sha256": "c68d61cf9c982b71bbfdc6b6b54456afc028eba19dd45291b7b5820b4bd278aa",
+    "source_rect": [
+      0,
+      0,
+      723,
+      725
+    ],
+    "source_visible_bounds": [
+      34,
+      71,
+      601,
+      687
+    ],
+    "source_anchor": [
+      317.5,
+      687
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.33762057877813506,
+    "offset": [
+      31,
+      28
+    ],
+    "visible_bounds": [
+      32,
+      29,
+      223,
+      237
+    ],
+    "export_sha256": "59a9de3963d40d5c47b603b04c6fe14188f17f5455c67bbf12e64cd2c94dcf9f"
+  },
+  "stray": {
+    "source": "encounters-j2b.png",
+    "source_sha256": "c68d61cf9c982b71bbfdc6b6b54456afc028eba19dd45291b7b5820b4bd278aa",
+    "source_rect": [
+      723,
+      0,
+      1447,
+      725
+    ],
+    "source_visible_bounds": [
+      37,
+      311,
+      693,
+      662
+    ],
+    "source_anchor": [
+      365.0,
+      662
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.2689075630252101,
+    "offset": [
+      39,
+      142
+    ],
+    "visible_bounds": [
+      40,
+      143,
+      216,
+      237
+    ],
+    "export_sha256": "7b688f1bc3ddd76d9ce3abbfd8ec23cd24543422541de1c81207cd4d1933cc1e"
+  },
+  "cage": {
+    "source": "encounters-j2b.png",
+    "source_sha256": "c68d61cf9c982b71bbfdc6b6b54456afc028eba19dd45291b7b5820b4bd278aa",
+    "source_rect": [
+      1447,
+      0,
+      2170,
+      725
+    ],
+    "source_visible_bounds": [
+      120,
+      14,
+      684,
+      686
+    ],
+    "source_anchor": [
+      402.0,
+      686
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.30973451327433627,
+    "offset": [
+      40,
+      28
+    ],
+    "visible_bounds": [
+      41,
+      29,
+      216,
+      237
+    ],
+    "export_sha256": "deca56d367d919689272acb4a5e358def21e36958bd12278e57447d459b7689e"
+  },
+  "hireling": {
+    "source": "batch-f-preview/sellsword.webp",
+    "source_sha256": "3b037483102084801ff169e611d7bfa8cffaca55136b04833d1eaa20dd773d8b",
+    "source_rect": [
+      0,
+      512,
+      256,
+      768
+    ],
+    "source_visible_bounds": [
+      74,
+      37,
+      173,
+      237
+    ],
+    "source_anchor": null,
+    "target_anchor": null,
+    "scale": 1,
+    "offset": [
+      0,
+      0
+    ],
+    "visible_bounds": [
+      74,
+      37,
+      173,
+      237
+    ],
+    "export_sha256": "a16e16c2e5f0430ec8f52677ce5967b2d2e50f90bdc8354b906904c4fb42d8a7"
+  },
+  "exile": {
+    "source": "batch-f-preview/renegade.webp",
+    "source_sha256": "95883c8363a96a17bdec0a943ae6869312cb8157bbc01d64e20bf7382a5c633e",
+    "source_rect": [
+      0,
+      512,
+      256,
+      768
+    ],
+    "source_visible_bounds": [
+      36,
+      32,
+      219,
+      237
+    ],
+    "source_anchor": null,
+    "target_anchor": null,
+    "scale": 1,
+    "offset": [
+      0,
+      0
+    ],
+    "visible_bounds": [
+      36,
+      32,
+      219,
+      237
+    ],
+    "export_sha256": "87b8c85cd611d87d16985e8561e323defcdf2d7334c6a53c8289db76ca515f02"
+  },
+  "stray_healer": {
+    "source": "batch-f-preview/mender.webp",
+    "source_sha256": "4a257f662d28dff6115164c0f48c85df29a3a8f80d421d64b1a0902dc5b9ce3d",
+    "source_rect": [
+      0,
+      512,
+      256,
+      768
+    ],
+    "source_visible_bounds": [
+      30,
+      72,
+      226,
+      237
+    ],
+    "source_anchor": null,
+    "target_anchor": null,
+    "scale": 1,
+    "offset": [
+      0,
+      0
+    ],
+    "visible_bounds": [
+      30,
+      72,
+      226,
+      237
+    ],
+    "export_sha256": "25f86025295d1cb07269f8e29b72d36a585fd91471d85bf79cdfaf46c9e7a907"
+  }
+}

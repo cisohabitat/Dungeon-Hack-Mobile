@@ -268,3 +268,16 @@ style-revision prompt/reference provenance remain preserved.
 All three identities retain current trade gear and no combat poses. Static WebPs,
 combined strip and review captures are under `batch-i-preview/`; see its review
 for selection/shop checks and preview limits. No runtime images are shipped.
+
+## Batch J — static encounter scenes, 24 October 2026
+
+Four originals (`encounters-j1a/j1b/j2a/j2b.png`) and three full-sheet corrections
+were generated with `image_gen.imagegen` (model not disclosed), using active
+procedural references for identity and approved monster/revised trader paintings
+for style. Corrections retain complete gear/margins and an abstract Wisp face.
+Exact filenames, prompts, references, original paths and selected sources are in
+`generation-batch-j.json`; original sheets remain retained. J3 recruitment exports
+reuse the reviewed Batch F Sellsword/Renegade/Mender `sit` cells without generation.
+Static alpha crops, grouped atlases and world/card reviews are under
+`batch-j-preview/`. See its review for authored anchors and substitution limits.
+These are art/review assets; no runtime or offline bindings are changed.

@@ -182,6 +182,14 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Merchant/Wick are grey Lampfolk; Pedlar is green. Market selection overrides
   the Wick flag. Preserve scale 0.95 and shop/collision rules; wait for the
   shop's closing fade before capturing dungeon previews.
+  Batch J encounter review uses `generation-batch-j.json`,
+  `reference-batch-j.cjs`, `export-batch-j.py --check` and `preview-batch-j.cjs`.
+  Use explicit scene crop rectangles/anchors, retaining separate elements and
+  low Hound framing; floating core/torso anchors apply to Wisp/Ghost. J3 reuses
+  companion `sit` cells, not three new identities. Two encounter IDs share Wisp.
+  Card URLs are procedural getters; the preview checks those bindings then
+  substitutes the DOM image only for review, leaving all choices unanswered.
+  Wait for both opening and closing overlay fades before scene/card captures.
   Preview substitutions do not establish runtime/offline integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
