@@ -1,0 +1,1436 @@
+{
+  "mode": "review-only frozen frames and forced theme indices on one fixed layout; actual regional selection checked before override; no runtime/offline integration or region generation claims",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "inventory": [
+        "crypt_lid",
+        "iron_scrap",
+        "roots",
+        "reed_bundle",
+        "elf_shards"
+      ],
+      "mappings": [
+        {
+          "themeIndex": 0,
+          "theme": "Grey Halls",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 0,
+          "theme": "Grey Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "mushrooms",
+          "kind": "reed_bundle",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 11,
+          "theme": "The Drowned Halls",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 11,
+          "theme": "The Drowned Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        }
+      ],
+      "precedence": [
+        {
+          "theme": {
+            "road": "crypts",
+            "people": "dwarves"
+          },
+          "kind": "crypt_lid"
+        },
+        {
+          "theme": {
+            "people": "elves",
+            "region": "forge"
+          },
+          "kind": "iron_scrap"
+        },
+        {
+          "theme": {
+            "name": "Mossy Depths",
+            "face": "glass"
+          },
+          "kind": "elf_shards"
+        }
+      ],
+      "cases": [
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "mushrooms",
+          "kind": "reed_bundle",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "inventory": [
+        "crypt_lid",
+        "iron_scrap",
+        "roots",
+        "reed_bundle",
+        "elf_shards"
+      ],
+      "mappings": [
+        {
+          "themeIndex": 0,
+          "theme": "Grey Halls",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 0,
+          "theme": "Grey Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "mushrooms",
+          "kind": "reed_bundle",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 11,
+          "theme": "The Drowned Halls",
+          "savedKind": "rubble",
+          "kind": "rubble",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 11,
+          "theme": "The Drowned Halls",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "mushrooms",
+          "kind": "mushrooms",
+          "fallen": "mushrooms"
+        }
+      ],
+      "precedence": [
+        {
+          "theme": {
+            "road": "crypts",
+            "people": "dwarves"
+          },
+          "kind": "crypt_lid"
+        },
+        {
+          "theme": {
+            "people": "elves",
+            "region": "forge"
+          },
+          "kind": "iron_scrap"
+        },
+        {
+          "theme": {
+            "name": "Mossy Depths",
+            "face": "glass"
+          },
+          "kind": "elf_shards"
+        }
+      ],
+      "cases": [
+        {
+          "themeIndex": 1,
+          "theme": "Brown Catacombs",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 2,
+          "theme": "Mossy Depths",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 3,
+          "theme": "Blue Vaults",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 4,
+          "theme": "Crimson Crypts",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 5,
+          "theme": "Obsidian Sanctum",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 6,
+          "theme": "The Ossuary",
+          "savedKind": "rubble",
+          "kind": "crypt_lid",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 7,
+          "theme": "The Warrens",
+          "savedKind": "rubble",
+          "kind": "roots",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 8,
+          "theme": "The Dark Elf Halls",
+          "savedKind": "rubble",
+          "kind": "elf_shards",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 9,
+          "theme": "The Grey Hold",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        },
+        {
+          "themeIndex": 10,
+          "theme": "The Sunless Marsh",
+          "savedKind": "mushrooms",
+          "kind": "reed_bundle",
+          "fallen": "mushrooms"
+        },
+        {
+          "themeIndex": 12,
+          "theme": "The Old Forges",
+          "savedKind": "rubble",
+          "kind": "iron_scrap",
+          "fallen": "rubble"
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "themeIndex": 1,
+      "theme": "Brown Catacombs",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-1-crypt_lid-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 1,
+      "theme": "Brown Catacombs",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-1-crypt_lid-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 2,
+      "theme": "Mossy Depths",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-2-roots-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 2,
+      "theme": "Mossy Depths",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-2-roots-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 3,
+      "theme": "Blue Vaults",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-3-elf_shards-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 3,
+      "theme": "Blue Vaults",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-3-elf_shards-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 4,
+      "theme": "Crimson Crypts",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-4-crypt_lid-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 4,
+      "theme": "Crimson Crypts",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-4-crypt_lid-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 5,
+      "theme": "Obsidian Sanctum",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-5-elf_shards-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 5,
+      "theme": "Obsidian Sanctum",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-5-elf_shards-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 6,
+      "theme": "The Ossuary",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-6-crypt_lid-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 6,
+      "theme": "The Ossuary",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-6-crypt_lid-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 7,
+      "theme": "The Warrens",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-7-roots-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 7,
+      "theme": "The Warrens",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-7-roots-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 8,
+      "theme": "The Dark Elf Halls",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-8-elf_shards-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 8,
+      "theme": "The Dark Elf Halls",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-8-elf_shards-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 9,
+      "theme": "The Grey Hold",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-9-iron_scrap-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 9,
+      "theme": "The Grey Hold",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-9-iron_scrap-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 10,
+      "theme": "The Sunless Marsh",
+      "savedKind": "mushrooms",
+      "kind": "reed_bundle",
+      "fallen": "mushrooms",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-10-reed_bundle-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 10,
+      "theme": "The Sunless Marsh",
+      "savedKind": "mushrooms",
+      "kind": "reed_bundle",
+      "fallen": "mushrooms",
+      "distance": 3,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-10-reed_bundle-3.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 12,
+      "theme": "The Old Forges",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-12-iron_scrap-1.png"
+    },
+    {
+      "width": 390,
+      "themeIndex": 12,
+      "theme": "The Old Forges",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "390-12-iron_scrap-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 1,
+      "theme": "Brown Catacombs",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-1-crypt_lid-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 1,
+      "theme": "Brown Catacombs",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-1-crypt_lid-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 2,
+      "theme": "Mossy Depths",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-2-roots-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 2,
+      "theme": "Mossy Depths",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-2-roots-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 3,
+      "theme": "Blue Vaults",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-3-elf_shards-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 3,
+      "theme": "Blue Vaults",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-3-elf_shards-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 4,
+      "theme": "Crimson Crypts",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-4-crypt_lid-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 4,
+      "theme": "Crimson Crypts",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-4-crypt_lid-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 5,
+      "theme": "Obsidian Sanctum",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-5-elf_shards-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 5,
+      "theme": "Obsidian Sanctum",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-5-elf_shards-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 6,
+      "theme": "The Ossuary",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-6-crypt_lid-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 6,
+      "theme": "The Ossuary",
+      "savedKind": "rubble",
+      "kind": "crypt_lid",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-6-crypt_lid-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 7,
+      "theme": "The Warrens",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-7-roots-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 7,
+      "theme": "The Warrens",
+      "savedKind": "rubble",
+      "kind": "roots",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-7-roots-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 8,
+      "theme": "The Dark Elf Halls",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-8-elf_shards-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 8,
+      "theme": "The Dark Elf Halls",
+      "savedKind": "rubble",
+      "kind": "elf_shards",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-8-elf_shards-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 9,
+      "theme": "The Grey Hold",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-9-iron_scrap-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 9,
+      "theme": "The Grey Hold",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-9-iron_scrap-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 10,
+      "theme": "The Sunless Marsh",
+      "savedKind": "mushrooms",
+      "kind": "reed_bundle",
+      "fallen": "mushrooms",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-10-reed_bundle-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 10,
+      "theme": "The Sunless Marsh",
+      "savedKind": "mushrooms",
+      "kind": "reed_bundle",
+      "fallen": "mushrooms",
+      "distance": 3,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-10-reed_bundle-3.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 12,
+      "theme": "The Old Forges",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 1,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.2827853560447693,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-12-iron_scrap-1.png"
+    },
+    {
+      "width": 320,
+      "themeIndex": 12,
+      "theme": "The Old Forges",
+      "savedKind": "rubble",
+      "kind": "iron_scrap",
+      "fallen": "rubble",
+      "distance": 3,
+      "scale": 0.55,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": true,
+      "light": 0.35555556416511536,
+      "saved_record_unchanged": true,
+      "fallen_selection_checked": true,
+      "file": "320-12-iron_scrap-3.png"
+    }
+  ]
+}

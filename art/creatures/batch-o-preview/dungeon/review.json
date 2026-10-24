@@ -1,0 +1,2208 @@
+{
+  "mode": "review-only native64 material proxy in controlled9x13 booth, neutral base look metadata, unified baseline wall variants and no decals; originals restored; no live loader/offline/performance/native region claim",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "materials": [
+        {
+          "key": "grey_halls",
+          "theme": "Grey Halls",
+          "theme_index": 0,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "brown_catacombs",
+          "theme": "Brown Catacombs",
+          "theme_index": 1,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "mossy_depths",
+          "theme": "Mossy Depths",
+          "theme_index": 2,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "blue_vaults",
+          "theme": "Blue Vaults",
+          "theme_index": 3,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "crimson_crypts",
+          "theme": "Crimson Crypts",
+          "theme_index": 4,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "obsidian_sanctum",
+          "theme": "Obsidian Sanctum",
+          "theme_index": 5,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "ossuary",
+          "theme": "The Ossuary",
+          "theme_index": 6,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "warrens",
+          "theme": "The Warrens",
+          "theme_index": 7,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "dark_elf_halls",
+          "theme": "The Dark Elf Halls",
+          "theme_index": 8,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "grey_hold",
+          "theme": "The Grey Hold",
+          "theme_index": 9,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "sunless_marsh",
+          "theme": "The Sunless Marsh",
+          "theme_index": 10,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "drowned_halls",
+          "theme": "The Drowned Halls",
+          "theme_index": 11,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "old_forges",
+          "theme": "The Old Forges",
+          "theme_index": 12,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "levels_verified": 208,
+      "format": "opaque native64; eight Uint32 darkness levels using existing truncation formula",
+      "scope": "controlled material booth with neutral look metadata; no native regional geometry or architecture replacement"
+    },
+    {
+      "width": 320,
+      "materials": [
+        {
+          "key": "grey_halls",
+          "theme": "Grey Halls",
+          "theme_index": 0,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "brown_catacombs",
+          "theme": "Brown Catacombs",
+          "theme_index": 1,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "mossy_depths",
+          "theme": "Mossy Depths",
+          "theme_index": 2,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "blue_vaults",
+          "theme": "Blue Vaults",
+          "theme_index": 3,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "crimson_crypts",
+          "theme": "Crimson Crypts",
+          "theme_index": 4,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "obsidian_sanctum",
+          "theme": "Obsidian Sanctum",
+          "theme_index": 5,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "ossuary",
+          "theme": "The Ossuary",
+          "theme_index": 6,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "warrens",
+          "theme": "The Warrens",
+          "theme_index": 7,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "dark_elf_halls",
+          "theme": "The Dark Elf Halls",
+          "theme_index": 8,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "grey_hold",
+          "theme": "The Grey Hold",
+          "theme_index": 9,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "sunless_marsh",
+          "theme": "The Sunless Marsh",
+          "theme_index": 10,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "drowned_halls",
+          "theme": "The Drowned Halls",
+          "theme_index": 11,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "key": "old_forges",
+          "theme": "The Old Forges",
+          "theme_index": 12,
+          "wall": [
+            64,
+            64
+          ],
+          "levels_per_surface": 8,
+          "entries_per_level": 4096,
+          "floor_ceiling_bytes": 262144,
+          "preserved_state_names": [
+            "door",
+            "stairsDown",
+            "stairsUp",
+            "stairArch",
+            "stairsUpBack",
+            "stairsDownBack",
+            "cellDoor",
+            "fountain",
+            "fountainDry",
+            "wallCracked",
+            "wallB",
+            "wallDamp",
+            "rock",
+            "fallen"
+          ],
+          "lock_colours": [
+            "brass",
+            "silver",
+            "gold",
+            "iron",
+            "bone"
+          ],
+          "nonbase_floor_kinds": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "nonbase_roof_kinds": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "levels_verified": 208,
+      "format": "opaque native64; eight Uint32 darkness levels using existing truncation formula",
+      "scope": "controlled material booth with neutral look metadata; no native regional geometry or architecture replacement"
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "grey_halls",
+      "theme": "Grey Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-grey_halls-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "grey_halls",
+      "theme": "Grey Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-grey_halls-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "brown_catacombs",
+      "theme": "Brown Catacombs",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-brown_catacombs-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "brown_catacombs",
+      "theme": "Brown Catacombs",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-brown_catacombs-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "mossy_depths",
+      "theme": "Mossy Depths",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-mossy_depths-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "mossy_depths",
+      "theme": "Mossy Depths",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-mossy_depths-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "blue_vaults",
+      "theme": "Blue Vaults",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-blue_vaults-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "blue_vaults",
+      "theme": "Blue Vaults",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-blue_vaults-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "crimson_crypts",
+      "theme": "Crimson Crypts",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-crimson_crypts-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "crimson_crypts",
+      "theme": "Crimson Crypts",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-crimson_crypts-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "obsidian_sanctum",
+      "theme": "Obsidian Sanctum",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-obsidian_sanctum-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "obsidian_sanctum",
+      "theme": "Obsidian Sanctum",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-obsidian_sanctum-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "ossuary",
+      "theme": "The Ossuary",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-ossuary-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "ossuary",
+      "theme": "The Ossuary",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-ossuary-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "warrens",
+      "theme": "The Warrens",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-warrens-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "warrens",
+      "theme": "The Warrens",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-warrens-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "dark_elf_halls",
+      "theme": "The Dark Elf Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-dark_elf_halls-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "dark_elf_halls",
+      "theme": "The Dark Elf Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-dark_elf_halls-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "grey_hold",
+      "theme": "The Grey Hold",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-grey_hold-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "grey_hold",
+      "theme": "The Grey Hold",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-grey_hold-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "sunless_marsh",
+      "theme": "The Sunless Marsh",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-sunless_marsh-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "sunless_marsh",
+      "theme": "The Sunless Marsh",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-sunless_marsh-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "drowned_halls",
+      "theme": "The Drowned Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-drowned_halls-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "drowned_halls",
+      "theme": "The Drowned Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-drowned_halls-close-wall.png"
+    },
+    {
+      "width": 390,
+      "key": "old_forges",
+      "theme": "The Old Forges",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-old_forges-corridor.png"
+    },
+    {
+      "width": 390,
+      "key": "old_forges",
+      "theme": "The Old Forges",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "390-old_forges-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "grey_halls",
+      "theme": "Grey Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-grey_halls-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "grey_halls",
+      "theme": "Grey Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-grey_halls-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "brown_catacombs",
+      "theme": "Brown Catacombs",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-brown_catacombs-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "brown_catacombs",
+      "theme": "Brown Catacombs",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-brown_catacombs-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "mossy_depths",
+      "theme": "Mossy Depths",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-mossy_depths-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "mossy_depths",
+      "theme": "Mossy Depths",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-mossy_depths-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "blue_vaults",
+      "theme": "Blue Vaults",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-blue_vaults-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "blue_vaults",
+      "theme": "Blue Vaults",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-blue_vaults-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "crimson_crypts",
+      "theme": "Crimson Crypts",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-crimson_crypts-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "crimson_crypts",
+      "theme": "Crimson Crypts",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-crimson_crypts-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "obsidian_sanctum",
+      "theme": "Obsidian Sanctum",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-obsidian_sanctum-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "obsidian_sanctum",
+      "theme": "Obsidian Sanctum",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-obsidian_sanctum-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "ossuary",
+      "theme": "The Ossuary",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-ossuary-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "ossuary",
+      "theme": "The Ossuary",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-ossuary-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "warrens",
+      "theme": "The Warrens",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-warrens-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "warrens",
+      "theme": "The Warrens",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-warrens-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "dark_elf_halls",
+      "theme": "The Dark Elf Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-dark_elf_halls-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "dark_elf_halls",
+      "theme": "The Dark Elf Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-dark_elf_halls-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "grey_hold",
+      "theme": "The Grey Hold",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-grey_hold-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "grey_hold",
+      "theme": "The Grey Hold",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-grey_hold-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "sunless_marsh",
+      "theme": "The Sunless Marsh",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-sunless_marsh-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "sunless_marsh",
+      "theme": "The Sunless Marsh",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-sunless_marsh-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "drowned_halls",
+      "theme": "The Drowned Halls",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-drowned_halls-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "drowned_halls",
+      "theme": "The Drowned Halls",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-drowned_halls-close-wall.png"
+    },
+    {
+      "width": 320,
+      "key": "old_forges",
+      "theme": "The Old Forges",
+      "view": "corridor",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 4.5,
+        "y": 9.5,
+        "angle": -1.5707963267948966
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-old_forges-corridor.png"
+    },
+    {
+      "width": 320,
+      "key": "old_forges",
+      "theme": "The Old Forges",
+      "view": "close-wall",
+      "state_bindings_preserved": true,
+      "lock_bindings_preserved": true,
+      "nonbase_kinds_preserved": true,
+      "baseline_wall_variants_unified_for_booth": true,
+      "neutral_look_metadata": true,
+      "camera": {
+        "x": 6.5,
+        "y": 9.5,
+        "angle": 0
+      },
+      "drawn_floor_kinds": 1,
+      "file": "320-old_forges-close-wall.png"
+    }
+  ]
+}

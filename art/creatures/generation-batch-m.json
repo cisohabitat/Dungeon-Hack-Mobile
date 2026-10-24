@@ -1,0 +1,184 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-m.md",
+  "status": "generated and source/export visually reviewed; 44 phone review captures across eleven regional theme mappings passed; source/review publication; no runtime integration",
+  "groups": {
+    "m1": [
+      "crypt_lid",
+      "iron_scrap",
+      "roots",
+      "reed_bundle"
+    ],
+    "m2": [
+      "elf_shards"
+    ]
+  },
+  "sheets": {
+    "m1": {
+      "source": "regional-m1.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "crypt_lid",
+        "iron_scrap",
+        "roots",
+        "reed_bundle"
+      ],
+      "prompt": "Paint static regional dungeon dressing sprites for Deepdelve Batch M. FIRST reference is active procedural IDENTITY/composition guide only; SECOND is approved painted material/style reference from Batch L. Match gritty hand-painted dungeon realism with worn physical materials, muted colours and dimensional directional shading; no cartoon/toy look or vector outlines. Slightly elevated frontal three-quarter perspective suitable for a first-person dungeon floor. Restrained warm light upper left, darker right/below. True transparent RGBA background, no room, floor tile, slab backdrop, labels, text, borders, decorative frame, creatures or extra scene. Every complete object is isolated with roomy transparent margins. Preserve open gaps and complete tips. Tight faint contact shadows only; no rectangular shadow. Do not add magic, flames, glowing eyes or new lights. A square sheet with exactly FOUR cells in a precise 2 by 2 grid, row-major. Keep every silhouette inside central 70% width and height of its own cell; generous clear gutters. TOP LEFT crypt_lid: one LOW oblong chipped grey-beige stone coffin LID lying flat diagonally on floor, thick rectangular slab seen from above, long axis lower-left to upper-right, a single zigzag crack on upper face, three shallow engraved parallel strokes, TWO small loose stones near its base. No coffin box, open tomb, upright gravestone, cross, skull, text or body. Flat low silhouette height under half width. TOP RIGHT iron_scrap: one LOW discarded dark iron GEAR lying nearly flat, with exactly TEN chunky teeth on the outer ring, dark centre hole and smaller inner hub/ring. ONE long straight dark iron BAR lies diagonally from lower-left to upper-right across gear; its upper-right end has a flat oval ring/eye. Restrained rust flecks and polished worn edges. No forge/anvil, hammer, tools collection, active machine or tall pile. BOTTOM LEFT roots: exposed olive-brown ROOT CROWN with short broken upright woody stump, five irregular attached roots spreading out low to left/right/front, exactly THREE small muted green leaves on short side twigs. Bark is fibrous and aged, root tips taper complete inside cell, open spaces between branches transparent. No whole tree, face, creature, glowing core or pot. BOTTOM RIGHT reed_bundle: a modest standing BUNDLE of exactly SEVEN thin uneven-height dull olive/tan REED STALKS with a few narrow bent leaves, ONE tan binding cord across lower stems, roots in a tight small dark muddy base. No fluffy seed heads, flowers, basket, vase, extra plants or broad ground slab. Uncut top tips and open transparent spaces between stems. The roots and reeds remain smaller incidental scenery rather than full trees.",
+      "references": [
+        "batch-m-preview/m1-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-ffdbb957-4a72-4a01-943a-47212d89e1ee.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "m2": {
+      "source": "regional-m2.png",
+      "grid": [
+        1,
+        1
+      ],
+      "keys": [
+        "elf_shards"
+      ],
+      "prompt": "Paint static regional dungeon dressing sprites for Deepdelve Batch M. FIRST reference is active procedural IDENTITY/composition guide only; SECOND is approved painted material/style reference from Batch L. Match gritty hand-painted dungeon realism with worn physical materials, muted colours and dimensional directional shading; no cartoon/toy look or vector outlines. Slightly elevated frontal three-quarter perspective suitable for a first-person dungeon floor. Restrained warm light upper left, darker right/below. True transparent RGBA background, no room, floor tile, slab backdrop, labels, text, borders, decorative frame, creatures or extra scene. Every complete object is isolated with roomy transparent margins. Preserve open gaps and complete tips. Tight faint contact shadows only; no rectangular shadow. Do not add magic, flames, glowing eyes or new lights. Exactly ONE isolated composition: THREE distinct angular DARK PURPLE-GREY elven stone/glass SHARDS clustered low on the ground, each broad triangular face bevelled with muted lavender edges. Tallest centre shard slightly behind, medium viewer LEFT, smallest viewer RIGHT. Fine hairline cracks, worn stone/glass surface, restrained edge reflections; nearly opaque dark violet material, NOT neon crystals, clear quartz or magical runes. A few tiny matching chips at base. Preserve the three jagged triangular silhouettes of the procedural guide, no fourth large shard, treasure, skull, weeds, text or glowing aura. The complete cluster must fit within central 65% of square canvas with very generous transparent margins and all pointed tips intact. Height around 65% of cluster width, not a tall crystal tower. No rectangular floor/base.",
+      "references": [
+        "batch-m-preview/m2-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-744a7982-31b2-49b5-ae2d-2cbd59086f33.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "scenes": {
+    "crypt_lid": {
+      "sheet": "m1",
+      "source_rect": [
+        0,
+        0,
+        660,
+        627
+      ],
+      "source_anchor": [
+        348.0,
+        561
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 104,
+      "review_export": "batch-m-preview/crypt_lid.webp"
+    },
+    "iron_scrap": {
+      "sheet": "m1",
+      "source_rect": [
+        660,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        297.0,
+        559
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 112,
+      "review_export": "batch-m-preview/iron_scrap.webp"
+    },
+    "roots": {
+      "sheet": "m1",
+      "source_rect": [
+        0,
+        627,
+        720,
+        1254
+      ],
+      "source_anchor": [
+        372.5,
+        527
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 158,
+      "review_export": "batch-m-preview/roots.webp"
+    },
+    "reed_bundle": {
+      "sheet": "m1",
+      "source_rect": [
+        720,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        242.0,
+        520
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 184,
+      "review_export": "batch-m-preview/reed_bundle.webp"
+    },
+    "elf_shards": {
+      "sheet": "m2",
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        633.5,
+        986
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 150,
+      "review_export": "batch-m-preview/elf_shards.webp"
+    }
+  },
+  "crop_note": "M1 authored rectangles cross nominal half-sheet boundaries only through empty gutters, keeping complete lid and root tips without including adjacent objects.",
+  "inventory_audit": {
+    "regional_props": 5,
+    "source_groups": 2,
+    "direct_reuse": 0,
+    "themes": 13,
+    "regional_theme_mappings": 11,
+    "world_captures": 44,
+    "runtime_integration": false
+  }
+}

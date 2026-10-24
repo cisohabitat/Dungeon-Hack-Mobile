@@ -207,6 +207,30 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   puzzle-chest bindings. Regional aliases belong to M; remains to N; effects to Q.
   Sixty frozen phone captures check actual selection before substitution;
   emissive masks, moving rubble callers and offline integration remain separate.
+  Batch M regional dressing uses `generation-batch-m.json`,
+  `reference-batch-m.cjs`, `export-batch-m.py --check` and `preview-batch-m.cjs`.
+  Five dress_* aliases preserve saved rubble/mushrooms kinds and scales .55/.5,
+  regional selector precedence and fell bypass. Low crypt lids/iron, complete
+  root/reed tips and three dark elven shards retain authored scene framing.
+  Forty-four frozen captures force eleven theme mappings on one fixed layout;
+  they do not establish native region generation or runtime/offline integration.
+  Batch N remains use `generation-batch-n.json`, `reference-batch-n.cjs`,
+  `export-batch-n.py --check` and `preview-batch-n.cjs`. Four low dress_remains_*
+  pictures keep actual SIZE, fractional world coordinates, onFloor/no dress flag,
+  strict >450ms reveal and until>G.t expiry. Keep generic caller choices separate
+  from L decor bones and K collapsed violet-eyed heap; pottery has four low major
+  pieces, two decorated. Twenty-four frozen captures and 56 actual timing checks
+  cover phone fitting and loot/foe floor order, not native death/smash outcomes
+  or runtime/offline integration. See batch-n-preview/STATE-AUDIT.md.
+  Batch O baseline materials use `generation-batch-o.json`,
+  `reference-batch-o.cjs`, `export-batch-o.py --check` and `preview-batch-o.cjs`.
+  Thirteen themes × wall/floor/ceiling export 39 opaque64px tiles; floor/ceiling
+  retain eight Uint32 darkness levels. Review source/detail/repeats and preserve
+  documented edge diagnostics; numeric jump ratios do not prove seamlessness.
+  Fifty-two synthetic material-booth captures use a temporary baseline proxy;
+  doors/locks/stair openings and non-base kinds remain original. Architecture
+  matching, native layouts/offline/fallback and isolated performance remain
+  integration gates. See batch-o-preview/FORMAT-AUDIT.md; no creature anchors.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

@@ -1,0 +1,1328 @@
+{
+  "grey_halls_wall": {
+    "source": "surface-o-grey_halls.png",
+    "source_sha256": "6e5f555c4feb0bb53cf8b6e7cf1011a77db5bb78487140165add9b4fae9027b6",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "755bb3b6d448f28b651dd0ed33fd3dd477bda4aaa58d40a0ff578218f57a2694",
+    "rgb_mean": [
+      82.826904296875,
+      82.402587890625,
+      89.138427734375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 15.703125,
+      "vertical_join_mean": 38.020835876464844,
+      "interior_x_mean": 10.840690612792969,
+      "interior_y_mean": 19.540346145629883,
+      "horizontal_ratio": 1.448535442352295,
+      "vertical_ratio": 1.9457606077194214,
+      "horizontal_join_p95": 36.66666793823242,
+      "vertical_join_p95": 53.416664123535156
+    }
+  },
+  "grey_halls_floor": {
+    "source": "surface-o-grey_halls.png",
+    "source_sha256": "6e5f555c4feb0bb53cf8b6e7cf1011a77db5bb78487140165add9b4fae9027b6",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326",
+    "rgb_mean": [
+      59.961181640625,
+      54.48388671875,
+      47.247802734375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 4.4739580154418945,
+      "vertical_join_mean": 7.4375,
+      "interior_x_mean": 7.746941089630127,
+      "interior_y_mean": 7.921626567840576,
+      "horizontal_ratio": 0.5775128602981567,
+      "vertical_ratio": 0.9388854503631592,
+      "horizontal_join_p95": 10.283332824707031,
+      "vertical_join_p95": 17.94999885559082
+    }
+  },
+  "grey_halls_ceiling": {
+    "source": "surface-o-grey_halls.png",
+    "source_sha256": "6e5f555c4feb0bb53cf8b6e7cf1011a77db5bb78487140165add9b4fae9027b6",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "d0ec0a80a7450c7463b5968a660a0aa9c074446207539eb780398de6da1df6e6",
+    "rgb_mean": [
+      34.413330078125,
+      33.239501953125,
+      38.889892578125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 9.901041030883789,
+      "vertical_join_mean": 8.182291984558105,
+      "interior_x_mean": 5.828455924987793,
+      "interior_y_mean": 5.772403717041016,
+      "horizontal_ratio": 1.6987416744232178,
+      "vertical_ratio": 1.4174844026565552,
+      "horizontal_join_p95": 22.516664505004883,
+      "vertical_join_p95": 25.433324813842773
+    }
+  },
+  "brown_catacombs_wall": {
+    "source": "surface-o-brown_catacombs.png",
+    "source_sha256": "b6a0206bca83204dd59e594a892c82ba47bdf0c392ba491f3db533637c4ad52d",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "88824fa04894fad373bb8ec24534a0a171b22e855da1bfdc94ce17abd489e58d",
+    "rgb_mean": [
+      90.5283203125,
+      61.115966796875,
+      33.673828125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 11.5625,
+      "vertical_join_mean": 14.098958969116211,
+      "interior_x_mean": 9.674271583557129,
+      "interior_y_mean": 19.06423568725586,
+      "horizontal_ratio": 1.1951804161071777,
+      "vertical_ratio": 0.7395501732826233,
+      "horizontal_join_p95": 26.066659927368164,
+      "vertical_join_p95": 30.416664123535156
+    }
+  },
+  "brown_catacombs_floor": {
+    "source": "surface-o-brown_catacombs.png",
+    "source_sha256": "b6a0206bca83204dd59e594a892c82ba47bdf0c392ba491f3db533637c4ad52d",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "f7e298d865032fa73f79c7c7f7bd6c056512140e35b0a36a117843bcb7ac8bf4",
+    "rgb_mean": [
+      62.840576171875,
+      45.324462890625,
+      30.128662109375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 6.520833492279053,
+      "vertical_join_mean": 9.260416984558105,
+      "interior_x_mean": 4.991567611694336,
+      "interior_y_mean": 4.621196746826172,
+      "horizontal_ratio": 1.3063699007034302,
+      "vertical_ratio": 2.0039002895355225,
+      "horizontal_join_p95": 14.949999809265137,
+      "vertical_join_p95": 19.66666603088379
+    }
+  },
+  "brown_catacombs_ceiling": {
+    "source": "surface-o-brown_catacombs.png",
+    "source_sha256": "b6a0206bca83204dd59e594a892c82ba47bdf0c392ba491f3db533637c4ad52d",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "e148954ca35c4f4c5af93e3556624569ac0fa42f16ac30ba97ede8047b9675e2",
+    "rgb_mean": [
+      33.4833984375,
+      23.923828125,
+      14.740478515625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 5.46875,
+      "vertical_join_mean": 5.578125,
+      "interior_x_mean": 3.7539682388305664,
+      "interior_y_mean": 3.5523314476013184,
+      "horizontal_ratio": 1.4567917585372925,
+      "vertical_ratio": 1.5702714920043945,
+      "horizontal_join_p95": 12.283332824707031,
+      "vertical_join_p95": 12.566665649414062
+    }
+  },
+  "mossy_depths_wall": {
+    "source": "surface-o-mossy_depths.png",
+    "source_sha256": "160d83a4aac4fb719eb664aa92a98079ed3f399b5f9148fb2ba55f20d4681660",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "4d58cc58821d0d175a85fb28efc87777a88d27d7c615b0962ff5fe5ce04afb3e",
+    "rgb_mean": [
+      60.267822265625,
+      72.55126953125,
+      43.9833984375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 14.619791984558105,
+      "vertical_join_mean": 24.911457061767578,
+      "interior_x_mean": 9.957093238830566,
+      "interior_y_mean": 15.761160850524902,
+      "horizontal_ratio": 1.4682791233062744,
+      "vertical_ratio": 1.5805597305297852,
+      "horizontal_join_p95": 33.18333053588867,
+      "vertical_join_p95": 53.79999923706055
+    }
+  },
+  "mossy_depths_floor": {
+    "source": "surface-o-mossy_depths.png",
+    "source_sha256": "160d83a4aac4fb719eb664aa92a98079ed3f399b5f9148fb2ba55f20d4681660",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "00b0c61edf51fdb685f57d6c8f980cfc1cd2c7822ace3a0a220c4d4be608e178",
+    "rgb_mean": [
+      45.191162109375,
+      54.460205078125,
+      32.7001953125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 10.296875,
+      "vertical_join_mean": 11.65625,
+      "interior_x_mean": 6.169064521789551,
+      "interior_y_mean": 6.316633701324463,
+      "horizontal_ratio": 1.6691144704818726,
+      "vertical_ratio": 1.84532630443573,
+      "horizontal_join_p95": 17.899999618530273,
+      "vertical_join_p95": 27.133331298828125
+    }
+  },
+  "mossy_depths_ceiling": {
+    "source": "surface-o-mossy_depths.png",
+    "source_sha256": "160d83a4aac4fb719eb664aa92a98079ed3f399b5f9148fb2ba55f20d4681660",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "3f3ee75647907812fbd0ff602a004f7b466d860079c35e5ce524967fb409c1bd",
+    "rgb_mean": [
+      22.321044921875,
+      28.52734375,
+      17.092529296875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 5.78125,
+      "vertical_join_mean": 4.786458492279053,
+      "interior_x_mean": 4.186838626861572,
+      "interior_y_mean": 4.557952880859375,
+      "horizontal_ratio": 1.3808151483535767,
+      "vertical_ratio": 1.0501333475112915,
+      "horizontal_join_p95": 14.79999828338623,
+      "vertical_join_p95": 11.566665649414062
+    }
+  },
+  "blue_vaults_wall": {
+    "source": "surface-o-blue_vaults.png",
+    "source_sha256": "4a1a68c1fba380988c399d9451293db68f23e317041e6c6bc0316941e45507c9",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "d56ca8a31d8522143faf7f7feeff7aca85304d0cc67efe8e26865a435a2a6a87",
+    "rgb_mean": [
+      65.1962890625,
+      76.460693359375,
+      97.021484375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 9.005208969116211,
+      "vertical_join_mean": 39.09895706176758,
+      "interior_x_mean": 8.231729507446289,
+      "interior_y_mean": 15.842345237731934,
+      "horizontal_ratio": 1.0939631462097168,
+      "vertical_ratio": 2.468003034591675,
+      "horizontal_join_p95": 21.98332977294922,
+      "vertical_join_p95": 61.416664123535156
+    }
+  },
+  "blue_vaults_floor": {
+    "source": "surface-o-blue_vaults.png",
+    "source_sha256": "4a1a68c1fba380988c399d9451293db68f23e317041e6c6bc0316941e45507c9",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "5d8732d67d4824e618e3dc1b6bccf2978c3b8b55bed80de9b96f832eea7ea909",
+    "rgb_mean": [
+      39.548828125,
+      45.4970703125,
+      54.313232421875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 6.5364580154418945,
+      "vertical_join_mean": 7.8177080154418945,
+      "interior_x_mean": 6.2433037757873535,
+      "interior_y_mean": 6.669560432434082,
+      "horizontal_ratio": 1.0469549894332886,
+      "vertical_ratio": 1.1721473932266235,
+      "horizontal_join_p95": 14.566665649414062,
+      "vertical_join_p95": 19.59999656677246
+    }
+  },
+  "blue_vaults_ceiling": {
+    "source": "surface-o-blue_vaults.png",
+    "source_sha256": "4a1a68c1fba380988c399d9451293db68f23e317041e6c6bc0316941e45507c9",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "4d52f1488c98db90114e084fdcd3702688ec7c174e71ff314efb777dcafb17f6",
+    "rgb_mean": [
+      20.9248046875,
+      25.64111328125,
+      37.30712890625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 9.197916984558105,
+      "vertical_join_mean": 5.4427080154418945,
+      "interior_x_mean": 4.313326358795166,
+      "interior_y_mean": 4.67782735824585,
+      "horizontal_ratio": 2.132441759109497,
+      "vertical_ratio": 1.1635119915008545,
+      "horizontal_join_p95": 20.61666488647461,
+      "vertical_join_p95": 14.033329963684082
+    }
+  },
+  "crimson_crypts_wall": {
+    "source": "surface-o-crimson_crypts.png",
+    "source_sha256": "603a162032dee629796665906e2008ddc7071f6ddd0746e61b50e9cae4ae5e2c",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "9ee3ba59fed222c956a307e72bdc3f2d6efb3cd6b0638b6b9494f1a9e4a48290",
+    "rgb_mean": [
+      81.056396484375,
+      42.140380859375,
+      40.085205078125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 19.020832061767578,
+      "vertical_join_mean": 11.385416030883789,
+      "interior_x_mean": 9.520833015441895,
+      "interior_y_mean": 16.800098419189453,
+      "horizontal_ratio": 1.9978117942810059,
+      "vertical_ratio": 0.6776993870735168,
+      "horizontal_join_p95": 48.16665267944336,
+      "vertical_join_p95": 26.749998092651367
+    }
+  },
+  "crimson_crypts_floor": {
+    "source": "surface-o-crimson_crypts.png",
+    "source_sha256": "603a162032dee629796665906e2008ddc7071f6ddd0746e61b50e9cae4ae5e2c",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "b25d69cf8934fb8c78dab20036aa0043157eebf4ac34c9942f51772b85a5946d",
+    "rgb_mean": [
+      65.439208984375,
+      40.283935546875,
+      38.528564453125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 12.911458015441895,
+      "vertical_join_mean": 9.963541030883789,
+      "interior_x_mean": 6.222139358520508,
+      "interior_y_mean": 5.418402671813965,
+      "horizontal_ratio": 2.0750834941864014,
+      "vertical_ratio": 1.8388335704803467,
+      "horizontal_join_p95": 28.849998474121094,
+      "vertical_join_p95": 23.566665649414062
+    }
+  },
+  "crimson_crypts_ceiling": {
+    "source": "surface-o-crimson_crypts.png",
+    "source_sha256": "603a162032dee629796665906e2008ddc7071f6ddd0746e61b50e9cae4ae5e2c",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "e4b0d0fff54b1327db0ccc23752d3fec569ea8bb1e507f60201e4634e21a0d48",
+    "rgb_mean": [
+      32.10302734375,
+      16.030029296875,
+      15.705078125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 7.3177080154418945,
+      "vertical_join_mean": 5.5625,
+      "interior_x_mean": 3.78017520904541,
+      "interior_y_mean": 3.8374667167663574,
+      "horizontal_ratio": 1.9358118772506714,
+      "vertical_ratio": 1.44952392578125,
+      "horizontal_join_p95": 15.0,
+      "vertical_join_p95": 15.133331298828125
+    }
+  },
+  "obsidian_sanctum_wall": {
+    "source": "surface-o-obsidian_sanctum.png",
+    "source_sha256": "98c22216b1183980d65b39a2858e0ddb6deea383aec82ad7c87806081c347206",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "e2ef963031daccce369fc77e4de638813ff72a8a2b1b1df613d3799dab91a696",
+    "rgb_mean": [
+      40.11865234375,
+      33.28125,
+      48.150634765625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 13.692708015441895,
+      "vertical_join_mean": 11.3125,
+      "interior_x_mean": 6.867476463317871,
+      "interior_y_mean": 9.656414985656738,
+      "horizontal_ratio": 1.9938485622406006,
+      "vertical_ratio": 1.1715010404586792,
+      "horizontal_join_p95": 36.399993896484375,
+      "vertical_join_p95": 27.76665687561035
+    }
+  },
+  "obsidian_sanctum_floor": {
+    "source": "surface-o-obsidian_sanctum.png",
+    "source_sha256": "98c22216b1183980d65b39a2858e0ddb6deea383aec82ad7c87806081c347206",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "d70361f70d40ac0f47a0b5c01a5714b904eb3b45ed800fd906018ab6a931bd2d",
+    "rgb_mean": [
+      34.1787109375,
+      29.25634765625,
+      38.478271484375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 4.28125,
+      "vertical_join_mean": 7.859375,
+      "interior_x_mean": 6.214451313018799,
+      "interior_y_mean": 6.295221328735352,
+      "horizontal_ratio": 0.68891841173172,
+      "vertical_ratio": 1.2484668493270874,
+      "horizontal_join_p95": 12.616666793823242,
+      "vertical_join_p95": 19.466663360595703
+    }
+  },
+  "obsidian_sanctum_ceiling": {
+    "source": "surface-o-obsidian_sanctum.png",
+    "source_sha256": "98c22216b1183980d65b39a2858e0ddb6deea383aec82ad7c87806081c347206",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "ac273069cfda231f2a3bab70d349189d8eb3f8711ec69daf380b0bb04d29addb",
+    "rgb_mean": [
+      17.459716796875,
+      14.71875,
+      20.997314453125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 6.7760419845581055,
+      "vertical_join_mean": 6.625,
+      "interior_x_mean": 4.1521992683410645,
+      "interior_y_mean": 4.273809432983398,
+      "horizontal_ratio": 1.6319164037704468,
+      "vertical_ratio": 1.550139307975769,
+      "horizontal_join_p95": 20.19999122619629,
+      "vertical_join_p95": 15.283332824707031
+    }
+  },
+  "ossuary_wall": {
+    "source": "surface-o-ossuary.png",
+    "source_sha256": "f6a71d473fa8d6f6cc6168da7cc3c273ceceb925cb64fe4d62b23bf2ec348c1d",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "9139f83d3ac60e23cbe5f636b85f58fe362a8704e2bb77f2d8436ee5f50d6f1e",
+    "rgb_mean": [
+      64.113037109375,
+      53.853759765625,
+      40.892822265625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 38.58854293823242,
+      "vertical_join_mean": 6.453125,
+      "interior_x_mean": 25.20494270324707,
+      "interior_y_mean": 33.59862518310547,
+      "horizontal_ratio": 1.5309910774230957,
+      "vertical_ratio": 0.19206514954566956,
+      "horizontal_join_p95": 115.28333282470703,
+      "vertical_join_p95": 14.566665649414062
+    }
+  },
+  "ossuary_floor": {
+    "source": "surface-o-ossuary.png",
+    "source_sha256": "f6a71d473fa8d6f6cc6168da7cc3c273ceceb925cb64fe4d62b23bf2ec348c1d",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "2190695da580b3d7fe51e427656067fd9dcf7f6a95b6d6bdb334b24e28e6e486",
+    "rgb_mean": [
+      58.34130859375,
+      50.026611328125,
+      39.394287109375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 17.104167938232422,
+      "vertical_join_mean": 7.463541507720947,
+      "interior_x_mean": 7.148643970489502,
+      "interior_y_mean": 6.432953357696533,
+      "horizontal_ratio": 2.3926451206207275,
+      "vertical_ratio": 1.160204529762268,
+      "horizontal_join_p95": 41.33332061767578,
+      "vertical_join_p95": 17.61666488647461
+    }
+  },
+  "ossuary_ceiling": {
+    "source": "surface-o-ossuary.png",
+    "source_sha256": "f6a71d473fa8d6f6cc6168da7cc3c273ceceb925cb64fe4d62b23bf2ec348c1d",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "81a40570f9e1a6bf902be5ecbd3c4896acb2ddaf1460d733a1861654fdc68ce5",
+    "rgb_mean": [
+      18.943359375,
+      14.690185546875,
+      11.087158203125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 6.776041507720947,
+      "vertical_join_mean": 6.348958492279053,
+      "interior_x_mean": 3.6515376567840576,
+      "interior_y_mean": 3.6773314476013184,
+      "horizontal_ratio": 1.8556679487228394,
+      "vertical_ratio": 1.7265124320983887,
+      "horizontal_join_p95": 16.516664505004883,
+      "vertical_join_p95": 16.61666488647461
+    }
+  },
+  "warrens_wall": {
+    "source": "surface-o-warrens.png",
+    "source_sha256": "29b3898c5199c4515953a1c86906175fc18ef17638cfa33083fe75620aaa84b3",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "4bc1ce9455f9985e10c3c6826cf37b03d47e26e2287bcce9961f308b3bfaae17",
+    "rgb_mean": [
+      82.947998046875,
+      57.83935546875,
+      35.276611328125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 25.15625,
+      "vertical_join_mean": 15.609375953674316,
+      "interior_x_mean": 8.334489822387695,
+      "interior_y_mean": 8.018766403198242,
+      "horizontal_ratio": 3.0183310508728027,
+      "vertical_ratio": 1.9466056823730469,
+      "horizontal_join_p95": 40.56666564941406,
+      "vertical_join_p95": 29.21666145324707
+    }
+  },
+  "warrens_floor": {
+    "source": "surface-o-warrens.png",
+    "source_sha256": "29b3898c5199c4515953a1c86906175fc18ef17638cfa33083fe75620aaa84b3",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "cad68bac9153086b43fdeee3a6c05b1655650a00058cb984c2e3e1fc279272c7",
+    "rgb_mean": [
+      58.048583984375,
+      42.48974609375,
+      28.3759765625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 11.411458015441895,
+      "vertical_join_mean": 8.515625,
+      "interior_x_mean": 6.140955924987793,
+      "interior_y_mean": 6.544064044952393,
+      "horizontal_ratio": 1.858254313468933,
+      "vertical_ratio": 1.3012746572494507,
+      "horizontal_join_p95": 24.466663360595703,
+      "vertical_join_p95": 17.28333282470703
+    }
+  },
+  "warrens_ceiling": {
+    "source": "surface-o-warrens.png",
+    "source_sha256": "29b3898c5199c4515953a1c86906175fc18ef17638cfa33083fe75620aaa84b3",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "9cc898cb5f765010b55eb771cb2c27d5f2cb877386fde61893109130ac6055b8",
+    "rgb_mean": [
+      24.6162109375,
+      17.527587890625,
+      11.281982421875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 5.2291669845581055,
+      "vertical_join_mean": 5.041666507720947,
+      "interior_x_mean": 3.037367582321167,
+      "interior_y_mean": 3.1058199405670166,
+      "horizontal_ratio": 1.721611499786377,
+      "vertical_ratio": 1.6232964992523193,
+      "horizontal_join_p95": 10.666666984558105,
+      "vertical_join_p95": 11.666666984558105
+    }
+  },
+  "dark_elf_halls_wall": {
+    "source": "surface-o-dark_elf_halls.png",
+    "source_sha256": "5a94a8774757b056b04cbbe3e51893ac6e70b707cf1d21dda1c0de9447bd4a56",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "6371b0accad52b2968c576ec56de9693c8fc93eef775d4f314333ded6f173ab6",
+    "rgb_mean": [
+      46.92529296875,
+      40.468505859375,
+      51.354248046875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 6.7083330154418945,
+      "vertical_join_mean": 7.234375,
+      "interior_x_mean": 6.3561506271362305,
+      "interior_y_mean": 9.386821746826172,
+      "horizontal_ratio": 1.0554081201553345,
+      "vertical_ratio": 0.7706948518753052,
+      "horizontal_join_p95": 16.183332443237305,
+      "vertical_join_p95": 17.0
+    }
+  },
+  "dark_elf_halls_floor": {
+    "source": "surface-o-dark_elf_halls.png",
+    "source_sha256": "5a94a8774757b056b04cbbe3e51893ac6e70b707cf1d21dda1c0de9447bd4a56",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "5f0ee4f40f98d03abdaf10cac2da8831591409b4682855b88b30ac4c0154d19a",
+    "rgb_mean": [
+      39.927734375,
+      34.550537109375,
+      42.880615234375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 9.40625,
+      "vertical_join_mean": 17.229167938232422,
+      "interior_x_mean": 7.884093761444092,
+      "interior_y_mean": 7.643187522888184,
+      "horizontal_ratio": 1.1930667161941528,
+      "vertical_ratio": 2.2541861534118652,
+      "horizontal_join_p95": 23.233333587646484,
+      "vertical_join_p95": 40.033329010009766
+    }
+  },
+  "dark_elf_halls_ceiling": {
+    "source": "surface-o-dark_elf_halls.png",
+    "source_sha256": "5a94a8774757b056b04cbbe3e51893ac6e70b707cf1d21dda1c0de9447bd4a56",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "e6a82913d6e523f3419a57d85e65236897834b4d00db5761f169aeb6093ba632",
+    "rgb_mean": [
+      19.41455078125,
+      15.482177734375,
+      22.39208984375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 3.9114582538604736,
+      "vertical_join_mean": 6.609375,
+      "interior_x_mean": 4.203951835632324,
+      "interior_y_mean": 4.10772180557251,
+      "horizontal_ratio": 0.930424153804779,
+      "vertical_ratio": 1.6090123653411865,
+      "horizontal_join_p95": 10.566665649414062,
+      "vertical_join_p95": 15.949999809265137
+    }
+  },
+  "grey_hold_wall": {
+    "source": "surface-o-grey_hold.png",
+    "source_sha256": "518c8926a343344ecdf097d1ec7248fd58bd2a9c8b72420c1d5912c32694c1a7",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "20d919990fde508f84b806184ea76bcee56a5c74240ef6fca81b6f7857732157",
+    "rgb_mean": [
+      71.4970703125,
+      67.56005859375,
+      62.958251953125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 24.171875,
+      "vertical_join_mean": 24.96875,
+      "interior_x_mean": 10.825480461120605,
+      "interior_y_mean": 13.535548210144043,
+      "horizontal_ratio": 2.2328686714172363,
+      "vertical_ratio": 1.844679594039917,
+      "horizontal_join_p95": 47.56666564941406,
+      "vertical_join_p95": 40.499996185302734
+    }
+  },
+  "grey_hold_floor": {
+    "source": "surface-o-grey_hold.png",
+    "source_sha256": "518c8926a343344ecdf097d1ec7248fd58bd2a9c8b72420c1d5912c32694c1a7",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "d18d11fcfa79fe05766e3ca0fa10532552d63cd67f632c7ff27cfc55b46e390e",
+    "rgb_mean": [
+      54.56005859375,
+      49.752685546875,
+      44.564208984375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 8.682291984558105,
+      "vertical_join_mean": 10.65625,
+      "interior_x_mean": 7.7590107917785645,
+      "interior_y_mean": 7.900628089904785,
+      "horizontal_ratio": 1.1189947128295898,
+      "vertical_ratio": 1.348785161972046,
+      "horizontal_join_p95": 24.26666259765625,
+      "vertical_join_p95": 27.183332443237305
+    }
+  },
+  "grey_hold_ceiling": {
+    "source": "surface-o-grey_hold.png",
+    "source_sha256": "518c8926a343344ecdf097d1ec7248fd58bd2a9c8b72420c1d5912c32694c1a7",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "a17c58ba7a9a95e51a3e465c39bb146fa82c2ccc576f432da0e940a90ff1ade3",
+    "rgb_mean": [
+      25.428466796875,
+      22.58837890625,
+      19.108642578125
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 8.161458015441895,
+      "vertical_join_mean": 6.9010419845581055,
+      "interior_x_mean": 5.168071746826172,
+      "interior_y_mean": 5.000247955322266,
+      "horizontal_ratio": 1.5792075395584106,
+      "vertical_ratio": 1.380139946937561,
+      "horizontal_join_p95": 22.61666488647461,
+      "vertical_join_p95": 15.566665649414062
+    }
+  },
+  "sunless_marsh_wall": {
+    "source": "surface-o-sunless_marsh-repeat.png",
+    "source_sha256": "54981047b8b255188790954161fbef6aae15c14e055bd9f367bcf9d970769e40",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "ba17f43d1b7c5d0af08a1445a1ed37e9cb03c6dc2180cd86efff3008f587976a",
+    "rgb_mean": [
+      81.422607421875,
+      70.196044921875,
+      37.39404296875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 20.473957061767578,
+      "vertical_join_mean": 9.270833969116211,
+      "interior_x_mean": 8.398395538330078,
+      "interior_y_mean": 12.271328926086426,
+      "horizontal_ratio": 2.4378414154052734,
+      "vertical_ratio": 0.7554873824119568,
+      "horizontal_join_p95": 45.66666793823242,
+      "vertical_join_p95": 19.516664505004883
+    }
+  },
+  "sunless_marsh_floor": {
+    "source": "surface-o-sunless_marsh-repeat.png",
+    "source_sha256": "54981047b8b255188790954161fbef6aae15c14e055bd9f367bcf9d970769e40",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "7480a2ea3efc3885e3475bdd4f590c39ceb53683dc13d1e43a24ef656620de89",
+    "rgb_mean": [
+      45.350341796875,
+      41.7578125,
+      20.836669921875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 7.005208492279053,
+      "vertical_join_mean": 5.0416669845581055,
+      "interior_x_mean": 4.637648582458496,
+      "interior_y_mean": 5.033564567565918,
+      "horizontal_ratio": 1.51050865650177,
+      "vertical_ratio": 1.0016096830368042,
+      "horizontal_join_p95": 15.466665267944336,
+      "vertical_join_p95": 11.283332824707031
+    }
+  },
+  "sunless_marsh_ceiling": {
+    "source": "surface-o-sunless_marsh-repeat.png",
+    "source_sha256": "54981047b8b255188790954161fbef6aae15c14e055bd9f367bcf9d970769e40",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "bd6cb8aac27640a62c698000eb9934e257484ee9a6788a4c203a5b92f458734c",
+    "rgb_mean": [
+      17.106689453125,
+      18.651611328125,
+      9.879638671875
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 8.260416030883789,
+      "vertical_join_mean": 9.588541030883789,
+      "interior_x_mean": 4.738260746002197,
+      "interior_y_mean": 4.802000522613525,
+      "horizontal_ratio": 1.743343472480774,
+      "vertical_ratio": 1.996780514717102,
+      "horizontal_join_p95": 17.799997329711914,
+      "vertical_join_p95": 22.61666488647461
+    }
+  },
+  "drowned_halls_wall": {
+    "source": "surface-o-drowned_halls.png",
+    "source_sha256": "c53e44fae37a19f42737d9487febc4b413b67f51faf9897070dab5c973620a9a",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "1907da8f263843646f09fdf9ef767144b3df43c7e6bfe33f101dd4a1887101d7",
+    "rgb_mean": [
+      53.0361328125,
+      65.709228515625,
+      67.708740234375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 12.463541984558105,
+      "vertical_join_mean": 20.27083396911621,
+      "interior_x_mean": 11.182126998901367,
+      "interior_y_mean": 18.231481552124023,
+      "horizontal_ratio": 1.1145949363708496,
+      "vertical_ratio": 1.11185884475708,
+      "horizontal_join_p95": 30.0,
+      "vertical_join_p95": 44.64999771118164
+    }
+  },
+  "drowned_halls_floor": {
+    "source": "surface-o-drowned_halls.png",
+    "source_sha256": "c53e44fae37a19f42737d9487febc4b413b67f51faf9897070dab5c973620a9a",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "7d6c545853668a0c9d3bef27df8dad6de6a87dc3743210dacce44ee2d0fd20e7",
+    "rgb_mean": [
+      36.30224609375,
+      43.644287109375,
+      43.95849609375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 8.515625,
+      "vertical_join_mean": 4.9010419845581055,
+      "interior_x_mean": 7.023396015167236,
+      "interior_y_mean": 7.004051208496094,
+      "horizontal_ratio": 1.2124654054641724,
+      "vertical_ratio": 0.6997438669204712,
+      "horizontal_join_p95": 23.94999885559082,
+      "vertical_join_p95": 11.0
+    }
+  },
+  "drowned_halls_ceiling": {
+    "source": "surface-o-drowned_halls.png",
+    "source_sha256": "c53e44fae37a19f42737d9487febc4b413b67f51faf9897070dab5c973620a9a",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "d3da982b6ae919dd96838739a210b062a7b75451064726ace89360db57d35e31",
+    "rgb_mean": [
+      11.978515625,
+      18.955322265625,
+      19.0322265625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 9.041666984558105,
+      "vertical_join_mean": 4.2552080154418945,
+      "interior_x_mean": 4.519345283508301,
+      "interior_y_mean": 4.375578880310059,
+      "horizontal_ratio": 2.0006585121154785,
+      "vertical_ratio": 0.9724903106689453,
+      "horizontal_join_p95": 19.66666603088379,
+      "vertical_join_p95": 9.849998474121094
+    }
+  },
+  "old_forges_wall": {
+    "source": "surface-o-old_forges.png",
+    "source_sha256": "af871775524e9330b8c24a442b8fbddcb51b78c8157ba4a51212c77410c4ccb4",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "4f3fd5f9511bfddf56f1d0a658132e8411e9d8881b3bdfd0049088aaabda0218",
+    "rgb_mean": [
+      51.06494140625,
+      39.50341796875,
+      32.843505859375
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 8.255208969116211,
+      "vertical_join_mean": 39.151039123535156,
+      "interior_x_mean": 7.106729030609131,
+      "interior_y_mean": 11.867973327636719,
+      "horizontal_ratio": 1.1616045236587524,
+      "vertical_ratio": 3.2988815307617188,
+      "horizontal_join_p95": 21.649995803833008,
+      "vertical_join_p95": 61.616668701171875
+    }
+  },
+  "old_forges_floor": {
+    "source": "surface-o-old_forges.png",
+    "source_sha256": "af871775524e9330b8c24a442b8fbddcb51b78c8157ba4a51212c77410c4ccb4",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "e2069b73e0467cf60d1284b33b86f1dc4c029c7dbc6fa7fff05b343831dfcd88",
+    "rgb_mean": [
+      42.30859375,
+      31.8759765625,
+      25.75634765625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 7.625,
+      "vertical_join_mean": 5.796875,
+      "interior_x_mean": 6.182704925537109,
+      "interior_y_mean": 6.09102201461792,
+      "horizontal_ratio": 1.2332789897918701,
+      "vertical_ratio": 0.9517080783843994,
+      "horizontal_join_p95": 21.366662979125977,
+      "vertical_join_p95": 16.233333587646484
+    }
+  },
+  "old_forges_ceiling": {
+    "source": "surface-o-old_forges.png",
+    "source_sha256": "af871775524e9330b8c24a442b8fbddcb51b78c8157ba4a51212c77410c4ccb4",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "export_sha256": "6e528fd105bc186b286c83a96adee2d26f1452ce88185a114ae6bfe7b88ffdc8",
+    "rgb_mean": [
+      17.1416015625,
+      11.197021484375,
+      8.603515625
+    ],
+    "edge_diagnostic": {
+      "horizontal_join_mean": 4.958333492279053,
+      "vertical_join_mean": 4.5677080154418945,
+      "interior_x_mean": 3.237764358520508,
+      "interior_y_mean": 3.4815642833709717,
+      "horizontal_ratio": 1.5314065217971802,
+      "vertical_ratio": 1.3119699954986572,
+      "horizontal_join_p95": 12.183331489562988,
+      "vertical_join_p95": 10.899998664855957
+    }
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-n.md",
+  "status": "generated, repaired and source/export visually reviewed; 24 phone captures and 56 actual reveal/expiry selections passed; source/review publication; no runtime integration",
+  "groups": {
+    "n1": [
+      "remains_bones",
+      "remains_staves",
+      "remains_shards",
+      "remains_husk"
+    ]
+  },
+  "sheets": {
+    "n1": {
+      "source": "remains-n1.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "remains_bones",
+        "remains_staves",
+        "remains_shards",
+        "remains_husk"
+      ],
+      "prompt": "Create production-quality static dungeon remains sprites for Deepdelve Batch N. FIRST reference is the four ACTIVE PROCEDURAL identity/composition guide, SECOND is approved painted Batch L material/style reference. Match gritty hand-painted dungeon realism, weathered materials and muted earthy colours, restrained upper-left warm light and dark lower/right shading. No cartoon/toy look. TRUE TRANSPARENT RGBA background, no room/floor tile/backdrop/border/labels/text. Square sheet, precise TWO BY TWO grid, FOUR complete separated compositions, reading order below. All objects lie FLAT and VERY LOW on the floor, composition height roughly 20 to 28 percent of its width; do not pile them tall to fill cells. Every whole composition fits inside central 70% of its own cell width, centred with generous transparent padding on all four sides and between cells. Slight elevated frontal view shows top surfaces, with tiny tight contact shadows only. No new lights, glowing eyes, magic, treasure, people or standing figures.\nTOP LEFT remains_bones: SMALL sparse scattering of yellowed ivory bone fragments: TWO longer snapped limb bones, THREE shorter loose fragments, and ONE SMALL partial tipped skull with empty DARK eye sockets. No tall complete ribcage, seated skeleton, purple eyes, weapons, cup or dice. Must read as modest flat aftermath, less elaborate than the decorative bones in the second reference.\nTOP RIGHT remains_staves: THREE broken weathered BROWN WOOD STAVES/boards scattered diagonally in a shallow fan, splintered ends and visible grain, ONE short bent dark IRON HOOP fragment along front-left, ONE small curved wooden cask-head fragment at right. No intact barrel, crate or lid, no candles/treasure. Metal and wood remain distinct, complete splinter tips inside cell.\nBOTTOM LEFT remains_shards: FOUR primary broken TERRACOTTA urn SHARDS lying FLAT, largest near centre-right, smaller left/right pieces; curved pottery surfaces, pale broken clay edges. On TWO pieces preserve a short worn GOLD/YELLOW decorative stripe from the approved terracotta urn in second reference, a few tiny clay chips. Warm rusty orange-brown, NOT purple crystal, stone rubble or an intact urn. No upright spikes or new writing.\nBOTTOM RIGHT remains_husk: VERY LOW small flattened dark brown/charcoal HUSK of leathery hide with a folded scrap of faded brown/tan cloth on viewer RIGHT, vague collapsed organic contour with no identifiable face/arms/legs. Subtle dark maroon speckles only, no exposed anatomy, vivid gore or giant corpse. Neutral generic aftermath suitable for multiple creature types. All lies in a shallow ragged silhouette on the floor, not a standing creature, bag, rock mound or neat bedroll. Transparent gaps/background visible around each isolated composition.",
+      "references": [
+        "batch-n-preview/n1-reference.png",
+        "batch-l-preview/contact-sheet.png"
+      ],
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "remains-n1-flat-shards.png",
+          "references": [
+            "remains-n1.png"
+          ],
+          "prompt": "Edit this full four-cell transparent sprite sheet. Preserve the TOP LEFT bones, TOP RIGHT broken staves/hoop, and BOTTOM RIGHT hide/cloth husk exactly in identity, weathered paint style, colours, scale and locations. Correct ONLY BOTTOM LEFT terracotta remains. It currently has five large shards and a tall upright central pottery wall. Replace that cell composition with exactly FOUR large terracotta pottery SHARDS lying FLAT or only gently tilted on the floor, ALL LOW, no upright pot wall. One medium piece at viewer left, largest shallow curved piece centre-back, one smaller centre-front, one at right. REMOVE the extra rear triangle behind the central piece. Keep pale broken clay edges, short worn GOLD decorative stripes on only TWO pieces and a few tiny clay crumbs. Do not recreate a pot or open vessel. Complete whole composition, height at most one-quarter width. Keep roomy transparent gutters and all original other cells intact. Entire canvas remains true RGBA transparent, no background, labels or floor slab. No new objects, bones or gore.",
+          "generated_file": "/workspace/generated_images/exec-94210c06-1a57-4ea9-8da2-fc9cb4f46d68.png"
+        },
+        {
+          "source": "remains-n1-final.png",
+          "references": [
+            "remains-n1-flat-shards.png"
+          ],
+          "prompt": "Minimal correction to this four-cell transparent dungeon remains sheet. Keep all four compositions exactly as they are, including every bone, plank, iron hoop, skull, low four-piece pottery arrangement and husk/cloth. In the BOTTOM LEFT cell only, remove the yellow/gold painted stripe from the far-RIGHT SMALL pottery shard; make that small shard plain worn terracotta with the same clay texture and highlights. Leave the gold stripe on the far-left shard and the gold decoration on the large centre-back shard. Thus exactly TWO pottery pieces bear gold decoration and the front and far-right pieces are plain terracotta. No changes elsewhere, no new pieces, no repositioning, no lighting/style changes, no backdrop or labels. Preserve true transparent RGBA background, all tips and low floor silhouettes.",
+          "generated_file": "/workspace/generated_images/exec-5a9d5c68-c8b5-40b2-b300-457a730cdd70.png"
+        }
+      ],
+      "generated_file": "/workspace/generated_images/exec-3dc26750-70ab-45b8-b5c4-1d9034fd5800.png",
+      "selected_source": "remains-n1-final.png",
+      "source_dimensions": [
+        1254,
+        1254
+      ]
+    }
+  },
+  "scenes": {
+    "remains_bones": {
+      "sheet": "n1",
+      "source_rect": [
+        0,
+        0,
+        627,
+        800
+      ],
+      "source_anchor": [
+        330.5,
+        657
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 72,
+      "review_export": "batch-n-preview/remains_bones.webp"
+    },
+    "remains_staves": {
+      "sheet": "n1",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        800
+      ],
+      "source_anchor": [
+        303.5,
+        692
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 72,
+      "review_export": "batch-n-preview/remains_staves.webp"
+    },
+    "remains_shards": {
+      "sheet": "n1",
+      "source_rect": [
+        0,
+        800,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        320.5,
+        369
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 72,
+      "review_export": "batch-n-preview/remains_shards.webp"
+    },
+    "remains_husk": {
+      "sheet": "n1",
+      "source_rect": [
+        627,
+        800,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        310.0,
+        367
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "max_height": 72,
+      "review_export": "batch-n-preview/remains_husk.webp"
+    }
+  },
+  "crop_note": "Top-row authored crops extend to y800 through empty gutter, retaining complete bone/hoop tips below nominal grid halfway. Bottom-row crops begin in empty gutter.",
+  "inventory_audit": {
+    "remains_keys": 4,
+    "direct_reuse": 0,
+    "source_groups": 1,
+    "world_captures": 24,
+    "timing_checks": 56,
+    "runtime_integration": false
+  }
+}

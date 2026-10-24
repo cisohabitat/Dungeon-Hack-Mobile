@@ -17,11 +17,18 @@ pending. Their review links and publication commits are recorded in the roadmap.
 
 Batch L ordinary room dressing is generated and reviewed: eleven static
 cells and sixty phone review captures. See [Batch L review](batch-l-preview/REVIEW.md).
-Source/review assets are published separately; runtime integration remains pending. Proposed M–Q cover regional
-details, creature remains, surfaces/architecture, equipment gaps and effects;
-prioritize E–K runtime integration as a separate delivery track. These later
+Source/review assets are published separately; runtime integration remains pending.
+
+Batch M regional details are generated, reviewed and published as source/review assets; see
+[Batch M review](batch-m-preview/REVIEW.md). Runtime integration remains
+pending. Batch N remains are generated/repaired, reviewed and published; see
+[Batch N review](batch-n-preview/REVIEW.md). Runtime integration remains pending.
+Batch O’s thirteen baseline surface sets are reviewed and published; see
+[Batch O review](batch-o-preview/REVIEW.md). Runtime integration and
+state-aware architecture/variant matching remain pending. Proposed P/Q cover
+equipment gaps and effects. Prioritize runtime integration as a separate delivery track. These later
 systems need their stated format/reuse audits rather than the monster atlas
-loader by default. No M–Q artwork is complete.
+loader by default. No P/Q artwork is complete.
 
 ## Requesting work later
 

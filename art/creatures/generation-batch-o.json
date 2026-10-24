@@ -1,0 +1,873 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-o.md",
+  "status": "thirteen baseline material sets generated and source/export/repeat visually reviewed; selected marsh repeat repair; 52 controlled phone captures and exact darkness-format/preserved-binding checks passed; source/review publication; architecture/secondary variants procedural; no runtime integration",
+  "runtime_format": {
+    "tile_size": 64,
+    "floor_ceiling_levels": 8,
+    "floor_ceiling_encoding": "opaque Uint32Array, RGB channel truncation times (1-level/7)",
+    "wall_format": "CanvasImageSource64",
+    "sampling": "wrapped power-of-two texture coordinates; cached distance softening beyond3 tiles"
+  },
+  "scope": "Thirteen base wall/floor/ceiling sets. Existing cracked/alternate/damp/rock/fallen walls, floor kinds1\u20136, roof kinds1\u20133 and state-bearing architecture remain procedural; no wholesale architecture replacement.",
+  "groups": {
+    "grey_halls": [
+      "grey_halls_wall",
+      "grey_halls_floor",
+      "grey_halls_ceiling"
+    ],
+    "brown_catacombs": [
+      "brown_catacombs_wall",
+      "brown_catacombs_floor",
+      "brown_catacombs_ceiling"
+    ],
+    "mossy_depths": [
+      "mossy_depths_wall",
+      "mossy_depths_floor",
+      "mossy_depths_ceiling"
+    ],
+    "blue_vaults": [
+      "blue_vaults_wall",
+      "blue_vaults_floor",
+      "blue_vaults_ceiling"
+    ],
+    "crimson_crypts": [
+      "crimson_crypts_wall",
+      "crimson_crypts_floor",
+      "crimson_crypts_ceiling"
+    ],
+    "obsidian_sanctum": [
+      "obsidian_sanctum_wall",
+      "obsidian_sanctum_floor",
+      "obsidian_sanctum_ceiling"
+    ],
+    "ossuary": [
+      "ossuary_wall",
+      "ossuary_floor",
+      "ossuary_ceiling"
+    ],
+    "warrens": [
+      "warrens_wall",
+      "warrens_floor",
+      "warrens_ceiling"
+    ],
+    "dark_elf_halls": [
+      "dark_elf_halls_wall",
+      "dark_elf_halls_floor",
+      "dark_elf_halls_ceiling"
+    ],
+    "grey_hold": [
+      "grey_hold_wall",
+      "grey_hold_floor",
+      "grey_hold_ceiling"
+    ],
+    "sunless_marsh": [
+      "sunless_marsh_wall",
+      "sunless_marsh_floor",
+      "sunless_marsh_ceiling"
+    ],
+    "drowned_halls": [
+      "drowned_halls_wall",
+      "drowned_halls_floor",
+      "drowned_halls_ceiling"
+    ],
+    "old_forges": [
+      "old_forges_wall",
+      "old_forges_floor",
+      "old_forges_ceiling"
+    ]
+  },
+  "sheets": {
+    "grey_halls": {
+      "source": "surface-o-grey_halls.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 0,
+      "theme": "Grey Halls",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Grey Halls. Palette anchor wall #6e6e78, mortar #34343e, floor #3a3630, ceiling #24222a. LEFT: Cool neutral grey worn masonry in EIGHT horizontal running-bond courses, restrained narrow charcoal mortar; old carved skirting/fret only as unobtrusive continuous stone courses. MIDDLE: Dull brown-grey square flagstones in a regular FOUR by FOUR repeat, chipped edges and grit, no conspicuous object or new symbol. RIGHT: Very dark charcoal grey rough rock mottling. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-0-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-5b3018e8-f80b-48c6-96f4-a44667e19ac6.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "brown_catacombs": {
+      "source": "surface-o-brown_catacombs.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 1,
+      "theme": "Brown Catacombs",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Brown Catacombs. Palette anchor wall #7a5a3a, mortar #3a2a1a, floor #3a2e22, ceiling #241c14. LEFT: Dusty warm brown sandstone masonry in EIGHT horizontal courses with a continuous shallow incised course, dry aged stone. MIDDLE: TWO long brown ledger stones side by side, flat shallow rim and THREE tiny worn parallel incisions per stone; no writing, skull or cross. RIGHT: Very dark umber-brown rough stone mottling. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-1-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-4a9b160a-bb13-4800-8b70-2de34e230c27.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "mossy_depths": {
+      "source": "surface-o-mossy_depths.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 2,
+      "theme": "Mossy Depths",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Mossy Depths. Palette anchor wall #5a7050, mortar #26321f, floor #2c3a28, ceiling #182218. LEFT: Damp muted olive-grey masonry in EIGHT courses with sparse moss in mortar seams, no large leaves or branches. MIDDLE: Dull deep green-grey FOUR by FOUR flagstones, restrained moss/dirt along joints, floor remains solid and dry-looking, no puddle. RIGHT: Very dark forest-charcoal rough rock, subtle moss mottling. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-2-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-5300464f-23b0-4494-8350-bb4b34fd6653.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "blue_vaults": {
+      "source": "surface-o-blue_vaults.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 3,
+      "theme": "Blue Vaults",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Blue Vaults. Palette anchor wall #55627a, mortar #242a3a, floor #262c36, ceiling #141824. LEFT: Cold slate blue-grey masonry in EIGHT courses, fine frost-like weathering without snow or ice sheets. MIDDLE: Deep slate blue-grey flagstones with ONE restrained thin incised diamond that repeats across square tile, not luminous or raised. RIGHT: Very dark cool blue-charcoal rough rock. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-3-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-8297b1de-8e82-4e74-84b2-7a5ec0d8af8e.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "crimson_crypts": {
+      "source": "surface-o-crimson_crypts.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 4,
+      "theme": "Crimson Crypts",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Crimson Crypts. Palette anchor wall #7a4a4a, mortar #3a1e1e, floor #36262a, ceiling #221416. LEFT: Weathered muted rusty red-brown masonry in EIGHT courses, dull iron staining, shallow continuous incised course. MIDDLE: TWO long muted reddish brown ledger stones side by side, shallow rims and THREE tiny worn parallel incisions on each, no readable text/skull/cross. RIGHT: Very dark maroon-charcoal rough stone. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-4-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-1601fd75-0c52-4535-8e5c-7bf7339ce2e6.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "obsidian_sanctum": {
+      "source": "surface-o-obsidian_sanctum.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 5,
+      "theme": "Obsidian Sanctum",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme Obsidian Sanctum. Palette anchor wall #3c3448, mortar #12101a, floor #1e1a26, ceiling #0c0a12. LEFT: Large cut black PURPLE obsidian slabs in staggered courses, subtle pale violet edge reflections and thin diamond engraving, no neon, no image reflection, no visible light source. MIDDLE: Near-black purple stone with thin muted lavender incised nested diamond/square inlay, entirely flat, no luminous lines or central artifact. RIGHT: Nearly black violet-charcoal rough rock with restrained tiny mineral flecks. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-5-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-4e126927-af3e-44ea-8cbe-e9bdaa040e23.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "ossuary": {
+      "source": "surface-o-ossuary.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 6,
+      "theme": "The Ossuary",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Ossuary. Palette anchor wall #8a8272, mortar #16120e, floor #302c26, ceiling #14110e. LEFT: Rows of tightly stacked weathered IVORY HUMAN SKULLS and small crossed long bones recessed into very dark brown stone ossuary niches. Believable aged anatomy, empty black sockets, no glowing eyes or living figures. Rows repeat continuously across tile edges. MIDDLE: TWO long grey-brown burial ledger stones, subtle worn rims and THREE small parallel incisions per stone, no text/cross/loose skull props. RIGHT: Almost black earthy-brown rock mottling, no skulls on ceiling. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-6-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-0ddf356a-10a9-42db-8e7d-0f41e47524e0.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "warrens": {
+      "source": "surface-o-warrens.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 7,
+      "theme": "The Warrens",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Warrens. Palette anchor wall #6a5238, mortar #2a2016, floor #382c20, ceiling #1c1610. LEFT: Compacted brown EARTH tunnel wall with small embedded pale stones, sparse fine roots, and worn timber supports at periodic vertical intervals with iron nails. No regular brickwork, door or cave opening. MIDDLE: Trodden dull brown EARTH with a little grit and occasional tiny stones, no flagstones, objects, footprints or large roots. RIGHT: Very dark umber packed rock/earth mottling with sparse fine cracks, no beams or hanging roots. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-7-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-35f75345-5bc7-4049-936e-f4b4b8ba555b.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "dark_elf_halls": {
+      "source": "surface-o-dark_elf_halls.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 8,
+      "theme": "The Dark Elf Halls",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Dark Elf Halls. Palette anchor wall #3a3446, mortar #16121e, floor #24202c, ceiling #100c16. LEFT: Precisely fitted dark PURPLE-GREY ASHLAR blocks in staggered courses, muted violet edge strips/diamond incision, matte dark stone not glowing crystals. MIDDLE: Near-black purple-grey flags with a thin dull violet incised diamond, small corner diamond marks, no luminous rune or raised crystal. RIGHT: Almost black violet-grey rough rock mottling. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-8-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-175dfd6d-d941-498e-920d-6283d0fc3885.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "grey_hold": {
+      "source": "surface-o-grey_hold.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 9,
+      "theme": "The Grey Hold",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Grey Hold. Palette anchor wall #5e5c58, mortar #1e1c1a, floor #2e2b28, ceiling #141210. LEFT: Square-cut GREY GRANITE blocks with recessed vertical IRON strips at repeat edges, small square rivets and a narrow worn chevron incised course. Iron dark and worn, no machinery/forge/door. MIDDLE: Dark grey granite flags with ONE broad shallow incised diamond frame and small corner rivet marks, matte, no metallic glow. RIGHT: Very dark grey granite rock mottling, no hanging equipment. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-9-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-6b80ca98-cf12-4455-80a8-686ae1d98f3c.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "sunless_marsh": {
+      "source": "surface-o-sunless_marsh.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 10,
+      "theme": "The Sunless Marsh",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Sunless Marsh. Palette anchor wall #5a5a3c, mortar #1e2414, floor #2a3020, ceiling #121810. LEFT: Dull olive-tan WATTLE/REED and daub wall, thin vertical woven reeds behind patchy packed mud, TWO horizontal tan binding courses with small lashings; not ordinary brick. MIDDLE: Matte dark OLIVE MUD with fine dry cracks and sparse tiny embedded reed fibres. It is solid ground, NOT blue water, a pool or shiny flooded floor. RIGHT: Very dark olive-charcoal rough rock/earth, no hanging plant props. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-10-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [
+        {
+          "source": "surface-o-sunless_marsh-repeat.png",
+          "references": [
+            "surface-o-sunless_marsh.png"
+          ],
+          "prompt": "Edit this three-square texture strip, preserving LEFT olive wattle-and-daub wall and RIGHT dark olive rock ceiling, palette and gritty material treatment. Fix ONLY the MIDDLE olive dry mud FLOOR texture so it tiles invisibly at its left/right and top/bottom boundaries. The current repeated crop makes an obvious vertical boundary stripe. Remove boundary shading, dark border strips, large edge-clipped reed stalks and broad exposure differences. Keep a uniform matte dark olive mud texture with small fine cracks and a FEW very tiny reed fibres distributed evenly. Seamless, full-bleed, no frame/gutter/label/perspective. Match opposing edges in material brightness/structure, with cracks wrapping. Floor must remain clearly solid matte olive mud, no blue water/puddles/holes/magic or new objects. Keep exact three equal square panel layout and opaque image throughout. No other changes.",
+          "generated_file": "/workspace/generated_images/exec-069774f8-71fe-4f95-bcd1-2550297996d0.png"
+        }
+      ],
+      "generated_file": "/workspace/generated_images/exec-e57624d5-f4a4-4349-b24c-0ba240793c04.png",
+      "source_dimensions": [
+        2172,
+        724
+      ],
+      "selected_source": "surface-o-sunless_marsh-repeat.png"
+    },
+    "drowned_halls": {
+      "source": "surface-o-drowned_halls.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 11,
+      "theme": "The Drowned Halls",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Drowned Halls. Palette anchor wall #4a5a60, mortar #162024, floor #1e2a2e, ceiling #0c1416. LEFT: Muted blue-grey damp masonry in EIGHT courses, restrained old algae/silt staining toward lower courses and an old subtle mineral waterline, no flowing water or bright wet highlights. MIDDLE: Dark blue-grey flags with fine silt at edges, matte solid stone, NO water/puddle, open holes or pool-like blue surface. RIGHT: Very dark blue-green charcoal rough rock mottling, no dripping effects. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-11-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-21789ce4-c787-4eeb-a577-178301841bb0.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    },
+    "old_forges": {
+      "source": "surface-o-old_forges.png",
+      "grid": [
+        3,
+        1
+      ],
+      "theme_index": 12,
+      "theme": "The Old Forges",
+      "prompt": "Create three seamless repeatable PBR-like PAINTED DIFFUSE dungeon material tiles for Deepdelve Batch O, in a precise WIDE strip of THREE EQUAL SQUARE panels edge-to-edge: LEFT wall, MIDDLE floor, RIGHT ceiling. Each square is a FULL-BLEED ORTHOGRAPHIC MATERIAL TEXTURE, straight-on wall/straight overhead floor and ceiling. No scene, perspective, camera angle, vignette, borders, gutter, labels, text or transparent padding. OPAQUE RGB artwork to all edges. Use the attached active three-panel procedural reference for identity, palette and relative brightness. Upgrade to gritty hand-painted realistic worn materials matching detailed monster/prop art, not pixel art, cartoon outlines or glossy toy surfaces. Diffuse EVEN NEUTRAL lighting everywhere; only very shallow material relief. NO directional cast light, bright corner, baked torch, specular flare or dramatic shadows. The ceiling panel must remain much darker than wall and floor. IMPORTANT: Each of the three panels must tile SEAMLESSLY with ITSELF on all four edges: wrap masonry courses, mortar, marks and material detail; no frame, boundary band, dark outlines along panel perimeter or unique central object. Features crossing one edge continue at opposite edge, equal exposure across each panel. No new navigation opening, stairs, door, lock, treasure, loose props, blood or gameplay cues. Wall and floor surface scales remain close to reference, fine enough for native64. Theme The Old Forges. Palette anchor wall #4a3e3a, mortar #160e0c, floor #2a201c, ceiling #100a08. LEFT: Soot-dark brown-grey masonry in EIGHT courses, narrow worn iron band/rivets near lower course; cold unused stone, no embers, lava, flames or glowing cracks. MIDDLE: Dark umber-grey stone with ONE shallow incised diamond/outer frame and small corner rivets, soot in seams, no embers/lava/hot orange highlights. RIGHT: Nearly black warm brown-charcoal rough rock, no glow/sparks. Keep existing region identities and flat navigation meaning. Three square panels, with no gap or frame.",
+      "references": [
+        "batch-o-preview/theme-12-reference.png"
+      ],
+      "transparent_background": false,
+      "repairs": [],
+      "generated_file": "/workspace/generated_images/exec-79a8073c-72e8-4926-a244-2bd529415adf.png",
+      "source_dimensions": [
+        2172,
+        724
+      ]
+    }
+  },
+  "tiles": {
+    "grey_halls_wall": {
+      "sheet": "grey_halls",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_halls_wall.png"
+    },
+    "grey_halls_floor": {
+      "sheet": "grey_halls",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_halls_floor.png"
+    },
+    "grey_halls_ceiling": {
+      "sheet": "grey_halls",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_halls_ceiling.png"
+    },
+    "brown_catacombs_wall": {
+      "sheet": "brown_catacombs",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/brown_catacombs_wall.png"
+    },
+    "brown_catacombs_floor": {
+      "sheet": "brown_catacombs",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/brown_catacombs_floor.png"
+    },
+    "brown_catacombs_ceiling": {
+      "sheet": "brown_catacombs",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/brown_catacombs_ceiling.png"
+    },
+    "mossy_depths_wall": {
+      "sheet": "mossy_depths",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/mossy_depths_wall.png"
+    },
+    "mossy_depths_floor": {
+      "sheet": "mossy_depths",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/mossy_depths_floor.png"
+    },
+    "mossy_depths_ceiling": {
+      "sheet": "mossy_depths",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/mossy_depths_ceiling.png"
+    },
+    "blue_vaults_wall": {
+      "sheet": "blue_vaults",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/blue_vaults_wall.png"
+    },
+    "blue_vaults_floor": {
+      "sheet": "blue_vaults",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/blue_vaults_floor.png"
+    },
+    "blue_vaults_ceiling": {
+      "sheet": "blue_vaults",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/blue_vaults_ceiling.png"
+    },
+    "crimson_crypts_wall": {
+      "sheet": "crimson_crypts",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/crimson_crypts_wall.png"
+    },
+    "crimson_crypts_floor": {
+      "sheet": "crimson_crypts",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/crimson_crypts_floor.png"
+    },
+    "crimson_crypts_ceiling": {
+      "sheet": "crimson_crypts",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/crimson_crypts_ceiling.png"
+    },
+    "obsidian_sanctum_wall": {
+      "sheet": "obsidian_sanctum",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/obsidian_sanctum_wall.png"
+    },
+    "obsidian_sanctum_floor": {
+      "sheet": "obsidian_sanctum",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/obsidian_sanctum_floor.png"
+    },
+    "obsidian_sanctum_ceiling": {
+      "sheet": "obsidian_sanctum",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/obsidian_sanctum_ceiling.png"
+    },
+    "ossuary_wall": {
+      "sheet": "ossuary",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/ossuary_wall.png"
+    },
+    "ossuary_floor": {
+      "sheet": "ossuary",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/ossuary_floor.png"
+    },
+    "ossuary_ceiling": {
+      "sheet": "ossuary",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/ossuary_ceiling.png"
+    },
+    "warrens_wall": {
+      "sheet": "warrens",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/warrens_wall.png"
+    },
+    "warrens_floor": {
+      "sheet": "warrens",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/warrens_floor.png"
+    },
+    "warrens_ceiling": {
+      "sheet": "warrens",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/warrens_ceiling.png"
+    },
+    "dark_elf_halls_wall": {
+      "sheet": "dark_elf_halls",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/dark_elf_halls_wall.png"
+    },
+    "dark_elf_halls_floor": {
+      "sheet": "dark_elf_halls",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/dark_elf_halls_floor.png"
+    },
+    "dark_elf_halls_ceiling": {
+      "sheet": "dark_elf_halls",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/dark_elf_halls_ceiling.png"
+    },
+    "grey_hold_wall": {
+      "sheet": "grey_hold",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_hold_wall.png"
+    },
+    "grey_hold_floor": {
+      "sheet": "grey_hold",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_hold_floor.png"
+    },
+    "grey_hold_ceiling": {
+      "sheet": "grey_hold",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/grey_hold_ceiling.png"
+    },
+    "sunless_marsh_wall": {
+      "sheet": "sunless_marsh",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/sunless_marsh_wall.png"
+    },
+    "sunless_marsh_floor": {
+      "sheet": "sunless_marsh",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/sunless_marsh_floor.png"
+    },
+    "sunless_marsh_ceiling": {
+      "sheet": "sunless_marsh",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/sunless_marsh_ceiling.png"
+    },
+    "drowned_halls_wall": {
+      "sheet": "drowned_halls",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/drowned_halls_wall.png"
+    },
+    "drowned_halls_floor": {
+      "sheet": "drowned_halls",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/drowned_halls_floor.png"
+    },
+    "drowned_halls_ceiling": {
+      "sheet": "drowned_halls",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/drowned_halls_ceiling.png"
+    },
+    "old_forges_wall": {
+      "sheet": "old_forges",
+      "part": "wall",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/old_forges_wall.png"
+    },
+    "old_forges_floor": {
+      "sheet": "old_forges",
+      "part": "floor",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/old_forges_floor.png"
+    },
+    "old_forges_ceiling": {
+      "sheet": "old_forges",
+      "part": "ceiling",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "runtime_size": 64,
+      "review_size": 256,
+      "export": "batch-o-preview/old_forges_ceiling.png"
+    }
+  },
+  "inventory_audit": {
+    "themes": 13,
+    "baseline_tiles": 39,
+    "source_strips": 13,
+    "preserved_repairs": 1,
+    "world_captures": 52,
+    "darkness_levels_checked_per_width": 208,
+    "runtime_integration": false,
+    "architecture_repaint": false
+  }
+}

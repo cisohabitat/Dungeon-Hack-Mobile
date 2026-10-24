@@ -1,10 +1,9 @@
 # Dungeon artwork and atlas roadmap — Batches E–Q
 
-Prepared 23 October 2026; extended 24 October 2026 after the E–K source/review
-publications. E–K artwork is generated and reviewed, with source/review assets
-published to main. Runtime integration remains pending. Batch L source/review art is complete and published,
-with runtime integration pending. M–Q are proposed future art batches.
-See the completion table below for published review evidence.
+Prepared 23 October 2026; extended 24 October 2026. E–N source/review assets
+and O’s baseline surface pass are generated, reviewed and published to main.
+Runtime integration remains pending for E–O. P/Q are proposed; O architecture
+and secondary variants remain procedural. See completion tracking for evidence.
 
 ## Baseline and scope
 
@@ -37,9 +36,9 @@ revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lightin
 | 6 | J | Remaining encounter characters and scenes | 4 generated source groups plus companion rest-cell reuse |
 | Optional | K | Remaining encounter objects and scenery | 7 generated source groups, including existing bone heap |
 | Reviewed/published | L | Ordinary room dressing | 11 cells on two square atlases and one strip; runtime integration pending |
-| High | M | Regional dressing details | 5 existing regional identities; reuse where possible |
-| High | N | Creature remains | 4 existing remains keys; reuse/composition audit first |
-| High visual impact | O | Dungeon surfaces and architecture | Seamless texture/renderer format audit first |
+| Reviewed/published | M | Regional dressing details | 5 cells in two source groups; runtime integration pending |
+| Reviewed/published | N | Creature remains | 4 low cells on one atlas; runtime integration pending |
+| Base pass reviewed/published | O | Dungeon surfaces and architecture | 13 base wall/floor/ceiling sets; architecture/variants remain procedural |
 | Medium | P | Equipment consistency and gaps | Item-icon and held-view audit before generation |
 | Later | Q | Spell, environmental and trap effects | Effect/timing/format audit before generation |
 
@@ -217,8 +216,8 @@ per-state and per-key procedural fallbacks, lazy loading, offline caching,
 lighting, warnings and native phone performance. Integration is not completed by
 publishing source sheets or substituting pictures in a review harness.
 
-Batch L source/review art is published; next follow with M/N for visual consistency;
-O has high visual impact but requires more renderer work. P/Q follow their audits.
+Source/review art through N and O’s base surface pass is published. P/Q follow their audits. O architecture matching and secondary
+variants require separate state-aware integration work.
 The sections below define proposed scope, not authorization to regenerate
 approved artwork or claims that runtime integration has been done.
 
@@ -259,6 +258,13 @@ the regional system changes the picture, not the rules. Reuse compatible L/K
 materials and compositions before commissioning distinct static cells. Do not
 invent extra regional objects merely to fill a sheet.
 
+Five new paintings are reviewed and published: two sources, five 256px cells, one
+512px atlas and one 256px atlas. Forty-four phone captures cover eleven regional
+theme mappings, with saved-kind scale/offset checks and fallen-rubble bypass.
+No whole-cell L/K reuse fits these silhouettes. See
+[Batch M review](batch-m-preview/REVIEW.md) and
+[mapping/reuse audit](batch-m-preview/STATE-AUDIT.md). Runtime integration remains pending.
+
 ## Batch N — creature remains
 
 Audit and paint `remains_bones`, `remains_staves`, `remains_shards`, `remains_husk`
@@ -270,6 +276,12 @@ L's decorative `bones`, K's seated gambler `bones`, and K's violet-eyed
 state match; do not add violet eyes to ordinary remains. Preserve corpse/remains
 selection, timing, footprint, floor occlusion and loot readability. No new death
 behaviour or standing silhouettes are introduced by the artwork.
+
+Four paintings and one 512px atlas are reviewed and published, with 24 phone captures
+and 56 real reveal/expiry selection checks. Two preserved full-sheet repairs
+correct pottery count, low framing and decoration. No existing L/K/M full cell
+fits the remains identities. See [Batch N review](batch-n-preview/REVIEW.md)
+and [caller/timing audit](batch-n-preview/STATE-AUDIT.md). Runtime integration remains pending.
 
 ## Batch O — dungeon surfaces and architecture
 
@@ -284,7 +296,18 @@ levels and renderer constraints before commissioning assets. Preserve door/lock
 colours, openings, stairs, collision and navigation cues; do not paint new routes
 or bake misleading directional light into seamless surfaces. Review tiling seams,
 near/far views, multiple themes, native offline reload and isolated frame-rate
-checks before integration. Determine the sheet budget only after this audit.
+checks before integration.
+
+The audit selected thirteen baseline material strips: one wall/floor/ceiling per
+existing theme, producing 39 opaque native 64px tiles plus detail/repeat panels.
+One marsh repeat repair, 52 controlled phone captures and exact eight-level
+darkness-format checks are complete and published. See
+[Batch O review](batch-o-preview/REVIEW.md) and
+[format/architecture audit](batch-o-preview/FORMAT-AUDIT.md). Repeat diagnostics
+and limits are documented; this is not a certification of mathematically periodic
+textures. Existing architecture states and secondary surface kinds remain
+procedural. State-aware material matching, native layouts/offline/fallback and
+isolated frame-rate checks remain integration gates. Source/review assets are published; runtime integration remains pending.
 
 ## Batch P — equipment consistency and gap pass
 
@@ -347,11 +370,13 @@ when an image-based effect would be less clear or more expensive.
 | I | `0aec3a1` | [Revised static traders](batch-i-preview/REVIEW.md) |
 | J | `d3307ce` | [Encounter compositions](batch-j-preview/REVIEW.md) |
 | K | `025702c` | [Remaining props and bone heap](batch-k-preview/REVIEW.md) |
-| L | Source/review published; runtime integration pending | [Room dressing](batch-l-preview/REVIEW.md) |
-| M–Q | Proposed only; not generated or integrated | Scope and audits above |
+| L | `46a2a59`; runtime integration pending | [Room dressing](batch-l-preview/REVIEW.md) |
+| M | Source/review published; runtime integration pending | [Regional dressing](batch-m-preview/REVIEW.md) |
+| N | Source/review published; runtime integration pending | [Remains](batch-n-preview/REVIEW.md) |
+| O | Baseline source/review published; architecture/variants procedural; runtime integration pending | [Base surfaces](batch-o-preview/REVIEW.md) |
+| P–Q | Proposed only; not generated or integrated | Scope and audits above |
 
-E–L still require runtime integration and full runtime validation. E–K
-source/review assets and L room-dressing review assets are published. These
+E–O still require runtime integration and full runtime validation. Their published
 source/review assets are not evidence of live bindings, failure fallback or offline
 readiness. Track art production and runtime delivery separately; keep links to
 briefs, originals/repairs, visual reviews, integration checks and publication

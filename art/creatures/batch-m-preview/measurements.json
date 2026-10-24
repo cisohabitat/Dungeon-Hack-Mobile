@@ -1,0 +1,182 @@
+{
+  "crypt_lid": {
+    "source": "regional-m1.png",
+    "source_sha256": "d7799ab5ca5e6d8864d9f6b69717416183fc0e4dcd6075a8ca15ffefbd9dbf79",
+    "source_rect": [
+      0,
+      0,
+      660,
+      627
+    ],
+    "source_visible_bounds": [
+      73,
+      259,
+      623,
+      561
+    ],
+    "source_anchor": [
+      348.0,
+      561
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.33766233766233766,
+    "offset": [
+      34,
+      134
+    ],
+    "visible_bounds": [
+      35,
+      135,
+      221,
+      237
+    ],
+    "export_sha256": "f8850ce5786f8dbbb1a86ba937f6212dcd0d6f0165bba799e8279a92896d4a0f"
+  },
+  "iron_scrap": {
+    "source": "regional-m1.png",
+    "source_sha256": "d7799ab5ca5e6d8864d9f6b69717416183fc0e4dcd6075a8ca15ffefbd9dbf79",
+    "source_rect": [
+      660,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      36,
+      253,
+      558,
+      559
+    ],
+    "source_anchor": [
+      297.0,
+      559
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.358974358974359,
+    "offset": [
+      33,
+      126
+    ],
+    "visible_bounds": [
+      34,
+      127,
+      222,
+      237
+    ],
+    "export_sha256": "0a7cf8951c777515f75fc83207735bd96964539d14750947de6a6815ae767fb4"
+  },
+  "roots": {
+    "source": "regional-m1.png",
+    "source_sha256": "d7799ab5ca5e6d8864d9f6b69717416183fc0e4dcd6075a8ca15ffefbd9dbf79",
+    "source_rect": [
+      0,
+      627,
+      720,
+      1254
+    ],
+    "source_visible_bounds": [
+      69,
+      81,
+      676,
+      527
+    ],
+    "source_anchor": [
+      372.5,
+      527
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3495575221238938,
+    "offset": [
+      21,
+      80
+    ],
+    "visible_bounds": [
+      22,
+      81,
+      234,
+      237
+    ],
+    "export_sha256": "3b9fe0171ff803f3f32fba63823df95fa3b0530351602d03d85d0a093c039ba2"
+  },
+  "reed_bundle": {
+    "source": "regional-m1.png",
+    "source_sha256": "d7799ab5ca5e6d8864d9f6b69717416183fc0e4dcd6075a8ca15ffefbd9dbf79",
+    "source_rect": [
+      720,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      46,
+      37,
+      438,
+      520
+    ],
+    "source_anchor": [
+      242.0,
+      520
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.37627811860940696,
+    "offset": [
+      53,
+      54
+    ],
+    "visible_bounds": [
+      54,
+      55,
+      202,
+      237
+    ],
+    "export_sha256": "2160096d514f82cd229e735f885f46f8f4320142839f924476d6f14aabdd2db8"
+  },
+  "elf_shards": {
+    "source": "regional-m2.png",
+    "source_sha256": "ed2a280ae71869879964ce560e22ff4a8c895cbea9e25cf3914fe7896d4a57c6",
+    "source_rect": [
+      0,
+      0,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      89,
+      330,
+      1178,
+      986
+    ],
+    "source_anchor": [
+      633.5,
+      986
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.19726027397260273,
+    "offset": [
+      20,
+      106
+    ],
+    "visible_bounds": [
+      20,
+      106,
+      236,
+      237
+    ],
+    "export_sha256": "473f823c65e5128383f34fbc900ba224c6397ea5d21629332f013039b0cd6962"
+  }
+}

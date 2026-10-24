@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–L review/publication status and M–Q regional details, remains, surfaces, equipment and effects
+art/creatures/ATLAS-ROADMAP.md  E–O review/publication status, architecture follow-up and proposed P/Q equipment/effects
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1267,6 +1267,32 @@ Mimics and puzzle chests. Reproduce references with
 `node art/creatures/preview-batch-l.cjs`. See [review](art/creatures/batch-l-preview/REVIEW.md).
 Source/review assets are published separately; runtime integration remains pending.
 Existing smashable containers, oil cues and regional aliases retain their rules.
+
+Batch M adds five regional dressing paintings in two source groups, with 44 phone
+review captures across eleven regional theme mappings. Reproduce references with
+`node art/creatures/reference-batch-m.cjs`, exports with
+`python3 art/creatures/export-batch-m.py --check`, and previews with
+`node art/creatures/preview-batch-m.cjs`. See [review](art/creatures/batch-m-preview/REVIEW.md).
+Saved dressing kinds, sizes and fallen-rubble bypass remain unchanged.
+Source/review assets are published separately; runtime integration remains pending.
+
+Batch N adds four low remains paintings and one atlas, with 24 phone review
+captures and 56 reveal/expiry selection checks. Reproduce references with
+`node art/creatures/reference-batch-n.cjs`, exports with
+`python3 art/creatures/export-batch-n.py --check`, and previews with
+`node art/creatures/preview-batch-n.cjs`. See [review](art/creatures/batch-n-preview/REVIEW.md).
+Caller selection, durations, coordinates and floor ordering remain unchanged.
+Source/review assets are published separately; runtime integration remains pending.
+
+Batch O’s baseline material pass adds 39 native 64px wall/floor/ceiling tiles across
+thirteen themes, with detail/repeat panels and 52 controlled phone captures.
+Reproduce references with `node art/creatures/reference-batch-o.cjs`, exports with
+`python3 art/creatures/export-batch-o.py --check`, and previews with
+`node art/creatures/preview-batch-o.cjs`. See [review](art/creatures/batch-o-preview/REVIEW.md)
+and [format/architecture audit](art/creatures/batch-o-preview/FORMAT-AUDIT.md).
+Source/review assets are published separately; runtime integration remains pending.
+Existing state-bearing architecture/secondary variants remain procedural; repeat,
+native offline/fallback and performance integration gates are documented.
 
 ## Keeping documentation current
 

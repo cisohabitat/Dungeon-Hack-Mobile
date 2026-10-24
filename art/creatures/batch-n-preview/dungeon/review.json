@@ -1,0 +1,938 @@
+{
+  "mode": "review-only frozen render-frame substitutions and forced remains records; actual reveal/expiry selection checked; caller deaths/smashes source-audited, not exercised; no runtime/offline integration",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "inventory": [
+        "remains_bones",
+        "remains_staves",
+        "remains_shards",
+        "remains_husk"
+      ],
+      "sizes": {
+        "remains_bones": 0.46,
+        "remains_staves": 0.42,
+        "remains_shards": 0.4,
+        "remains_husk": 0.5
+      },
+      "timing": [
+        {
+          "kind": "remains_bones",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_bones",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_bones",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "inventory": [
+        "remains_bones",
+        "remains_staves",
+        "remains_shards",
+        "remains_husk"
+      ],
+      "sizes": {
+        "remains_bones": 0.46,
+        "remains_staves": 0.42,
+        "remains_shards": 0.4,
+        "remains_husk": 0.5
+      },
+      "timing": [
+        {
+          "kind": "remains_bones",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_bones",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_bones",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_bones",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_staves",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_staves",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_shards",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_shards",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "before-reveal",
+          "at": 9551,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "exact-reveal-boundary",
+          "at": 9550,
+          "until": 11000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "first-visible",
+          "at": 9549,
+          "until": 11000,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "expired",
+          "at": 9000,
+          "until": 9999,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "exact-expiry",
+          "at": 9000,
+          "until": 10000,
+          "expected": false,
+          "selected": false
+        },
+        {
+          "kind": "remains_husk",
+          "id": "last-visible",
+          "at": 9000,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        },
+        {
+          "kind": "remains_husk",
+          "id": "zero-at-fallback",
+          "at": 0,
+          "until": 10001,
+          "expected": true,
+          "selected": true
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "kind": "remains_bones",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_bones-clear-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_bones",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_bones-clear-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_bones",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "390-remains_bones-loot-and-foe-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_staves",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_staves-clear-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_staves",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_staves-clear-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_staves",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "390-remains_staves-loot-and-foe-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_shards",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_shards-clear-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_shards",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_shards-clear-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_shards",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "390-remains_shards-loot-and-foe-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_husk",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_husk-clear-1.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_husk",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "390-remains_husk-clear-3.png"
+    },
+    {
+      "width": 390,
+      "kind": "remains_husk",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "390-remains_husk-loot-and-foe-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_bones",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_bones-clear-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_bones",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_bones-clear-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_bones",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.46,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "320-remains_bones-loot-and-foe-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_staves",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_staves-clear-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_staves",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_staves-clear-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_staves",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.42,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "320-remains_staves-loot-and-foe-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_shards",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_shards-clear-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_shards",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_shards-clear-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_shards",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.4,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "320-remains_shards-loot-and-foe-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_husk",
+      "mode": "clear",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_husk-clear-1.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_husk",
+      "mode": "clear",
+      "distance": 3,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 3.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor"
+      ],
+      "loot_checked": false,
+      "saved_record_unchanged": true,
+      "file": "320-remains_husk-clear-3.png"
+    },
+    {
+      "width": 320,
+      "kind": "remains_husk",
+      "mode": "loot-and-foe",
+      "distance": 1,
+      "scale": 0.5,
+      "x": 6.58,
+      "y": 5.46,
+      "yOff": 0,
+      "onFloor": true,
+      "dress": false,
+      "draw_order": [
+        "floor",
+        "floor",
+        "stand"
+      ],
+      "loot_checked": true,
+      "saved_record_unchanged": true,
+      "file": "320-remains_husk-loot-and-foe-1.png"
+    }
+  ]
+}

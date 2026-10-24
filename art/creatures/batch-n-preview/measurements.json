@@ -1,0 +1,146 @@
+{
+  "remains_bones": {
+    "source": "remains-n1-final.png",
+    "source_sha256": "433ac4054e5fccb931d4927bdc001d971f887c6e1d386ef168e07458dcae25c4",
+    "source_rect": [
+      0,
+      0,
+      627,
+      800
+    ],
+    "source_visible_bounds": [
+      90,
+      512,
+      571,
+      657
+    ],
+    "source_anchor": [
+      330.5,
+      657
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.44353182751540043,
+    "offset": [
+      20,
+      171
+    ],
+    "visible_bounds": [
+      21,
+      172,
+      235,
+      237
+    ],
+    "export_sha256": "6139b12b9b4369fbaab40e755fbaca5d72097839ff4f172c8bbc6bf64e6304ad"
+  },
+  "remains_staves": {
+    "source": "remains-n1-final.png",
+    "source_sha256": "433ac4054e5fccb931d4927bdc001d971f887c6e1d386ef168e07458dcae25c4",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      800
+    ],
+    "source_visible_bounds": [
+      48,
+      472,
+      559,
+      692
+    ],
+    "source_anchor": [
+      303.5,
+      692
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3185840707964602,
+    "offset": [
+      46,
+      166
+    ],
+    "visible_bounds": [
+      47,
+      167,
+      210,
+      237
+    ],
+    "export_sha256": "6a11fb4cba5a46a499ef7539adf15d9626a79c2d50983663562fc0783ad9a8e1"
+  },
+  "remains_shards": {
+    "source": "remains-n1-final.png",
+    "source_sha256": "433ac4054e5fccb931d4927bdc001d971f887c6e1d386ef168e07458dcae25c4",
+    "source_rect": [
+      0,
+      800,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      61,
+      226,
+      580,
+      369
+    ],
+    "source_anchor": [
+      320.5,
+      369
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4114285714285714,
+    "offset": [
+      20,
+      177
+    ],
+    "visible_bounds": [
+      21,
+      178,
+      235,
+      237
+    ],
+    "export_sha256": "0d468781b74aa44f4e0a371d6e9a037e2de6fc9a5eaef11a76455361a748b1b3"
+  },
+  "remains_husk": {
+    "source": "remains-n1-final.png",
+    "source_sha256": "433ac4054e5fccb931d4927bdc001d971f887c6e1d386ef168e07458dcae25c4",
+    "source_rect": [
+      627,
+      800,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      50,
+      223,
+      570,
+      367
+    ],
+    "source_anchor": [
+      310.0,
+      367
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.41064638783269963,
+    "offset": [
+      20,
+      176
+    ],
+    "visible_bounds": [
+      21,
+      177,
+      235,
+      237
+    ],
+    "export_sha256": "0b429f7d2e32861e88eb14a667bfbb7b4e0f50780d7a291e45be5b108689f23f"
+  }
+}
