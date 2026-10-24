@@ -24,7 +24,7 @@ test('approved world, equipment and material exports load through their native c
 });
 
 test('boss equipment and class shades follow live state without revealing concealed creatures @mobile',async({page})=>{
- const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});await faceOpenGround(page,3);await artReady(page,{shade:['windup'],warlord:['windup','strike'],heartforged:['windup'],mimic:['windup']});await page.evaluate(()=>{Game.update=()=>{};Game.level().monsters=[];});
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});await faceOpenGround(page,3);await artReady(page,{shade:['windup'],warlord:['windup','strike'],heartforged:['windup'],mimic:['windup']});await page.waitForFunction(()=>!!Assets.sprites.shade.elite?.shade_mage?.windup);await page.evaluate(()=>{Game.update=()=>{};Game.level().monsters=[];});
  for(const id of ['heartforged','warlord','mimic','shade']){await page.evaluate(()=>Game.level().monsters=[]);await placeMonster(page,id,1,{hp:999,maxHp:999,awake:true,spoke:true,disguised:false});const rows=await page.evaluate(id=>{const m=Game.level().monsters[0],G=Game.state(),now=performance.now(),read=()=>Game.renderState(now).sprites.find(s=>s.maxHp===999);if(id==='heartforged')return [0,1,2].map(phase=>{m.phase=phase;return read().paintedKind;});if(id==='mimic'){m.disguise='barrel';const key=read().paintedKind;m.disguised=true;return[key,!read()];}if(id==='shade'){m.shade={cls:'mage'};return[!read().procedural,read().img===Assets.sprites.shade.elite.shade_mage];}m.phase=1;m.throne=true;const a=read().paintedKind;m.throne=false;m.windup={kind:'shot',at:G.t,until:G.t+1000};const b=read().paintedKind;m.windup=null;const interrupted=read().paintedKind;m.windup={kind:'shot',at:G.t,until:G.t+1000};read();m.windup=null;m.lungeAt=now;const release=read().paintedKind;m.phase=2;return[a,b,interrupted,release,read().paintedKind];},id);expect(rows).toEqual(id==='heartforged'?['','heartforged_open','heartforged_whitehot']:id==='mimic'?['mimic_barrel',true]:id==='shade'?[true,true]:['warlord_throne','warlord_spear','','warlord_spear','']);}
  expect(errors).toEqual([]);
 });
@@ -73,4 +73,31 @@ test('one corrupt ordinary shield retains its procedural fallback independently 
  await expect.poll(()=>page.evaluate(async()=>{const{paintedWorldState}=await import('/js/paintedworld.js');return paintedWorldState()['img/held/fighter-shield.png'];})).toBe('failed');
  expect(await page.evaluate(()=>Assets.carried('shield','fighter')?.img.width)).not.toBe(256);
  expect(await page.evaluate(()=>!!Assets.carried('shield','fighter')?.img)).toBe(true);
+});
+
+test('painted starter and wider weapons retain exact grips and survive native offline reload @mobile',async({browser,browserName},testInfo)=>{
+ test.setTimeout(120000);let connected=true;const http=require('node:http'),{serve}=require('../server');
+ const server=http.createServer((req,res)=>{if(!connected){req.socket.destroy();return;}serve(req,res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const context=await browser.newContext({baseURL:`http://127.0.0.1:${server.address().port}`,viewport:testInfo.project.use.viewport,isMobile:true,hasTouch:true}),page=await context.newPage();
+ try{const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'painted-held-delivery'});
+ const pairs=[['cleric','mace'],['thief','shortsword'],['ranger','shortbow'],['druid','spear'],['thief','dagger'],['fighter','battleaxe'],['cleric','hammer'],['fighter','greatsword']];
+ for(const[cls,id]of pairs){await page.evaluate(({cls,id})=>{const p=Game.player(),it={t:id,q:1,e:0};p.cls=cls;p.inv.push(it);if(Game.canEquip(it))throw Error('Illegal test weapon');Game.equip(it);},{cls,id});
+  await expect.poll(()=>page.evaluate(()=>{const p=Game.player(),v=Game.renderState(performance.now()).fx.view;return v.weapon===p.eq.weapon.t&&Assets.held(v.weapon,'rest',v.cls,v.drawn?false:v.two)?.img.width;})).toBe(256);
+ }
+ const guards=await page.evaluate(async()=>{const{paintedHeld}=await import('/js/paintedworld.js');return [['dagger','rest','fighter',false,false],['dagger','left','thief',false,false],['hammer','rest','cleric',false,true],['dwarfhammer','rest','cleric',false,false],['battleaxe','rest','fighter',true,false],['greatsword','rest','fighter',false,false],['spear','drive','druid',true,false],['spear','channel','druid',false,false],['shortbow','rest','fighter',false,false],['mythic_horizon','rest','ranger',false,false]].every(a=>paintedHeld(...a)===null);});expect(guards).toBe(true);
+ await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+ await expect.poll(()=>page.evaluate(async()=>{const{PAINTED}=await import('/js/paintedcatalog.js');return(await Promise.all(Object.values(PAINTED.held).map(m=>caches.match('./'+m.path)))).every(Boolean);}),{timeout:30000}).toBe(true);
+ connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>typeof Assets!=='undefined');
+ for(const[cls,id]of pairs)await expect.poll(()=>page.evaluate(async({cls,id})=>{const{PAINTED}=await import('/js/paintedcatalog.js');return Object.values(PAINTED.held).filter(m=>m.cls===cls&&m.id===id).every(m=>Assets.held(m.id,m.pose,m.cls,m.two,false)?.img.width===256);},{cls,id})).toBe(true);
+ connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
+ }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
+});
+
+test('a corrupt wider weapon keeps its whole family procedural without disabling starter art @mobile',async({page})=>{
+ await page.route('**/img/held/fighter-greatsword-windup.png',r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));await startGame(page,{seed:'painted-held-fallback'});
+ await page.evaluate(()=>{Assets.held('greatsword','rest','fighter',true);Assets.held('spear','drive','druid',false);Assets.held('hammer','rest','cleric',false);});
+ await expect.poll(()=>page.evaluate(()=>Assets.held('spear','drive','druid',false)?.img.width)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.held('hammer','rest','cleric',false)?.img.width)).toBe(256);
+ await expect.poll(()=>page.evaluate(async()=>{const{paintedWorldState}=await import('/js/paintedworld.js');return paintedWorldState()['img/held/fighter-greatsword-windup.png'];})).toBe('failed');
+ expect(await page.evaluate(async()=>{const{PAINTED}=await import('/js/paintedcatalog.js'),{paintedHeld}=await import('/js/paintedworld.js');return Object.values(PAINTED.held).filter(m=>m.id==='greatsword').every(m=>paintedHeld(m.id,m.pose,m.cls,m.two,false)===null&&!!Assets.held(m.id,m.pose,m.cls,m.two,false)?.img);})).toBe(true);
 });

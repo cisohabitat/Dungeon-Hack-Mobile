@@ -1,0 +1,786 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-z.md",
+  "status": "23 source/review frames complete; selected exports integrated for release0.9.35; see batch-zaa-runtime/REVIEW.md",
+  "groups": {
+    "z1": [
+      "cleric-mace-rest",
+      "cleric-mace-drawback",
+      "cleric-mace-windup",
+      "cleric-mace-strike",
+      "cleric-mace-cut",
+      "cleric-mace-sweep",
+      "cleric-mace-through",
+      "cleric-mace-recover",
+      "cleric-mace-return"
+    ],
+    "z2": [
+      "thief-shortsword-rest",
+      "thief-shortsword-drawback",
+      "thief-shortsword-windup",
+      "thief-shortsword-strike",
+      "thief-shortsword-cut",
+      "thief-shortsword-sweep",
+      "thief-shortsword-through",
+      "thief-shortsword-recover",
+      "thief-shortsword-return"
+    ],
+    "z3": [
+      "ranger-shortbow-rest",
+      "ranger-shortbow-bowdraw",
+      "ranger-shortbow-bowfull"
+    ],
+    "z4": [
+      "druid-spear-rest",
+      "druid-spear-drive"
+    ]
+  },
+  "sheets": {
+    "z1": {
+      "source": "held-z1.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "True transparent RGBA sprite source, no background, ground shadow, scene, text, borders, glow or motion blur. Gritty mature hand-painted dungeon realism matching the SECOND reference material quality: weathered iron/steel, matte stitched leather, coarse cloth folds and restrained directional shading. Never cartoon, vector, toy-like or glossy chrome. FIRST reference defines the actual pose, silhouette, handedness and equipment; SECOND supplies only brushwork/material style, not its weapon or costume. Keep every entire object, fingers and clean sleeve end inside its own equal square cell, with clear transparent gutters and at least8 percent padding, no neighbouring overlap. Same equipment design, proportions and lighting throughout each family. One hand only in every cell, with four curled fingers and one opposing thumb attached to the grip. Do not copy a front-facing portrait or make a new combat action. Exactly NINE equal square cells in a3x3 grid, row-major. Copy each corresponding reference cell pose and arm direction. Blade/shaft angles in screen degrees: REST -100, DRAWBACK -79, WINDUP -58; STRIKE -105, CUT -152, SWEEP -176; THROUGH -200, RECOVER -150, RETURN -123. Zero points right, negative points up. These are distinct authored poses, do not reuse one angle or mirror cells. Right forearm extends down-right except the flatter cuts which extend right as referenced. CLERIC MACE: one RIGHT hand, brown leather glove, restrained ochre-gold cuff, worn IVORY sleeve. Plain brown wood handle and small dark rounded IRON mace head with the short blunt projecting knobs exactly like reference, small pale wear highlights and plain lower end. It is a blunt ordinary mace, not a flail, hammer, crystal club, huge spiked fantasy weapon or decorated sceptre. Keep head diameter and handle length consistent, complete head tips visible. No chain, sun emblem, runes, gems, new blades or left hand.",
+      "references": [
+        "batch-z-preview/z1-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "held-z1-spacing.png",
+          "references": [
+            "held-z1.png",
+            "batch-z-preview/z1-reference.png"
+          ],
+          "prompt": "Correct this nonviolent fantasy equipment display sheet. Keep exactly NINE mace/gloved-right-hand/ivory-sleeve views in3x3 equal square grid. No scene, person, target or violence. Reference1 is current painted source. Reference2 is the authoritative prop orientation grid. Preserve brown glove, ochre-gold cuff, ivory sleeve, wood handle and rounded iron mace head with short blunt knobs. Keep exact nine corresponding orientations, physical proportions and gritty realistic material quality. REQUIRED REPAIR: EVERY complete object including its entire sleeve end must fit INSIDE CENTRAL75 percent of its own cell with generous TRANSPARENT margins on ALL FOUR sides. Current bottom-left sleeve crosses into bottom-middle cell, and bottom-middle head crosses left cell edge. Shrink each whole complete prop/hand/sleeve proportionately and separate all cells, especially bottom row. No clipped equipment or sleeves and no neighbouring overlap. Keep consistent common object size across cells; do not independently magnify the short orientations. Also REMOVE all stray red/yellow/WHITE segmentation flecks/fringes around sleeves and metal: edges must be natural soft true alpha on transparent background, no white matte halo, no disconnected specks. Do not add lines, ground shadows or background. Do not merge fingers, change costume, simplify iron knobs, invent decorations or turn this into icons. Same nine static prop views as shown, now complete, clean and safely spaced. True transparent RGBA.",
+          "reason": "Original lower-row sleeve/head overlap cell boundaries; coloured/white edge flecks.",
+          "generated_original": "/workspace/generated_images/exec-52a32f74-378e-4ba7-8e84-1b166681ef34.png",
+          "native_source_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "generated_original": "/workspace/generated_images/exec-740e74e2-2f42-4069-99ab-408ecd28003d.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "selected_source": "held-z1-spacing.png"
+    },
+    "z2": {
+      "source": "held-z2.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a NONVIOLENT static fantasy-game equipment study: exactly NINE separate views in a3x3 grid of equal square transparent cells. No battle, injury, threat, target, person or scene. Reference1 supplies nine display orientations of a small plain medieval SHORT SWORD gripped by one gloved right hand and forearm. Reference2 supplies mature realistic painted material quality only. Copy each corresponding reference1 prop angle and hand/forearm orientation precisely, row-major: top row slightly up-left, slightly up-right, diagonally up-right; middle row steep up-left, diagonally left-up, horizontally left; bottom row left-down, diagonally left-up, steep up-left. All angles remain as pictured, not mirrored or duplicated. Same short straight worn steel blade and length in all nine, simple small dark straight crossguard, brown leather grip, plain small pommel. Charcoal leather glove, brown cuff and dark muted olive cloth sleeve, one attached right hand with four curled fingers and opposing thumb around the handle. Coarse cloth, matte stitched leather and scratched steel, gritty restrained painterly dungeon materials, never cartoon, glossy plastic, chrome or vector icons. Complete prop, hand and sleeve end isolated INSIDE each cell with generous transparent margins8 percent on ALL sides, no clipped point or adjoining panels. True RGBA transparent background. No lettering, borders, ground shadows, motion marks, extra hands or objects, gems, runes, fancy ornaments or blood. This is a clean prop turn/orientation sheet for an inventory/first-person presentation, preserving existing game artwork geometry.",
+      "references": [
+        "batch-z-preview/z2-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "held-z2-spacing.png",
+          "references": [
+            "held-z2.png"
+          ],
+          "prompt": "Improve the layout of this nine-view transparent equipment illustration. Preserve all nine corresponding short straight sword/gloved right hand/dark olive sleeve display orientations in the same3x3 grid, the same designs, materials, colours and anatomy. The LOWER LEFT view extends its sleeve into the lower middle panel. Repaint/arrange every complete view SMALLER and safely centered in its own equal square so the entire blade point, guard, fist, cuff and clean sleeve end are fully contained in CENTRAL70 percent with generous transparent padding ALL FOUR sides. Do not crop any part. Keep common physical object size/proportions across all nine views rather than independently filling cells. Also remove the detached white patches, red and yellow specks beside the steel edges: use clean natural soft alpha boundaries and normal restrained steel edge highlights, no white halo or stray fragments. Retain charcoal glove, brown cuff, coarse dark olive sleeve and plain short steel blade with simple dark guard/pommel. Keep all nine shown angles and connected hands unchanged; do not duplicate or mirror views. This is a static isolated prop display sheet only, no scene or person. True transparent RGBA with no backdrop, labels, borders, shadows, motion marks, added ornaments or extra objects.",
+          "reason": "Lower-left sleeve exceeds cell edge; detached white/coloured edge flecks.",
+          "generated_original": "/workspace/generated_images/exec-9577e975-7b02-43d7-a017-05e54d06f36e.png",
+          "native_source_size": [
+            1254,
+            1254
+          ]
+        }
+      ],
+      "failed_requests": [
+        {
+          "prompt": "True transparent RGBA sprite source, no background, ground shadow, scene, text, borders, glow or motion blur. Gritty mature hand-painted dungeon realism matching the SECOND reference material quality: weathered iron/steel, matte stitched leather, coarse cloth folds and restrained directional shading. Never cartoon, vector, toy-like or glossy chrome. FIRST reference defines the actual pose, silhouette, handedness and equipment; SECOND supplies only brushwork/material style, not its weapon or costume. Keep every entire object, fingers and clean sleeve end inside its own equal square cell, with clear transparent gutters and at least8 percent padding, no neighbouring overlap. Same equipment design, proportions and lighting throughout each family. One hand only in every cell, with four curled fingers and one opposing thumb attached to the grip. Do not copy a front-facing portrait or make a new combat action. Exactly NINE equal square cells in a3x3 grid, row-major. Copy each corresponding reference cell pose and arm direction. Blade/shaft angles in screen degrees: REST -100, DRAWBACK -79, WINDUP -58; STRIKE -105, CUT -152, SWEEP -176; THROUGH -200, RECOVER -150, RETURN -123. Zero points right, negative points up. These are distinct authored poses, do not reuse one angle or mirror cells. Right forearm extends down-right except the flatter cuts which extend right as referenced. THIEF SHORTSWORD: one RIGHT hand, CHARCOAL leather glove, brown cuff and muted DARK OLIVE cloth sleeve. A short straight worn steel double-edged blade, simple short dark crossguard, brown leather grip and small plain pommel, exactly the reference proportions. Keep blade shorter than a longsword and clearly longer than a dagger. Connected fist around handle below guard. No curved blade, ornate guard, coloured gems, runes, second weapon or left hand.",
+          "error": "input moderation_blocked violence; no image produced",
+          "request_id": "7aee252d-5a8a-4190-8f2f-ba90680fed96"
+        }
+      ],
+      "generated_original": "/workspace/generated_images/exec-200ca698-3619-4c42-8ba2-b6ddfabb7b90.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "selected_source": "held-z2-spacing.png"
+    },
+    "z3": {
+      "source": "held-z3.png",
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "True transparent RGBA sprite source, no background, ground shadow, scene, text, borders, glow or motion blur. Gritty mature hand-painted dungeon realism matching the SECOND reference material quality: weathered iron/steel, matte stitched leather, coarse cloth folds and restrained directional shading. Never cartoon, vector, toy-like or glossy chrome. FIRST reference defines the actual pose, silhouette, handedness and equipment; SECOND supplies only brushwork/material style, not its weapon or costume. Keep every entire object, fingers and clean sleeve end inside its own equal square cell, with clear transparent gutters and at least8 percent padding, no neighbouring overlap. Same equipment design, proportions and lighting throughout each family. One hand only in every cell, with four curled fingers and one opposing thumb attached to the grip. Do not copy a front-facing portrait or make a new combat action. Exactly THREE equal square cells in ONE HORIZONTAL ROW. RANGER SHORTBOW: one LEFT hand and forearm extending down-left. Copy reference short simple curved brown wooden bow, plain dark grip, small plain nock ends and exact three bends: REST gentle bend, HALF DRAW subtly stronger bend, FULL DRAW strongest bend. Same short bow length/width, not an ornate longbow or recurved fantasy bow. Preserve the EXISTING Ranger Fighter-fallback palette: grey armoured leather glove/cuff, brown sleeve, NOT green. CRITICAL: NO BOWSTRING, NO ARROW, NO right drawing hand or fingers; the game draws these live. The first reference already omits them. Do not connect bow tips with a line. Complete both nock tips, hand and sleeve end inside each cell. Bend increases coherently across the three frames without moving the central grip. No horns, runes or ornaments.",
+      "references": [
+        "batch-z-preview/z3-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "held-z3-arms.png",
+          "prompt": "Complete the brown cloth forearm sleeves in this three-panel transparent prop illustration. The left panel already has the correct connected grey left glove, grey cuff and brown sleeve extending diagonally down-left. Make the MIDDLE and RIGHT panels have that same complete connected left forearm and brown cloth sleeve, same anatomy, length, width and direction as the left panel. Keep the three wooden archery bow shapes and their existing progressively curved bends intact. Keep the central grip and both wooden end tips intact. There should be one left glove and arm per panel, no detached hand. Leave the strings and arrows absent exactly as in the input. Preserve the weathered painted wood, matte stitched leather and coarse brown cloth style. All three complete props and sleeve ends must stay inside their respective equal square panels with generous transparent padding. Clean soft alpha edges and true transparent RGBA background; remove stray coloured/white edge flecks. No labels or scenery.",
+          "references": [
+            "held-z3.png"
+          ],
+          "reason": "Middle/full bend cells omit the connected sleeve/forearm.",
+          "failed_requests": [
+            {
+              "prompt": "Repair this THREE-CELL transparent short wooden bow equipment strip. Keep all THREE existing bow bends and the SAME plain shortbow design, nock tips, left-hand grip centre, material and lighting. The MIDDLE and RIGHT cells mistakenly omit the connected forearm and brown sleeve. Add the COMPLETE LEFT forearm with rough BROWN cloth sleeve extending DOWN-LEFT from the grey glove in BOTH middle and right cells, matching the arm in the LEFT cell exactly in length, width, colour and direction. All three cells must have ONE same-size LEFT hand, grey armoured leather glove/cuff and attached brown forearm sleeve. No bare detached fist. Keep the right hand absent. Critical preserve NO STRING and NO ARROW; native game draws those separately. Do not draw a line between bow ends. Keep first rest bow almost straight, middle subtly bent, right more bent, same bow length across family and exact grip/nock positions as close as possible. Every entire bow tip and complete sleeve end fits inside its own square cell with transparent margins at least8 percent all sides; no cell overlap or clipped sleeves. Clean natural alpha edges, remove stray white/red/yellow fringes or flecks around equipment. Mature gritty painted worn wood/leather/cloth, no decorations, recurve horns, runes, glow, text, scene, background, target or action. Nonviolent isolated prop orientation/material sheet only, true transparent RGBA.",
+              "error": "input moderation_blocked violence; no image produced",
+              "request_id": "ce582ca5-ca94-404b-a86a-c5e8149dd967",
+              "references": [
+                "held-z3.png",
+                "batch-z-preview/z3-reference.png"
+              ]
+            }
+          ],
+          "generated_original": "/workspace/generated_images/exec-36229a9d-a001-4898-abab-eada986a7274.png",
+          "native_source_size": [
+            2172,
+            724
+          ]
+        }
+      ],
+      "generated_original": "/workspace/generated_images/exec-6dcff142-f523-44f5-93fe-1f549e71adce.png",
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "selected_source": "held-z3-arms.png"
+    },
+    "z4": {
+      "source": "held-z4.png",
+      "grid": [
+        2,
+        1
+      ],
+      "prompt": "True transparent RGBA sprite source, no background, ground shadow, scene, text, borders, glow or motion blur. Gritty mature hand-painted dungeon realism matching the SECOND reference material quality: weathered iron/steel, matte stitched leather, coarse cloth folds and restrained directional shading. Never cartoon, vector, toy-like or glossy chrome. FIRST reference defines the actual pose, silhouette, handedness and equipment; SECOND supplies only brushwork/material style, not its weapon or costume. Keep every entire object, fingers and clean sleeve end inside its own equal square cell, with clear transparent gutters and at least8 percent padding, no neighbouring overlap. Same equipment design, proportions and lighting throughout each family. One hand only in every cell, with four curled fingers and one opposing thumb attached to the grip. Do not copy a front-facing portrait or make a new combat action. Exactly TWO equal square cells in ONE HORIZONTAL ROW. DRUID SPEAR, ONE RIGHT HAND ONLY in each. Copy first reference small narrow pale worn STEEL leaf spear point, plain brown wooden shaft, small RED binding just below point and plain dark butt. Reference length/proportions authoritative; not an oversized polearm or staff. Brown leather glove, dark GREEN cuff and worn BROWN sleeve. LEFT REST shaft leans slightly up-left at -100degrees, right forearm extends down-right at52degrees. RIGHT DRIVE shaft closer to upright at -94degrees, right forearm at48degrees. Same spear length and grip height; entire spear point and lower end visible. No second hand, leaves, antlers, crystals, feathers, decorative rings, glowing tip or new runes. This is a subtle thrust/grip change, not a sweeping spear attack.",
+      "references": [
+        "batch-z-preview/z4-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "generated_original": "/workspace/generated_images/exec-b1028863-d9f1-4c41-8ff6-7968bdb91d3a.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    }
+  },
+  "cells": {
+    "cleric-mace-rest": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "rest",
+      "two": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        190,
+        234
+      ],
+      "source_object_bounds": [
+        112,
+        63,
+        228,
+        279
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-drawback": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "drawback",
+      "two": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        207,
+        240
+      ],
+      "source_object_bounds": [
+        166,
+        66,
+        242,
+        285
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-windup": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "windup",
+      "two": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        211,
+        232
+      ],
+      "source_object_bounds": [
+        175,
+        59,
+        330,
+        273
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-strike": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "strike",
+      "two": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        159,
+        223
+      ],
+      "source_object_bounds": [
+        82,
+        67,
+        200,
+        257
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-cut": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "cut",
+      "two": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        210,
+        231
+      ],
+      "source_object_bounds": [
+        49,
+        141,
+        251,
+        266
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-sweep": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "sweep",
+      "two": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        206,
+        235
+      ],
+      "source_object_bounds": [
+        40,
+        182,
+        254,
+        267
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-through": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "through",
+      "two": false,
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_grip": [
+        208,
+        205
+      ],
+      "source_object_bounds": [
+        58,
+        171,
+        254,
+        295
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-recover": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "recover",
+      "two": false,
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        226,
+        188
+      ],
+      "source_object_bounds": [
+        75,
+        72,
+        263,
+        226
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-mace-return": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "return",
+      "two": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        219,
+        188
+      ],
+      "source_object_bounds": [
+        88,
+        49,
+        266,
+        231
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-rest": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        166,
+        244
+      ],
+      "source_object_bounds": [
+        78,
+        52,
+        202,
+        291
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-drawback": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        202,
+        253
+      ],
+      "source_object_bounds": [
+        138,
+        60,
+        244,
+        302
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-windup": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        216,
+        257
+      ],
+      "source_object_bounds": [
+        183,
+        61,
+        358,
+        299
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-strike": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        175,
+        224
+      ],
+      "source_object_bounds": [
+        82,
+        30,
+        215,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-cut": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        205,
+        225
+      ],
+      "source_object_bounds": [
+        30,
+        127,
+        254,
+        268
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-sweep": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        223,
+        225
+      ],
+      "source_object_bounds": [
+        29,
+        172,
+        278,
+        281
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-through": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "source_rect": [
+        0,
+        836,
+        460,
+        1254
+      ],
+      "source_grip": [
+        222,
+        214
+      ],
+      "source_object_bounds": [
+        49,
+        176,
+        289,
+        315
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-recover": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "source_rect": [
+        460,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        197,
+        181
+      ],
+      "source_object_bounds": [
+        15,
+        64,
+        247,
+        229
+      ],
+      "object_height_limit": 128
+    },
+    "thief-shortsword-return": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        201,
+        192
+      ],
+      "source_object_bounds": [
+        100,
+        26,
+        263,
+        241
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-shortbow-rest": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "rest",
+      "two": false,
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_grip": [
+        480,
+        335
+      ],
+      "source_object_bounds": [
+        408,
+        28,
+        574,
+        639
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          546,
+          610
+        ],
+        "bot": [
+          526,
+          44
+        ]
+      }
+    },
+    "ranger-shortbow-bowdraw": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "bowdraw",
+      "two": false,
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_grip": [
+        411,
+        335
+      ],
+      "source_object_bounds": [
+        337,
+        29,
+        566,
+        640
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          539,
+          612
+        ],
+        "bot": [
+          514,
+          44
+        ]
+      }
+    },
+    "ranger-shortbow-bowfull": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "bowfull",
+      "two": false,
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_grip": [
+        352,
+        335
+      ],
+      "source_object_bounds": [
+        280,
+        29,
+        600,
+        646
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          575,
+          617
+        ],
+        "bot": [
+          558,
+          44
+        ]
+      }
+    },
+    "druid-spear-rest": {
+      "sheet": "z4",
+      "cls": "druid",
+      "id": "spear",
+      "pose": "rest",
+      "two": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        306,
+        425
+      ],
+      "source_object_bounds": [
+        196,
+        48,
+        384,
+        706
+      ],
+      "object_height_limit": 128
+    },
+    "druid-spear-drive": {
+      "sheet": "z4",
+      "cls": "druid",
+      "id": "spear",
+      "pose": "drive",
+      "two": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        303,
+        430
+      ],
+      "source_object_bounds": [
+        231,
+        50,
+        371,
+        714
+      ],
+      "object_height_limit": 128
+    }
+  },
+  "source_scope": "Priority1 only: remaining four ordinary starting-weapon pairs. No activation/publication.",
+  "source_spacing_notes": [
+    "Sources use approximate nominal grids. Shortsword through/recover use a row-specific x460 crop boundary in the clear gap, retaining complete figures with no masking or pixel repair.",
+    "Selected mace sleeves have1\u20135px raw lower clearance in top row; shortsword windup2px and shortbow full forearm7px raw left clearance. Complete ends retained; registered exports must have>=12px clearance.",
+    "Minor source-edge colour flecks remain; review downsampled exports on dark/light/brown backgrounds before approval."
+  ],
+  "review": {
+    "report": "batch-z-preview/REVIEW.md",
+    "frames": 23,
+    "captures": 92,
+    "galleries": 8,
+    "fitting_release_cases": 276,
+    "painted_fitting_cases": 258,
+    "procedural_visual_control_cases": 18,
+    "direct_identity_guards_per_width": 8,
+    "baseline_browser_tests": 12,
+    "baseline_browser_result": "pass:phone/small,31.2s",
+    "console_errors": [],
+    "source_spacing": "See source_spacing_notes and authored row-specific source_rects; registered alpha>32 clearance>=12px."
+  }
+}

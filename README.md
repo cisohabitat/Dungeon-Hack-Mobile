@@ -1423,3 +1423,29 @@ named shields, Rune shields and other kits distinct; an unavailable image retain
 its own procedural fallback. See [native activation evidence](art/creatures/batch-y-runtime/REVIEW.md).
 W/X audits and Y's source review are included in the same release; their historical
 local/source-only reports describe the review stage, not the current bindings.
+
+The remaining procedural-art conversion plan now lists priorities1–8 as Batches
+Z–AG in [the roadmap](art/creatures/ATLAS-ROADMAP.md). Priority1 was completed as a
+source review:23 painted frames for Cleric mace, Thief shortsword, Ranger
+shortbow and Druid spear. See [Z review](art/creatures/batch-z-preview/REVIEW.md).
+Reproduce with `python3 art/creatures/export-batch-z.py --check`; capture source
+fits with `node art/creatures/preview-batch-z.cjs`. These23 frames are now integrated for release0.9.35 alongside AA’s first tranche. AB–AG remain planned.
+
+Batch AA's first wider-weapon tranche adds36 reviewed frames: Thief dagger,
+Fighter battle axe, Cleric war hammer and Fighter two-handed sword. See the
+[AA review](art/creatures/batch-aa-preview/REVIEW.md) for120 phone captures,
+360 fitting cases,12 baseline browser checks and remaining source-edge findings.
+Reproduce exports with `python3 art/creatures/export-batch-aa.py --check` and
+captures with `node art/creatures/preview-batch-aa.cjs`. Sword read/drink/cast
+keep their procedural one-handed frame; the two-handed art is not substituted.
+These paintings and Z are integrated for release0.9.35. The wider AA library is
+still open; its next passes are tracked in the roadmap.
+
+Release0.9.35 activates59 reviewed Z/AA held frames across eight exact class/weapon
+pairs, bringing the common delivery inventory to246 files and shipped paintings
+to414, plus3 app icons. Existing T/Y bindings and procedural fallbacks remain.
+Reproduce bytes with `python3 tools/export-painted-runtime.py --check`; capture
+native legal equip/actions/Calm/offline continuation with
+`node art/creatures/preview-batch-zaa-runtime.cjs`. See the
+[native weapon review](art/creatures/batch-zaa-runtime/REVIEW.md) for validation.
+No game rules or balance change.

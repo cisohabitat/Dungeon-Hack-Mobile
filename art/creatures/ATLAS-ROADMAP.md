@@ -1,4 +1,4 @@
-# Dungeon artwork and atlas roadmap — Batches E–Y
+# Dungeon artwork and atlas roadmap — Batches E–AG
 
 Prepared 23 October 2026; extended and integrated 24 October 2026.
 
@@ -526,9 +526,54 @@ See [Y review](batch-y-preview/REVIEW.md) and [brief](REQUEST-batch-y.md).
 spacing exception and native integration gates are recorded. Runtime integrated for0.9.34; see the native review above. This extends the remaining held-library gap identified in T;
 the completed E–X audits did not certify every possible held item as painted.
 
-Next proposed painting priority: Cleric mace poses, then Thief dagger and Druid
-staff, with actual legal-kit/pose audits before generation. Broader regional
-architecture matching remains a separate material project.
+## Remaining procedural-art conversion plan
+
+Prioritise visible starting equipment, then the wider held library and regional
+materials. These are separate production passes; a source review does not imply
+runtime activation or publication. Keep the approved E–Y artwork and exact
+class/item guards. Preserve unidentified looks, named identities, authored grips,
+live strings/arrows, original geometry/masks, Calm and procedural failure fallback.
+
+| Priority | Batch | Scope | Production gate |
+|---|---|---|---|
+| 1 — integrated for0.9.35 | Z | Starting weapons: Cleric mace, Thief shortsword, Ranger shortbow, Druid spear |23 reviewed source frames integrated for0.9.35; native evidence below |
+| 2 — first tranche integrated for0.9.35 | AA | Wider held weapons: daggers, axes, hammers, flails, greatswords, slings, throwing knives, hand crossbows and remaining class/named variants | 36 frames reviewed for Thief dagger, Fighter battleaxe/greatsword and Cleric hammer; remaining pairs/variants open; first tranche integrated for0.9.35 |
+| 3 | AB | Caster equipment: spellbooks, orbs, holy/silver symbols, reliquaries and Wayfarer lantern | Preserve focus identity, connected hands/handle and existing light/reflection behaviour |
+| 4 | AC | Remaining shield backs: tower, Quill and other legal class/item pairs | Reuse P/Y; keep named construction and rear grips/straps distinct |
+| 5 | AD | Fists, casting and read/drink hands; Wild Shape bear claws | Exact supported class/action states; preserve hand counts and existing timing |
+| 6 | AE | Small floor/Pack item sprites: ordinary weapons, armour, potions, scrolls, food and jewellery | Small-size legibility and all seeded/unidentified families; large existing relic paintings are separate |
+| 7 | AF | Regional doors, stairs, pillars and arch materials beyond the Grey Halls baseline | Preserve original openings, occlusion, locks, perspective and collision/navigation cues |
+| 8 | AG | Regional secondary materials: water/mosaic/straw/rubble, rooted/beamed roofs, wall decorations, fountain/torch variants | Retain terrain meaning, light sources and animation; review repeats, native texel density and cached shading |
+
+Z corrects the earlier proposed follow-up order: the Thief starts with a
+shortsword, Ranger with a shortbow and Druid with a spear. Dagger and Druid staff
+remain later legal-kit candidates. The Cleric starts with a mace. See
+[Z brief](REQUEST-batch-z.md) for pose, palette and source-review constraints.
+
+Z source review is complete with preserved originals/repairs and authored
+registration. See [Z review](batch-z-preview/REVIEW.md). Selected source-spacing
+exceptions are documented; all registered silhouettes have>=12px clearance.
+The source proxy does not establish runtime delivery, native transitions or offline
+readiness. AA now has a first reviewed tranche; AB–AG remain planned and unpainted.
+
+AA first tranche has36 frames: Thief/dagger9, Fighter/battleaxe9,
+Cleric/hammer9 and Fighter/greatsword9. See [AA review](batch-aa-preview/REVIEW.md)
+and [brief](REQUEST-batch-aa.md).120 captures and360 fitting cases reviewed;
+12 existing browser checks pass. Z/AA activation for0.9.35 uses the reviewed59 frames; see [native weapon review](batch-zaa-runtime/REVIEW.md).
+Greatsword cast/read/drink retain the procedural one-handed grip; do not bind
+these two-handed frames to freed-hand actions. Preserve Z's selected sources and grips.
+
+AA remaining production passes stay open:
+
+| Pass | Remaining work | Gate |
+|---|---|---|
+| Next | Flail and further ordinary melee/class pairs, including Fighter hammer and other dagger classes | Audit exact raw ids, supported motions and class gloves; no blanket recolours |
+| Following | Sling, throwing knives and hand crossbow | Keep stone/knife/bolt release, live hands and existing projectiles; paint only actual cached prop states |
+| Later | Remaining ordinary/class and named/legendary/Mythic held variants | Preserve each named construction and unidentified appearance; reuse only when exact identities match |
+
+Warning glyphs, map/UI symbols, lightning paths, triggered traps, poison/status
+and Calm effects remain procedural under the X audit. They are not blanket
+repaint targets. Retain all procedural loaders' fallbacks even after conversion.
 
 ## Acceptance gate for every batch
 
@@ -588,3 +633,5 @@ separately, including exact-mask and unused-reserve exceptions.
 | New source pass | Current status | Review evidence |
 |---|---|---|
 | Y | Three ordinary shield rear frames; integrated for0.9.34 | [Shield rear views](batch-y-preview/REVIEW.md) |
+| Z |23 reviewed starting-weapon frames integrated for0.9.35 | [Starting weapons](batch-z-preview/REVIEW.md) |
+| AA | First tranche36 reviewed frames integrated for0.9.35; wider library open | [Wider held weapons](batch-aa-preview/REVIEW.md) |

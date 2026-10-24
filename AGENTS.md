@@ -298,6 +298,40 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   authored grips/object bounds keep162 fixture cases within160/360/464 views;
   54 captures and12 native held tests pass. Through source sleeve has3px spacing
   but exports>=12px. Native transition/offline/fallback/performance remain gates.
+  Batch Z starting-weapon source tooling is reference-batch-z.cjs,
+  export-batch-z.py --check and preview-batch-z.cjs.23 frames cover Cleric mace9,
+  Thief shortsword9, Ranger shortbow3 and Druid spear2. Spear uses one-hand
+  rest/drive; only staff selects channel. Shortbow keeps Ranger's Fighter palette
+  fallback and live string/arrow; nock top remains the lower source endpoint.
+  Preserve original/repair provenance, rejected requests, raw spacing exceptions
+  and authored row-specific shortsword crops in the manifest. Export only existing
+  pixels by crop/uniform family resize/translation; no mask repair or pose rotation.
+  Frozen source proxies are not native activation evidence; generic stress cases
+  must not be described as new class abilities.92 captures/276 fitting cases are
+  separate from future offline/failure/performance delivery gates. See
+  batch-z-preview/REVIEW.md. The next roadmap priorities are AA–AG.
+  Batch AA first wider-weapon tranche uses reference-batch-aa.cjs,
+  export-batch-aa.py --check and preview-batch-aa.cjs:36 CUT frames for Thief
+  dagger, Fighter battleaxe/greatsword and Cleric hammer. Greatsword two=true
+  only while both hands grip: cast/read/drink request two=false and must keep
+  procedural one-hand fallback. Preserve authored hammer row425/818, sword
+  right-column row800 and dagger lower-column430 crop gaps; these retain complete
+  sources without masking. Dagger64/axe128/hammer112/sword128 object-height caps
+  keep silhouettes distinct. Source/repair/edge findings remain in the manifest;
+  first sword original is selected over pose-flattening/edge-debris alternatives.
+  120 frozen source captures/360 fitting cases and12 baseline checks are separate
+  from native activation/offline/failure/performance gates. The Fighter HUD is
+  a fixture, not proof of real class actions. AA's remaining library stays open;
+  see batch-aa-preview/REVIEW.md. Their historical source-only scopes remain recorded.
+  Z/AA are integrated for release0.9.35 through the existing exact held-family
+  loader. The common exporter reproduces246 files (187 previous plus59 Z/AA),
+  with75 total held frames. Keep authored grips/bounds/nocks and whole-family
+  lazy upgrades: one failed pose leaves that family procedural, other kits load.
+  preview-batch-zaa-runtime.cjs captures real class creation/equip, attack, read,
+  drink, Cleric healing, Calm and native offline continue at390/320; its passive
+  drawImage observer forwards native calls unchanged. No renderer/asset proxy
+  or frozen update loop. Save source and native evidence separately; see
+  batch-zaa-runtime/REVIEW.md. Sword released-hand actions remain procedural.
   Batch Y extends T with exact Fighter/shield, Cleric/shield and Thief/buckler
   carried rear frames. reference-batch-y.cjs captures original class palettes and
   grip geometry; export-batch-y.py --check only crops/scales/registers existing
@@ -313,7 +347,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   preview-batch-y-runtime.cjs observes real equip/Bash/cast/read/drink/Calm/offline
   flows without asset routes, renderer replacements or frozen updates. Keep the
   older source-review evidence separate; see batch-y-runtime/REVIEW.md. The common
-  delivery exporter now reproduces187 files (184 E–T plus3 Y); unchanged historical
+  delivery exporter covered187 files in0.9.34 (184 E–T plus3 Y); unchanged historical
   counts describe the original release scope.
   Batch W is a major-screen reuse audit: preview-batch-w.cjs captures actual
   title/prologue/death/three Heart endings and native share cards, phone/landscape/
@@ -979,6 +1013,9 @@ and its raw records live in `docs/balance/2026-10-16/`.
   kills it; find the PID another way.
 - Timing-sensitive browser tests flake under heavy CPU load (a bench running):
   rerun alone before calling a failure real, then fix the test if it is.
+  Finish multi-context native art captures before the full browser projects:
+  concurrent capture can starve the fixed25-second deferred-art queue gate.
+  Keep its deadline and assertions; recheck contention failures alone.
 - The first tip (about the controls) holds the dungeon still while it is up.
   Browser tests therefore start with tips off; `startGame(page, { tips: true })`
   turns them on for a test that is about tips.

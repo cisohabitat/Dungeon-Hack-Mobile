@@ -911,6 +911,301 @@
       "sha256": "154e6767d6bb8792458bdba4a739e6732fe254618b249e1db95c2a84795e6102"
     },
     {
+      "source": "art/creatures/batch-z-preview/cleric-mace-rest.png",
+      "runtime": "img/held/cleric-mace-rest.png",
+      "sha256": "7ab16ada9eeb80ac1cca6212693a02f9b4ef906a6a8479c42c82981d90d82c3c"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-drawback.png",
+      "runtime": "img/held/cleric-mace-drawback.png",
+      "sha256": "cdbdd83799c6201b06ea7f7ae2c45fa459d1d3ed56a8e161890427333238610c"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-windup.png",
+      "runtime": "img/held/cleric-mace-windup.png",
+      "sha256": "e8654ac1e8f22460181914d2a148383afdc4e87fd1582ae82bf898b8eca6e76b"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-strike.png",
+      "runtime": "img/held/cleric-mace-strike.png",
+      "sha256": "116482c4c608e85196d35a033be8f7eb713bad22621da632f049eb0483e7e5ad"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-cut.png",
+      "runtime": "img/held/cleric-mace-cut.png",
+      "sha256": "83d4fb5408c4a3dce4cf8f92ca41ee8efc204d2fdcb92bee262f16acb36ff5e0"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-sweep.png",
+      "runtime": "img/held/cleric-mace-sweep.png",
+      "sha256": "33e495da4edfe81c367124661e2c831059c2cfbeff573925706691a9ae7dbf7f"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-through.png",
+      "runtime": "img/held/cleric-mace-through.png",
+      "sha256": "fd6fe8aea35fa2c8d3ab04a571457b4f0b0c3f0b8920ed8a4696ec846ab7f099"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-recover.png",
+      "runtime": "img/held/cleric-mace-recover.png",
+      "sha256": "1fd04b964e39bd887919900f44ef252535ba42eaaa7a13d3e1842950cf87b378"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/cleric-mace-return.png",
+      "runtime": "img/held/cleric-mace-return.png",
+      "sha256": "ff0a6fe5ea49c4a12cc40ddc5a060186c6722795678ec6fb23e6cb901e3a2e92"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-rest.png",
+      "runtime": "img/held/thief-shortsword-rest.png",
+      "sha256": "bc0dddfac20b1260e432f3f6087a075e6cb5afa6e89e3228e1679f1506c00d72"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-drawback.png",
+      "runtime": "img/held/thief-shortsword-drawback.png",
+      "sha256": "556139f093ea348dce66b9167ad5a684867d22431e7a350b92d3a6a36bfbbe0d"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-windup.png",
+      "runtime": "img/held/thief-shortsword-windup.png",
+      "sha256": "d964ad786747b1fedcce8e236aa35688bcdd4e5e4e26ab134b0d92729976c34f"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-strike.png",
+      "runtime": "img/held/thief-shortsword-strike.png",
+      "sha256": "a8da61be4802744eeefd5db80cda34ccb17725a5d45112101e50765b7190739d"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-cut.png",
+      "runtime": "img/held/thief-shortsword-cut.png",
+      "sha256": "db654fadc2feeee8fe8c71d4cf3f23ab4fa85f69d3c79dca88aaf35e648d409b"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-sweep.png",
+      "runtime": "img/held/thief-shortsword-sweep.png",
+      "sha256": "2f56a711db6206f36919ebdfa022431737055817bae6d1f9045283edc7c2e0df"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-through.png",
+      "runtime": "img/held/thief-shortsword-through.png",
+      "sha256": "831ebd16d300a468fc838d333a5ce816b76905376f07d629a8b9cd6c06a1718c"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-recover.png",
+      "runtime": "img/held/thief-shortsword-recover.png",
+      "sha256": "da815684f85579adf482149124fef47d72acdac8d6d41bc8754358580feb12d3"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/thief-shortsword-return.png",
+      "runtime": "img/held/thief-shortsword-return.png",
+      "sha256": "47beac36a7ef801edde4a7e6aa9d503b4f0011450c0ee39a4cb1721afbba8b74"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/ranger-shortbow-rest.png",
+      "runtime": "img/held/ranger-shortbow-rest.png",
+      "sha256": "e168e4de7bece943987df558c4b81b932582f890f53661a0de70d45d2a3a188f"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/ranger-shortbow-bowdraw.png",
+      "runtime": "img/held/ranger-shortbow-bowdraw.png",
+      "sha256": "c4a14d19564bf57ddfb60d4bd43f252ad41cff249ad03e1152f4a10c2d64274c"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/ranger-shortbow-bowfull.png",
+      "runtime": "img/held/ranger-shortbow-bowfull.png",
+      "sha256": "877fcc28c348c06c33fb05c23308ed2844d0a4ed797c61bd19422284aa57900a"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/druid-spear-rest.png",
+      "runtime": "img/held/druid-spear-rest.png",
+      "sha256": "06978cfeddd43a2485cb3c3810b72184684a021bee957365b41a722e544a74a7"
+    },
+    {
+      "source": "art/creatures/batch-z-preview/druid-spear-drive.png",
+      "runtime": "img/held/druid-spear-drive.png",
+      "sha256": "02dc4ab85cc1d0ab38c30e0501ba38bec1c6dbbbc9496c76c202c7d226a97da7"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-rest.png",
+      "runtime": "img/held/thief-dagger-rest.png",
+      "sha256": "8e687a4946a169bf065fca9af2fe9f44cead148ca7483f5967aa4f7db41e9b9f"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-drawback.png",
+      "runtime": "img/held/thief-dagger-drawback.png",
+      "sha256": "68ac1a049facf9f59aa3123c6885669d430c5a720226de2870aa18312fe9b8a3"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-windup.png",
+      "runtime": "img/held/thief-dagger-windup.png",
+      "sha256": "f8f84bd1994fad3de3208a864e81cb55c813f000a9b28f89c58eec1049716b94"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-strike.png",
+      "runtime": "img/held/thief-dagger-strike.png",
+      "sha256": "ae6580a7dd6aee57b2aa079acb537bdd6371c1d226a4c92762b04ce57c3b5779"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-cut.png",
+      "runtime": "img/held/thief-dagger-cut.png",
+      "sha256": "370663cc76bba6ed0eebeb6cc3927fdbd464735bc7c6f6bd0615493bf163ddf9"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-sweep.png",
+      "runtime": "img/held/thief-dagger-sweep.png",
+      "sha256": "6cd7f86658b83d6a3f32d0246c49538ff608d3fe474e5881297976c0e45d1a7a"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-through.png",
+      "runtime": "img/held/thief-dagger-through.png",
+      "sha256": "58604d0a77d868f7774856f0d014d81744c0272311d1deee7ea173bbd3cacaff"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-recover.png",
+      "runtime": "img/held/thief-dagger-recover.png",
+      "sha256": "7f4f3a82cb0de5bdc8490828196159730d20b8aa7221f18b821c1adcd5a21bc5"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/thief-dagger-return.png",
+      "runtime": "img/held/thief-dagger-return.png",
+      "sha256": "5e86b27df0948ad0724176fe91ea83895a8325ce3ea6a32f338670ef1df34359"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-rest.png",
+      "runtime": "img/held/fighter-battleaxe-rest.png",
+      "sha256": "044c934a305ca3f2bde897b5046f6bd5b77195cbe5bc542888a4434edf46be51"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-drawback.png",
+      "runtime": "img/held/fighter-battleaxe-drawback.png",
+      "sha256": "7e09763b5d8b45f67b78960854bb64ad1090f00b53be168f2645ea91bf799692"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-windup.png",
+      "runtime": "img/held/fighter-battleaxe-windup.png",
+      "sha256": "398afb88370712e901fa3e03ab51a629a3559889314d84ec5dc71a46f48da20b"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-strike.png",
+      "runtime": "img/held/fighter-battleaxe-strike.png",
+      "sha256": "1d8eba49d817130cefb56859d91e0b9689ce3b4570841cc8b2ae57e76d08ae37"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-cut.png",
+      "runtime": "img/held/fighter-battleaxe-cut.png",
+      "sha256": "00cea342e25a604134bceaf1aa1360544c8aa0f89fc13bff2c2c28697dcde293"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-sweep.png",
+      "runtime": "img/held/fighter-battleaxe-sweep.png",
+      "sha256": "b35392c48f88b81132d0a24e3616b958b58a8e346367b3a51fe8943758753f94"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-through.png",
+      "runtime": "img/held/fighter-battleaxe-through.png",
+      "sha256": "a003cf553becaa836e130ec3e5b0055bd771f57444e2f312068c54d69492293c"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-recover.png",
+      "runtime": "img/held/fighter-battleaxe-recover.png",
+      "sha256": "45c28a2c8ddaa35ac2fd6096f52f260fe01dd0db98ae74306d069b476abda8c2"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-battleaxe-return.png",
+      "runtime": "img/held/fighter-battleaxe-return.png",
+      "sha256": "28437f0f0c980a13a1925869bdcf118807f919a666216880bf95d28a41ad81c4"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-rest.png",
+      "runtime": "img/held/cleric-hammer-rest.png",
+      "sha256": "ce6372b01e092c280b8ae808663f3eabc1689dc75fc3427b5ca12f5ee267962a"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-drawback.png",
+      "runtime": "img/held/cleric-hammer-drawback.png",
+      "sha256": "f62fbbf786eac9af1f06b454cd5423e1351648f8b75952edc5a682e9514bb9fd"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-windup.png",
+      "runtime": "img/held/cleric-hammer-windup.png",
+      "sha256": "b064289a7d73e0e6862e96709f4dc35167d8bfb768d9dd091ddc9a50d22131b4"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-strike.png",
+      "runtime": "img/held/cleric-hammer-strike.png",
+      "sha256": "fcc2e665055540f821b7994469f345c182afee5fe99c777d231e59c961f086af"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-cut.png",
+      "runtime": "img/held/cleric-hammer-cut.png",
+      "sha256": "ddc6af81f06241affa9401e71c7550d303313c71fd8713072a17b8f40f2f18a9"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-sweep.png",
+      "runtime": "img/held/cleric-hammer-sweep.png",
+      "sha256": "799ddfc71e1bee0ebefba542dfcda2196641f804c66fe1b55bbd921ba8d07ecc"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-through.png",
+      "runtime": "img/held/cleric-hammer-through.png",
+      "sha256": "7ab0a4301a482ad7835f505dfa138a75c7b4c0d53e117e888bdab5fbc5123c13"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-recover.png",
+      "runtime": "img/held/cleric-hammer-recover.png",
+      "sha256": "c4f907109900ca2fc4bbef1f62a8d421f825f717ab42608bfe36bbd3500b05fe"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/cleric-hammer-return.png",
+      "runtime": "img/held/cleric-hammer-return.png",
+      "sha256": "a55af658cb2905b0ac70267e4f49565b45e42b73d5ee132a41de34b88e34af3f"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-rest.png",
+      "runtime": "img/held/fighter-greatsword-rest.png",
+      "sha256": "eee85f2863c3febe2cf79ac841401eca9852c46397e5444612115ca09d670b8c"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-drawback.png",
+      "runtime": "img/held/fighter-greatsword-drawback.png",
+      "sha256": "8d99144139810ebecfb93093d502713e6ce4279cdd887f4352dc4eaa263e7349"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-windup.png",
+      "runtime": "img/held/fighter-greatsword-windup.png",
+      "sha256": "ec5390832336e14139bce53a70dc221f73f1c61d1be737cf9242057eb8595f25"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-strike.png",
+      "runtime": "img/held/fighter-greatsword-strike.png",
+      "sha256": "1287ed39e66c364a04cf989a290b5dca9904cef9d680ffa40fc7eb5014a97b78"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-cut.png",
+      "runtime": "img/held/fighter-greatsword-cut.png",
+      "sha256": "cf862b3fe9289679364d1d9cd4a4905d53eb2a671d7e37e066c39101b2d4a285"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-sweep.png",
+      "runtime": "img/held/fighter-greatsword-sweep.png",
+      "sha256": "5c00e1af4c2468bd45b4ed6436c3896bb7f397a474e6a013e768f2254008c8c5"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-through.png",
+      "runtime": "img/held/fighter-greatsword-through.png",
+      "sha256": "6c491fff4ec0859e8a3ff1fefe51c2fae36284ae1c91ad5f1c90dc5642ea94e1"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-recover.png",
+      "runtime": "img/held/fighter-greatsword-recover.png",
+      "sha256": "99ab8eeb24a83f834f1eaf1334b9c48facea1b7e9a6487034871b9fd4093f839"
+    },
+    {
+      "source": "art/creatures/batch-aa-preview/fighter-greatsword-return.png",
+      "runtime": "img/held/fighter-greatsword-return.png",
+      "sha256": "b2cc716c9c141faccd8e5e0b6bcd39ab848ec85fa0933d078877dad235e4e23d"
+    },
+    {
       "source": "art/creatures/batch-p-preview/runeshield-fighter-held.png",
       "runtime": "img/held/runeshield-fighter.png",
       "sha256": "2945c12da7f089fd86889805f566da9c861586ad189b7811a1716cc7f1b048c9"

@@ -1,0 +1,642 @@
+{
+  "groups": {
+    "z1": {
+      "cls": "cleric",
+      "id": "mace",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ]
+    },
+    "z2": {
+      "cls": "thief",
+      "id": "shortsword",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ]
+    },
+    "z3": {
+      "cls": "ranger",
+      "id": "shortbow",
+      "poses": [
+        "rest",
+        "bowdraw",
+        "bowfull"
+      ],
+      "grid": [
+        3,
+        1
+      ]
+    },
+    "z4": {
+      "cls": "druid",
+      "id": "spear",
+      "poses": [
+        "rest",
+        "drive"
+      ],
+      "grid": [
+        2,
+        1
+      ]
+    }
+  },
+  "cells": {
+    "cleric-mace-rest": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        96.28220858895706,
+        120.57668711656441
+      ],
+      "object_bounds": [
+        55.44965100503922,
+        11.86329054060652,
+        108.56828415592358,
+        143.4411405488233
+      ],
+      "native": [
+        99,
+        163
+      ]
+    },
+    "cleric-mace-drawback": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        102.375,
+        113
+      ],
+      "object_bounds": [
+        90.69936208231705,
+        12.853620368969596,
+        142.0381154219763,
+        134.13385678275057
+      ],
+      "native": [
+        59,
+        176
+      ]
+    },
+    "cleric-mace-windup": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        103.34482758620689,
+        102.71264367816092
+      ],
+      "object_bounds": [
+        87.96486494035227,
+        12.981285584300498,
+        170.27441791795388,
+        122.31604081678935
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "cleric-mace-strike": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        100.83950617283949,
+        119.85185185185185
+      ],
+      "object_bounds": [
+        52.16012872056224,
+        12.321633675045026,
+        113.7878137238057,
+        142.58820159708483
+      ],
+      "native": [
+        104,
+        162
+      ]
+    },
+    "cleric-mace-cut": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        107.29411764705883,
+        128
+      ],
+      "object_bounds": [
+        13.282523325251177,
+        64.21197925301888,
+        127.83299376178896,
+        142.95602318002233
+      ],
+      "native": [
+        170,
+        90
+      ]
+    },
+    "cleric-mace-sweep": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        114.25,
+        109.875
+      ],
+      "object_bounds": [
+        12.535966554969608,
+        80.15810325245172,
+        135.5930281596602,
+        128.97147362000516
+      ],
+      "native": [
+        176,
+        69
+      ]
+    },
+    "cleric-mace-through": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        113.02958579881657,
+        102.61538461538461
+      ],
+      "object_bounds": [
+        12.446840106481602,
+        89.16362992482952,
+        134.46562102967724,
+        156.27187356869385
+      ],
+      "native": [
+        169,
+        69
+      ]
+    },
+    "cleric-mace-recover": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        114.51612903225806,
+        110.96774193548387
+      ],
+      "object_bounds": [
+        12.539885621791225,
+        38.38203179322436,
+        136.7904431144649,
+        127.78709677419356
+      ],
+      "native": [
+        155,
+        118
+      ]
+    },
+    "cleric-mace-return": {
+      "sheet": "z1",
+      "cls": "cleric",
+      "id": "mace",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        105.3972602739726,
+        117.45205479452055
+      ],
+      "object_bounds": [
+        24.227606436326838,
+        11.938418605379042,
+        123.95969980058025,
+        140.6666370681776
+      ],
+      "native": [
+        130,
+        146
+      ]
+    },
+    "thief-shortsword-rest": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        85.98611111111111,
+        105.08333333333333
+      ],
+      "object_bounds": [
+        54.658044177078054,
+        13.836917734925672,
+        112.69803065549829,
+        132.56182792470145
+      ],
+      "native": [
+        91,
+        144
+      ]
+    },
+    "thief-shortsword-drawback": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        103.47770700636943,
+        97.87261146496814
+      ],
+      "object_bounds": [
+        79.24697886822383,
+        14.438346059561779,
+        132.36077166872784,
+        123.02768272529713
+      ],
+      "native": [
+        65,
+        157
+      ]
+    },
+    "thief-shortsword-windup": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        113.8974358974359,
+        87.10256410256409
+      ],
+      "object_bounds": [
+        95.46097325757631,
+        13.931944891354188,
+        162.34793843876682,
+        110.38437356710045
+      ],
+      "native": [
+        42,
+        156
+      ]
+    },
+    "thief-shortsword-strike": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        87.23076923076923,
+        104.15384615384616
+      ],
+      "object_bounds": [
+        54.93580869647023,
+        13.942572931922559,
+        112.59734301924689,
+        131.51076757526454
+      ],
+      "native": [
+        91,
+        143
+      ]
+    },
+    "thief-shortsword-cut": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        91.81578947368422,
+        115.69736842105263
+      ],
+      "object_bounds": [
+        13.863737521655771,
+        70.72959764003907,
+        116.25581237258427,
+        135.28806433959747
+      ],
+      "native": [
+        152,
+        73
+      ]
+    },
+    "thief-shortsword-sweep": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        98.38461538461537,
+        106.14102564102564
+      ],
+      "object_bounds": [
+        13.120950994278887,
+        78.25462102552606,
+        123.94366784241886,
+        132.31571370849628
+      ],
+      "native": [
+        156,
+        67
+      ]
+    },
+    "thief-shortsword-through": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        98.13245033112584,
+        99.58940397350995
+      ],
+      "object_bounds": [
+        14.902086817224976,
+        77.13734748735882,
+        123.62721633766438,
+        134.62321441026592
+      ],
+      "native": [
+        151,
+        69
+      ]
+    },
+    "thief-shortsword-recover": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        99.30434782608695,
+        95.31884057971014
+      ],
+      "object_bounds": [
+        14.99801509596806,
+        43.14149978297594,
+        125.93243738689733,
+        116.10938731333177
+      ],
+      "native": [
+        138,
+        101
+      ]
+    },
+    "thief-shortsword-return": {
+      "sheet": "z2",
+      "cls": "thief",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        87.06976744186046,
+        101.56589147286822
+      ],
+      "object_bounds": [
+        26.986456337191637,
+        14.06485707748518,
+        109.6361422263233,
+        129.5479168173514
+      ],
+      "native": [
+        112,
+        129
+      ]
+    },
+    "ranger-shortbow-rest": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        198.65040650406502,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        171.8211382113821,
+        15.13821138211383,
+        257.6747967479675,
+        242.65040650406507
+      ],
+      "nocks": {
+        "top": [
+          222.96592934499438,
+          230.46996725483658
+        ],
+        "bot": [
+          208.59269299888774,
+          24.923111240324506
+        ]
+      },
+      "native": [
+        113,
+        123
+      ]
+    },
+    "ranger-shortbow-bowdraw": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "bowdraw",
+      "two": false,
+      "grip": [
+        195.0731707317073,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        168.2439024390244,
+        15.13821138211383,
+        254.09756097560975,
+        242.65040650406507
+      ],
+      "nocks": {
+        "top": [
+          225.81203282309016,
+          230.02080361902077
+        ],
+        "bot": [
+          211.43879647698353,
+          24.47394760450869
+        ]
+      },
+      "native": [
+        117,
+        123
+      ]
+    },
+    "ranger-shortbow-bowfull": {
+      "sheet": "z3",
+      "cls": "ranger",
+      "id": "shortbow",
+      "pose": "bowfull",
+      "two": false,
+      "grip": [
+        192.390243902439,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        165.5609756097561,
+        15.13821138211383,
+        251.41463414634146,
+        242.65040650406507
+      ],
+      "nocks": {
+        "top": [
+          229.55244524427536,
+          229.57163998320496
+        ],
+        "bot": [
+          215.17920889816872,
+          24.02478396869285
+        ]
+      },
+      "native": [
+        120,
+        123
+      ]
+    },
+    "druid-spear-rest": {
+      "sheet": "z4",
+      "cls": "druid",
+      "id": "spear",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        61.65132496530618,
+        13.164306094747758,
+        104.15635727431795,
+        162.52405561724441
+      ],
+      "native": [
+        90,
+        156
+      ]
+    },
+    "druid-spear-drive": {
+      "sheet": "z4",
+      "cls": "druid",
+      "id": "spear",
+      "pose": "drive",
+      "two": false,
+      "grip": [
+        79.83006535947713,
+        118.65359477124183
+      ],
+      "object_bounds": [
+        60.41246152856011,
+        13.214258695883181,
+        98.70601046883752,
+        167.30201904037682
+      ],
+      "native": [
+        89,
+        153
+      ]
+    }
+  },
+  "legal": [
+    {
+      "cls": "cleric",
+      "id": "mace",
+      "reason": null
+    },
+    {
+      "cls": "thief",
+      "id": "shortsword",
+      "reason": null
+    },
+    {
+      "cls": "ranger",
+      "id": "shortbow",
+      "reason": null
+    },
+    {
+      "cls": "druid",
+      "id": "spear",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "spellblade": [
+      "#3c424b",
+      "#515c6a",
+      "#242a32"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "mage": [
+      "#d8b090",
+      "#6a4aa0",
+      "#4a3a78"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "druid": [
+      "#8a6a44",
+      "#4e6a34",
+      "#5a4a2e"
+    ],
+    "bear": [
+      "#5a3a22",
+      "#4a2e1a",
+      "#3e2614"
+    ]
+  },
+  "ranger_fighter_palette_fallback": true
+}

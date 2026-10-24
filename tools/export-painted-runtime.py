@@ -31,8 +31,9 @@ for b in 'rs':
  for key in d['cells']:
   if key=='stairArch':continue
   config['themes']['0'][key]=ship(Path(f'batch-{b}-preview/{key}.png'),f'materials/halls_{key}.png')
-d=json.loads((a/'generation-batch-t.json').read_text());m=json.loads((a/'batch-t-preview/measurements.json').read_text())['cells']
-for key,c in d['cells'].items():config['held'][key]={'path':ship(Path(f'batch-t-preview/{key}.png'),f'held/{key}.png'),'id':c['id'],'cls':c['cls'],'pose':c['pose'],'two':c['two'],'grip':m[key]['grip'],'bounds':m[key]['object_bounds'],**({'nocks':m[key]['nocks']} if 'nocks' in m[key] else {})}
+for batch in ['t','z','aa']:
+ d=json.loads((a/f'generation-batch-{batch}.json').read_text());m=json.loads((a/f'batch-{batch}-preview/measurements.json').read_text())['cells']
+ for key,c in d['cells'].items():config['held'][key]={'path':ship(Path(f'batch-{batch}-preview/{key}.png'),f'held/{key}.png'),'id':c['id'],'cls':c['cls'],'pose':c['pose'],'two':c['two'],'grip':m[key]['grip'],'bounds':m[key]['object_bounds'],**({'nocks':m[key]['nocks']} if 'nocks' in m[key] else {})}
 m=json.loads((a/'batch-p-preview/measurements.json').read_text());config['carried']={}
 for cls in ['fighter','cleric']:
  key='runeshield_'+cls;config['carried'][cls]={'path':ship(Path(f'batch-p-preview/runeshield-{cls}-held.png'),f'held/runeshield-{cls}.png'),'id':'runeshield','cls':cls,'grip':m[key]['grip'],'bounds':m[key]['object_bounds']}

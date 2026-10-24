@@ -1096,3 +1096,35 @@ offline cache, with exact class/raw-id guards and per-image fallback. P's two Ru
 shields remain separate entries. See [native review](batch-y-runtime/REVIEW.md).
 The shared delivery exporter reproduces187 files; W/X audit evidence accompanies
 this publication. Historical source-only descriptions above preserve their scope.
+
+## Batch Z — priority1 starting weapons
+
+23 source frames cover Cleric mace9, Thief shortsword9, Ranger shortbow3 and
+Druid spear2. See [brief](REQUEST-batch-z.md), [manifest](generation-batch-z.json)
+and [review](batch-z-preview/REVIEW.md). Preserve actual starting-kit identities,
+class palettes, live bow string/arrow and one-handed spear; no staff channel pose.
+Source/review complete locally, not integrated or published.92 captures,276
+fitting/release cases and12 baseline browser checks pass. Row-specific crops and
+raw source spacing exceptions are recorded; no script painting/mask rewriting.
+Priorities2–8 are planned as AA–AG in the roadmap; they are not part of this pass.
+
+## Batch AA — wider held weapons, first tranche
+
+36 source/review frames: Thief dagger9, Fighter battleaxe9, Cleric hammer9,
+Fighter greatsword9. Nine CUT poses, exact raw class/id/two/lit guards;
+sword cast/read/drink retain procedural released-hand frames. Native references,
+originals/repairs and authored grip/object registration are preserved.120 phone
+captures,360 fitting cases and12 existing browser checks pass. Keep source-spacing
+and residual edge findings in [the review](batch-aa-preview/REVIEW.md).
+Local/unpublished/unactivated; other AA weapons and class/named variants stay open.
+Reproduce with `python3 art/creatures/export-batch-aa.py --check` and
+`node art/creatures/preview-batch-aa.cjs`.
+
+### Z/AA runtime activation — release0.9.35
+
+59 reviewed held frames now bind through the native exact class/id/pose/two/lit
+loader and offline inventory.75 total held frames and246 common delivery files;
+414 total shipped paintings plus3 icons. Sword read/drink/cast retain the freed
+hand and procedural single-grip frame. Native actions and offline evidence are
+in [the activation review](batch-zaa-runtime/REVIEW.md). Historical Z/AA source
+reports remain separate; remaining AA library work stays open.

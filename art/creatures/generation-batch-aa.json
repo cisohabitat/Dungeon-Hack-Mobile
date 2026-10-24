@@ -1,0 +1,1103 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa.md",
+  "status": "36 source/review frames complete; selected exports integrated for release0.9.35; see batch-zaa-runtime/REVIEW.md; wider AA library remains open",
+  "groups": {
+    "aa1": [
+      "thief-dagger-rest",
+      "thief-dagger-drawback",
+      "thief-dagger-windup",
+      "thief-dagger-strike",
+      "thief-dagger-cut",
+      "thief-dagger-sweep",
+      "thief-dagger-through",
+      "thief-dagger-recover",
+      "thief-dagger-return"
+    ],
+    "aa2": [
+      "fighter-battleaxe-rest",
+      "fighter-battleaxe-drawback",
+      "fighter-battleaxe-windup",
+      "fighter-battleaxe-strike",
+      "fighter-battleaxe-cut",
+      "fighter-battleaxe-sweep",
+      "fighter-battleaxe-through",
+      "fighter-battleaxe-recover",
+      "fighter-battleaxe-return"
+    ],
+    "aa3": [
+      "cleric-hammer-rest",
+      "cleric-hammer-drawback",
+      "cleric-hammer-windup",
+      "cleric-hammer-strike",
+      "cleric-hammer-cut",
+      "cleric-hammer-sweep",
+      "cleric-hammer-through",
+      "cleric-hammer-recover",
+      "cleric-hammer-return"
+    ],
+    "aa4": [
+      "fighter-greatsword-rest",
+      "fighter-greatsword-drawback",
+      "fighter-greatsword-windup",
+      "fighter-greatsword-strike",
+      "fighter-greatsword-cut",
+      "fighter-greatsword-sweep",
+      "fighter-greatsword-through",
+      "fighter-greatsword-recover",
+      "fighter-greatsword-return"
+    ]
+  },
+  "sheets": {
+    "aa1": {
+      "source": "held-aa1.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Static fantasy videogame inventory prop design study, no person or narrative scene. True transparent RGBA. A 3x3 display grid of NINE separate object views, precisely following each matching cell of reference1. Reference2 gives only mature hand-painted weathered material texture, never cartoon. Keep the complete objects and attached gloves/cloth sleeve ends inside their own cells with generous transparent gutters and 8 percent padding. Exact orientations row1 -100,-79,-58 degrees; row2 -105,-152,-176; row3 -200,-150,-123, zero points right. Same design and proportions in all views, no rotation by the exporter. Small ordinary straight steel dagger with plain brass guard and brown handle, identical compact proportions to reference. Each is held by ONE charcoal glove with brown cuff and dark olive cloth forearm. Fingers curl round the grip, attached sleeve fully visible. Plain design without decoration.",
+      "references": [
+        "batch-aa-preview/aa1-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "initial_prompt": "Create a nonviolent fantasy equipment illustration sheet on TRUE transparent RGBA. Exactly nine equal square cells in a 3x3 grid, row-major. No people, scene, combat, blood, text, labels, ground shadow, border, glow or motion streaks. First reference is authoritative for object, hand count, forearm directions and each distinct orientation; second reference only supplies gritty mature painted material finish. Match approved dungeon monster art: rough metal, worn leather and coarse muted cloth, restrained highlights, natural anatomy. Never cartoon, toy, glossy chrome or vector. Reproduce all nine corresponding reference views individually, not a repeated pose or mirrored collage. Equipment pointing screen degrees: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123, where zero points right. Connected closed grips, fingers wrap the handle, attached forearms and clean complete sleeve ends. Keep IDENTICAL equipment proportions and lighting throughout. Every complete object and arm entirely inside its OWN square cell with at least 8 percent transparent padding on ALL sides. Clear row/column gutters; no parts crossing a cell boundary. THIEF DAGGER: compact straight double-edged grey steel dagger with short plain brass crossguard and brown handle, visibly much shorter than a short sword. One right charcoal leather glove, muted brown cuff and dark olive cloth sleeve. Small tip and connected short blade, no curved blade, new ornaments, runes, gems or second hand.",
+      "generated_image": "/workspace/generated_images/exec-4ab8dbcc-4a05-403e-ba5b-27a6bdff2ba3.png",
+      "repairs": [
+        {
+          "prompt": "Refine this static inventory prop illustration sheet. Keep 3x3 equal square transparent cells and EXACT same nine orientations, charcoal gloves, olive sleeves, plain brass guard and brown handle. This is a SMALL DAGGER: shorten every steel blade to 45 percent of its current length, measured from guard to tip, retaining its pointed shape. Do not shrink the glove, handle or forearm. Match the second reference's very short blade relative to long forearm. Keep each entire prop and complete sleeve end inside its square with generous clear margin. Clean transparent edges without detached white/red/yellow specks. Mature painted rough materials, no captions or background.",
+          "references": [
+            "held-aa1.png",
+            "batch-aa-preview/aa1-reference.png"
+          ],
+          "transparent_background": true,
+          "status": "input moderation rejected; no image",
+          "request_id": "8620083c-6905-4f22-aa23-9efc59abf7db",
+          "proposed_source": "held-aa1-refined.png"
+        },
+        {
+          "source": "held-aa1-refined.png",
+          "prompt": "Edit this fantasy game inventory art to match the compact proportions of reference2. Keep nine separate views in the same 3x3 arrangement, on transparent RGBA, with the existing charcoal glove, brown cuff and olive sleeve in every cell. The little silver triangular prop above the gold crossbar should be less than half its current length; keep the crossbar, handle, hand and sleeve the same size. This is a static icon study with no person or activity. Preserve each view direction and the weathered painted finish, give every complete sleeve and prop generous clear transparent margins inside its cell. No text or background.",
+          "references": [
+            "held-aa1.png",
+            "batch-aa-preview/aa1-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-d723ceb0-cecd-4306-ad37-08e8ae60cdfe.png"
+        }
+      ],
+      "selected_source": "held-aa1-refined.png"
+    },
+    "aa2": {
+      "source": "held-aa2.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a nonviolent fantasy equipment illustration sheet on TRUE transparent RGBA. Exactly nine equal square cells in a 3x3 grid, row-major. No people, scene, combat, blood, text, labels, ground shadow, border, glow or motion streaks. First reference is authoritative for object, hand count, forearm directions and each distinct orientation; second reference only supplies gritty mature painted material finish. Match approved dungeon monster art: rough metal, worn leather and coarse muted cloth, restrained highlights, natural anatomy. Never cartoon, toy, glossy chrome or vector. Reproduce all nine corresponding reference views individually, not a repeated pose or mirrored collage. Equipment pointing screen degrees: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123, where zero points right. Connected closed grips, fingers wrap the handle, attached forearms and clean complete sleeve ends. Keep IDENTICAL equipment proportions and lighting throughout. Every complete object and arm entirely inside its OWN square cell with at least 8 percent transparent padding on ALL sides. Clear row/column gutters; no parts crossing a cell boundary. FIGHTER BATTLE AXE: one single broad crescent grey iron cutting blade on the left side of the dark wooden shaft in the upright views; small metal spike opposite it, narrow pointed top, exactly like reference. One right grey gauntlet, grey cuff, brown sleeve. Plain practical ordinary axe, not double-bladed, no runes, no huge fantasy proportions. Rotate the entire axe consistently with each reference pose; retain the asymmetry rather than mirroring the blade.",
+      "references": [
+        "batch-aa-preview/aa2-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-3574c1be-8e73-459e-992c-c5e7ae35680a.png",
+      "repairs": [
+        {
+          "source": "held-aa2-refined.png",
+          "prompt": "Refine this static inventory prop illustration sheet, keeping exactly the same nine axe shapes, asymmetrical single blades, opposite spikes, orientations, grey gauntlets and brown sleeves in a 3x3 grid. Preserve mature rough painted metal and wood. Correct only transparent edge quality and spacing: remove detached red/yellow/white colour fragments around the silhouettes, and centre each COMPLETE axe/hand/forearm inside its own square cell with at least 8 percent clean transparent margin. Do not cut off sleeves or tips. No background, shadow, glow, border or labels. True RGBA.",
+          "references": [
+            "held-aa2.png",
+            "batch-aa-preview/aa2-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-a17b3b6e-37b3-44fc-855f-276e3e4b2a91.png"
+        }
+      ],
+      "selected_source": "held-aa2-refined.png"
+    },
+    "aa3": {
+      "source": "held-aa3.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Static fantasy videogame inventory prop design study, no person or narrative scene. True transparent RGBA. A 3x3 display grid of NINE separate object views, precisely following each matching cell of reference1. Reference2 gives only mature hand-painted weathered material texture, never cartoon. Keep the complete objects and attached gloves/cloth sleeve ends inside their own cells with generous transparent gutters and 8 percent padding. Exact orientations row1 -100,-79,-58 degrees; row2 -105,-152,-176; row3 -200,-150,-123, zero points right. Same design and proportions in all views, no rotation by the exporter. Small ordinary historical rectangular grey steel hammer head, tapered pick opposite and dark wooden handle, as in reference. Each is held by ONE brown leather glove with muted gold cuff and ivory cloth sleeve. Preserve asymmetric head and attached complete sleeve, no giant mallet.",
+      "references": [
+        "batch-aa-preview/aa3-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "initial_prompt": "Create a nonviolent fantasy equipment illustration sheet on TRUE transparent RGBA. Exactly nine equal square cells in a 3x3 grid, row-major. No people, scene, combat, blood, text, labels, ground shadow, border, glow or motion streaks. First reference is authoritative for object, hand count, forearm directions and each distinct orientation; second reference only supplies gritty mature painted material finish. Match approved dungeon monster art: rough metal, worn leather and coarse muted cloth, restrained highlights, natural anatomy. Never cartoon, toy, glossy chrome or vector. Reproduce all nine corresponding reference views individually, not a repeated pose or mirrored collage. Equipment pointing screen degrees: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123, where zero points right. Connected closed grips, fingers wrap the handle, attached forearms and clean complete sleeve ends. Keep IDENTICAL equipment proportions and lighting throughout. Every complete object and arm entirely inside its OWN square cell with at least 8 percent transparent padding on ALL sides. Clear row/column gutters; no parts crossing a cell boundary. CLERIC WAR HAMMER: modest grey rectangular hammer face and tapered pick opposite, dark brown wood handle, little metal shaft cap, exactly reference silhouette. One right brown leather glove, muted gold cuff, ivory cloth sleeve. Practical plain war hammer, no giant mallet, mace ball, chain, holy icon, gem or runes. Keep the same rectangular/pick asymmetry at every orientation.",
+      "generated_image": "/workspace/generated_images/exec-b122498a-fdc3-4608-92e2-b56ece796044.png",
+      "repairs": [
+        {
+          "source": "held-aa3-refined.png",
+          "prompt": "Refine this static inventory prop illustration sheet, preserving the same nine small historical hammer/pick heads, wooden handles, orientations, brown gloves, gold cuffs and ivory cloth sleeves in a 3x3 grid. Clean the transparent silhouettes: REMOVE the conspicuous detached WHITE PATCHES alongside the ivory sleeves, and red/yellow pixels outside silhouettes. They are edge debris, not clothing. Keep the complete sleeve with a smooth clean edge and full rounded lower end, retain coarse painted fabric shading. Each complete prop inside its own equal square with at least8 percent transparent margin, no adjacent-cell overlap. True RGBA, no background, shadows or labels.",
+          "references": [
+            "held-aa3.png",
+            "batch-aa-preview/aa3-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-60732dd6-4325-4f90-a2c6-dc5b9f799976.png"
+        },
+        {
+          "source": "held-aa3-clean.png",
+          "prompt": "Make a freshly painted realistic fantasy inventory sprite sheet from this exact procedural geometry reference. Nine equal square cells in a 3x3 grid on transparent RGBA, same nine views row by row. Compact ordinary metal hammer with flat rectangular face and opposite tapered pick on plain wood handle. Brown leather glove, muted gold cuff and clean ivory cloth sleeve in each cell. Each has one right hand connected to the grip, fingers curled properly. Render mature subdued painterly iron, leather and coarse cloth with crisp clean silhouette and NO halo, coloured outlines, detached white bits, glow or background. Keep complete equipment, fingertips and clean rounded sleeve ends well inside own cell, transparent gutters, minimum 8% spacing. Distinct shaft pointing angles: -100,-79,-58; -105,-152,-176; -200,-150,-123 degrees with right=0 and up=-90. Preserve asymmetrical hammer head and consistent dimensions, no decorations. This is a static isolated prop design reference, no activity or scene.",
+          "references": [
+            "batch-aa-preview/aa3-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-285797fe-24f9-4872-9929-442bdcaf57b3.png"
+        },
+        {
+          "source": "held-aa3-edges.png",
+          "prompt": "Edit the FIRST reference's static 3x3 hammer inventory prop sheet only to clean its silhouettes. Keep its existing nine hammer shapes, asymmetric pick heads, orientations, handles, brown gloves, gold cuffs and complete ivory sleeves. SECOND reference shows the desired clean ivory cloth sleeve finish: copy that edge cleanliness and colour, NOT its round mace. Remove ALL detached white islands, ragged white brush patches, and coloured halos alongside the sleeves; keep only the continuous natural clean cloth silhouette with complete smooth rounded lower ends. The large ragged WHITE patches above sleeves in middle row cells2 and3 and bottom row cells1 and2 must be fully transparent. Retain weathered cloth interior shading. True RGBA, nine separate equal square cells with clear margins, no background or text.",
+          "references": [
+            "held-aa3-refined.png",
+            "held-z1-spacing.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-2683f444-2d84-4e0e-b730-85b4daa20476.png"
+        }
+      ],
+      "selected_source": "held-aa3-edges.png"
+    },
+    "aa4": {
+      "source": "held-aa4.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Static fantasy videogame inventory prop design study, no person or narrative scene. True transparent RGBA. A 3x3 display grid of NINE separate object views, precisely following each matching cell of reference1. Reference2 gives only mature hand-painted weathered material texture, never cartoon. Keep the complete objects and attached gloves/cloth sleeve ends inside their own cells with generous transparent gutters and 8 percent padding. Exact orientations row1 -100,-79,-58 degrees; row2 -105,-152,-176; row3 -200,-150,-123, zero points right. Same design and proportions in all views, no rotation by the exporter. Long ordinary straight steel sword with simple brass crossguard and elongated brown leather handle. Each has TWO grey gauntlets on the SAME handle, upper right glove below guard and lower left glove above pommel. TWO complete brown cloth forearms in every cell. Match both hands and forearms in each corresponding reference, retain consistent long blade and handle proportions. Complete tip and sleeve ends, no additional gloves.",
+      "references": [
+        "batch-aa-preview/aa4-reference.png",
+        "held-t1.png"
+      ],
+      "transparent_background": true,
+      "initial_prompt": "Create a nonviolent fantasy equipment illustration sheet on TRUE transparent RGBA. Exactly nine equal square cells in a 3x3 grid, row-major. No people, scene, combat, blood, text, labels, ground shadow, border, glow or motion streaks. First reference is authoritative for object, hand count, forearm directions and each distinct orientation; second reference only supplies gritty mature painted material finish. Match approved dungeon monster art: rough metal, worn leather and coarse muted cloth, restrained highlights, natural anatomy. Never cartoon, toy, glossy chrome or vector. Reproduce all nine corresponding reference views individually, not a repeated pose or mirrored collage. Equipment pointing screen degrees: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123, where zero points right. Connected closed grips, fingers wrap the handle, attached forearms and clean complete sleeve ends. Keep IDENTICAL equipment proportions and lighting throughout. Every complete object and arm entirely inside its OWN square cell with at least 8 percent transparent padding on ALL sides. Clear row/column gutters; no parts crossing a cell boundary. FIGHTER TWO-HANDED SWORD: long straight double-edged steel blade, plain brass crossguard, elongated brown leather handle and small metal pommel, matching reference. TWO grey gauntleted hands on the SAME handle: right hand nearest guard and left hand below it. Exactly two attached brown-sleeved forearms in each cell, no extra hand or floating fingers. Preserve clearly separated forearms, complete sleeve ends, the long grip and consistent hand spacing. A practical ordinary sword, not a dagger, curved sword, magical sword or decorated relic.",
+      "generated_image": "/workspace/generated_images/exec-6beb46a4-41e6-4af6-bb5f-353a239dcb27.png",
+      "repairs": [
+        {
+          "source": "held-aa4-refined.png",
+          "prompt": "Refine this static inventory prop illustration sheet. Preserve exactly the same nine long straight sword orientations, plain brass crossguard, grey gauntlets and TWO attached brown sleeves in each equal square cell. Clearly show both hands wrapped onto the same long brown handle: upper right hand below guard, lower left hand above pommel, no overlapping impossible fingers or extra hands. Retain reference's blade/handle/forearm proportions. Clean red/yellow/white fragments outside silhouettes, and centre each complete assembly within its own cell with8 percent transparent margin. True RGBA transparent background, mature gritty painted finish, no captions or shadows.",
+          "references": [
+            "held-aa4.png",
+            "batch-aa-preview/aa4-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-a6018f2c-3b55-426d-b294-f70d054b46ee.png"
+        },
+        {
+          "source": "held-aa4-clean.png",
+          "prompt": "Make a freshly painted realistic fantasy inventory sprite sheet from this exact procedural geometry reference. Nine equal square cells in a3x3 grid, transparent RGBA. An ordinary long straight grey steel sword with plain brass crossguard and long brown handle, exactly TWO grey gloves gripping SAME handle in EVERY cell, right above left, each with attached brown sleeve. Match every corresponding reference cell's blade direction and both forearm directions. Distinct shaft pointing angles: -100,-79,-58; -105,-152,-176; -200,-150,-123 degrees with right=0 and up=-90. Particularly first cell leans slightly left, second slightly right, third diagonally right. Mature subdued painterly weathered metal/leather/cloth, clean natural anatomy, no cartoon. Clean transparent silhouette with no coloured rim, halo or detached flecks. Preserve full blade tip and both complete sleeve ends within each square, 8% clear padding; no scene, shadows, text or decoration. Preserve long handle and separate both hands correctly; no extra fingers or merged palms.",
+          "references": [
+            "batch-aa-preview/aa4-reference.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-99e6848e-b6a5-4b79-9bf2-d1335407787b.png"
+        }
+      ],
+      "selected_source": "held-aa4.png"
+    }
+  },
+  "cells": {
+    "thief-dagger-rest": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        175,
+        204
+      ],
+      "source_object_bounds": [
+        124,
+        82,
+        212,
+        250
+      ]
+    },
+    "thief-dagger-drawback": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        207,
+        204
+      ],
+      "source_object_bounds": [
+        154,
+        82,
+        248,
+        255
+      ]
+    },
+    "thief-dagger-windup": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        229,
+        204
+      ],
+      "source_object_bounds": [
+        170,
+        84,
+        302,
+        255
+      ]
+    },
+    "thief-dagger-strike": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        174,
+        209
+      ],
+      "source_object_bounds": [
+        119,
+        85,
+        204,
+        263
+      ]
+    },
+    "thief-dagger-cut": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        202,
+        210
+      ],
+      "source_object_bounds": [
+        82,
+        137,
+        245,
+        275
+      ]
+    },
+    "thief-dagger-sweep": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        204,
+        209
+      ],
+      "source_object_bounds": [
+        72,
+        162,
+        242,
+        254
+      ]
+    },
+    "thief-dagger-through": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_grip": [
+        199,
+        180
+      ],
+      "source_object_bounds": [
+        92,
+        137,
+        255,
+        242
+      ]
+    },
+    "thief-dagger-recover": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        197,
+        172
+      ],
+      "source_object_bounds": [
+        101,
+        95,
+        248,
+        232
+      ]
+    },
+    "thief-dagger-return": {
+      "sheet": "aa1",
+      "cls": "thief",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        196,
+        189
+      ],
+      "source_object_bounds": [
+        131,
+        70,
+        241,
+        265
+      ]
+    },
+    "fighter-battleaxe-rest": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        194,
+        238
+      ],
+      "source_object_bounds": [
+        73,
+        35,
+        214,
+        286
+      ]
+    },
+    "fighter-battleaxe-drawback": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        207,
+        239
+      ],
+      "source_object_bounds": [
+        130,
+        32,
+        316,
+        286
+      ]
+    },
+    "fighter-battleaxe-windup": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        224,
+        241
+      ],
+      "source_object_bounds": [
+        180,
+        46,
+        337,
+        287
+      ]
+    },
+    "fighter-battleaxe-strike": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        196,
+        228
+      ],
+      "source_object_bounds": [
+        56,
+        24,
+        216,
+        267
+      ]
+    },
+    "fighter-battleaxe-cut": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        205,
+        232
+      ],
+      "source_object_bounds": [
+        12,
+        130,
+        248,
+        291
+      ]
+    },
+    "fighter-battleaxe-sweep": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        208,
+        220
+      ],
+      "source_object_bounds": [
+        10,
+        163,
+        241,
+        292
+      ]
+    },
+    "fighter-battleaxe-through": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_grip": [
+        198,
+        186
+      ],
+      "source_object_bounds": [
+        30,
+        145,
+        235,
+        321
+      ]
+    },
+    "fighter-battleaxe-recover": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        211,
+        190
+      ],
+      "source_object_bounds": [
+        26,
+        77,
+        248,
+        244
+      ]
+    },
+    "fighter-battleaxe-return": {
+      "sheet": "aa2",
+      "cls": "fighter",
+      "id": "battleaxe",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        218,
+        218
+      ],
+      "source_object_bounds": [
+        46,
+        11,
+        267,
+        262
+      ]
+    },
+    "cleric-hammer-rest": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        0,
+        418,
+        425
+      ],
+      "source_grip": [
+        181,
+        219
+      ],
+      "source_object_bounds": [
+        77,
+        40,
+        211,
+        264
+      ]
+    },
+    "cleric-hammer-drawback": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        0,
+        836,
+        425
+      ],
+      "source_grip": [
+        208,
+        217
+      ],
+      "source_object_bounds": [
+        128,
+        38,
+        261,
+        260
+      ]
+    },
+    "cleric-hammer-windup": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        425
+      ],
+      "source_grip": [
+        226,
+        218
+      ],
+      "source_object_bounds": [
+        168,
+        56,
+        336,
+        261
+      ]
+    },
+    "cleric-hammer-strike": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        425,
+        418,
+        818
+      ],
+      "source_grip": [
+        182,
+        206
+      ],
+      "source_object_bounds": [
+        67,
+        8,
+        212,
+        254
+      ]
+    },
+    "cleric-hammer-cut": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        425,
+        836,
+        818
+      ],
+      "source_grip": [
+        195,
+        208
+      ],
+      "source_object_bounds": [
+        27,
+        74,
+        239,
+        261
+      ]
+    },
+    "cleric-hammer-sweep": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        425,
+        1254,
+        818
+      ],
+      "source_grip": [
+        198,
+        205
+      ],
+      "source_object_bounds": [
+        8,
+        135,
+        240,
+        250
+      ]
+    },
+    "cleric-hammer-through": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        818,
+        418,
+        1254
+      ],
+      "source_grip": [
+        192,
+        193
+      ],
+      "source_object_bounds": [
+        17,
+        112,
+        234,
+        265
+      ]
+    },
+    "cleric-hammer-recover": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        818,
+        836,
+        1254
+      ],
+      "source_grip": [
+        199,
+        196
+      ],
+      "source_object_bounds": [
+        29,
+        32,
+        242,
+        254
+      ]
+    },
+    "cleric-hammer-return": {
+      "sheet": "aa3",
+      "cls": "cleric",
+      "id": "hammer",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        818,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        215,
+        202
+      ],
+      "source_object_bounds": [
+        40,
+        7,
+        246,
+        261
+      ]
+    },
+    "fighter-greatsword-rest": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "rest",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        194,
+        228
+      ],
+      "source_object_bounds": [
+        125,
+        31,
+        245,
+        310
+      ]
+    },
+    "fighter-greatsword-drawback": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "drawback",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        206,
+        231
+      ],
+      "source_object_bounds": [
+        149,
+        30,
+        271,
+        313
+      ]
+    },
+    "fighter-greatsword-windup": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "windup",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        253,
+        218
+      ],
+      "source_object_bounds": [
+        207,
+        35,
+        371,
+        295
+      ]
+    },
+    "fighter-greatsword-strike": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "strike",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        200,
+        203
+      ],
+      "source_object_bounds": [
+        130,
+        13,
+        254,
+        286
+      ]
+    },
+    "fighter-greatsword-cut": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "cut",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        209,
+        157
+      ],
+      "source_object_bounds": [
+        23,
+        66,
+        274,
+        224
+      ]
+    },
+    "fighter-greatsword-sweep": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "sweep",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_grip": [
+        227,
+        157
+      ],
+      "source_object_bounds": [
+        10,
+        96,
+        280,
+        229
+      ]
+    },
+    "fighter-greatsword-through": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "through",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_grip": [
+        233,
+        148
+      ],
+      "source_object_bounds": [
+        20,
+        102,
+        291,
+        229
+      ]
+    },
+    "fighter-greatsword-recover": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "recover",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        225,
+        107
+      ],
+      "source_object_bounds": [
+        32,
+        13,
+        289,
+        174
+      ]
+    },
+    "fighter-greatsword-return": {
+      "sheet": "aa4",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "return",
+      "two": true,
+      "object_height_limit": 128,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        197,
+        187
+      ],
+      "source_object_bounds": [
+        94,
+        14,
+        261,
+        278
+      ]
+    }
+  },
+  "source_scope": "AA first production tranche: four exact class/item pairs; remaining AA weapons and class/named variants stay open.",
+  "initial_parallel_attempt": {
+    "groups": [
+      "aa1",
+      "aa2",
+      "aa3",
+      "aa4"
+    ],
+    "outcome": "aa2 completed; Promise.all exited on an input moderation rejection before remaining per-group results were available; other outcomes not reported",
+    "request_id": "b42b1f80-60c7-4d8b-beff-933f720609d5",
+    "reason": "input violence classification on benign equipment display request; no rejected image produced"
+  },
+  "source_spacing_notes": [
+    "Approximate nominal 3x3 grids: hammer row boundaries425/818 retain complete ivory sleeves and return head. Sword right-column row boundary800 retains return tip and sweep sleeve. Dagger lower-row first-column boundary430 retains through sleeve. All other boundaries418/836.",
+    "Source 8 percent padding target is not met by every pose; originals and all image-tool repairs retained. Registered alpha>32 clearance must be>=12px. No alpha masking or source pixel repair by script.",
+    "Selected sources retain small coloured/pale edge flecks. Hammer final edge repair removes the conspicuous disconnected white patches; original and intermediate sheets are rejected for delivery. Review final downsampled exports on dark/light/brown backgrounds.",
+    "Sword first refinement flattens rest/drawback angles; native-only alternative has white blade-edge fragments. Original selected for distinct reference angles and two attached grip hands; residual fringe documented."
+  ],
+  "review": {
+    "report": "batch-aa-preview/REVIEW.md",
+    "frames": 36,
+    "captures": 120,
+    "galleries": 8,
+    "fitting_cases": 360,
+    "painted_fitting_cases": 318,
+    "procedural_visual_control_cases": 42,
+    "direct_identity_guards_per_width": 10,
+    "baseline_browser_tests": 12,
+    "baseline_browser_result": "pass:phone/small,33.1s",
+    "console_errors": [],
+    "scope": "Frozen exact source proxy; not native equip/action/offline/performance delivery. First AA production tranche only."
+  }
+}

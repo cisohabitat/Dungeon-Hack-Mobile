@@ -1,0 +1,1378 @@
+{
+  "family_scale": {
+    "aa1": 0.3282051282051282,
+    "aa2": 0.5039370078740157,
+    "aa3": 0.4409448818897638,
+    "aa4": 0.45229681978798586
+  },
+  "cells": {
+    "thief-dagger-rest": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        127,
+        84,
+        360,
+        378
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        71,
+        61
+      ],
+      "grip": [
+        128.43589743589743,
+        127.95384615384616
+      ],
+      "object_bounds": [
+        111.6974358974359,
+        87.91282051282052,
+        140.57948717948716,
+        143.05128205128204
+      ],
+      "visible_bounds": [
+        112,
+        88,
+        189,
+        185
+      ],
+      "export_sha256": "8e687a4946a169bf065fca9af2fe9f44cead148ca7483f5967aa4f7db41e9b9f"
+    },
+    "thief-dagger-drawback": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        155,
+        84,
+        362,
+        388
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        60,
+        61
+      ],
+      "grip": [
+        127.93846153846154,
+        127.95384615384616
+      ],
+      "object_bounds": [
+        110.54358974358973,
+        87.91282051282052,
+        141.3948717948718,
+        144.69230769230768
+      ],
+      "visible_bounds": [
+        111,
+        88,
+        179,
+        189
+      ],
+      "export_sha256": "68ac1a049facf9f59aa3123c6885669d430c5a720226de2870aa18312fe9b8a3"
+    },
+    "thief-dagger-windup": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        171,
+        89,
+        368,
+        393
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        53,
+        61
+      ],
+      "grip": [
+        128.15897435897438,
+        127.95384615384616
+      ],
+      "object_bounds": [
+        108.7948717948718,
+        88.56923076923077,
+        152.1179487179487,
+        144.69230769230768
+      ],
+      "visible_bounds": [
+        109,
+        90,
+        174,
+        190
+      ],
+      "export_sha256": "f8f84bd1994fad3de3208a864e81cb55c813f000a9b28f89c58eec1049716b94"
+    },
+    "thief-dagger-strike": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        120,
+        88,
+        365,
+        380
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        71,
+        59
+      ],
+      "grip": [
+        128.1076923076923,
+        127.59487179487179
+      ],
+      "object_bounds": [
+        110.05641025641026,
+        86.8974358974359,
+        137.95384615384614,
+        145.31794871794872
+      ],
+      "visible_bounds": [
+        110,
+        88,
+        191,
+        184
+      ],
+      "export_sha256": "ae6580a7dd6aee57b2aa079acb537bdd6371c1d226a4c92762b04ce57c3b5779"
+    },
+    "thief-dagger-cut": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        85,
+        140,
+        399,
+        356
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        62,
+        59
+      ],
+      "grip": [
+        128.2974358974359,
+        127.92307692307692
+      ],
+      "object_bounds": [
+        88.91282051282052,
+        103.96410256410256,
+        142.4102564102564,
+        149.25641025641028
+      ],
+      "visible_bounds": [
+        90,
+        105,
+        193,
+        176
+      ],
+      "export_sha256": "370663cc76bba6ed0eebeb6cc3927fdbd464735bc7c6f6bd0615493bf163ddf9"
+    },
+    "thief-dagger-sweep": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        74,
+        163,
+        393,
+        354
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        61,
+        59
+      ],
+      "grip": [
+        127.95384615384616,
+        127.59487179487179
+      ],
+      "object_bounds": [
+        84.63076923076923,
+        112.16923076923078,
+        140.42564102564103,
+        142.36410256410255
+      ],
+      "visible_bounds": [
+        85,
+        112,
+        190,
+        175
+      ],
+      "export_sha256": "6cd7f86658b83d6a3f32d0246c49538ff608d3fe474e5881297976c0e45d1a7a"
+    },
+    "thief-dagger-through": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_visible_bounds": [
+        94,
+        140,
+        417,
+        329
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        63,
+        69
+      ],
+      "grip": [
+        128.3128205128205,
+        128.0769230769231
+      ],
+      "object_bounds": [
+        93.1948717948718,
+        113.96410256410256,
+        146.69230769230768,
+        148.42564102564103
+      ],
+      "visible_bounds": [
+        94,
+        115,
+        200,
+        177
+      ],
+      "export_sha256": "58604d0a77d868f7774856f0d014d81744c0272311d1deee7ea173bbd3cacaff"
+    },
+    "thief-dagger-recover": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        103,
+        98,
+        387,
+        356
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        63,
+        72
+      ],
+      "grip": [
+        127.65641025641025,
+        128.45128205128205
+      ],
+      "object_bounds": [
+        96.14871794871794,
+        103.17948717948718,
+        144.3948717948718,
+        148.14358974358976
+      ],
+      "visible_bounds": [
+        97,
+        104,
+        190,
+        189
+      ],
+      "export_sha256": "7f4f3a82cb0de5bdc8490828196159730d20b8aa7221f18b821c1adcd5a21bc5"
+    },
+    "thief-dagger-return": {
+      "source": "held-aa1-refined.png",
+      "source_sha256": "8b47b4c8b6f77623906a87ed5caf9aa93e4f35b4529dca9522657a13f394b507",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        134,
+        72,
+        376,
+        361
+      ],
+      "scale": 0.3282051282051282,
+      "offset": [
+        64,
+        66
+      ],
+      "grip": [
+        128.32820512820513,
+        128.03076923076924
+      ],
+      "object_bounds": [
+        106.99487179487178,
+        88.97435897435898,
+        143.0974358974359,
+        152.97435897435898
+      ],
+      "visible_bounds": [
+        108,
+        90,
+        187,
+        185
+      ],
+      "export_sha256": "5e86b27df0948ad0724176fe91ea83895a8325ce3ea6a32f338670ef1df34359"
+    },
+    "fighter-battleaxe-rest": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        76,
+        38,
+        351,
+        389
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        30,
+        8
+      ],
+      "grip": [
+        127.76377952755905,
+        127.93700787401575
+      ],
+      "object_bounds": [
+        66.78740157480314,
+        25.637795275590552,
+        137.84251968503935,
+        152.1259842519685
+      ],
+      "visible_bounds": [
+        68,
+        27,
+        207,
+        205
+      ],
+      "export_sha256": "044c934a305ca3f2bde897b5046f6bd5b77195cbe5bc542888a4434edf46be51"
+    },
+    "fighter-battleaxe-drawback": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        133,
+        35,
+        313,
+        400
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        24,
+        8
+      ],
+      "grip": [
+        128.31496062992125,
+        128.44094488188978
+      ],
+      "object_bounds": [
+        89.51181102362204,
+        24.125984251968504,
+        183.24409448818898,
+        152.1259842519685
+      ],
+      "visible_bounds": [
+        91,
+        25,
+        182,
+        210
+      ],
+      "export_sha256": "7e09763b5d8b45f67b78960854bb64ad1090f00b53be168f2645ea91bf799692"
+    },
+    "fighter-battleaxe-windup": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        183,
+        49,
+        334,
+        400
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        15,
+        7
+      ],
+      "grip": [
+        127.88188976377953,
+        128.4488188976378
+      ],
+      "object_bounds": [
+        105.70866141732283,
+        30.181102362204726,
+        184.82677165354332,
+        151.62992125984252
+      ],
+      "visible_bounds": [
+        107,
+        31,
+        184,
+        209
+      ],
+      "export_sha256": "398afb88370712e901fa3e03ab51a629a3559889314d84ec5dc71a46f48da20b"
+    },
+    "fighter-battleaxe-strike": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        59,
+        27,
+        347,
+        375
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        29,
+        13
+      ],
+      "grip": [
+        127.77165354330708,
+        127.89763779527559
+      ],
+      "object_bounds": [
+        57.22047244094488,
+        25.094488188976378,
+        137.8503937007874,
+        147.5511811023622
+      ],
+      "visible_bounds": [
+        59,
+        27,
+        204,
+        203
+      ],
+      "export_sha256": "1d8eba49d817130cefb56859d91e0b9689ce3b4570841cc8b2ae57e76d08ae37"
+    },
+    "fighter-battleaxe-cut": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        15,
+        133,
+        387,
+        330
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        25,
+        11
+      ],
+      "grip": [
+        128.30708661417322,
+        127.91338582677164
+      ],
+      "object_bounds": [
+        31.04724409448819,
+        76.51181102362204,
+        149.9763779527559,
+        157.64566929133858
+      ],
+      "visible_bounds": [
+        32,
+        78,
+        221,
+        178
+      ],
+      "export_sha256": "00cea342e25a604134bceaf1aa1360544c8aa0f89fc13bff2c2c28697dcde293"
+    },
+    "fighter-battleaxe-sweep": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        13,
+        166,
+        394,
+        298
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        23,
+        17
+      ],
+      "grip": [
+        127.81889763779527,
+        127.86614173228347
+      ],
+      "object_bounds": [
+        28.039370078740156,
+        99.14173228346456,
+        144.4488188976378,
+        164.1496062992126
+      ],
+      "visible_bounds": [
+        30,
+        101,
+        222,
+        168
+      ],
+      "export_sha256": "b35392c48f88b81132d0a24e3616b958b58a8e346367b3a51fe8943758753f94"
+    },
+    "fighter-battleaxe-through": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_visible_bounds": [
+        33,
+        147,
+        410,
+        318
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        28,
+        34
+      ],
+      "grip": [
+        127.77952755905511,
+        127.73228346456693
+      ],
+      "object_bounds": [
+        43.118110236220474,
+        107.07086614173228,
+        146.42519685039372,
+        195.76377952755905
+      ],
+      "visible_bounds": [
+        45,
+        108,
+        235,
+        195
+      ],
+      "export_sha256": "a003cf553becaa836e130ec3e5b0055bd771f57444e2f312068c54d69492293c"
+    },
+    "fighter-battleaxe-recover": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        29,
+        81,
+        388,
+        348
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        22,
+        32
+      ],
+      "grip": [
+        128.3307086614173,
+        127.74803149606299
+      ],
+      "object_bounds": [
+        35.10236220472441,
+        70.80314960629921,
+        146.9763779527559,
+        154.96062992125985
+      ],
+      "visible_bounds": [
+        36,
+        73,
+        218,
+        208
+      ],
+      "export_sha256": "45c28a2c8ddaa35ac2fd6096f52f260fe01dd0db98ae74306d069b476abda8c2"
+    },
+    "fighter-battleaxe-return": {
+      "source": "held-aa2-refined.png",
+      "source_sha256": "94adf91c78a9a27f19cab34633766b153bbcdbeeb5e10ab3de1cbeaea940327a",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        49,
+        14,
+        373,
+        359
+      ],
+      "scale": 0.5039370078740157,
+      "offset": [
+        18,
+        18
+      ],
+      "grip": [
+        127.85826771653544,
+        127.85826771653544
+      ],
+      "object_bounds": [
+        41.181102362204726,
+        23.543307086614174,
+        152.5511811023622,
+        150.03149606299212
+      ],
+      "visible_bounds": [
+        43,
+        25,
+        207,
+        200
+      ],
+      "export_sha256": "28437f0f0c980a13a1925869bdcf118807f919a666216880bf95d28a41ad81c4"
+    },
+    "cleric-hammer-rest": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        0,
+        0,
+        418,
+        425
+      ],
+      "source_visible_bounds": [
+        80,
+        43,
+        357,
+        409
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        48,
+        31
+      ],
+      "grip": [
+        127.81102362204724,
+        127.56692913385827
+      ],
+      "object_bounds": [
+        81.95275590551181,
+        48.63779527559055,
+        141.03937007874015,
+        147.40944881889763
+      ],
+      "visible_bounds": [
+        83,
+        50,
+        205,
+        211
+      ],
+      "export_sha256": "ce6372b01e092c280b8ae808663f3eabc1689dc75fc3427b5ca12f5ee267962a"
+    },
+    "cleric-hammer-drawback": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        418,
+        0,
+        836,
+        425
+      ],
+      "source_visible_bounds": [
+        131,
+        41,
+        322,
+        419
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        36,
+        32
+      ],
+      "grip": [
+        127.71653543307086,
+        127.68503937007874
+      ],
+      "object_bounds": [
+        92.44094488188976,
+        48.75590551181102,
+        151.08661417322833,
+        146.64566929133858
+      ],
+      "visible_bounds": [
+        93,
+        50,
+        178,
+        216
+      ],
+      "export_sha256": "f62fbbf786eac9af1f06b454cd5423e1351648f8b75952edc5a682e9514bb9fd"
+    },
+    "cleric-hammer-windup": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        425
+      ],
+      "source_visible_bounds": [
+        171,
+        59,
+        332,
+        419
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        28,
+        32
+      ],
+      "grip": [
+        127.65354330708661,
+        128.1259842519685
+      ],
+      "object_bounds": [
+        102.07874015748031,
+        56.69291338582677,
+        176.15748031496062,
+        147.08661417322833
+      ],
+      "visible_bounds": [
+        103,
+        58,
+        174,
+        217
+      ],
+      "export_sha256": "b064289a7d73e0e6862e96709f4dc35167d8bfb768d9dd091ddc9a50d22131b4"
+    },
+    "cleric-hammer-strike": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        0,
+        425,
+        418,
+        818
+      ],
+      "source_visible_bounds": [
+        70,
+        11,
+        358,
+        382
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        48,
+        37
+      ],
+      "grip": [
+        128.251968503937,
+        127.83464566929133
+      ],
+      "object_bounds": [
+        77.54330708661418,
+        40.52755905511811,
+        141.48031496062993,
+        149.0
+      ],
+      "visible_bounds": [
+        79,
+        42,
+        206,
+        206
+      ],
+      "export_sha256": "fcc2e665055540f821b7994469f345c182afee5fe99c777d231e59c961f086af"
+    },
+    "cleric-hammer-cut": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        418,
+        425,
+        836,
+        818
+      ],
+      "source_visible_bounds": [
+        30,
+        77,
+        396,
+        322
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        42,
+        36
+      ],
+      "grip": [
+        127.98425196850394,
+        127.71653543307086
+      ],
+      "object_bounds": [
+        53.90551181102362,
+        68.62992125984252,
+        147.38582677165354,
+        151.08661417322833
+      ],
+      "visible_bounds": [
+        55,
+        70,
+        217,
+        178
+      ],
+      "export_sha256": "ddc6af81f06241affa9401e71c7550d303313c71fd8713072a17b8f40f2f18a9"
+    },
+    "cleric-hammer-sweep": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        836,
+        425,
+        1254,
+        818
+      ],
+      "source_visible_bounds": [
+        11,
+        138,
+        399,
+        309
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        41,
+        38
+      ],
+      "grip": [
+        128.30708661417322,
+        128.39370078740157
+      ],
+      "object_bounds": [
+        44.52755905511811,
+        97.5275590551181,
+        146.8267716535433,
+        148.23622047244095
+      ],
+      "visible_bounds": [
+        45,
+        99,
+        217,
+        174
+      ],
+      "export_sha256": "799ddfc71e1bee0ebefba542dfcda2196641f804c66fe1b55bbd921ba8d07ecc"
+    },
+    "cleric-hammer-through": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        0,
+        818,
+        418,
+        1254
+      ],
+      "source_visible_bounds": [
+        20,
+        115,
+        414,
+        300
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        43,
+        43
+      ],
+      "grip": [
+        127.66141732283464,
+        128.10236220472441
+      ],
+      "object_bounds": [
+        50.496062992125985,
+        92.38582677165354,
+        146.18110236220474,
+        159.85039370078738
+      ],
+      "visible_bounds": [
+        52,
+        93,
+        226,
+        175
+      ],
+      "export_sha256": "7ab0a4301a482ad7835f505dfa138a75c7b4c0d53e117e888bdab5fbc5123c13"
+    },
+    "cleric-hammer-recover": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        418,
+        818,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        32,
+        35,
+        378,
+        347
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        40,
+        42
+      ],
+      "grip": [
+        127.74803149606299,
+        128.42519685039372
+      ],
+      "object_bounds": [
+        52.78740157480315,
+        56.110236220472444,
+        146.70866141732284,
+        154.0
+      ],
+      "visible_bounds": [
+        54,
+        57,
+        206,
+        195
+      ],
+      "export_sha256": "c4f907109900ca2fc4bbef1f62a8d421f825f717ab42608bfe36bbd3500b05fe"
+    },
+    "cleric-hammer-return": {
+      "source": "held-aa3-edges.png",
+      "source_sha256": "d4311970559a092dafca1072d196813a990ecab50d5f94d770cd868c3eecb1ac",
+      "source_rect": [
+        836,
+        818,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        43,
+        10,
+        370,
+        365
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        33,
+        39
+      ],
+      "grip": [
+        127.80314960629921,
+        128.07086614173227
+      ],
+      "object_bounds": [
+        50.63779527559055,
+        42.08661417322835,
+        141.4724409448819,
+        154.08661417322833
+      ],
+      "visible_bounds": [
+        52,
+        43,
+        196,
+        200
+      ],
+      "export_sha256": "a55af658cb2905b0ac70267e4f49565b45e42b73d5ee132a41de34b88e34af3f"
+    },
+    "fighter-greatsword-rest": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        84,
+        34,
+        352,
+        408
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        40,
+        25
+      ],
+      "grip": [
+        127.74558303886926,
+        128.12367491166077
+      ],
+      "object_bounds": [
+        96.53710247349824,
+        39.02120141342756,
+        150.81272084805653,
+        165.21201413427562
+      ],
+      "visible_bounds": [
+        78,
+        40,
+        199,
+        210
+      ],
+      "export_sha256": "eee85f2863c3febe2cf79ac841401eca9852c46397e5444612115ca09d670b8c"
+    },
+    "fighter-greatsword-drawback": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        75,
+        33,
+        344,
+        408
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        35,
+        24
+      ],
+      "grip": [
+        128.17314487632507,
+        128.48056537102474
+      ],
+      "object_bounds": [
+        102.39222614840989,
+        37.56890459363957,
+        157.5724381625442,
+        165.5689045936396
+      ],
+      "visible_bounds": [
+        69,
+        39,
+        191,
+        209
+      ],
+      "export_sha256": "8d99144139810ebecfb93093d502713e6ce4279cdd887f4352dc4eaa263e7349"
+    },
+    "fighter-greatsword-windup": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        56,
+        38,
+        368,
+        409
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        14,
+        29
+      ],
+      "grip": [
+        128.43109540636044,
+        127.60070671378092
+      ],
+      "object_bounds": [
+        107.62544169611307,
+        44.830388692579504,
+        181.80212014134275,
+        162.42756183745584
+      ],
+      "visible_bounds": [
+        39,
+        46,
+        181,
+        214
+      ],
+      "export_sha256": "ec5390832336e14139bce53a70dc221f73f1c61d1be737cf9242057eb8595f25"
+    },
+    "fighter-greatsword-strike": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        105,
+        16,
+        356,
+        385
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        38,
+        36
+      ],
+      "grip": [
+        128.4593639575972,
+        127.81625441696113
+      ],
+      "object_bounds": [
+        96.79858657243815,
+        41.879858657243815,
+        152.8833922261484,
+        165.35689045936397
+      ],
+      "visible_bounds": [
+        85,
+        43,
+        199,
+        210
+      ],
+      "export_sha256": "1287ed39e66c364a04cf989a290b5dca9904cef9d680ffa40fc7eb5014a97b78"
+    },
+    "fighter-greatsword-cut": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        26,
+        69,
+        394,
+        357
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        33,
+        57
+      ],
+      "grip": [
+        127.53003533568905,
+        128.01060070671377
+      ],
+      "object_bounds": [
+        43.40282685512368,
+        86.85159010600707,
+        156.92932862190813,
+        158.31448763250881
+      ],
+      "visible_bounds": [
+        44,
+        88,
+        211,
+        219
+      ],
+      "export_sha256": "cf862b3fe9289679364d1d9cd4a4905d53eb2a671d7e37e066c39101b2d4a285"
+    },
+    "fighter-greatsword-sweep": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        13,
+        99,
+        396,
+        366
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        25,
+        57
+      ],
+      "grip": [
+        127.6713780918728,
+        128.01060070671377
+      ],
+      "object_bounds": [
+        29.52296819787986,
+        100.42049469964664,
+        151.64310954063603,
+        160.57597173144876
+      ],
+      "visible_bounds": [
+        31,
+        102,
+        204,
+        223
+      ],
+      "export_sha256": "5c00e1af4c2468bd45b4ed6436c3896bb7f397a474e6a013e768f2254008c8c5"
+    },
+    "fighter-greatsword-through": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_visible_bounds": [
+        23,
+        105,
+        413,
+        351
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        23,
+        61
+      ],
+      "grip": [
+        128.38515901060072,
+        127.9399293286219
+      ],
+      "object_bounds": [
+        32.04593639575972,
+        107.13427561837456,
+        154.61837455830388,
+        164.57597173144876
+      ],
+      "visible_bounds": [
+        33,
+        108,
+        210,
+        220
+      ],
+      "export_sha256": "6c491fff4ec0859e8a3ff1fefe51c2fae36284ae1c91ad5f1c90dc5642ea94e1"
+    },
+    "fighter-greatsword-recover": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        35,
+        16,
+        408,
+        349
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        26,
+        80
+      ],
+      "grip": [
+        127.76678445229682,
+        128.3957597173145
+      ],
+      "object_bounds": [
+        40.47349823321555,
+        85.87985865724382,
+        156.7137809187279,
+        158.69964664310953
+      ],
+      "visible_bounds": [
+        42,
+        87,
+        211,
+        238
+      ],
+      "export_sha256": "99ab8eeb24a83f834f1eaf1334b9c48facea1b7e9a6487034871b9fd4093f839"
+    },
+    "fighter-greatsword-return": {
+      "source": "held-aa4.png",
+      "source_sha256": "82e46a15992c69b51e1ac205af556b7ff321f478a16eeccfc7a3c694d43cdfa0",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        97,
+        17,
+        384,
+        388
+      ],
+      "scale": 0.45229681978798586,
+      "offset": [
+        39,
+        43
+      ],
+      "grip": [
+        128.10247349823322,
+        127.57950530035336
+      ],
+      "object_bounds": [
+        81.51590106007066,
+        49.332155477031804,
+        157.0494699646643,
+        168.73851590106005
+      ],
+      "visible_bounds": [
+        83,
+        51,
+        213,
+        218
+      ],
+      "export_sha256": "b2cc716c9c141faccd8e5e0b6bcd39ab848ec85fa0933d078877dad235e4e23d"
+    }
+  }
+}

@@ -472,6 +472,1039 @@ export const PAINTED = {
           66.1264367816092
         ]
       }
+    },
+    "cleric-mace-rest": {
+      "path": "img/held/cleric-mace-rest.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        128.1818181818182,
+        127.91866028708135
+      ],
+      "bounds": [
+        87.8755980861244,
+        39.55502392344498,
+        147.8181818181818,
+        151.17224880382776
+      ]
+    },
+    "cleric-mace-drawback": {
+      "path": "img/held/cleric-mace-drawback.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        127.9665071770335,
+        128.01913875598086
+      ],
+      "bounds": [
+        106.7799043062201,
+        38.10526315789474,
+        146.05263157894737,
+        151.27272727272728
+      ]
+    },
+    "cleric-mace-windup": {
+      "path": "img/held/cleric-mace-windup.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        128.0334928229665,
+        127.88516746411484
+      ],
+      "bounds": [
+        109.43062200956939,
+        38.48803827751196,
+        189.5263157894737,
+        149.07177033492823
+      ]
+    },
+    "cleric-mace-strike": {
+      "path": "img/held/cleric-mace-strike.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        128.16267942583733,
+        128.23444976076556
+      ],
+      "bounds": [
+        88.3732057416268,
+        47.622009569377994,
+        149.34928229665073,
+        145.80382775119617
+      ]
+    },
+    "cleric-mace-cut": {
+      "path": "img/held/cleric-mace-cut.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        127.51674641148325,
+        128.3684210526316
+      ],
+      "bounds": [
+        44.32057416267943,
+        81.86124401913877,
+        148.70334928229667,
+        146.45454545454547
+      ]
+    },
+    "cleric-mace-sweep": {
+      "path": "img/held/cleric-mace-sweep.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        128.44976076555025,
+        128.4354066985646
+      ],
+      "bounds": [
+        42.66985645933015,
+        101.04784688995215,
+        153.25358851674642,
+        144.9712918660287
+      ]
+    },
+    "cleric-mace-through": {
+      "path": "img/held/cleric-mace-through.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        128.48325358851676,
+        127.933014354067
+      ],
+      "bounds": [
+        50.97129186602871,
+        110.36363636363637,
+        152.25358851674642,
+        174.44019138755982
+      ]
+    },
+    "cleric-mace-recover": {
+      "path": "img/held/cleric-mace-recover.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        127.78468899521532,
+        128.14832535885168
+      ],
+      "bounds": [
+        49.75598086124402,
+        68.20574162679426,
+        146.9043062200957,
+        147.78468899521533
+      ]
+    },
+    "cleric-mace-return": {
+      "path": "img/held/cleric-mace-return.png",
+      "id": "mace",
+      "cls": "cleric",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        128.16746411483254,
+        128.14832535885168
+      ],
+      "bounds": [
+        60.473684210526315,
+        56.32057416267943,
+        152.45454545454547,
+        150.3684210526316
+      ]
+    },
+    "thief-shortsword-rest": {
+      "path": "img/held/thief-shortsword-rest.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        127.94782608695652,
+        127.57391304347826
+      ],
+      "bounds": [
+        86.62608695652173,
+        37.41739130434783,
+        144.8521739130435,
+        149.64347826086956
+      ]
+    },
+    "thief-shortsword-drawback": {
+      "path": "img/held/thief-shortsword-drawback.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        127.85217391304349,
+        127.8
+      ],
+      "bounds": [
+        97.8,
+        37.173913043478265,
+        147.57391304347826,
+        150.80869565217392
+      ]
+    },
+    "thief-shortsword-windup": {
+      "path": "img/held/thief-shortsword-windup.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        128.42608695652174,
+        127.67826086956522
+      ],
+      "bounds": [
+        112.9304347826087,
+        35.643478260869564,
+        195.10434782608695,
+        147.4
+      ]
+    },
+    "thief-shortsword-strike": {
+      "path": "img/held/thief-shortsword-strike.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        128.17391304347825,
+        128.18260869565216
+      ],
+      "bounds": [
+        84.50434782608696,
+        37.08695652173913,
+        146.95652173913044,
+        153.5391304347826
+      ]
+    },
+    "thief-shortsword-cut": {
+      "path": "img/held/thief-shortsword-cut.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        128.26086956521738,
+        127.65217391304348
+      ],
+      "bounds": [
+        46.08695652173913,
+        81.63478260869564,
+        151.2695652173913,
+        147.84347826086957
+      ]
+    },
+    "thief-shortsword-sweep": {
+      "path": "img/held/thief-shortsword-sweep.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        127.71304347826087,
+        127.65217391304348
+      ],
+      "bounds": [
+        36.61739130434783,
+        102.76521739130435,
+        153.5391304347826,
+        153.94782608695652
+      ]
+    },
+    "thief-shortsword-through": {
+      "path": "img/held/thief-shortsword-through.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        128.24347826086955,
+        128.48695652173913
+      ],
+      "bounds": [
+        47.00869565217391,
+        110.64347826086957,
+        159.70434782608697,
+        175.91304347826087
+      ]
+    },
+    "thief-shortsword-recover": {
+      "path": "img/held/thief-shortsword-recover.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        127.50434782608696,
+        127.99130434782609
+      ],
+      "bounds": [
+        42.04347826086956,
+        73.05217391304348,
+        150.98260869565217,
+        150.5304347826087
+      ]
+    },
+    "thief-shortsword-return": {
+      "path": "img/held/thief-shortsword-return.png",
+      "id": "shortsword",
+      "cls": "thief",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        128.38260869565218,
+        128.15652173913043
+      ],
+      "bounds": [
+        80.95652173913044,
+        50.208695652173915,
+        157.49565217391304,
+        151.16521739130434
+      ]
+    },
+    "ranger-shortbow-rest": {
+      "path": "img/held/ranger-shortbow-rest.png",
+      "id": "shortbow",
+      "cls": "ranger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        127.57536466774717,
+        127.72447325769855
+      ],
+      "bounds": [
+        114.73905996758509,
+        72.99189627228525,
+        144.33387358184763,
+        181.92220421393841
+      ],
+      "nocks": {
+        "top": [
+          139.3419773095624,
+          176.7520259319287
+        ],
+        "bot": [
+          135.77633711507292,
+          75.84440842787683
+        ]
+      }
+    },
+    "ranger-shortbow-bowdraw": {
+      "path": "img/held/ranger-shortbow-bowdraw.png",
+      "id": "shortbow",
+      "cls": "ranger",
+      "pose": "bowdraw",
+      "two": false,
+      "grip": [
+        128.27390599675851,
+        127.72447325769855
+      ],
+      "bounds": [
+        115.08103727714749,
+        73.17017828200973,
+        155.90761750405187,
+        182.10048622366287
+      ],
+      "nocks": {
+        "top": [
+          151.09400324149107,
+          177.1085899513776
+        ],
+        "bot": [
+          146.63695299837926,
+          75.84440842787683
+        ]
+      }
+    },
+    "ranger-shortbow-bowfull": {
+      "path": "img/held/ranger-shortbow-bowfull.png",
+      "id": "shortbow",
+      "cls": "ranger",
+      "pose": "bowfull",
+      "two": false,
+      "grip": [
+        127.75526742301459,
+        127.72447325769855
+      ],
+      "bounds": [
+        114.91896272285251,
+        73.17017828200973,
+        171.96920583468395,
+        183.17017828200972
+      ],
+      "nocks": {
+        "top": [
+          167.51215559157214,
+          178.0
+        ],
+        "bot": [
+          164.48136142625606,
+          75.84440842787683
+        ]
+      }
+    },
+    "druid-spear-rest": {
+      "path": "img/held/druid-spear-rest.png",
+      "id": "spear",
+      "cls": "druid",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        127.98795180722891,
+        127.9277108433735
+      ],
+      "bounds": [
+        106.78313253012048,
+        55.25301204819277,
+        143.02409638554218,
+        182.0963855421687
+      ]
+    },
+    "druid-spear-drive": {
+      "path": "img/held/druid-spear-drive.png",
+      "id": "spear",
+      "cls": "druid",
+      "pose": "drive",
+      "two": false,
+      "grip": [
+        128.40963855421688,
+        127.89156626506025
+      ],
+      "bounds": [
+        114.53012048192771,
+        54.63855421686747,
+        141.51807228915663,
+        182.63855421686748
+      ]
+    },
+    "thief-dagger-rest": {
+      "path": "img/held/thief-dagger-rest.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        128.43589743589743,
+        127.95384615384616
+      ],
+      "bounds": [
+        111.6974358974359,
+        87.91282051282052,
+        140.57948717948716,
+        143.05128205128204
+      ]
+    },
+    "thief-dagger-drawback": {
+      "path": "img/held/thief-dagger-drawback.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        127.93846153846154,
+        127.95384615384616
+      ],
+      "bounds": [
+        110.54358974358973,
+        87.91282051282052,
+        141.3948717948718,
+        144.69230769230768
+      ]
+    },
+    "thief-dagger-windup": {
+      "path": "img/held/thief-dagger-windup.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        128.15897435897438,
+        127.95384615384616
+      ],
+      "bounds": [
+        108.7948717948718,
+        88.56923076923077,
+        152.1179487179487,
+        144.69230769230768
+      ]
+    },
+    "thief-dagger-strike": {
+      "path": "img/held/thief-dagger-strike.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        128.1076923076923,
+        127.59487179487179
+      ],
+      "bounds": [
+        110.05641025641026,
+        86.8974358974359,
+        137.95384615384614,
+        145.31794871794872
+      ]
+    },
+    "thief-dagger-cut": {
+      "path": "img/held/thief-dagger-cut.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        128.2974358974359,
+        127.92307692307692
+      ],
+      "bounds": [
+        88.91282051282052,
+        103.96410256410256,
+        142.4102564102564,
+        149.25641025641028
+      ]
+    },
+    "thief-dagger-sweep": {
+      "path": "img/held/thief-dagger-sweep.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        127.95384615384616,
+        127.59487179487179
+      ],
+      "bounds": [
+        84.63076923076923,
+        112.16923076923078,
+        140.42564102564103,
+        142.36410256410255
+      ]
+    },
+    "thief-dagger-through": {
+      "path": "img/held/thief-dagger-through.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        128.3128205128205,
+        128.0769230769231
+      ],
+      "bounds": [
+        93.1948717948718,
+        113.96410256410256,
+        146.69230769230768,
+        148.42564102564103
+      ]
+    },
+    "thief-dagger-recover": {
+      "path": "img/held/thief-dagger-recover.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        127.65641025641025,
+        128.45128205128205
+      ],
+      "bounds": [
+        96.14871794871794,
+        103.17948717948718,
+        144.3948717948718,
+        148.14358974358976
+      ]
+    },
+    "thief-dagger-return": {
+      "path": "img/held/thief-dagger-return.png",
+      "id": "dagger",
+      "cls": "thief",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        128.32820512820513,
+        128.03076923076924
+      ],
+      "bounds": [
+        106.99487179487178,
+        88.97435897435898,
+        143.0974358974359,
+        152.97435897435898
+      ]
+    },
+    "fighter-battleaxe-rest": {
+      "path": "img/held/fighter-battleaxe-rest.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        127.76377952755905,
+        127.93700787401575
+      ],
+      "bounds": [
+        66.78740157480314,
+        25.637795275590552,
+        137.84251968503935,
+        152.1259842519685
+      ]
+    },
+    "fighter-battleaxe-drawback": {
+      "path": "img/held/fighter-battleaxe-drawback.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        128.31496062992125,
+        128.44094488188978
+      ],
+      "bounds": [
+        89.51181102362204,
+        24.125984251968504,
+        183.24409448818898,
+        152.1259842519685
+      ]
+    },
+    "fighter-battleaxe-windup": {
+      "path": "img/held/fighter-battleaxe-windup.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        127.88188976377953,
+        128.4488188976378
+      ],
+      "bounds": [
+        105.70866141732283,
+        30.181102362204726,
+        184.82677165354332,
+        151.62992125984252
+      ]
+    },
+    "fighter-battleaxe-strike": {
+      "path": "img/held/fighter-battleaxe-strike.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        127.77165354330708,
+        127.89763779527559
+      ],
+      "bounds": [
+        57.22047244094488,
+        25.094488188976378,
+        137.8503937007874,
+        147.5511811023622
+      ]
+    },
+    "fighter-battleaxe-cut": {
+      "path": "img/held/fighter-battleaxe-cut.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        128.30708661417322,
+        127.91338582677164
+      ],
+      "bounds": [
+        31.04724409448819,
+        76.51181102362204,
+        149.9763779527559,
+        157.64566929133858
+      ]
+    },
+    "fighter-battleaxe-sweep": {
+      "path": "img/held/fighter-battleaxe-sweep.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        127.81889763779527,
+        127.86614173228347
+      ],
+      "bounds": [
+        28.039370078740156,
+        99.14173228346456,
+        144.4488188976378,
+        164.1496062992126
+      ]
+    },
+    "fighter-battleaxe-through": {
+      "path": "img/held/fighter-battleaxe-through.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        127.77952755905511,
+        127.73228346456693
+      ],
+      "bounds": [
+        43.118110236220474,
+        107.07086614173228,
+        146.42519685039372,
+        195.76377952755905
+      ]
+    },
+    "fighter-battleaxe-recover": {
+      "path": "img/held/fighter-battleaxe-recover.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        128.3307086614173,
+        127.74803149606299
+      ],
+      "bounds": [
+        35.10236220472441,
+        70.80314960629921,
+        146.9763779527559,
+        154.96062992125985
+      ]
+    },
+    "fighter-battleaxe-return": {
+      "path": "img/held/fighter-battleaxe-return.png",
+      "id": "battleaxe",
+      "cls": "fighter",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        127.85826771653544,
+        127.85826771653544
+      ],
+      "bounds": [
+        41.181102362204726,
+        23.543307086614174,
+        152.5511811023622,
+        150.03149606299212
+      ]
+    },
+    "cleric-hammer-rest": {
+      "path": "img/held/cleric-hammer-rest.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        127.81102362204724,
+        127.56692913385827
+      ],
+      "bounds": [
+        81.95275590551181,
+        48.63779527559055,
+        141.03937007874015,
+        147.40944881889763
+      ]
+    },
+    "cleric-hammer-drawback": {
+      "path": "img/held/cleric-hammer-drawback.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        127.71653543307086,
+        127.68503937007874
+      ],
+      "bounds": [
+        92.44094488188976,
+        48.75590551181102,
+        151.08661417322833,
+        146.64566929133858
+      ]
+    },
+    "cleric-hammer-windup": {
+      "path": "img/held/cleric-hammer-windup.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        127.65354330708661,
+        128.1259842519685
+      ],
+      "bounds": [
+        102.07874015748031,
+        56.69291338582677,
+        176.15748031496062,
+        147.08661417322833
+      ]
+    },
+    "cleric-hammer-strike": {
+      "path": "img/held/cleric-hammer-strike.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        128.251968503937,
+        127.83464566929133
+      ],
+      "bounds": [
+        77.54330708661418,
+        40.52755905511811,
+        141.48031496062993,
+        149.0
+      ]
+    },
+    "cleric-hammer-cut": {
+      "path": "img/held/cleric-hammer-cut.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        127.98425196850394,
+        127.71653543307086
+      ],
+      "bounds": [
+        53.90551181102362,
+        68.62992125984252,
+        147.38582677165354,
+        151.08661417322833
+      ]
+    },
+    "cleric-hammer-sweep": {
+      "path": "img/held/cleric-hammer-sweep.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        128.30708661417322,
+        128.39370078740157
+      ],
+      "bounds": [
+        44.52755905511811,
+        97.5275590551181,
+        146.8267716535433,
+        148.23622047244095
+      ]
+    },
+    "cleric-hammer-through": {
+      "path": "img/held/cleric-hammer-through.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        127.66141732283464,
+        128.10236220472441
+      ],
+      "bounds": [
+        50.496062992125985,
+        92.38582677165354,
+        146.18110236220474,
+        159.85039370078738
+      ]
+    },
+    "cleric-hammer-recover": {
+      "path": "img/held/cleric-hammer-recover.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        127.74803149606299,
+        128.42519685039372
+      ],
+      "bounds": [
+        52.78740157480315,
+        56.110236220472444,
+        146.70866141732284,
+        154.0
+      ]
+    },
+    "cleric-hammer-return": {
+      "path": "img/held/cleric-hammer-return.png",
+      "id": "hammer",
+      "cls": "cleric",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        127.80314960629921,
+        128.07086614173227
+      ],
+      "bounds": [
+        50.63779527559055,
+        42.08661417322835,
+        141.4724409448819,
+        154.08661417322833
+      ]
+    },
+    "fighter-greatsword-rest": {
+      "path": "img/held/fighter-greatsword-rest.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": true,
+      "grip": [
+        127.74558303886926,
+        128.12367491166077
+      ],
+      "bounds": [
+        96.53710247349824,
+        39.02120141342756,
+        150.81272084805653,
+        165.21201413427562
+      ]
+    },
+    "fighter-greatsword-drawback": {
+      "path": "img/held/fighter-greatsword-drawback.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "drawback",
+      "two": true,
+      "grip": [
+        128.17314487632507,
+        128.48056537102474
+      ],
+      "bounds": [
+        102.39222614840989,
+        37.56890459363957,
+        157.5724381625442,
+        165.5689045936396
+      ]
+    },
+    "fighter-greatsword-windup": {
+      "path": "img/held/fighter-greatsword-windup.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "windup",
+      "two": true,
+      "grip": [
+        128.43109540636044,
+        127.60070671378092
+      ],
+      "bounds": [
+        107.62544169611307,
+        44.830388692579504,
+        181.80212014134275,
+        162.42756183745584
+      ]
+    },
+    "fighter-greatsword-strike": {
+      "path": "img/held/fighter-greatsword-strike.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "strike",
+      "two": true,
+      "grip": [
+        128.4593639575972,
+        127.81625441696113
+      ],
+      "bounds": [
+        96.79858657243815,
+        41.879858657243815,
+        152.8833922261484,
+        165.35689045936397
+      ]
+    },
+    "fighter-greatsword-cut": {
+      "path": "img/held/fighter-greatsword-cut.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "cut",
+      "two": true,
+      "grip": [
+        127.53003533568905,
+        128.01060070671377
+      ],
+      "bounds": [
+        43.40282685512368,
+        86.85159010600707,
+        156.92932862190813,
+        158.31448763250881
+      ]
+    },
+    "fighter-greatsword-sweep": {
+      "path": "img/held/fighter-greatsword-sweep.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "sweep",
+      "two": true,
+      "grip": [
+        127.6713780918728,
+        128.01060070671377
+      ],
+      "bounds": [
+        29.52296819787986,
+        100.42049469964664,
+        151.64310954063603,
+        160.57597173144876
+      ]
+    },
+    "fighter-greatsword-through": {
+      "path": "img/held/fighter-greatsword-through.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "through",
+      "two": true,
+      "grip": [
+        128.38515901060072,
+        127.9399293286219
+      ],
+      "bounds": [
+        32.04593639575972,
+        107.13427561837456,
+        154.61837455830388,
+        164.57597173144876
+      ]
+    },
+    "fighter-greatsword-recover": {
+      "path": "img/held/fighter-greatsword-recover.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "recover",
+      "two": true,
+      "grip": [
+        127.76678445229682,
+        128.3957597173145
+      ],
+      "bounds": [
+        40.47349823321555,
+        85.87985865724382,
+        156.7137809187279,
+        158.69964664310953
+      ]
+    },
+    "fighter-greatsword-return": {
+      "path": "img/held/fighter-greatsword-return.png",
+      "id": "greatsword",
+      "cls": "fighter",
+      "pose": "return",
+      "two": true,
+      "grip": [
+        128.10247349823322,
+        127.57950530035336
+      ],
+      "bounds": [
+        81.51590106007066,
+        49.332155477031804,
+        157.0494699646643,
+        168.73851590106005
+      ]
     }
   },
   "atlases": {
