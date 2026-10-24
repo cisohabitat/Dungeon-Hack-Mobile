@@ -1,0 +1,349 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-s.md",
+  "status": "20 baseline source/review cells published;84 frozen captures,144 shade levels and6 native regional browser tests; repeat joins/regional matching, runtime integration pending",
+  "groups": {
+    "s1": [
+      "floor1",
+      "floor2",
+      "floor3"
+    ],
+    "s2": [
+      "floor4",
+      "floor5",
+      "floor6"
+    ],
+    "s3": [
+      "ceil1",
+      "ceil2",
+      "ceil3"
+    ],
+    "s4": [
+      "wallB",
+      "wallDamp",
+      "wallCracked",
+      "rock",
+      "fallen",
+      "rockPillar"
+    ],
+    "s5": [
+      "fountain",
+      "fountainDry"
+    ],
+    "s6": [
+      "torch0",
+      "torch1",
+      "torch2"
+    ]
+  },
+  "sheets": {
+    "s1": {
+      "source": "materials-s1.png",
+      "generated_original": "/workspace/generated_images/exec-71f2e86a-9dbc-4eae-b0db-e39879d8fee0.png",
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. EXACT THREE equal square panels in ONE HORIZONTAL ROW. Left: dark brown-grey small cobbled corridor path, regular staggered roughly8x8 worn setts with dark joints, tileable edges. Middle: small worn pale olive-grey tesserae shrine mosaic, dark square outer border and single thin inset diamond motif across centre, broken/missing tiny tiles, flat relief, no symbols. Right: SAME mosaic with a broad square worn grey altar slab from14%-83% of tile each axis, shallow circular groove centered48%, ten understated short cut marks around its rim, darker central hollow, chipped edges, not a separate raised object or hole. The slab stays wholly inside the right panel. Flat TOP-DOWN floor view. Preserve warm-earth low-saturation floor colours, distinguish path/mosaic/altar. Match source density, not huge overscaled four tiles.",
+      "references": [
+        "batch-s-preview/s1-reference.png",
+        "batch-o-preview/grey_halls_floor-detail.png"
+      ],
+      "selected_source": "materials-s1-diamond.png",
+      "repair": {
+        "source": "materials-s1-diamond.png",
+        "generated_original": "/workspace/generated_images/exec-c6260c87-5975-4879-bf0f-a3c7ebf83df3.png",
+        "prompt": "Edit ONLY the middle panel of this three-square horizontal texture atlas. Keep the left cobbled path panel and right circular-groove altar panel unchanged. In MIDDLE mosaic floor panel preserve existing worn small olive-grey tesserae and double square border, and add the missing central inset DIAMOND/LOZENGE made from one-tile-wide darker grey tesserae: four straight diagonal lines connecting local points (50%,16%),(84%,50%),(50%,84%),(16%,50%) and back. This is a flat mosaic pattern embedded in the tessera grid, not an object, platform, glow, opening or painted outline. Thin but clearly readable at64px. Do not put a square slab in middle; only the right altar has a slab. Full source same three equal square panels in one row, opaque to edges, no text, gutters, new shadows or ornaments. Preserve gritty weathered mature painted dungeon materials.",
+        "references": [
+          "materials-s1.png"
+        ],
+        "reason": "Original middle mosaic lacked its diamond. Full sheet correction selected, retaining path/altar compositions."
+      }
+    },
+    "s2": {
+      "source": "materials-s2.png",
+      "generated_original": "/workspace/generated_images/exec-9fb9b686-f71b-43c0-95e3-5c24423184fd.png",
+      "native_source_size": [
+        2171,
+        724
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. EXACT THREE equal square panels in ONE HORIZONTAL ROW, flat TOP-DOWN floor materials. Left: shallow black-blue water OVER visible submerged worn square floor flags, fine restrained curving pale-blue ripple highlights, no open pit, no fish, no shore, no waterfall. Middle: SAME dark brown-grey flagstones with scattered small grey angular rubble chips and powder, about26 small chips, not large boulders or a standing wall. Right: SAME flags with sparse matted old rotten grey-gold straw stems in irregular heaps, much flagstone still visible; no fresh yellow hay or nest. Preserve repeated tile density and unobtrusive flat relief. Edge-to-edge repeat-compatible material layouts, no border or vignette.",
+      "references": [
+        "batch-s-preview/s2-reference.png",
+        "batch-o-preview/grey_halls_floor-detail.png"
+      ]
+    },
+    "s3": {
+      "source": "materials-s3.png",
+      "generated_original": "/workspace/generated_images/exec-6408d04d-78d2-4523-ba8c-b91d35d39eff.png",
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. THREE equal square panels in ONE HORIZONTAL ROW, viewed straight up as flat ceiling textures, without perspective or room edges. Left: dark grey uncut stone ceiling with ONE broad weathered brown timber beam passing horizontally fully edge-to-edge at y41%-59%; grain along beam, no screws, no glowing metal, no walls below. Middle: same dark grey rock ceiling with THREE main fine dark-brown branching roots, sparse tangled offshoots, no green leaves, no stalactites or ropes; roots crossing tile edges should be repeat-compatible. Right: darker natural cave roof, irregular lumpy facets and shallow black pockets, not masonry or a sky, no hanging object or open hole. Match subdued original brightness, no vignette or directional torch glow. All three opaque full squares.",
+      "references": [
+        "batch-s-preview/s3-reference.png",
+        "batch-o-preview/grey_halls_ceiling-detail.png"
+      ]
+    },
+    "s4": {
+      "source": "materials-s4.png",
+      "generated_original": "/workspace/generated_images/exec-c12c5e95-6ba8-4a9a-adf4-1aeae9b4666b.png",
+      "native_source_size": [
+        1536,
+        1024
+      ],
+      "grid": [
+        3,
+        2
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. SIX equal SQUARE texture panels in EXACT3 COLUMNS by2 ROWS; no gaps or dividing frame. Top-left ALTERNATE WALL: coursed chipped grey stone brick wall, even staggered blocks and dark mortar, matching second reference. Top-middle DAMP WALL: same grey masonry plus damp dark staining and restrained muted green moss mostly lower half, not floating vegetation. Top-right CRACKED WALL: same solid grey masonry with one fine branching vertical fracture through mortar/block faces, absolutely NO open doorway or black hole. Bottom-left ROCK WALL: uncut grey angular natural rock facets, dark cracks, no courses, opaque. Bottom-middle FALLEN WALL: densely packed disordered grey fallen masonry blocks with dust and black crevices, fills entire tile as solid rubble obstruction, never an opening or passable hole. Bottom-right ROCK PILLAR SURFACE: same rock facets filling whole square, with cylinder shading softly lighter about42%width and darker lateral edges, no isolated silhouette, ground or alpha background. Native64 readable broad material shapes, gritty muted slate-grey, avoid blue/glass/marble.",
+      "references": [
+        "batch-s-preview/s4-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ]
+    },
+    "s5": {
+      "source": "materials-s5.png",
+      "generated_original": "/workspace/generated_images/exec-57217475-9ae6-4217-b34b-24cb3201f956.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "grid": [
+        2,
+        1
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. TWO equal SQUARE panels in one horizontal row. Both show EXACT SAME wall fountain with matching masonry, shape, dimensions and location: rectangular basin spans x12%-88%, y63%-91%, thick stone rim; shallow dark round-topped niche spans x22%-78%, y8%-63%; small square plain stone spout with square black outlet centered50%,y34%. Left WET: a narrow pale-blue vertical water stream from outlet y41% into basin y72%, dark clean blue water inside basin with restrained pale ripple highlights. Right DRY: exact same spout, outlet, niche and basin, but absolutely NO falling stream, NO blue water, empty dark stone trough with a little sediment. Grey chipped stone, no animal/lion/face carving, no new ornament, side pipes, floor, characters or lights. Front-facing opaque wall textures flush to edges; fountain remains inset against wall, no isolated object or perspective scene.",
+      "references": [
+        "batch-s-preview/s5-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ]
+    },
+    "s6": {
+      "source": "materials-s6.png",
+      "generated_original": "/workspace/generated_images/exec-b361d435-71bc-4942-aba9-dee226b5878b.png",
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint FIRST reference layout into a gritty hand-painted dungeon material atlas matching SECOND reference's approved muted Grey Halls materials. Preserve every panel's identity and registration. Opaque square panels cropped edge to edge, orthographic textures, no borders, gutters, text, perspective scene, characters or new lights. Coarse weathering readable at native64, not cartoon or glossy game UI. EXACT THREE equal square panels in one HORIZONTAL ROW. Three animation frames of ONE wall-mounted torch. Wall brickwork, soot, wooden handle and dark iron wall bracket must match positions in all three frames; no camera movement, no changes to stones. Torch root centeredx50%,y38%, wooden handle down to y53%, iron bracket bottomy67%. Flame is small, local, NOT a huge fire: orange outer flame with pale amber core, source extent roughlyx39%-61%, y9%-38%. LEFT frame0 UPRIGHT flame centredx50%, tipy9%. MIDDLE frame1 LEANS LEFT, distinctly taller: tipx43%,y6%, root unchanged. RIGHT frame2 LEANS RIGHT, distinctly shorter/squatter: tipx57%,y14%, root unchanged. Restrained warm local glow on grey stone and soot above flame; this matches existing torch light, no new torches or added glow everywhere. Each image fully opaque, no open wall holes, no text, borders, floor or new ornament. Preserve separate tall-left and short-right silhouettes at native64.",
+      "references": [
+        "batch-s-preview/s6-reference.png",
+        "batch-o-preview/grey_halls_wall-detail.png"
+      ]
+    }
+  },
+  "cells": {
+    "floor1": {
+      "sheet": "s1",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ]
+    },
+    "floor2": {
+      "sheet": "s1",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ]
+    },
+    "floor3": {
+      "sheet": "s1",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ]
+    },
+    "floor4": {
+      "sheet": "s2",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ]
+    },
+    "floor5": {
+      "sheet": "s2",
+      "source_rect": [
+        724,
+        0,
+        1447,
+        724
+      ]
+    },
+    "floor6": {
+      "sheet": "s2",
+      "source_rect": [
+        1447,
+        0,
+        2171,
+        724
+      ]
+    },
+    "ceil1": {
+      "sheet": "s3",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ]
+    },
+    "ceil2": {
+      "sheet": "s3",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ]
+    },
+    "ceil3": {
+      "sheet": "s3",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ]
+    },
+    "wallB": {
+      "sheet": "s4",
+      "source_rect": [
+        0,
+        0,
+        512,
+        512
+      ]
+    },
+    "wallDamp": {
+      "sheet": "s4",
+      "source_rect": [
+        512,
+        0,
+        1024,
+        512
+      ]
+    },
+    "wallCracked": {
+      "sheet": "s4",
+      "source_rect": [
+        1024,
+        0,
+        1536,
+        512
+      ]
+    },
+    "rock": {
+      "sheet": "s4",
+      "source_rect": [
+        0,
+        512,
+        512,
+        1024
+      ]
+    },
+    "fallen": {
+      "sheet": "s4",
+      "source_rect": [
+        512,
+        512,
+        1024,
+        1024
+      ]
+    },
+    "rockPillar": {
+      "sheet": "s4",
+      "source_rect": [
+        1024,
+        512,
+        1536,
+        1024
+      ]
+    },
+    "fountain": {
+      "sheet": "s5",
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ]
+    },
+    "fountainDry": {
+      "sheet": "s5",
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ]
+    },
+    "torch0": {
+      "sheet": "s6",
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ]
+    },
+    "torch1": {
+      "sheet": "s6",
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ]
+    },
+    "torch2": {
+      "sheet": "s6",
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ]
+    }
+  },
+  "review": {
+    "captures": 84,
+    "widths": [
+      390,
+      320
+    ],
+    "shade_levels_verified": 144,
+    "native_browser_tests": 6,
+    "report": "batch-s-preview/REVIEW.md",
+    "scope": "Grey Halls baseline kit, not260 regional paintings; existing69 decoration entries counted and preserved, not repainted"
+  },
+  "publication": "Source/review assets for S and T published together; runtime integration remains pending."
+}

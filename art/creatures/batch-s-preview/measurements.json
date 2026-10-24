@@ -1,0 +1,502 @@
+{
+  "floor1": {
+    "source": "materials-s1-diamond.png",
+    "source_sha256": "020b9ae7f0900ef0fbf77019d22b564526ecfcc955a57c34736ca940480c6415",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "bebadf6bc6e54a8bb80809efc5edcc23390be703228feabb42b85c34d29b5bed",
+    "edge_diagnostic": {
+      "join_x_mean": 14.182291666666666,
+      "join_y_mean": 10.552083333333334,
+      "interior_x_mean": 7.629877645502646,
+      "interior_y_mean": 8.49834656084656,
+      "ratio_x": 1.8587836300397653,
+      "ratio_y": 1.2416630997315072
+    }
+  },
+  "floor2": {
+    "source": "materials-s1-diamond.png",
+    "source_sha256": "020b9ae7f0900ef0fbf77019d22b564526ecfcc955a57c34736ca940480c6415",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "d4d81b526d1b4ad7ed02f78128e5c528ca49308557489c21bbd328e897c56ec5",
+    "edge_diagnostic": {
+      "join_x_mean": 19.875,
+      "join_y_mean": 10.270833333333334,
+      "interior_x_mean": 12.700396825396826,
+      "interior_y_mean": 13.033234126984127,
+      "ratio_x": 1.5649117325417903,
+      "ratio_y": 0.7880494766888678
+    }
+  },
+  "floor3": {
+    "source": "materials-s1-diamond.png",
+    "source_sha256": "020b9ae7f0900ef0fbf77019d22b564526ecfcc955a57c34736ca940480c6415",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "c13b77c7ee62f158e4a4a0f4e851ff77e3dbccd2cd071e33309a0c490d706d06",
+    "edge_diagnostic": {
+      "join_x_mean": 12.932291666666666,
+      "join_y_mean": 10.354166666666666,
+      "interior_x_mean": 11.822172619047619,
+      "interior_y_mean": 12.24454365079365,
+      "ratio_x": 1.0939014412486625,
+      "ratio_y": 0.8456147457970428
+    }
+  },
+  "floor4": {
+    "source": "materials-s2.png",
+    "source_sha256": "336bb200be283b440532255225726bbc703bcc70ed97dc1e9e915b1f6c895334",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "3c8c082078a390640b4d3893eff8af35186a8da44a9acdf9ce03cdb219a0b541",
+    "edge_diagnostic": {
+      "join_x_mean": 6.598958333333333,
+      "join_y_mean": 5.494791666666667,
+      "interior_x_mean": 5.747933201058201,
+      "interior_y_mean": 6.719659391534392,
+      "ratio_x": 1.1480575891380327,
+      "ratio_y": 0.8177187780662147
+    }
+  },
+  "floor5": {
+    "source": "materials-s2.png",
+    "source_sha256": "336bb200be283b440532255225726bbc703bcc70ed97dc1e9e915b1f6c895334",
+    "source_rect": [
+      724,
+      0,
+      1447,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "74a9098aabd362ccf16160a8f89d8ee5a47b2c2fd851a2b99714dc2c48fcf7dd",
+    "edge_diagnostic": {
+      "join_x_mean": 4.473958333333333,
+      "join_y_mean": 5.182291666666667,
+      "interior_x_mean": 8.878224206349206,
+      "interior_y_mean": 9.533978174603174,
+      "ratio_x": 0.5039249099086516,
+      "ratio_y": 0.5435602611794699
+    }
+  },
+  "floor6": {
+    "source": "materials-s2.png",
+    "source_sha256": "336bb200be283b440532255225726bbc703bcc70ed97dc1e9e915b1f6c895334",
+    "source_rect": [
+      1447,
+      0,
+      2171,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "116cba280fac34f078068c97220b8229b8c07c2599de7d63542b7cb999ae9307",
+    "edge_diagnostic": {
+      "join_x_mean": 7.515625,
+      "join_y_mean": 14.984375,
+      "interior_x_mean": 11.02405753968254,
+      "interior_y_mean": 12.09548611111111,
+      "ratio_x": 0.681747620868861,
+      "ratio_y": 1.2388402468781399
+    }
+  },
+  "ceil1": {
+    "source": "materials-s3.png",
+    "source_sha256": "3d1ad4704fe8d7045694dd57ff84bcb77200d81ac1489debc7c99e14da6451fc",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "5a394ae25b781545b98eadfeba21541c31d66ff50deb7666b2eee76deb2e50ad",
+    "edge_diagnostic": {
+      "join_x_mean": 9.828125,
+      "join_y_mean": 10.973958333333334,
+      "interior_x_mean": 6.046213624338624,
+      "interior_y_mean": 7.055142195767195,
+      "ratio_x": 1.6255007862172695,
+      "ratio_y": 1.5554553017963653
+    }
+  },
+  "ceil2": {
+    "source": "materials-s3.png",
+    "source_sha256": "3d1ad4704fe8d7045694dd57ff84bcb77200d81ac1489debc7c99e14da6451fc",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "1644cc2e40b7aeb9d3d5283f3573711e97e3b1797184fe831bc2bcd12fb9ad90",
+    "edge_diagnostic": {
+      "join_x_mean": 11.333333333333334,
+      "join_y_mean": 10.114583333333334,
+      "interior_x_mean": 7.096726190476191,
+      "interior_y_mean": 6.745205026455026,
+      "ratio_x": 1.596980499056406,
+      "ratio_y": 1.4995220002451282
+    }
+  },
+  "ceil3": {
+    "source": "materials-s3.png",
+    "source_sha256": "3d1ad4704fe8d7045694dd57ff84bcb77200d81ac1489debc7c99e14da6451fc",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "0229ef3aaf41f7840a60330e0247984eb9d979a351c17c410ea49f2d1bd863c4",
+    "edge_diagnostic": {
+      "join_x_mean": 14.005208333333334,
+      "join_y_mean": 15.369791666666666,
+      "interior_x_mean": 6.982060185185185,
+      "interior_y_mean": 7.438905423280423,
+      "ratio_x": 2.00588479071695,
+      "ratio_y": 2.0661361843055754
+    }
+  },
+  "wallB": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      0,
+      0,
+      512,
+      512
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "9d66a0e567604d8940803f02ee6f3553b9606146a2ea10f2ef34f0ce3be3425c",
+    "edge_diagnostic": {
+      "join_x_mean": 30.979166666666668,
+      "join_y_mean": 13.395833333333334,
+      "interior_x_mean": 11.904431216931217,
+      "interior_y_mean": 19.18419312169312,
+      "ratio_x": 2.602322286730187,
+      "ratio_y": 0.6982745246755039
+    }
+  },
+  "wallDamp": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      512,
+      0,
+      1024,
+      512
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "a145725fa57d62decadee6596fd537ca2601b6c75b8b64764667059c1ea1bd53",
+    "edge_diagnostic": {
+      "join_x_mean": 22.65625,
+      "join_y_mean": 23.0625,
+      "interior_x_mean": 11.449239417989418,
+      "interior_y_mean": 15.422123015873016,
+      "ratio_x": 1.9788432377789011,
+      "ratio_y": 1.495416680068187
+    }
+  },
+  "wallCracked": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      1024,
+      0,
+      1536,
+      512
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "8a63240f16cbefa546aeeb739f350aadb239c844c73ecbb000c9b5d258737521",
+    "edge_diagnostic": {
+      "join_x_mean": 12.9375,
+      "join_y_mean": 11.697916666666666,
+      "interior_x_mean": 13.092592592592593,
+      "interior_y_mean": 19.04232804232804,
+      "ratio_x": 0.9881541725601131,
+      "ratio_y": 0.6143112670186163
+    }
+  },
+  "rock": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      0,
+      512,
+      512,
+      1024
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "d7f0fe574b21525fe69559869d0b6244e998deac23abfc8d237181d43b72d252",
+    "edge_diagnostic": {
+      "join_x_mean": 28.036458333333332,
+      "join_y_mean": 18.848958333333332,
+      "interior_x_mean": 13.260499338624339,
+      "interior_y_mean": 15.054315476190476,
+      "ratio_x": 2.1142837548862525,
+      "ratio_y": 1.2520634606830425
+    }
+  },
+  "fallen": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      512,
+      512,
+      1024,
+      1024
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "0e3a527fc8bd3233bfee19f0e35d1a341b51572ab9b0a6c865674312dbb8fb61",
+    "edge_diagnostic": {
+      "join_x_mean": 45.953125,
+      "join_y_mean": 48.744791666666664,
+      "interior_x_mean": 19.19006283068783,
+      "interior_y_mean": 22.639632936507937,
+      "ratio_x": 2.394631294615355,
+      "ratio_y": 2.1530734090685013
+    }
+  },
+  "rockPillar": {
+    "source": "materials-s4.png",
+    "source_sha256": "8434495bdea699cc0b4e6440987f0330615f2042f84febd591715e1b7d80fc06",
+    "source_rect": [
+      1024,
+      512,
+      1536,
+      1024
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "99f1e015fc9375ef44f979f28886742d62bd53f00664f4e115ceb1eb26575921",
+    "edge_diagnostic": {
+      "join_x_mean": 7.286458333333333,
+      "join_y_mean": 19.041666666666668,
+      "interior_x_mean": 11.757688492063492,
+      "interior_y_mean": 12.331349206349206,
+      "ratio_x": 0.6197186069567785,
+      "ratio_y": 1.5441673370876912
+    }
+  },
+  "fountain": {
+    "source": "materials-s5.png",
+    "source_sha256": "0a5f84ebb0028f7904d2cae937fecf03412460f26e551f3680288f392b845747",
+    "source_rect": [
+      0,
+      0,
+      887,
+      887
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "521d86f57803f7025cce71927bbd75b10f2bad717f4f51e69fa60530b1b2dd32"
+  },
+  "fountainDry": {
+    "source": "materials-s5.png",
+    "source_sha256": "0a5f84ebb0028f7904d2cae937fecf03412460f26e551f3680288f392b845747",
+    "source_rect": [
+      887,
+      0,
+      1774,
+      887
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "4558575b25dac50dccc3f7797c530238c61ef6e7201639e80a614b3a8f720126"
+  },
+  "torch0": {
+    "source": "materials-s6.png",
+    "source_sha256": "169e2cb0b4ddd9aecff41a1ea1feecfb150f6776287ab834c3fe1c957e69f6ab",
+    "source_rect": [
+      0,
+      0,
+      724,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "6a2199f7cd201940319b89a79776307431e5d2aa05eb3a4a58d1d2c7eb4d3d53"
+  },
+  "torch1": {
+    "source": "materials-s6.png",
+    "source_sha256": "169e2cb0b4ddd9aecff41a1ea1feecfb150f6776287ab834c3fe1c957e69f6ab",
+    "source_rect": [
+      724,
+      0,
+      1448,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "0d0fd58406c365287194a4d62571f8f3de43e7e5b8fad14967bea40f128d0b40"
+  },
+  "torch2": {
+    "source": "materials-s6.png",
+    "source_sha256": "169e2cb0b4ddd9aecff41a1ea1feecfb150f6776287ab834c3fe1c957e69f6ab",
+    "source_rect": [
+      1448,
+      0,
+      2172,
+      724
+    ],
+    "native": [
+      64,
+      64
+    ],
+    "detail": [
+      256,
+      256
+    ],
+    "native_sha256": "845a2ed780f4b3bb6d3fb38d5b263d48dfd39f16fd68dcb844825674302d754b"
+  }
+}

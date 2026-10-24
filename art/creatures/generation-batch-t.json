@@ -1,0 +1,603 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-t.md",
+  "status": "16 baseline source/review frames published;54 captures,162 fitting/release cases and12 native held browser tests passed; runtime integration pending",
+  "groups": {
+    "t1": [
+      "fighter-longsword-rest",
+      "fighter-longsword-drawback",
+      "fighter-longsword-windup",
+      "fighter-longsword-strike",
+      "fighter-longsword-cut",
+      "fighter-longsword-sweep",
+      "fighter-longsword-through",
+      "fighter-longsword-recover",
+      "fighter-longsword-return"
+    ],
+    "t2": [
+      "mage-staff-rest-two",
+      "mage-staff-drive-two",
+      "mage-staff-rest-one",
+      "mage-staff-channel-one"
+    ],
+    "t3": [
+      "ranger-longbow-rest",
+      "ranger-longbow-bowdraw",
+      "ranger-longbow-bowfull"
+    ]
+  },
+  "sheets": {
+    "t1": {
+      "source": "held-t1.png",
+      "generated_original": "/workspace/generated_images/exec-71cec898-1e01-423b-b013-d0b69271741c.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Repaint the supplied reference's EXACT NINE first-person sword/arm poses in exactly the same3 by3 grid of equal square cells. Each cell transparent background with COMPLETE sword point, guard, fist and forearm separated from neighbors by clear empty margins. Gritty hand-painted dungeon realism matching mature painted monsters: worn steel blade, simple short straight dark iron crossguard, brown leather grip, plain small pommel, grey armored leather glove/cuff, coarse brown sleeve. SAME sword design and blade length/hand proportions in every cell. ONE right hand in each cell, four curled fingers plus one thumb wrapped around grip; forearm continues toward right/bottom like reference. No extra hand, shield, jewellery, fancy guard or sword ornament. Copy exact pose directions from corresponding reference cell: row1 REST slightly up-left (-100deg), DRAWBACK slightly up-right(-79), WINDUP up-right(-58); row2 STRIKE up-left(-105), CUT diagonal up-left(-152), SWEEP almost horizontally left(-176); row3 THROUGH down-left(-200), RECOVER diagonal up-left(-150), RETURN steep up-left(-123). Angles are screen coordinates zero right, negative up; do not mirror or reuse a blade direction across all cells. Reference grip/forearm directions are authoritative. No motion blur, speed lines, shadows on ground, scenery, text, border, extra weapons, cartoon styling or glossy chrome. All equipment stays inside its own square with visible transparent padding; source sleeves end cleanly inside cells. Lighting muted and consistent. Native game will position/scale these, do not turn it into a scene.",
+      "references": [
+        "batch-t-preview/t1-reference.png"
+      ]
+    },
+    "t2": {
+      "source": "held-t2.png",
+      "generated_original": "/workspace/generated_images/exec-76253ab2-1b0b-4f45-a445-938a286d12ed.png",
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "grid": [
+        2,
+        2
+      ],
+      "prompt": "Repaint supplied reference's exact FOUR first-person Mage staff-and-hand variants in same2x2 grid of equal square cells, transparent background and clear gutters. Gritty mature hand-painted dungeon realism, worn brown wood shaft with small simple BLUE orb/ferrule at top and small plain dark end, no new gems, spikes, faces, runes or lights. Same staff design/length/thickness and pale BARE human hands, violet cuffs and deep purple cloth sleeves in all four. Copy each reference's hand and arm positions and exact shaft angle. TOP LEFT: rest TWO hands: right hand higher on shaft and right forearm toward lower-right, left hand lower with left forearm toward lower-left, two distinct attached hands only. TOP RIGHT: drive TWO hands, slightly straighter upright shaft like reference, same hands attached to same grip areas. BOTTOM LEFT: rest ONE right hand with forearm toward lower-right; no left hand, shaft above and below the fist. BOTTOM RIGHT: channel ONE right hand, staff leaning further up-left, forearm down-right, no left hand. Four fingers and thumb on each hand, complete staff ends inside each square with transparent padding, sleeves terminate cleanly inside cells. No disembodied fingers, gloves, third hands, floating rings, casting effects, spell aura, shadows, scene, text or borders. Copy reference weapon proportions and the difference between one/two-handed grips. Muted weathered materials matching painted monsters, no cartoon or glossy plastic.",
+      "references": [
+        "batch-t-preview/t2-reference.png"
+      ]
+    },
+    "t3": {
+      "source": "held-t3.png",
+      "generated_original": "/workspace/generated_images/exec-f787687f-0ce2-4cfd-bbde-d9bb71530eac.png",
+      "native_source_size": [
+        2170,
+        725
+      ],
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint supplied reference's exact THREE first-person LONG BOW left-hand/forearm frames in same three equal square panels in one horizontal strip. Transparent background, complete bow tips, hand and sleeve inside each cell with clear margins. Mature gritty hand-painted dungeon realism, dark brown yew longbow with narrow pale sapwood highlight and ivory HORN NOCK tips, dark leather grip wrapping. Grey armored leather glove/cuff and brown cloth sleeve exactly matching reference's existing Ranger palette (NOT green). ONE left hand grips centre of bow, forearm extends lower-left; no right drawing hand. Bow is seen from player's rear, stave long/narrow, reference top/bottom nocks authoritative. LEFT REST gentle bend, MIDDLE half-draw subtly stronger bend, RIGHT full-draw strongest bend, same bow length and materials, grip and forearm position consistent. CRITICAL: paint NO BOWSTRING whatsoever, NO ARROW and NO right-hand fingers: game draws string, nocked arrow and drawing hand live using authored nock endpoints. Do not join bow ends with any line. No recurve horns or extra limbs, ornaments, new runes, gems, quiver, scene, shadows, motion blur, caption or border. Worn materials and realistic anatomy, no cartoon, no shiny plastic. Full object and sleeve tips surrounded by transparent padding; no clipping.",
+      "references": [
+        "batch-t-preview/t3-reference.png"
+      ],
+      "selected_source": "held-t3-bend.png",
+      "repair": {
+        "source": "held-t3-bend.png",
+        "generated_original": "/workspace/generated_images/exec-51ae73d8-2fba-4312-a3a1-7e7c366f634d.png",
+        "native_source_size": [
+          2169,
+          725
+        ],
+        "prompt": "This is a nonviolent fantasy game prop animation study with no scene or people. Please adjust the centre panel's wooden yew stave so its gentle curvature is intermediate between the first and third panels. Keep the existing grey-gloved left hand, brown sleeve, material finish and transparent background. Preserve the first and third panels as they are. In the centre panel only, the pale upper end should sit slightly farther right of the grip than in panel one and less far right than in panel three. Keep the same overall length and the same tip heights, with a continuous wooden curve through the grip. Do not add cords, shafts, extra hands, decorations or labels. Retain the same three-square layout and margins.",
+        "references": [
+          "held-t3.png"
+        ],
+        "reason": "Half-draw upper bend should fall between rest and full after grip registration."
+      }
+    }
+  },
+  "cells": {
+    "fighter-longsword-rest": {
+      "key": "fighter-longsword-rest",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        171,
+        240
+      ],
+      "source_object_bounds": [
+        105,
+        38,
+        222,
+        292
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-drawback": {
+      "key": "fighter-longsword-drawback",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "drawback",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        194,
+        240
+      ],
+      "source_object_bounds": [
+        143,
+        38,
+        256,
+        294
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-windup": {
+      "key": "fighter-longsword-windup",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "windup",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        194,
+        245
+      ],
+      "source_object_bounds": [
+        146,
+        48,
+        322,
+        298
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-strike": {
+      "key": "fighter-longsword-strike",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "strike",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        164,
+        226
+      ],
+      "source_object_bounds": [
+        84,
+        16,
+        218,
+        286
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-cut": {
+      "key": "fighter-longsword-cut",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "cut",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        205,
+        235
+      ],
+      "source_object_bounds": [
+        26,
+        118,
+        252,
+        272
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-sweep": {
+      "key": "fighter-longsword-sweep",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "sweep",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        207,
+        231
+      ],
+      "source_object_bounds": [
+        20,
+        165,
+        250,
+        275
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-through": {
+      "key": "fighter-longsword-through",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "through",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_grip": [
+        224,
+        202
+      ],
+      "source_object_bounds": [
+        28,
+        140,
+        278,
+        285
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-recover": {
+      "key": "fighter-longsword-recover",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "recover",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        211,
+        186
+      ],
+      "source_object_bounds": [
+        22,
+        55,
+        255,
+        243
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "fighter-longsword-return": {
+      "key": "fighter-longsword-return",
+      "id": "longsword",
+      "cls": "fighter",
+      "pose": "return",
+      "two": false,
+      "sheet": "t1",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        188,
+        210
+      ],
+      "source_object_bounds": [
+        70,
+        12,
+        234,
+        270
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "mage-staff-rest-two": {
+      "key": "mage-staff-rest-two",
+      "id": "staff",
+      "cls": "mage",
+      "pose": "rest",
+      "two": true,
+      "sheet": "t2",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_grip": [
+        276,
+        241
+      ],
+      "source_object_bounds": [
+        210,
+        35,
+        315,
+        405
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "mage-staff-drive-two": {
+      "key": "mage-staff-drive-two",
+      "id": "staff",
+      "cls": "mage",
+      "pose": "drive",
+      "two": true,
+      "sheet": "t2",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_grip": [
+        270,
+        241
+      ],
+      "source_object_bounds": [
+        210,
+        35,
+        315,
+        405
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "mage-staff-rest-one": {
+      "key": "mage-staff-rest-one",
+      "id": "staff",
+      "cls": "mage",
+      "pose": "rest",
+      "two": false,
+      "sheet": "t2",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_grip": [
+        242,
+        295
+      ],
+      "source_object_bounds": [
+        138,
+        32,
+        288,
+        441
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "mage-staff-channel-one": {
+      "key": "mage-staff-channel-one",
+      "id": "staff",
+      "cls": "mage",
+      "pose": "channel",
+      "two": false,
+      "sheet": "t2",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        261,
+        291
+      ],
+      "source_object_bounds": [
+        151,
+        30,
+        320,
+        382
+      ],
+      "target_grip": [
+        128,
+        128
+      ]
+    },
+    "ranger-longbow-rest": {
+      "key": "ranger-longbow-rest",
+      "id": "longbow",
+      "cls": "ranger",
+      "pose": "rest",
+      "two": false,
+      "sheet": "t3",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_grip": [
+        520,
+        355
+      ],
+      "source_object_bounds": [
+        475,
+        8,
+        650,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          604.5,
+          689
+        ],
+        "bot": [
+          561,
+          17
+        ]
+      }
+    },
+    "ranger-longbow-bowdraw": {
+      "key": "ranger-longbow-bowdraw",
+      "id": "longbow",
+      "cls": "ranger",
+      "pose": "bowdraw",
+      "two": false,
+      "sheet": "t3",
+      "source_rect": [
+        723,
+        0,
+        1446,
+        725
+      ],
+      "source_grip": [
+        459,
+        355
+      ],
+      "source_object_bounds": [
+        420,
+        8,
+        610,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          575.5,
+          687
+        ],
+        "bot": [
+          526,
+          17
+        ]
+      }
+    },
+    "ranger-longbow-bowfull": {
+      "key": "ranger-longbow-bowfull",
+      "id": "longbow",
+      "cls": "ranger",
+      "pose": "bowfull",
+      "two": false,
+      "sheet": "t3",
+      "source_rect": [
+        1446,
+        0,
+        2169,
+        725
+      ],
+      "source_grip": [
+        510,
+        355
+      ],
+      "source_object_bounds": [
+        475,
+        8,
+        660,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          630.5,
+          687
+        ],
+        "bot": [
+          614.5,
+          17
+        ]
+      }
+    }
+  },
+  "unsuccessful_requests": [
+    {
+      "prompt": "Correct ONLY the middle bow's bend in this three-panel transparent atlas; leave first and third panels completely unchanged. The middle is a HALF DRAW and must be halfway between left REST and right FULL DRAW, not leaning further left than rest. Keep its left hand/forearm/grip position and bow length unchanged. Bend the upper stave slightly RIGHT of where it is now so the upper ivory horn nock sits about40 source pixels to the right of the middle hand's grip centre; bottom nock about65 pixels to the right of grip centre. Both tips remain at the same heights as before. Maintain continuous single dark-yew stave from top tip through grip to bottom tip, pale sapwood and ivory horn nocks. Keep wood thickness, glove, sleeve and realistic hand unchanged, no extra limb or finger. Do not add a bowstring, arrow, right hand, line between tips, glow, scene, borders or text. Same exact 3 equal-square horizontal panels, transparent padding and muted gritty painted materials. Half-draw curvature must read between the rest and full bend when each grip is aligned.",
+      "references": [
+        "held-t3.png"
+      ],
+      "result": "Image tool rejected input as violence; no image produced. A clarified nonviolent prop request produced the selected repair.",
+      "request_id": "20811d8e-6708-4b55-af40-b79efc57866a"
+    }
+  ],
+  "review": {
+    "captures": 54,
+    "fitting_cases": 162,
+    "heights": [
+      160,
+      360,
+      464
+    ],
+    "widths": [
+      390,
+      320
+    ],
+    "native_browser_tests": 12,
+    "report": "batch-t-preview/REVIEW.md",
+    "scope": "Fighter longsword9, Mage staff4, Ranger longbow3; uncovered classes/weapons/named/lit modes procedural",
+    "source_spacing_exception": "Uncut through-pose sleeve has3px raw-sheet clearance; exports>=12px."
+  },
+  "publication": "Source/review assets for S and T published together; runtime integration remains pending."
+}

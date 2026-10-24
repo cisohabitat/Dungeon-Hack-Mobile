@@ -1,0 +1,6284 @@
+{
+  "mode": "frozen exact class/key/pose/two/lit source substitution; procedural hand/string/arrow and uncovered cases retained; no native equip/attack/offline/performance integration",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "fallback_guards": 6,
+      "eligible": [
+        {
+          "cls": "fighter",
+          "id": "longsword",
+          "allowed": true
+        },
+        {
+          "cls": "mage",
+          "id": "staff",
+          "allowed": true
+        },
+        {
+          "cls": "ranger",
+          "id": "longbow",
+          "allowed": true
+        }
+      ],
+      "frames": 16,
+      "short_view_heights": [
+        160,
+        360,
+        464
+      ],
+      "fitting": [
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                242.77777777777777,
+                36.01481481481481,
+                298.24444444444447,
+                156.42962962962963
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                246.7925925925926,
+                35.01481481481481,
+                300.36296296296297,
+                156.3777777777778
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                232.21481481481482,
+                25.75555555555556,
+                315.65185185185186,
+                144.2740740740741
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                200.82222222222222,
+                26.585185185185185,
+                264.34814814814814,
+                154.5851851851852
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                118.32592592592593,
+                79.94074074074075,
+                225.46666666666667,
+                152.94814814814816
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                92.48148148148148,
+                104.22222222222223,
+                201.51851851851853,
+                156.37037037037038
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                65.27407407407408,
+                87.37037037037037,
+                183.7925925925926,
+                156.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                123.42962962962963,
+                67.07407407407408,
+                233.8888888888889,
+                156.2
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                202.1851851851852,
+                33.68888888888889,
+                279.93333333333334,
+                156
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                242.77777777777777,
+                36.01481481481481,
+                298.24444444444447,
+                156.42962962962963
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                120.32592592592593,
+                78.94074074074075,
+                227.46666666666667,
+                151.94814814814816
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                252.72127139364304,
+                39.95354523227384,
+                285.58190709046454,
+                155.7481662591687
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                224.29209963325184,
+                50.457537438875306,
+                254.32877444987776,
+                156.30105822127138
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                240.1882640586797,
+                28.01466992665037,
+                287.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                226.25672371638143,
+                45.38875305623472,
+                279.1466992665037,
+                155.55012224938875
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                241.1882640586797,
+                28.01466992665037,
+                288.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                241.1882640586797,
+                28.01466992665037,
+                288.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                54.356321839080465,
+                28.47126436781609,
+                86.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                78.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                70.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              78.17241379310343,
+              153.71264367816093
+            ],
+            [
+              74.17241379310343,
+              91.91954022988506
+            ],
+            [
+              70.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                103.24137931034483,
+                28.47126436781609,
+                138.183908045977,
+                156.4712643678161
+              ],
+              "top": [
+                131.83908045977012,
+                153.3448275862069
+              ],
+              "bot": [
+                122.73563218390802,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              131.83908045977012,
+              153.3448275862069
+            ],
+            [
+              163.89423602873913,
+              102.36343596978226
+            ],
+            [
+              122.73563218390802,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                127.35632183908046,
+                25.47126436781609,
+                159.54022988505747,
+                153.4712643678161
+              ],
+              "top": [
+                151.17241379310343,
+                150.71264367816093
+              ],
+              "bot": [
+                143.17241379310343,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              151.17241379310343,
+              150.71264367816093
+            ],
+            [
+              147.17241379310343,
+              88.91954022988506
+            ],
+            [
+              143.17241379310343,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                54.356321839080465,
+                28.47126436781609,
+                86.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                78.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                70.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              78.17241379310343,
+              153.71264367816093
+            ],
+            [
+              74.17241379310343,
+              91.91954022988506
+            ],
+            [
+              70.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                55.356321839080465,
+                28.47126436781609,
+                87.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                79.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                71.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              79.17241379310343,
+              153.71264367816093
+            ],
+            [
+              174.37241379310342,
+              120.71954022988506
+            ],
+            [
+              71.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                219.3611111111111,
+                145.02592592592592,
+                316.4277777777778,
+                355.7518518518518
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                222.63703703703703,
+                136.02592592592592,
+                316.3851851851852,
+                348.41111111111115
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                170.1259259259259,
+                103.82222222222222,
+                316.14074074074074,
+                311.22962962962964
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                172.1888888888889,
+                108.02407407407406,
+                283.35925925925926,
+                332.02407407407406
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                54.82037037037037,
+                206.64629629629633,
+                242.31666666666666,
+                334.4092592592593
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                26.092592592592595,
+                264.3888888888889,
+                216.90740740740745,
+                355.64814814814815
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                3.729629629629642,
+                236.14814814814815,
+                211.13703703703703,
+                356.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                56.25185185185185,
+                199.62962962962962,
+                249.5555555555556,
+                355.59999999999997
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                159.32407407407408,
+                141.95555555555555,
+                295.3833333333333,
+                356
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                219.3611111111111,
+                145.02592592592592,
+                316.4277777777778,
+                355.7518518518518
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                55.82037037037037,
+                205.64629629629633,
+                243.31666666666666,
+                333.4092592592593
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                237.5122249388753,
+                152.91870415647924,
+                295.01833740831296,
+                355.5592909535452
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                211.296875,
+                171.17578125,
+                263.796875,
+                356.17578125
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                215.5794621026895,
+                131.52567237163817,
+                297.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                200.19926650366747,
+                157.18031784841077,
+                292.75672371638143,
+                349.9627139364303
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                216.5794621026895,
+                131.52567237163817,
+                298.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                216.5794621026895,
+                131.52567237163817,
+                298.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                47.873563218390814,
+                131.82471264367814,
+                104.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                89.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                75.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              89.55172413793099,
+              350.9971264367816
+            ],
+            [
+              82.55172413793099,
+              242.85919540229887
+            ],
+            [
+              75.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                97.17241379310343,
+                126.82471264367815,
+                158.32183908045977,
+                350.8247126436782
+              ],
+              "top": [
+                147.21839080459768,
+                345.35344827586204
+              ],
+              "bot": [
+                131.28735632183904,
+                129.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              147.21839080459768,
+              345.35344827586204
+            ],
+            [
+              175.85975327011843,
+              261.44991484005607
+            ],
+            [
+              131.28735632183904,
+              129.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                121.87356321839081,
+                87.82471264367815,
+                178.19540229885058,
+                311.8247126436782
+              ],
+              "top": [
+                163.551724137931,
+                306.9971264367816
+              ],
+              "bot": [
+                149.551724137931,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              163.551724137931,
+              306.9971264367816
+            ],
+            [
+              156.551724137931,
+              198.85919540229887
+            ],
+            [
+              149.551724137931,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                47.873563218390814,
+                131.82471264367814,
+                104.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                89.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                75.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              89.55172413793099,
+              350.9971264367816
+            ],
+            [
+              82.55172413793099,
+              242.85919540229887
+            ],
+            [
+              75.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                49.873563218390814,
+                131.82471264367814,
+                106.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                91.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                77.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              91.55172413793099,
+              350.9971264367816
+            ],
+            [
+              183.75172413793098,
+              307.65919540229885
+            ],
+            [
+              77.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                190.75,
+                189.03333333333333,
+                315.55000000000007,
+                459.9666666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                195.53333333333336,
+                175.03333333333333,
+                316.06666666666666,
+                448.1
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                128.73333333333335,
+                134.20000000000002,
+                316.4666666666667,
+                400.86666666666673
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                153.1,
+                139.31666666666666,
+                296.0333333333333,
+                427.3166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                12.483333333333348,
+                266.1166666666667,
+                253.55,
+                430.3833333333334
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                3.8333333333333286,
+                342.5,
+                249.16666666666669,
+                459.83333333333337
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                4.366666666666674,
+                305.3333333333333,
+                271.03333333333336,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                11.466666666666669,
+                259.6666666666667,
+                260.00000000000006,
+                460.2
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                131.41666666666669,
+                184.8,
+                306.35,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                190.75,
+                189.03333333333333,
+                315.55000000000007,
+                459.9666666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                13.483333333333348,
+                265.1166666666667,
+                254.55,
+                429.3833333333334
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                227.37286063569684,
+                199.89547677261615,
+                301.3092909535452,
+                460.4333740831296
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                202.44292481662592,
+                222.40454996943765,
+                269.9612622249389,
+                460.32631036063566
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                183.8276283618582,
+                202.3746943765281,
+                302.83007334963327,
+                450.2377750611247
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                43.551724137931046,
+                172.0603448275862,
+                115.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                97.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                79.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              97.13793103448273,
+              453.8534482758621
+            ],
+            [
+              88.13793103448273,
+              314.8189655172414
+            ],
+            [
+              79.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                93.79310344827587,
+                163.0603448275862,
+                172.41379310344826,
+                451.0603448275862
+              ],
+              "top": [
+                158.1379310344828,
+                444.0258620689655
+              ],
+              "bot": [
+                137.65517241379303,
+                166.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              158.1379310344828,
+              444.0258620689655
+            ],
+            [
+              184.50343143103797,
+              336.2258033928283
+            ],
+            [
+              137.65517241379303,
+              166.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                117.55172413793105,
+                113.06034482758619,
+                189.9655172413793,
+                401.0603448275862
+              ],
+              "top": [
+                171.13793103448273,
+                394.8534482758621
+              ],
+              "bot": [
+                153.13793103448273,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              171.13793103448273,
+              394.8534482758621
+            ],
+            [
+              162.13793103448273,
+              255.8189655172414
+            ],
+            [
+              153.13793103448273,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                43.551724137931046,
+                172.0603448275862,
+                115.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                97.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                79.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              97.13793103448273,
+              453.8534482758621
+            ],
+            [
+              88.13793103448273,
+              314.8189655172414
+            ],
+            [
+              79.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                45.551724137931046,
+                172.0603448275862,
+                117.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                99.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                81.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              99.13793103448273,
+              453.8534482758621
+            ],
+            [
+              189.33793103448272,
+              398.3389655172414
+            ],
+            [
+              81.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "fallback_guards": 6,
+      "eligible": [
+        {
+          "cls": "fighter",
+          "id": "longsword",
+          "allowed": true
+        },
+        {
+          "cls": "mage",
+          "id": "staff",
+          "allowed": true
+        },
+        {
+          "cls": "ranger",
+          "id": "longbow",
+          "allowed": true
+        }
+      ],
+      "frames": 16,
+      "short_view_heights": [
+        160,
+        360,
+        464
+      ],
+      "fitting": [
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                242.77777777777777,
+                36.01481481481481,
+                298.24444444444447,
+                156.42962962962963
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                246.7925925925926,
+                35.01481481481481,
+                300.36296296296297,
+                156.3777777777778
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                232.21481481481482,
+                25.75555555555556,
+                315.65185185185186,
+                144.2740740740741
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                200.82222222222222,
+                26.585185185185185,
+                264.34814814814814,
+                154.5851851851852
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                118.32592592592593,
+                79.94074074074075,
+                225.46666666666667,
+                152.94814814814816
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                92.48148148148148,
+                104.22222222222223,
+                201.51851851851853,
+                156.37037037037038
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                65.27407407407408,
+                87.37037037037037,
+                183.7925925925926,
+                156.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                123.42962962962963,
+                67.07407407407408,
+                233.8888888888889,
+                156.2
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                202.1851851851852,
+                33.68888888888889,
+                279.93333333333334,
+                156
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                242.77777777777777,
+                36.01481481481481,
+                298.24444444444447,
+                156.42962962962963
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                120.32592592592593,
+                78.94074074074075,
+                227.46666666666667,
+                151.94814814814816
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                252.72127139364304,
+                39.95354523227384,
+                285.58190709046454,
+                155.7481662591687
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                224.29209963325184,
+                50.457537438875306,
+                254.32877444987776,
+                156.30105822127138
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                240.1882640586797,
+                28.01466992665037,
+                287.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                226.25672371638143,
+                45.38875305623472,
+                279.1466992665037,
+                155.55012224938875
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                241.1882640586797,
+                28.01466992665037,
+                288.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                241.1882640586797,
+                28.01466992665037,
+                288.1320293398533,
+                156.01466992665036
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                54.356321839080465,
+                28.47126436781609,
+                86.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                78.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                70.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              78.17241379310343,
+              153.71264367816093
+            ],
+            [
+              74.17241379310343,
+              91.91954022988506
+            ],
+            [
+              70.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                103.24137931034483,
+                28.47126436781609,
+                138.183908045977,
+                156.4712643678161
+              ],
+              "top": [
+                131.83908045977012,
+                153.3448275862069
+              ],
+              "bot": [
+                122.73563218390802,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              131.83908045977012,
+              153.3448275862069
+            ],
+            [
+              163.89423602873913,
+              102.36343596978226
+            ],
+            [
+              122.73563218390802,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                129.35632183908046,
+                25.47126436781609,
+                163.3793103448276,
+                153.4712643678161
+              ],
+              "top": [
+                157.95402298850576,
+                150.3448275862069
+              ],
+              "bot": [
+                155.01149425287355,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              157.95402298850576,
+              150.3448275862069
+            ],
+            [
+              255.68275862068964,
+              117.53563218390805
+            ],
+            [
+              155.01149425287355,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                127.35632183908046,
+                25.47126436781609,
+                159.54022988505747,
+                153.4712643678161
+              ],
+              "top": [
+                151.17241379310343,
+                150.71264367816093
+              ],
+              "bot": [
+                143.17241379310343,
+                27.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              151.17241379310343,
+              150.71264367816093
+            ],
+            [
+              147.17241379310343,
+              88.91954022988506
+            ],
+            [
+              143.17241379310343,
+              27.1264367816092
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                54.356321839080465,
+                28.47126436781609,
+                86.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                78.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                70.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              78.17241379310343,
+              153.71264367816093
+            ],
+            [
+              74.17241379310343,
+              91.91954022988506
+            ],
+            [
+              70.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                55.356321839080465,
+                28.47126436781609,
+                87.54022988505747,
+                156.4712643678161
+              ],
+              "top": [
+                79.17241379310343,
+                153.71264367816093
+              ],
+              "bot": [
+                71.17241379310343,
+                30.1264367816092
+              ]
+            }
+          ],
+          "string": [
+            [
+              79.17241379310343,
+              153.71264367816093
+            ],
+            [
+              174.37241379310342,
+              120.71954022988506
+            ],
+            [
+              71.17241379310343,
+              30.1264367816092
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                219.3611111111111,
+                145.02592592592592,
+                316.4277777777778,
+                355.7518518518518
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                222.63703703703703,
+                136.02592592592592,
+                316.3851851851852,
+                348.41111111111115
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                170.1259259259259,
+                103.82222222222222,
+                316.14074074074074,
+                311.22962962962964
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                172.1888888888889,
+                108.02407407407406,
+                283.35925925925926,
+                332.02407407407406
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                54.82037037037037,
+                206.64629629629633,
+                242.31666666666666,
+                334.4092592592593
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                26.092592592592595,
+                264.3888888888889,
+                216.90740740740745,
+                355.64814814814815
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                3.729629629629642,
+                236.14814814814815,
+                211.13703703703703,
+                356.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                56.25185185185185,
+                199.62962962962962,
+                249.5555555555556,
+                355.59999999999997
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                159.32407407407408,
+                141.95555555555555,
+                295.3833333333333,
+                356
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                219.3611111111111,
+                145.02592592592592,
+                316.4277777777778,
+                355.7518518518518
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                55.82037037037037,
+                205.64629629629633,
+                243.31666666666666,
+                333.4092592592593
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                237.5122249388753,
+                152.91870415647924,
+                295.01833740831296,
+                355.5592909535452
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                211.296875,
+                171.17578125,
+                263.796875,
+                356.17578125
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                215.5794621026895,
+                131.52567237163817,
+                297.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                200.19926650366747,
+                157.18031784841077,
+                292.75672371638143,
+                349.9627139364303
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                216.5794621026895,
+                131.52567237163817,
+                298.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                216.5794621026895,
+                131.52567237163817,
+                298.7310513447433,
+                355.5256723716381
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                47.873563218390814,
+                131.82471264367814,
+                104.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                89.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                75.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              89.55172413793099,
+              350.9971264367816
+            ],
+            [
+              82.55172413793099,
+              242.85919540229887
+            ],
+            [
+              75.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                97.17241379310343,
+                126.82471264367815,
+                158.32183908045977,
+                350.8247126436782
+              ],
+              "top": [
+                147.21839080459768,
+                345.35344827586204
+              ],
+              "bot": [
+                131.28735632183904,
+                129.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              147.21839080459768,
+              345.35344827586204
+            ],
+            [
+              175.85975327011843,
+              261.44991484005607
+            ],
+            [
+              131.28735632183904,
+              129.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                124.37356321839081,
+                87.82471264367815,
+                183.91379310344826,
+                311.8247126436782
+              ],
+              "top": [
+                174.41954022988506,
+                306.35344827586204
+              ],
+              "bot": [
+                169.27011494252872,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              174.41954022988506,
+              306.35344827586204
+            ],
+            [
+              271.0448275862069,
+              263.3373563218391
+            ],
+            [
+              169.27011494252872,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                121.87356321839081,
+                87.82471264367815,
+                178.19540229885058,
+                311.8247126436782
+              ],
+              "top": [
+                163.551724137931,
+                306.9971264367816
+              ],
+              "bot": [
+                149.551724137931,
+                90.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              163.551724137931,
+              306.9971264367816
+            ],
+            [
+              156.551724137931,
+              198.85919540229887
+            ],
+            [
+              149.551724137931,
+              90.7212643678161
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                47.873563218390814,
+                131.82471264367814,
+                104.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                89.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                75.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              89.55172413793099,
+              350.9971264367816
+            ],
+            [
+              82.55172413793099,
+              242.85919540229887
+            ],
+            [
+              75.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                49.873563218390814,
+                131.82471264367814,
+                106.19540229885058,
+                355.8247126436782
+              ],
+              "top": [
+                91.55172413793099,
+                350.9971264367816
+              ],
+              "bot": [
+                77.55172413793099,
+                134.7212643678161
+              ]
+            }
+          ],
+          "string": [
+            [
+              91.55172413793099,
+              350.9971264367816
+            ],
+            [
+              183.75172413793098,
+              307.65919540229885
+            ],
+            [
+              77.55172413793099,
+              134.7212643678161
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "fighter-rest",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                190.75,
+                189.03333333333333,
+                315.55000000000007,
+                459.9666666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-drawback",
+          "used": [
+            "fighter-longsword-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-drawback",
+              "box": [
+                195.53333333333336,
+                175.03333333333333,
+                316.06666666666666,
+                448.1
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-windup",
+          "used": [
+            "fighter-longsword-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-windup",
+              "box": [
+                128.73333333333335,
+                134.20000000000002,
+                316.4666666666667,
+                400.86666666666673
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-strike",
+          "used": [
+            "fighter-longsword-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-strike",
+              "box": [
+                153.1,
+                139.31666666666666,
+                296.0333333333333,
+                427.3166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                12.483333333333348,
+                266.1166666666667,
+                253.55,
+                430.3833333333334
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-sweep",
+          "used": [
+            "fighter-longsword-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-sweep",
+              "box": [
+                3.8333333333333286,
+                342.5,
+                249.16666666666669,
+                459.83333333333337
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-through",
+          "used": [
+            "fighter-longsword-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-through",
+              "box": [
+                4.366666666666674,
+                305.3333333333333,
+                271.03333333333336,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recover",
+          "used": [
+            "fighter-longsword-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-recover",
+              "box": [
+                11.466666666666669,
+                259.6666666666667,
+                260.00000000000006,
+                460.2
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-return",
+          "used": [
+            "fighter-longsword-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-return",
+              "box": [
+                131.41666666666669,
+                184.8,
+                306.35,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-recovered",
+          "used": [
+            "fighter-longsword-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-rest",
+              "box": [
+                190.75,
+                189.03333333333333,
+                315.55000000000007,
+                459.9666666666667
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "fighter-calm-cut",
+          "used": [
+            "fighter-longsword-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-longsword-cut",
+              "box": [
+                13.483333333333348,
+                265.1166666666667,
+                254.55,
+                429.3833333333334
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "fighter-longsword-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-two",
+          "used": [
+            "mage-staff-rest-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-two",
+              "box": [
+                227.37286063569684,
+                199.89547677261615,
+                301.3092909535452,
+                460.4333740831296
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-two",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-drive-two",
+          "used": [
+            "mage-staff-drive-two"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-drive-two",
+              "box": [
+                202.44292481662592,
+                222.40454996943765,
+                269.9612622249389,
+                460.32631036063566
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-drive-two",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-rest-one",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-channel",
+          "used": [
+            "mage-staff-channel-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-channel-one",
+              "box": [
+                183.8276283618582,
+                202.3746943765281,
+                302.83007334963327,
+                450.2377750611247
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-channel-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-reading",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "mage-using",
+          "used": [
+            "mage-staff-rest-one"
+          ],
+          "rows": [
+            {
+              "key": "mage-staff-rest-one",
+              "box": [
+                200.17359413202934,
+                171.53300733496332,
+                305.79706601466995,
+                459.5330073349633
+              ]
+            }
+          ],
+          "string": null,
+          "fletch": 0,
+          "expected": "mage-staff-rest-one",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-rest",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                43.551724137931046,
+                172.0603448275862,
+                115.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                97.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                79.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              97.13793103448273,
+              453.8534482758621
+            ],
+            [
+              88.13793103448273,
+              314.8189655172414
+            ],
+            [
+              79.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-half",
+          "used": [
+            "ranger-longbow-bowdraw"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowdraw",
+              "box": [
+                93.79310344827587,
+                163.0603448275862,
+                172.41379310344826,
+                451.0603448275862
+              ],
+              "top": [
+                158.1379310344828,
+                444.0258620689655
+              ],
+              "bot": [
+                137.65517241379303,
+                166.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              158.1379310344828,
+              444.0258620689655
+            ],
+            [
+              184.50343143103797,
+              336.2258033928283
+            ],
+            [
+              137.65517241379303,
+              166.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowdraw",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-full",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-pre-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-release",
+          "used": [
+            "ranger-longbow-bowfull"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-bowfull",
+              "box": [
+                122.05172413793105,
+                113.06034482758619,
+                198.6034482758621,
+                401.0603448275862
+              ],
+              "top": [
+                186.39655172413796,
+                394.0258620689655
+              ],
+              "bot": [
+                179.77586206896547,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              186.39655172413796,
+              394.0258620689655
+            ],
+            [
+              282.28620689655173,
+              338.9251724137931
+            ],
+            [
+              179.77586206896547,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-bowfull",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recoil",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                117.55172413793105,
+                113.06034482758619,
+                189.9655172413793,
+                401.0603448275862
+              ],
+              "top": [
+                171.13793103448273,
+                394.8534482758621
+              ],
+              "bot": [
+                153.13793103448273,
+                116.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              171.13793103448273,
+              394.8534482758621
+            ],
+            [
+              162.13793103448273,
+              255.8189655172414
+            ],
+            [
+              153.13793103448273,
+              116.7844827586207
+            ]
+          ],
+          "fletch": 0,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-recovered",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                43.551724137931046,
+                172.0603448275862,
+                115.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                97.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                79.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              97.13793103448273,
+              453.8534482758621
+            ],
+            [
+              88.13793103448273,
+              314.8189655172414
+            ],
+            [
+              79.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "ranger-calm",
+          "used": [
+            "ranger-longbow-rest"
+          ],
+          "rows": [
+            {
+              "key": "ranger-longbow-rest",
+              "box": [
+                45.551724137931046,
+                172.0603448275862,
+                117.9655172413793,
+                460.0603448275862
+              ],
+              "top": [
+                99.13793103448273,
+                453.8534482758621
+              ],
+              "bot": [
+                81.13793103448273,
+                175.7844827586207
+              ]
+            }
+          ],
+          "string": [
+            [
+              99.13793103448273,
+              453.8534482758621
+            ],
+            [
+              189.33793103448272,
+              398.3389655172414
+            ],
+            [
+              81.13793103448273,
+              175.7844827586207
+            ]
+          ],
+          "fletch": 2,
+          "expected": "ranger-longbow-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "offclass-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "named-bow-fallback",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "fletch": 2,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "name": "fighter-rest",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0,
+      "expected": "fighter-longsword-rest",
+      "used": [
+        "fighter-longsword-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-rest",
+          "box": [
+            205.55555555555554,
+            165.02962962962962,
+            316.48888888888894,
+            405.85925925925926
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-rest.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-drawback",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.08,
+      "expected": "fighter-longsword-drawback",
+      "used": [
+        "fighter-longsword-drawback"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-drawback",
+          "box": [
+            208.5851851851852,
+            154.02962962962962,
+            315.72592592592594,
+            396.7555555555556
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-drawback.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-windup",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.16,
+      "expected": "fighter-longsword-windup",
+      "used": [
+        "fighter-longsword-windup"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-windup",
+          "box": [
+            149.42962962962963,
+            117.51111111111112,
+            316.3037037037037,
+            354.5481481481482
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-windup.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-strike",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.24,
+      "expected": "fighter-longsword-strike",
+      "used": [
+        "fighter-longsword-strike"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-strike",
+          "box": [
+            162.64444444444445,
+            122.17037037037036,
+            289.6962962962963,
+            378.1703703703704
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-strike.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-cut",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.32,
+      "expected": "fighter-longsword-cut",
+      "used": [
+        "fighter-longsword-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-cut",
+          "box": [
+            33.65185185185186,
+            234.8814814814815,
+            247.93333333333334,
+            380.8962962962963
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-sweep",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.42,
+      "expected": "fighter-longsword-sweep",
+      "used": [
+        "fighter-longsword-sweep"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-sweep",
+          "box": [
+            3.962962962962962,
+            301.44444444444446,
+            222.03703703703707,
+            405.74074074074076
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-sweep.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-through",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.52,
+      "expected": "fighter-longsword-through",
+      "used": [
+        "fighter-longsword-through"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-through",
+          "box": [
+            3.548148148148158,
+            268.74074074074076,
+            240.5851851851852,
+            406.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-through.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-recover",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.68,
+      "expected": "fighter-longsword-recover",
+      "used": [
+        "fighter-longsword-recover"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-recover",
+          "box": [
+            33.85925925925926,
+            228.14814814814815,
+            254.77777777777783,
+            406.4
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-recover.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-return",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.84,
+      "expected": "fighter-longsword-return",
+      "used": [
+        "fighter-longsword-return"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-return",
+          "box": [
+            145.37037037037038,
+            161.3777777777778,
+            300.8666666666667,
+            406
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-return.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-recovered",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 1,
+      "expected": "fighter-longsword-rest",
+      "used": [
+        "fighter-longsword-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-rest",
+          "box": [
+            205.55555555555554,
+            165.02962962962962,
+            316.48888888888894,
+            405.85925925925926
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-recovered.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-calm-cut",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.32,
+      "calm": true,
+      "expected": "fighter-longsword-cut",
+      "used": [
+        "fighter-longsword-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-cut",
+          "box": [
+            34.65185185185186,
+            233.8814814814815,
+            248.93333333333334,
+            379.8962962962963
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-fighter-calm-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-rest-two",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "expected": "mage-staff-rest-two",
+      "used": [
+        "mage-staff-rest-two"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-two",
+          "box": [
+            232.44254278728607,
+            174.90709046454768,
+            298.1638141809291,
+            406.4963325183374
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-rest-two.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-drive-two",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "u": 0.35,
+      "expected": "mage-staff-drive-two",
+      "used": [
+        "mage-staff-drive-two"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-drive-two",
+          "box": [
+            207.15560055012224,
+            194.66525634168704,
+            267.10058832518337,
+            405.8999751680929
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-drive-two.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-rest-one",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "cast": 0.02,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            207.3765281173594,
+            150.02933985330074,
+            301.26405867970664,
+            406.0293398533007
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-rest-one.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-channel",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "cast": 0.5,
+      "expected": "mage-staff-channel-one",
+      "used": [
+        "mage-staff-channel-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-channel-one",
+          "box": [
+            192.51344743276283,
+            177.77750611246944,
+            298.29339853300735,
+            398.1002444987775
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-channel.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-reading",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "read": true,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            208.3765281173594,
+            150.02933985330074,
+            302.26405867970664,
+            406.0293398533007
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-reading.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-using",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "use": true,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            208.3765281173594,
+            150.02933985330074,
+            302.26405867970664,
+            406.0293398533007
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-mage-using.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-rest",
+      "id": "longbow",
+      "cls": "ranger",
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            45.71264367816093,
+            149.94252873563218,
+            110.08045977011494,
+            405.9425287356322
+          ],
+          "top": [
+            93.34482758620686,
+            400.42528735632186
+          ],
+          "bot": [
+            77.34482758620686,
+            153.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          93.34482758620686,
+          400.42528735632186
+        ],
+        [
+          85.34482758620686,
+          276.8390804597701
+        ],
+        [
+          77.34482758620686,
+          153.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-rest.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-half",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.3,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowdraw",
+      "used": [
+        "ranger-longbow-bowdraw"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowdraw",
+          "box": [
+            95.48275862068965,
+            143.94252873563218,
+            165.367816091954,
+            399.9425287356322
+          ],
+          "top": [
+            152.67816091954023,
+            393.6896551724138
+          ],
+          "bot": [
+            134.47126436781605,
+            147.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          152.67816091954023,
+          393.6896551724138
+        ],
+        [
+          180.1815923505782,
+          297.70501156911877
+        ],
+        [
+          134.47126436781605,
+          147.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-half.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-full",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.5,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            123.71264367816093,
+            98.94252873563218,
+            191.75862068965517,
+            354.9425287356322
+          ],
+          "top": [
+            180.9080459770115,
+            348.6896551724138
+          ],
+          "bot": [
+            175.0229885057471,
+            102.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          180.9080459770115,
+          348.6896551724138
+        ],
+        [
+          277.1655172413793,
+          299.2712643678161
+        ],
+        [
+          175.0229885057471,
+          102.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-full.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-pre-release",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.719,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            123.71264367816093,
+            98.94252873563218,
+            191.75862068965517,
+            354.9425287356322
+          ],
+          "top": [
+            180.9080459770115,
+            348.6896551724138
+          ],
+          "bot": [
+            175.0229885057471,
+            102.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          180.9080459770115,
+          348.6896551724138
+        ],
+        [
+          277.1655172413793,
+          299.2712643678161
+        ],
+        [
+          175.0229885057471,
+          102.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-pre-release.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-release",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.72,
+      "drawn": true,
+      "arrow": false,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            123.71264367816093,
+            98.94252873563218,
+            191.75862068965517,
+            354.9425287356322
+          ],
+          "top": [
+            180.9080459770115,
+            348.6896551724138
+          ],
+          "bot": [
+            175.0229885057471,
+            102.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          180.9080459770115,
+          348.6896551724138
+        ],
+        [
+          277.1655172413793,
+          299.2712643678161
+        ],
+        [
+          175.0229885057471,
+          102.2528735632184
+        ]
+      ],
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-release.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-recoil",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.79,
+      "drawn": true,
+      "arrow": false,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            119.71264367816093,
+            98.94252873563218,
+            184.08045977011494,
+            354.9425287356322
+          ],
+          "top": [
+            167.34482758620686,
+            349.42528735632186
+          ],
+          "bot": [
+            151.34482758620686,
+            102.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          167.34482758620686,
+          349.42528735632186
+        ],
+        [
+          159.34482758620686,
+          225.83908045977012
+        ],
+        [
+          151.34482758620686,
+          102.2528735632184
+        ]
+      ],
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-recoil.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-recovered",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 1,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            45.71264367816093,
+            149.94252873563218,
+            110.08045977011494,
+            405.9425287356322
+          ],
+          "top": [
+            93.34482758620686,
+            400.42528735632186
+          ],
+          "bot": [
+            77.34482758620686,
+            153.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          93.34482758620686,
+          400.42528735632186
+        ],
+        [
+          85.34482758620686,
+          276.8390804597701
+        ],
+        [
+          77.34482758620686,
+          153.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-recovered.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-calm",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.5,
+      "drawn": true,
+      "calm": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            47.71264367816093,
+            149.94252873563218,
+            112.08045977011494,
+            405.9425287356322
+          ],
+          "top": [
+            95.34482758620686,
+            400.42528735632186
+          ],
+          "bot": [
+            79.34482758620686,
+            153.2528735632184
+          ]
+        }
+      ],
+      "string": [
+        [
+          95.34482758620686,
+          400.42528735632186
+        ],
+        [
+          186.54482758620685,
+          350.6390804597701
+        ],
+        [
+          79.34482758620686,
+          153.2528735632184
+        ]
+      ],
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-ranger-calm.png"
+    },
+    {
+      "width": 390,
+      "name": "offclass-fallback",
+      "id": "longsword",
+      "cls": "spellblade",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-offclass-fallback.png"
+    },
+    {
+      "width": 390,
+      "name": "named-bow-fallback",
+      "id": "mythic_horizon",
+      "cls": "ranger",
+      "drawn": true,
+      "u": 0.5,
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "fletch": 2,
+      "height": 410,
+      "now": 10000,
+      "file": "390-named-bow-fallback.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-rest",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0,
+      "expected": "fighter-longsword-rest",
+      "used": [
+        "fighter-longsword-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-rest",
+          "box": [
+            190.75,
+            189.03333333333333,
+            315.55000000000007,
+            459.9666666666667
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-rest.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-drawback",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.08,
+      "expected": "fighter-longsword-drawback",
+      "used": [
+        "fighter-longsword-drawback"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-drawback",
+          "box": [
+            195.53333333333336,
+            175.03333333333333,
+            316.06666666666666,
+            448.1
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-drawback.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-windup",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.16,
+      "expected": "fighter-longsword-windup",
+      "used": [
+        "fighter-longsword-windup"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-windup",
+          "box": [
+            128.73333333333335,
+            134.20000000000002,
+            316.4666666666667,
+            400.86666666666673
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-windup.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-strike",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.24,
+      "expected": "fighter-longsword-strike",
+      "used": [
+        "fighter-longsword-strike"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-strike",
+          "box": [
+            153.1,
+            139.31666666666666,
+            296.0333333333333,
+            427.3166666666667
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-strike.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-cut",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.32,
+      "expected": "fighter-longsword-cut",
+      "used": [
+        "fighter-longsword-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-cut",
+          "box": [
+            12.483333333333348,
+            266.1166666666667,
+            253.55,
+            430.3833333333334
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-sweep",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.42,
+      "expected": "fighter-longsword-sweep",
+      "used": [
+        "fighter-longsword-sweep"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-sweep",
+          "box": [
+            3.8333333333333286,
+            342.5,
+            249.16666666666669,
+            459.83333333333337
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-sweep.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-through",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.52,
+      "expected": "fighter-longsword-through",
+      "used": [
+        "fighter-longsword-through"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-through",
+          "box": [
+            4.366666666666674,
+            305.3333333333333,
+            271.03333333333336,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-through.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-recover",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.68,
+      "expected": "fighter-longsword-recover",
+      "used": [
+        "fighter-longsword-recover"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-recover",
+          "box": [
+            11.466666666666669,
+            259.6666666666667,
+            260.00000000000006,
+            460.2
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-recover.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-return",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.84,
+      "expected": "fighter-longsword-return",
+      "used": [
+        "fighter-longsword-return"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-return",
+          "box": [
+            131.41666666666669,
+            184.8,
+            306.35,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-return.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-recovered",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 1,
+      "expected": "fighter-longsword-rest",
+      "used": [
+        "fighter-longsword-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-rest",
+          "box": [
+            190.75,
+            189.03333333333333,
+            315.55000000000007,
+            459.9666666666667
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-recovered.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-calm-cut",
+      "id": "longsword",
+      "cls": "fighter",
+      "u": 0.32,
+      "calm": true,
+      "expected": "fighter-longsword-cut",
+      "used": [
+        "fighter-longsword-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-longsword-cut",
+          "box": [
+            13.483333333333348,
+            265.1166666666667,
+            254.55,
+            429.3833333333334
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-fighter-calm-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-rest-two",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "expected": "mage-staff-rest-two",
+      "used": [
+        "mage-staff-rest-two"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-two",
+          "box": [
+            227.37286063569684,
+            199.89547677261615,
+            301.3092909535452,
+            460.4333740831296
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-rest-two.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-drive-two",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "u": 0.35,
+      "expected": "mage-staff-drive-two",
+      "used": [
+        "mage-staff-drive-two"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-drive-two",
+          "box": [
+            202.44292481662592,
+            222.40454996943765,
+            269.9612622249389,
+            460.32631036063566
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-drive-two.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-rest-one",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "cast": 0.02,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            200.17359413202934,
+            171.53300733496332,
+            305.79706601466995,
+            459.5330073349633
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-rest-one.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-channel",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "cast": 0.5,
+      "expected": "mage-staff-channel-one",
+      "used": [
+        "mage-staff-channel-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-channel-one",
+          "box": [
+            183.8276283618582,
+            202.3746943765281,
+            302.83007334963327,
+            450.2377750611247
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-channel.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-reading",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "read": true,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            200.17359413202934,
+            171.53300733496332,
+            305.79706601466995,
+            459.5330073349633
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-reading.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-using",
+      "id": "staff",
+      "cls": "mage",
+      "two": true,
+      "use": true,
+      "expected": "mage-staff-rest-one",
+      "used": [
+        "mage-staff-rest-one"
+      ],
+      "rows": [
+        {
+          "key": "mage-staff-rest-one",
+          "box": [
+            200.17359413202934,
+            171.53300733496332,
+            305.79706601466995,
+            459.5330073349633
+          ]
+        }
+      ],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-mage-using.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-rest",
+      "id": "longbow",
+      "cls": "ranger",
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            43.551724137931046,
+            172.0603448275862,
+            115.9655172413793,
+            460.0603448275862
+          ],
+          "top": [
+            97.13793103448273,
+            453.8534482758621
+          ],
+          "bot": [
+            79.13793103448273,
+            175.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          97.13793103448273,
+          453.8534482758621
+        ],
+        [
+          88.13793103448273,
+          314.8189655172414
+        ],
+        [
+          79.13793103448273,
+          175.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-rest.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-half",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.3,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowdraw",
+      "used": [
+        "ranger-longbow-bowdraw"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowdraw",
+          "box": [
+            93.79310344827587,
+            163.0603448275862,
+            172.41379310344826,
+            451.0603448275862
+          ],
+          "top": [
+            158.1379310344828,
+            444.0258620689655
+          ],
+          "bot": [
+            137.65517241379303,
+            166.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          158.1379310344828,
+          444.0258620689655
+        ],
+        [
+          184.50343143103797,
+          336.2258033928283
+        ],
+        [
+          137.65517241379303,
+          166.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-half.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-full",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.5,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            122.05172413793105,
+            113.06034482758619,
+            198.6034482758621,
+            401.0603448275862
+          ],
+          "top": [
+            186.39655172413796,
+            394.0258620689655
+          ],
+          "bot": [
+            179.77586206896547,
+            116.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          186.39655172413796,
+          394.0258620689655
+        ],
+        [
+          282.28620689655173,
+          338.9251724137931
+        ],
+        [
+          179.77586206896547,
+          116.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-full.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-pre-release",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.719,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            122.05172413793105,
+            113.06034482758619,
+            198.6034482758621,
+            401.0603448275862
+          ],
+          "top": [
+            186.39655172413796,
+            394.0258620689655
+          ],
+          "bot": [
+            179.77586206896547,
+            116.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          186.39655172413796,
+          394.0258620689655
+        ],
+        [
+          282.28620689655173,
+          338.9251724137931
+        ],
+        [
+          179.77586206896547,
+          116.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-pre-release.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-release",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.72,
+      "drawn": true,
+      "arrow": false,
+      "expected": "ranger-longbow-bowfull",
+      "used": [
+        "ranger-longbow-bowfull"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-bowfull",
+          "box": [
+            122.05172413793105,
+            113.06034482758619,
+            198.6034482758621,
+            401.0603448275862
+          ],
+          "top": [
+            186.39655172413796,
+            394.0258620689655
+          ],
+          "bot": [
+            179.77586206896547,
+            116.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          186.39655172413796,
+          394.0258620689655
+        ],
+        [
+          282.28620689655173,
+          338.9251724137931
+        ],
+        [
+          179.77586206896547,
+          116.7844827586207
+        ]
+      ],
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-release.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-recoil",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.79,
+      "drawn": true,
+      "arrow": false,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            117.55172413793105,
+            113.06034482758619,
+            189.9655172413793,
+            401.0603448275862
+          ],
+          "top": [
+            171.13793103448273,
+            394.8534482758621
+          ],
+          "bot": [
+            153.13793103448273,
+            116.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          171.13793103448273,
+          394.8534482758621
+        ],
+        [
+          162.13793103448273,
+          255.8189655172414
+        ],
+        [
+          153.13793103448273,
+          116.7844827586207
+        ]
+      ],
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-recoil.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-recovered",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 1,
+      "drawn": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            43.551724137931046,
+            172.0603448275862,
+            115.9655172413793,
+            460.0603448275862
+          ],
+          "top": [
+            97.13793103448273,
+            453.8534482758621
+          ],
+          "bot": [
+            79.13793103448273,
+            175.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          97.13793103448273,
+          453.8534482758621
+        ],
+        [
+          88.13793103448273,
+          314.8189655172414
+        ],
+        [
+          79.13793103448273,
+          175.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-recovered.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-calm",
+      "id": "longbow",
+      "cls": "ranger",
+      "u": 0.5,
+      "drawn": true,
+      "calm": true,
+      "arrow": true,
+      "expected": "ranger-longbow-rest",
+      "used": [
+        "ranger-longbow-rest"
+      ],
+      "rows": [
+        {
+          "key": "ranger-longbow-rest",
+          "box": [
+            45.551724137931046,
+            172.0603448275862,
+            117.9655172413793,
+            460.0603448275862
+          ],
+          "top": [
+            99.13793103448273,
+            453.8534482758621
+          ],
+          "bot": [
+            81.13793103448273,
+            175.7844827586207
+          ]
+        }
+      ],
+      "string": [
+        [
+          99.13793103448273,
+          453.8534482758621
+        ],
+        [
+          189.33793103448272,
+          398.3389655172414
+        ],
+        [
+          81.13793103448273,
+          175.7844827586207
+        ]
+      ],
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-ranger-calm.png"
+    },
+    {
+      "width": 320,
+      "name": "offclass-fallback",
+      "id": "longsword",
+      "cls": "spellblade",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-offclass-fallback.png"
+    },
+    {
+      "width": 320,
+      "name": "named-bow-fallback",
+      "id": "mythic_horizon",
+      "cls": "ranger",
+      "drawn": true,
+      "u": 0.5,
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "fletch": 2,
+      "height": 464,
+      "now": 10000,
+      "file": "320-named-bow-fallback.png"
+    }
+  ]
+}

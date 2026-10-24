@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–R review/publication status, R–X painting roadmap and runtime follow-up
+art/creatures/ATLAS-ROADMAP.md  E–T review/publication status, R–X painting roadmap and runtime follow-up
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1335,3 +1335,20 @@ Batch R adds eight baseline architecture sources with native64/detail256 reviews
 `node art/creatures/preview-batch-r.cjs`. The painted arch remains a candidate:
 previews retain the exact original opening and five-colour lock bindings. Regional
 material matching and runtime integration remain pending; source/review assets are published.
+
+Batch S adds20 baseline secondary material/detail cells (floors, roofs, wall/rock
+variants, fountain states and torch frames). See
+[review](art/creatures/batch-s-preview/REVIEW.md) and
+[state/format audit](art/creatures/batch-s-preview/STATE-AUDIT.md). Reproduce with
+`python3 art/creatures/export-batch-s.py --check` and
+`node art/creatures/preview-batch-s.cjs`.84 frozen captures,144 shade levels and
+six native regional browser tests pass. Source/review assets are published; repeat joins, regional matching
+and runtime integration remain pending.
+
+Batch T adds16 baseline held frames for Fighter longsword, Mage staff and Ranger
+longbow. See [review](art/creatures/batch-t-preview/REVIEW.md) and
+[state audit](art/creatures/batch-t-preview/STATE-AUDIT.md). Reproduce with
+`python3 art/creatures/export-batch-t.py --check` and
+`node art/creatures/preview-batch-t.cjs`.54 frozen captures,162 fitting/release
+cases and12 native held-equipment browser tests pass. Remaining weapon/class
+coverage and runtime integration remain pending; source/review assets are published.

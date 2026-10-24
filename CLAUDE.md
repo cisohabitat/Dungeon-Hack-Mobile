@@ -256,6 +256,25 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   68 frozen captures and eight native browser tests cover stairs/doors/pillars;
   small needs a temporary art.spec.js selector. Exact masks, regional materials,
   loader/offline/fallback/performance remain integration gates.
+  Batch S uses generation-batch-s.json, reference-batch-s.cjs,
+  export-batch-s.py --check and preview-batch-s.cjs.20 opaque64 baseline cells
+  cover six floors, three roofs, six wall/rock surfaces, two fountains and three
+  torches; not260 regional paintings.144 shade levels and84 frozen captures
+  verified, with six native region-art browser tests. Preserve original69 decor
+  entries, locks and exact arches. Wall fixtures face x3,y4; x4,y4 selects decor.
+  Track sampled sources through softWall caches; Calm retains the current torch
+  frame, not forced frame0. Repeat ratios do not prove seamlessness; roots/joins,
+  regional material matching, native/offline/fallback/performance remain gates.
+  Batch T uses generation-batch-t.json, reference-batch-t.cjs,
+  export-batch-t.py --check and preview-batch-t.cjs.16 held source frames cover
+  Fighter longsword9, Mage staff4, Ranger longbow3. Exact raw id/class/pose/two
+  and lit=false guards only; never strip named prefixes or replace other classes.
+  Ranger retains Fighter hand-palette fallback. Bow art excludes string/arrow/
+  drawing hand; authored nocks feed existing live drawing and .72 release.
+  Mage casting/read/use release the lower staff hand. Shared family scales and
+  authored grips/object bounds keep162 fixture cases within160/360/464 views;
+  54 captures and12 native held tests pass. Through source sleeve has3px spacing
+  but exports>=12px. Native transition/offline/fallback/performance remain gates.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

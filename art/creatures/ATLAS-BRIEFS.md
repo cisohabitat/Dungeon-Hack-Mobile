@@ -1030,3 +1030,15 @@ Batch R’s eight baseline architecture sources are reviewed and published; see
 [review](batch-r-preview/REVIEW.md) and [state/format audit](batch-r-preview/STATE-AUDIT.md).
 Thirteen regional kits are not complete. Existing colour-lock variants and exact
 procedural arch mask remain; runtime integration is pending.
+
+Batch S’s20 baseline secondary material/detail cells are reviewed and published; see
+[review](batch-s-preview/REVIEW.md) and [state/format audit](batch-s-preview/STATE-AUDIT.md).
+Six original groups and one selected mosaic repair cover floors, roofs, wall/rock
+variants, fountain states and torch frames. Regional matching/repeat joins,
+runtime integration remains pending; source/review assets are published and existing decor retained.
+
+Batch T’s16 baseline held frames are reviewed and published; see
+[review](batch-t-preview/REVIEW.md) and [state audit](batch-t-preview/STATE-AUDIT.md).
+Fighter longsword, Mage staff and Ranger longbow use exact class/key/pose/grip
+guards. Other classes, named/reflected gear and action hands remain procedural.
+Source/review assets for S/T are published; runtime integration remains pending.

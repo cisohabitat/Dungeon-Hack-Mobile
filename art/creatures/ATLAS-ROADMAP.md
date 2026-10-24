@@ -2,7 +2,11 @@
 
 Prepared 23 October 2026; extended 24 October 2026. E–N source/review assets
 and O’s baseline surface pass are generated, reviewed and published to main.
-Runtime integration remains pending for E–R. R’s baseline architecture source pass
+Runtime integration remains pending for E–T. T’s16-frame baseline held source kit
+is published as source/review assets; remaining library coverage and runtime validation
+remain pending. S’s20-cell baseline source pass is
+published as source/review assets; repeat-join refinement and regional matching remain
+pending. R’s baseline architecture source pass
 is published as source/review assets; exact arch-mask resolution and regional matching
 remain pending. P and Q source/review assets are published together. O architecture
 and secondary variants remain procedural. See completion tracking for evidence.
@@ -365,8 +369,8 @@ remains a separate delivery priority and does not require new paintings.
 | Order | Batch | Scope | Status |
 |---|---|---|---|
 | 1 | R | Doors, locks, arches, recesses, stairs and pillars | Eight baseline cells published; arch geometry/regional matching and runtime integration pending |
-| 2 | S | Secondary floors, walls, ceilings, fountains, torches and structural details | Confirmed unfinished O scope; reuse compatible procedural details |
-| 3 | T | First-person weapons, shields, hands and class sleeves | Proposed coverage audit; commission demonstrated gaps only |
+| 2 | S | Secondary floors, walls, ceilings, fountains, torches and structural details |20 baseline cells published; repeat joins/regional matching and runtime integration pending |
+| 3 | T | First-person weapons, shields, hands and class sleeves |16 baseline held frames published; remaining library procedural, runtime integration pending |
 | 4 | U | Hero/class portraits and character selection | Proposed consistency audit; existing portraits already have coverage |
 | 5 | V | Inventory frames, journal, bestiary, shops and status icons | Proposed interface art audit; counts and formats unset |
 | 6 | W | Title, loading, death and victory illustrations | Proposed screen audit; preserve approved existing title/other artwork |
@@ -398,6 +402,14 @@ a mismatch. Preserve water/solid-ground meaning, transparent geometry, existing
 light sources and interaction states. Check repeats, native texel density,
 near/far views and cached darkness levels for each selected material family.
 
+S baseline source pass reviewed locally:20 cells in six groups, one preserved
+mosaic correction,84 frozen phone captures,144 shade-level checks and six native
+regional browser tests.260 active references were audited across13 themes;69
+existing decoration entries retain original bindings. This is not260 individually
+painted variants. Repeat joins, regional matching, offline/fallback/performance
+and runtime integration remain follow-ups; source/review assets are published. See
+[S review](batch-s-preview/REVIEW.md) and [state audit](batch-s-preview/STATE-AUDIT.md).
+
 ### Batch T — first-person equipment and class presentation
 
 P covered seven regional inventory paintings and two Rune shield rear frames;
@@ -407,6 +419,15 @@ separate deliverables. Map actual rest, attack, recovery, ranged and casting
 motions before specifying sheets. Preserve grip attachment, handedness, weapon
 geometry, gear occlusion, Calm view and short-screen clearance. Reuse P’s shield
 sources and existing item/relic art; do not duplicate them or invent new motions.
+
+T baseline pass reviewed locally: nine Fighter longsword poses, four Mage staff
+grip variants and three Ranger longbow bends.140 held guides audit18 base weapons
+and fist/cast hands across seven palettes; not every pairing is equip-legal.
+54 frozen captures,162 fitting/release cases and12 native browser tests pass.
+Reuse P shield sources; other classes/weapons, named/reflected gear, standalone
+hands and Wild Shape remain procedural. Runtime integration, transition review
+and broader library coverage remain follow-ups. See [T review](batch-t-preview/REVIEW.md)
+and [state audit](batch-t-preview/STATE-AUDIT.md).
 
 ### Batch U — hero portraits and character selection
 
@@ -484,6 +505,8 @@ warning readability, fallback and memory/frame-time budgets before generation.
 | P | `1e55f72`; runtime integration pending | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
 | Q | `1e55f72`; eleven cells; runtime integration pending | [Effects review](batch-q-preview/REVIEW.md) |
 | R | Baseline source/review published; exact mask/regional matching and runtime integration pending | [Architecture review](batch-r-preview/REVIEW.md) |
+| S |20 baseline cells published; runtime integration and repeat/regional matching pending | [Secondary materials](batch-s-preview/REVIEW.md) |
+| T |16 baseline held frames published; runtime integration pending; other library entries procedural | [Held equipment](batch-t-preview/REVIEW.md) |
 
 E–Q still require runtime integration and full runtime validation. Their published
 source/review assets are not evidence of live bindings, failure fallback or offline

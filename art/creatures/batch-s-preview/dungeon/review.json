@@ -1,0 +1,1996 @@
+{
+  "mode": "frozen baseline material/detail substitutions; actual look-kind selection and original architecture/decor/locks retained; no regional/native gameplay/offline/performance integration",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "levels_verified": 72,
+      "opaque_cells": 20,
+      "raw_surface_cache_bytes": 1179648,
+      "original_themes": 13
+    },
+    {
+      "width": 320,
+      "levels_verified": 72,
+      "opaque_cells": 20,
+      "raw_surface_cache_bytes": 1179648,
+      "original_themes": 13
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "floor1",
+      "view": "near",
+      "name": "floor1-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        1
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 2,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor1-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor1",
+      "view": "far",
+      "name": "floor1-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        1
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 2,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor1-far.png"
+    },
+    {
+      "width": 390,
+      "key": "floor2",
+      "view": "near",
+      "name": "floor2-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor2-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor2",
+      "view": "far",
+      "name": "floor2-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor2-far.png"
+    },
+    {
+      "width": 390,
+      "key": "floor3",
+      "view": "near",
+      "name": "floor3-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor3-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor3",
+      "view": "far",
+      "name": "floor3-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor3-far.png"
+    },
+    {
+      "width": 390,
+      "key": "floor4",
+      "view": "near",
+      "name": "floor4-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        4
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 16,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor4-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor4",
+      "view": "far",
+      "name": "floor4-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        4
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 16,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor4-far.png"
+    },
+    {
+      "width": 390,
+      "key": "floor5",
+      "view": "near",
+      "name": "floor5-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor5-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor5",
+      "view": "far",
+      "name": "floor5-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor5-far.png"
+    },
+    {
+      "width": 390,
+      "key": "floor6",
+      "view": "near",
+      "name": "floor6-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0,
+        6
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 65,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor6-near.png"
+    },
+    {
+      "width": 390,
+      "key": "floor6",
+      "view": "far",
+      "name": "floor6-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0,
+        6
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 65,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-floor6-far.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil1",
+      "view": "near",
+      "name": "ceil1-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        1
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil1-near.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil1",
+      "view": "far",
+      "name": "ceil1-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        1
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil1-far.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil2",
+      "view": "near",
+      "name": "ceil2-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        2
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil2-near.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil2",
+      "view": "far",
+      "name": "ceil2-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        2
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil2-far.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil3",
+      "view": "near",
+      "name": "ceil3-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil3-near.png"
+    },
+    {
+      "width": 390,
+      "key": "ceil3",
+      "view": "far",
+      "name": "ceil3-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-ceil3-far.png"
+    },
+    {
+      "width": 390,
+      "key": "wallB",
+      "view": "near",
+      "name": "wallB-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallB-near.png"
+    },
+    {
+      "width": 390,
+      "key": "wallB",
+      "view": "far",
+      "name": "wallB-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallB-far.png"
+    },
+    {
+      "width": 390,
+      "key": "wallDamp",
+      "view": "near",
+      "name": "wallDamp-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallDamp-near.png"
+    },
+    {
+      "width": 390,
+      "key": "wallDamp",
+      "view": "far",
+      "name": "wallDamp-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallDamp-far.png"
+    },
+    {
+      "width": 390,
+      "key": "wallCracked",
+      "view": "near",
+      "name": "wallCracked-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallCracked-near.png"
+    },
+    {
+      "width": 390,
+      "key": "wallCracked",
+      "view": "far",
+      "name": "wallCracked-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-wallCracked-far.png"
+    },
+    {
+      "width": 390,
+      "key": "rock",
+      "view": "near",
+      "name": "rock-near",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-rock-near.png"
+    },
+    {
+      "width": 390,
+      "key": "rock",
+      "view": "far",
+      "name": "rock-far",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-rock-far.png"
+    },
+    {
+      "width": 390,
+      "key": "fallen",
+      "view": "near",
+      "name": "fallen-near",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 320,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fallen-near.png"
+    },
+    {
+      "width": 390,
+      "key": "fallen",
+      "view": "far",
+      "name": "fallen-far",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 320,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fallen-far.png"
+    },
+    {
+      "width": 390,
+      "key": "rockPillar",
+      "view": "near",
+      "name": "rockPillar-near",
+      "sampled_material_draw_calls": 97,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 97,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-rockPillar-near.png"
+    },
+    {
+      "width": 390,
+      "key": "rockPillar",
+      "view": "far",
+      "name": "rockPillar-far",
+      "sampled_material_draw_calls": 45,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 45,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-rockPillar-far.png"
+    },
+    {
+      "width": 390,
+      "key": "fountain",
+      "view": "near",
+      "name": "fountain-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fountain-near.png"
+    },
+    {
+      "width": 390,
+      "key": "fountain",
+      "view": "far",
+      "name": "fountain-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fountain-far.png"
+    },
+    {
+      "width": 390,
+      "key": "fountainDry",
+      "view": "near",
+      "name": "fountainDry-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fountainDry-near.png"
+    },
+    {
+      "width": 390,
+      "key": "fountainDry",
+      "view": "far",
+      "name": "fountainDry-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fountainDry-far.png"
+    },
+    {
+      "width": 390,
+      "key": "torch0",
+      "frame": 0,
+      "view": "near",
+      "name": "torch0-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 1,
+      "torch_frame": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch0-near.png"
+    },
+    {
+      "width": 390,
+      "key": "torch0",
+      "frame": 0,
+      "view": "far",
+      "name": "torch0-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 1,
+      "torch_frame": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch0-far.png"
+    },
+    {
+      "width": 390,
+      "key": "torch1",
+      "frame": 1,
+      "view": "near",
+      "name": "torch1-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch1-near.png"
+    },
+    {
+      "width": 390,
+      "key": "torch1",
+      "frame": 1,
+      "view": "far",
+      "name": "torch1-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch1-far.png"
+    },
+    {
+      "width": 390,
+      "key": "torch2",
+      "frame": 2,
+      "view": "near",
+      "name": "torch2-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "torch_frame": 2,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch2-near.png"
+    },
+    {
+      "width": 390,
+      "key": "torch2",
+      "frame": 2,
+      "view": "far",
+      "name": "torch2-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "torch_frame": 2,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch2-far.png"
+    },
+    {
+      "width": 390,
+      "key": "torch1",
+      "frame": 1,
+      "view": "near",
+      "calm": true,
+      "name": "torch-calm",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-torch-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "fountainDry",
+      "view": "near",
+      "safe": true,
+      "name": "fountain-dry-safe",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "390-fountain-dry-safe.png"
+    },
+    {
+      "width": 320,
+      "key": "floor1",
+      "view": "near",
+      "name": "floor1-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        1
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 2,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor1-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor1",
+      "view": "far",
+      "name": "floor1-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        1
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 2,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor1-far.png"
+    },
+    {
+      "width": 320,
+      "key": "floor2",
+      "view": "near",
+      "name": "floor2-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor2-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor2",
+      "view": "far",
+      "name": "floor2-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor2-far.png"
+    },
+    {
+      "width": 320,
+      "key": "floor3",
+      "view": "near",
+      "name": "floor3-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor3-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor3",
+      "view": "far",
+      "name": "floor3-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        2,
+        3
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 12,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor3-far.png"
+    },
+    {
+      "width": 320,
+      "key": "floor4",
+      "view": "near",
+      "name": "floor4-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        4
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 16,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor4-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor4",
+      "view": "far",
+      "name": "floor4-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        4
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 16,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor4-far.png"
+    },
+    {
+      "width": 320,
+      "key": "floor5",
+      "view": "near",
+      "name": "floor5-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor5-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor5",
+      "view": "far",
+      "name": "floor5-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor5-far.png"
+    },
+    {
+      "width": 320,
+      "key": "floor6",
+      "view": "near",
+      "name": "floor6-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0,
+        6
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 65,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor6-near.png"
+    },
+    {
+      "width": 320,
+      "key": "floor6",
+      "view": "far",
+      "name": "floor6-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0,
+        6
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 65,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-floor6-far.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil1",
+      "view": "near",
+      "name": "ceil1-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        1
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil1-near.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil1",
+      "view": "far",
+      "name": "ceil1-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        1
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil1-far.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil2",
+      "view": "near",
+      "name": "ceil2-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        2
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil2-near.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil2",
+      "view": "far",
+      "name": "ceil2-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        2
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil2-far.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil3",
+      "view": "near",
+      "name": "ceil3-near",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil3-near.png"
+    },
+    {
+      "width": 320,
+      "key": "ceil3",
+      "view": "far",
+      "name": "ceil3-far",
+      "sampled_material_draw_calls": 0,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-ceil3-far.png"
+    },
+    {
+      "width": 320,
+      "key": "wallB",
+      "view": "near",
+      "name": "wallB-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallB-near.png"
+    },
+    {
+      "width": 320,
+      "key": "wallB",
+      "view": "far",
+      "name": "wallB-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallB-far.png"
+    },
+    {
+      "width": 320,
+      "key": "wallDamp",
+      "view": "near",
+      "name": "wallDamp-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallDamp-near.png"
+    },
+    {
+      "width": 320,
+      "key": "wallDamp",
+      "view": "far",
+      "name": "wallDamp-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallDamp-far.png"
+    },
+    {
+      "width": 320,
+      "key": "wallCracked",
+      "view": "near",
+      "name": "wallCracked-near",
+      "sampled_material_draw_calls": 253,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallCracked-near.png"
+    },
+    {
+      "width": 320,
+      "key": "wallCracked",
+      "view": "far",
+      "name": "wallCracked-far",
+      "sampled_material_draw_calls": 241,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-wallCracked-far.png"
+    },
+    {
+      "width": 320,
+      "key": "rock",
+      "view": "near",
+      "name": "rock-near",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-rock-near.png"
+    },
+    {
+      "width": 320,
+      "key": "rock",
+      "view": "far",
+      "name": "rock-far",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-rock-far.png"
+    },
+    {
+      "width": 320,
+      "key": "fallen",
+      "view": "near",
+      "name": "fallen-near",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 320,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fallen-near.png"
+    },
+    {
+      "width": 320,
+      "key": "fallen",
+      "view": "far",
+      "name": "fallen-far",
+      "sampled_material_draw_calls": 320,
+      "floor_kinds": [
+        5
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 32,
+      "rock_columns": 0,
+      "fallen_columns": 320,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fallen-far.png"
+    },
+    {
+      "width": 320,
+      "key": "rockPillar",
+      "view": "near",
+      "name": "rockPillar-near",
+      "sampled_material_draw_calls": 97,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 97,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-rockPillar-near.png"
+    },
+    {
+      "width": 320,
+      "key": "rockPillar",
+      "view": "far",
+      "name": "rockPillar-far",
+      "sampled_material_draw_calls": 45,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        3
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 320,
+      "fallen_columns": 0,
+      "pillar_columns": 45,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-rockPillar-far.png"
+    },
+    {
+      "width": 320,
+      "key": "fountain",
+      "view": "near",
+      "name": "fountain-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fountain-near.png"
+    },
+    {
+      "width": 320,
+      "key": "fountain",
+      "view": "far",
+      "name": "fountain-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fountain-far.png"
+    },
+    {
+      "width": 320,
+      "key": "fountainDry",
+      "view": "near",
+      "name": "fountainDry-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fountainDry-near.png"
+    },
+    {
+      "width": 320,
+      "key": "fountainDry",
+      "view": "far",
+      "name": "fountainDry-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fountainDry-far.png"
+    },
+    {
+      "width": 320,
+      "key": "torch0",
+      "frame": 0,
+      "view": "near",
+      "name": "torch0-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 1,
+      "torch_frame": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch0-near.png"
+    },
+    {
+      "width": 320,
+      "key": "torch0",
+      "frame": 0,
+      "view": "far",
+      "name": "torch0-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 1,
+      "torch_frame": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch0-far.png"
+    },
+    {
+      "width": 320,
+      "key": "torch1",
+      "frame": 1,
+      "view": "near",
+      "name": "torch1-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch1-near.png"
+    },
+    {
+      "width": 320,
+      "key": "torch1",
+      "frame": 1,
+      "view": "far",
+      "name": "torch1-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch1-far.png"
+    },
+    {
+      "width": 320,
+      "key": "torch2",
+      "frame": 2,
+      "view": "near",
+      "name": "torch2-near",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "torch_frame": 2,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch2-near.png"
+    },
+    {
+      "width": 320,
+      "key": "torch2",
+      "frame": 2,
+      "view": "far",
+      "name": "torch2-far",
+      "sampled_material_draw_calls": 79,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "torch_frame": 2,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch2-far.png"
+    },
+    {
+      "width": 320,
+      "key": "torch1",
+      "frame": 1,
+      "view": "near",
+      "calm": true,
+      "name": "torch-calm",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 3,
+      "torch_frame": 1,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-torch-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "fountainDry",
+      "view": "near",
+      "safe": true,
+      "name": "fountain-dry-safe",
+      "sampled_material_draw_calls": 185,
+      "floor_kinds": [
+        0
+      ],
+      "roof_kinds": [
+        0
+      ],
+      "drawn_floor_bits": 1,
+      "rock_columns": 0,
+      "fallen_columns": 0,
+      "pillar_columns": 0,
+      "torch_tick": 0,
+      "calm": false,
+      "light_at_target": 0,
+      "preserved_architecture": true,
+      "original_decor": true,
+      "file": "320-fountain-dry-safe.png"
+    }
+  ]
+}
