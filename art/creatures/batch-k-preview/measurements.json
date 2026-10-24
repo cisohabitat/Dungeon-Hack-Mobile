@@ -1,0 +1,902 @@
+{
+  "spider_altar": {
+    "source": "scenery-k1a.png",
+    "source_sha256": "53154d96ff7d38d844ac0ff5fe84124c3f927c6031b623aec9e8db1f36dbcf9f",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      55,
+      14,
+      595,
+      611
+    ],
+    "source_anchor": [
+      325.0,
+      611
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3482587064676617,
+    "offset": [
+      33,
+      28
+    ],
+    "visible_bounds": [
+      34,
+      29,
+      222,
+      237
+    ],
+    "export_sha256": "32c8d04a55fac70a029c222ef53b26b0144c91053772412e096d7289e5c8a081"
+  },
+  "heartwell": {
+    "source": "scenery-k1a.png",
+    "source_sha256": "53154d96ff7d38d844ac0ff5fe84124c3f927c6031b623aec9e8db1f36dbcf9f",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      61,
+      85,
+      602,
+      620
+    ],
+    "source_anchor": [
+      331.5,
+      620
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.38817005545286504,
+    "offset": [
+      22,
+      28
+    ],
+    "visible_bounds": [
+      23,
+      29,
+      233,
+      237
+    ],
+    "export_sha256": "8676fdc6f7d13362170a0a37337ac197fc988f15f3bf39e2a1c35f12b95678c1"
+  },
+  "shrine": {
+    "source": "scenery-k1a.png",
+    "source_sha256": "53154d96ff7d38d844ac0ff5fe84124c3f927c6031b623aec9e8db1f36dbcf9f",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      56,
+      32,
+      617,
+      583
+    ],
+    "source_anchor": [
+      336.5,
+      583
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3770197486535009,
+    "offset": [
+      21,
+      28
+    ],
+    "visible_bounds": [
+      22,
+      29,
+      234,
+      237
+    ],
+    "export_sha256": "6d989a8529116857a73785b97392e8987fc4c84eb0149506c60d473b4d41d706"
+  },
+  "runestone": {
+    "source": "scenery-k1a.png",
+    "source_sha256": "53154d96ff7d38d844ac0ff5fe84124c3f927c6031b623aec9e8db1f36dbcf9f",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      115,
+      15,
+      571,
+      579
+    ],
+    "source_anchor": [
+      343.0,
+      579
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3684210526315789,
+    "offset": [
+      43,
+      28
+    ],
+    "visible_bounds": [
+      44,
+      29,
+      212,
+      237
+    ],
+    "export_sha256": "ed6384fb0830248100d47a93b350623933ded66a022b91b33b28b6c24ce33d20"
+  },
+  "mirror": {
+    "source": "scenery-k1b-corrected.png",
+    "source_sha256": "81e7576d7bcac2a8b876467dc31e217f750fa65bc7a019dbd918b177f6cfa581",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      150,
+      66,
+      493,
+      601
+    ],
+    "source_anchor": [
+      321.5,
+      601
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.38817005545286504,
+    "offset": [
+      60,
+      28
+    ],
+    "visible_bounds": [
+      61,
+      29,
+      194,
+      237
+    ],
+    "export_sha256": "b8a2dd328be16026c4fe06c9e87d9c7bd936a614cc3f649d5c9ad76502c22fa3"
+  },
+  "statue": {
+    "source": "scenery-k1b-corrected.png",
+    "source_sha256": "81e7576d7bcac2a8b876467dc31e217f750fa65bc7a019dbd918b177f6cfa581",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      68,
+      123,
+      538,
+      613
+    ],
+    "source_anchor": [
+      303.0,
+      613
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.42338709677419356,
+    "offset": [
+      27,
+      28
+    ],
+    "visible_bounds": [
+      28,
+      29,
+      228,
+      237
+    ],
+    "export_sha256": "c244f14a5509d2fba90e996df0e934f050bcea1372bb69d996cbead0ec67a3c1"
+  },
+  "idol": {
+    "source": "scenery-k1b-corrected.png",
+    "source_sha256": "81e7576d7bcac2a8b876467dc31e217f750fa65bc7a019dbd918b177f6cfa581",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      94,
+      58,
+      552,
+      563
+    ],
+    "source_anchor": [
+      323.0,
+      563
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.410958904109589,
+    "offset": [
+      33,
+      28
+    ],
+    "visible_bounds": [
+      34,
+      29,
+      223,
+      237
+    ],
+    "export_sha256": "df7987f4aa61046a6aa4f6ad64165c1bd8e3995f4b8da530fdead161f3409d04"
+  },
+  "heart_dais": {
+    "source": "scenery-k1b-corrected.png",
+    "source_sha256": "81e7576d7bcac2a8b876467dc31e217f750fa65bc7a019dbd918b177f6cfa581",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      54,
+      91,
+      576,
+      555
+    ],
+    "source_anchor": [
+      315.0,
+      555
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4090909090909091,
+    "offset": [
+      20,
+      46
+    ],
+    "visible_bounds": [
+      21,
+      47,
+      235,
+      237
+    ],
+    "export_sha256": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+  },
+  "strongbox": {
+    "source": "scenery-k2a-corrected.png",
+    "source_sha256": "1c2673e01b1fc1a9de3f1caef8d8c3f117d4745feb06f2d9f31e1156d17b2960",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      99,
+      200,
+      579,
+      517
+    ],
+    "source_anchor": [
+      339.0,
+      517
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4444444444444444,
+    "offset": [
+      20,
+      94
+    ],
+    "visible_bounds": [
+      21,
+      95,
+      235,
+      237
+    ],
+    "export_sha256": "52cb35f61313c2c809e9bc2f52dc5fcaa33f1a52979ebaf3cec2ec3efbc4d334"
+  },
+  "lever_door": {
+    "source": "scenery-k2a-corrected.png",
+    "source_sha256": "1c2673e01b1fc1a9de3f1caef8d8c3f117d4745feb06f2d9f31e1156d17b2960",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      119,
+      100,
+      539,
+      514
+    ],
+    "source_anchor": [
+      329.0,
+      514
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.5,
+    "offset": [
+      22,
+      28
+    ],
+    "visible_bounds": [
+      23,
+      29,
+      234,
+      237
+    ],
+    "export_sha256": "0c6feffd3c250671261a192d15552367e36cd7bff58624ecc76e744f6aecf2b3"
+  },
+  "well": {
+    "source": "scenery-k2a-corrected.png",
+    "source_sha256": "1c2673e01b1fc1a9de3f1caef8d8c3f117d4745feb06f2d9f31e1156d17b2960",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      120,
+      60,
+      557,
+      539
+    ],
+    "source_anchor": [
+      338.5,
+      539
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4329896907216495,
+    "offset": [
+      32,
+      28
+    ],
+    "visible_bounds": [
+      33,
+      29,
+      223,
+      237
+    ],
+    "export_sha256": "e179ee0c0a780c5ef237cd95c84f304cb75af79fe4959fa80eb4f8311ecddb39"
+  },
+  "bookcase": {
+    "source": "scenery-k2a-corrected.png",
+    "source_sha256": "1c2673e01b1fc1a9de3f1caef8d8c3f117d4745feb06f2d9f31e1156d17b2960",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      138,
+      58,
+      504,
+      538
+    ],
+    "source_anchor": [
+      321.0,
+      538
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.43209876543209874,
+    "offset": [
+      48,
+      28
+    ],
+    "visible_bounds": [
+      49,
+      29,
+      208,
+      237
+    ],
+    "export_sha256": "0cb370065a7b0f489250c7bb5328005d4871bcaae2aafdeaef7515b9ffc2127a"
+  },
+  "chest": {
+    "source": "scenery-k2b-corrected.png",
+    "source_sha256": "c3a006fcf03ffbfb91ec9d081b0a9fb076ee2b381e2271a04736052b716897e2",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      137,
+      169,
+      575,
+      557
+    ],
+    "source_anchor": [
+      356.0,
+      557
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4864864864864865,
+    "offset": [
+      20,
+      46
+    ],
+    "visible_bounds": [
+      21,
+      47,
+      235,
+      237
+    ],
+    "export_sha256": "3989ee28c1afaf94acf96ee6826bf497a8aad5477bab2ab055b8234488610547"
+  },
+  "barricade": {
+    "source": "scenery-k2b-corrected.png",
+    "source_sha256": "c3a006fcf03ffbfb91ec9d081b0a9fb076ee2b381e2271a04736052b716897e2",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      79,
+      124,
+      503,
+      581
+    ],
+    "source_anchor": [
+      291.0,
+      581
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4535637149028078,
+    "offset": [
+      30,
+      28
+    ],
+    "visible_bounds": [
+      31,
+      29,
+      224,
+      237
+    ],
+    "export_sha256": "cd5a30d8cfb043d6dcfa405f58003dad5119910f7c7960091eb33c773b6bec34"
+  },
+  "dwarf_forge": {
+    "source": "scenery-k2b-corrected.png",
+    "source_sha256": "c3a006fcf03ffbfb91ec9d081b0a9fb076ee2b381e2271a04736052b716897e2",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      98,
+      89,
+      600,
+      505
+    ],
+    "source_anchor": [
+      349.0,
+      505
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4251968503937008,
+    "offset": [
+      20,
+      59
+    ],
+    "visible_bounds": [
+      21,
+      60,
+      235,
+      237
+    ],
+    "export_sha256": "ff0bc7c2c4bca9d7c3f0daba2f30613ae404897b27bae6f654e4a0a540de2679"
+  },
+  "anvil": {
+    "source": "scenery-k2b-corrected.png",
+    "source_sha256": "c3a006fcf03ffbfb91ec9d081b0a9fb076ee2b381e2271a04736052b716897e2",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      98,
+      155,
+      540,
+      500
+    ],
+    "source_anchor": [
+      319.0,
+      500
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.48214285714285715,
+    "offset": [
+      20,
+      69
+    ],
+    "visible_bounds": [
+      21,
+      70,
+      235,
+      237
+    ],
+    "export_sha256": "db45b0a2923b9e746ef616e269f9d5b79ecd3e642ae8a6350b0418a47c68bd13"
+  },
+  "wyrmegg": {
+    "source": "scenery-k3a-corrected.png",
+    "source_sha256": "7322d8997430c06230aa66445285d118e38248589084cf04e307be9cc63e786f",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      102,
+      152,
+      545,
+      568
+    ],
+    "source_anchor": [
+      323.5,
+      568
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.48106904231625836,
+    "offset": [
+      20,
+      36
+    ],
+    "visible_bounds": [
+      22,
+      38,
+      234,
+      237
+    ],
+    "export_sha256": "470d40b6f12faf48abb79e3e850407d6fe06dfd8e08a86ed88b4718d6cf2c1a1"
+  },
+  "egg_clutch": {
+    "source": "scenery-k3a-corrected.png",
+    "source_sha256": "7322d8997430c06230aa66445285d118e38248589084cf04e307be9cc63e786f",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      58,
+      276,
+      550,
+      579
+    ],
+    "source_anchor": [
+      304.0,
+      579
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4045307443365696,
+    "offset": [
+      27,
+      113
+    ],
+    "visible_bounds": [
+      28,
+      114,
+      227,
+      237
+    ],
+    "export_sha256": "986fc420c19414b03f6bd04d960484edeb68eed1fbb7046475eacdca0ef785d6"
+  },
+  "rubble": {
+    "source": "scenery-k3a-corrected.png",
+    "source_sha256": "7322d8997430c06230aa66445285d118e38248589084cf04e307be9cc63e786f",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      77,
+      145,
+      568,
+      482
+    ],
+    "source_anchor": [
+      322.5,
+      482
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4346076458752515,
+    "offset": [
+      20,
+      89
+    ],
+    "visible_bounds": [
+      21,
+      90,
+      235,
+      237
+    ],
+    "export_sha256": "ae5e2715563f400ba4c6c4f1121ae135e56eb839eea36ca2b8d7534b6f8cf881"
+  },
+  "fungus": {
+    "source": "scenery-k3a-corrected.png",
+    "source_sha256": "7322d8997430c06230aa66445285d118e38248589084cf04e307be9cc63e786f",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      81,
+      117,
+      549,
+      490
+    ],
+    "source_anchor": [
+      315.0,
+      490
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.45569620253164556,
+    "offset": [
+      20,
+      65
+    ],
+    "visible_bounds": [
+      21,
+      66,
+      235,
+      237
+    ],
+    "export_sha256": "cfbe5537c795ce2d0846931759440a230ac457dbd0a57985fc76be019baf7c9b"
+  },
+  "silk_larder": {
+    "source": "scenery-k3b-corrected.png",
+    "source_sha256": "6f72270e75df156e392bd2a780cb6fc71e891fe0c8a9fd0d0c707531a7845053",
+    "source_rect": [
+      0,
+      0,
+      627,
+      627
+    ],
+    "source_visible_bounds": [
+      112,
+      103,
+      568,
+      617
+    ],
+    "source_anchor": [
+      340.0,
+      617
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.40384615384615385,
+    "offset": [
+      35,
+      28
+    ],
+    "visible_bounds": [
+      36,
+      29,
+      221,
+      237
+    ],
+    "export_sha256": "4089ca371126c6bd1fdafa8c97f352f9bab15cc6f91d05cec7910a6457b5ec7c"
+  },
+  "bones": {
+    "source": "scenery-k3b-corrected.png",
+    "source_sha256": "6f72270e75df156e392bd2a780cb6fc71e891fe0c8a9fd0d0c707531a7845053",
+    "source_rect": [
+      627,
+      0,
+      1254,
+      627
+    ],
+    "source_visible_bounds": [
+      94,
+      165,
+      524,
+      608
+    ],
+    "source_anchor": [
+      309.0,
+      608
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.46770601336302897,
+    "offset": [
+      26,
+      28
+    ],
+    "visible_bounds": [
+      27,
+      29,
+      229,
+      237
+    ],
+    "export_sha256": "45fe913bc488de4eaec1a1b22e8942b6a447bb1e89884c1030154759193741f5"
+  },
+  "pool": {
+    "source": "scenery-k3b-corrected.png",
+    "source_sha256": "6f72270e75df156e392bd2a780cb6fc71e891fe0c8a9fd0d0c707531a7845053",
+    "source_rect": [
+      0,
+      627,
+      627,
+      1254
+    ],
+    "source_visible_bounds": [
+      92,
+      270,
+      609,
+      517
+    ],
+    "source_anchor": [
+      350.5,
+      517
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.3794466403162055,
+    "offset": [
+      29,
+      142
+    ],
+    "visible_bounds": [
+      30,
+      143,
+      226,
+      237
+    ],
+    "export_sha256": "3b369ca5eaeebb54c68289107172a3b25ab81c0a02cfb78c92cd4a09560dfc7e"
+  },
+  "cookpot": {
+    "source": "scenery-k3b-corrected.png",
+    "source_sha256": "6f72270e75df156e392bd2a780cb6fc71e891fe0c8a9fd0d0c707531a7845053",
+    "source_rect": [
+      627,
+      627,
+      1254,
+      1254
+    ],
+    "source_visible_bounds": [
+      77,
+      74,
+      547,
+      531
+    ],
+    "source_anchor": [
+      312.0,
+      531
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.4535637149028078,
+    "offset": [
+      20,
+      28
+    ],
+    "visible_bounds": [
+      21,
+      29,
+      235,
+      237
+    ],
+    "export_sha256": "e87ed98fb2d0b45a9a6966b091fbb3c6df34ca367e03aaf992a232f09aea1185"
+  },
+  "bone_heap": {
+    "source": "scenery-k3c.png",
+    "source_sha256": "43ff39a952f8e6e1dbc240df36f10a56fe68d9d05f30a7eeae4ee6901492dcd5",
+    "source_rect": [
+      0,
+      0,
+      1536,
+      1024
+    ],
+    "source_visible_bounds": [
+      102,
+      379,
+      1435,
+      905
+    ],
+    "source_anchor": [
+      768.5,
+      905
+    ],
+    "target_anchor": [
+      128,
+      237
+    ],
+    "scale": 0.16131441374159822,
+    "offset": [
+      20,
+      151
+    ],
+    "visible_bounds": [
+      20,
+      151,
+      236,
+      237
+    ],
+    "export_sha256": "2bf2083e3b35e00519795e68774562a222661bb8bc447ce8cd894c1adad399c2"
+  }
+}

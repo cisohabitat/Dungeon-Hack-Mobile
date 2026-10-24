@@ -1252,6 +1252,13 @@ with `node art/creatures/reference-batch-j.cjs`, exports with
 with `node art/creatures/preview-batch-j.cjs`. See [review](art/creatures/batch-j-preview/REVIEW.md).
 Source/review assets are published separately; runtime integration remains pending.
 
+Batch K adds the remaining 25 static prop review figures: 24 roadmap objects plus
+the existing collapsed-bones heap. Reproduce references with
+`node art/creatures/reference-batch-k.cjs`, exports with
+`python3 art/creatures/export-batch-k.py --check`, and phone world/card previews
+with `node art/creatures/preview-batch-k.cjs`. See [review](art/creatures/batch-k-preview/REVIEW.md).
+Source/review assets are published separately; runtime integration remains pending.
+
 ## Keeping documentation current
 
 Review this README with every change and update affected features, controls, setup,

@@ -181,6 +181,13 @@ Static sheets use authored crop rectangles and anchors, with no invented animati
 
 ## Optional Batch K — encounter objects and scenery
 
+Batch K art/review completed locally for the 24 listed keys plus the existing
+`bone_heap` prop omitted from this table. J's 17 + K's 25 cover all 42 current
+PROPS keys. The heap has combat/corpse/end-card uses; see
+[review](batch-k-preview/REVIEW.md) and [state audit](batch-k-preview/STATE-AUDIT.md).
+Source/review publication complete; runtime integration pending.
+
+
 This closes the remaining `PROPS` inventory, not all textures/items in the game.
 The existing procedural pictures are valid; prioritize only after characters.
 
@@ -189,6 +196,7 @@ The existing procedural pictures are valid; prioritize only after characters.
 | K1: sacred and magical | `spider_altar`, `heartwell`, `shrine`, `runestone`, `mirror`, `statue`, `idol`, `heart_dais` |
 | K2: containers and mechanisms | `strongbox`, `lever_door`, `well`, `bookcase`, `chest`, `barricade`, `dwarf_forge`, `anvil` |
 | K3: organic and floor scenes | `wyrmegg`, `egg_clutch`, `rubble`, `fungus`, `silk_larder`, `bones`, `pool`, `cookpot` |
+| K3c: existing collapsed bones | `bone_heap` (also used by corpse/end-card paths) |
 
 `lampfolk_dark` is already J1. Do not commission unsupported objects. Preserve
 actual pool colors, transparent openings and rule-bearing object identity.

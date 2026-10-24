@@ -1,0 +1,813 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-k.md",
+  "status": "generated, repaired and source/export visually reviewed; 176 world/card review captures and inventory/mapping assertions passed; source/review publication; no runtime integration",
+  "inventory_audit": {
+    "props_total": 42,
+    "batch_j_keys": 17,
+    "batch_k_keys": 25,
+    "roadmap_addition": "bone_heap is an existing prop used by collapsed skeletons, corpses and end-screen art",
+    "encounter_mappings": 28
+  },
+  "groups": {
+    "k1a": [
+      "spider_altar",
+      "heartwell",
+      "shrine",
+      "runestone"
+    ],
+    "k1b": [
+      "mirror",
+      "statue",
+      "idol",
+      "heart_dais"
+    ],
+    "k2a": [
+      "strongbox",
+      "lever_door",
+      "well",
+      "bookcase"
+    ],
+    "k2b": [
+      "chest",
+      "barricade",
+      "dwarf_forge",
+      "anvil"
+    ],
+    "k3a": [
+      "wyrmegg",
+      "egg_clutch",
+      "rubble",
+      "fungus"
+    ],
+    "k3b": [
+      "silk_larder",
+      "bones",
+      "pool",
+      "cookpot"
+    ],
+    "k3c": [
+      "bone_heap"
+    ]
+  },
+  "sheets": {
+    "k1a": {
+      "source": "scenery-k1a.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "spider_altar",
+        "heartwell",
+        "shrine",
+        "runestone"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR isolated scenes in a precise 2x2 grid row-major. TOP LEFT spider_altar: black stone altar BLOCK edged with a thin silver line, an OBSIDIAN SPIDER carving atop it with exactly EIGHT folded legs (four each side), bulbous abdomen, smaller cephalothorax, two garnet eye gems. Delicate silver-grey web canopy behind strung between five short terminating threads entirely inside cell; transparent open web gaps. Two small bowls of dark wine, one short candle with VIOLET flame, all atop altar. No living spider army or humanoid. TOP RIGHT heartwell: LOW circular shaft/opening ringed with rough smooth grey/brown stones. Deep red-orange light rises from INSIDE the dark shaft, a few close sparks/heat wisps. It is NOT a conventional roofed well, no blue water or bucket, no visible anatomical heart or lava overflowing rim. BOTTOM LEFT shrine: weathered grey stone TWO-STEP plinth supporting squat stone idol with smooth worn round human-like carved head and arms folded on belly. ONE lit ivory candle on each side (TWO total), a few small gold coins, cup and tiny red cloth on ledge. All carved grey stone, no living person, no jade. BOTTOM RIGHT runestone: upright chipped dark PURPLE-GREY stone slab with slanted/chamfered upper corners, ten angular VIOLET glowing carved glyphs on face, cracks and a little green lichen at base. Glyphs are fantasy strokes, no English labels, no new puzzle answer. Keep slab whole.",
+      "references": [
+        "batch-k-preview/k1a-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-2cd0d7a0-85c4-40b5-8fa8-0a1820062e18.png",
+      "transparent_background": true,
+      "repairs": [],
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k1b": {
+      "source": "scenery-k1b.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "mirror",
+        "statue",
+        "idol",
+        "heart_dais"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR scenes in precise 2x2 grid row-major. TOP LEFT mirror: tall OVAL mirror with tarnished GOLD ornament frame on three short dark wooden supports. OPAQUE reflective blue-grey glass, inside reflection ONE vague hooded human-like SHAPE with TWO tiny RED eyes, entirely IN glass; no person standing outside frame. Transparent gaps around frame and between legs, no mirror-background rectangle. TOP RIGHT statue: weathered GREY STONE KNIGHT on rectangular chipped mossy plinth, one knee down/one raised, bowed head in great helm, carved mail/surcoat and stone hands near knees. A REAL STEEL sword lies HORIZONTALLY ACROSS KNEES, blade viewerRIGHT and bound grip/pommel viewerLEFT. Thin clear-blue water tears streak down helmet. All knight anatomy stone, not a living armoured fighter. BOTTOM LEFT idol: squat carved JADE GREEN seated idol, fat belly, crossed legs, arms on knees, peaked triangular crown, wide carved TOOTHED GRIN, TWO RUBY RED eye gems. Small dark scorched oval ring right in front/base, no living goblin, no added people. BOTTOM RIGHT heart_dais: broad TWO-STEP dark grey/brown stone dais. Above top step floats ONE irregular knot/orb of RED FIRE about two fists in size, hot orange core and dark red crust, a few close small embers. No literal anatomical organ, no human, no extra hearts, no new beam filling cell. All full silhouettes.",
+      "references": [
+        "batch-k-preview/k1b-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-2dcd775d-3b00-469d-a9eb-57b9064c2724.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "scenery-k1b-corrected.png",
+          "prompt": "Repair SPACING and complete silhouettes in this EXACT 2x2 four-object transparent atlas. Uniformly shrink EACH complete composition 22% inside its OWN equal cell, creating generous transparent margins on ALL sides including row/column boundaries. Restore full rounded top ornament of the gold mirror, which currently crowds/touches top edge. Keep full mirror feet, knight plinth and sword tip, jade idol base and both dais steps complete and safely inside cells. Preserve SAME painted objects and materials: TOP LEFT oval gold mirror on three wooden legs with red-eyed hooded reflection IN opaque blue-grey glass; TOP RIGHT mossy GREY STONE kneeling knight with tears and real steel sword horizontally across knees; BOTTOM LEFT carved GREEN JADE grinning idol with TWO ruby eye gems and scorched ring; BOTTOM RIGHT ONE red-fire orb above two-step stone dais. No new characters, extra eyes, human hearts, text, scenery or floor. True transparent alpha. No drawing changes except complete missing border contours and spacing.",
+          "reference": "scenery-k1b.png",
+          "generated_file": "/workspace/generated_images/exec-ba2bead6-115a-4139-a2b6-60d8da5381d6.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "scenery-k1b-corrected.png",
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k2a": {
+      "source": "scenery-k2a.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "strongbox",
+        "lever_door",
+        "well",
+        "bookcase"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR static objects/scenes in precise 2x2 grid row-major. TOP LEFT strongbox: CLOSED brown plank strongbox with heavy dark IRON BANDS, rusted rectangular lock with keyhole, a BRIGHT SILVER CHAIN wrapped around entire box and lying just beside base. Clearly separate chain and rusty lock, no open treasure or red paint. TOP RIGHT lever_door: CLOSED tall dark wooden door in dressed GREY STONE frame, heavy iron hinges/bands and central ring. Eye-shaped carved mark on keystone. At viewerRIGHT of door exactly THREE distinct metal LEVERS in three vertical slots, angled differently with pale brass grips; scratched tally marks over levers. All three separate and complete. No open door, no solved combination, no wall slab extending beyond frame. BOTTOM LEFT well: circular masonry well rim with DARK open water/shaft inside. TWO wooden posts carry a small SHINGLED roof, a horizontal windlass/axle, ONE connected rope descends down to ONE bucket suspended over opening. Moss between stone courses, transparent open gaps under roof and between uprights, no filled-in background wall. BOTTOM RIGHT bookcase: tall worn dark-brown wooden bookshelf with THREE rows of upright old multicoloured leather books (muted maroon/blue/green/purple/ochre) and a base shelf. ONE GOLD-SPINED book on MIDDLE row stands out. A few fallen books below, one OPEN flat with visible pages. No labels or readable modern text, no books merged into solid block.",
+      "references": [
+        "batch-k-preview/k2a-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-515de41e-9545-4e31-8396-546e06283f5e.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "scenery-k2a-corrected.png",
+          "prompt": "Repair LAYOUT ONLY in this exact FOUR-composition 2x2 transparent prop sheet. Reposition and uniformly SHRINK EACH whole composition 25% so it is entirely inside its OWN EXACT QUADRANT with 15% clear transparent padding on ALL FOUR SIDES. Top row must end WELL ABOVE middle horizontal line; bottom row starts WELL BELOW middle line. Left/right compositions must not cross middle vertical line. Restore any clipped contours, preserve complete props and open alpha gaps, no overlap between cells. Keep CLOSED chained strongbox; CLOSED framed door with EXACTLY THREE levers; roofed well with suspended bucket and open gaps; THREE-row bookcase with ONE gold book in middle row and fallen/open books. Same gritty painted weathered materials and colours, identities and closed/unresolved states. No rectangular floor, background, text labels or extra objects. TRUE TRANSPARENT ALPHA. Do not change relative proportions within any scene; just shrink/reposition each complete vignette to create clean gutters.",
+          "reference": "scenery-k2a.png",
+          "generated_file": "/workspace/generated_images/exec-df79735d-48c2-4e8d-90ca-cebc355e1e16.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "scenery-k2a-corrected.png",
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k2b": {
+      "source": "scenery-k2b.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "chest",
+        "barricade",
+        "dwarf_forge",
+        "anvil"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR static scenes in precise 2x2 grid row-major. TOP LEFT chest: CLOSED RED PAINTED wooden domed-lid chest with GOLD bands, gold hasp/lock and faded gold scrollwork. ONE fine SILVER TRIPWIRE runs from upper viewerRIGHT lid corner diagonally to a small dark wall anchor fitting within cell. No wall behind, no open chest, no tongue/eyes, not a Mimic. TOP RIGHT barricade: exactly FOUR upright HEATER SHIELDS across lower front, colours left-to-right BLUE, RED, GREY, GREEN, each with metal edge/boss. Behind them one tall wooden pole with attached tattered RED banner with a small gold square device, no text. ONE abandoned iron helm rests on shield top left; ONE human skull lies near lower right. Transparent gaps around pole/shields, no living soldiers, no new gate. BOTTOM LEFT dwarf_forge: dwarf-built cut-stone forge hood with BLACK open hearth and glowing RED-ORANGE coal bed. Broad large iron ANVIL on stone pedestal in front, stack of dark iron INGOTS viewerLEFT and a small wooden ALE CASK with copper hoops/tap viewerRIGHT. All contained as one workshop vignette, no living smith, no external wall/floor. BOTTOM RIGHT anvil: COLD small stone hearth column with black mouth and ONE tiny last orange ember in ash on viewerLEFT; a heavy grey IRON ANVIL with foot/waist/horn on viewerRIGHT. A HALF-MADE bare blade lies across anvil, tongs and ONE hammer left beside base, connected handles. Cold forge, not brightly burning fire, no person.",
+      "references": [
+        "batch-k-preview/k2b-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-5a5e9720-2a88-48dd-88ae-ed7f686236c7.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "scenery-k2b-corrected.png",
+          "prompt": "Repair LAYOUT ONLY in this exact FOUR-composition 2x2 transparent prop sheet. Reposition and uniformly SHRINK EACH whole composition 25% so it is entirely inside its OWN EXACT QUADRANT with 15% clear transparent padding on ALL FOUR SIDES. Top row must end WELL ABOVE middle horizontal line; bottom row starts WELL BELOW middle line. Left/right compositions must not cross middle vertical line. Restore any clipped contours, preserve complete props and open alpha gaps, no overlap between cells. Keep CLOSED red/gold chest and fine silver tripwire to its anchor; EXACTLY FOUR shields BLUE/RED/GREY/GREEN with helm/skull and red banner; glowing dwarf forge with anvil/ingots/ale cask; COLD hearth/anvil with blade/tongs/hammer and ONE tiny ember. Thin chest wire to a fine flexible silver strand, not a rigid rod. Same gritty painted weathered materials and colours, identities and closed/unresolved states. No rectangular floor, background, text labels or extra objects. TRUE TRANSPARENT ALPHA. Do not change relative proportions within any scene; just shrink/reposition each complete vignette to create clean gutters.",
+          "reference": "scenery-k2b.png",
+          "generated_file": "/workspace/generated_images/exec-c0f179e0-9237-4214-a0e1-6bf30d68f097.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "scenery-k2b-corrected.png",
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k3a": {
+      "source": "scenery-k3a.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "wyrmegg",
+        "egg_clutch",
+        "rubble",
+        "fungus"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR static scenes in precise 2x2 grid row-major. TOP LEFT wyrmegg: ONE large upright DARK GREEN Wyrm EGG patterned with overlapping pine-cone-like scales, resting in a little ash nest with a few gnawed ivory bones. Small CRACK ACROSS CROWN shows restrained warm ORANGE light inside, unhatched, NO hatchling, no legs/face. TOP RIGHT egg_clutch: exactly TEN distinct pale ivory oval EGGS arranged on a low dark mud mound rimmed by a little DARK BLUE-GREEN marsh water and FOUR reed stems. Ten eggs, no cracks/hatching/creatures; no extra eggs. BOTTOM LEFT rubble: low mound of broken dusty GREY/BROWN stones and grit, from under which ONE adult human forearm in a torn sleeve reaches UP at viewerRIGHT, hand open with normal fingers. Arm emerges continuously from behind stones, no blood/gore/detached cut end, no exposed second body or outcome. BOTTOM RIGHT fungus: cluster of FIVE pale IVORY mushrooms with broad gilled caps and fibrous stems, varied heights, growing over a partly hidden human SKULL, one small skeletal hand and scrap of old dark cloth. Same off-white mushroom palette, no neon red spotted caps, no friendly faces, no new people. All scene-specific base material limited tightly around objects, no rectangular floor panel.",
+      "references": [
+        "batch-k-preview/k3a-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-e4f4bbd1-8ac0-4a4d-8d7f-c10c69bbf5e9.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "scenery-k3a-corrected.png",
+          "prompt": "Repair LAYOUT ONLY in this exact FOUR-composition 2x2 transparent prop sheet. Reposition and uniformly SHRINK EACH whole composition 25% so it is entirely inside its OWN EXACT QUADRANT with 15% clear transparent padding on ALL FOUR SIDES. Top row must end WELL ABOVE middle horizontal line; bottom row starts WELL BELOW middle line. Left/right compositions must not cross middle vertical line. Restore any clipped contours, preserve complete props and open alpha gaps, no overlap between cells. Keep ONE green scaled Wyrm egg with tiny orange crown crack; EXACTLY TEN pale eggs on mud/water nest; rubble with ONE attached emerging sleeved human arm; EXACTLY FIVE ivory mushrooms over skull/hand/cloth. Preserve egg/mushroom counts and no new hatching. Same gritty painted weathered materials and colours, identities and closed/unresolved states. No rectangular floor, background, text labels or extra objects. TRUE TRANSPARENT ALPHA. Do not change relative proportions within any scene; just shrink/reposition each complete vignette to create clean gutters.",
+          "reference": "scenery-k3a.png",
+          "generated_file": "/workspace/generated_images/exec-96e86a60-321f-4d7a-a8c6-2862d54da7ff.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "scenery-k3a-corrected.png",
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k3b": {
+      "source": "scenery-k3b.png",
+      "grid": [
+        2,
+        2
+      ],
+      "keys": [
+        "silk_larder",
+        "bones",
+        "pool",
+        "cookpot"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. FOUR static scenes in precise 2x2 grid row-major. TOP LEFT silk_larder: exactly FIVE separate spindle-shaped GREY/IVORY SILK COCOONS hanging at different heights, one smaller and darker behind. Each has a short attached thread terminating visibly WELL INSIDE cell, not cropped at edge; transparent spaces between bundles. ONE sword HILT protrudes from viewerRIGHT cocoon, only hilt/crossguard, no living captive face. A small skull, long bones and loose silk lie below, no gore. TOP RIGHT bones: ONE SEATED bare adult human SKELETON with legs splayed forward, empty black eye sockets, no coat/hat, one arm hangs and other on viewerRIGHT holds a small BROWN DICE CUP in its attached hand. Small pot of GOLD at lower viewerLEFT, exactly TWO ivory dice with black pips lying in front, no game-result text. It is a dead seated skeleton, not standing monster or low heap. BOTTOM LEFT pool: VERY LOW stone-rimmed oval BASIN of perfectly still BLACK/BLUE-BLACK WATER. Preserve near-black water colour, a subtle blue reflection and ONE faint pale ambiguous face/hand shape submerged near viewerRIGHT bottom. No clear living swimmer, no bright green/turquoise pool, no magic fountain/foam/red liquid. Stones grey with a touch of moss; open water opaque-dark, transparent background outside rim. BOTTOM RIGHT cookpot: BLACK IRON cauldron with two lugs suspended by ONE hook/short chain from a THREE-LEGGED wooden TRIPOD lashed at top. Low small orange fire of logs/embers under pot. Lumps/bone/bubbles in broth, ONE wooden LADLE rests inside rim at viewerRIGHT, a little steam close to pot. All THREE poles and feet complete, open transparent gaps between legs, not a solid backdrop. No cook or creature.",
+      "references": [
+        "batch-k-preview/k3b-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-ab24e672-71e4-4a68-980e-badf1b979cae.png",
+      "transparent_background": true,
+      "repairs": [
+        {
+          "source": "scenery-k3b-corrected.png",
+          "prompt": "Repair LAYOUT ONLY in this exact FOUR-composition 2x2 transparent prop sheet. Reposition and uniformly SHRINK EACH whole composition 25% so it is entirely inside its OWN EXACT QUADRANT with 15% clear transparent padding on ALL FOUR SIDES. Top row must end WELL ABOVE middle horizontal line; bottom row starts WELL BELOW middle line. Left/right compositions must not cross middle vertical line. Restore any clipped contours, preserve complete props and open alpha gaps, no overlap between cells. Keep EXACTLY FIVE hanging silk cocoons with short complete threads, sword hilt and bones below; seated gambler skeleton with held dice cup, pot of gold and EXACTLY TWO floor dice; LOW BLUE-BLACK pool with subtle submerged pale hint; cauldron on THREE-legged tripod with hook/chain, one ladle and small fire. No extra cocoons/dice, no turquoise water. Same gritty painted weathered materials and colours, identities and closed/unresolved states. No rectangular floor, background, text labels or extra objects. TRUE TRANSPARENT ALPHA. Do not change relative proportions within any scene; just shrink/reposition each complete vignette to create clean gutters.",
+          "reference": "scenery-k3b.png",
+          "generated_file": "/workspace/generated_images/exec-20f1b6d7-1123-4524-bfd5-d7fa4bd8b09e.png",
+          "tool": "image_gen.imagegen",
+          "transparent_background": true
+        }
+      ],
+      "selected_source": "scenery-k3b-corrected.png",
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    },
+    "k3c": {
+      "source": "scenery-k3c.png",
+      "grid": [
+        1,
+        1
+      ],
+      "keys": [
+        "bone_heap"
+      ],
+      "prompt": "Paint a production DARK FANTASY STATIC PROP sprite sheet on TRUE TRANSPARENT ALPHA. FIRST reference is exact object identity/composition authority, SECOND is PAINTED STYLE/material authority only. Match existing gritty monster and encounter paintings: weathered stone/wood/metal, realistic hard edges and painterly texture, subdued earthy palette, directional warm-left/cool-right shading. No cartoon/toy shapes, invented faces or extra living characters. Front-facing objects or a shallow three-quarter view only as needed to show depth, billboard-ready. Keep complete silhouettes and all attached details at least 15% INSIDE EACH equal cell with clear transparent gutters on all sides. No text/labels/borders, background wall, square floor plane, broad ground shadow, giant aura or unrelated scenery. Retain only object-specific bases. Never show changed/solved/opened outcomes. Exactly ONE isolated VERY LOW SCATTERED HEAP OF BONES, no grid. Match FIRST reference's low silhouette and SECOND reference's realistic ivory bone rendering. A tipped adult human skull rests on top of a shallow collapsed ribcage/pelvis and several crossed scattered long bones lying flat. Skull has TWO small VIOLET glowing eye sockets, restrained inner glow. It MUST read as collapsed bones on FLOOR: height less than HALF total width, NO upright spine, standing/sitting skeleton, arms reaching or human pose. Bones retain believable attached joint remnants but are a scattered heap, no flesh/blood/coat/sword/coins, no broad ground slab. A little surrounding grit only. Center heap low in image with generous transparent padding, all bone tips complete. True transparent alpha, entire low pile and violet eyes unobscured.",
+      "references": [
+        "batch-k-preview/k3c-reference.png",
+        "encounters-j1b-corrected.png"
+      ],
+      "generated_file": "/workspace/generated_images/exec-5c61f58b-1be6-4618-b18e-49c9f11bafdf.png",
+      "transparent_background": true,
+      "repairs": [],
+      "status": "Original and selected source cells visually reviewed; exact cues and complete margins retained"
+    }
+  },
+  "scenes": {
+    "spider_altar": {
+      "sheet": "k1a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        325.0,
+        611
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/spider_altar.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "heartwell": {
+      "sheet": "k1a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        331.5,
+        620
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/heartwell.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "shrine": {
+      "sheet": "k1a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        336.5,
+        583
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/shrine.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "runestone": {
+      "sheet": "k1a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        343.0,
+        579
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/runestone.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "mirror": {
+      "sheet": "k1b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        321.5,
+        601
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/mirror.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "statue": {
+      "sheet": "k1b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        303.0,
+        613
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/statue.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "idol": {
+      "sheet": "k1b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        323.0,
+        563
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/idol.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "heart_dais": {
+      "sheet": "k1b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        315.0,
+        555
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/heart_dais.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "strongbox": {
+      "sheet": "k2a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        339.0,
+        517
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/strongbox.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "lever_door": {
+      "sheet": "k2a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        329.0,
+        514
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/lever_door.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "well": {
+      "sheet": "k2a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        338.5,
+        539
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/well.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "bookcase": {
+      "sheet": "k2a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        321.0,
+        538
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/bookcase.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "chest": {
+      "sheet": "k2b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        356.0,
+        557
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/chest.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "barricade": {
+      "sheet": "k2b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        291.0,
+        581
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/barricade.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "dwarf_forge": {
+      "sheet": "k2b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        349.0,
+        505
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/dwarf_forge.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "anvil": {
+      "sheet": "k2b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        319.0,
+        500
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/anvil.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "wyrmegg": {
+      "sheet": "k3a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        323.5,
+        568
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/wyrmegg.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "egg_clutch": {
+      "sheet": "k3a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        304.0,
+        579
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "max_height": 125,
+      "review_export": "batch-k-preview/egg_clutch.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "rubble": {
+      "sheet": "k3a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        322.5,
+        482
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/rubble.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "fungus": {
+      "sheet": "k3a",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        315.0,
+        490
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/fungus.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "silk_larder": {
+      "sheet": "k3b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        627,
+        627
+      ],
+      "source_anchor": [
+        340.0,
+        617
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/silk_larder.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "bones": {
+      "sheet": "k3b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        0,
+        1254,
+        627
+      ],
+      "source_anchor": [
+        309.0,
+        608
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/bones.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "pool": {
+      "sheet": "k3b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        627,
+        627,
+        1254
+      ],
+      "source_anchor": [
+        350.5,
+        517
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "max_height": 96,
+      "review_export": "batch-k-preview/pool.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "cookpot": {
+      "sheet": "k3b",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        627,
+        627,
+        1254,
+        1254
+      ],
+      "source_anchor": [
+        312.0,
+        531
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "review_export": "batch-k-preview/cookpot.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    },
+    "bone_heap": {
+      "sheet": "k3c",
+      "anchor_kind": "scene-ground",
+      "pose": "static",
+      "source_rect": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "source_anchor": [
+        768.5,
+        905
+      ],
+      "target_anchor": [
+        128,
+        237
+      ],
+      "max_height": 96,
+      "review_export": "batch-k-preview/bone_heap.webp",
+      "registration": "Authored whole-scene anchor to x128/row236 with uniform scale and 12px visible-alpha margins; low framing where configured",
+      "review": "Source/reference, individual/group export and phone world/card or collapsed-heap captures visually reviewed"
+    }
+  }
+}

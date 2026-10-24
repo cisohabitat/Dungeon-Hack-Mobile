@@ -1,0 +1,2964 @@
+{
+  "mode": "review-only frozen world cells and card URL substitutions; game update frozen; unchanged actual scene selection and choices; unanswered encounter state cleared by harness between cases",
+  "console_errors": [],
+  "captures": [
+    {
+      "width": 390,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 390,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 390,
+      "id": "bone_heap-early",
+      "kind": "bone_heap",
+      "distance": 1,
+      "scale": 0.855,
+      "heap": 0.0444444444444444,
+      "x": 6.5,
+      "y": 5.5
+    },
+    {
+      "width": 390,
+      "id": "bone_heap-late",
+      "kind": "bone_heap",
+      "distance": 1,
+      "scale": 0.855,
+      "heap": 0.9555555555555556,
+      "x": 6.5,
+      "y": 5.5
+    },
+    {
+      "width": 390,
+      "id": "bone_heap-early",
+      "kind": "bone_heap",
+      "distance": 3,
+      "scale": 0.855,
+      "heap": 0.0444444444444444,
+      "x": 6.5,
+      "y": 3.5
+    },
+    {
+      "width": 390,
+      "id": "bone_heap-late",
+      "kind": "bone_heap",
+      "distance": 3,
+      "scale": 0.855,
+      "heap": 0.9555555555555556,
+      "x": 6.5,
+      "y": 3.5
+    },
+    {
+      "width": 320,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "distance": 1,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 5.5,
+      "facing": 0,
+      "light": 0.2827853560447693
+    },
+    {
+      "width": 320,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "distance": 3,
+      "scale": 0.85,
+      "x": 6.5,
+      "y": 3.5,
+      "facing": 0,
+      "light": 0.35555556416511536
+    },
+    {
+      "width": 320,
+      "id": "bone_heap-early",
+      "kind": "bone_heap",
+      "distance": 1,
+      "scale": 0.855,
+      "heap": 0.0444444444444444,
+      "x": 6.5,
+      "y": 5.5
+    },
+    {
+      "width": 320,
+      "id": "bone_heap-late",
+      "kind": "bone_heap",
+      "distance": 1,
+      "scale": 0.855,
+      "heap": 0.9555555555555556,
+      "x": 6.5,
+      "y": 5.5
+    },
+    {
+      "width": 320,
+      "id": "bone_heap-early",
+      "kind": "bone_heap",
+      "distance": 3,
+      "scale": 0.855,
+      "heap": 0.0444444444444444,
+      "x": 6.5,
+      "y": 3.5
+    },
+    {
+      "width": 320,
+      "id": "bone_heap-late",
+      "kind": "bone_heap",
+      "distance": 3,
+      "scale": 0.855,
+      "heap": 0.9555555555555556,
+      "x": 6.5,
+      "y": 3.5
+    }
+  ],
+  "dialogs": [
+    {
+      "width": 390,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "buttons": 5,
+      "offered": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "buttons": 1,
+      "offered": 1,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "buttons": 5,
+      "offered": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 390,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "buried",
+      "kind": "rubble",
+      "title": "Under the Rubble",
+      "choices": [
+        "Heave the stones off him",
+        "Keep him talking while you dig",
+        "Work out how the pile will fall",
+        "Leave him"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "shrine",
+      "kind": "shrine",
+      "title": "A Shrine to the Old Stone",
+      "choices": [
+        "Leave an offering of gold",
+        "Offer your blood",
+        "Pray with empty hands",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "spider_altar",
+      "kind": "spider_altar",
+      "title": "The Spider Altar",
+      "choices": [
+        "Drink from the bowls",
+        "Prise the garnets from its eyes",
+        "Cast the spider down",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "dwarf_forge",
+      "kind": "dwarf_forge",
+      "title": "The Great Anvil",
+      "choices": [
+        "Temper your weapon on it",
+        "Take the ingots",
+        "Drink from the cask",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "egg_clutch",
+      "kind": "egg_clutch",
+      "title": "A Clutch of Eggs",
+      "choices": [
+        "Take an egg to sell",
+        "Warm your hands at the mound",
+        "Smash the eggs",
+        "Leave them be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "vigil",
+      "kind": "shrine",
+      "title": "A Vigil Lamp",
+      "choices": [
+        "Leave gold for a ward against the cold",
+        "Leave gold for a sure hand",
+        "Leave a fortune for both, and the flame's warmth",
+        "Pray by the light with empty hands",
+        "Go on without it"
+      ],
+      "buttons": 5,
+      "offered": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "vigil_dark",
+      "kind": "shrine",
+      "title": "A Vigil Lamp, Out",
+      "choices": [
+        "Go on"
+      ],
+      "buttons": 1,
+      "offered": 1,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "runes",
+      "kind": "runestone",
+      "title": "Words Cut in the Wall",
+      "choices": [
+        "Read them",
+        "Trace them with a fingertip",
+        "Leave them"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "cache",
+      "kind": "strongbox",
+      "title": "The Fourth Crew's Strongbox",
+      "choices": [
+        "Force the lid",
+        "Pick the lock",
+        "Leave it"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "fungus",
+      "kind": "fungus",
+      "title": "A Garden of Pale Caps",
+      "choices": [
+        "Eat your fill",
+        "Pick the safe ones for later",
+        "Leave them"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "gambler",
+      "kind": "bones",
+      "title": "The Gambler's Bones",
+      "choices": [
+        "Roll against him",
+        "Just take the pot",
+        "Watch his dice for the trick",
+        "Leave him to his game"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "well",
+      "kind": "well",
+      "title": "An Old Well",
+      "choices": [
+        "Toss in a coin and make a wish",
+        "Climb down the rope",
+        "Draw a bucket and drink",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "shelves",
+      "kind": "bookcase",
+      "title": "The Archivist's Shelves",
+      "choices": [
+        "Search for anything still useful",
+        "Read the archivist's own journal",
+        "Take the gilt book to sell",
+        "Leave them"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "mirror",
+      "kind": "mirror",
+      "title": "A Mirror in the Dark",
+      "choices": [
+        "Look deep into it",
+        "Talk to your reflection",
+        "Smash it",
+        "Turn it to the wall"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "wired",
+      "kind": "chest",
+      "title": "A Wired Chest",
+      "choices": [
+        "Disarm the trap",
+        "Work out where the darts will fly",
+        "Wrench it open and take the darts",
+        "Leave it"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "levers",
+      "kind": "lever_door",
+      "title": "The Lever Door",
+      "choices": [
+        "Work out the order from the marks",
+        "Put your shoulder to the door",
+        "Leave the levers alone"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "heart",
+      "kind": "heart_dais",
+      "title": "The Heart of the Mountain",
+      "choices": [
+        "Put it out with the smiths' quench",
+        "Stay, and keep it",
+        "Lift it and carry it up"
+      ],
+      "buttons": 3,
+      "offered": 3,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "laststand",
+      "kind": "barricade",
+      "title": "The Third Crew's Last Stand",
+      "choices": [
+        "Search the fallen",
+        "Read their captain's last orders",
+        "Raise their banner and take heart",
+        "Bury them",
+        "Leave them to their watch"
+      ],
+      "buttons": 5,
+      "offered": 5,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "ossuary",
+      "kind": "bones",
+      "title": "The Ossuary",
+      "choices": [
+        "Pray for the dead",
+        "Open the reliquary",
+        "Read the names on the wall",
+        "Walk softly through"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "warcamp",
+      "kind": "barricade",
+      "title": "The War-Camp",
+      "choices": [
+        "Rob the weapon rack",
+        "Kick the drum out from under him",
+        "Wake him, and say you bring orders",
+        "Slip past the camp"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "larder",
+      "kind": "silk_larder",
+      "title": "The Spider's Larder",
+      "choices": [
+        "Cut down the one with the sword",
+        "Free the one that moves",
+        "Burn the webs down",
+        "Back away quietly"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "forge",
+      "kind": "anvil",
+      "title": "The Cold Forge",
+      "choices": [
+        "Work the bellows and finish the blade",
+        "Read the maker's marks",
+        "Prise the gold wire off the hilt",
+        "Leave it for its maker"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "pool",
+      "kind": "pool",
+      "title": "A Still Black Pool",
+      "choices": [
+        "Drink",
+        "Dive for what glints",
+        "Hold your reflection's gaze",
+        "Leave the water be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "cookpot",
+      "kind": "cookpot",
+      "title": "An Unwatched Pot",
+      "choices": [
+        "Eat your fill",
+        "Wait for the cook, out of sight",
+        "Tip it over and search the dregs",
+        "Leave the goblins their supper"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "statue",
+      "kind": "statue",
+      "title": "The Weeping Knight",
+      "choices": [
+        "Prise the sword out of its hands",
+        "Kneel beside it and swear to finish its task",
+        "Read the plinth",
+        "Leave it to its grief"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "idol",
+      "kind": "idol",
+      "title": "The Idol's Eyes",
+      "choices": [
+        "Prise out the rubies",
+        "Find the trap before you touch it",
+        "Smash it open",
+        "Leave it grinning"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "heartwell",
+      "kind": "heartwell",
+      "title": "The Heartwell",
+      "choices": [
+        "Lean over and breathe its warmth",
+        "Drop gold down the shaft",
+        "Sit and warm yourself a while",
+        "Leave it beating"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    },
+    {
+      "width": 320,
+      "id": "wyrmegg",
+      "kind": "wyrmegg",
+      "title": "A Warm Egg",
+      "choices": [
+        "Smash it before it hatches",
+        "Prise off a shard of its shell",
+        "Warm your hands at it",
+        "Leave it be"
+      ],
+      "buttons": 4,
+      "offered": 4,
+      "unresolved": true,
+      "actual_card_binding": true
+    }
+  ]
+}

@@ -190,6 +190,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Card URLs are procedural getters; the preview checks those bindings then
   substitutes the DOM image only for review, leaving all choices unanswered.
   Wait for both opening and closing overlay fades before scene/card captures.
+  Batch K prop review uses `generation-batch-k.json`,
+  `reference-batch-k.cjs`, `export-batch-k.py --check` and `preview-batch-k.cjs`.
+  K's 25 keys plus J's 17 exactly cover the 42 current PROPS. The roadmap's
+  additional `bone_heap` is already used by collapsed Skeletons, corpses and
+  end cards; keep it low, distinct from seated gambler bones, with the existing
+  rise ring. Preserve shared shrine/bones/barricade aliases and black pool water,
+  object counts, closed mechanisms and authored low scene framing.
   Preview substitutions do not establish runtime/offline integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation

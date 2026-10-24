@@ -281,3 +281,16 @@ reuse the reviewed Batch F Sellsword/Renegade/Mender `sit` cells without generat
 Static alpha crops, grouped atlases and world/card reviews are under
 `batch-j-preview/`. See its review for authored anchors and substitution limits.
 These are art/review assets; no runtime or offline bindings are changed.
+
+## Batch K — static scenery and props, 24 October 2026
+
+Seven originals (`scenery-k1a/k1b/k2a/k2b/k3a/k3b/k3c.png`) and five complete
+spacing repairs were generated with `image_gen.imagegen` (model not disclosed).
+Active procedural references supply identity; approved Batch J paintings supply
+weathered materials/style. Exact filenames, prompts, reference paths, original
+generated paths, selected sources and authored rectangles/anchors are in
+`generation-batch-k.json`. Originals remain preserved. Twenty-five static keys
+cover the 24 roadmap objects plus the existing low violet-eyed `bone_heap`.
+See `batch-k-preview/REVIEW.md` for cue counts, black pool colour, 42-key J/K
+coverage, encounter-card/collapsed-state substitutions and integration limits.
+No runtime, shipped image or offline binding changes are included.

@@ -1009,3 +1009,9 @@ plus three Batch F companion rest-cell reuses. See [Batch J review](batch-j-prev
 Explicit crop rectangles/anchors preserve composed scenes and shared Wisp;
 phone previews cover dungeon views and unanswered encounter cards. Runtime
 integration remains pending; source/review assets are published separately.
+
+Batch K covers 24 roadmap objects plus the existing `bone_heap`, completing the
+42-key PROPS inventory together with Batch J. Seven source groups use authored
+static crops, object-specific cues and low pool/heap framing. See
+[Batch K review](batch-k-preview/REVIEW.md) and [state audit](batch-k-preview/STATE-AUDIT.md).
+Source/review assets are published separately; runtime integration remains pending.
