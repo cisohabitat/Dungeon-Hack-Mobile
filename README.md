@@ -1161,7 +1161,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  post-Batch-D priorities, remaining variants, companions and encounter sheets
+art/creatures/ATLAS-ROADMAP.md  E–K review/publication status and proposed L–Q dressing, surfaces, equipment and effects
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs

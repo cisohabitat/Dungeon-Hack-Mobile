@@ -1,15 +1,10 @@
-# Dungeon atlas roadmap after Batch D
+# Dungeon artwork and atlas roadmap — Batches E–Q
 
-Prepared 23 October 2026 from the checked-out `main` source and Batch C/D reviews.
-This is a production plan, not a record of generated or approved artwork.
-Batch E sources and review atlases are generated, repaired and visually reviewed;
-runtime integration remains pending (review assets published as `b7960b5`).
-Batch F sources, repairs, review atlases and Mender heal extension are complete
-and review assets are published as `5ca1779`;
-see [Batch F review](batch-f-preview/REVIEW.md). Batch G barrel Mimic is generated, repaired and reviewed locally; integration
-and publication remain pending. See [Batch G review](batch-g-preview/REVIEW.md).
-Batches H–K remain planned.
-See [Batch E review](batch-e-preview/REVIEW.md). Batch letters E–K are assigned here.
+Prepared 23 October 2026; extended 24 October 2026 after the E–K source/review
+publications. E–K artwork is generated and reviewed, with source/review assets
+published to main. Runtime integration remains pending. L–Q are proposed future
+art batches; no artwork or runtime changes for those batches are complete.
+See the completion table below for published review evidence.
 
 ## Baseline and scope
 
@@ -19,10 +14,16 @@ Batches A–D. Do not regenerate those approved atlases. See
 Local integration does not establish publication; retain each batch's review and
 release status separately.
 
-This roadmap covers remaining dungeon characters, alternate combat forms, traders
-and encounter figures, followed by an optional static scenery pass. It does not
-propose replacement title art, portraits, relic illustrations, held-item art or
-wall/floor textures. Those are separate art systems, not missing creature atlases.
+E–K cover remaining dungeon characters, combat variants, traders and encounter
+props. L–N extend the painted style to ordinary room dressing, regional details
+and remains. O–Q cover separate systems: dungeon surfaces, equipment and effects.
+Those need their own briefs and format audits; they are not missing creature
+atlases. Existing title art, portraits and relic illustrations already have
+separate coverage and are not scheduled for wholesale replacement.
+
+Keep the shared art direction: gritty hand-painted dungeon realism, weathered
+materials, muted colours and directional shading matching approved monsters and
+revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lighting.
 
 ## Production order
 
@@ -33,8 +34,14 @@ wall/floor textures. Those are separate art systems, not missing creature atlase
 | 3 | G | Revealed barrel/default Mimic | 1 nine-pose atlas |
 | 4 | H | Boss phase and equipment coverage | 4 proposed new atlases plus existing-atlas reuse audits |
 | 5 | I | Three traders | 1 static sheet with 3 figures |
-| 6 | J | Remaining encounter characters and scenes | 3 proposed static sheets |
-| Optional | K | Remaining encounter objects and scenery | 3 proposed static sheets |
+| 6 | J | Remaining encounter characters and scenes | 4 generated source groups plus companion rest-cell reuse |
+| Optional | K | Remaining encounter objects and scenery | 7 generated source groups, including existing bone heap |
+| Next art priority | L | Ordinary room dressing | Static object sheets; exact packing after audit |
+| High | M | Regional dressing details | 5 existing regional identities; reuse where possible |
+| High | N | Creature remains | 4 existing remains keys; reuse/composition audit first |
+| High visual impact | O | Dungeon surfaces and architecture | Seamless texture/renderer format audit first |
+| Medium | P | Equipment consistency and gaps | Item-icon and held-view audit before generation |
+| Later | Q | Spell, environmental and trap effects | Effect/timing/format audit before generation |
 
 E–H budget: **17 proposed new character atlases**. Boss reuse findings can change
 that count; companion extension sheets are not included. I–K use a new static-sheet
@@ -202,6 +209,102 @@ The existing procedural pictures are valid; prioritize only after characters.
 actual pool colors, transparent openings and rule-bearing object identity.
 Painted replacements must not change obstacles, interactions, counts or placement.
 
+## Delivery priority — integrate E–K
+
+Prioritize runtime integration of the published E–K art so players can see it in
+normal play. This is a separate delivery track from new painting. Preserve
+per-state and per-key procedural fallbacks, lazy loading, offline caching,
+lighting, warnings and native phone performance. Integration is not completed by
+publishing source sheets or substituting pictures in a review harness.
+
+For the next **art** batch, start with L. Follow with M/N for visual consistency;
+O has high visual impact but requires more renderer work. P/Q follow their audits.
+The sections below define proposed scope, not authorization to regenerate
+approved artwork or claims that runtime integration has been done.
+
+## Batch L — ordinary room dressing
+
+Paint the static, non-interactive dressing in `js/dressing.js`:
+`barrel`, `oilcask`, `anvil`, `chest`, `crate`, `shackles`, `bones`, `rubble`,
+`candles`, `mushrooms`, `urn`.
+
+These render through the `dress_*` namespace and are separate from K's encounter
+props, even where names match. Keep ordinary chests distinct from wired encounter
+chests and Mimics. Audit reuse of K/J artwork only when identity, silhouette,
+footprint and framing match; do not substitute a whole encounter composition for
+an ordinary object. Preserve existing dressing sizes, floor anchors, placement,
+non-blocking behaviour and Mimic concealment scenery. Proposed output: static
+object sheets with authored crops/anchors; determine packing after the audit.
+
+`flames`, `ripple` and `snare` belong to Q's effect audit. The four `remains_*`
+keys belong to N; avoid generating them twice in L.
+
+## Batch M — regional dressing details
+
+Cover the five current `js/regionalprops.js` identities:
+`crypt_lid`, `iron_scrap`, `roots`, `reed_bundle`, `elf_shards`.
+
+Match each area's materials and the approved painted style. Preserve the saved
+dressing kind, footprint, height, regional selection and non-blocking behaviour;
+the regional system changes the picture, not the rules. Reuse compatible L/K
+materials and compositions before commissioning distinct static cells. Do not
+invent extra regional objects merely to fill a sheet.
+
+## Batch N — creature remains
+
+Audit and paint `remains_bones`, `remains_staves`, `remains_shards`, `remains_husk`
+from `js/dressing.js`, matching the creatures/materials they actually represent.
+
+Keep these low on the floor and readable as aftermath. They are distinct from
+L's decorative `bones`, K's seated gambler `bones`, and K's violet-eyed
+`bone_heap` used by collapsed Skeletons. Reuse only where anatomy, colour and
+state match; do not add violet eyes to ordinary remains. Preserve corpse/remains
+selection, timing, footprint, floor occlusion and loot readability. No new death
+behaviour or standing silhouettes are introduced by the artwork.
+
+## Batch O — dungeon surfaces and architecture
+
+Audit existing theme coverage, texture generation in `js/assets.js`, regional
+architecture and sampling in `js/renderer.js`. Prioritize seamless wall, floor
+and ceiling sets, followed by existing doors, arches, stairs and structural
+details that visibly need a matching pass.
+
+This is a separate texture/architecture system, not a 256px sprite-sheet batch.
+Confirm tile dimensions, repeats, texel density, perspective, cached darkness
+levels and renderer constraints before commissioning assets. Preserve door/lock
+colours, openings, stairs, collision and navigation cues; do not paint new routes
+or bake misleading directional light into seamless surfaces. Review tiling seams,
+near/far views, multiple themes, native offline reload and isolated frame-rate
+checks before integration. Determine the sheet budget only after this audit.
+
+## Batch P — equipment consistency and gap pass
+
+Audit ordinary item art in `js/itemart.js` and first-person equipment in
+`js/heldart.js` / `js/heldview.js` against the painted monster/prop style.
+Commission demonstrated gaps or inconsistent pieces; do not repaint the entire
+existing equipment library or already covered relic illustrations.
+
+Keep inventory icons and held views as separate deliverables. Preserve item
+identity, named markings, handedness, grip attachment, weapon geometry, attack
+and recovery timings, occlusion by hands/shields, Calm view and small-screen
+clearance. Existing bows, projectiles, staffs and spears need their supported
+motions audited before any pose sheets are specified. Counts and formats remain
+TBD until the gap audit is complete.
+
+## Batch Q — spell, environmental and trap effects
+
+Audit `js/spellfx.js`, renderer/combat effect callers and dressing `flames`,
+`ripple`, `snare`. Prioritize existing spell impacts, fire, frost, poison and trap
+visuals that need a consistent pass; preserve each effect's current meaning.
+
+Effects may require animated frames, masks or procedural rendering rather than
+static paintings. Set formats after checking trigger, lifetime, alpha blending,
+lighting, layering and warning/release timing. Keep danger cues readable with
+colour-blind palettes, Calm/reduced-motion settings and phone HUD/held gear.
+Do not add damage, range, persistent obstacles or light sources through an art
+replacement. Review frame-rate and memory cost; retain a procedural fallback
+when an image-based effect would be less clear or more expensive.
+
 ## Acceptance gate for every batch
 
 1. Write exact per-identity briefs and live-pose/state mappings before generation.
@@ -226,13 +329,19 @@ Painted replacements must not change obstacles, interactions, counts or placemen
 
 ## Completion tracking
 
-Batch E has completed generation, repair and source/export review, with review-only
-dungeon captures. Integration, full validation and publication remain pending.
-Batch F has completed source/export review and 86 review-only companion captures;
-integration, full runtime validation and publication remain pending.
-Batch G has completed source/export review and 14 supported-pose review captures,
-with 12 existing variant cases checked; integration/publication remain pending.
-Batches H–K are not generated. Track each deliverable through:
-**briefed → generated → repaired → visually reviewed → integrated locally →
-validated → published**. Keep each stage separate, record evidence links and
-update this roadmap and the canonical atlas brief library as work progresses.
+| Batch | Source/review publication | Review evidence |
+|---|---|---|
+| E | `b7960b5` | [Class Shades](batch-e-preview/REVIEW.md) |
+| F | `5ca1779` | [Companions and Mender heal](batch-f-preview/REVIEW.md) |
+| G | `c9ac72e` | [Barrel Mimic](batch-g-preview/REVIEW.md) |
+| H | `e498369` | [Boss variants](batch-h-preview/REVIEW.md) |
+| I | `0aec3a1` | [Revised static traders](batch-i-preview/REVIEW.md) |
+| J | `d3307ce` | [Encounter compositions](batch-j-preview/REVIEW.md) |
+| K | `025702c` | [Remaining props and bone heap](batch-k-preview/REVIEW.md) |
+| L–Q | Proposed only; not generated or integrated | Scope and audits above |
+
+E–K still require runtime integration and full runtime validation. Their published
+source/review assets are not evidence of live bindings, failure fallback or offline
+readiness. Track art production and runtime delivery separately; keep links to
+briefs, originals/repairs, visual reviews, integration checks and publication
+commits as each stage is actually completed.

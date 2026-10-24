@@ -11,16 +11,15 @@ more than one atlas for an entry, especially Shade and Mimic.
 
 ## Work after Batch D
 
-See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for proposed Batches E–K: class Shades,
-companions, barrel Mimic, boss variants, traders and encounter sheets. Start with
-Spellblade Shade. Batch E sources and six preview atlases are now generated,
-repaired and visually reviewed; see [the Batch E review](batch-e-preview/REVIEW.md).
-Runtime integration is pending. Batch F companion sheets and Mender heal extension
-are generated, repaired and reviewed; see [Batch F review](batch-f-preview/REVIEW.md).
-Batch F review assets are published; runtime integration is pending.
-Batch G barrel Mimic is generated, repaired and reviewed locally; see
-[Batch G review](batch-g-preview/REVIEW.md). Integration/publication are pending;
-Batches H–K remain planned.
+See [ATLAS-ROADMAP.md](ATLAS-ROADMAP.md) for Batches E–Q. E–K source/review
+assets are generated, visually reviewed and published; runtime integration is
+pending. Their review links and publication commits are recorded in the roadmap.
+
+Proposed L–Q cover ordinary room dressing, regional details, creature remains,
+dungeon surfaces/architecture, equipment gaps and effects. Start new art with L;
+prioritize E–K runtime integration as a separate delivery track. These later
+systems need their stated format/reuse audits rather than the monster atlas
+loader by default. No L–Q artwork or integration is completed yet.
 
 ## Requesting work later
 
