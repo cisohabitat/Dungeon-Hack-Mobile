@@ -1,0 +1,272 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "Activation correction: native Spellblade lantern requests lit=true. Preserve its muted blue reflection using an image-tool-painted variant, without recolouring sources by script.",
+  "status": "9 reflected source/export poses reviewed and integrated for0.9.36; native lit=true actions/offline, full Chromium, rules and isolated performance pass",
+  "groups": {
+    "aa12lit": [
+      "spellblade-dagger-rest-reflected",
+      "spellblade-dagger-drawback-reflected",
+      "spellblade-dagger-windup-reflected",
+      "spellblade-dagger-strike-reflected",
+      "spellblade-dagger-cut-reflected",
+      "spellblade-dagger-sweep-reflected",
+      "spellblade-dagger-through-reflected",
+      "spellblade-dagger-recover-reflected",
+      "spellblade-dagger-return-reflected"
+    ]
+  },
+  "sheets": {
+    "aa12lit": {
+      "source": "held-aa12-reflected.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Edit this approved fantasy videogame prop sheet for the same nine static inventory views. Preserve all nine existing dagger, charcoal glove, slate cuff and dark cloth forearm silhouettes, positions, size, grip and natural mature painted finish exactly. Add only very thin subdued cool blue reflected edge highlights to the steel blade edge and a few glove finger seams facing the left side of each object, consistent with a silver-blue lantern standing off-image to the left. Retain the original silver steel faces, brass guard and pommel, muted blue/silver cuff diamond seams, black glove and dark blue-grey cloth. No glowing weapon, no aura, no extra object, no background, no new light source or sparks. Exactly the same three-by-three equal-cell grid and the same nine directions, true transparent RGBA. Keep every tip, finger and sleeve end complete and separate. This is a static fantasy object reference sheet.",
+      "references": [
+        "held-aa12-compact.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-dae8918f-04b5-4488-8f46-47b1219094db.png"
+    }
+  },
+  "cells": {
+    "spellblade-dagger-rest-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        140,
+        177
+      ],
+      "source_object_bounds": [
+        85,
+        68,
+        185,
+        225
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-drawback-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        189,
+        175
+      ],
+      "source_object_bounds": [
+        145,
+        68,
+        231,
+        223
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-windup-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        248,
+        169
+      ],
+      "source_object_bounds": [
+        200,
+        75,
+        313,
+        217
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-strike-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        132,
+        169
+      ],
+      "source_object_bounds": [
+        80,
+        58,
+        179,
+        219
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-cut-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        147,
+        192
+      ],
+      "source_object_bounds": [
+        36,
+        127,
+        193,
+        245
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-sweep-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        181,
+        195
+      ],
+      "source_object_bounds": [
+        57,
+        139,
+        228,
+        246
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-through-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_grip": [
+        187,
+        198
+      ],
+      "source_object_bounds": [
+        64,
+        146,
+        238,
+        248
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-recover-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        194,
+        176
+      ],
+      "source_object_bounds": [
+        105,
+        95,
+        237,
+        228
+      ],
+      "lit": true
+    },
+    "spellblade-dagger-return-reflected": {
+      "sheet": "aa12lit",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        213,
+        151
+      ],
+      "source_object_bounds": [
+        123,
+        47,
+        258,
+        202
+      ],
+      "lit": true
+    }
+  },
+  "findings": [
+    "Thin painted cool reflections on blade/glove/cloth edges preserve silver faces and brass furniture; no aura or dungeon lighting change.",
+    "Same authored grips, crop gaps and object bounds as compact unlit sheet, independently checked on registration layout and native views. Raw edge flecks/gutter exceptions retained; no scripted masking/recolouring/rotation."
+  ],
+  "review": {
+    "report": "batch-aa-melee-runtime/REVIEW.md",
+    "registered_export_cells": 9,
+    "source_plus_layout_rasters": 14,
+    "native_lit_draws_verified": true
+  }
+}

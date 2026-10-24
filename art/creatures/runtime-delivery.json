@@ -1206,6 +1206,411 @@
       "sha256": "b2cc716c9c141faccd8e5e0b6bcd39ab848ec85fa0933d078877dad235e4e23d"
     },
     {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-rest.png",
+      "runtime": "img/held/fighter-hammer-rest.png",
+      "sha256": "d6c7e1f54d4b4586d5c24a4a427ea56d3ac9ac666652749679540fdfa1e19437"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-drawback.png",
+      "runtime": "img/held/fighter-hammer-drawback.png",
+      "sha256": "5e1c1532dcadba923d40bfb5a7ecf486d76c1318e3148ea85f9ba2cab81c5255"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-windup.png",
+      "runtime": "img/held/fighter-hammer-windup.png",
+      "sha256": "7f989908b60ab2d34b5b19d02ae91ae1c76e1fcdd5a43ba132f64c190f29f460"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-strike.png",
+      "runtime": "img/held/fighter-hammer-strike.png",
+      "sha256": "781e66900ed29b4a94b3f8954ffbfe327ce4c2dcf08bd2a55bbf2dcb0e88785b"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-cut.png",
+      "runtime": "img/held/fighter-hammer-cut.png",
+      "sha256": "b43765dc58508dde4fa634735d1f0a455d7f2bd3cf45b0000988cca87495e089"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-sweep.png",
+      "runtime": "img/held/fighter-hammer-sweep.png",
+      "sha256": "68232705f5244d437fb3d2b335c237cdea5e43c851f5d54e61b36c6e958e12d8"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-through.png",
+      "runtime": "img/held/fighter-hammer-through.png",
+      "sha256": "ddac4aef779bdc9626996033f63cbd9a4828ef21f8000ff1430f75ec0e76b2ea"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-recover.png",
+      "runtime": "img/held/fighter-hammer-recover.png",
+      "sha256": "f91b5a22df02ad0286d4582cf930a5258ffd673a612664f54e5e1125dcc6825c"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-hammer-return.png",
+      "runtime": "img/held/fighter-hammer-return.png",
+      "sha256": "f6cbd95126db106ae7856cd137f6fbd77fd37646f1d6179d90bb07737316bf52"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-rest.png",
+      "runtime": "img/held/fighter-flail-rest.png",
+      "sha256": "9c2152cdf1c3f92f1ad1a213f60f4a5a747ce6489266694e2a5e0710c1c84017"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-drawback.png",
+      "runtime": "img/held/fighter-flail-drawback.png",
+      "sha256": "465c7c21546998447f8ecd7a466b7b04f66829ef7bc714a27f6da6cb086113b6"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-windup.png",
+      "runtime": "img/held/fighter-flail-windup.png",
+      "sha256": "84ecb803c22e458930fc1fddeb5b48973c0fb0ef9e3a6bfbe5a94aad358df27a"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-strike.png",
+      "runtime": "img/held/fighter-flail-strike.png",
+      "sha256": "d222d4fc31ac6454143efc01ed3c840d7c288b4a14c8d8216dd8444fb1be8e44"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-cut.png",
+      "runtime": "img/held/fighter-flail-cut.png",
+      "sha256": "dc748b5c2c39cac834f19fa9e0cd57a351883359cc7af66f2e078db92eedaabf"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-sweep.png",
+      "runtime": "img/held/fighter-flail-sweep.png",
+      "sha256": "2c247b02284ae04ce25f4e99fa79acd33e7c02f4047872213414b925591276f4"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-through.png",
+      "runtime": "img/held/fighter-flail-through.png",
+      "sha256": "3718b34c6568bbfa341402071c8a81a2fd5878234fde02396c88500576416e11"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-recover.png",
+      "runtime": "img/held/fighter-flail-recover.png",
+      "sha256": "31a88a0329a00da13e41b2cf9f8a407bbebac07057865f668632aef096ef765a"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/fighter-flail-return.png",
+      "runtime": "img/held/fighter-flail-return.png",
+      "sha256": "0e3165a3dcbb778965719287ec5ed57af3cee8e61850c1dd3474ea6f187cb11e"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-rest.png",
+      "runtime": "img/held/cleric-flail-rest.png",
+      "sha256": "09e10d709f5f4213d401efa19bff50fb48d688133fc911c0e402de33fbf97250"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-drawback.png",
+      "runtime": "img/held/cleric-flail-drawback.png",
+      "sha256": "00c28c9268d73157ab7bf909afc11ba6e52e02c04af3ee509e6ebe6fabec6d6f"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-windup.png",
+      "runtime": "img/held/cleric-flail-windup.png",
+      "sha256": "12177108bef5bbe3a9eaa6ede5e0aab2553f76d4b35a12773b3feae383cc8242"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-strike.png",
+      "runtime": "img/held/cleric-flail-strike.png",
+      "sha256": "3a072d28caef780469ecd58fd5577b86a846ead9c820ba5f488f4d432b429a56"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-cut.png",
+      "runtime": "img/held/cleric-flail-cut.png",
+      "sha256": "6d532ebceda0307f38484a0124e510ee9ed751a4a55402c66653093c7731aacd"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-sweep.png",
+      "runtime": "img/held/cleric-flail-sweep.png",
+      "sha256": "2730f951f207c131992b0f78b6ff150f7cbade2c84ea22de206c4b1b8cc29cb4"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-through.png",
+      "runtime": "img/held/cleric-flail-through.png",
+      "sha256": "a950d70cf8e90ee0d0fd78760655f9effea204cd1995ee29bfd4545fd5033add"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-recover.png",
+      "runtime": "img/held/cleric-flail-recover.png",
+      "sha256": "f38a177b9212388c18f2a10a7bb2cba947c2187222f4633c434a75ff685088a2"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/cleric-flail-return.png",
+      "runtime": "img/held/cleric-flail-return.png",
+      "sha256": "c812c1a35d39bbd6c59f2390f8c6bd66d71bc703193cc2c80d64cc705ead535f"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-rest.png",
+      "runtime": "img/held/mage-dagger-rest.png",
+      "sha256": "438f66e3b9c24453365b91215bff4a9b550f4521db5e4df8a5cd5439a05cf982"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-drawback.png",
+      "runtime": "img/held/mage-dagger-drawback.png",
+      "sha256": "bb0e740b69ea053634b4eebe82a62131a82e1236035529721a0c533926b63d30"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-windup.png",
+      "runtime": "img/held/mage-dagger-windup.png",
+      "sha256": "558055e2c7c801770300016ff4bf9d1fccaca275eabc3cd0a6af02b6b86135f0"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-strike.png",
+      "runtime": "img/held/mage-dagger-strike.png",
+      "sha256": "79b1e17b2264107e47b307c5ac3f5d62a93597e8798e19f338f8fe2631538f88"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-cut.png",
+      "runtime": "img/held/mage-dagger-cut.png",
+      "sha256": "9c75d3e78485741239d7b9ab2ed91d31255a46a264122c91549968540ba5f14f"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-sweep.png",
+      "runtime": "img/held/mage-dagger-sweep.png",
+      "sha256": "65ac44d5b06c618cd65411a59d8b3413c9368f8dd937ae1e866b61eb01bb3dee"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-through.png",
+      "runtime": "img/held/mage-dagger-through.png",
+      "sha256": "e40bf7fbf3f2c714fbe7be280afaf944af869913e2f470f3233efa5fbd62b594"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-recover.png",
+      "runtime": "img/held/mage-dagger-recover.png",
+      "sha256": "8fbc34adb4e5aab3025d3a248db7eb13cb4bb93e478f88350bd9899975c03108"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee2-preview/mage-dagger-return.png",
+      "runtime": "img/held/mage-dagger-return.png",
+      "sha256": "82312f30724cb550e9be664e00988f387f6be2e416f20e720d675b7c655c27f3"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-rest.png",
+      "runtime": "img/held/fighter-dagger-rest.png",
+      "sha256": "c1d6e6ce71df1de3b461b14cfa325d426e7e298feb7f1f1fd8a3ccba20abd7de"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-drawback.png",
+      "runtime": "img/held/fighter-dagger-drawback.png",
+      "sha256": "45682477198d92c6b565ba9981154bd2b28d5d1a6801021b36f95dbb46922745"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-windup.png",
+      "runtime": "img/held/fighter-dagger-windup.png",
+      "sha256": "5fb457d776af9a91f0fa42e2af8afe4a660fff0871f39e5243bf2e0d0cb547c0"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-strike.png",
+      "runtime": "img/held/fighter-dagger-strike.png",
+      "sha256": "9b6eb67319d733652e4493731dfcecf074fad85635c4feee641482141b8fe9ef"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-cut.png",
+      "runtime": "img/held/fighter-dagger-cut.png",
+      "sha256": "ef6ce1ba8aa81a0e9e6151061ec4821c0397b6cee13ab688062694df86378534"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-sweep.png",
+      "runtime": "img/held/fighter-dagger-sweep.png",
+      "sha256": "e9cd67ac4cfa54620a9b85a58ecc9c575dde7f5ee0f01b8918f978d8b451b8d2"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-through.png",
+      "runtime": "img/held/fighter-dagger-through.png",
+      "sha256": "148e59877aeeaf32ad1eda6f4edfa0e29c8a50316ab0dc8f1b6d05f661113fa5"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-recover.png",
+      "runtime": "img/held/fighter-dagger-recover.png",
+      "sha256": "04d17fe957b4f551a05e3702283da9d90eac80e128da5f0f7a115513463d22aa"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/fighter-dagger-return.png",
+      "runtime": "img/held/fighter-dagger-return.png",
+      "sha256": "e52e3a674cf35230d8f471f5fdb95e0cc57064082179e0682d2dc9aaf23b26c9"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-rest.png",
+      "runtime": "img/held/ranger-dagger-rest.png",
+      "sha256": "c1d6e6ce71df1de3b461b14cfa325d426e7e298feb7f1f1fd8a3ccba20abd7de"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-drawback.png",
+      "runtime": "img/held/ranger-dagger-drawback.png",
+      "sha256": "45682477198d92c6b565ba9981154bd2b28d5d1a6801021b36f95dbb46922745"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-windup.png",
+      "runtime": "img/held/ranger-dagger-windup.png",
+      "sha256": "5fb457d776af9a91f0fa42e2af8afe4a660fff0871f39e5243bf2e0d0cb547c0"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-strike.png",
+      "runtime": "img/held/ranger-dagger-strike.png",
+      "sha256": "9b6eb67319d733652e4493731dfcecf074fad85635c4feee641482141b8fe9ef"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-cut.png",
+      "runtime": "img/held/ranger-dagger-cut.png",
+      "sha256": "ef6ce1ba8aa81a0e9e6151061ec4821c0397b6cee13ab688062694df86378534"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-sweep.png",
+      "runtime": "img/held/ranger-dagger-sweep.png",
+      "sha256": "e9cd67ac4cfa54620a9b85a58ecc9c575dde7f5ee0f01b8918f978d8b451b8d2"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-through.png",
+      "runtime": "img/held/ranger-dagger-through.png",
+      "sha256": "148e59877aeeaf32ad1eda6f4edfa0e29c8a50316ab0dc8f1b6d05f661113fa5"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-recover.png",
+      "runtime": "img/held/ranger-dagger-recover.png",
+      "sha256": "04d17fe957b4f551a05e3702283da9d90eac80e128da5f0f7a115513463d22aa"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/ranger-dagger-return.png",
+      "runtime": "img/held/ranger-dagger-return.png",
+      "sha256": "e52e3a674cf35230d8f471f5fdb95e0cc57064082179e0682d2dc9aaf23b26c9"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-rest.png",
+      "runtime": "img/held/druid-dagger-rest.png",
+      "sha256": "c4e3ed9a893cd1d120c353ed652e3d4722f624404f5c80cd907ee9cc06ed6525"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-drawback.png",
+      "runtime": "img/held/druid-dagger-drawback.png",
+      "sha256": "a4a4c978ee5fa9dd46a626edb03b50a2a62d2cb7130020c2aa6031ff1d974b99"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-windup.png",
+      "runtime": "img/held/druid-dagger-windup.png",
+      "sha256": "3a18dddb890b03bd9af5817c85907994dfcb2d643426ebbe0e4e1ddd7b35739c"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-strike.png",
+      "runtime": "img/held/druid-dagger-strike.png",
+      "sha256": "d0f84d63d7e2af6e18e85cbf02030cd026245f240b276b8033a2d3aeb3e6ea32"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-cut.png",
+      "runtime": "img/held/druid-dagger-cut.png",
+      "sha256": "0a22f34108f544076467e3f09c1d1732155ef8358f65578a24f094177903bb47"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-sweep.png",
+      "runtime": "img/held/druid-dagger-sweep.png",
+      "sha256": "079b98d438e2c0ace675c44a3115d89ce0abc5f8b75e2d29cdfce457997af85d"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-through.png",
+      "runtime": "img/held/druid-dagger-through.png",
+      "sha256": "488dfc8b0aa5da072cf4f54c3e56ef9a82e87db8712d91556fa98b6451602763"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-recover.png",
+      "runtime": "img/held/druid-dagger-recover.png",
+      "sha256": "314ebf532d2cb684deca9ed70e106fa2fbc6dd2e4302451c8e71846bf5deadd6"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/druid-dagger-return.png",
+      "runtime": "img/held/druid-dagger-return.png",
+      "sha256": "6b45023a928da564f21c33b10c1d13c0ae7db320e1ae0122ac5f42d64e63fde8"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-rest.png",
+      "runtime": "img/held/spellblade-dagger-rest.png",
+      "sha256": "4d859bd76ee0d4371e9797292d4727af0759098b1236be9630c51bf281f7c493"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-drawback.png",
+      "runtime": "img/held/spellblade-dagger-drawback.png",
+      "sha256": "535721a7dbe2d78f7e9194bc8c66b25aa4151e6f496398a6f5af50acb3fc14da"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-windup.png",
+      "runtime": "img/held/spellblade-dagger-windup.png",
+      "sha256": "f12fe3116d273fd10b904c1a9b82dc62a0d81cbe3f08f40274549a4c30e59198"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-strike.png",
+      "runtime": "img/held/spellblade-dagger-strike.png",
+      "sha256": "c0fd6f2bf37f160efd2afd9e43a2e1b43aa2d1030999475cb642b69a008ddf7d"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-cut.png",
+      "runtime": "img/held/spellblade-dagger-cut.png",
+      "sha256": "3dcd2088fe850e8dc6487b06aee08e88971386c62691188ae849fb797c090e12"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-sweep.png",
+      "runtime": "img/held/spellblade-dagger-sweep.png",
+      "sha256": "ffd19a32ef53cdd76483c3661bb353f622fcd201230b919d745afce3f7e7c1f5"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-through.png",
+      "runtime": "img/held/spellblade-dagger-through.png",
+      "sha256": "2712bced9699d6535fdbc06aff297ca6b1d5a3d831aeb15c60abe64bb8a0981e"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-recover.png",
+      "runtime": "img/held/spellblade-dagger-recover.png",
+      "sha256": "f23bf90ebdb776b8d75ee0b52400305b8286dc383078313a1e3c768684b509ad"
+    },
+    {
+      "source": "art/creatures/batch-aa-melee3-preview/spellblade-dagger-return.png",
+      "runtime": "img/held/spellblade-dagger-return.png",
+      "sha256": "4d9003e1564fe41023b5c269fcdfb7744dd6e086114e9e67d22c17a81809810e"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-rest-reflected.png",
+      "runtime": "img/held/spellblade-dagger-rest-reflected.png",
+      "sha256": "d9542a385d2cd31226a83d2a19011b16a89434fcde02dbf636393874cd25f264"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-drawback-reflected.png",
+      "runtime": "img/held/spellblade-dagger-drawback-reflected.png",
+      "sha256": "1f4421d4c2fba24af4dcd694e2a257764939bef73ade6dc8beb1b81e8701de34"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-windup-reflected.png",
+      "runtime": "img/held/spellblade-dagger-windup-reflected.png",
+      "sha256": "b63e388ae12e9c784373d64ab9c326356b42f275c49464d4d421103b10ecb35b"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-strike-reflected.png",
+      "runtime": "img/held/spellblade-dagger-strike-reflected.png",
+      "sha256": "a097797a35b2db148570c534d69e2b4e638279f3450ed6bdf5c4057c4bfbcd60"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-cut-reflected.png",
+      "runtime": "img/held/spellblade-dagger-cut-reflected.png",
+      "sha256": "7fb35231e69751a5445b448b8d27512b202755cb5da8926ff8ed00cb1555fb23"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-sweep-reflected.png",
+      "runtime": "img/held/spellblade-dagger-sweep-reflected.png",
+      "sha256": "4293966e26e1796b0f0a12fcea7c768980e912fa4d528ab27dde67ec9f9f7e5f"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-through-reflected.png",
+      "runtime": "img/held/spellblade-dagger-through-reflected.png",
+      "sha256": "c41c65189b38a455a065628f3f450f896ab430a08f9fd06bd097d06518738617"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-recover-reflected.png",
+      "runtime": "img/held/spellblade-dagger-recover-reflected.png",
+      "sha256": "4a265d2c3aafe0588831e7c1d368b12d5ac9af43218552ce9427230ef42e79e9"
+    },
+    {
+      "source": "art/creatures/batch-aa-reflected-preview/spellblade-dagger-return-reflected.png",
+      "runtime": "img/held/spellblade-dagger-return-reflected.png",
+      "sha256": "6daa8ec6ad4b2716a8a3e7ad402d7ceaecd9a89d42140a3799163dbffabca61b"
+    },
+    {
       "source": "art/creatures/batch-p-preview/runeshield-fighter-held.png",
       "runtime": "img/held/runeshield-fighter.png",
       "sha256": "2945c12da7f089fd86889805f566da9c861586ad189b7811a1716cc7f1b048c9"

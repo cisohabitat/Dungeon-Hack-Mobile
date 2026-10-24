@@ -1,0 +1,1377 @@
+{
+  "family_scale": {
+    "aa9": 0.39263803680981596,
+    "aa11": 0.40764331210191085,
+    "aa12": 0.39751552795031053
+  },
+  "cells": {
+    "fighter-dagger-rest": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        84,
+        44,
+        336,
+        370
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        76,
+        65
+      ],
+      "grip": [
+        128.22085889570553,
+        127.82208588957056
+      ],
+      "object_bounds": [
+        108.1963190184049,
+        81.49079754601227,
+        143.92638036809817,
+        143.5276073619632
+      ],
+      "visible_bounds": [
+        109,
+        82,
+        208,
+        211
+      ],
+      "export_sha256": "c1d6e6ce71df1de3b461b14cfa325d426e7e298feb7f1f1fd8a3ccba20abd7de"
+    },
+    "fighter-dagger-drawback": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        158,
+        44,
+        321,
+        374
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        55,
+        65
+      ],
+      "grip": [
+        128.03067484662577,
+        127.82208588957056
+      ],
+      "object_bounds": [
+        116.25153374233129,
+        81.49079754601227,
+        146.8773006134969,
+        144.31288343558282
+      ],
+      "visible_bounds": [
+        117,
+        82,
+        181,
+        212
+      ],
+      "export_sha256": "45682477198d92c6b565ba9981154bd2b28d5d1a6801021b36f95dbb46922745"
+    },
+    "fighter-dagger-windup": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        192,
+        47,
+        341,
+        374
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        40,
+        66
+      ],
+      "grip": [
+        127.95092024539878,
+        128.03680981595093
+      ],
+      "object_bounds": [
+        114.99386503067485,
+        83.66871165644172,
+        154.65030674846628,
+        144.5276073619632
+      ],
+      "visible_bounds": [
+        115,
+        84,
+        174,
+        213
+      ],
+      "export_sha256": "5fb457d776af9a91f0fa42e2af8afe4a660fff0871f39e5243bf2e0d0cb547c0"
+    },
+    "fighter-dagger-strike": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        78,
+        24,
+        310,
+        348
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        79,
+        73
+      ],
+      "grip": [
+        128.4723926380368,
+        128.36196319018404
+      ],
+      "object_bounds": [
+        108.84049079754601,
+        81.63803680981596,
+        144.17791411042947,
+        145.63803680981596
+      ],
+      "visible_bounds": [
+        110,
+        82,
+        201,
+        210
+      ],
+      "export_sha256": "9b6eb67319d733652e4493731dfcecf074fad85635c4feee641482141b8fe9ef"
+    },
+    "fighter-dagger-cut": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        21,
+        141,
+        382,
+        345
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        73,
+        50
+      ],
+      "grip": [
+        127.57668711656441,
+        127.74233128834356
+      ],
+      "object_bounds": [
+        80.4601226993865,
+        104.57668711656441,
+        144.85276073619633,
+        145.01840490797548
+      ],
+      "visible_bounds": [
+        81,
+        105,
+        223,
+        185
+      ],
+      "export_sha256": "ef6ce1ba8aa81a0e9e6151061ec4821c0397b6cee13ab688062694df86378534"
+    },
+    "fighter-dagger-sweep": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        35,
+        181,
+        395,
+        337
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        58,
+        43
+      ],
+      "grip": [
+        127.88957055214725,
+        128.20245398773005
+      ],
+      "object_bounds": [
+        70.95705521472392,
+        113.28220858895706,
+        144.7730061349693,
+        143.51533742331287
+      ],
+      "visible_bounds": [
+        72,
+        114,
+        213,
+        175
+      ],
+      "export_sha256": "e9cd67ac4cfa54620a9b85a58ecc9c575dde7f5ee0f01b8918f978d8b451b8d2"
+    },
+    "fighter-dagger-through": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_visible_bounds": [
+        69,
+        160,
+        420,
+        330
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        54,
+        52
+      ],
+      "grip": [
+        127.8159509202454,
+        128.1717791411043
+      ],
+      "object_bounds": [
+        80.30674846625767,
+        114.42944785276075,
+        145.48466257668713,
+        149.37423312883436
+      ],
+      "visible_bounds": [
+        81,
+        115,
+        219,
+        182
+      ],
+      "export_sha256": "148e59877aeeaf32ad1eda6f4edfa0e29c8a50316ab0dc8f1b6d05f661113fa5"
+    },
+    "fighter-dagger-recover": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        74,
+        71,
+        368,
+        364
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        65,
+        64
+      ],
+      "grip": [
+        128.21472392638037,
+        127.60736196319019
+      ],
+      "object_bounds": [
+        93.26993865030676,
+        91.0920245398773,
+        145.09815950920245,
+        147.23926380368098
+      ],
+      "visible_bounds": [
+        94,
+        92,
+        209,
+        207
+      ],
+      "export_sha256": "04d17fe957b4f551a05e3702283da9d90eac80e128da5f0f7a115513463d22aa"
+    },
+    "fighter-dagger-return": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        87,
+        18,
+        355,
+        333
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        61,
+        80
+      ],
+      "grip": [
+        128.1411042944785,
+        127.50920245398774
+      ],
+      "object_bounds": [
+        94.37423312883436,
+        86.28220858895706,
+        143.84662576687117,
+        147.53374233128835
+      ],
+      "visible_bounds": [
+        95,
+        87,
+        201,
+        211
+      ],
+      "export_sha256": "e52e3a674cf35230d8f471f5fdb95e0cc57064082179e0682d2dc9aaf23b26c9"
+    },
+    "ranger-dagger-rest": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        84,
+        44,
+        336,
+        370
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        76,
+        65
+      ],
+      "grip": [
+        128.22085889570553,
+        127.82208588957056
+      ],
+      "object_bounds": [
+        108.1963190184049,
+        81.49079754601227,
+        143.92638036809817,
+        143.5276073619632
+      ],
+      "visible_bounds": [
+        109,
+        82,
+        208,
+        211
+      ],
+      "export_sha256": "c1d6e6ce71df1de3b461b14cfa325d426e7e298feb7f1f1fd8a3ccba20abd7de"
+    },
+    "ranger-dagger-drawback": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        158,
+        44,
+        321,
+        374
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        55,
+        65
+      ],
+      "grip": [
+        128.03067484662577,
+        127.82208588957056
+      ],
+      "object_bounds": [
+        116.25153374233129,
+        81.49079754601227,
+        146.8773006134969,
+        144.31288343558282
+      ],
+      "visible_bounds": [
+        117,
+        82,
+        181,
+        212
+      ],
+      "export_sha256": "45682477198d92c6b565ba9981154bd2b28d5d1a6801021b36f95dbb46922745"
+    },
+    "ranger-dagger-windup": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        192,
+        47,
+        341,
+        374
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        40,
+        66
+      ],
+      "grip": [
+        127.95092024539878,
+        128.03680981595093
+      ],
+      "object_bounds": [
+        114.99386503067485,
+        83.66871165644172,
+        154.65030674846628,
+        144.5276073619632
+      ],
+      "visible_bounds": [
+        115,
+        84,
+        174,
+        213
+      ],
+      "export_sha256": "5fb457d776af9a91f0fa42e2af8afe4a660fff0871f39e5243bf2e0d0cb547c0"
+    },
+    "ranger-dagger-strike": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        78,
+        24,
+        310,
+        348
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        79,
+        73
+      ],
+      "grip": [
+        128.4723926380368,
+        128.36196319018404
+      ],
+      "object_bounds": [
+        108.84049079754601,
+        81.63803680981596,
+        144.17791411042947,
+        145.63803680981596
+      ],
+      "visible_bounds": [
+        110,
+        82,
+        201,
+        210
+      ],
+      "export_sha256": "9b6eb67319d733652e4493731dfcecf074fad85635c4feee641482141b8fe9ef"
+    },
+    "ranger-dagger-cut": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        21,
+        141,
+        382,
+        345
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        73,
+        50
+      ],
+      "grip": [
+        127.57668711656441,
+        127.74233128834356
+      ],
+      "object_bounds": [
+        80.4601226993865,
+        104.57668711656441,
+        144.85276073619633,
+        145.01840490797548
+      ],
+      "visible_bounds": [
+        81,
+        105,
+        223,
+        185
+      ],
+      "export_sha256": "ef6ce1ba8aa81a0e9e6151061ec4821c0397b6cee13ab688062694df86378534"
+    },
+    "ranger-dagger-sweep": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        35,
+        181,
+        395,
+        337
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        58,
+        43
+      ],
+      "grip": [
+        127.88957055214725,
+        128.20245398773005
+      ],
+      "object_bounds": [
+        70.95705521472392,
+        113.28220858895706,
+        144.7730061349693,
+        143.51533742331287
+      ],
+      "visible_bounds": [
+        72,
+        114,
+        213,
+        175
+      ],
+      "export_sha256": "e9cd67ac4cfa54620a9b85a58ecc9c575dde7f5ee0f01b8918f978d8b451b8d2"
+    },
+    "ranger-dagger-through": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_visible_bounds": [
+        69,
+        160,
+        420,
+        330
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        54,
+        52
+      ],
+      "grip": [
+        127.8159509202454,
+        128.1717791411043
+      ],
+      "object_bounds": [
+        80.30674846625767,
+        114.42944785276075,
+        145.48466257668713,
+        149.37423312883436
+      ],
+      "visible_bounds": [
+        81,
+        115,
+        219,
+        182
+      ],
+      "export_sha256": "148e59877aeeaf32ad1eda6f4edfa0e29c8a50316ab0dc8f1b6d05f661113fa5"
+    },
+    "ranger-dagger-recover": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        74,
+        71,
+        368,
+        364
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        65,
+        64
+      ],
+      "grip": [
+        128.21472392638037,
+        127.60736196319019
+      ],
+      "object_bounds": [
+        93.26993865030676,
+        91.0920245398773,
+        145.09815950920245,
+        147.23926380368098
+      ],
+      "visible_bounds": [
+        94,
+        92,
+        209,
+        207
+      ],
+      "export_sha256": "04d17fe957b4f551a05e3702283da9d90eac80e128da5f0f7a115513463d22aa"
+    },
+    "ranger-dagger-return": {
+      "source": "held-aa9.png",
+      "source_sha256": "72fdc02088175196a7a59b3b612e7dc5d82c3bfa17800dfec1a573b23fa82b14",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        87,
+        18,
+        355,
+        333
+      ],
+      "scale": 0.39263803680981596,
+      "offset": [
+        61,
+        80
+      ],
+      "grip": [
+        128.1411042944785,
+        127.50920245398774
+      ],
+      "object_bounds": [
+        94.37423312883436,
+        86.28220858895706,
+        143.84662576687117,
+        147.53374233128835
+      ],
+      "visible_bounds": [
+        95,
+        87,
+        201,
+        211
+      ],
+      "export_sha256": "e52e3a674cf35230d8f471f5fdb95e0cc57064082179e0682d2dc9aaf23b26c9"
+    },
+    "druid-dagger-rest": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        86,
+        87,
+        345,
+        388
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        71,
+        51
+      ],
+      "grip": [
+        127.6624203821656,
+        127.63694267515923
+      ],
+      "object_bounds": [
+        105.2420382165605,
+        85.64968152866243,
+        146.4140127388535,
+        144.7579617834395
+      ],
+      "visible_bounds": [
+        106,
+        86,
+        211,
+        209
+      ],
+      "export_sha256": "c4e3ed9a893cd1d120c353ed652e3d4722f624404f5c80cd907ee9cc06ed6525"
+    },
+    "druid-dagger-drawback": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        149,
+        79,
+        332,
+        397
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        52,
+        53
+      ],
+      "grip": [
+        127.82165605095541,
+        128.00636942675158
+      ],
+      "object_bounds": [
+        111.92356687898089,
+        84.38853503184714,
+        145.35031847133757,
+        146.7579617834395
+      ],
+      "visible_bounds": [
+        112,
+        85,
+        187,
+        215
+      ],
+      "export_sha256": "a4a4c978ee5fa9dd46a626edb03b50a2a62d2cb7130020c2aa6031ff1d974b99"
+    },
+    "druid-dagger-windup": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        191,
+        82,
+        365,
+        391
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        35,
+        56
+      ],
+      "grip": [
+        127.94267515923568,
+        128.15286624203821
+      ],
+      "object_bounds": [
+        112.04458598726114,
+        88.61146496815286,
+        151.5859872611465,
+        146.0891719745223
+      ],
+      "visible_bounds": [
+        112,
+        89,
+        184,
+        215
+      ],
+      "export_sha256": "3a18dddb890b03bd9af5817c85907994dfcb2d643426ebbe0e4e1ddd7b35739c"
+    },
+    "druid-dagger-strike": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        77,
+        71,
+        337,
+        379
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        75,
+        55
+      ],
+      "grip": [
+        127.5859872611465,
+        127.56050955414013
+      ],
+      "object_bounds": [
+        105.57324840764332,
+        83.12738853503186,
+        146.7452229299363,
+        147.12738853503186
+      ],
+      "visible_bounds": [
+        106,
+        84,
+        212,
+        209
+      ],
+      "export_sha256": "d0f84d63d7e2af6e18e85cbf02030cd026245f240b276b8033a2d3aeb3e6ea32"
+    },
+    "druid-dagger-cut": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        57,
+        146,
+        390,
+        338
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        64,
+        46
+      ],
+      "grip": [
+        128.0,
+        128.343949044586
+      ],
+      "object_bounds": [
+        86.4203821656051,
+        104.70063694267516,
+        145.12101910828028,
+        149.13375796178343
+      ],
+      "visible_bounds": [
+        87,
+        105,
+        223,
+        184
+      ],
+      "export_sha256": "0a22f34108f544076467e3f09c1d1732155ef8358f65578a24f094177903bb47"
+    },
+    "druid-dagger-sweep": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        64,
+        153,
+        402,
+        338
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        55,
+        43
+      ],
+      "grip": [
+        127.96815286624204,
+        127.78980891719746
+      ],
+      "object_bounds": [
+        80.27388535031847,
+        104.55414012738854,
+        145.4968152866242,
+        147.76433121019107
+      ],
+      "visible_bounds": [
+        81,
+        105,
+        219,
+        181
+      ],
+      "export_sha256": "079b98d438e2c0ace675c44a3115d89ce0abc5f8b75e2d29cdfce457997af85d"
+    },
+    "druid-dagger-through": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_visible_bounds": [
+        57,
+        116,
+        412,
+        327
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        56,
+        59
+      ],
+      "grip": [
+        128.15286624203821,
+        127.89171974522293
+      ],
+      "object_bounds": [
+        78.4203821656051,
+        105.47133757961784,
+        147.71974522292993,
+        149.0891719745223
+      ],
+      "visible_bounds": [
+        79,
+        106,
+        224,
+        192
+      ],
+      "export_sha256": "488dfc8b0aa5da072cf4f54c3e56ef9a82e87db8712d91556fa98b6451602763"
+    },
+    "druid-dagger-recover": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        96,
+        89,
+        405,
+        344
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        51,
+        63
+      ],
+      "grip": [
+        128.04458598726114,
+        127.81528662420382
+      ],
+      "object_bounds": [
+        89.31847133757961,
+        98.46496815286625,
+        145.57324840764332,
+        149.4203821656051
+      ],
+      "visible_bounds": [
+        90,
+        99,
+        216,
+        203
+      ],
+      "export_sha256": "314ebf532d2cb684deca9ed70e106fa2fbc6dd2e4302451c8e71846bf5deadd6"
+    },
+    "druid-dagger-return": {
+      "source": "held-aa11-compact.png",
+      "source_sha256": "444eb040226af42f056297a21bb815ce8334e4a9a0a0f113cbedb8016d32c57d",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        123,
+        72,
+        384,
+        351
+      ],
+      "scale": 0.40764331210191085,
+      "offset": [
+        46,
+        63
+      ],
+      "grip": [
+        127.52866242038218,
+        128.22292993630572
+      ],
+      "object_bounds": [
+        95.32484076433121,
+        91.53503184713375,
+        147.0955414012739,
+        149.0127388535032
+      ],
+      "visible_bounds": [
+        96,
+        92,
+        203,
+        206
+      ],
+      "export_sha256": "6b45023a928da564f21c33b10c1d13c0ae7db320e1ae0122ac5f42d64e63fde8"
+    },
+    "spellblade-dagger-rest": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        87,
+        70,
+        352,
+        384
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        72,
+        58
+      ],
+      "grip": [
+        127.65217391304347,
+        128.36024844720498
+      ],
+      "object_bounds": [
+        105.7888198757764,
+        85.03105590062111,
+        145.54037267080744,
+        147.44099378881987
+      ],
+      "visible_bounds": [
+        106,
+        86,
+        212,
+        211
+      ],
+      "export_sha256": "4d859bd76ee0d4371e9797292d4727af0759098b1236be9630c51bf281f7c493"
+    },
+    "spellblade-dagger-drawback": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        147,
+        70,
+        340,
+        398
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        53,
+        58
+      ],
+      "grip": [
+        128.1304347826087,
+        127.56521739130434
+      ],
+      "object_bounds": [
+        110.63975155279502,
+        85.03105590062111,
+        144.82608695652175,
+        146.64596273291926
+      ],
+      "visible_bounds": [
+        111,
+        86,
+        188,
+        216
+      ],
+      "export_sha256": "535721a7dbe2d78f7e9194bc8c66b25aa4151e6f496398a6f5af50acb3fc14da"
+    },
+    "spellblade-dagger-windup": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        202,
+        77,
+        400,
+        397
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        29,
+        61
+      ],
+      "grip": [
+        127.583850931677,
+        128.1801242236025
+      ],
+      "object_bounds": [
+        108.5031055900621,
+        90.8136645962733,
+        153.4223602484472,
+        147.26086956521738
+      ],
+      "visible_bounds": [
+        109,
+        91,
+        188,
+        219
+      ],
+      "export_sha256": "f12fe3116d273fd10b904c1a9b82dc62a0d81cbe3f08f40274549a4c30e59198"
+    },
+    "spellblade-dagger-strike": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        82,
+        60,
+        356,
+        367
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        76,
+        61
+      ],
+      "grip": [
+        128.472049689441,
+        128.1801242236025
+      ],
+      "object_bounds": [
+        107.80124223602485,
+        84.05590062111801,
+        147.1552795031056,
+        148.055900621118
+      ],
+      "visible_bounds": [
+        108,
+        85,
+        218,
+        207
+      ],
+      "export_sha256": "c0fd6f2bf37f160efd2afd9e43a2e1b43aa2d1030999475cb642b69a008ddf7d"
+    },
+    "spellblade-dagger-cut": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        38,
+        129,
+        387,
+        338
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        70,
+        52
+      ],
+      "grip": [
+        128.43478260869566,
+        128.32298136645963
+      ],
+      "object_bounds": [
+        84.31055900621118,
+        102.48447204968943,
+        146.72049689440993,
+        149.39130434782606
+      ],
+      "visible_bounds": [
+        85,
+        103,
+        224,
+        187
+      ],
+      "export_sha256": "3dcd2088fe850e8dc6487b06aee08e88971386c62691188ae849fb797c090e12"
+    },
+    "spellblade-dagger-sweep": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        59,
+        141,
+        403,
+        323
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        56,
+        50
+      ],
+      "grip": [
+        127.95031055900621,
+        127.51552795031056
+      ],
+      "object_bounds": [
+        78.65838509316771,
+        105.25465838509317,
+        146.6335403726708,
+        147.7888198757764
+      ],
+      "visible_bounds": [
+        80,
+        106,
+        216,
+        178
+      ],
+      "export_sha256": "ffd19a32ef53cdd76483c3661bb353f622fcd201230b919d745afce3f7e7c1f5"
+    },
+    "spellblade-dagger-through": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_visible_bounds": [
+        66,
+        148,
+        415,
+        353
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        54,
+        49
+      ],
+      "grip": [
+        128.33540372670808,
+        127.70807453416148
+      ],
+      "object_bounds": [
+        79.44099378881987,
+        107.03726708074534,
+        148.6086956521739,
+        147.583850931677
+      ],
+      "visible_bounds": [
+        80,
+        108,
+        219,
+        189
+      ],
+      "export_sha256": "2712bced9699d6535fdbc06aff297ca6b1d5a3d831aeb15c60abe64bb8a0981e"
+    },
+    "spellblade-dagger-recover": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        107,
+        97,
+        394,
+        362
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        51,
+        58
+      ],
+      "grip": [
+        128.11801242236024,
+        127.96273291925465
+      ],
+      "object_bounds": [
+        92.73913043478261,
+        95.7639751552795,
+        145.2111801242236,
+        148.6335403726708
+      ],
+      "visible_bounds": [
+        93,
+        96,
+        208,
+        202
+      ],
+      "export_sha256": "f23bf90ebdb776b8d75ee0b52400305b8286dc383078313a1e3c768684b509ad"
+    },
+    "spellblade-dagger-return": {
+      "source": "held-aa12-compact.png",
+      "source_sha256": "d32eac6e06ff7e57454368a983d3351963dec8aad8b1a6e9480013acb4b48903",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        125,
+        49,
+        385,
+        362
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        43,
+        68
+      ],
+      "grip": [
+        127.67080745341615,
+        128.0248447204969
+      ],
+      "object_bounds": [
+        91.8944099378882,
+        86.6832298136646,
+        145.55900621118013,
+        148.29813664596273
+      ],
+      "visible_bounds": [
+        93,
+        87,
+        196,
+        212
+      ],
+      "export_sha256": "4d9003e1564fe41023b5c269fcdfb7744dd6e086114e9e67d22c17a81809810e"
+    }
+  }
+}

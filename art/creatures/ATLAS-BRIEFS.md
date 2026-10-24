@@ -1128,3 +1128,41 @@ loader and offline inventory.75 total held frames and246 common delivery files;
 hand and procedural single-grip frame. Native actions and offline evidence are
 in [the activation review](batch-zaa-runtime/REVIEW.md). Historical Z/AA source
 reports remain separate; remaining AA library work stays open.
+
+## AA ordinary melee — second source pass
+
+36 local frames: Fighter hammer9, Fighter flail9, Cleric flail9 and Mage dagger9.
+All use one right hand and nine current CUT poses. Preserve compact connected
+flail chain/head, Mage skin/purple cloth and Fighter/Cleric costume differences.
+120 source-proxy captures and360 fitting cases reviewed;12 baseline checks pass.
+See [review](batch-aa-melee2-preview/REVIEW.md). Reproduce with
+`python3 art/creatures/export-batch-aa-melee2.py --check` and
+`node art/creatures/preview-batch-aa-melee2.cjs`. Local/unpublished/unactivated;
+the wider AA library and runtime delivery remain separate.
+
+## AA ordinary melee — third source pass
+
+36 local dagger class frames for Fighter/Ranger/Druid/Spellblade;27 unique painted
+poses because all9 Ranger native references/grips/bounds match Fighter exactly.
+Keep exact class keys, one right hand, compact blade and class-specific costume;
+Spellblade's silver/blue cuff mark adds no blade glow. Source coverage now spans
+all six legal dagger classes with Thief active and Mage pending from pass2.
+Cleric is ineligible.120 source captures,360 fits and12 baseline checks pass.
+See [review](batch-aa-melee3-preview/REVIEW.md). Reproduce with
+`python3 art/creatures/export-batch-aa-melee3.py --check` and
+`node art/creatures/preview-batch-aa-melee3.cjs`. Local/unpublished/unactivated;
+other ordinary class pairs, ranged and named AA variants remain open.
+
+### AA second/third melee activation — release0.9.36
+
+72 reviewed class frames now bind through exact id/class/pose/two/lit families:
+Fighter hammer, Fighter/Cleric flails and Mage/Fighter/Ranger/Druid/Spellblade
+daggers.156 total held frames;327 common delivery files;495 shipped paintings
+plus3 icons. Ranger/Fighter dagger pictures remain identical with separate class
+keys and independent family failure. Source-only reports above retain historical
+scope. See [native activation evidence](batch-aa-melee-runtime/REVIEW.md).
+
+The native Spellblade lantern also needs9 reflected dagger frames. Those are
+painted in the image tool and matched by explicit lit metadata; the total release
+addition is81 frames. Other lit requests retain their own procedural fallbacks.
+A failed reflection keeps the whole18-frame Spellblade dagger family procedural.

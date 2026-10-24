@@ -321,6 +321,48 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   from native activation/offline/failure/performance gates. The Fighter HUD is
   a fixture, not proof of real class actions. AA's remaining library stays open;
   see batch-aa-preview/REVIEW.md. Their historical source-only scopes remain recorded.
+  AA's second melee source pass uses reference-batch-aa-melee2.cjs,
+  export-batch-aa-melee2.py --check and preview-batch-aa-melee2.cjs:36 one-hand
+  CUT frames for Fighter hammer/flail, Cleric flail and Mage dagger. Preserve
+  compact joined flail construction and class hands; Mage dagger stays short.
+  Capture labels must include class AND item, including Calm/recovery, or two
+  flail families overwrite evidence. The harness rejects duplicate names.
+  Opaque diagnostics and pixel comparisons resolve uncertain transparent previews;
+  do not claim a missing part from one ambiguous view or mask it with scripts.
+  Authored crop gaps and residual edge findings remain in the manifest;120 frozen
+  captures/360 fitting cases are not native activation/offline/performance proof.
+  Existing Cleric hammer, Thief dagger and named Penitent art stay protected.
+  See batch-aa-melee2-preview/REVIEW.md for historical source-only findings.
+  AA's third melee source pass uses reference-batch-aa-melee3.cjs,
+  export-batch-aa-melee3.py --check and preview-batch-aa-melee3.cjs:36 dagger
+  class frames for Fighter/Ranger/Druid/Spellblade,27 unique painted poses.
+  Ranger currently shares Fighter's native palette; reuse requires all9 native
+  PNGs, grips and object bounds to match. Keep exact class keys and identical
+  source crops/grips/bounds/shared family scale; exporter asserts equal outputs.
+  Druid keeps brown/green cloth; Spellblade keeps charcoal/slate/dark cloth and
+  muted silver/blue cuff seams, with no blade glow. Cleric dagger is ineligible.
+  All6 legal dagger classes have source coverage with active Thief/pending Mage;
+  this is not whole-AA completion.120 frozen captures/360 fits are source review,
+  not native class actions/offline/performance. Preserve class-qualified names,
+  compact-prop repair provenance and crop-gap/fringe notes. See
+  batch-aa-melee3-preview/REVIEW.md for historical source-only findings.
+  AA second/third melee passes are integrated for release0.9.36 through the
+  same exact family loader. tools/export-painted-runtime.py --check now covers
+  327 files,156 held frames and495 shipped paintings plus3 icons. Include the
+  aa-melee2/aa-melee3/aa-reflected manifests; preserve Ranger/Fighter shared source pixels
+  with separate class keys and independent failure. Keep authored grips/bounds,
+  named/hand-count guards and lazy whole-family readiness. Catalog lit flags are
+  explicit: only the9 image-tool-painted Spellblade dagger reflection frames
+  accept lit=true. Never discard its lantern reflection or claim unlit source
+  bindings alone activate normal Spellblade play. export-batch-aa-reflected.py
+  --check reproduces them; source/registration review retains complete sleeves.
+  Native evidence
+  uses preview-batch-aa-melee-runtime.cjs and batch-aa-melee-runtime/REVIEW.md;
+  Spellblade is unlocked through the five real title taps before class creation.
+  Source reference-batch-aa-melee2/3.cjs block painted held requests and service
+  workers deliberately, retaining procedural geometry after activation. This
+  source-reference setup is not runtime fallback or offline integration evidence.
+  Do not describe the earlier frozen source proxies as native activation checks.
   Z/AA are integrated for release0.9.35 through the existing exact held-family
   loader. The common exporter reproduces246 files (187 previous plus59 Z/AA),
   with75 total held frames. Keep authored grips/bounds/nocks and whole-family

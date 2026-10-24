@@ -537,7 +537,7 @@ live strings/arrows, original geometry/masks, Calm and procedural failure fallba
 | Priority | Batch | Scope | Production gate |
 |---|---|---|---|
 | 1 — integrated for0.9.35 | Z | Starting weapons: Cleric mace, Thief shortsword, Ranger shortbow, Druid spear |23 reviewed source frames integrated for0.9.35; native evidence below |
-| 2 — first tranche integrated for0.9.35 | AA | Wider held weapons: daggers, axes, hammers, flails, greatswords, slings, throwing knives, hand crossbows and remaining class/named variants | 36 frames reviewed for Thief dagger, Fighter battleaxe/greatsword and Cleric hammer; remaining pairs/variants open; first tranche integrated for0.9.35 |
+| 2 — three passes integrated through0.9.36 | AA | Wider held weapons: daggers, axes, hammers, flails, greatswords, slings, throwing knives, hand crossbows and remaining class/named variants | First36 frames integrated for0.9.35;81 further hammer/flail/dagger/plain-reflected frames integrated for0.9.36; remaining pairs/variants open |
 | 3 | AB | Caster equipment: spellbooks, orbs, holy/silver symbols, reliquaries and Wayfarer lantern | Preserve focus identity, connected hands/handle and existing light/reflection behaviour |
 | 4 | AC | Remaining shield backs: tower, Quill and other legal class/item pairs | Reuse P/Y; keep named construction and rear grips/straps distinct |
 | 5 | AD | Fists, casting and read/drink hands; Wild Shape bear claws | Exact supported class/action states; preserve hand counts and existing timing |
@@ -554,7 +554,7 @@ Z source review is complete with preserved originals/repairs and authored
 registration. See [Z review](batch-z-preview/REVIEW.md). Selected source-spacing
 exceptions are documented; all registered silhouettes have>=12px clearance.
 The source proxy does not establish runtime delivery, native transitions or offline
-readiness. AA now has a first reviewed tranche; AB–AG remain planned and unpainted.
+readiness. AA has an integrated first tranche and two further passes integrated for0.9.36; AB–AG remain planned and unpainted.
 
 AA first tranche has36 frames: Thief/dagger9, Fighter/battleaxe9,
 Cleric/hammer9 and Fighter/greatsword9. See [AA review](batch-aa-preview/REVIEW.md)
@@ -563,11 +563,29 @@ and [brief](REQUEST-batch-aa.md).120 captures and360 fitting cases reviewed;
 Greatsword cast/read/drink retain the procedural one-handed grip; do not bind
 these two-handed frames to freed-hand actions. Preserve Z's selected sources and grips.
 
+AA's second ordinary-melee pass now has36 reviewed source frames in addition
+to its36 already integrated first-pass frames. See [second-pass review](batch-aa-melee2-preview/REVIEW.md)
+and [brief](REQUEST-batch-aa-melee2.md). All new pairs are one-handed; the short
+flail chain remains the existing construction. This source pass leaves0.9.35
+runtime/offline bindings untouched at that stage. These frames are now integrated for0.9.36.
+
+AA's third ordinary-melee pass adds36 reviewed class frames (27 unique painted
+poses) for Fighter/Ranger/Druid/Spellblade daggers. Ranger reuses Fighter only
+after all9 native PNGs, grips and object bounds match; exact class keys remain.
+See [third-pass review](batch-aa-melee3-preview/REVIEW.md) and
+[brief](REQUEST-batch-aa-melee3.md). All six legal dagger classes now have source
+coverage, including active Thief and pending Mage. Cleric dagger is ineligible.
+The second and third passes are integrated for release0.9.36:72 class frames,
+63 unique painted poses, plus9 matching Spellblade lantern-reflected frames
+needed for native play. See [native activation evidence](batch-aa-melee-runtime/REVIEW.md). The wider AA library stays open.
+
 AA remaining production passes stay open:
 
 | Pass | Remaining work | Gate |
 |---|---|---|
-| Next | Flail and further ordinary melee/class pairs, including Fighter hammer and other dagger classes | Audit exact raw ids, supported motions and class gloves; no blanket recolours |
+| Second pass — integrated for0.9.36 | Fighter hammer, Fighter/Cleric flails and Mage dagger:36 frames |120 source captures/360 fits; native activation/offline evidence for0.9.36; [review](batch-aa-melee-runtime/REVIEW.md) |
+| Third pass — integrated for0.9.36 | Remaining dagger classes: Fighter/Ranger/Druid/Spellblade,36 class frames/27 unique painted poses |120 source captures/360 fits; exact Ranger reuse; native activation/offline evidence for0.9.36; [review](batch-aa-melee-runtime/REVIEW.md) |
+| Next | Further ordinary melee/class pairs: club, mace, sword, axe, hammer, spear and staff gaps | Audit legal raw ids, supported motions and class hands; reuse only after exact native comparison; no blanket recolours |
 | Following | Sling, throwing knives and hand crossbow | Keep stone/knife/bolt release, live hands and existing projectiles; paint only actual cached prop states |
 | Later | Remaining ordinary/class and named/legendary/Mythic held variants | Preserve each named construction and unidentified appearance; reuse only when exact identities match |
 
@@ -634,4 +652,6 @@ separately, including exact-mask and unused-reserve exceptions.
 |---|---|---|
 | Y | Three ordinary shield rear frames; integrated for0.9.34 | [Shield rear views](batch-y-preview/REVIEW.md) |
 | Z |23 reviewed starting-weapon frames integrated for0.9.35 | [Starting weapons](batch-z-preview/REVIEW.md) |
-| AA | First tranche36 reviewed frames integrated for0.9.35; wider library open | [Wider held weapons](batch-aa-preview/REVIEW.md) |
+| AA |117 held frames integrated through0.9.36 across three passes and Spellblade reflection correction; wider library open | [Wider held weapons and native activation](batch-aa-melee-runtime/REVIEW.md) |
+| AA melee2 |36 ordinary-melee frames integrated for0.9.36; wider library open | [Second melee pass](batch-aa-melee2-preview/REVIEW.md) |
+| AA melee3 |36 dagger class frames/27 unique painted poses integrated for0.9.36; all six legal dagger classes have source coverage | [Third melee pass](batch-aa-melee3-preview/REVIEW.md) |

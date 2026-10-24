@@ -1,0 +1,932 @@
+{
+  "groups": {
+    "aa9": {
+      "cls": "fighter",
+      "id": "dagger",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa10": {
+      "cls": "ranger",
+      "id": "dagger",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa11": {
+      "cls": "druid",
+      "id": "dagger",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa12": {
+      "cls": "spellblade",
+      "id": "dagger",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    }
+  },
+  "cells": {
+    "fighter-dagger-rest": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        75.98449612403101,
+        89.62790697674419
+      ],
+      "object_bounds": [
+        51.78782049014402,
+        12.964199525345613,
+        95.38363605865493,
+        115.75133363771602
+      ],
+      "native": [
+        85,
+        129
+      ]
+    },
+    "fighter-dagger-drawback": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        96.23943661971832,
+        83.07042253521126
+      ],
+      "object_bounds": [
+        78.87006607721698,
+        13.635141103721791,
+        118.39784420110703,
+        106.75939738816075
+      ],
+      "native": [
+        59,
+        142
+      ]
+    },
+    "fighter-dagger-windup": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        117.23076923076923,
+        73.38461538461539
+      ],
+      "object_bounds": [
+        99.753388309494,
+        13.132462380192022,
+        157.85695681453177,
+        95.12002836393987
+      ],
+      "native": [
+        34,
+        143
+      ]
+    },
+    "fighter-dagger-strike": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        77.296875,
+        88.46875
+      ],
+      "object_bounds": [
+        50.550157023956125,
+        12.588618406397265,
+        95.40869671515117,
+        114.51392212122872
+      ],
+      "native": [
+        85,
+        128
+      ]
+    },
+    "fighter-dagger-cut": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        78.14388489208633,
+        109.0071942446043
+      ],
+      "object_bounds": [
+        13.863418415295968,
+        70.979532363161,
+        100.98533591893514,
+        126.15516957677838
+      ],
+      "native": [
+        139,
+        66
+      ]
+    },
+    "fighter-dagger-sweep": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        83.53191489361703,
+        100.69503546099291
+      ],
+      "object_bounds": [
+        12.544891638049132,
+        79.71541881944755,
+        107.60523115033548,
+        119.91144591513357
+      ],
+      "native": [
+        141,
+        63
+      ]
+    },
+    "fighter-dagger-through": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        83.83941605839416,
+        96.6861313868613
+      ],
+      "object_bounds": [
+        14.738691664193173,
+        81.06841931149394,
+        107.8070925268922,
+        127.06159783193755
+      ],
+      "native": [
+        137,
+        69
+      ]
+    },
+    "fighter-dagger-recover": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        83.64516129032258,
+        84.53225806451613
+      ],
+      "object_bounds": [
+        12.867821901066439,
+        39.770378790731286,
+        108.9884888938985,
+        104.2258064516129
+      ],
+      "native": [
+        124,
+        93
+      ]
+    },
+    "fighter-dagger-return": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        74.89655172413794,
+        86.27586206896552
+      ],
+      "object_bounds": [
+        23.573807612476855,
+        12.827408941512804,
+        96.68481993981693,
+        112.91565057799608
+      ],
+      "native": [
+        104,
+        116
+      ]
+    },
+    "ranger-dagger-rest": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        75.98449612403101,
+        89.62790697674419
+      ],
+      "object_bounds": [
+        51.78782049014402,
+        12.964199525345613,
+        95.38363605865493,
+        115.75133363771602
+      ],
+      "native": [
+        85,
+        129
+      ]
+    },
+    "ranger-dagger-drawback": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        96.23943661971832,
+        83.07042253521126
+      ],
+      "object_bounds": [
+        78.87006607721698,
+        13.635141103721791,
+        118.39784420110703,
+        106.75939738816075
+      ],
+      "native": [
+        59,
+        142
+      ]
+    },
+    "ranger-dagger-windup": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        117.23076923076923,
+        73.38461538461539
+      ],
+      "object_bounds": [
+        99.753388309494,
+        13.132462380192022,
+        157.85695681453177,
+        95.12002836393987
+      ],
+      "native": [
+        34,
+        143
+      ]
+    },
+    "ranger-dagger-strike": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        77.296875,
+        88.46875
+      ],
+      "object_bounds": [
+        50.550157023956125,
+        12.588618406397265,
+        95.40869671515117,
+        114.51392212122872
+      ],
+      "native": [
+        85,
+        128
+      ]
+    },
+    "ranger-dagger-cut": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        78.14388489208633,
+        109.0071942446043
+      ],
+      "object_bounds": [
+        13.863418415295968,
+        70.979532363161,
+        100.98533591893514,
+        126.15516957677838
+      ],
+      "native": [
+        139,
+        66
+      ]
+    },
+    "ranger-dagger-sweep": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        83.53191489361703,
+        100.69503546099291
+      ],
+      "object_bounds": [
+        12.544891638049132,
+        79.71541881944755,
+        107.60523115033548,
+        119.91144591513357
+      ],
+      "native": [
+        141,
+        63
+      ]
+    },
+    "ranger-dagger-through": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        83.83941605839416,
+        96.6861313868613
+      ],
+      "object_bounds": [
+        14.738691664193173,
+        81.06841931149394,
+        107.8070925268922,
+        127.06159783193755
+      ],
+      "native": [
+        137,
+        69
+      ]
+    },
+    "ranger-dagger-recover": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        83.64516129032258,
+        84.53225806451613
+      ],
+      "object_bounds": [
+        12.867821901066439,
+        39.770378790731286,
+        108.9884888938985,
+        104.2258064516129
+      ],
+      "native": [
+        124,
+        93
+      ]
+    },
+    "ranger-dagger-return": {
+      "sheet": "aa10",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        74.89655172413794,
+        86.27586206896552
+      ],
+      "object_bounds": [
+        23.573807612476855,
+        12.827408941512804,
+        96.68481993981693,
+        112.91565057799608
+      ],
+      "native": [
+        104,
+        116
+      ]
+    },
+    "druid-dagger-rest": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        75.98449612403101,
+        89.62790697674419
+      ],
+      "object_bounds": [
+        51.78782049014402,
+        12.964199525345613,
+        95.38363605865493,
+        115.75133363771602
+      ],
+      "native": [
+        85,
+        129
+      ]
+    },
+    "druid-dagger-drawback": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        96.23943661971832,
+        83.07042253521126
+      ],
+      "object_bounds": [
+        78.87006607721698,
+        13.635141103721791,
+        118.39784420110703,
+        106.75939738816075
+      ],
+      "native": [
+        59,
+        142
+      ]
+    },
+    "druid-dagger-windup": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        117.23076923076923,
+        73.38461538461539
+      ],
+      "object_bounds": [
+        99.753388309494,
+        13.132462380192022,
+        157.85695681453177,
+        95.12002836393987
+      ],
+      "native": [
+        34,
+        143
+      ]
+    },
+    "druid-dagger-strike": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        77.296875,
+        88.46875
+      ],
+      "object_bounds": [
+        50.550157023956125,
+        12.588618406397265,
+        95.40869671515117,
+        114.51392212122872
+      ],
+      "native": [
+        85,
+        128
+      ]
+    },
+    "druid-dagger-cut": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        78.14388489208633,
+        109.0071942446043
+      ],
+      "object_bounds": [
+        13.863418415295968,
+        70.979532363161,
+        100.98533591893514,
+        126.15516957677838
+      ],
+      "native": [
+        139,
+        66
+      ]
+    },
+    "druid-dagger-sweep": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        83.53191489361703,
+        100.69503546099291
+      ],
+      "object_bounds": [
+        12.544891638049132,
+        79.71541881944755,
+        107.60523115033548,
+        119.91144591513357
+      ],
+      "native": [
+        141,
+        63
+      ]
+    },
+    "druid-dagger-through": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        83.83941605839416,
+        96.6861313868613
+      ],
+      "object_bounds": [
+        14.738691664193173,
+        81.06841931149394,
+        107.8070925268922,
+        127.06159783193755
+      ],
+      "native": [
+        137,
+        69
+      ]
+    },
+    "druid-dagger-recover": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        83.64516129032258,
+        84.53225806451613
+      ],
+      "object_bounds": [
+        12.867821901066439,
+        39.770378790731286,
+        108.9884888938985,
+        104.2258064516129
+      ],
+      "native": [
+        124,
+        93
+      ]
+    },
+    "druid-dagger-return": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        74.89655172413794,
+        86.27586206896552
+      ],
+      "object_bounds": [
+        23.573807612476855,
+        12.827408941512804,
+        96.68481993981693,
+        112.91565057799608
+      ],
+      "native": [
+        104,
+        116
+      ]
+    },
+    "spellblade-dagger-rest": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        75.98449612403101,
+        89.62790697674419
+      ],
+      "object_bounds": [
+        51.78782049014402,
+        12.964199525345613,
+        95.38363605865493,
+        115.75133363771602
+      ],
+      "native": [
+        85,
+        129
+      ]
+    },
+    "spellblade-dagger-drawback": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        96.23943661971832,
+        83.07042253521126
+      ],
+      "object_bounds": [
+        78.87006607721698,
+        13.635141103721791,
+        118.39784420110703,
+        106.75939738816075
+      ],
+      "native": [
+        59,
+        142
+      ]
+    },
+    "spellblade-dagger-windup": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        117.23076923076923,
+        73.38461538461539
+      ],
+      "object_bounds": [
+        99.753388309494,
+        13.132462380192022,
+        157.85695681453177,
+        95.12002836393987
+      ],
+      "native": [
+        34,
+        143
+      ]
+    },
+    "spellblade-dagger-strike": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        77.296875,
+        88.46875
+      ],
+      "object_bounds": [
+        50.550157023956125,
+        12.588618406397265,
+        95.40869671515117,
+        114.51392212122872
+      ],
+      "native": [
+        85,
+        128
+      ]
+    },
+    "spellblade-dagger-cut": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        78.14388489208633,
+        109.0071942446043
+      ],
+      "object_bounds": [
+        13.863418415295968,
+        70.979532363161,
+        100.98533591893514,
+        126.15516957677838
+      ],
+      "native": [
+        139,
+        66
+      ]
+    },
+    "spellblade-dagger-sweep": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        83.53191489361703,
+        100.69503546099291
+      ],
+      "object_bounds": [
+        12.544891638049132,
+        79.71541881944755,
+        107.60523115033548,
+        119.91144591513357
+      ],
+      "native": [
+        141,
+        63
+      ]
+    },
+    "spellblade-dagger-through": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        83.83941605839416,
+        96.6861313868613
+      ],
+      "object_bounds": [
+        14.738691664193173,
+        81.06841931149394,
+        107.8070925268922,
+        127.06159783193755
+      ],
+      "native": [
+        137,
+        69
+      ]
+    },
+    "spellblade-dagger-recover": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        83.64516129032258,
+        84.53225806451613
+      ],
+      "object_bounds": [
+        12.867821901066439,
+        39.770378790731286,
+        108.9884888938985,
+        104.2258064516129
+      ],
+      "native": [
+        124,
+        93
+      ]
+    },
+    "spellblade-dagger-return": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        74.89655172413794,
+        86.27586206896552
+      ],
+      "object_bounds": [
+        23.573807612476855,
+        12.827408941512804,
+        96.68481993981693,
+        112.91565057799608
+      ],
+      "native": [
+        104,
+        116
+      ]
+    }
+  },
+  "legal": [
+    {
+      "cls": "fighter",
+      "id": "dagger",
+      "reason": null
+    },
+    {
+      "cls": "ranger",
+      "id": "dagger",
+      "reason": null
+    },
+    {
+      "cls": "druid",
+      "id": "dagger",
+      "reason": null
+    },
+    {
+      "cls": "spellblade",
+      "id": "dagger",
+      "reason": null
+    }
+  ],
+  "mode": "fresh browser per family; native procedural geometry; painted held requests blocked to preserve source references after activation",
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "druid": [
+      "#8a6a44",
+      "#4e6a34",
+      "#5a4a2e"
+    ],
+    "spellblade": [
+      "#3c424b",
+      "#515c6a",
+      "#242a32"
+    ]
+  },
+  "ranger_reuse_audit": {
+    "reason": "native HAND_COLORS has no Ranger entry; same Fighter palette, geometry, grips and bounds",
+    "poses": [
+      {
+        "pose": "rest",
+        "byte_identical": true,
+        "sha256": "12fb08bf5e83f2121e118c60ba8154b9988ef7797a816bef0ad8614863aa8ed7"
+      },
+      {
+        "pose": "drawback",
+        "byte_identical": true,
+        "sha256": "60e05c88cd8758af39d586db4df290299d2f7013617d5d9adf25e2f046cd8ec1"
+      },
+      {
+        "pose": "windup",
+        "byte_identical": true,
+        "sha256": "ed273edfe0af7b84d702201290a82087ce178f92b20b9efd687b2b23c1022e2f"
+      },
+      {
+        "pose": "strike",
+        "byte_identical": true,
+        "sha256": "e556ce18a3cc934dc99a3607c4b49535cf8ecfa7d09c7a29fca2e20bf9affd31"
+      },
+      {
+        "pose": "cut",
+        "byte_identical": true,
+        "sha256": "2a7b95d5948e86b6ac036f2ee4a610a13f244275832b4d3f1c70b33781722329"
+      },
+      {
+        "pose": "sweep",
+        "byte_identical": true,
+        "sha256": "8350ae4388e441dac819fd7307fa170441698af2d9cd16a0359c3943c4f4931d"
+      },
+      {
+        "pose": "through",
+        "byte_identical": true,
+        "sha256": "0ff82a9ffdf39ab2acca269d26cccdee0f51d1ee3ee5fce783f13c2aa8c8bcd9"
+      },
+      {
+        "pose": "recover",
+        "byte_identical": true,
+        "sha256": "58d66d8e6db0e110e98bcfc2269670bf17529fce28f110ab56d90dce9dee028c"
+      },
+      {
+        "pose": "return",
+        "byte_identical": true,
+        "sha256": "cea3b0832f5c419bcfeb708c747ced648dfc95c909669c76e4118146650b09ef"
+      }
+    ]
+  }
+}

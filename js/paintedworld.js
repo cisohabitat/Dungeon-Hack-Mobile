@@ -63,9 +63,8 @@ for (const meta of Object.values(PAINTED.held)) {
   heldFamilies.get(key).push(meta);
 }
 export function paintedHeld(id, pose, cls, two, lit) {
-  if (lit) return null;
   const family = heldFamilies.get(cls + '|' + id);
-  const meta = family?.find(m => m.pose === pose && m.two === !!two);
+  const meta = family?.find(m => m.pose === pose && m.two === !!two && m.lit === !!lit);
   if (!meta) return null;
   // A whole weapon family switches together, so the first swing cannot mix
   // painted and procedural poses while individual frames are still loading.

@@ -1,0 +1,882 @@
+{
+  "groups": {
+    "aa5": {
+      "cls": "fighter",
+      "id": "hammer",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa6": {
+      "cls": "fighter",
+      "id": "flail",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa7": {
+      "cls": "cleric",
+      "id": "flail",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa8": {
+      "cls": "mage",
+      "id": "dagger",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    }
+  },
+  "cells": {
+    "fighter-hammer-rest": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        105.1951219512195,
+        121.29268292682927
+      ],
+      "object_bounds": [
+        50.24211732115944,
+        12.571220367086283,
+        123.6146517758968,
+        143.23118277049866
+      ],
+      "native": [
+        112,
+        164
+      ]
+    },
+    "fighter-hammer-drawback": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        108.11299435028249,
+        113.70621468926554
+      ],
+      "object_bounds": [
+        83.12961786330521,
+        13.269995993168951,
+        151.0534225042087,
+        133.99546108159018
+      ],
+      "native": [
+        68,
+        177
+      ]
+    },
+    "fighter-hammer-windup": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        103.97701149425288,
+        102.71264367816092
+      ],
+      "object_bounds": [
+        88.8207500801119,
+        13.363752243563198,
+        168.67899108716364,
+        121.7303309142665
+      ],
+      "native": [
+        58,
+        174
+      ]
+    },
+    "fighter-hammer-strike": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        108.42944785276073,
+        120.57668711656441
+      ],
+      "object_bounds": [
+        47.313216218294045,
+        13.122518727761584,
+        121.09586394635903,
+        142.40512481670248
+      ],
+      "native": [
+        115,
+        163
+      ]
+    },
+    "fighter-hammer-cut": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        108.05847953216374,
+        128.6432748538012
+      ],
+      "object_bounds": [
+        13.734158447027147,
+        66.31943626030888,
+        127.84084980185995,
+        143.3188534538234
+      ],
+      "native": [
+        171,
+        91
+      ]
+    },
+    "fighter-hammer-sweep": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        114.94915254237287,
+        113.08474576271186
+      ],
+      "object_bounds": [
+        13.009466038200298,
+        78.34973999876362,
+        135.42856087089683,
+        147.20892889478966
+      ],
+      "native": [
+        177,
+        74
+      ]
+    },
+    "fighter-hammer-through": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        113.76470588235294,
+        102.76470588235293
+      ],
+      "object_bounds": [
+        13.31183893009943,
+        89.58619680762465,
+        134.3684165594108,
+        166.53414899783252
+      ],
+      "native": [
+        170,
+        69
+      ]
+    },
+    "fighter-hammer-recover": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        114.51612903225806,
+        110.96774193548387
+      ],
+      "object_bounds": [
+        12.278114887789954,
+        40.232016996876716,
+        136.10997195350149,
+        127.57419354838706
+      ],
+      "native": [
+        155,
+        118
+      ]
+    },
+    "fighter-hammer-return": {
+      "sheet": "aa5",
+      "cls": "fighter",
+      "id": "hammer",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        109.91780821917808,
+        117.45205479452055
+      ],
+      "object_bounds": [
+        22.601109862285945,
+        12.040266140050075,
+        128.19368247912146,
+        139.98131670890916
+      ],
+      "native": [
+        136,
+        146
+      ]
+    },
+    "fighter-flail-rest": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        81.60544217687075,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        62.42857461187908,
+        12.717832520341464,
+        139.56644537539856,
+        130.29204152495885
+      ],
+      "native": [
+        84,
+        147
+      ]
+    },
+    "fighter-flail-drawback": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        98.13245033112582,
+        92.30463576158941
+      ],
+      "object_bounds": [
+        84.68091505543623,
+        13.513469443250829,
+        175.20321059881888,
+        114.16869037613375
+      ],
+      "native": [
+        59,
+        151
+      ]
+    },
+    "fighter-flail-windup": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        89.80555555555554,
+        74.52777777777777
+      ],
+      "object_bounds": [
+        72.26151765677652,
+        13.267728157447115,
+        185.5875333018875,
+        95.86285092364186
+      ],
+      "native": [
+        70,
+        144
+      ]
+    },
+    "fighter-flail-strike": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        85.18120805369128,
+        109.54362416107384
+      ],
+      "object_bounds": [
+        61.97782380072969,
+        14.05251947417242,
+        136.3025561439593,
+        131.52032696585266
+      ],
+      "native": [
+        86,
+        149
+      ]
+    },
+    "fighter-flail-cut": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        80.41134751773049,
+        138.1418439716312
+      ],
+      "object_bounds": [
+        13.733455882947876,
+        43.058890162353364,
+        102.62509269039658,
+        155.32349788468508
+      ],
+      "native": [
+        141,
+        103
+      ]
+    },
+    "fighter-flail-sweep": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        96.57142857142857,
+        125.85714285714286
+      ],
+      "object_bounds": [
+        13.678300309101445,
+        56.151354209603724,
+        118.18714227432375,
+        137.9326322339124
+      ],
+      "native": [
+        154,
+        95
+      ]
+    },
+    "fighter-flail-through": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        104.32911392405063,
+        109.20253164556962
+      ],
+      "object_bounds": [
+        13.30930838941405,
+        67.01602928356368,
+        124.76906669157356,
+        135.33575828924927
+      ],
+      "native": [
+        158,
+        81
+      ]
+    },
+    "fighter-flail-recover": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        86.53846153846153,
+        117.84615384615384
+      ],
+      "object_bounds": [
+        16.41304279733653,
+        13.175570290356656,
+        110.40845840687768,
+        136.8846153846154
+      ],
+      "native": [
+        125,
+        130
+      ]
+    },
+    "fighter-flail-return": {
+      "sheet": "aa6",
+      "cls": "fighter",
+      "id": "flail",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        85.22222222222223,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        45.213130529892176,
+        13.20273196731107,
+        116.31777590599998,
+        137.00110204579408
+      ],
+      "native": [
+        104,
+        144
+      ]
+    },
+    "cleric-flail-rest": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        81.60544217687075,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        62.42857461187908,
+        12.717832520341464,
+        139.56644537539856,
+        130.29204152495885
+      ],
+      "native": [
+        84,
+        147
+      ]
+    },
+    "cleric-flail-drawback": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        98.13245033112582,
+        92.30463576158941
+      ],
+      "object_bounds": [
+        84.68091505543623,
+        13.513469443250829,
+        175.20321059881888,
+        114.16869037613375
+      ],
+      "native": [
+        59,
+        151
+      ]
+    },
+    "cleric-flail-windup": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        89.80555555555554,
+        74.52777777777777
+      ],
+      "object_bounds": [
+        72.26151765677652,
+        13.267728157447115,
+        185.5875333018875,
+        95.86285092364186
+      ],
+      "native": [
+        70,
+        144
+      ]
+    },
+    "cleric-flail-strike": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        85.18120805369128,
+        109.54362416107384
+      ],
+      "object_bounds": [
+        61.97782380072969,
+        14.05251947417242,
+        136.3025561439593,
+        131.52032696585266
+      ],
+      "native": [
+        86,
+        149
+      ]
+    },
+    "cleric-flail-cut": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        80.41134751773049,
+        138.1418439716312
+      ],
+      "object_bounds": [
+        13.733455882947876,
+        43.058890162353364,
+        102.62509269039658,
+        155.32349788468508
+      ],
+      "native": [
+        141,
+        103
+      ]
+    },
+    "cleric-flail-sweep": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        96.57142857142857,
+        125.85714285714286
+      ],
+      "object_bounds": [
+        13.678300309101445,
+        56.151354209603724,
+        118.18714227432375,
+        137.9326322339124
+      ],
+      "native": [
+        154,
+        95
+      ]
+    },
+    "cleric-flail-through": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        104.32911392405063,
+        109.20253164556962
+      ],
+      "object_bounds": [
+        13.30930838941405,
+        67.01602928356368,
+        124.76906669157356,
+        135.33575828924927
+      ],
+      "native": [
+        158,
+        81
+      ]
+    },
+    "cleric-flail-recover": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        86.53846153846153,
+        117.84615384615384
+      ],
+      "object_bounds": [
+        16.41304279733653,
+        13.175570290356656,
+        110.40845840687768,
+        136.8846153846154
+      ],
+      "native": [
+        125,
+        130
+      ]
+    },
+    "cleric-flail-return": {
+      "sheet": "aa7",
+      "cls": "cleric",
+      "id": "flail",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        85.22222222222223,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        45.213130529892176,
+        13.20273196731107,
+        116.31777590599998,
+        137.00110204579408
+      ],
+      "native": [
+        104,
+        144
+      ]
+    },
+    "mage-dagger-rest": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        75.98449612403101,
+        89.62790697674419
+      ],
+      "object_bounds": [
+        51.78782049014402,
+        12.964199525345613,
+        95.38363605865493,
+        115.75133363771602
+      ],
+      "native": [
+        85,
+        129
+      ]
+    },
+    "mage-dagger-drawback": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        96.23943661971832,
+        83.07042253521126
+      ],
+      "object_bounds": [
+        78.87006607721698,
+        13.635141103721791,
+        118.39784420110703,
+        106.75939738816075
+      ],
+      "native": [
+        59,
+        142
+      ]
+    },
+    "mage-dagger-windup": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        117.23076923076923,
+        73.38461538461539
+      ],
+      "object_bounds": [
+        99.753388309494,
+        13.132462380192022,
+        157.85695681453177,
+        95.12002836393987
+      ],
+      "native": [
+        34,
+        143
+      ]
+    },
+    "mage-dagger-strike": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        77.296875,
+        88.46875
+      ],
+      "object_bounds": [
+        50.550157023956125,
+        12.588618406397265,
+        95.40869671515117,
+        114.51392212122872
+      ],
+      "native": [
+        85,
+        128
+      ]
+    },
+    "mage-dagger-cut": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        78.14388489208633,
+        109.0071942446043
+      ],
+      "object_bounds": [
+        13.863418415295968,
+        70.979532363161,
+        100.98533591893514,
+        126.15516957677838
+      ],
+      "native": [
+        139,
+        66
+      ]
+    },
+    "mage-dagger-sweep": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        83.53191489361703,
+        100.69503546099291
+      ],
+      "object_bounds": [
+        12.544891638049132,
+        79.71541881944755,
+        107.60523115033548,
+        119.91144591513357
+      ],
+      "native": [
+        141,
+        63
+      ]
+    },
+    "mage-dagger-through": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        83.83941605839416,
+        96.6861313868613
+      ],
+      "object_bounds": [
+        14.738691664193173,
+        81.06841931149394,
+        107.8070925268922,
+        127.06159783193755
+      ],
+      "native": [
+        137,
+        69
+      ]
+    },
+    "mage-dagger-recover": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        83.64516129032258,
+        84.53225806451613
+      ],
+      "object_bounds": [
+        12.867821901066439,
+        39.770378790731286,
+        108.9884888938985,
+        104.2258064516129
+      ],
+      "native": [
+        124,
+        93
+      ]
+    },
+    "mage-dagger-return": {
+      "sheet": "aa8",
+      "cls": "mage",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        74.89655172413794,
+        86.27586206896552
+      ],
+      "object_bounds": [
+        23.573807612476855,
+        12.827408941512804,
+        96.68481993981693,
+        112.91565057799608
+      ],
+      "native": [
+        104,
+        116
+      ]
+    }
+  },
+  "legal": [
+    {
+      "cls": "fighter",
+      "id": "hammer",
+      "reason": null
+    },
+    {
+      "cls": "fighter",
+      "id": "flail",
+      "reason": null
+    },
+    {
+      "cls": "cleric",
+      "id": "flail",
+      "reason": null
+    },
+    {
+      "cls": "mage",
+      "id": "dagger",
+      "reason": null
+    }
+  ],
+  "mode": "fresh browser per family; native procedural geometry; painted held requests blocked to preserve source references after activation",
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "mage": [
+      "#d8b090",
+      "#6a4aa0",
+      "#4a3a78"
+    ]
+  }
+}

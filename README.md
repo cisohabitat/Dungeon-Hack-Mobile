@@ -1449,3 +1449,42 @@ native legal equip/actions/Calm/offline continuation with
 `node art/creatures/preview-batch-zaa-runtime.cjs`. See the
 [native weapon review](art/creatures/batch-zaa-runtime/REVIEW.md) for validation.
 No game rules or balance change.
+
+AA's second ordinary-melee source pass adds36 reviewed local frames for Fighter
+war hammer, Fighter/Cleric flails and Mage dagger. See the
+[review](art/creatures/batch-aa-melee2-preview/REVIEW.md) for120 captures,
+360 fitting cases,12 passing baseline browser checks and retained source findings.
+Reproduce with `python3 art/creatures/export-batch-aa-melee2.py --check` and
+`node art/creatures/preview-batch-aa-melee2.cjs`. These frames are unpublished and
+unactivated; the live game stays0.9.35. Remaining AA passes stay in the roadmap.
+
+AA's third ordinary-melee source pass adds36 dagger class frames for Fighter,
+Ranger, Druid and Spellblade (27 unique painted poses; Ranger reuses Fighter after
+exact native pixel/grip comparison). All six legal dagger classes now have source
+coverage alongside active Thief and pending Mage. See the
+[review](art/creatures/batch-aa-melee3-preview/REVIEW.md) for120 captures,
+360 fits and12 passing baseline checks. Reproduce with
+`python3 art/creatures/export-batch-aa-melee3.py --check` and
+`node art/creatures/preview-batch-aa-melee3.cjs`. This and the previous source pass
+remain local, unpublished and unactivated; live0.9.35 is unchanged.
+
+Release0.9.36 activates the second and third AA melee passes:72 class frames for
+Fighter war hammer, Fighter/Cleric flails and Mage/Fighter/Ranger/Druid/Spellblade
+daggers. All six legal dagger classes now have active painted ordinary daggers.
+The common delivery inventory is327 files, including156 held frames;495 shipped
+paintings plus3 app icons. Reproduce with
+`python3 tools/export-painted-runtime.py --check`; capture real class equipment,
+actions, Calm and offline continuation with
+`node art/creatures/preview-batch-aa-melee-runtime.cjs`. See
+[native activation evidence](art/creatures/batch-aa-melee-runtime/REVIEW.md).
+Exact class and named-item guards, grips/bounds and independent whole-family
+fallbacks are preserved. Historical local/source-only notes above describe the
+review stage; both passes are now activated. No game rules or balance change.
+
+Native activation also adds9 painted Spellblade dagger reflection frames, bringing
+the release addition to81 held frames. Its lantern normally requests lit=true;
+the loader now matches the explicit lit flag rather than rejecting every lit
+request. Other weapons retain their procedural reflected variants. The painted
+reflection preserves silver steel, brass, class hands and muted cool edges without
+changing dungeon light or visibility. Reproduce with
+`python3 art/creatures/export-batch-aa-reflected.py --check`.

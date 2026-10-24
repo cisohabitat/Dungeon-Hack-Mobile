@@ -1,0 +1,1119 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-melee3.md",
+  "status": "Source-reviewed and integrated for release0.9.36; wider AA library remains open",
+  "groups": {
+    "aa9": [
+      "fighter-dagger-rest",
+      "fighter-dagger-drawback",
+      "fighter-dagger-windup",
+      "fighter-dagger-strike",
+      "fighter-dagger-cut",
+      "fighter-dagger-sweep",
+      "fighter-dagger-through",
+      "fighter-dagger-recover",
+      "fighter-dagger-return"
+    ],
+    "aa10": [
+      "ranger-dagger-rest",
+      "ranger-dagger-drawback",
+      "ranger-dagger-windup",
+      "ranger-dagger-strike",
+      "ranger-dagger-cut",
+      "ranger-dagger-sweep",
+      "ranger-dagger-through",
+      "ranger-dagger-recover",
+      "ranger-dagger-return"
+    ],
+    "aa11": [
+      "druid-dagger-rest",
+      "druid-dagger-drawback",
+      "druid-dagger-windup",
+      "druid-dagger-strike",
+      "druid-dagger-cut",
+      "druid-dagger-sweep",
+      "druid-dagger-through",
+      "druid-dagger-recover",
+      "druid-dagger-return"
+    ],
+    "aa12": [
+      "spellblade-dagger-rest",
+      "spellblade-dagger-drawback",
+      "spellblade-dagger-windup",
+      "spellblade-dagger-strike",
+      "spellblade-dagger-cut",
+      "spellblade-dagger-sweep",
+      "spellblade-dagger-through",
+      "spellblade-dagger-recover",
+      "spellblade-dagger-return"
+    ]
+  },
+  "sheets": {
+    "aa9": {
+      "source": "held-aa9.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "A static fantasy inventory prop design study, no person or activity. Nine separate small prop views in a3x3 equal square grid on transparent RGBA. Match each corresponding view of reference1. The little straight steel dagger above the plain brass crossbar has a SHORT blade only about one third of forearm length, like reference2; keep its small brown handle. Exactly one grey gauntlet and grey cuff connected to a complete BROWN coarse-cloth forearm in every cell, as reference1 and reference3. Reference2 supplies the compact prop design, not its Thief costume. Mature rough painted metal, leather and cloth, natural fingers curled onto the handle, no cartoon or shiny chrome. Handle directions row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123 degrees with right0/up-90. All blade tips, pommels, fingers and smooth sleeve ends entirely inside own square with clear transparent gutters and8 percent margin. No caption, shadow, glow, coloured rim or detached paint fragments. Preserve identical proportions and lighting in every view.",
+      "references": [
+        "batch-aa-melee3-preview/aa9-reference.png",
+        "held-aa1-refined.png",
+        "held-aa2-refined.png"
+      ],
+      "transparent_background": true,
+      "failed_requests": [
+        {
+          "prompt": "Static fantasy game inventory prop study on true transparent RGBA. Exactly NINE separate equal square cells in a3x3 grid, row-major. Reference1 gives the authoritative hand, sleeve, compact prop size and each pose direction. Other references supply only the approved mature gritty painted material quality and ordinary dagger construction; do not copy their different class costume or different weapon. No cartoon, vector, toy, plastic or shiny chrome. Every prop is a SMALL plain steel DAGGER, short straight double edge with pointed tip, simple short brass guard and brown handle. The blade above the guard is only about ONE THIRD of forearm length, visibly short and compact, never lengthen it to fill the cell. Same prop dimensions and lighting across all nine views. Exactly ONE closed RIGHT hand with four curled fingers and opposing thumb on the grip, connected to a complete forearm with a clean sleeve end. Copy each corresponding reference pose individually. Screen handle/blade directions: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123 degrees, right=0/up=-90. Do not repeat one orientation or mirror cells. Every entire blade tip, pommel, finger and sleeve end inside its OWN cell with8 percent transparent padding and clear gutters. No scene, text, labels, shadow, glow, coloured halo, motion streak or detached paint flecks. FIGHTER costume: weathered GREY leather/metal gauntlet, muted grey cuff, BROWN coarse cloth sleeve, as first and third references. Second reference gives the compact dagger proportions only, NOT its dark Thief glove and olive sleeve. Ordinary undecorated steel; no blade jewels or rune marks.",
+          "references": [
+            "batch-aa-melee3-preview/aa9-reference.png",
+            "held-aa1-refined.png",
+            "held-aa2-refined.png"
+          ],
+          "transparent_background": true,
+          "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 30eb032d-425c-4e53-9876-b494e883e358. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+          "request_id": "30eb032d-425c-4e53-9876-b494e883e358",
+          "outcome": "input moderation rejection on static prop request; no image produced"
+        }
+      ],
+      "generated_image": "/workspace/generated_images/exec-6c642f8f-614e-4738-85cd-6ede8bb06d92.png"
+    },
+    "aa10": {
+      "source": "held-aa9.png",
+      "grid": [
+        3,
+        3
+      ],
+      "reuse_from": "aa9",
+      "reason": "All9 native PNGs, grips and bounds byte-identical to Fighter; no independent painting."
+    },
+    "aa11": {
+      "source": "held-aa11.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Static fantasy game inventory prop study on true transparent RGBA. Exactly NINE separate equal square cells in a3x3 grid, row-major. Reference1 gives the authoritative hand, sleeve, compact prop size and each pose direction. Other references supply only the approved mature gritty painted material quality and ordinary dagger construction; do not copy their different class costume or different weapon. No cartoon, vector, toy, plastic or shiny chrome. Every prop is a SMALL plain steel DAGGER, short straight double edge with pointed tip, simple short brass guard and brown handle. The blade above the guard is only about ONE THIRD of forearm length, visibly short and compact, never lengthen it to fill the cell. Same prop dimensions and lighting across all nine views. Exactly ONE closed RIGHT hand with four curled fingers and opposing thumb on the grip, connected to a complete forearm with a clean sleeve end. Copy each corresponding reference pose individually. Screen handle/blade directions: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123 degrees, right=0/up=-90. Do not repeat one orientation or mirror cells. Every entire blade tip, pommel, finger and sleeve end inside its OWN cell with8 percent transparent padding and clear gutters. No scene, text, labels, shadow, glow, coloured halo, motion streak or detached paint flecks. DRUID costume: BROWN leather glove, muted GREEN fabric cuff, BROWN coarse cloth sleeve. First reference defines geometry; second gives Druid materials/costume only, NOT its long spear; third gives the compact plain dagger construction only, NOT Thief colours. No spear, staff, leaves, extra ornaments, bear fur or claws.",
+      "references": [
+        "batch-aa-melee3-preview/aa11-reference.png",
+        "held-z4.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-20fea8fd-8437-4d55-b53e-6d760c3144b4.png",
+      "repairs": [
+        {
+          "source": "held-aa11-compact.png",
+          "prompt": "Edit this fantasy videogame inventory art to make the little silver triangular prop above each gold crossbar more compact. Nine separate static icons in the same3x3 display grid on transparent RGBA. That silver part should be 70 percent of its present crossbar-to-tip length. Keep every hand, finger, handle, pommel, cuff and complete cloth sleeve the same size and colour. Keep all nine view directions. Retain brown leather hands, green cuffs and brown cloth. Preserve the natural mature painted materials and connected construction. This is a static object reference sheet, no person or activity. Clean transparent edges without detached red/yellow flecks, and ample transparent cell margins. No text, background or glow.",
+          "references": [
+            "held-aa11.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-73329144-7fad-4933-88df-a8b3cb9eae61.png"
+        }
+      ],
+      "failed_requests": [
+        {
+          "source": "held-aa11-compact.png",
+          "prompt": "Refine this static 3x3 inventory prop study. Keep the same nine right brown leather hands, muted green cuffs, brown sleeves, brown handles and plain brass guards. Shorten only the little steel blade ABOVE each guard to70 percent of its current guard-to-tip length, matching the very compact proportions of reference2. Do not shrink the handle, hand or forearm. Keep all nine different view directions and natural connected grips. Clean transparent edges with no detached red/yellow flecks or pale debris; all complete sleeves and fingers well inside their own square cells. Mature rough painted metal/leather/cloth, true RGBA, no text, background, glow, ornaments or extra hands.",
+          "references": [
+            "held-aa11.png",
+            "batch-aa-melee3-preview/aa11-reference.png"
+          ],
+          "transparent_background": true,
+          "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 69e7df2f-417e-45d8-8f72-e3a48c2eecf9. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+          "request_id": "69e7df2f-417e-45d8-8f72-e3a48c2eecf9",
+          "outcome": "input moderation rejection on static prop request; no image produced"
+        }
+      ],
+      "selected_source": "held-aa11-compact.png"
+    },
+    "aa12": {
+      "source": "held-aa12.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Static fantasy game inventory prop study on true transparent RGBA. Exactly NINE separate equal square cells in a3x3 grid, row-major. Reference1 gives the authoritative hand, sleeve, compact prop size and each pose direction. Other references supply only the approved mature gritty painted material quality and ordinary dagger construction; do not copy their different class costume or different weapon. No cartoon, vector, toy, plastic or shiny chrome. Every prop is a SMALL plain steel DAGGER, short straight double edge with pointed tip, simple short brass guard and brown handle. The blade above the guard is only about ONE THIRD of forearm length, visibly short and compact, never lengthen it to fill the cell. Same prop dimensions and lighting across all nine views. Exactly ONE closed RIGHT hand with four curled fingers and opposing thumb on the grip, connected to a complete forearm with a clean sleeve end. Copy each corresponding reference pose individually. Screen handle/blade directions: row1 -100,-79,-58; row2 -105,-152,-176; row3 -200,-150,-123 degrees, right=0/up=-90. Do not repeat one orientation or mirror cells. Every entire blade tip, pommel, finger and sleeve end inside its OWN cell with8 percent transparent padding and clear gutters. No scene, text, labels, shadow, glow, coloured halo, motion streak or detached paint flecks. SPELLBLADE costume: CHARCOAL glove, slate-grey cuff and dark charcoal-blue cloth sleeve. Match reference1 class marks: thin SILVER crossing cuff seams and a SMALL subdued BLUE diamond-shaped stitch/mark, not a bright magical effect. Keep the mark on cuff, not the ordinary blade. Second reference gives compact dagger construction only, NOT Thief glove/sleeve colours; third gives rough painted material finish only. No brown sleeve, green cuff, gold armour, gems, glowing runes, fire or extra hand.",
+      "references": [
+        "batch-aa-melee3-preview/aa12-reference.png",
+        "held-aa1-refined.png",
+        "held-aa2-refined.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-8808363a-5142-4963-9097-4addfda3a140.png",
+      "repairs": [
+        {
+          "source": "held-aa12-compact.png",
+          "prompt": "Edit this fantasy videogame inventory art to make the little silver triangular prop above each gold crossbar more compact. Nine separate static icons in the same3x3 display grid on transparent RGBA. That silver part should be 60 percent of its present crossbar-to-tip length. Keep every hand, finger, handle, pommel, cuff and complete cloth sleeve the same size and colour. Keep all nine view directions. Retain charcoal hands, slate cuffs with fine silver crossing seams and subdued blue diamond marks, and dark blue-grey cloth. Preserve the natural mature painted materials and connected construction. This is a static object reference sheet, no person or activity. Clean transparent edges without detached red/yellow flecks, and ample transparent cell margins. No text, background or glow.",
+          "references": [
+            "held-aa12.png"
+          ],
+          "transparent_background": true,
+          "generated_image": "/workspace/generated_images/exec-b5c0ece1-fa8d-4553-9248-f7e82b67cb2a.png"
+        }
+      ],
+      "failed_requests": [
+        {
+          "source": "held-aa12-compact.png",
+          "prompt": "Refine this static 3x3 inventory prop study. Keep the same nine charcoal right gloves, slate cuffs, fine silver crossing seams with small muted blue diamond cuff marks, dark charcoal-blue cloth sleeves, brown handles and plain brass guards. Shorten only the little steel blade ABOVE each guard to60 percent of its current guard-to-tip length, matching the compact prop in reference2. Preserve hand/handle/forearm sizes, every view direction, connected fingers and cuff marks. Clean transparent edges with no red/yellow fragments or halos. Entire fingertips, pommels and sleeve ends inside their own squares, true transparent RGBA. Keep subdued mature rough materials; no glow, text, backdrop, blade decoration or extra hand.",
+          "references": [
+            "held-aa12.png",
+            "batch-aa-melee3-preview/aa12-reference.png"
+          ],
+          "transparent_background": true,
+          "error": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID 2d4ac764-e916-4416-ae22-ae1d90a378c3. safety_violations=[violence].\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"input\\\",\\n      \\\"categories\\\": [\\n        \\\"violence\\\"\\n      ]\\n    }\\n  }\\n}\")",
+          "request_id": "2d4ac764-e916-4416-ae22-ae1d90a378c3",
+          "outcome": "input moderation rejection on static prop request; no image produced"
+        }
+      ],
+      "selected_source": "held-aa12-compact.png"
+    }
+  },
+  "cells": {
+    "fighter-dagger-rest": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        133,
+        160
+      ],
+      "source_object_bounds": [
+        82,
+        42,
+        173,
+        200
+      ]
+    },
+    "fighter-dagger-drawback": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        186,
+        160
+      ],
+      "source_object_bounds": [
+        156,
+        42,
+        234,
+        202
+      ]
+    },
+    "fighter-dagger-windup": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        224,
+        158
+      ],
+      "source_object_bounds": [
+        191,
+        45,
+        292,
+        200
+      ]
+    },
+    "fighter-dagger-strike": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        126,
+        141
+      ],
+      "source_object_bounds": [
+        76,
+        22,
+        166,
+        185
+      ]
+    },
+    "fighter-dagger-cut": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        139,
+        198
+      ],
+      "source_object_bounds": [
+        19,
+        139,
+        183,
+        242
+      ]
+    },
+    "fighter-dagger-sweep": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        178,
+        217
+      ],
+      "source_object_bounds": [
+        33,
+        179,
+        221,
+        256
+      ]
+    },
+    "fighter-dagger-through": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_grip": [
+        188,
+        194
+      ],
+      "source_object_bounds": [
+        67,
+        159,
+        233,
+        248
+      ]
+    },
+    "fighter-dagger-recover": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        161,
+        162
+      ],
+      "source_object_bounds": [
+        72,
+        69,
+        204,
+        212
+      ]
+    },
+    "fighter-dagger-return": {
+      "sheet": "aa9",
+      "cls": "fighter",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        171,
+        121
+      ],
+      "source_object_bounds": [
+        85,
+        16,
+        211,
+        172
+      ]
+    },
+    "ranger-dagger-rest": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        133,
+        160
+      ],
+      "source_object_bounds": [
+        82,
+        42,
+        173,
+        200
+      ]
+    },
+    "ranger-dagger-drawback": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        186,
+        160
+      ],
+      "source_object_bounds": [
+        156,
+        42,
+        234,
+        202
+      ]
+    },
+    "ranger-dagger-windup": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        224,
+        158
+      ],
+      "source_object_bounds": [
+        191,
+        45,
+        292,
+        200
+      ]
+    },
+    "ranger-dagger-strike": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        126,
+        141
+      ],
+      "source_object_bounds": [
+        76,
+        22,
+        166,
+        185
+      ]
+    },
+    "ranger-dagger-cut": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        139,
+        198
+      ],
+      "source_object_bounds": [
+        19,
+        139,
+        183,
+        242
+      ]
+    },
+    "ranger-dagger-sweep": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        178,
+        217
+      ],
+      "source_object_bounds": [
+        33,
+        179,
+        221,
+        256
+      ]
+    },
+    "ranger-dagger-through": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_grip": [
+        188,
+        194
+      ],
+      "source_object_bounds": [
+        67,
+        159,
+        233,
+        248
+      ]
+    },
+    "ranger-dagger-recover": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        161,
+        162
+      ],
+      "source_object_bounds": [
+        72,
+        69,
+        204,
+        212
+      ]
+    },
+    "ranger-dagger-return": {
+      "sheet": "aa9",
+      "cls": "ranger",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        171,
+        121
+      ],
+      "source_object_bounds": [
+        85,
+        16,
+        211,
+        172
+      ]
+    },
+    "druid-dagger-rest": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        139,
+        188
+      ],
+      "source_object_bounds": [
+        84,
+        85,
+        185,
+        230
+      ]
+    },
+    "druid-dagger-drawback": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        186,
+        184
+      ],
+      "source_object_bounds": [
+        147,
+        77,
+        229,
+        230
+      ]
+    },
+    "druid-dagger-windup": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        228,
+        177
+      ],
+      "source_object_bounds": [
+        189,
+        80,
+        286,
+        221
+      ]
+    },
+    "druid-dagger-strike": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        129,
+        178
+      ],
+      "source_object_bounds": [
+        75,
+        69,
+        176,
+        226
+      ]
+    },
+    "druid-dagger-cut": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        157,
+        202
+      ],
+      "source_object_bounds": [
+        55,
+        144,
+        199,
+        253
+      ]
+    },
+    "druid-dagger-sweep": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        179,
+        208
+      ],
+      "source_object_bounds": [
+        62,
+        151,
+        222,
+        257
+      ]
+    },
+    "druid-dagger-through": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_grip": [
+        177,
+        169
+      ],
+      "source_object_bounds": [
+        55,
+        114,
+        225,
+        221
+      ]
+    },
+    "druid-dagger-recover": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        189,
+        159
+      ],
+      "source_object_bounds": [
+        94,
+        87,
+        232,
+        212
+      ]
+    },
+    "druid-dagger-return": {
+      "sheet": "aa11",
+      "cls": "druid",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        200,
+        160
+      ],
+      "source_object_bounds": [
+        121,
+        70,
+        248,
+        211
+      ]
+    },
+    "spellblade-dagger-rest": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        140,
+        177
+      ],
+      "source_object_bounds": [
+        85,
+        68,
+        185,
+        225
+      ]
+    },
+    "spellblade-dagger-drawback": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        189,
+        175
+      ],
+      "source_object_bounds": [
+        145,
+        68,
+        231,
+        223
+      ]
+    },
+    "spellblade-dagger-windup": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        248,
+        169
+      ],
+      "source_object_bounds": [
+        200,
+        75,
+        313,
+        217
+      ]
+    },
+    "spellblade-dagger-strike": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        132,
+        169
+      ],
+      "source_object_bounds": [
+        80,
+        58,
+        179,
+        219
+      ]
+    },
+    "spellblade-dagger-cut": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        147,
+        192
+      ],
+      "source_object_bounds": [
+        36,
+        127,
+        193,
+        245
+      ]
+    },
+    "spellblade-dagger-sweep": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        181,
+        195
+      ],
+      "source_object_bounds": [
+        57,
+        139,
+        228,
+        246
+      ]
+    },
+    "spellblade-dagger-through": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_grip": [
+        187,
+        198
+      ],
+      "source_object_bounds": [
+        64,
+        146,
+        238,
+        248
+      ]
+    },
+    "spellblade-dagger-recover": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        194,
+        176
+      ],
+      "source_object_bounds": [
+        105,
+        95,
+        237,
+        228
+      ]
+    },
+    "spellblade-dagger-return": {
+      "sheet": "aa12",
+      "cls": "spellblade",
+      "id": "dagger",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 64,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        213,
+        151
+      ],
+      "source_object_bounds": [
+        123,
+        47,
+        258,
+        202
+      ]
+    }
+  },
+  "reuse": {
+    "reason": "native HAND_COLORS has no Ranger entry; same Fighter palette, geometry, grips and bounds",
+    "poses": [
+      {
+        "pose": "rest",
+        "byte_identical": true,
+        "sha256": "12fb08bf5e83f2121e118c60ba8154b9988ef7797a816bef0ad8614863aa8ed7"
+      },
+      {
+        "pose": "drawback",
+        "byte_identical": true,
+        "sha256": "60e05c88cd8758af39d586db4df290299d2f7013617d5d9adf25e2f046cd8ec1"
+      },
+      {
+        "pose": "windup",
+        "byte_identical": true,
+        "sha256": "ed273edfe0af7b84d702201290a82087ce178f92b20b9efd687b2b23c1022e2f"
+      },
+      {
+        "pose": "strike",
+        "byte_identical": true,
+        "sha256": "e556ce18a3cc934dc99a3607c4b49535cf8ecfa7d09c7a29fca2e20bf9affd31"
+      },
+      {
+        "pose": "cut",
+        "byte_identical": true,
+        "sha256": "2a7b95d5948e86b6ac036f2ee4a610a13f244275832b4d3f1c70b33781722329"
+      },
+      {
+        "pose": "sweep",
+        "byte_identical": true,
+        "sha256": "8350ae4388e441dac819fd7307fa170441698af2d9cd16a0359c3943c4f4931d"
+      },
+      {
+        "pose": "through",
+        "byte_identical": true,
+        "sha256": "0ff82a9ffdf39ab2acca269d26cccdee0f51d1ee3ee5fce783f13c2aa8c8bcd9"
+      },
+      {
+        "pose": "recover",
+        "byte_identical": true,
+        "sha256": "58d66d8e6db0e110e98bcfc2269670bf17529fce28f110ab56d90dce9dee028c"
+      },
+      {
+        "pose": "return",
+        "byte_identical": true,
+        "sha256": "cea3b0832f5c419bcfeb708c747ced648dfc95c909669c76e4118146650b09ef"
+      }
+    ]
+  },
+  "source_spacing_notes": [
+    "Selected sheets use nominal418px cells. Authored lower first/second-column boundary430 for Fighter/Ranger and Spellblade preserves complete sleeve ends. Druid uses nominal418/836 boundaries.",
+    "Some raw cells miss requested8percent transparent gutters, especially extended sweep sleeves. No source pixels were masked, recoloured or rotated; registered alpha>32 clearance is checked at>=12px.",
+    "Small residual red/yellow antialias edge flecks remain; inspect selected sources, export alpha comparison and dungeon views. Druid/Spellblade compact-prop repairs restore short dagger proportions while preserving class costume."
+  ],
+  "review": {
+    "report": "batch-aa-melee3-preview/REVIEW.md",
+    "class_frames": 36,
+    "unique_painted_poses": 27,
+    "sources_and_repairs": 5,
+    "captures": 120,
+    "galleries": 8,
+    "fitting_cases": 360,
+    "painted_fitting_cases": 336,
+    "protected_or_procedural_control_cases": 24,
+    "direct_identity_guards_per_width": 10,
+    "baseline_browser_tests": 12,
+    "baseline_browser_result": "pass:phone/small,33.1s",
+    "console_errors": [],
+    "scope": "Frozen exact source proxies; no native action/offline/failure/performance integration evidence."
+  },
+  "activation": {
+    "release": "0.9.36",
+    "report": "batch-aa-melee-runtime/REVIEW.md",
+    "status": "native class actions/offline, all809 Chromium cases, npm test and isolated performance pass; publication governed by exact-commit checks and main CI",
+    "source_review_scope": "Historical source-only evidence retained separately."
+  },
+  "historical_source_review_status": "36 class source/review frames (27 unique painted poses) complete locally; unpublished/unactivated; other AA ordinary/class, ranged and named variants remain open"
+}

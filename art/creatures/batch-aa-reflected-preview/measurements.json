@@ -1,0 +1,349 @@
+{
+  "family_scale": {
+    "aa12lit": 0.39751552795031053
+  },
+  "cells": {
+    "spellblade-dagger-rest-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        85,
+        68,
+        352,
+        385
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        72,
+        58
+      ],
+      "grip": [
+        127.65217391304347,
+        128.36024844720498
+      ],
+      "object_bounds": [
+        105.7888198757764,
+        85.03105590062111,
+        145.54037267080744,
+        147.44099378881987
+      ],
+      "visible_bounds": [
+        105,
+        85,
+        212,
+        211
+      ],
+      "export_sha256": "d9542a385d2cd31226a83d2a19011b16a89434fcde02dbf636393874cd25f264"
+    },
+    "spellblade-dagger-drawback-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        147,
+        67,
+        341,
+        399
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        53,
+        58
+      ],
+      "grip": [
+        128.1304347826087,
+        127.56521739130434
+      ],
+      "object_bounds": [
+        110.63975155279502,
+        85.03105590062111,
+        144.82608695652175,
+        146.64596273291926
+      ],
+      "visible_bounds": [
+        111,
+        84,
+        189,
+        217
+      ],
+      "export_sha256": "1f4421d4c2fba24af4dcd694e2a257764939bef73ade6dc8beb1b81e8701de34"
+    },
+    "spellblade-dagger-windup-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        201,
+        75,
+        400,
+        398
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        29,
+        61
+      ],
+      "grip": [
+        127.583850931677,
+        128.1801242236025
+      ],
+      "object_bounds": [
+        108.5031055900621,
+        90.8136645962733,
+        153.4223602484472,
+        147.26086956521738
+      ],
+      "visible_bounds": [
+        109,
+        90,
+        188,
+        219
+      ],
+      "export_sha256": "b63e388ae12e9c784373d64ab9c326356b42f275c49464d4d421103b10ecb35b"
+    },
+    "spellblade-dagger-strike-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        81,
+        59,
+        356,
+        368
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        76,
+        61
+      ],
+      "grip": [
+        128.472049689441,
+        128.1801242236025
+      ],
+      "object_bounds": [
+        107.80124223602485,
+        84.05590062111801,
+        147.1552795031056,
+        148.055900621118
+      ],
+      "visible_bounds": [
+        108,
+        84,
+        218,
+        207
+      ],
+      "export_sha256": "a097797a35b2db148570c534d69e2b4e638279f3450ed6bdf5c4057c4bfbcd60"
+    },
+    "spellblade-dagger-cut-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        37,
+        128,
+        388,
+        340
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        70,
+        52
+      ],
+      "grip": [
+        128.43478260869566,
+        128.32298136645963
+      ],
+      "object_bounds": [
+        84.31055900621118,
+        102.48447204968943,
+        146.72049689440993,
+        149.39130434782606
+      ],
+      "visible_bounds": [
+        84,
+        103,
+        224,
+        187
+      ],
+      "export_sha256": "7fb35231e69751a5445b448b8d27512b202755cb5da8926ff8ed00cb1555fb23"
+    },
+    "spellblade-dagger-sweep-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        59,
+        140,
+        403,
+        325
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        56,
+        50
+      ],
+      "grip": [
+        127.95031055900621,
+        127.51552795031056
+      ],
+      "object_bounds": [
+        78.65838509316771,
+        105.25465838509317,
+        146.6335403726708,
+        147.7888198757764
+      ],
+      "visible_bounds": [
+        79,
+        106,
+        216,
+        179
+      ],
+      "export_sha256": "4293966e26e1796b0f0a12fcea7c768980e912fa4d528ab27dde67ec9f9f7e5f"
+    },
+    "spellblade-dagger-through-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        0,
+        836,
+        430,
+        1254
+      ],
+      "source_visible_bounds": [
+        65,
+        147,
+        415,
+        354
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        54,
+        49
+      ],
+      "grip": [
+        128.33540372670808,
+        127.70807453416148
+      ],
+      "object_bounds": [
+        79.44099378881987,
+        107.03726708074534,
+        148.6086956521739,
+        147.583850931677
+      ],
+      "visible_bounds": [
+        80,
+        107,
+        219,
+        190
+      ],
+      "export_sha256": "c41c65189b38a455a065628f3f450f896ab430a08f9fd06bd097d06518738617"
+    },
+    "spellblade-dagger-recover-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        430,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        105,
+        96,
+        395,
+        363
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        51,
+        58
+      ],
+      "grip": [
+        128.11801242236024,
+        127.96273291925465
+      ],
+      "object_bounds": [
+        92.73913043478261,
+        95.7639751552795,
+        145.2111801242236,
+        148.6335403726708
+      ],
+      "visible_bounds": [
+        93,
+        96,
+        208,
+        202
+      ],
+      "export_sha256": "4a265d2c3aafe0588831e7c1d368b12d5ac9af43218552ce9427230ef42e79e9"
+    },
+    "spellblade-dagger-return-reflected": {
+      "source": "held-aa12-reflected.png",
+      "source_sha256": "9df66f17c348b9c2ae49bb7dd58619d1216dbb32e5fb18c8c05b111f770aea12",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        125,
+        48,
+        385,
+        363
+      ],
+      "scale": 0.39751552795031053,
+      "offset": [
+        43,
+        68
+      ],
+      "grip": [
+        127.67080745341615,
+        128.0248447204969
+      ],
+      "object_bounds": [
+        91.8944099378882,
+        86.6832298136646,
+        145.55900621118013,
+        148.29813664596273
+      ],
+      "visible_bounds": [
+        92,
+        87,
+        196,
+        212
+      ],
+      "export_sha256": "6daa8ec6ad4b2716a8a3e7ad402d7ceaecd9a89d42140a3799163dbffabca61b"
+    }
+  }
+}
