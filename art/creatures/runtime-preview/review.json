@@ -1,0 +1,407 @@
+{
+  "mode": "Native runtime loader, no asset routes or renderer overrides; frozen game-update fixtures for existing states",
+  "offline_exports_per_width": 184,
+  "errors": [],
+  "captures": [
+    {
+      "width": 390,
+      "name": "shade-mage",
+      "file": "390-shade-mage.png"
+    },
+    {
+      "width": 390,
+      "name": "shade-cleric",
+      "file": "390-shade-cleric.png"
+    },
+    {
+      "width": 390,
+      "name": "shade-ranger",
+      "file": "390-shade-ranger.png"
+    },
+    {
+      "width": 390,
+      "name": "shade-thief",
+      "file": "390-shade-thief.png"
+    },
+    {
+      "width": 390,
+      "name": "shade-druid",
+      "file": "390-shade-druid.png"
+    },
+    {
+      "width": 390,
+      "name": "shade-spellblade",
+      "file": "390-shade-spellblade.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-hound",
+      "file": "390-companion-hound.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-wolf",
+      "file": "390-companion-wolf.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-goblin",
+      "file": "390-companion-goblin.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-sellsword",
+      "file": "390-companion-sellsword.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-mender",
+      "file": "390-companion-mender.png"
+    },
+    {
+      "width": 390,
+      "name": "companion-renegade",
+      "file": "390-companion-renegade.png"
+    },
+    {
+      "width": 390,
+      "name": "mender-heal",
+      "file": "390-mender-heal.png"
+    },
+    {
+      "width": 390,
+      "name": "barrel-mimic",
+      "file": "390-barrel-mimic.png"
+    },
+    {
+      "width": 390,
+      "name": "forge-open",
+      "file": "390-forge-open.png"
+    },
+    {
+      "width": 390,
+      "name": "forge-whitehot",
+      "file": "390-forge-whitehot.png"
+    },
+    {
+      "width": 390,
+      "name": "warlord-throne",
+      "file": "390-warlord-throne.png"
+    },
+    {
+      "width": 390,
+      "name": "warlord-spear",
+      "file": "390-warlord-spear.png"
+    },
+    {
+      "width": 390,
+      "name": "merchant",
+      "file": "390-merchant.png"
+    },
+    {
+      "width": 390,
+      "name": "wick",
+      "file": "390-wick.png"
+    },
+    {
+      "width": 390,
+      "name": "pedlar",
+      "file": "390-pedlar.png"
+    },
+    {
+      "width": 390,
+      "name": "encounter",
+      "file": "390-encounter.png"
+    },
+    {
+      "width": 390,
+      "name": "dressing",
+      "file": "390-dressing.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-0",
+      "file": "390-theme-0.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-1",
+      "file": "390-theme-1.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-2",
+      "file": "390-theme-2.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-3",
+      "file": "390-theme-3.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-4",
+      "file": "390-theme-4.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-5",
+      "file": "390-theme-5.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-6",
+      "file": "390-theme-6.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-7",
+      "file": "390-theme-7.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-8",
+      "file": "390-theme-8.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-9",
+      "file": "390-theme-9.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-10",
+      "file": "390-theme-10.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-11",
+      "file": "390-theme-11.png"
+    },
+    {
+      "width": 390,
+      "name": "theme-12",
+      "file": "390-theme-12.png"
+    },
+    {
+      "width": 390,
+      "name": "held-fighter",
+      "file": "390-held-fighter.png"
+    },
+    {
+      "width": 390,
+      "name": "held-mage",
+      "file": "390-held-mage.png"
+    },
+    {
+      "width": 390,
+      "name": "held-ranger",
+      "file": "390-held-ranger.png"
+    },
+    {
+      "width": 390,
+      "name": "offline",
+      "file": "390-offline.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-mage",
+      "file": "320-shade-mage.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-cleric",
+      "file": "320-shade-cleric.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-ranger",
+      "file": "320-shade-ranger.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-thief",
+      "file": "320-shade-thief.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-druid",
+      "file": "320-shade-druid.png"
+    },
+    {
+      "width": 320,
+      "name": "shade-spellblade",
+      "file": "320-shade-spellblade.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-hound",
+      "file": "320-companion-hound.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-wolf",
+      "file": "320-companion-wolf.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-goblin",
+      "file": "320-companion-goblin.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-sellsword",
+      "file": "320-companion-sellsword.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-mender",
+      "file": "320-companion-mender.png"
+    },
+    {
+      "width": 320,
+      "name": "companion-renegade",
+      "file": "320-companion-renegade.png"
+    },
+    {
+      "width": 320,
+      "name": "mender-heal",
+      "file": "320-mender-heal.png"
+    },
+    {
+      "width": 320,
+      "name": "barrel-mimic",
+      "file": "320-barrel-mimic.png"
+    },
+    {
+      "width": 320,
+      "name": "forge-open",
+      "file": "320-forge-open.png"
+    },
+    {
+      "width": 320,
+      "name": "forge-whitehot",
+      "file": "320-forge-whitehot.png"
+    },
+    {
+      "width": 320,
+      "name": "warlord-throne",
+      "file": "320-warlord-throne.png"
+    },
+    {
+      "width": 320,
+      "name": "warlord-spear",
+      "file": "320-warlord-spear.png"
+    },
+    {
+      "width": 320,
+      "name": "merchant",
+      "file": "320-merchant.png"
+    },
+    {
+      "width": 320,
+      "name": "wick",
+      "file": "320-wick.png"
+    },
+    {
+      "width": 320,
+      "name": "pedlar",
+      "file": "320-pedlar.png"
+    },
+    {
+      "width": 320,
+      "name": "encounter",
+      "file": "320-encounter.png"
+    },
+    {
+      "width": 320,
+      "name": "dressing",
+      "file": "320-dressing.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-0",
+      "file": "320-theme-0.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-1",
+      "file": "320-theme-1.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-2",
+      "file": "320-theme-2.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-3",
+      "file": "320-theme-3.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-4",
+      "file": "320-theme-4.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-5",
+      "file": "320-theme-5.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-6",
+      "file": "320-theme-6.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-7",
+      "file": "320-theme-7.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-8",
+      "file": "320-theme-8.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-9",
+      "file": "320-theme-9.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-10",
+      "file": "320-theme-10.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-11",
+      "file": "320-theme-11.png"
+    },
+    {
+      "width": 320,
+      "name": "theme-12",
+      "file": "320-theme-12.png"
+    },
+    {
+      "width": 320,
+      "name": "held-fighter",
+      "file": "320-held-fighter.png"
+    },
+    {
+      "width": 320,
+      "name": "held-mage",
+      "file": "320-held-mage.png"
+    },
+    {
+      "width": 320,
+      "name": "held-ranger",
+      "file": "320-held-ranger.png"
+    },
+    {
+      "width": 320,
+      "name": "offline",
+      "file": "320-offline.png"
+    }
+  ]
+}

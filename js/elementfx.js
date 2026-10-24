@@ -1,3 +1,4 @@
+import { paintedImpact } from './paintedworld.js';
 // Elemental impacts stay close to their targets. Paths are fixed by their
 // index, so a bolt never strobes between unrelated shapes from frame to frame.
 export function makeElementFx(K) {
@@ -6,8 +7,20 @@ export function makeElementFx(K) {
   const radius = q => Math.max(12, Math.min(54, q.r * 0.26));
   const targets = pts => pts.slice(0, 6);
 
+  function painted(ctx, family, q, age) {
+    if (K.calm || age < 0 || age >= 1) return false;
+    const i = age < .135 ? 0 : age < .4 ? 1 : age < .7 ? 2 : 3;
+    const image = paintedImpact(family, i);
+    if (!image) return false;
+    const size = q.r * (family === 'fire' ? 1.6 : 1.4) * 256 / 216;
+    ctx.save(); ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = (1 - age) ** (family === 'fire' ? 2 : 1.6);
+    ctx.drawImage(image, q.x - size / 2, q.y - size / 2, size, size); ctx.restore();
+    return true;
+  }
   function fireImpact(q, age) {
     if (age < 0 || age >= 1) return;
+    if (painted(K.ctx, 'fire', q, age)) return;
     const ctx = K.ctx, calm = K.calm, r = radius(q), fade = (1 - age) ** 2;
     const size = r * (calm ? 0.38 : 0.48 + age * 0.32);
     ctx.save(); ctx.globalCompositeOperation = 'source-over';
@@ -66,6 +79,7 @@ export function makeElementFx(K) {
     const fade = (1 - age) ** 1.6;
     ctx.save(); ctx.globalCompositeOperation = 'source-over'; ctx.lineCap = 'round';
     for (const q of targets(pts)) {
+      if (painted(ctx, 'frost', q, age)) continue;
       const r = radius(q), size = r * (K.calm ? 0.25 : 0.25 + age * 0.45);
       const frost = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, size * 1.5);
       frost.addColorStop(0, hexA('#78c8ef', fade * (K.calm ? 0.25 : 0.5)));

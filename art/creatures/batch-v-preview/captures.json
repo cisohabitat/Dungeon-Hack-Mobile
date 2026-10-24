@@ -1,0 +1,2614 @@
+{
+  "mode": "actual shipped UI; isolated content fixtures, no image or renderer replacements",
+  "errors": [],
+  "captures": [
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "pack",
+      "file": "390-normal-pack.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "item-detail",
+      "file": "390-normal-item-detail.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-quests",
+      "file": "390-normal-journal-quests.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-beasts",
+      "file": "390-normal-journal-beasts.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-beasts-art",
+      "file": "390-normal-journal-beasts-art.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-relics",
+      "file": "390-normal-journal-relics.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-relics-art",
+      "file": "390-normal-journal-relics-art.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-effects",
+      "file": "390-normal-journal-effects.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "shop",
+      "file": "390-normal-shop.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "shop-inspection",
+      "file": "390-normal-shop-inspection.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": false,
+      "safe_palette": false,
+      "name": "status",
+      "file": "390-normal-status.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": [
+        "Snared 60s",
+        "Dazzled 60s"
+      ]
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "pack",
+      "file": "390-large-safe-pack.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "item-detail",
+      "file": "390-large-safe-item-detail.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-quests",
+      "file": "390-large-safe-journal-quests.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-beasts",
+      "file": "390-large-safe-journal-beasts.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-beasts-art",
+      "file": "390-large-safe-journal-beasts-art.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-relics",
+      "file": "390-large-safe-journal-relics.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-relics-art",
+      "file": "390-large-safe-journal-relics-art.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-effects",
+      "file": "390-large-safe-journal-effects.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "shop",
+      "file": "390-large-safe-shop.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "shop-inspection",
+      "file": "390-large-safe-shop-inspection.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 390,
+      "large": true,
+      "safe_palette": true,
+      "name": "status",
+      "file": "390-large-safe-status.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": [
+        "Snared 60s",
+        "Dazzled 60s"
+      ]
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "pack",
+      "file": "320-normal-pack.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "item-detail",
+      "file": "320-normal-item-detail.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-quests",
+      "file": "320-normal-journal-quests.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-beasts",
+      "file": "320-normal-journal-beasts.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-beasts-art",
+      "file": "320-normal-journal-beasts-art.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-relics",
+      "file": "320-normal-journal-relics.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-relics-art",
+      "file": "320-normal-journal-relics-art.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "journal-effects",
+      "file": "320-normal-journal-effects.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "shop",
+      "file": "320-normal-shop.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "shop-inspection",
+      "file": "320-normal-shop-inspection.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": false,
+      "safe_palette": false,
+      "name": "status",
+      "file": "320-normal-status.png",
+      "font": "16px",
+      "page_overflow": false,
+      "images": [],
+      "status": [
+        "Snared 60s",
+        "Dazzled 60s"
+      ]
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "pack",
+      "file": "320-large-safe-pack.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "item-detail",
+      "file": "320-large-safe-item-detail.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-quests",
+      "file": "320-large-safe-journal-quests.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-beasts",
+      "file": "320-large-safe-journal-beasts.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-beasts-art",
+      "file": "320-large-safe-journal-beasts-art.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/bestiary/rat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/quillback.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/bat.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/moth.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/slime.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/spider.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/goblin.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/thornhog.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lookout.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/archer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/cutpurse.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hexer.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/zombie.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/imp.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skeleton.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/kobold.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/pikeman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orc.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ghoul.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/rustmaw.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/acolyte.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/basilisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wraith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hound.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ogre.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/troll.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/wyrm.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/minotaur.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/puffcap.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drowned.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizardfolk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/lizard_shaman.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/mimic.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/eyeless.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/emberling.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/dwarf_arbalest.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_mage.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/drow_warrior.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grey_dwarf.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/grisk.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vessra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/ushgar.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/morrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/orla.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/gorrum.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/skarrow.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/hissra.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/vaelith.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/durgrim.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bestiary/shade.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/lich.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/warlord.webp",
+          "loaded": true
+        },
+        {
+          "src": "img/bosses/heartforged.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-relics",
+      "file": "320-large-safe-journal-relics.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-relics-art",
+      "file": "320-large-safe-journal-relics-art.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "img/relics/grimtooth.webp",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "journal-effects",
+      "file": "320-large-safe-journal-effects.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "shop",
+      "file": "320-large-safe-shop.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "shop-inspection",
+      "file": "320-large-safe-shop-inspection.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        },
+        {
+          "src": "procedural data URL",
+          "loaded": true
+        }
+      ],
+      "status": []
+    },
+    {
+      "width": 320,
+      "large": true,
+      "safe_palette": true,
+      "name": "status",
+      "file": "320-large-safe-status.png",
+      "font": "32px",
+      "page_overflow": false,
+      "images": [],
+      "status": [
+        "Snared 60s",
+        "Dazzled 60s"
+      ]
+    }
+  ]
+}

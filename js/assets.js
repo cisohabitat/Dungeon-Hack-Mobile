@@ -11,6 +11,7 @@ import { makeWallDecor } from './walldecor.js';
 import { makePortrait } from './portraits.js';
 import { makeRegionArt } from './regionart.js';
 import { bindPaintedCreature } from './paintedcreatures.js';
+import { paintWorld, paintTheme, paintedHeld, paintedCarried } from './paintedworld.js';
 
 /** The edge a legendary piece wears, on the floor, in the pack and in the hand: warmer than a relic's gold. */
 const LEGEND_EDGE = '#ffa040';
@@ -1527,7 +1528,8 @@ const Assets = (() => {
       const key = 'shade_' + cls;
       const own = pose => ({ parts: SHADE_GEAR[cls](pose), shadow: 0, elites: false, fine: true, grim: true, grid: gridOf(k) });
       const o = makeSprite(own(), scale);
-      for (const pose of poses) { o[pose] = makeSprite(own(pose), scale); if (s[pose]) s[pose].elite[key] = o[pose]; }
+      if (!scale) bindPaintedCreature(o, key);
+      for (const pose of poses) { o[pose] = makeSprite(own(pose), scale); if (!scale) bindPaintedCreature(o[pose], key, pose); if (s[pose]) s[pose].elite[key] = o[pose]; }
       s.elite[key] = o;
       if (fine) {
         o.near = fine(x => x.elite[key]);
@@ -1579,7 +1581,7 @@ const Assets = (() => {
     const keep = v => Object.defineProperty(sprites, key, { value: v, writable: true, configurable: true, enumerable: true });
     Object.defineProperty(sprites, key, {
       configurable: true, enumerable: true,
-      get() { const v = make(); keep(v); return v; },
+      get() { const v = paintWorld(make(), key); keep(v); return v; },
       set: keep,
     });
     unpainted.push(key);
@@ -1653,7 +1655,7 @@ const Assets = (() => {
     for (const k in PROPS) later(k, () => makeSprite({ parts: PROPS[k](), shadow: FLOATING.has(k) ? 0 : 1, fine: true, grim: true, grid: gridOf(k) }));
     // what lies about a room, and what the fallen leave behind (see dressing.js)
     for (const [k, draw] of Object.entries({ ...DRESSING, ...REGIONAL_PROPS })) later('dress_' + k, () => makeSprite({ parts: draw(), shadow: 1, fine: true, grim: true, grid: 64 }));
-    THEMES.forEach((t, i) => { themes[i] = makeTheme(t, i); });
+    THEMES.forEach((t, i) => { themes[i] = paintTheme(makeTheme(t, i), i); });
     setTimeout(paintSoon, 200);
   }
 
@@ -1690,6 +1692,8 @@ const Assets = (() => {
   const outlineFor = id => (id && id.startsWith('mythic_') ? '#e2bcff' : id && id.startsWith('relic_') ? '#e8b84a' : id && id.startsWith('legend_') ? LEGEND_EDGE : '#0a0810');
   /** One pose with its hand; lantern reflections have a separate cached frame. */
   function held(id, pose, cls, two, lit = false) {
+    const painted = paintedHeld(id, pose, cls, two, lit);
+    if (painted) return painted;
     const key = `${id}|${pose}|${cls}|${two ? 2 : 1}|${lit ? 1 : 0}`;
     if (heldCache.has(key)) return heldCache.get(key);
     const h = heldParts(id, pose, cls, two, lit);
@@ -1699,6 +1703,8 @@ const Assets = (() => {
   }
   /** A shield as it is carried: seen from behind, on the hero's arm. */
   function carried(id, cls) {
+    const painted = paintedCarried(id, cls);
+    if (painted) return painted;
     const key = `carried|${id}|${cls}`;
     if (heldCache.has(key)) return heldCache.get(key);
     const h = carriedParts(id, cls);

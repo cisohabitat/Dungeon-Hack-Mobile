@@ -1,0 +1,30 @@
+{
+  "batch": "V",
+  "purpose": "interface art consistency reuse audit",
+  "tool": "none; no image generation",
+  "model": null,
+  "new_paintings": 0,
+  "runtime_changes": 0,
+  "status": "reuse audit complete; evidence included in release 0.9.33",
+  "inventory": "batch-v-preview/inventory.json",
+  "capture_command": "node art/creatures/preview-batch-v.cjs",
+  "capture_scope": "390/320px; normal 16px standard palette and double 32px safe palette; isolated revealed-content fixtures; no image replacement or renderer override",
+  "limitations": [
+    "Chromium evidence, not physical phone or WebKit certification",
+    "Selected pack/shop/status fixtures are not exhaustive item/condition combinations",
+    "No new art integration; previously published E\u2013T sources remain separate work"
+  ],
+  "validation": {
+    "browser_command": "npx playwright test 'a11y.spec.js|access.spec.js|relic-portraits.spec.js|bestiary.spec.js' --project=phone --project=small --workers=2 --config=/tmp/batch-e-publish.playwright.cjs",
+    "passed": 49,
+    "duration": "4.3m",
+    "note": "Existing project filters apply; access.spec.js runs on phone with its own three viewport checks. Not 49 checks at each width."
+  },
+  "review": {
+    "native_captures": 44,
+    "overview_sheets": 2,
+    "visual_review": "Both final overview sheets and native 320px/double-text relic and shop-inspection captures inspected; reuse selected, density follow-up documented",
+    "console_errors": 0
+  },
+  "publication": "Included with approved-art runtime release 0.9.33"
+}

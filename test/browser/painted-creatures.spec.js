@@ -104,7 +104,7 @@ test.describe('painted dungeon creature', () => {
       else expect(Math.max(...species.frames.map(f=>f.maxY))-Math.min(...species.frames.map(f=>f.maxY)),species.kind).toBeLessThanOrEqual(2);
     }
     expect(new Set(results.species.map(s=>s.frames[0].h)).size).toBe(kinds.length);
-    expect(results).toMatchObject({other:true,dice:true});expect([...requested].sort()).toEqual([...kinds].sort());expect(errors).toEqual([]);
+    expect(results).toMatchObject({other:true,dice:true});expect([...requested].sort()).toEqual([...kinds, 'dog', 'wolf', 'renegade'].sort());expect(errors).toEqual([]);
   });
 
   test('Batch D champions use their own cached paintings and retain class-specific shades @mobile', async ({ page }) => {
@@ -119,6 +119,9 @@ test.describe('painted dungeon creature', () => {
     }), batchD);
     await page.waitForFunction(() => ['thief','mage','cleric','ranger','druid','spellblade'].every(cls =>
       Assets.sprites.shade.elite['shade_' + cls]?.hurt));
+    await page.waitForFunction(() => ['thief','mage','cleric','ranger','druid','spellblade'].every(cls => {
+      const a = Assets.sprites.shade.elite['shade_' + cls]; return a && window.__paintedCreature(a) !== a;
+    }));
     const result = await page.evaluate(async ({ kinds, champions, poses }) => {
       const { paintedCreature } = await import('/js/paintedcreatures.js');
       const { Dice, Odds } = await import('/js/rng.js');
@@ -146,7 +149,7 @@ test.describe('painted dungeon creature', () => {
       const shadeGear = Object.keys(SHADE_GEAR).every(cls => {
         const a = Assets.sprites.shade.elite['shade_' + cls];
         return a && ['idle', ...POSES.shade].every(p => {
-          const s = p === 'idle' ? a : a[p]; return s && paintedCreature(s) === s;
+          const s = p === 'idle' ? a : a[p]; return s && (cls === 'fighter' ? paintedCreature(s) === s : paintedCreature(s) !== s);
         });
       });
       return { identities, shadeGear, dice: Dice.s === before[0] && Odds.s === before[1] };
@@ -205,8 +208,7 @@ test.describe('painted dungeon creature', () => {
             for (const waiting of [false, true]) {
               if (waiting) delete a.elite[key];
               const s = Game.renderState(now).sprites.find(s => s.maxHp === 999);
-              gear &&= cls === 'fighter' ? !s.procedural : s.procedural &&
-                (waiting ? s.img === a : s.img === saved);
+              gear &&= cls === 'fighter' ? !s.procedural : waiting ? s.procedural && s.img === a : !s.procedural && s.img === saved;
               if (saved) a.elite[key] = saved;
             }
           }
@@ -298,7 +300,7 @@ test.describe('painted dungeon creature', () => {
         const m = Game.level().monsters[0], G = Game.state(), now = performance.now();
         const sprite = () => Game.renderState(now).sprites.find(s => s.maxHp === 999);
         if (kind === 'mimic') {
-          m.disguise = 'barrel'; const barrel = sprite().procedural;
+          m.disguise = 'barrel'; const barrel = !sprite().procedural && sprite().paintedKind === 'mimic_barrel';
           m.disguise = 'chest'; const chest = !sprite().procedural;
           m.disguised = true; const hidden = !sprite();
           return { barrel, chest, hidden };
@@ -308,13 +310,13 @@ test.describe('painted dungeon creature', () => {
           return { revealed, hidden: !sprite() };
         }
         const first = !sprite().procedural;
-        m.phase = 1; const second = sprite().procedural;
-        m.phase = 2; const third = sprite().procedural;
+        m.phase = 1; const second = !sprite().procedural && (kind !== 'heartforged' || sprite().paintedKind === 'heartforged_open');
+        m.phase = 2; const third = !sprite().procedural && (kind !== 'heartforged' || sprite().paintedKind === 'heartforged_whitehot');
         m.phase = 0;
         if (kind === 'warlord') {
-          m.throne = true; const throne = sprite().procedural;
+          m.throne = true; const throne = !sprite().procedural && sprite().paintedKind === '';
           m.throne = false; m.windup = { kind: 'shot', at: G.t, until: G.t + 1000 };
-          return { first, second, third, throne, spear: sprite().procedural };
+          m.phase = 1; return { first, second, third, throne, spear: !sprite().procedural && sprite().paintedKind === 'warlord_spear' };
         }
         return { first, second, third };
       }, kind);

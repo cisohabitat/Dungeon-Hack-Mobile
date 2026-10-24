@@ -1,0 +1,1016 @@
+{
+  "mode": "actual shipped portrait UI and native browser flows; no new paintings, image replacements or renderer overrides",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "public_classes": [
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "hidden_unlocked": "spellblade",
+      "selection": [
+        {
+          "cls": "fighter",
+          "expanded": false,
+          "src": "img/portraits/fighter.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "fighter",
+          "expanded": true,
+          "src": "img/portraits/fighter.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "cleric",
+          "expanded": false,
+          "src": "img/portraits/cleric.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "cleric",
+          "expanded": true,
+          "src": "img/portraits/cleric.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "mage",
+          "expanded": false,
+          "src": "img/portraits/mage.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "mage",
+          "expanded": true,
+          "src": "img/portraits/mage.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "thief",
+          "expanded": false,
+          "src": "img/portraits/thief.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "thief",
+          "expanded": true,
+          "src": "img/portraits/thief.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "ranger",
+          "expanded": false,
+          "src": "img/portraits/ranger.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "ranger",
+          "expanded": true,
+          "src": "img/portraits/ranger.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "druid",
+          "expanded": false,
+          "src": "img/portraits/druid.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 206.6875,
+            "height": 206.6875
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "druid",
+          "expanded": true,
+          "src": "img/portraits/druid.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 356,
+            "height": 356
+          },
+          "rendering": "auto",
+          "overflow": false
+        }
+      ],
+      "offline_portraits": 7,
+      "share_card": [
+        800,
+        420
+      ],
+      "no_image_substitution": true
+    },
+    {
+      "width": 320,
+      "public_classes": [
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "hidden_unlocked": "spellblade",
+      "selection": [
+        {
+          "cls": "fighter",
+          "expanded": false,
+          "src": "img/portraits/fighter.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "fighter",
+          "expanded": true,
+          "src": "img/portraits/fighter.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "cleric",
+          "expanded": false,
+          "src": "img/portraits/cleric.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "cleric",
+          "expanded": true,
+          "src": "img/portraits/cleric.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "mage",
+          "expanded": false,
+          "src": "img/portraits/mage.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "mage",
+          "expanded": true,
+          "src": "img/portraits/mage.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "thief",
+          "expanded": false,
+          "src": "img/portraits/thief.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "thief",
+          "expanded": true,
+          "src": "img/portraits/thief.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "ranger",
+          "expanded": false,
+          "src": "img/portraits/ranger.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "ranger",
+          "expanded": true,
+          "src": "img/portraits/ranger.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "druid",
+          "expanded": false,
+          "src": "img/portraits/druid.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 180,
+            "height": 180
+          },
+          "rendering": "auto",
+          "overflow": false
+        },
+        {
+          "cls": "druid",
+          "expanded": true,
+          "src": "img/portraits/druid.webp",
+          "size": [
+            512,
+            512
+          ],
+          "box": {
+            "width": 286,
+            "height": 286
+          },
+          "rendering": "auto",
+          "overflow": false
+        }
+      ],
+      "offline_portraits": 7,
+      "share_card": [
+        800,
+        420
+      ],
+      "no_image_substitution": true
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "name": "public-picker",
+      "group": "selection",
+      "class_count": 6,
+      "file": "390-public-picker.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-collapsed",
+      "group": "selection",
+      "cls": "fighter",
+      "expanded": false,
+      "src": "img/portraits/fighter.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-fighter-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "fighter-expanded",
+      "group": "selection",
+      "cls": "fighter",
+      "expanded": true,
+      "src": "img/portraits/fighter.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-fighter-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "cleric-collapsed",
+      "group": "selection",
+      "cls": "cleric",
+      "expanded": false,
+      "src": "img/portraits/cleric.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-cleric-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "cleric-expanded",
+      "group": "selection",
+      "cls": "cleric",
+      "expanded": true,
+      "src": "img/portraits/cleric.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-cleric-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-collapsed",
+      "group": "selection",
+      "cls": "mage",
+      "expanded": false,
+      "src": "img/portraits/mage.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-mage-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "mage-expanded",
+      "group": "selection",
+      "cls": "mage",
+      "expanded": true,
+      "src": "img/portraits/mage.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-mage-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "thief-collapsed",
+      "group": "selection",
+      "cls": "thief",
+      "expanded": false,
+      "src": "img/portraits/thief.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-thief-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "thief-expanded",
+      "group": "selection",
+      "cls": "thief",
+      "expanded": true,
+      "src": "img/portraits/thief.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-thief-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-collapsed",
+      "group": "selection",
+      "cls": "ranger",
+      "expanded": false,
+      "src": "img/portraits/ranger.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-ranger-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "ranger-expanded",
+      "group": "selection",
+      "cls": "ranger",
+      "expanded": true,
+      "src": "img/portraits/ranger.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-ranger-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "druid-collapsed",
+      "group": "selection",
+      "cls": "druid",
+      "expanded": false,
+      "src": "img/portraits/druid.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 206.6875,
+        "height": 206.6875
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-druid-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "druid-expanded",
+      "group": "selection",
+      "cls": "druid",
+      "expanded": true,
+      "src": "img/portraits/druid.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 356,
+        "height": 356
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "390-druid-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "unlocked-picker",
+      "group": "wayfarer",
+      "class_count": 7,
+      "file": "390-unlocked-picker.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-collapsed",
+      "group": "wayfarer",
+      "expanded": false,
+      "src": "img/portraits/spellblade.webp",
+      "size": [
+        512,
+        512
+      ],
+      "overflow": false,
+      "file": "390-spellblade-collapsed.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-expanded",
+      "group": "wayfarer",
+      "expanded": true,
+      "src": "img/portraits/spellblade.webp",
+      "size": [
+        512,
+        512
+      ],
+      "overflow": false,
+      "file": "390-spellblade-expanded.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-prologue",
+      "group": "wayfarer",
+      "file": "390-spellblade-prologue.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-sheet",
+      "group": "wayfarer",
+      "file": "390-spellblade-sheet.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-ending",
+      "group": "wayfarer",
+      "file": "390-spellblade-ending.png"
+    },
+    {
+      "width": 390,
+      "name": "spellblade-share",
+      "group": "wayfarer",
+      "file": "390-spellblade-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "width": 390,
+      "name": "offline-seven-picker",
+      "group": "wayfarer",
+      "offline": true,
+      "class_count": 7,
+      "file": "390-offline-seven-picker.png"
+    },
+    {
+      "width": 320,
+      "name": "public-picker",
+      "group": "selection",
+      "class_count": 6,
+      "file": "320-public-picker.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-collapsed",
+      "group": "selection",
+      "cls": "fighter",
+      "expanded": false,
+      "src": "img/portraits/fighter.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-fighter-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "fighter-expanded",
+      "group": "selection",
+      "cls": "fighter",
+      "expanded": true,
+      "src": "img/portraits/fighter.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-fighter-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "cleric-collapsed",
+      "group": "selection",
+      "cls": "cleric",
+      "expanded": false,
+      "src": "img/portraits/cleric.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-cleric-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "cleric-expanded",
+      "group": "selection",
+      "cls": "cleric",
+      "expanded": true,
+      "src": "img/portraits/cleric.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-cleric-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-collapsed",
+      "group": "selection",
+      "cls": "mage",
+      "expanded": false,
+      "src": "img/portraits/mage.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-mage-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "mage-expanded",
+      "group": "selection",
+      "cls": "mage",
+      "expanded": true,
+      "src": "img/portraits/mage.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-mage-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "thief-collapsed",
+      "group": "selection",
+      "cls": "thief",
+      "expanded": false,
+      "src": "img/portraits/thief.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-thief-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "thief-expanded",
+      "group": "selection",
+      "cls": "thief",
+      "expanded": true,
+      "src": "img/portraits/thief.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-thief-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-collapsed",
+      "group": "selection",
+      "cls": "ranger",
+      "expanded": false,
+      "src": "img/portraits/ranger.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-ranger-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "ranger-expanded",
+      "group": "selection",
+      "cls": "ranger",
+      "expanded": true,
+      "src": "img/portraits/ranger.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-ranger-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "druid-collapsed",
+      "group": "selection",
+      "cls": "druid",
+      "expanded": false,
+      "src": "img/portraits/druid.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 180,
+        "height": 180
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-druid-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "druid-expanded",
+      "group": "selection",
+      "cls": "druid",
+      "expanded": true,
+      "src": "img/portraits/druid.webp",
+      "size": [
+        512,
+        512
+      ],
+      "box": {
+        "width": 286,
+        "height": 286
+      },
+      "rendering": "auto",
+      "overflow": false,
+      "file": "320-druid-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "unlocked-picker",
+      "group": "wayfarer",
+      "class_count": 7,
+      "file": "320-unlocked-picker.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-collapsed",
+      "group": "wayfarer",
+      "expanded": false,
+      "src": "img/portraits/spellblade.webp",
+      "size": [
+        512,
+        512
+      ],
+      "overflow": false,
+      "file": "320-spellblade-collapsed.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-expanded",
+      "group": "wayfarer",
+      "expanded": true,
+      "src": "img/portraits/spellblade.webp",
+      "size": [
+        512,
+        512
+      ],
+      "overflow": false,
+      "file": "320-spellblade-expanded.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-prologue",
+      "group": "wayfarer",
+      "file": "320-spellblade-prologue.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-sheet",
+      "group": "wayfarer",
+      "file": "320-spellblade-sheet.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-ending",
+      "group": "wayfarer",
+      "file": "320-spellblade-ending.png"
+    },
+    {
+      "width": 320,
+      "name": "spellblade-share",
+      "group": "wayfarer",
+      "file": "320-spellblade-share.png",
+      "native_export": [
+        800,
+        420
+      ]
+    },
+    {
+      "width": 320,
+      "name": "offline-seven-picker",
+      "group": "wayfarer",
+      "offline": true,
+      "class_count": 7,
+      "file": "320-offline-seven-picker.png"
+    }
+  ]
+}

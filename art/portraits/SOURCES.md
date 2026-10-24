@@ -20,7 +20,8 @@ made with FFmpeg's Lanczos resampling and libwebp quality 85, without changing
 composition or colour. Only these compressed files ship; originals, overrides
 and production notes stay out of deployment through `.vercelignore`.
 
-Export or verify all six classes and all three keepers from their active sources:
+Export or verify all seven classes, three keepers and six companions (16 exports)
+from their active sources:
 
 ```sh
 python3 art/portraits/export.py
@@ -55,3 +56,11 @@ keep natural faces and physically coherent equipment readable on a phone.
 This paragraph summarizes the direction, rather than quoting the full prompt.
 The tool did not expose a model identifier. The user approved this final preview
 for application and a push to main. Earlier source images remain preserved.
+
+## Batch U reuse audit — 24 October 2026
+
+All seven existing hero paintings are retained. The six refined public-class
+portraits and the separate approved Wayfarer/Spellblade portrait already cover
+character selection and subsequent screens. No new portrait was generated or
+shipped file replaced. See [Batch U review](../creatures/batch-u-preview/REVIEW.md)
+for source/export hashes, actual phone flows and seven-portrait offline evidence.

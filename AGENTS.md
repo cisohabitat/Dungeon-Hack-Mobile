@@ -103,8 +103,8 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in
   `js/props.js`, and the champions, a shade's gear and the portraits in
   `js/champions.js`; the six hero fallback faces now live in `js/heroart.js`.
-  `js/paintedcreatures.js` maps fifty-three creature identities' existing pose objects to
-  approved nine-pose atlases, selected only by the renderer. Each kind has its
+  `js/paintedcreatures.js` maps existing monster poses and approved E–H
+  class/companion/state variants to painted atlases, selected by the renderer. Each kind has its
   own lazy image and palette cache; one failed atlas cannot disable another.
   Bind Skarrow explicitly through `wyrm.elite.skarrow`, including every pose,
   and other named champions through their own `elite[id]` objects. Keep procedural
@@ -152,6 +152,27 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   Shades remain procedural even before their class gear has finished painting;
   the default sword-and-shield atlas cannot represent those kits. Only supported
   pose objects are bound; reserve drift/special cells do not add actions.
+  Approved E–T gameplay exports are now wired through paintedcatalog.js,
+  paintedworld.js and the extended paintedcreatures.js loader. Reproduce all 184
+  shipped bytes and the catalog with python3 tools/export-painted-runtime.py --check.
+  runtime-delivery.json maps every shipped file to its reviewed source. Static
+  pictures decode on display demand, not during background fallback preparation;
+  sprites upgrade in place, retain per-image failure fallbacks and update existing
+  DOM images. Material caches remain native64 with eight Uint32 darkness levels;
+  R/S overrides apply only to Grey Halls. Material decode increments a presentation
+  revision: renderer floor/ceiling caches must refresh without changing the level
+  when a late image replaces its fallback (painted-cache.spec.js). Keep original exact stair-arch alpha,
+  coloured locks and other regions' procedural details. Seeded amulet_tooth is a
+  reserve, never an identity-revealing substitution. Held bindings require exact
+  id/class/pose/two/lit; keep authored bounds, grips and live bow string/hand.
+  Boss variants use live phase/throne/shot state. A WeakMap keeps a completed
+  Warlord shot's spear during its 130ms lunge without adding saved combat state;
+  interruptions and phase changes clear that presentation memory. Companion cell 6
+  is sit; Mender heal is a separate 256px file. Unused poses do not add actions.
+  Native phone/offline evidence is in runtime-preview/ and preview-runtime.cjs;
+  frozen state fixtures are not full gameplay transition coverage. The following
+  E–T preview notes describe historical source-review harnesses, not current
+  runtime delivery. Their substitutions must not be used as integration evidence.
   Batch E class Shade sources and review atlases use `generation-batch-e.json`,
   `export-batch-e.py --check` and `preview-batch-e.cjs`. This is preview-only:
   the harness substitutes image requests and frozen draws, not runtime bindings.
@@ -277,6 +298,22 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   authored grips/object bounds keep162 fixture cases within160/360/464 views;
   54 captures and12 native held tests pass. Through source sleeve has3px spacing
   but exports>=12px. Native transition/offline/fallback/performance remain gates.
+  Batch V is an interface reuse audit: preview-batch-v.cjs captures actual pack,
+  detail, collection, shop and labelled status UI at 390/320px with normal 16px
+  and double 32px/safe palette. Fixtures reveal existing content without replacing
+  images or renderer bindings. Keep small item sprites, larger approved paintings,
+  shared CSS frames and SVG icons; labels stay text. Escape first closes a pack
+  detail, so capture navigation closes the overlay with its actual Close button.
+  No new painting or runtime change is commissioned; see batch-v-preview/REVIEW.md.
+  Batch U is a reuse audit, not new painting: seven already shipped approved
+  portraits remain unchanged. generation-batch-u.json records existing source/
+  export hashes; export-batch-u.py --check builds review sheets, and
+  preview-batch-u.cjs uses actual UI without image overrides. Six public classes
+  remain six until the existing five-tap Wayfarer unlock; then seven.42 native
+  captures/downloads and32 existing browser checks pass, including all seven
+  portraits after browser offline reload. Wait for native fades and scroll the
+  prologue portrait into view before captures. U requires audit publication only,
+  not another portrait loader/offline integration; see runtime-delivery.json for the separate E–T integration.
   Offline engine checks cut the actual origin connection, as in `offline.spec.js`;
   keep native reloads and error assertions. WebKit's browser-offline emulation
   aborts controlled navigations before the service worker can answer.

@@ -1,0 +1,62 @@
+{
+  "new_paintings": 0,
+  "runtime_changes": 0,
+  "areas": [
+    {
+      "area": "Pack slots and equipment frames",
+      "implementation": [
+        "js/pack.js",
+        "css/style.css"
+      ],
+      "decision": "Reuse compact procedural item sprites, shared grade borders, slot names, quantities and unknown-quality marks. Keep hidden identities hidden; do not replace small interactive cells with painted frames."
+    },
+    {
+      "area": "Item and relic details",
+      "implementation": [
+        "js/itemdisplay.js",
+        "js/relicart.js",
+        "art/relics/generation.json"
+      ],
+      "decision": "Reuse approved relic paintings in the larger detail/codex presentation. Retain small named sprite fallback, text and keyboard/touch enlargement."
+    },
+    {
+      "area": "Journal and bestiary",
+      "implementation": [
+        "js/hall.js",
+        "js/bestiaryart.js",
+        "css/style.css"
+      ],
+      "decision": "Reuse existing bestiary paintings and shared panels. Preserve discovery silhouettes, statistics, collection disclosures and text; do not expose undiscovered creatures through decoration."
+    },
+    {
+      "area": "Shop",
+      "implementation": [
+        "js/shopview.js",
+        "js/itemdisplay.js"
+      ],
+      "decision": "Reuse item sprites and shared item detail/relic presentation. Keep names, prices, comparisons and confirmation controls as text, separate from art."
+    },
+    {
+      "area": "Status and controls",
+      "implementation": [
+        "js/ui.js",
+        "js/uikit.js",
+        "css/style.css"
+      ],
+      "decision": "Retain scalable 24-unit line icons and labelled condition buttons, warning ! and benefit + cues, accessible names and 44px minimum status targets. No painted status icon atlas."
+    }
+  ],
+  "implementation_sha256": {
+    "js/pack.js": "d61dedf75cca5d729f37c92a29171bef46918e89dfa10f69b1b9e42123c52eed",
+    "css/style.css": "ef4235ecb6177c54b23bc6dd1c61f1dd6a8a2d5e6ddb1452bf467c2dd89fcb56",
+    "js/itemdisplay.js": "4e1c82fbd8403f5e0350987d33e38951a8efd2eb16b697cb74a1ac3a4bd66620",
+    "js/relicart.js": "73962fcbe018521e12280a18e9a2557bec2e90fb88092d2b21c3113314ecc387",
+    "art/relics/generation.json": "d067a5b302b14e2525e378d217b1353bb92c31e786b1a4b2b133df59beb8ad4a",
+    "js/hall.js": "dd51ba4080df8595222c5960890a67ebff74c8e23ac175e63516725d917d7f61",
+    "js/bestiaryart.js": "d8cf1771b03c0859dc4b7eb71be578337eecf6a352014f2438cdb9ff25598084",
+    "js/shopview.js": "c922e56280da3d90c72d50d764c5f3fed179112746934d2315e18a95d2338d3a",
+    "js/ui.js": "a07d4c4f98f1c3d720178f37cda12e2fb43c91168b593ee48fe6cb30dfcee78f",
+    "js/uikit.js": "218d9f56502682f2d3a3bff1acbfbe9db0e160895576e472df16c590deb1ed78"
+  },
+  "source_snapshot": "Pre-integration Batch V audit; runtime delivery later adds smooth sampling for painted encounter images without changing frames or controls."
+}

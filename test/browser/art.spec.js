@@ -385,29 +385,30 @@ test.describe('art', () => {
     expect(errors).toEqual([]);
   });
 
-  test('walls said to be black glass are drawn as glass, not the brick of the other floors', async ({ page }) => {
-    // floor 8 said "black glass walls" over the same grey courses as floor 1
+  test('regional walls use their approved material, including black glass rather than generic brick', async ({ page }) => {
     const errors = watchForErrors(page);
     await page.goto('/');
-    await page.waitForFunction(() => typeof Assets !== 'undefined' && Assets.themes.length > 0);
-    const out = await page.evaluate(() => {
-      // how much of a row the brick layout gives to mortar is mortar here
-      const mortarShare = (i, y) => {
-        const t = Assets.themes[i], c = t.wall, d = c.getContext('2d').getImageData(0, y, c.width, 1).data;
-        const n = parseInt(THEMES[i].mortar.slice(1), 16), m = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
-        let k = 0;
-        for (let x = 0; x < c.width; x++) if (Math.abs(d[x * 4] - m[0]) + Math.abs(d[x * 4 + 1] - m[1]) + Math.abs(d[x * 4 + 2] - m[2]) < 6) k++;
-        return k / c.width;
-      };
-      return THEMES.map((th, i) => ({ name: th.name, glass: /glass/i.test(th.flavor), face: th.face || 'brick', bricks: mortarShare(i, 8) }));
+    await page.waitForFunction(() => typeof Assets !== 'undefined' && Assets.themes.length === 13);
+    await page.evaluate(async () => { window.__paintedWorldState = (await import('/js/paintedworld.js')).paintedWorldState; });
+    await page.waitForFunction(() => Object.entries(window.__paintedWorldState()).filter(([p]) => p.includes('/materials/')).every(([, s]) => s === 'ready'));
+    const out = await page.evaluate(async () => {
+      const { PAINTED } = await import('/js/paintedcatalog.js');
+      const pixels = c => [...c.getContext('2d').getImageData(0, 0, 64, 64).data];
+      const rows = [];
+      for (const [index, files] of Object.entries(PAINTED.themes)) {
+        const image = new Image(); image.src = files.wall; await image.decode();
+        const expected = document.createElement('canvas'); expected.width = expected.height = 64;
+        expected.getContext('2d').drawImage(image, 0, 0);
+        rows.push({ name: THEMES[index].name, glass: /glass/i.test(THEMES[index].flavor),
+          matches: JSON.stringify(pixels(Assets.themes[index].wall)) === JSON.stringify(pixels(expected)),
+          signature: JSON.stringify(pixels(expected)) });
+      }
+      return rows;
     });
-    expect(out.filter(t => t.glass).length, 'a floor speaks of black glass').toBeGreaterThan(0);
-    for (const t of out) {
-      if (t.glass) expect(t.bricks, `${t.name} should not be laid in brick courses`).toBeLessThan(0.3);
-      // the roads' walls (bone, dug earth) are not brick either
-      else if (t.face !== 'brick') expect(t.bricks, `${t.name} should not be laid in brick courses`).toBeLessThan(0.8);
-      else expect(t.bricks, `${t.name} is brick, with a course of mortar`).toBeGreaterThan(0.8);
-    }
+    expect(out.filter(t => t.glass).length).toBeGreaterThan(0);
+    for (const row of out) expect(row.matches, row.name + ' must use its reviewed regional wall').toBe(true);
+    expect(new Set(out.map(row => row.signature)).size).toBe(13);
+    for (const glass of out.filter(t => t.glass)) expect(glass.signature).not.toBe(out[0].signature);
     expect(errors).toEqual([]);
   });
 

@@ -1,3 +1,4 @@
+import { monsterPaintKind } from './paintedcreatures.js';
 // What the view is handed each frame: the render state, and the motion in it
 // (steps easing, blows landing, creatures swaying and falling, the camera's
 // shake). What it borrows from the game comes through K, read live.
@@ -221,12 +222,10 @@ export function makeMotion(K) {
       // a champion wears its colour, or is drawn as itself; a hero's shade wears the gear of their trade
       const tint = m.elite || (mb.named ? m.id : '') || (m.shade && base && base.elite && base.elite['shade_' + m.shade.cls] ? 'shade_' + m.shade.cls : '');
       const img = (tint && base && base.elite && base.elite[tint]) ? base.elite[tint] : base;
-      // Keep unmatched forms on their own art: barrel Mimics, later keeper
-      // phases and every non-fighter Shade. The knight atlas cannot stand in
-      // for class gear even while those procedural objects are still painting.
-      const procedural = !!m.shade && m.shade.cls !== 'fighter'
-        || mb.sprite === 'mimic' && m.disguise !== 'chest'
-        || !!mb.boss && (m.phase > 0 || !!m.throne || mb.sprite === 'warlord' && m.windup?.kind === 'shot');
+      // A class must keep its own fallback while its gear object is pending.
+      // State variants change pictures, never attacks, timing or concealment.
+      const procedural = !!m.shade && m.shade.cls !== 'fighter' && !(base?.elite?.['shade_' + m.shade.cls]);
+      const paintedKind = monsterPaintKind(m, now);
       const n = packSize(m);
       // how far through its wind-up it is, for the tell drawn over it
       const tell = m.volley ? 1 : m.windup ? Math.min(1, Math.max(0.05, (K.G.t - m.windup.at) / Math.max(1, m.windup.until - m.windup.at))) : 0;
@@ -267,7 +266,7 @@ export function makeMotion(K) {
       if (n === 1) {
         const mo = motion(m, now, 0, tell);
         // the lich's life runs along the top of the view, so it carries no bar of its own
-        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, procedural, reaction, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, tellKind, special, intent, boss: !!mb.boss || m === topNamed,
+        sprites.push({ x: m.rx + 0.5 + mo.dx, y: m.ry + 0.5 + mo.dy, img: shown, procedural, paintedKind, reaction, reeling, aff, step, impact, scale: mb.scale * big, yOff: (mb.fly || 0) + bob + mo.lift, sqx: mo.sqx, sqy: mo.sqy, lean: mo.lean, emit: mb.fiery ? FIERY_GLOW : 0, flash: now >= (m.flashAt || 0) ? m.flashUntil : 0, hp: mb.boss || m === topNamed ? null : (now < (m.flashAt || 0) && m.hpShown > 0 ? m.hpShown : m.hp), maxHp: m.maxHp, tell, tellKind, special, intent, boss: !!mb.boss || m === topNamed,
           // wrapped in shadow, it shows faint and flickering; a shade is never quite there
           ...(m.wardUntil > K.G.t ? { alpha: 0.45 + 0.2 * Math.sin(now / 70) } : m.shade ? { alpha: 0.8 + 0.08 * Math.sin(now / 400 + m.uid) } : {}) });
         continue;

@@ -748,6 +748,7 @@ body.calm .hud-quaff.urgent { animation: none; background: var(--alarm-bg); box-
 .svc-fold .shop-row { margin-top: var(--s-6); }
 .enc-art { text-align: center; margin: var(--s-4) 0 var(--s-8); }
 .enc-art img { width: 112px; height: 112px; image-rendering: pixelated; }
+.enc-art img[src^="img/world/"] { image-rendering: auto; }
 .enc-text { max-width: 520px; margin: 0 auto var(--s-14); line-height: 1.5; color: var(--text-mid); }
 #enc-choices { max-width: 520px; margin: 0 auto; }
 /* a choice out of reach looks it (the level-up guard keeps .boon:disabled at full strength) */

@@ -3,6 +3,8 @@ const { test, expect } = require('@playwright/test');
 const { startGame, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
 
 async function surfaces(page) {
+  await page.evaluate(async () => { window.__surfaceState = (await import('/js/paintedworld.js')).paintedWorldState; });
+  await page.waitForFunction(() => Object.entries(window.__surfaceState()).filter(([p]) => p.includes('/materials/')).every(([, s]) => s === 'ready'));
   return page.evaluate(async () => {
     const { Dice, Odds } = await import('/js/rng.js');
     const before = [Dice.s, Odds.s];

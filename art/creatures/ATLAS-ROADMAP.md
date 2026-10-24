@@ -1,20 +1,28 @@
 # Dungeon artwork and atlas roadmap — Batches E–X
 
-Prepared 23 October 2026; extended 24 October 2026. E–N source/review assets
-and O’s baseline surface pass are generated, reviewed and published to main.
-Runtime integration remains pending for E–T. T’s16-frame baseline held source kit
-is published as source/review assets; remaining library coverage and runtime validation
-remain pending. S’s20-cell baseline source pass is
-published as source/review assets; repeat-join refinement and regional matching remain
-pending. R’s baseline architecture source pass
-is published as source/review assets; exact arch-mask resolution and regional matching
-remain pending. P and Q source/review assets are published together. O architecture
-and secondary variants remain procedural. See completion tracking for evidence.
+Prepared 23 October 2026; extended and integrated 24 October 2026.
+
+## Runtime delivery — release 0.9.33
+
+E–T approved gameplay exports now bind to actual game systems and the offline
+cache: 184 newly shipped files. U/V reuse audits are included; their existing
+approved portraits and UI art remain in place. See the
+[runtime inventory](runtime-delivery.json) and [integration review](runtime-preview/REVIEW.md).
+This delivery supersedes the historical source-only statuses in the batch notes.
+
+The painted stair arch remains excluded because its alpha mask differs from
+live occlusion; the original exact mask stays. The Tooth Charm base painting is
+an unused reserve: the seeded amulet look stays, including after identification.
+Unused pose cells do not create actions. R/S baseline architecture/materials are
+only for Grey Halls; other regions keep their authored architecture and overlays.
+T remains three held families plus P Rune shields, with other kits procedural.
+Regional repeat refinement, further held library painting and W/X audits remain
+separate future work, not missing runtime bindings for approved playable art.
 
 ## Baseline and scope
 
-The runtime supports 53 painted creature identities: the original thirteen and
-Batches A–D. Do not regenerate those approved atlases. See
+The original 53 painted monster identities from the first thirteen and Batches A–D
+remain, with E–H class, companion and keeper-state variants now added. Do not regenerate those approved atlases. See
 [ATLAS-BRIEFS.md](ATLAS-BRIEFS.md) for their briefs and inventory.
 Local integration does not establish publication; retain each batch's review and
 release status separately.
@@ -41,12 +49,12 @@ revised traders. Avoid cartoon faces, toy-like finishes and inconsistent lightin
 | 5 | I | Three traders | 1 static sheet with 3 figures |
 | 6 | J | Remaining encounter characters and scenes | 4 generated source groups plus companion rest-cell reuse |
 | Optional | K | Remaining encounter objects and scenery | 7 generated source groups, including existing bone heap |
-| Reviewed/published | L | Ordinary room dressing | 11 cells on two square atlases and one strip; runtime integration pending |
-| Reviewed/published | M | Regional dressing details | 5 cells in two source groups; runtime integration pending |
-| Reviewed/published | N | Creature remains | 4 low cells on one atlas; runtime integration pending |
+| Reviewed/published | L | Ordinary room dressing | 11 cells on two square atlases and one strip; runtime integrated; see delivery review |
+| Reviewed/published | M | Regional dressing details | 5 cells in two source groups; runtime integrated; see delivery review |
+| Reviewed/published | N | Creature remains | 4 low cells on one atlas; runtime integrated; see delivery review |
 | Base pass reviewed/published | O | Dungeon surfaces and architecture | 13 base wall/floor/ceiling sets; architecture/variants remain procedural |
-| Reviewed/published | P | Equipment consistency and gaps | 7 regional icons (1 reserve), 2 class Rune shield rear frames; runtime integration pending |
-| Reviewed/published | Q | Spell, environmental and trap effects | 3 static world cells and 8 impact frames; runtime integration pending |
+| Reviewed/published | P | Equipment consistency and gaps | 7 regional icons (1 reserve), 2 class Rune shield rear frames; runtime integrated; see delivery review |
+| Reviewed/published | Q | Spell, environmental and trap effects | 3 static world cells and 8 impact frames; runtime integrated; see delivery review |
 
 E–H budget: **17 proposed new character atlases**. Boss reuse findings can change
 that count; companion extension sheets are not included. I–K use a new static-sheet
@@ -368,10 +376,10 @@ remains a separate delivery priority and does not require new paintings.
 
 | Order | Batch | Scope | Status |
 |---|---|---|---|
-| 1 | R | Doors, locks, arches, recesses, stairs and pillars | Eight baseline cells published; arch geometry/regional matching and runtime integration pending |
-| 2 | S | Secondary floors, walls, ceilings, fountains, torches and structural details |20 baseline cells published; repeat joins/regional matching and runtime integration pending |
-| 3 | T | First-person weapons, shields, hands and class sleeves |16 baseline held frames published; remaining library procedural, runtime integration pending |
-| 4 | U | Hero/class portraits and character selection | Proposed consistency audit; existing portraits already have coverage |
+| 1 | R | Doors, locks, arches, recesses, stairs and pillars | Eight baseline cells published; arch geometry/regional matching and runtime integrated; see delivery review |
+| 2 | S | Secondary floors, walls, ceilings, fountains, torches and structural details |20 baseline cells published; repeat joins/regional matching and runtime integrated; see delivery review |
+| 3 | T | First-person weapons, shields, hands and class sleeves |16 baseline held frames published; remaining library procedural, runtime integrated; see delivery review |
+| 4 | U | Hero/class portraits and character selection | Reuse audit complete locally: seven existing portraits, zero new paintings; audit publication pending |
 | 5 | V | Inventory frames, journal, bestiary, shops and status icons | Proposed interface art audit; counts and formats unset |
 | 6 | W | Title, loading, death and victory illustrations | Proposed screen audit; preserve approved existing title/other artwork |
 | 7 | X | Additional projectiles, magical and environmental effects | Optional audit after Q integration; retain procedural rendering where clearer |
@@ -438,6 +446,13 @@ Keep player portraits distinct from fallen Shades and named champions; reuse
 approved portraits when framing and identity fit. No wholesale portrait repaint
 is scheduled by this proposal.
 
+U audit complete locally: retain all seven approved portraits; no missing or
+inconsistent face requires a new painting.42 actual native UI captures/downloads
+and32 existing portrait/unlock browser checks pass at 390/320px, including unlocked
+seven-portrait offline reload. Existing portraits are already integrated; only
+publication of the new audit evidence is pending. See
+[U review](batch-u-preview/REVIEW.md) and [inventory](batch-u-preview/inventory.json).
+
 ### Batch V — interface art consistency
 
 Audit inventory frames, journal, bestiary, shop presentation and status icons in
@@ -446,6 +461,15 @@ illustrations. Propose a coherent frame/icon treatment only for demonstrated
 gaps. Preserve readable text, contrast, status meanings, touch targets, double
 text scaling and safe palette cues. Choose scalable or raster formats by use;
 do not bake interface labels into decorative artwork.
+
+V audit complete locally: reuse the existing shared CSS frames, SVG controls,
+compact item sprites and approved bestiary/relic paintings. No new painting or
+runtime change is justified by the reviewed states. Native phone captures cover
+390/320px at normal and double text size, with safe palette on the latter.
+See [V review](batch-v-preview/REVIEW.md) and [inventory](batch-v-preview/inventory.json).
+44 native captures and49 browser checks pass. Track the observed double-text
+header density, tab wrapping and shop gold/Close crowding as CSS/layout follow-ups,
+not painting gaps. Audit evidence is included with release 0.9.33; E–T integration remains separate.
 
 ### Batch W — major screen illustrations
 
@@ -498,15 +522,16 @@ warning readability, fallback and memory/frame-time budgets before generation.
 | I | `0aec3a1` | [Revised static traders](batch-i-preview/REVIEW.md) |
 | J | `d3307ce` | [Encounter compositions](batch-j-preview/REVIEW.md) |
 | K | `025702c` | [Remaining props and bone heap](batch-k-preview/REVIEW.md) |
-| L | `46a2a59`; runtime integration pending | [Room dressing](batch-l-preview/REVIEW.md) |
-| M | Source/review published; runtime integration pending | [Regional dressing](batch-m-preview/REVIEW.md) |
-| N | Source/review published; runtime integration pending | [Remains](batch-n-preview/REVIEW.md) |
-| O | Baseline source/review published; architecture/variants procedural; runtime integration pending | [Base surfaces](batch-o-preview/REVIEW.md) |
-| P | `1e55f72`; runtime integration pending | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
-| Q | `1e55f72`; eleven cells; runtime integration pending | [Effects review](batch-q-preview/REVIEW.md) |
-| R | Baseline source/review published; exact mask/regional matching and runtime integration pending | [Architecture review](batch-r-preview/REVIEW.md) |
+| L | `46a2a59`; runtime integrated; see delivery review | [Room dressing](batch-l-preview/REVIEW.md) |
+| M | Source/review published; runtime integrated; see delivery review | [Regional dressing](batch-m-preview/REVIEW.md) |
+| N | Source/review published; runtime integrated; see delivery review | [Remains](batch-n-preview/REVIEW.md) |
+| O | Baseline source/review published; architecture/variants procedural; runtime integrated; see delivery review | [Base surfaces](batch-o-preview/REVIEW.md) |
+| P | `1e55f72`; runtime integrated; see delivery review | [Equipment and shield rear gap](batch-p-preview/REVIEW.md) |
+| Q | `1e55f72`; eleven cells; runtime integrated; see delivery review | [Effects review](batch-q-preview/REVIEW.md) |
+| R | Baseline source/review published; exact mask/regional matching and runtime integrated; see delivery review | [Architecture review](batch-r-preview/REVIEW.md) |
 | S |20 baseline cells published; runtime integration and repeat/regional matching pending | [Secondary materials](batch-s-preview/REVIEW.md) |
 | T |16 baseline held frames published; runtime integration pending; other library entries procedural | [Held equipment](batch-t-preview/REVIEW.md) |
+| U | Reuse audit complete locally; seven portraits already integrated/offline; zero new painting; audit publication pending | [Portrait reuse](batch-u-preview/REVIEW.md) |
 
 E–Q still require runtime integration and full runtime validation. Their published
 source/review assets are not evidence of live bindings, failure fallback or offline

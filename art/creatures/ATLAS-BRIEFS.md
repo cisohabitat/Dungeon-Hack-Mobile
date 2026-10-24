@@ -1042,3 +1042,22 @@ Batch T’s16 baseline held frames are reviewed and published; see
 Fighter longsword, Mage staff and Ranger longbow use exact class/key/pose/grip
 guards. Other classes, named/reflected gear and action hands remain procedural.
 Source/review assets for S/T are published; runtime integration remains pending.
+
+Batch U is a completed local reuse audit: all seven existing class/Wayfarer
+portraits are retained, with zero new painting or shipped replacement. See
+[review](batch-u-preview/REVIEW.md). Native creation, unlock, story/sheet/ending,
+share and seven-portrait offline flows pass at both phone widths. Only audit
+publication is pending; existing portraits are already integrated.
+
+## Batch V — interface art reuse audit
+
+Retain shared CSS frames and SVG controls, existing small item sprites and approved
+bestiary/relic paintings. No new painted atlas is commissioned by this audit.
+See [V review](batch-v-preview/REVIEW.md). Audit publication pending; no runtime edits.
+
+## Approved art runtime delivery
+
+E–T approved gameplay exports now bind through the native loaders and offline
+cache. See [delivery inventory](runtime-delivery.json) and
+[integration review](runtime-preview/REVIEW.md). Historical source-only reports
+retain their original scope; unused reserves and exact-mask exceptions stay out.

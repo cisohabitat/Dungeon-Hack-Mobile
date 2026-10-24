@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-24",
+  "tool": "none; reuse audit, no image generation",
+  "model": null,
+  "brief": "REQUEST-batch-u.md",
+  "status": "reuse audit complete locally; seven already shipped portraits retained, zero new paintings; audit evidence included in release 0.9.33",
+  "existing_generation_manifest": "../portraits/generation.json",
+  "portraits": {
+    "fighter": {
+      "source": "art/portraits/refined/fighter.png",
+      "source_sha256": "6fa9ea620a51f94c7bd46007c28b85e790fea8c1172e365320e207e95216f741",
+      "shipped": "img/portraits/fighter.webp",
+      "shipped_sha256": "3a664b77dda04acfc54cfceb473077fa056fa2e050d719c98c70163217fb4f31",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "mage": {
+      "source": "art/portraits/refined/mage.png",
+      "source_sha256": "020d44d4738174fa098522e4967996fdf1c65ce759d6dcb47a9b5cd1dbe6e31e",
+      "shipped": "img/portraits/mage.webp",
+      "shipped_sha256": "d15885e6c8be01b38f0a433aea6e54542f2ab2f154569a4bdfd1ec96222327e8",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "cleric": {
+      "source": "art/portraits/refined/cleric.png",
+      "source_sha256": "9f8aace178ccf94ee53bc6b720ac1f0cf533ea04aa5a7687c5cf64cfd2ef0fb5",
+      "shipped": "img/portraits/cleric.webp",
+      "shipped_sha256": "33390d96b37c928afffb469cfe6d325be7d9761c1bac46b8e13ebb0c6863c99a",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "ranger": {
+      "source": "art/portraits/refined/ranger.png",
+      "source_sha256": "ca757926c2fb5451ee4e38a4ef2357b37d1b824b91db3a73118d652144be1b2d",
+      "shipped": "img/portraits/ranger.webp",
+      "shipped_sha256": "8de24a4312cfd0817a7eb724b7eed1ce424e27790481fb220c357ca1f3b34fcf",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "druid": {
+      "source": "art/portraits/refined/druid.png",
+      "source_sha256": "08c0054f922eb8a326385237abfa7fad4adf798e3f190295b4fdcd28cd8e892d",
+      "shipped": "img/portraits/druid.webp",
+      "shipped_sha256": "76a616d63fc404f336bae99f4f27c68321a1c7c4a8f397e4c6f766a7d45b8191",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "thief": {
+      "source": "art/portraits/refined/thief.png",
+      "source_sha256": "0072b11f94f2a10de32023e22e69f1782ab89bdc672ef1bc4ab90f107293a8f3",
+      "shipped": "img/portraits/thief.webp",
+      "shipped_sha256": "d37eb739591bd1beea970a2e5db890753dc328daa50395ec0948f275285412ed",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    },
+    "spellblade": {
+      "source": "art/portraits/spellblade.png",
+      "source_sha256": "02856a8fd167fac49a9bdaae640193bc5cc76b89cf8b91b9eee7d588e5c9d227",
+      "shipped": "img/portraits/spellblade.webp",
+      "shipped_sha256": "605ca4e640d5b17025df130530e2a28f9508b59d26a6b277fb58c4df7e74e346",
+      "size": [
+        512,
+        512
+      ],
+      "action": "reuse approved source and shipped bytes; no repaint"
+    }
+  },
+  "review": {
+    "report": "batch-u-preview/REVIEW.md",
+    "captures_and_native_downloads": 42,
+    "widths": [
+      390,
+      320
+    ],
+    "existing_browser_checks": 32,
+    "offline_portraits_per_width": 7,
+    "new_paintings": 0,
+    "shipped_asset_changes": 0,
+    "reproduced_existing_exports": 16
+  },
+  "publication": "Included with approved-art runtime release 0.9.33"
+}

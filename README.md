@@ -59,8 +59,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   Imp and Cutpurse; Lookout, Hexer, Pikeman, Quillback, Drowned One, Emberling,
   chest Mimic, Lich, Heartforged and Warlord; the default knight Shade, Grisk,
   Vessra, Ushgar, Morrow, Orla, Gorrum, Vaelith, Hissra and Durgrim. Fallen heroes
-  of other classes retain their procedural class equipment. Barrel Mimics and
-  later keeper phases retain procedural art. Each painting loads on demand with
+  of the other six classes, barrel Mimics, six companions and keeper equipment
+  states now have their approved paintings too. Traders, encounters, room props,
+  remains, regional base surfaces and selected held gear and impacts also use
+  painted exports. Each painting loads on demand with
   its own poses, normal lighting and warnings, and works offline. Skarrow keeps her distinct
   scarred, three-horned identity; the other named champions have their own
   atlases, while companions retain their separate appearances. Procedural art
@@ -1161,7 +1163,7 @@ tools/check-art.mjs   verifies reviewed source/export hashes and offline art cov
 art/review.json       dated review of painted art and its current file hashes
 art/identity.json     identifying traits reviewed for every bestiary entry and class
 art/creatures/ATLAS-BRIEFS.md  dungeon atlas briefs, batches and live inventory
-art/creatures/ATLAS-ROADMAP.md  E–T review/publication status, R–X painting roadmap and runtime follow-up
+art/creatures/ATLAS-ROADMAP.md  E–V art delivery status, remaining refinements and W/X audits
 art/creatures/generation-batch-a.json  Batch A prompts, references and registration for art review
 art/creatures/generation-batch-b.json  Batch B originals, repairs and measured review registration
 art/creatures/generation-batch-c.json  Batch C sources, keeper/mimic variants and selected repairs
@@ -1198,8 +1200,9 @@ All ten are integrated and cached offline. Review files stay under
 
 Batch C covers Lookout through the three keepers. Reproduce its exports with
 `python3 art/creatures/export-batch-c.py --check` and capture supported poses with
-`node art/creatures/preview-batch-c.cjs`. Barrel Mimics and later keeper phases
-retain their procedural forms; chest Mimics use painted art only after revelation.
+`node art/creatures/preview-batch-c.cjs`. Chest Mimics use painted art only after
+revelation. G/H now supply barrel and keeper-state paintings through the same
+native loader; concealment and phase rules are unchanged.
 
 Batch D covers the default knight Shade and nine named champions. Reproduce its
 ten atlases and neutral/walking/action sheets with
@@ -1209,6 +1212,11 @@ Shade and Orla register their floating torsos. Non-fighter fallen heroes retain
 their procedural class gear throughout loading. Existing supported poses and
 special fallbacks remain unchanged. See [the Batch D review](art/creatures/batch-d-preview/REVIEW.md)
 and [local checks](art/creatures/batch-d-preview/integration-checks.md).
+
+The E–T paragraphs below document source production and historical preview
+harnesses. The approved gameplay exports are now integrated in release 0.9.33;
+use the [runtime delivery review](art/creatures/runtime-preview/REVIEW.md) for
+current bindings, offline evidence and exceptions.
 
 Batch E has six class-specific Shade review atlases, with Mage/Ranger skeletal
 repairs and measured floating torso anchors. Reproduce them with
@@ -1250,14 +1258,14 @@ rest cells, with authored scene crops and floating anchors. Reproduce references
 with `node art/creatures/reference-batch-j.cjs`, exports with
 `python3 art/creatures/export-batch-j.py --check`, and phone world/card previews
 with `node art/creatures/preview-batch-j.cjs`. See [review](art/creatures/batch-j-preview/REVIEW.md).
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 
 Batch K adds the remaining 25 static prop review figures: 24 roadmap objects plus
 the existing collapsed-bones heap. Reproduce references with
 `node art/creatures/reference-batch-k.cjs`, exports with
 `python3 art/creatures/export-batch-k.py --check`, and phone world/card previews
 with `node art/creatures/preview-batch-k.cjs`. See [review](art/creatures/batch-k-preview/REVIEW.md).
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 
 Batch L adds eleven ordinary room-dressing review paintings across three sources,
 with static scene anchors and sixty near/far phone captures, including concealed
@@ -1265,7 +1273,7 @@ Mimics and puzzle chests. Reproduce references with
 `node art/creatures/reference-batch-l.cjs`, exports with
 `python3 art/creatures/export-batch-l.py --check`, and previews with
 `node art/creatures/preview-batch-l.cjs`. See [review](art/creatures/batch-l-preview/REVIEW.md).
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 Existing smashable containers, oil cues and regional aliases retain their rules.
 
 Batch M adds five regional dressing paintings in two source groups, with 44 phone
@@ -1274,7 +1282,7 @@ review captures across eleven regional theme mappings. Reproduce references with
 `python3 art/creatures/export-batch-m.py --check`, and previews with
 `node art/creatures/preview-batch-m.cjs`. See [review](art/creatures/batch-m-preview/REVIEW.md).
 Saved dressing kinds, sizes and fallen-rubble bypass remain unchanged.
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 
 Batch N adds four low remains paintings and one atlas, with 24 phone review
 captures and 56 reveal/expiry selection checks. Reproduce references with
@@ -1282,7 +1290,7 @@ captures and 56 reveal/expiry selection checks. Reproduce references with
 `python3 art/creatures/export-batch-n.py --check`, and previews with
 `node art/creatures/preview-batch-n.cjs`. See [review](art/creatures/batch-n-preview/REVIEW.md).
 Caller selection, durations, coordinates and floor ordering remain unchanged.
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 
 Batch O’s baseline material pass adds 39 native 64px wall/floor/ceiling tiles across
 thirteen themes, with detail/repeat panels and 52 controlled phone captures.
@@ -1290,7 +1298,7 @@ Reproduce references with `node art/creatures/reference-batch-o.cjs`, exports wi
 `python3 art/creatures/export-batch-o.py --check`, and previews with
 `node art/creatures/preview-batch-o.cjs`. See [review](art/creatures/batch-o-preview/REVIEW.md)
 and [format/architecture audit](art/creatures/batch-o-preview/FORMAT-AUDIT.md).
-Source/review assets are published separately; runtime integration remains pending.
+The historical source harness uses substitutions; current runtime delivery is recorded above.
 Existing state-bearing architecture/secondary variants remain procedural; repeat,
 native offline/fallback and performance integration gates are documented.
 
@@ -1352,3 +1360,33 @@ longbow. See [review](art/creatures/batch-t-preview/REVIEW.md) and
 `node art/creatures/preview-batch-t.cjs`.54 frozen captures,162 fitting/release
 cases and12 native held-equipment browser tests pass. Remaining weapon/class
 coverage and runtime integration remain pending; source/review assets are published.
+
+Batch U completes a portrait reuse audit: all seven existing approved portraits
+are retained; no new painting or shipped replacement is needed. See
+[review](art/creatures/batch-u-preview/REVIEW.md) and
+[inventory](art/creatures/batch-u-preview/inventory.json).42 native UI captures/
+downloads and32 existing browser checks cover phone selection, hidden Wayfarer,
+story/sheet/ending/share and seven-portrait offline reload. Reproduce audit sheets
+with `python3 art/creatures/export-batch-u.py --check` and captures with
+`node art/creatures/preview-batch-u.cjs`. Audit evidence is included with runtime release 0.9.33;
+these existing portraits already use the runtime/offline pipeline.
+
+Batch V audits interface art in the existing pack, details, journal, bestiary,
+relic, shop and status layouts. It retains shared CSS frames, scalable control
+icons and existing approved images; no new painting or runtime edit is needed
+in the reviewed states. See the [review](art/creatures/batch-v-preview/REVIEW.md)
+and [inventory](art/creatures/batch-v-preview/inventory.json). Reproduce captures
+with `node art/creatures/preview-batch-v.cjs`. Audit evidence is included with runtime release 0.9.33.
+
+The approved E–T gameplay paintings now load in the game: class Shades,
+companions, barrel Mimics, keeper variants, traders, encounters, room dressing,
+remains, regional base materials, selected equipment and elemental impacts.
+[Runtime delivery](art/creatures/runtime-delivery.json) maps 184 shipped files to
+reviewed sources; [integration review](art/creatures/runtime-preview/REVIEW.md)
+records native phone and offline evidence. Reproduce byte-identical exports with
+`python3 tools/export-painted-runtime.py --check` and phone captures with
+`node art/creatures/preview-runtime.cjs`. Per-image procedural fallbacks remain.
+The exact stair arch mask, seeded amulet appearance, coloured locks and
+unpainted regional/held variants retain their existing rendering. U/V reuse audits
+are included in this publication. Historical batch reports describe their original
+source-only state; the runtime delivery review supersedes those delivery statuses.

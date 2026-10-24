@@ -388,15 +388,15 @@ const Renderer = (() => {
     return out;
   }
   const lookCache = new WeakMap();
-  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][], softFloors: Uint32Array[][], softCeils: Uint32Array[][], caved: number}} */
+  /** @returns {import('./looks.js').Look & {tex: any, floors: Uint32Array[][], ceils: Uint32Array[][], softFloors: Uint32Array[][], softCeils: Uint32Array[][], caved: number, revision: number|undefined}} */
   function looksOf(level, tex) {
     // (worked out again when more of the roof has come down: the way in falls a square at a time)
-    const had = lookCache.get(level), caved = level.caved ? level.caved.length : 0;
-    if (had && had.tex === tex && had.caved === caved) return had;
+    const had = lookCache.get(level), caved = level.caved ? level.caved.length : 0, revision = tex.artRevision;
+    if (had && had.tex === tex && had.caved === caved && had.revision === revision) return had;
     const base = lookOf(level, tex.theme), floors = [tex.floor], ceils = [tex.ceil];
     for (const k of base.kinds.floor) floors[k] = tex.floorOf(k);
     for (const k of base.kinds.ceil) ceils[k] = tex.ceilOf(k);
-    const L = { ...base, tex, floors, ceils, softFloors: floors.map(softFloor), softCeils: ceils.map(softFloor), caved };
+    const L = { ...base, tex, floors, ceils, softFloors: floors.map(softFloor), softCeils: ceils.map(softFloor), caved, revision };
     lookCache.set(level, L);
     return L;
   }
@@ -1448,7 +1448,7 @@ const Renderer = (() => {
       let hFull = P / tY;
       // a monster with poses (see creatures.js) shows the one for its wind-up
       let art = s.tell ? (s.special && s.img.special) || s.img.windup || s.img : (!calm && s.reaction) || s.img;
-      if (!s.procedural) art = paintedCreature(art);
+      if (!s.procedural) art = paintedCreature(art, s.paintedKind);
       // a monster winding up a blow swells a little toward you as it draws back
       let floorY = H / 2 + hFull / 2;
       // Held sideways the view is short, and a creature right in front of you

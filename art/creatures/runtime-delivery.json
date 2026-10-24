@@ -1,0 +1,930 @@
+{
+  "files": [
+    {
+      "source": "art/creatures/batch-e-preview/shade_spellblade.webp",
+      "runtime": "img/creatures/shade_spellblade.webp",
+      "sha256": "58d47b4b632286732174dc070821ee0bf9c40ca406b75b00dca875a4380a07aa"
+    },
+    {
+      "source": "art/creatures/batch-e-preview/shade_thief.webp",
+      "runtime": "img/creatures/shade_thief.webp",
+      "sha256": "1d8ffce5fd8b224fe374f691018e5e4c98a1045d55ca27d485ade6c8af789ec3"
+    },
+    {
+      "source": "art/creatures/batch-e-preview/shade_mage.webp",
+      "runtime": "img/creatures/shade_mage.webp",
+      "sha256": "92f0d722aeeae733bca8ae3c51555874cce05486b07e3210f12c49cac911614e"
+    },
+    {
+      "source": "art/creatures/batch-e-preview/shade_cleric.webp",
+      "runtime": "img/creatures/shade_cleric.webp",
+      "sha256": "c4f20c324ab5244fbe43027b5bca51bef06900a00ca81f4971ee7d42a7e04d29"
+    },
+    {
+      "source": "art/creatures/batch-e-preview/shade_ranger.webp",
+      "runtime": "img/creatures/shade_ranger.webp",
+      "sha256": "3dec5cbbefe177e8de4831564f87a8c8dfd4515d291a0f6fc971a9bd768ed547"
+    },
+    {
+      "source": "art/creatures/batch-e-preview/shade_druid.webp",
+      "runtime": "img/creatures/shade_druid.webp",
+      "sha256": "d8c088c03685d3ea734255d6f79d11cc4b0310a11903e9c85dc5628d0bb41945"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/dog.webp",
+      "runtime": "img/creatures/dog.webp",
+      "sha256": "9c5b72a20908cd09d5abed31ab77d5017f8f2c67652420f7cff5c758f306440f"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/wolf.webp",
+      "runtime": "img/creatures/wolf.webp",
+      "sha256": "2282537d14901375480114fc21d7f9d45339b8a6f61747a200ba4cf3b2bd6dbb"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/scrag.webp",
+      "runtime": "img/creatures/scrag.webp",
+      "sha256": "658b70da44ad698383b416968b9253d1c9f9b9c966f865c4960a89d3102dc5a8"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/sellsword.webp",
+      "runtime": "img/creatures/sellsword.webp",
+      "sha256": "3b037483102084801ff169e611d7bfa8cffaca55136b04833d1eaa20dd773d8b"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/mender.webp",
+      "runtime": "img/creatures/mender.webp",
+      "sha256": "4a257f662d28dff6115164c0f48c85df29a3a8f80d421d64b1a0902dc5b9ce3d"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/renegade.webp",
+      "runtime": "img/creatures/renegade.webp",
+      "sha256": "95883c8363a96a17bdec0a943ae6869312cb8157bbc01d64e20bf7382a5c633e"
+    },
+    {
+      "source": "art/creatures/batch-g-preview/mimic_barrel.webp",
+      "runtime": "img/creatures/mimic_barrel.webp",
+      "sha256": "ae82ab7c1b165a82b4364d55aa35d26441e170d3c92bc2f2ecbda302e3120bac"
+    },
+    {
+      "source": "art/creatures/batch-h-preview/heartforged_open.webp",
+      "runtime": "img/creatures/heartforged_open.webp",
+      "sha256": "325761bb3cfe25337bb3dce613b251a4d56bb35fea3f84a38095aec62edfe1cb"
+    },
+    {
+      "source": "art/creatures/batch-h-preview/heartforged_whitehot.webp",
+      "runtime": "img/creatures/heartforged_whitehot.webp",
+      "sha256": "877f23998dc0c2a78b920aed95c03be87ed6915f3696887ab07223945606f7cb"
+    },
+    {
+      "source": "art/creatures/batch-h-preview/warlord_throne.webp",
+      "runtime": "img/creatures/warlord_throne.webp",
+      "sha256": "bff6925ebc1c168ee1acbc3a396da34c9f79592e3065d4a97da110ba99f1869a"
+    },
+    {
+      "source": "art/creatures/batch-h-preview/warlord_spear.webp",
+      "runtime": "img/creatures/warlord_spear.webp",
+      "sha256": "4a273c74de756abbe0f5381c7ad688f22dab8818e83ed062442ee2bc1954bb05"
+    },
+    {
+      "source": "art/creatures/batch-f-preview/mender-heal.webp",
+      "runtime": "img/creatures/mender-heal.webp",
+      "sha256": "76f45e69f0cc2023c55520cde6c0dbaddbc159501b17c02b9ac80c3658712318"
+    },
+    {
+      "source": "art/creatures/batch-i-preview/merchant.webp",
+      "runtime": "img/world/merchant.webp",
+      "sha256": "b837a39063d400eb302f3f415e6c6ddadd1ce2aaced6864faa63c88fb44b8259"
+    },
+    {
+      "source": "art/creatures/batch-i-preview/pedlar.webp",
+      "runtime": "img/world/pedlar.webp",
+      "sha256": "a5bf4540a08a72cef3fc900dfd33383bea72a1639c32005107c787863ab86b21"
+    },
+    {
+      "source": "art/creatures/batch-i-preview/wick.webp",
+      "runtime": "img/world/wick.webp",
+      "sha256": "eea4c4ab2892333cead86afca9e818c3e7b519480380358d70ecb5c8f58a6a3e"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/forge_spirit.webp",
+      "runtime": "img/world/forge_spirit.webp",
+      "sha256": "3ca3964b96d5c7a4780b0b14a36f265c463e23f9ee40cf49f2e154cd92791664"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/lastdelver.webp",
+      "runtime": "img/world/lastdelver.webp",
+      "sha256": "6d1966afd8eab2e1a066669d48b622007b8bb03e62b26fd89e91965c573e9940"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/wisp.webp",
+      "runtime": "img/world/wisp.webp",
+      "sha256": "9014b1e9e888e3505037ee5f838ff89ecaea807eca987bfb6a7a748d0655babb"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/prisoner.webp",
+      "runtime": "img/world/prisoner.webp",
+      "sha256": "3f7d39bba1c062532ca6150bf24c88ba8e5adc7de1d4fa50cb7453d25de011f6"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/duelist_ghost.webp",
+      "runtime": "img/world/duelist_ghost.webp",
+      "sha256": "cedf8fdd2bdc53460df81871df2e13f161138729c9710888628e048088fa36b9"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/lampfolk_dark.webp",
+      "runtime": "img/world/lampfolk_dark.webp",
+      "sha256": "e719122a0f5ce618142131c75ff86d5b3240e703cfc843c128f3e3de224d77e9"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/kept_smith.webp",
+      "runtime": "img/world/kept_smith.webp",
+      "sha256": "f41acc845a12e052863796c77d97ccc170e51706d8c00f1745f6726314f5c993"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/mapmaker.webp",
+      "runtime": "img/world/mapmaker.webp",
+      "sha256": "f7c13d2046a5f5908c15e6f7a99dfc38f63d85633675429d11504e810d4e6800"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/goblin_hurt.webp",
+      "runtime": "img/world/goblin_hurt.webp",
+      "sha256": "4a2d8170b209eff185f3242978202559eaf169b0d6ea145e35e5ebc0132b962e"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/mule.webp",
+      "runtime": "img/world/mule.webp",
+      "sha256": "92e1daa8a25844403ef765a8367fb816aaab4a5a42042b56ab3834ac14b73f6e"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/ogre_sleep.webp",
+      "runtime": "img/world/ogre_sleep.webp",
+      "sha256": "061bc25424474ddcf38b539c6cfd76a0d90a722829ed3e4fa37668f20f7c648f"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/goblin_toll.webp",
+      "runtime": "img/world/goblin_toll.webp",
+      "sha256": "59a9de3963d40d5c47b603b04c6fe14188f17f5455c67bbf12e64cd2c94dcf9f"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/stray.webp",
+      "runtime": "img/world/stray.webp",
+      "sha256": "7b688f1bc3ddd76d9ce3abbfd8ec23cd24543422541de1c81207cd4d1933cc1e"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/cage.webp",
+      "runtime": "img/world/cage.webp",
+      "sha256": "deca56d367d919689272acb4a5e358def21e36958bd12278e57447d459b7689e"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/hireling.webp",
+      "runtime": "img/world/hireling.webp",
+      "sha256": "a16e16c2e5f0430ec8f52677ce5967b2d2e50f90bdc8354b906904c4fb42d8a7"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/exile.webp",
+      "runtime": "img/world/exile.webp",
+      "sha256": "87b8c85cd611d87d16985e8561e323defcdf2d7334c6a53c8289db76ca515f02"
+    },
+    {
+      "source": "art/creatures/batch-j-preview/stray_healer.webp",
+      "runtime": "img/world/stray_healer.webp",
+      "sha256": "25f86025295d1cb07269f8e29b72d36a585fd91471d85bf79cdfaf46c9e7a907"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/spider_altar.webp",
+      "runtime": "img/world/spider_altar.webp",
+      "sha256": "32c8d04a55fac70a029c222ef53b26b0144c91053772412e096d7289e5c8a081"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/heartwell.webp",
+      "runtime": "img/world/heartwell.webp",
+      "sha256": "8676fdc6f7d13362170a0a37337ac197fc988f15f3bf39e2a1c35f12b95678c1"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/shrine.webp",
+      "runtime": "img/world/shrine.webp",
+      "sha256": "6d989a8529116857a73785b97392e8987fc4c84eb0149506c60d473b4d41d706"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/runestone.webp",
+      "runtime": "img/world/runestone.webp",
+      "sha256": "ed6384fb0830248100d47a93b350623933ded66a022b91b33b28b6c24ce33d20"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/mirror.webp",
+      "runtime": "img/world/mirror.webp",
+      "sha256": "b8a2dd328be16026c4fe06c9e87d9c7bd936a614cc3f649d5c9ad76502c22fa3"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/statue.webp",
+      "runtime": "img/world/statue.webp",
+      "sha256": "c244f14a5509d2fba90e996df0e934f050bcea1372bb69d996cbead0ec67a3c1"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/idol.webp",
+      "runtime": "img/world/idol.webp",
+      "sha256": "df7987f4aa61046a6aa4f6ad64165c1bd8e3995f4b8da530fdead161f3409d04"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/heart_dais.webp",
+      "runtime": "img/world/heart_dais.webp",
+      "sha256": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/strongbox.webp",
+      "runtime": "img/world/strongbox.webp",
+      "sha256": "52cb35f61313c2c809e9bc2f52dc5fcaa33f1a52979ebaf3cec2ec3efbc4d334"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/lever_door.webp",
+      "runtime": "img/world/lever_door.webp",
+      "sha256": "0c6feffd3c250671261a192d15552367e36cd7bff58624ecc76e744f6aecf2b3"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/well.webp",
+      "runtime": "img/world/well.webp",
+      "sha256": "e179ee0c0a780c5ef237cd95c84f304cb75af79fe4959fa80eb4f8311ecddb39"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/bookcase.webp",
+      "runtime": "img/world/bookcase.webp",
+      "sha256": "0cb370065a7b0f489250c7bb5328005d4871bcaae2aafdeaef7515b9ffc2127a"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/chest.webp",
+      "runtime": "img/world/chest.webp",
+      "sha256": "3989ee28c1afaf94acf96ee6826bf497a8aad5477bab2ab055b8234488610547"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/barricade.webp",
+      "runtime": "img/world/barricade.webp",
+      "sha256": "cd5a30d8cfb043d6dcfa405f58003dad5119910f7c7960091eb33c773b6bec34"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/dwarf_forge.webp",
+      "runtime": "img/world/dwarf_forge.webp",
+      "sha256": "ff0bc7c2c4bca9d7c3f0daba2f30613ae404897b27bae6f654e4a0a540de2679"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/anvil.webp",
+      "runtime": "img/world/anvil.webp",
+      "sha256": "db45b0a2923b9e746ef616e269f9d5b79ecd3e642ae8a6350b0418a47c68bd13"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/wyrmegg.webp",
+      "runtime": "img/world/wyrmegg.webp",
+      "sha256": "470d40b6f12faf48abb79e3e850407d6fe06dfd8e08a86ed88b4718d6cf2c1a1"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/egg_clutch.webp",
+      "runtime": "img/world/egg_clutch.webp",
+      "sha256": "986fc420c19414b03f6bd04d960484edeb68eed1fbb7046475eacdca0ef785d6"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/rubble.webp",
+      "runtime": "img/world/rubble.webp",
+      "sha256": "ae5e2715563f400ba4c6c4f1121ae135e56eb839eea36ca2b8d7534b6f8cf881"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/fungus.webp",
+      "runtime": "img/world/fungus.webp",
+      "sha256": "cfbe5537c795ce2d0846931759440a230ac457dbd0a57985fc76be019baf7c9b"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/silk_larder.webp",
+      "runtime": "img/world/silk_larder.webp",
+      "sha256": "4089ca371126c6bd1fdafa8c97f352f9bab15cc6f91d05cec7910a6457b5ec7c"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/bones.webp",
+      "runtime": "img/world/bones.webp",
+      "sha256": "45fe913bc488de4eaec1a1b22e8942b6a447bb1e89884c1030154759193741f5"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/pool.webp",
+      "runtime": "img/world/pool.webp",
+      "sha256": "3b369ca5eaeebb54c68289107172a3b25ab81c0a02cfb78c92cd4a09560dfc7e"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/cookpot.webp",
+      "runtime": "img/world/cookpot.webp",
+      "sha256": "e87ed98fb2d0b45a9a6966b091fbb3c6df34ca367e03aaf992a232f09aea1185"
+    },
+    {
+      "source": "art/creatures/batch-k-preview/bone_heap.webp",
+      "runtime": "img/world/bone_heap.webp",
+      "sha256": "2bf2083e3b35e00519795e68774562a222661bb8bc447ce8cd894c1adad399c2"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/barrel.webp",
+      "runtime": "img/world/dress_barrel.webp",
+      "sha256": "0ab74ce5c5359056c47a792e7b6b518c57f10c5ebaca658d4ea29f861820aade"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/oilcask.webp",
+      "runtime": "img/world/dress_oilcask.webp",
+      "sha256": "8a939ccb88324b477d546cff907170cbca7440684386533e2bdb62b853b2d576"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/anvil.webp",
+      "runtime": "img/world/dress_anvil.webp",
+      "sha256": "ff113f0980a33eb31ad00882d81ce09a1a58f2bb29a00993f3ec1c59a2f76696"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/chest.webp",
+      "runtime": "img/world/dress_chest.webp",
+      "sha256": "dfcb6a3c48b71ccc987b3df55d28fc71a1d86d34b930f2bcd64a4affb904e5e2"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/crate.webp",
+      "runtime": "img/world/dress_crate.webp",
+      "sha256": "99f6bc16a81e9829b317b1ffcc18352db4f5b53764831cfc4e24376ea4bfd7d8"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/shackles.webp",
+      "runtime": "img/world/dress_shackles.webp",
+      "sha256": "c677e7654dbbda5aa9b97629353e434efba54bc6deabdae0cda5cd58efc90d97"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/bones.webp",
+      "runtime": "img/world/dress_bones.webp",
+      "sha256": "cddcd545be76a209ee24be2e4b178918182be81f490edb385a9e22ceced34714"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/rubble.webp",
+      "runtime": "img/world/dress_rubble.webp",
+      "sha256": "c4bbd8412829cd6e2c0a2a34393d50ff2351d3a752c6b9ed2b7c33f85cc894c5"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/candles.webp",
+      "runtime": "img/world/dress_candles.webp",
+      "sha256": "53e5825cf73e5034c6b79dfd608fbe06e6086bef90fd1300b9485c415fb236cf"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/mushrooms.webp",
+      "runtime": "img/world/dress_mushrooms.webp",
+      "sha256": "548417d463fba1d326103791246fcda1d304fde4f4e8fd64a607d2f2ec148cf7"
+    },
+    {
+      "source": "art/creatures/batch-l-preview/urn.webp",
+      "runtime": "img/world/dress_urn.webp",
+      "sha256": "b52004fd44aa7efb33525009cc19ca2e2e586dfb0c738ef56872867af6b05ff1"
+    },
+    {
+      "source": "art/creatures/batch-m-preview/crypt_lid.webp",
+      "runtime": "img/world/dress_crypt_lid.webp",
+      "sha256": "f8850ce5786f8dbbb1a86ba937f6212dcd0d6f0165bba799e8279a92896d4a0f"
+    },
+    {
+      "source": "art/creatures/batch-m-preview/iron_scrap.webp",
+      "runtime": "img/world/dress_iron_scrap.webp",
+      "sha256": "0a7cf8951c777515f75fc83207735bd96964539d14750947de6a6815ae767fb4"
+    },
+    {
+      "source": "art/creatures/batch-m-preview/roots.webp",
+      "runtime": "img/world/dress_roots.webp",
+      "sha256": "3b9fe0171ff803f3f32fba63823df95fa3b0530351602d03d85d0a093c039ba2"
+    },
+    {
+      "source": "art/creatures/batch-m-preview/reed_bundle.webp",
+      "runtime": "img/world/dress_reed_bundle.webp",
+      "sha256": "2160096d514f82cd229e735f885f46f8f4320142839f924476d6f14aabdd2db8"
+    },
+    {
+      "source": "art/creatures/batch-m-preview/elf_shards.webp",
+      "runtime": "img/world/dress_elf_shards.webp",
+      "sha256": "473f823c65e5128383f34fbc900ba224c6397ea5d21629332f013039b0cd6962"
+    },
+    {
+      "source": "art/creatures/batch-n-preview/remains_bones.webp",
+      "runtime": "img/world/dress_remains_bones.webp",
+      "sha256": "6139b12b9b4369fbaab40e755fbaca5d72097839ff4f172c8bbc6bf64e6304ad"
+    },
+    {
+      "source": "art/creatures/batch-n-preview/remains_staves.webp",
+      "runtime": "img/world/dress_remains_staves.webp",
+      "sha256": "6a11fb4cba5a46a499ef7539adf15d9626a79c2d50983663562fc0783ad9a8e1"
+    },
+    {
+      "source": "art/creatures/batch-n-preview/remains_shards.webp",
+      "runtime": "img/world/dress_remains_shards.webp",
+      "sha256": "0d468781b74aa44f4e0a371d6e9a037e2de6fc9a5eaef11a76455361a748b1b3"
+    },
+    {
+      "source": "art/creatures/batch-n-preview/remains_husk.webp",
+      "runtime": "img/world/dress_remains_husk.webp",
+      "sha256": "0b429f7d2e32861e88eb14a667bfbb7b4e0f50780d7a291e45be5b108689f23f"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/elvenchain.webp",
+      "runtime": "img/world/elvenchain.webp",
+      "sha256": "d3022bbfaeb0369d09265be525fc868596d27c76e5aafc234460628569b72ecb"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/marshhide.webp",
+      "runtime": "img/world/marshhide.webp",
+      "sha256": "e89fdd67c27bcaa06ba5e1d9eff5c26accbfcb13f68bd639850241ec43a528ac"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/dwarfplate.webp",
+      "runtime": "img/world/dwarfplate.webp",
+      "sha256": "714c6b0f17e5df7c219ad296ec2b1160481d80aeab42f0dc41dc4e851beb09b8"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/runeshield.webp",
+      "runtime": "img/world/runeshield.webp",
+      "sha256": "4f01aad220c8a01febbbb542a0b0d1335d7014773752ce6c02eaa72257c69bcf"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/dwarfhammer.webp",
+      "runtime": "img/world/dwarfhammer.webp",
+      "sha256": "c6b26f6ddc4659ed8655ed42933716210f6bc720928c6a2e26dc23ae2c539e62"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/handxbow.webp",
+      "runtime": "img/world/handxbow.webp",
+      "sha256": "3c533408273cdd741bc1c1b205fc022b136b98c094d59006b24aa947f810e5ec"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/flames.png",
+      "runtime": "img/world/dress_flames.png",
+      "sha256": "317b176cd385eb9d303a39418e914e138ff1c2f2a2b1424991e96c27a3b5b0f3"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/ripple.png",
+      "runtime": "img/world/dress_ripple.png",
+      "sha256": "1d828c71c9bd76c52845ff247996c4f63c5b90f20d575b7d8c0e5e30657ed7ee"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/snare.png",
+      "runtime": "img/world/dress_snare.png",
+      "sha256": "c2e7ddca824a957e9fd035cc6e985fcd7b1324957dfe0d0a6af8fe13e5a2e777"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/fire_0.png",
+      "runtime": "img/effects/fire_0.png",
+      "sha256": "4d7b44656ed8da749543cc4e06a1e878922da00dfcccef92238ae0cacadb8bb3"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/fire_1.png",
+      "runtime": "img/effects/fire_1.png",
+      "sha256": "7951ec3c0f5e7eb72a9bf415034d3406cbc25734733b6f84b8c67986c1559dda"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/fire_2.png",
+      "runtime": "img/effects/fire_2.png",
+      "sha256": "4b497db086dce79ad5dc0d5eb6eff1833dec577054374c18ce5327366e509457"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/fire_3.png",
+      "runtime": "img/effects/fire_3.png",
+      "sha256": "2e415dc948e43502ed16cd849720002ff36e925ad8b10568a727ace2d114d727"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/frost_0.png",
+      "runtime": "img/effects/frost_0.png",
+      "sha256": "0b7f04d460e1cdfee92c09ce61dad00591037a01dfdd19250444c10de1a3d839"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/frost_1.png",
+      "runtime": "img/effects/frost_1.png",
+      "sha256": "e884380954767285318bde5500f3c907af463a1a6ac0ad136fbc063b47335dcc"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/frost_2.png",
+      "runtime": "img/effects/frost_2.png",
+      "sha256": "9e5ae25c2f767969c41ed9d9f40c6aed8533b6aebeca241b5e232a6d6b759e64"
+    },
+    {
+      "source": "art/creatures/batch-q-preview/frost_3.png",
+      "runtime": "img/effects/frost_3.png",
+      "sha256": "f5fc88b6da740aac57d2098fa355b767de098ee12ce4c4270afca89fdf5fa59f"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_halls_wall.png",
+      "runtime": "img/materials/grey_halls_wall.png",
+      "sha256": "755bb3b6d448f28b651dd0ed33fd3dd477bda4aaa58d40a0ff578218f57a2694"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_halls_floor.png",
+      "runtime": "img/materials/grey_halls_floor.png",
+      "sha256": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_halls_ceiling.png",
+      "runtime": "img/materials/grey_halls_ceiling.png",
+      "sha256": "d0ec0a80a7450c7463b5968a660a0aa9c074446207539eb780398de6da1df6e6"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/brown_catacombs_wall.png",
+      "runtime": "img/materials/brown_catacombs_wall.png",
+      "sha256": "88824fa04894fad373bb8ec24534a0a171b22e855da1bfdc94ce17abd489e58d"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/brown_catacombs_floor.png",
+      "runtime": "img/materials/brown_catacombs_floor.png",
+      "sha256": "f7e298d865032fa73f79c7c7f7bd6c056512140e35b0a36a117843bcb7ac8bf4"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/brown_catacombs_ceiling.png",
+      "runtime": "img/materials/brown_catacombs_ceiling.png",
+      "sha256": "e148954ca35c4f4c5af93e3556624569ac0fa42f16ac30ba97ede8047b9675e2"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/mossy_depths_wall.png",
+      "runtime": "img/materials/mossy_depths_wall.png",
+      "sha256": "4d58cc58821d0d175a85fb28efc87777a88d27d7c615b0962ff5fe5ce04afb3e"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/mossy_depths_floor.png",
+      "runtime": "img/materials/mossy_depths_floor.png",
+      "sha256": "00b0c61edf51fdb685f57d6c8f980cfc1cd2c7822ace3a0a220c4d4be608e178"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/mossy_depths_ceiling.png",
+      "runtime": "img/materials/mossy_depths_ceiling.png",
+      "sha256": "3f3ee75647907812fbd0ff602a004f7b466d860079c35e5ce524967fb409c1bd"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/blue_vaults_wall.png",
+      "runtime": "img/materials/blue_vaults_wall.png",
+      "sha256": "d56ca8a31d8522143faf7f7feeff7aca85304d0cc67efe8e26865a435a2a6a87"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/blue_vaults_floor.png",
+      "runtime": "img/materials/blue_vaults_floor.png",
+      "sha256": "5d8732d67d4824e618e3dc1b6bccf2978c3b8b55bed80de9b96f832eea7ea909"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/blue_vaults_ceiling.png",
+      "runtime": "img/materials/blue_vaults_ceiling.png",
+      "sha256": "4d52f1488c98db90114e084fdcd3702688ec7c174e71ff314efb777dcafb17f6"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/crimson_crypts_wall.png",
+      "runtime": "img/materials/crimson_crypts_wall.png",
+      "sha256": "9ee3ba59fed222c956a307e72bdc3f2d6efb3cd6b0638b6b9494f1a9e4a48290"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/crimson_crypts_floor.png",
+      "runtime": "img/materials/crimson_crypts_floor.png",
+      "sha256": "b25d69cf8934fb8c78dab20036aa0043157eebf4ac34c9942f51772b85a5946d"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/crimson_crypts_ceiling.png",
+      "runtime": "img/materials/crimson_crypts_ceiling.png",
+      "sha256": "e4b0d0fff54b1327db0ccc23752d3fec569ea8bb1e507f60201e4634e21a0d48"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/obsidian_sanctum_wall.png",
+      "runtime": "img/materials/obsidian_sanctum_wall.png",
+      "sha256": "e2ef963031daccce369fc77e4de638813ff72a8a2b1b1df613d3799dab91a696"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/obsidian_sanctum_floor.png",
+      "runtime": "img/materials/obsidian_sanctum_floor.png",
+      "sha256": "d70361f70d40ac0f47a0b5c01a5714b904eb3b45ed800fd906018ab6a931bd2d"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/obsidian_sanctum_ceiling.png",
+      "runtime": "img/materials/obsidian_sanctum_ceiling.png",
+      "sha256": "ac273069cfda231f2a3bab70d349189d8eb3f8711ec69daf380b0bb04d29addb"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/ossuary_wall.png",
+      "runtime": "img/materials/ossuary_wall.png",
+      "sha256": "9139f83d3ac60e23cbe5f636b85f58fe362a8704e2bb77f2d8436ee5f50d6f1e"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/ossuary_floor.png",
+      "runtime": "img/materials/ossuary_floor.png",
+      "sha256": "2190695da580b3d7fe51e427656067fd9dcf7f6a95b6d6bdb334b24e28e6e486"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/ossuary_ceiling.png",
+      "runtime": "img/materials/ossuary_ceiling.png",
+      "sha256": "81a40570f9e1a6bf902be5ecbd3c4896acb2ddaf1460d733a1861654fdc68ce5"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/warrens_wall.png",
+      "runtime": "img/materials/warrens_wall.png",
+      "sha256": "4bc1ce9455f9985e10c3c6826cf37b03d47e26e2287bcce9961f308b3bfaae17"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/warrens_floor.png",
+      "runtime": "img/materials/warrens_floor.png",
+      "sha256": "cad68bac9153086b43fdeee3a6c05b1655650a00058cb984c2e3e1fc279272c7"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/warrens_ceiling.png",
+      "runtime": "img/materials/warrens_ceiling.png",
+      "sha256": "9cc898cb5f765010b55eb771cb2c27d5f2cb877386fde61893109130ac6055b8"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/dark_elf_halls_wall.png",
+      "runtime": "img/materials/dark_elf_halls_wall.png",
+      "sha256": "6371b0accad52b2968c576ec56de9693c8fc93eef775d4f314333ded6f173ab6"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/dark_elf_halls_floor.png",
+      "runtime": "img/materials/dark_elf_halls_floor.png",
+      "sha256": "5f0ee4f40f98d03abdaf10cac2da8831591409b4682855b88b30ac4c0154d19a"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/dark_elf_halls_ceiling.png",
+      "runtime": "img/materials/dark_elf_halls_ceiling.png",
+      "sha256": "e6a82913d6e523f3419a57d85e65236897834b4d00db5761f169aeb6093ba632"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_hold_wall.png",
+      "runtime": "img/materials/grey_hold_wall.png",
+      "sha256": "20d919990fde508f84b806184ea76bcee56a5c74240ef6fca81b6f7857732157"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_hold_floor.png",
+      "runtime": "img/materials/grey_hold_floor.png",
+      "sha256": "d18d11fcfa79fe05766e3ca0fa10532552d63cd67f632c7ff27cfc55b46e390e"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/grey_hold_ceiling.png",
+      "runtime": "img/materials/grey_hold_ceiling.png",
+      "sha256": "a17c58ba7a9a95e51a3e465c39bb146fa82c2ccc576f432da0e940a90ff1ade3"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/sunless_marsh_wall.png",
+      "runtime": "img/materials/sunless_marsh_wall.png",
+      "sha256": "ba17f43d1b7c5d0af08a1445a1ed37e9cb03c6dc2180cd86efff3008f587976a"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/sunless_marsh_floor.png",
+      "runtime": "img/materials/sunless_marsh_floor.png",
+      "sha256": "7480a2ea3efc3885e3475bdd4f590c39ceb53683dc13d1e43a24ef656620de89"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/sunless_marsh_ceiling.png",
+      "runtime": "img/materials/sunless_marsh_ceiling.png",
+      "sha256": "bd6cb8aac27640a62c698000eb9934e257484ee9a6788a4c203a5b92f458734c"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/drowned_halls_wall.png",
+      "runtime": "img/materials/drowned_halls_wall.png",
+      "sha256": "1907da8f263843646f09fdf9ef767144b3df43c7e6bfe33f101dd4a1887101d7"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/drowned_halls_floor.png",
+      "runtime": "img/materials/drowned_halls_floor.png",
+      "sha256": "7d6c545853668a0c9d3bef27df8dad6de6a87dc3743210dacce44ee2d0fd20e7"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/drowned_halls_ceiling.png",
+      "runtime": "img/materials/drowned_halls_ceiling.png",
+      "sha256": "d3da982b6ae919dd96838739a210b062a7b75451064726ace89360db57d35e31"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/old_forges_wall.png",
+      "runtime": "img/materials/old_forges_wall.png",
+      "sha256": "4f3fd5f9511bfddf56f1d0a658132e8411e9d8881b3bdfd0049088aaabda0218"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/old_forges_floor.png",
+      "runtime": "img/materials/old_forges_floor.png",
+      "sha256": "e2069b73e0467cf60d1284b33b86f1dc4c029c7dbc6fa7fff05b343831dfcd88"
+    },
+    {
+      "source": "art/creatures/batch-o-preview/old_forges_ceiling.png",
+      "runtime": "img/materials/old_forges_ceiling.png",
+      "sha256": "6e528fd105bc186b286c83a96adee2d26f1452ce88185a114ae6bfe7b88ffdc8"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/door.png",
+      "runtime": "img/materials/halls_door.png",
+      "sha256": "e28e9718e5ae259e897d8ffab2be66f5ca1ccbc7add5b9f05b7de75320094da8"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/cellDoor.png",
+      "runtime": "img/materials/halls_cellDoor.png",
+      "sha256": "322a1a19d109d97bfcaac74b3d7d1784f791b50cf9c55e1e6179865bb523909e"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/pillar.png",
+      "runtime": "img/materials/halls_pillar.png",
+      "sha256": "f37d69b12e8d128fffcf8677181f4a22618d25660991de059e0739f65c26080b"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/stairsUp.png",
+      "runtime": "img/materials/halls_stairsUp.png",
+      "sha256": "9e9450580bb5866b86f8b6ad54f6c981f58d82cdb3bdfb28971defcf1f3b3b96"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/stairsDown.png",
+      "runtime": "img/materials/halls_stairsDown.png",
+      "sha256": "8319da87b06180d1e3e98986e883b012e09fadfb5f941885337fe74b57e88dd8"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/stairsUpBack.png",
+      "runtime": "img/materials/halls_stairsUpBack.png",
+      "sha256": "555d09439ef2e84c04632c3a1c190ac0e7a8dbfe6592bcd4f73545be91392fdb"
+    },
+    {
+      "source": "art/creatures/batch-r-preview/stairsDownBack.png",
+      "runtime": "img/materials/halls_stairsDownBack.png",
+      "sha256": "9d9a1074922f115c42bff71cc061009f2e59718227ae5564e5daf1edb3a27461"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor1.png",
+      "runtime": "img/materials/halls_floor1.png",
+      "sha256": "bebadf6bc6e54a8bb80809efc5edcc23390be703228feabb42b85c34d29b5bed"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor2.png",
+      "runtime": "img/materials/halls_floor2.png",
+      "sha256": "d4d81b526d1b4ad7ed02f78128e5c528ca49308557489c21bbd328e897c56ec5"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor3.png",
+      "runtime": "img/materials/halls_floor3.png",
+      "sha256": "c13b77c7ee62f158e4a4a0f4e851ff77e3dbccd2cd071e33309a0c490d706d06"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor4.png",
+      "runtime": "img/materials/halls_floor4.png",
+      "sha256": "3c8c082078a390640b4d3893eff8af35186a8da44a9acdf9ce03cdb219a0b541"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor5.png",
+      "runtime": "img/materials/halls_floor5.png",
+      "sha256": "74a9098aabd362ccf16160a8f89d8ee5a47b2c2fd851a2b99714dc2c48fcf7dd"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/floor6.png",
+      "runtime": "img/materials/halls_floor6.png",
+      "sha256": "116cba280fac34f078068c97220b8229b8c07c2599de7d63542b7cb999ae9307"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/ceil1.png",
+      "runtime": "img/materials/halls_ceil1.png",
+      "sha256": "5a394ae25b781545b98eadfeba21541c31d66ff50deb7666b2eee76deb2e50ad"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/ceil2.png",
+      "runtime": "img/materials/halls_ceil2.png",
+      "sha256": "1644cc2e40b7aeb9d3d5283f3573711e97e3b1797184fe831bc2bcd12fb9ad90"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/ceil3.png",
+      "runtime": "img/materials/halls_ceil3.png",
+      "sha256": "0229ef3aaf41f7840a60330e0247984eb9d979a351c17c410ea49f2d1bd863c4"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/wallB.png",
+      "runtime": "img/materials/halls_wallB.png",
+      "sha256": "9d66a0e567604d8940803f02ee6f3553b9606146a2ea10f2ef34f0ce3be3425c"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/wallDamp.png",
+      "runtime": "img/materials/halls_wallDamp.png",
+      "sha256": "a145725fa57d62decadee6596fd537ca2601b6c75b8b64764667059c1ea1bd53"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/wallCracked.png",
+      "runtime": "img/materials/halls_wallCracked.png",
+      "sha256": "8a63240f16cbefa546aeeb739f350aadb239c844c73ecbb000c9b5d258737521"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/rock.png",
+      "runtime": "img/materials/halls_rock.png",
+      "sha256": "d7f0fe574b21525fe69559869d0b6244e998deac23abfc8d237181d43b72d252"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/fallen.png",
+      "runtime": "img/materials/halls_fallen.png",
+      "sha256": "0e3a527fc8bd3233bfee19f0e35d1a341b51572ab9b0a6c865674312dbb8fb61"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/rockPillar.png",
+      "runtime": "img/materials/halls_rockPillar.png",
+      "sha256": "99f1e015fc9375ef44f979f28886742d62bd53f00664f4e115ceb1eb26575921"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/fountain.png",
+      "runtime": "img/materials/halls_fountain.png",
+      "sha256": "521d86f57803f7025cce71927bbd75b10f2bad717f4f51e69fa60530b1b2dd32"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/fountainDry.png",
+      "runtime": "img/materials/halls_fountainDry.png",
+      "sha256": "4558575b25dac50dccc3f7797c530238c61ef6e7201639e80a614b3a8f720126"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/torch0.png",
+      "runtime": "img/materials/halls_torch0.png",
+      "sha256": "6a2199f7cd201940319b89a79776307431e5d2aa05eb3a4a58d1d2c7eb4d3d53"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/torch1.png",
+      "runtime": "img/materials/halls_torch1.png",
+      "sha256": "0d0fd58406c365287194a4d62571f8f3de43e7e5b8fad14967bea40f128d0b40"
+    },
+    {
+      "source": "art/creatures/batch-s-preview/torch2.png",
+      "runtime": "img/materials/halls_torch2.png",
+      "sha256": "845a2ed780f4b3bb6d3fb38d5b263d48dfd39f16fd68dcb844825674302d754b"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-rest.png",
+      "runtime": "img/held/fighter-longsword-rest.png",
+      "sha256": "b5b77c61d2a9ee9b0a1dc5a0e0f071ea3cddab278f0038dc3127061219c2ec3b"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-drawback.png",
+      "runtime": "img/held/fighter-longsword-drawback.png",
+      "sha256": "9f1ef0ed1f5bdcf4406e863ab66ae1ea04c3c31de3a68fbbd63e26ba1b82f721"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-windup.png",
+      "runtime": "img/held/fighter-longsword-windup.png",
+      "sha256": "ef6aabe4da81a4af537c9a445a0050e1658f5e126784b5c8c4ac67b29aab7340"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-strike.png",
+      "runtime": "img/held/fighter-longsword-strike.png",
+      "sha256": "b3e5dbb3c71173a9e4cda13f85af0fd627b6e8dbd23d057ddaea7cb67f7b4ae1"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-cut.png",
+      "runtime": "img/held/fighter-longsword-cut.png",
+      "sha256": "c96b3a7934a4f8c7629a4ebc7eb9ba27060ad1fbec1d3079f043fbe0a0bc7937"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-sweep.png",
+      "runtime": "img/held/fighter-longsword-sweep.png",
+      "sha256": "e2ec0eaa0e0b733db26e0d352b62909d027a51e6f480a8ef6cbb2d10c07490f9"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-through.png",
+      "runtime": "img/held/fighter-longsword-through.png",
+      "sha256": "c3428f723b0e1764c70b41885fda908ae54266b4955c6e2a488b963ffa9458e8"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-recover.png",
+      "runtime": "img/held/fighter-longsword-recover.png",
+      "sha256": "36028a891b07c970f524feba1c973e13477da9c31cc73bdb509faca809e27df9"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/fighter-longsword-return.png",
+      "runtime": "img/held/fighter-longsword-return.png",
+      "sha256": "439a2cc6e87956866bd6c9046e4650f7096703b931c2d6af24dc8d3fb8d18556"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/mage-staff-rest-two.png",
+      "runtime": "img/held/mage-staff-rest-two.png",
+      "sha256": "c2e1d938135c3cb593c267e4921036b25844c525a8ce2fb5c649f32adbfef96b"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/mage-staff-drive-two.png",
+      "runtime": "img/held/mage-staff-drive-two.png",
+      "sha256": "b55292cc8244dc69d67f4c5c72e25e810b12d2b06a8abff055b142c607f7ea1a"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/mage-staff-rest-one.png",
+      "runtime": "img/held/mage-staff-rest-one.png",
+      "sha256": "2b50de0d560df06ff30d6718b317193f29dab1e0ee6a732bec8b4c6157b35cfd"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/mage-staff-channel-one.png",
+      "runtime": "img/held/mage-staff-channel-one.png",
+      "sha256": "117e574f0cfbaca7965938dcb7430a32de17784e554d69720753c59c4b086426"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/ranger-longbow-rest.png",
+      "runtime": "img/held/ranger-longbow-rest.png",
+      "sha256": "7ab2d4a21e1b82c2d95c65a2ec4bfbf63c5ecd537a373799cbf9c4f0c1072069"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/ranger-longbow-bowdraw.png",
+      "runtime": "img/held/ranger-longbow-bowdraw.png",
+      "sha256": "8186450feb4099fd44ed85a26d08f19a8e628de4f7a909c7a9841aca7929cee1"
+    },
+    {
+      "source": "art/creatures/batch-t-preview/ranger-longbow-bowfull.png",
+      "runtime": "img/held/ranger-longbow-bowfull.png",
+      "sha256": "154e6767d6bb8792458bdba4a739e6732fe254618b249e1db95c2a84795e6102"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/runeshield-fighter-held.png",
+      "runtime": "img/held/runeshield-fighter.png",
+      "sha256": "2945c12da7f089fd86889805f566da9c861586ad189b7811a1716cc7f1b048c9"
+    },
+    {
+      "source": "art/creatures/batch-p-preview/runeshield-cleric-held.png",
+      "runtime": "img/held/runeshield-cleric.png",
+      "sha256": "b4e1c27051514179535c98cf82fd89050f660cce9a43e09d66c9af2823210b4b"
+    }
+  ],
+  "exclusions": {
+    "stairArch": "Original exact collision/occlusion alpha mask retained; painted source differs by26 pixels.",
+    "amulet_tooth": "Reserve source; seeded amulet look must not reveal identity.",
+    "reserve poses": "Unused poses are not new gameplay actions.",
+    "R/S regional variants": "Only approved Grey Halls baseline exists; preserve other regional details and coloured locks."
+  }
+}
