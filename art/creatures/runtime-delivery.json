@@ -2879,6 +2879,1991 @@
       "source": "art/creatures/batch-y-preview/thief-buckler.png",
       "runtime": "img/held/thief-buckler.png",
       "sha256": "bfe80cf5932402e01e40ccf85d2767ad144893e67fa7b7a7afe2d4cbfbed73e7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-mythic_last_gate-carried.png",
+      "runtime": "img/held/fighter-mythic_last_gate-carried.png",
+      "sha256": "973787fbb5ca8381212dd9b6191f4a6f6e97593a56bb74b191afbc2c8f78cba3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-mythic_mercys_oath-carried.png",
+      "runtime": "img/held/cleric-mythic_mercys_oath-carried.png",
+      "sha256": "086b2f3df0d62bf1577736d24ce06d9cbd2568f8c3b7339d8c977f45b6428b13"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-mythic_bloodstar-carried.png",
+      "runtime": "img/held/mage-mythic_bloodstar-carried.png",
+      "sha256": "3e8eb3dadcbbc79d5d83b0292000c383617a0b17aa2e0123a1c90cb421019b6e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-mythic_horizon-rest.png",
+      "runtime": "img/held/ranger-mythic_horizon-rest.png",
+      "sha256": "77111b0556827182554844bb6595056331ef7abe4d968409bdbe85a4c9c8c36e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-mythic_horizon-bowdraw.png",
+      "runtime": "img/held/ranger-mythic_horizon-bowdraw.png",
+      "sha256": "c73ba1393abb813a455e13e896c74114347cb9ed81b171449d9ae148fe5de3c9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-mythic_horizon-bowfull.png",
+      "runtime": "img/held/ranger-mythic_horizon-bowfull.png",
+      "sha256": "ecd04ed6e07a3ee60bcedf6dc1fff9f85b98c0e8c8db44f693659217aa565577"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-rest.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-rest.png",
+      "sha256": "f4b9281a29c2bace7ede6ed794baa07072da851524070c8fa36e8a53dca42b2c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-drawback.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-drawback.png",
+      "sha256": "035463b223d37f36e224c291628bcbbe3f4c4a03f68847cf91be0683112860f1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-windup.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-windup.png",
+      "sha256": "c273028ed3478f76a6555eba94dd9a49b90365abc0d02fccd186b1da97406a8a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-strike.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-strike.png",
+      "sha256": "afc8153a3b9fead6079ec39a3b4cfdb968dce068079c6b9347b5af157b03e2b6"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-cut.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-cut.png",
+      "sha256": "0722fc9b83c2892e28d0da63c82d2ca1983c9aedb7793bd6b1ea800883d3e807"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-sweep.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-sweep.png",
+      "sha256": "bf3b8f2035fd720ae52d232f49d142620c0eaa9318513aeacaad989e9362078e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-through.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-through.png",
+      "sha256": "5c15f4caf1700deda917b4ab373717e81071e383029b31bc54ce5a605676e648"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-recover.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-recover.png",
+      "sha256": "0cbf9c7cc975a4b516da8ce0236bcb00f75c1fcbb63bf6758a80433366d241b8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-return.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-return.png",
+      "sha256": "751b7fea02e052ea69ac3141d89d703109b9f9d8e154daa68136b736b2b5f151"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-rest-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-rest-lit.png",
+      "sha256": "80d906c97bacf820145ac6213b4a654f2d99a9e78ecf42a28d8e332a3b1f2224"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-drawback-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-drawback-lit.png",
+      "sha256": "27a80461518d454d979cbbf781df586e8f0194350b5aecefa79438037c260891"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-windup-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-windup-lit.png",
+      "sha256": "d87862f9ee179768b8adc79d7d7c1507ce440da33a4d4af4ad909783432ccbaf"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-strike-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-strike-lit.png",
+      "sha256": "73b90d8162bf2885eb631ef04bd141bbb6f4a254d0ada0e9f59b2bca80511ec8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-cut-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-cut-lit.png",
+      "sha256": "84aa9d6399a44a544085da84877e7d14a12aea1a63a47bf58fde32950f94ee87"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-sweep-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-sweep-lit.png",
+      "sha256": "2c0b99570d1f493585b81ed2bf3efa0d25af0f60a2a4e6500eae7e3452941606"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-through-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-through-lit.png",
+      "sha256": "9f1ea3c7d58c6d9db98053c267bdeb8aebd7c738e84931c507d49129a92571d5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-recover-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-recover-lit.png",
+      "sha256": "c1ec0b51323109093704e53a64438df6ec637b8cdf5e97a275f2e89d54cbefdc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_grimtooth-return-lit.png",
+      "runtime": "img/held/spellblade-relic_grimtooth-return-lit.png",
+      "sha256": "79e431409e3d39300d3f72f8874023893811238b4c805f720155a4e94fe58446"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-rest.png",
+      "runtime": "img/held/fighter-relic_grimtooth-rest.png",
+      "sha256": "33f37f1d0ebeffe5770d2571243b1e596628fca7121cad1325634556cb92fd77"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-drawback.png",
+      "runtime": "img/held/fighter-relic_grimtooth-drawback.png",
+      "sha256": "6e226a8f080791b4846c8adf4a33516e849144c911f5fe0ecea8cfa94aebc5fe"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-windup.png",
+      "runtime": "img/held/fighter-relic_grimtooth-windup.png",
+      "sha256": "7ce011398cb99164b31455b89e33b161eb255e87b713f8a9246bf3cbc592e786"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-strike.png",
+      "runtime": "img/held/fighter-relic_grimtooth-strike.png",
+      "sha256": "95f0c3395f916d016fda0fe2cec609f07ec1ece2bf3334b802821d1939b1137a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-cut.png",
+      "runtime": "img/held/fighter-relic_grimtooth-cut.png",
+      "sha256": "abad4209c9f1a01a263f16af3e5eb09663f3bc26a076d66ec75d04819d7d2f83"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-sweep.png",
+      "runtime": "img/held/fighter-relic_grimtooth-sweep.png",
+      "sha256": "6bb5d0b8849d62a31371f5c9ace297dbba3cf5b0d11580a5845d72a0b8af0785"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-through.png",
+      "runtime": "img/held/fighter-relic_grimtooth-through.png",
+      "sha256": "744cbc0c1d778461cfe8c78737448e59b482c99925e965b2832d5426cdc2a8c4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-recover.png",
+      "runtime": "img/held/fighter-relic_grimtooth-recover.png",
+      "sha256": "77313df5f57a12ce562b78d6d8204d3da462639ec14c10b30e2188237c353d72"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-return.png",
+      "runtime": "img/held/fighter-relic_grimtooth-return.png",
+      "sha256": "8491aa3f39f775ebd370bacf2644376a7671387ddcdb566679aa2b2c797363ef"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-left.png",
+      "runtime": "img/held/fighter-relic_grimtooth-left.png",
+      "sha256": "4eaad9c06b1b835ee05b1c1029769920c0743c23d09166c73fb41cfe7fec6f05"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_grimtooth-thrust.png",
+      "runtime": "img/held/fighter-relic_grimtooth-thrust.png",
+      "sha256": "ed3f38ef07297b96e6d8e08870d24f88a3459997e9647cb5991a2ac9aa9efcfc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-rest.png",
+      "runtime": "img/held/mage-relic_grimtooth-rest.png",
+      "sha256": "f4d10db0abe66991d41075dc4bb75d7ee2947ecec8d3f5555a898f252d794709"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-drawback.png",
+      "runtime": "img/held/mage-relic_grimtooth-drawback.png",
+      "sha256": "c77ab23b369333fe99ca49a3f1537b18fb13aa488ba3da070dbde7511ee53943"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-windup.png",
+      "runtime": "img/held/mage-relic_grimtooth-windup.png",
+      "sha256": "db1863e62c8edaf31ca3eef1fcd13937093a76b4485eda20618958402cf59bca"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-strike.png",
+      "runtime": "img/held/mage-relic_grimtooth-strike.png",
+      "sha256": "e367bea18a9678fcf1a29a22b71c7bbca78a0d5f03e86d4d5b82ba42e02fe627"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-cut.png",
+      "runtime": "img/held/mage-relic_grimtooth-cut.png",
+      "sha256": "bc097c80333d9929cd5f2d765fad71f0ea14a620e3f43799937e1baba0ff2e45"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-sweep.png",
+      "runtime": "img/held/mage-relic_grimtooth-sweep.png",
+      "sha256": "2ff8f6410121b53006c65b7662bdd4338c9d7d621fee5ef898c10c489af8c870"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-through.png",
+      "runtime": "img/held/mage-relic_grimtooth-through.png",
+      "sha256": "3501841271c6b6621d76b624dd8f27bb60f2db6de94a3e6beccfea671e2e02a5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-recover.png",
+      "runtime": "img/held/mage-relic_grimtooth-recover.png",
+      "sha256": "6aa64503258b0dd2d54cfda067d6020b790c0aad771d8faaf323c185c021d46a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_grimtooth-return.png",
+      "runtime": "img/held/mage-relic_grimtooth-return.png",
+      "sha256": "7ad77151102109557d8ddaa7c77e946931b1d7a93a5a2fe93d6d019857143d5e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-rest.png",
+      "runtime": "img/held/thief-relic_grimtooth-rest.png",
+      "sha256": "5d5758981f15a8280f4f304e981a9d9ae5eb569ecdf5d13cf040bd3738b86453"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-drawback.png",
+      "runtime": "img/held/thief-relic_grimtooth-drawback.png",
+      "sha256": "a9416f2f1e1c63db900ea6d07d4f5c4544ec1fdf1500f6e85ab98fa46212ffbd"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-windup.png",
+      "runtime": "img/held/thief-relic_grimtooth-windup.png",
+      "sha256": "febde545b078911bcc1c3dffd534701b7432db34783013ccf856e35183a961a3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-strike.png",
+      "runtime": "img/held/thief-relic_grimtooth-strike.png",
+      "sha256": "2b4fc184f5559638729a759d9d15f85cedca29b7d3779d0ea61d7edc6c0f1fb0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-cut.png",
+      "runtime": "img/held/thief-relic_grimtooth-cut.png",
+      "sha256": "ea924c8dd2fb5f00fb424eb9579d0f61caea5a53a718dfeb0645c5ea58bbf52f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-sweep.png",
+      "runtime": "img/held/thief-relic_grimtooth-sweep.png",
+      "sha256": "63d8fcc4341cabe5798c9f2627dce54ae528f38cc2e1407828f26a96eff9d204"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-through.png",
+      "runtime": "img/held/thief-relic_grimtooth-through.png",
+      "sha256": "01d00682d571d474cb9ad7daf708bdd5596b51d52b30d57e4cf4c74c45ad039b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-recover.png",
+      "runtime": "img/held/thief-relic_grimtooth-recover.png",
+      "sha256": "a42f17dca32241308259549c9e87c340dbcc12bc1c4687467f22429d5df2bb8a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_grimtooth-return.png",
+      "runtime": "img/held/thief-relic_grimtooth-return.png",
+      "sha256": "f964d0df66612e9476e1f01b2de32ef751069bd9143ab613415e7cd01674e361"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-rest.png",
+      "runtime": "img/held/ranger-relic_grimtooth-rest.png",
+      "sha256": "33f37f1d0ebeffe5770d2571243b1e596628fca7121cad1325634556cb92fd77"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-drawback.png",
+      "runtime": "img/held/ranger-relic_grimtooth-drawback.png",
+      "sha256": "6e226a8f080791b4846c8adf4a33516e849144c911f5fe0ecea8cfa94aebc5fe"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-windup.png",
+      "runtime": "img/held/ranger-relic_grimtooth-windup.png",
+      "sha256": "7ce011398cb99164b31455b89e33b161eb255e87b713f8a9246bf3cbc592e786"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-strike.png",
+      "runtime": "img/held/ranger-relic_grimtooth-strike.png",
+      "sha256": "95f0c3395f916d016fda0fe2cec609f07ec1ece2bf3334b802821d1939b1137a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-cut.png",
+      "runtime": "img/held/ranger-relic_grimtooth-cut.png",
+      "sha256": "abad4209c9f1a01a263f16af3e5eb09663f3bc26a076d66ec75d04819d7d2f83"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-sweep.png",
+      "runtime": "img/held/ranger-relic_grimtooth-sweep.png",
+      "sha256": "6bb5d0b8849d62a31371f5c9ace297dbba3cf5b0d11580a5845d72a0b8af0785"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-through.png",
+      "runtime": "img/held/ranger-relic_grimtooth-through.png",
+      "sha256": "744cbc0c1d778461cfe8c78737448e59b482c99925e965b2832d5426cdc2a8c4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-recover.png",
+      "runtime": "img/held/ranger-relic_grimtooth-recover.png",
+      "sha256": "77313df5f57a12ce562b78d6d8204d3da462639ec14c10b30e2188237c353d72"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_grimtooth-return.png",
+      "runtime": "img/held/ranger-relic_grimtooth-return.png",
+      "sha256": "8491aa3f39f775ebd370bacf2644376a7671387ddcdb566679aa2b2c797363ef"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-rest.png",
+      "runtime": "img/held/druid-relic_grimtooth-rest.png",
+      "sha256": "578872ab5d2e3d07a12211573eddf2f73a0a2ddd001f38ca900a7bb42ec4b121"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-drawback.png",
+      "runtime": "img/held/druid-relic_grimtooth-drawback.png",
+      "sha256": "21e492620e5714dfa8154028e36ef1d908117055813b471df42b4b5729ac275c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-windup.png",
+      "runtime": "img/held/druid-relic_grimtooth-windup.png",
+      "sha256": "7990da6eaf916c57b66846f6a86e8881b8499bb69785d8c4b1313460e6203201"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-strike.png",
+      "runtime": "img/held/druid-relic_grimtooth-strike.png",
+      "sha256": "a7b78d29a489915444dcdc43eab87f062e7f94c9d61171609cc2a6f61ba6baa8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-cut.png",
+      "runtime": "img/held/druid-relic_grimtooth-cut.png",
+      "sha256": "4dd738c7376251332fa3e62a6f8e467bf3205fbf934b4d6f8335afbfea487ce3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-sweep.png",
+      "runtime": "img/held/druid-relic_grimtooth-sweep.png",
+      "sha256": "932655697739aa93c270ffa21b5703eb3aef0829c9424e404565ce04b763dd79"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-through.png",
+      "runtime": "img/held/druid-relic_grimtooth-through.png",
+      "sha256": "36bcea4207805bfde1fa17dfb280ccd142822510fcefc0000fd888b6fc5199dc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-recover.png",
+      "runtime": "img/held/druid-relic_grimtooth-recover.png",
+      "sha256": "9840a460b603eae7c0daa32ab140b5c097cab1140f00aa2adf1a919265af2a19"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_grimtooth-return.png",
+      "runtime": "img/held/druid-relic_grimtooth-return.png",
+      "sha256": "3481ae959379352725731b0fa959240a2f3d8e62326f4137a21c403bf7d6c521"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-rest.png",
+      "runtime": "img/held/spellblade-relic_whisper-rest.png",
+      "sha256": "31b58fb1b31455c7f49ba651686d5496c0a2a595d0892dd59f2ba7f4ea50212b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-drawback.png",
+      "runtime": "img/held/spellblade-relic_whisper-drawback.png",
+      "sha256": "96749e7ef8a6e0f0fa9a89c84ca4d4c0338cd81bbcb97d37919afd0241a6f902"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-windup.png",
+      "runtime": "img/held/spellblade-relic_whisper-windup.png",
+      "sha256": "cadbdfcf3e3570069baaaaad7637f3d91ea03f1d595f98c6bc0925f4be41ccd4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-strike.png",
+      "runtime": "img/held/spellblade-relic_whisper-strike.png",
+      "sha256": "9dba731e3c8dbdbaa13be3218532b62e9fc8afddf2f9b799e507ded097197160"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-cut.png",
+      "runtime": "img/held/spellblade-relic_whisper-cut.png",
+      "sha256": "7bb47d851d6c175f77fef052895e8053585c781621a0747eb6d9076b11fc5c10"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-sweep.png",
+      "runtime": "img/held/spellblade-relic_whisper-sweep.png",
+      "sha256": "0b0d21d91a5e53cf3dc3751f23463f20226b092ee1d6074ea5f0c8d2ed4e6313"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-through.png",
+      "runtime": "img/held/spellblade-relic_whisper-through.png",
+      "sha256": "fbec4a5306296790e8ffe4a36ec76b85b5a639f0d4e73a3f2833d972c9868923"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-recover.png",
+      "runtime": "img/held/spellblade-relic_whisper-recover.png",
+      "sha256": "e43566e24852805dd6b7d2e52d45c2714ebae2fc44fe8a41dae889233ab4f6d1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-return.png",
+      "runtime": "img/held/spellblade-relic_whisper-return.png",
+      "sha256": "fbd32564dcb2deef9ce2cdd2be57556fcfb4371e21ed1ce3a96014a7f839b229"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-rest-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-rest-lit.png",
+      "sha256": "61f4b73af73e7bc148532f5a96ff204e7b8f2ab54af7eeeda5b48b0670eaca6f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-drawback-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-drawback-lit.png",
+      "sha256": "fe4fe50aac8f465f9272bae85179dce1118ec2719916972fd7ab716a0198a1c4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-windup-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-windup-lit.png",
+      "sha256": "99b22b3b2b3849588606adb426ad2f8833dc9a461140e11b31bb6e023344a33b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-strike-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-strike-lit.png",
+      "sha256": "7e7e38af1dec8467833775f6590ea5fc4af3d2d3b5f7114a6074665fa61e9d87"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-cut-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-cut-lit.png",
+      "sha256": "f8da317e5af1f52380b9b56840501654be0047d9bdf80a27be43784279f06cf6"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-sweep-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-sweep-lit.png",
+      "sha256": "4e43ab44b99a4e8b5db3c54b95c69af89c5c4bee566b3bbe3edbbbaa7bf2de45"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-through-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-through-lit.png",
+      "sha256": "4f79ad768019187ff078f50666b76f938b52f631651c5f21cd503c3148ac8b3c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-recover-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-recover-lit.png",
+      "sha256": "7de40d2a3bc3efc7302b68fd5f50cc1c886ae34414e3f5c76492cb32aa2f542f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_whisper-return-lit.png",
+      "runtime": "img/held/spellblade-relic_whisper-return-lit.png",
+      "sha256": "99e18a0216b4d77955ee38581f685b0644e0b443ef937e829056aba10e67b11f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-rest.png",
+      "runtime": "img/held/fighter-relic_whisper-rest.png",
+      "sha256": "947512bd246afd29920f53f6bbeedab19a47e208a9206a4b75723b86b3ea5826"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-drawback.png",
+      "runtime": "img/held/fighter-relic_whisper-drawback.png",
+      "sha256": "4387f0691042bd653ce6b67e55d1abe4789b43e97e344d56b406824de548d38f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-windup.png",
+      "runtime": "img/held/fighter-relic_whisper-windup.png",
+      "sha256": "3ee8433735f99d8b15e54a1409a982b94807ae70baac47061f003c0d4966e65c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-strike.png",
+      "runtime": "img/held/fighter-relic_whisper-strike.png",
+      "sha256": "e386443e7db11fdbcecd77768efb94df1d79622079050be9126b137450e1b870"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-cut.png",
+      "runtime": "img/held/fighter-relic_whisper-cut.png",
+      "sha256": "19aa1338a479774d9e4c1fddc07d3f6cbff04648cb12eab9014d44ec40477e0c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-sweep.png",
+      "runtime": "img/held/fighter-relic_whisper-sweep.png",
+      "sha256": "afba68cec8388ab60b6cd4fb136fe36ea22710c9821bf6436c42ce325929c135"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-through.png",
+      "runtime": "img/held/fighter-relic_whisper-through.png",
+      "sha256": "2e27f93f31c31fa5b293c505d9f4672c275057f1719523c913871f8c526575e3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-recover.png",
+      "runtime": "img/held/fighter-relic_whisper-recover.png",
+      "sha256": "3e234073ca25e316e8097d1bcc56f373af5f142d9642f84afa2956c4c6a97529"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-return.png",
+      "runtime": "img/held/fighter-relic_whisper-return.png",
+      "sha256": "4954c6aa74439b5f70ca5d0a605eb83738764ed1f829a8f418b59f7fc3c61372"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-left.png",
+      "runtime": "img/held/fighter-relic_whisper-left.png",
+      "sha256": "9c16958a5387eaacfe3cda84cd3499ca3b63c8e18cdccf1c43a146b6495deb6a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_whisper-thrust.png",
+      "runtime": "img/held/fighter-relic_whisper-thrust.png",
+      "sha256": "340457a5c01eb1f5de9aae4073a4a1931eafc5ca5bcf1a2b1a6dac6582dbb3cb"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-rest.png",
+      "runtime": "img/held/thief-relic_whisper-rest.png",
+      "sha256": "79d55a7bf35068cc63627249e23c6c2ab338884d476d0f33fbc8845e633bf2d7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-drawback.png",
+      "runtime": "img/held/thief-relic_whisper-drawback.png",
+      "sha256": "04119e991a1f2576f17717f7865f4f7ef42869113fde6feca85359584532d940"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-windup.png",
+      "runtime": "img/held/thief-relic_whisper-windup.png",
+      "sha256": "0247ed8533c75051fb8d70dd83c7dbe3d6b7f6e20f086ba79368eaa99b5ac493"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-strike.png",
+      "runtime": "img/held/thief-relic_whisper-strike.png",
+      "sha256": "778156560bacc37475eb1073fb184330dfba7e543f1e2a5065e46afd5e273a8a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-cut.png",
+      "runtime": "img/held/thief-relic_whisper-cut.png",
+      "sha256": "c17e6771679cc52eadd14b40c83a4fee472abdeb7def13b2bdd9918304fdb7b2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-sweep.png",
+      "runtime": "img/held/thief-relic_whisper-sweep.png",
+      "sha256": "a1fffff6bc96c71a83f9d0ae165accf9c7de5c16503a29dee175e1abcbee1b1d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-through.png",
+      "runtime": "img/held/thief-relic_whisper-through.png",
+      "sha256": "68739c981208ac8afb1b51484b803cfcaec860de19c950c42b53ce46b4462c2f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-recover.png",
+      "runtime": "img/held/thief-relic_whisper-recover.png",
+      "sha256": "eb4f9da3648009213102cbfdb76089b7ec5d4778ad4947f77d60ff9bc31bad60"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_whisper-return.png",
+      "runtime": "img/held/thief-relic_whisper-return.png",
+      "sha256": "63b33d57f91058b32f97eec84599208f76260f517c07bce0e774772fb10b2dd4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-rest.png",
+      "runtime": "img/held/ranger-relic_whisper-rest.png",
+      "sha256": "947512bd246afd29920f53f6bbeedab19a47e208a9206a4b75723b86b3ea5826"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-drawback.png",
+      "runtime": "img/held/ranger-relic_whisper-drawback.png",
+      "sha256": "4387f0691042bd653ce6b67e55d1abe4789b43e97e344d56b406824de548d38f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-windup.png",
+      "runtime": "img/held/ranger-relic_whisper-windup.png",
+      "sha256": "3ee8433735f99d8b15e54a1409a982b94807ae70baac47061f003c0d4966e65c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-strike.png",
+      "runtime": "img/held/ranger-relic_whisper-strike.png",
+      "sha256": "e386443e7db11fdbcecd77768efb94df1d79622079050be9126b137450e1b870"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-cut.png",
+      "runtime": "img/held/ranger-relic_whisper-cut.png",
+      "sha256": "19aa1338a479774d9e4c1fddc07d3f6cbff04648cb12eab9014d44ec40477e0c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-sweep.png",
+      "runtime": "img/held/ranger-relic_whisper-sweep.png",
+      "sha256": "afba68cec8388ab60b6cd4fb136fe36ea22710c9821bf6436c42ce325929c135"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-through.png",
+      "runtime": "img/held/ranger-relic_whisper-through.png",
+      "sha256": "2e27f93f31c31fa5b293c505d9f4672c275057f1719523c913871f8c526575e3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-recover.png",
+      "runtime": "img/held/ranger-relic_whisper-recover.png",
+      "sha256": "3e234073ca25e316e8097d1bcc56f373af5f142d9642f84afa2956c4c6a97529"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_whisper-return.png",
+      "runtime": "img/held/ranger-relic_whisper-return.png",
+      "sha256": "4954c6aa74439b5f70ca5d0a605eb83738764ed1f829a8f418b59f7fc3c61372"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-rest.png",
+      "runtime": "img/held/spellblade-relic_thirst-rest.png",
+      "sha256": "ac4e0e05462f122c777f4a229b5fcbe24bbc59d3613e300316974bc25477c660"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-drawback.png",
+      "runtime": "img/held/spellblade-relic_thirst-drawback.png",
+      "sha256": "fed2bb054ef3a90fd3b3eff3202edad6d8fb9c029aa15b42bb259d95280c5650"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-windup.png",
+      "runtime": "img/held/spellblade-relic_thirst-windup.png",
+      "sha256": "073ef93ead5fe1df22c381855feb53349973601bed9984b2d11918d562efedb5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-strike.png",
+      "runtime": "img/held/spellblade-relic_thirst-strike.png",
+      "sha256": "6323c85571bf44995cf1e10e9b50f17c8126327d6467d4bab9d85f4ad5cd6a88"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-cut.png",
+      "runtime": "img/held/spellblade-relic_thirst-cut.png",
+      "sha256": "e2c829b26ed47c72885282ffc018cc18fa33186c5f847fd447392b5550be2045"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-sweep.png",
+      "runtime": "img/held/spellblade-relic_thirst-sweep.png",
+      "sha256": "2182ed4de35dbb2fac7728d79b13054f7f1ff19916dae468424cc016f130d966"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-through.png",
+      "runtime": "img/held/spellblade-relic_thirst-through.png",
+      "sha256": "721c22ecfb0de95c1b7a308973e7ec14f59695c91c7687ba19f07f11b143e712"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-recover.png",
+      "runtime": "img/held/spellblade-relic_thirst-recover.png",
+      "sha256": "408349a25069d7c9d126f07b0ad23d40752b8347fc743cab8bbe5880a8316d0f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-return.png",
+      "runtime": "img/held/spellblade-relic_thirst-return.png",
+      "sha256": "aa6252f59c1c3789056dd7bcbdc79eee59db2fd3ca191099271864d821487333"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-rest-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-rest-lit.png",
+      "sha256": "385f89b9b5a191b6e6cd5c831f9b26cb4ac9e3269642de6a064a904754ae4e84"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-drawback-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-drawback-lit.png",
+      "sha256": "1f7d51be93e1ed2b7c37849fc7fd429d8974b0c8c8cf72cdde99309b63e748d5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-windup-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-windup-lit.png",
+      "sha256": "da3200070169ff1f649412e9dd823a14a1031736fdad3455603922d4caf68fab"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-strike-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-strike-lit.png",
+      "sha256": "36ee68a2970c1639952edaa3e80c3a16a46865c5b83333974804fa81733ec67b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-cut-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-cut-lit.png",
+      "sha256": "dca087d38f904e00321c4a9772edf061cbd1c0dad3d24f48b82cf959817d6947"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-sweep-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-sweep-lit.png",
+      "sha256": "8d334a932373cb5a4df2368de032f971cf5543d0d7cfb8764cada2d4854fe756"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-through-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-through-lit.png",
+      "sha256": "2de823b86d89cfed90f29f8f298da36decddd475ae1446833f8579e1b753be2c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-recover-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-recover-lit.png",
+      "sha256": "80fe25e3e4d9b459d3e4454b6d855a73074dda6dadb063e216d9df2102c5bf38"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-relic_thirst-return-lit.png",
+      "runtime": "img/held/spellblade-relic_thirst-return-lit.png",
+      "sha256": "683c4c1375c8d89d5045bbf63a44b43b428c2a57ab4e9206d6d8d97ceee6bf8a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-rest.png",
+      "runtime": "img/held/fighter-relic_thirst-rest.png",
+      "sha256": "b3c4769550d172135e362f1a8ba3a7e1a3e91043a8d9a221dc22b932644a2c87"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-drawback.png",
+      "runtime": "img/held/fighter-relic_thirst-drawback.png",
+      "sha256": "eb5f8eccc2b31d9f3dec9a5fb5190d65def24522e6de9df4a6be2df10b8a224d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-windup.png",
+      "runtime": "img/held/fighter-relic_thirst-windup.png",
+      "sha256": "02baa2aac9f573e8cc10e7037eb9835f26d84345f5ea87a881d9644c5d5c2de0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-strike.png",
+      "runtime": "img/held/fighter-relic_thirst-strike.png",
+      "sha256": "f81ff933a62bcc333ece93a22d3a0814f05fb02d688e6d71362b7b098eecc7cf"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-cut.png",
+      "runtime": "img/held/fighter-relic_thirst-cut.png",
+      "sha256": "475b44afabd0854b1653b148485ecd0dc6e6968cb33c1aaf7ffe224be54ba58f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-sweep.png",
+      "runtime": "img/held/fighter-relic_thirst-sweep.png",
+      "sha256": "f10d0c2c6560194f53515808b61dc193fabdd6e6270dae96a89695eb233a3071"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-through.png",
+      "runtime": "img/held/fighter-relic_thirst-through.png",
+      "sha256": "520de3f3ede66255805cc6502ed764d1b3bbebc55534de630bef1c1901c8c37d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-recover.png",
+      "runtime": "img/held/fighter-relic_thirst-recover.png",
+      "sha256": "3d34f01c84d1143a480901ae07850d50b65216426c75913335e325c2ba15b884"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_thirst-return.png",
+      "runtime": "img/held/fighter-relic_thirst-return.png",
+      "sha256": "cf126f63ee1975d397bbba3effea93fbcec5704b6404db65d4c7cada883fe640"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-rest.png",
+      "runtime": "img/held/thief-relic_thirst-rest.png",
+      "sha256": "5cc7c8adb287957ba9f7cc6a52a61e9687b0f8d296cd125e6d17db15ace08981"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-drawback.png",
+      "runtime": "img/held/thief-relic_thirst-drawback.png",
+      "sha256": "1763ff83aeac74a32b2a054118d830964d71ccfa48b7b389357056ed7b8599ce"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-windup.png",
+      "runtime": "img/held/thief-relic_thirst-windup.png",
+      "sha256": "3444a51905c3fac1127b7fb400556004f4c093efb71190892ac340caea26d84a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-strike.png",
+      "runtime": "img/held/thief-relic_thirst-strike.png",
+      "sha256": "d2be450806de25b43761aec03a8930941616ce553ce2c0ed70eb77a4c8aaf989"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-cut.png",
+      "runtime": "img/held/thief-relic_thirst-cut.png",
+      "sha256": "1e9c65eb8e441058cb50524d1d0579e60e5ac73e8f977135f10efd880d4e7182"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-sweep.png",
+      "runtime": "img/held/thief-relic_thirst-sweep.png",
+      "sha256": "b32e8e59638a3e665c01b43603def0d850aa0b95ab97fe6856543cc8f55467aa"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-through.png",
+      "runtime": "img/held/thief-relic_thirst-through.png",
+      "sha256": "0242306193b6baeba875b26d1206b51c8d62159cef67c410242e99c8d661cf4b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-recover.png",
+      "runtime": "img/held/thief-relic_thirst-recover.png",
+      "sha256": "6bbb8516c293d2f00a19896ca9532d41e2ddd032d1d50a1416487a2fa4c88851"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_thirst-return.png",
+      "runtime": "img/held/thief-relic_thirst-return.png",
+      "sha256": "5fc2ef61e7686052dcbfdf87be8741f0ac9452051925f00daa82736869ee1746"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-rest.png",
+      "runtime": "img/held/ranger-relic_thirst-rest.png",
+      "sha256": "b3c4769550d172135e362f1a8ba3a7e1a3e91043a8d9a221dc22b932644a2c87"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-drawback.png",
+      "runtime": "img/held/ranger-relic_thirst-drawback.png",
+      "sha256": "eb5f8eccc2b31d9f3dec9a5fb5190d65def24522e6de9df4a6be2df10b8a224d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-windup.png",
+      "runtime": "img/held/ranger-relic_thirst-windup.png",
+      "sha256": "02baa2aac9f573e8cc10e7037eb9835f26d84345f5ea87a881d9644c5d5c2de0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-strike.png",
+      "runtime": "img/held/ranger-relic_thirst-strike.png",
+      "sha256": "f81ff933a62bcc333ece93a22d3a0814f05fb02d688e6d71362b7b098eecc7cf"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-cut.png",
+      "runtime": "img/held/ranger-relic_thirst-cut.png",
+      "sha256": "475b44afabd0854b1653b148485ecd0dc6e6968cb33c1aaf7ffe224be54ba58f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-sweep.png",
+      "runtime": "img/held/ranger-relic_thirst-sweep.png",
+      "sha256": "f10d0c2c6560194f53515808b61dc193fabdd6e6270dae96a89695eb233a3071"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-through.png",
+      "runtime": "img/held/ranger-relic_thirst-through.png",
+      "sha256": "520de3f3ede66255805cc6502ed764d1b3bbebc55534de630bef1c1901c8c37d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-recover.png",
+      "runtime": "img/held/ranger-relic_thirst-recover.png",
+      "sha256": "3d34f01c84d1143a480901ae07850d50b65216426c75913335e325c2ba15b884"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_thirst-return.png",
+      "runtime": "img/held/ranger-relic_thirst-return.png",
+      "sha256": "cf126f63ee1975d397bbba3effea93fbcec5704b6404db65d4c7cada883fe640"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-rest.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-rest.png",
+      "sha256": "785e32b2b9802db1eaabd23404f65ec03f752b9df65ad0ee30d55e34b42cab5f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-drawback.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-drawback.png",
+      "sha256": "6215b586c072c15a3d7ec679fe7014f80e76e147a9107c3a7876e960f0c60370"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-windup.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-windup.png",
+      "sha256": "25548ccc4c2d7099f0f671c48ac6bcdfd7e83ba3fe9dd1f9c37be8790775344a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-strike.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-strike.png",
+      "sha256": "51078177d8b02f405c4c11f8817f2c2f3eb936bcb356df0d21b9bc66711a2389"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-cut.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-cut.png",
+      "sha256": "a401f1f33d9b36b33fcec81e0fd7bc2b93c707f6d2b32d494af25be41836eb59"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-sweep.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-sweep.png",
+      "sha256": "b5240c32549ac3eca50072ce6a8a4bd07a60fc0912796e45573b907a3102c9c7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-through.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-through.png",
+      "sha256": "e3d126d63333bdb169084a5dcaa2ab1278189ebae09d02a6eac30827a63cf2dd"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-recover.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-recover.png",
+      "sha256": "9ce25ff533e19ddc602c7bb6d0c946c6ece11bd2d2bbdbfbae0740620afd970e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_dawnbringer-return.png",
+      "runtime": "img/held/fighter-relic_dawnbringer-return.png",
+      "sha256": "d5640efa1d0fb095cb765cd2ab6f92feba74d4790554e80bbbbe4bc4ffd5636c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-rest.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-rest.png",
+      "sha256": "26d6be05404615a936e3f025f4fb39bbe2286ba8c2ab73a24bda1d38c1eee06a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-drawback.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-drawback.png",
+      "sha256": "8afc429049ad6f45fef409dec2cccdb976e477ff914ffd477cbd117b302bba7f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-windup.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-windup.png",
+      "sha256": "858113b5aff202009242e3c7d176a2f2a03c67ee014165cfce2a61d53b2b098f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-strike.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-strike.png",
+      "sha256": "c922d6d276b5abb672495c31e4ad003909375fc25dc9f786bfb2827415433632"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-cut.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-cut.png",
+      "sha256": "1960f1d39635f1363ba1288279946a1892b26a92b8152786a2db8e21c91be1b7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-sweep.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-sweep.png",
+      "sha256": "208ca3dca3640bc8cace4d065ca244c5218ae8ff9422ce2eef4ad805dbb5b8c7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-through.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-through.png",
+      "sha256": "3a89daee36a512918b100afa68b11c37163834dbce3225236a2dfb582998bc4b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-recover.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-recover.png",
+      "sha256": "1137ca95995f8961d7c5b0f0bbbd18bf4728e1c7f9c8a345b76c368c274d7bc8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_dawnbringer-return.png",
+      "runtime": "img/held/cleric-relic_dawnbringer-return.png",
+      "sha256": "d875dc0a5f722f0c759ffbb31a8b3b01c09c2994ffd5661fa98f173f91c92382"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-rest.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-rest.png",
+      "sha256": "51b59b5a7735c4249fb946d6d02ae88eef6b5e8fae9e884cc430ed9ea7cf6499"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-drawback.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-drawback.png",
+      "sha256": "c7adb3b180ed1fe271f458a4d102a8c96fbff77a7895e272878434a8fefd3c53"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-windup.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-windup.png",
+      "sha256": "ed8131e82f389ddf6f903c11c38b3b536906fb088fc9467b4fa3ce91370d7171"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-strike.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-strike.png",
+      "sha256": "2bb952172a85b8aa8e68aa61d0b8b1084bbca003b19991dd27a38fca9893f49a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-cut.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-cut.png",
+      "sha256": "2eab50fec3056619e422035efe7e1ac090e298a558caea43bd4002a8fbaa780b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-sweep.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-sweep.png",
+      "sha256": "e1dc97099f38c7beee960bff343380a089e2162fa34a97b59dbc979909f47a38"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-through.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-through.png",
+      "sha256": "f2a7e48b1d7e985a3af2b719d20731ce6979cba1476d9006a2c319f72accd5d8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-recover.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-recover.png",
+      "sha256": "3111d76c1a0c4be3a1ae9fdd978b95f71603eea8f64a9e72f3019ce115355039"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ogres_toll-return.png",
+      "runtime": "img/held/fighter-relic_ogres_toll-return.png",
+      "sha256": "7534ba27ed2aa72185917e334b33c83593a88f5840c169d363ffa4ef5c9027be"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ninth_circle-rest-two.png",
+      "runtime": "img/held/fighter-relic_ninth_circle-rest-two.png",
+      "sha256": "ae4a9e20826cf4cb6b9c42786d5b0d961cdde7af6d3adc8e4c49d2a298764466"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ninth_circle-drive-two.png",
+      "runtime": "img/held/fighter-relic_ninth_circle-drive-two.png",
+      "sha256": "5cdfe3772c58f53bddde44cc948a878a1c28e97b95990e88df99ca2621d031f9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ninth_circle-rest-one.png",
+      "runtime": "img/held/fighter-relic_ninth_circle-rest-one.png",
+      "sha256": "3dc6342a374803be5c0ad74f6c4c8358ff3d2fc57dfbe838d10172d8edb9cca3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ninth_circle-drive-one.png",
+      "runtime": "img/held/fighter-relic_ninth_circle-drive-one.png",
+      "sha256": "546c509f813aaffd0c26d6fe2b094f67d151c4c318ff274dc6c5d6f649c70630"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_ninth_circle-channel-one.png",
+      "runtime": "img/held/fighter-relic_ninth_circle-channel-one.png",
+      "sha256": "05f02436c99a1d9cadd7501afd37a875cf4fc9d980f7b90940a1a9246586ec4b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_ninth_circle-rest-two.png",
+      "runtime": "img/held/cleric-relic_ninth_circle-rest-two.png",
+      "sha256": "6bc348473b4ccee17c665532af8d1902ad801789381075b2ef969edf28b1f8f3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_ninth_circle-drive-two.png",
+      "runtime": "img/held/cleric-relic_ninth_circle-drive-two.png",
+      "sha256": "41bea7290bae8ac6841c7214f4616a6aa4241588261b6c053846d0462014e988"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_ninth_circle-rest-one.png",
+      "runtime": "img/held/cleric-relic_ninth_circle-rest-one.png",
+      "sha256": "a6278f3b817dd33b8444beff0049d15e79ea4bd53996fe519ab76064c1858965"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_ninth_circle-drive-one.png",
+      "runtime": "img/held/cleric-relic_ninth_circle-drive-one.png",
+      "sha256": "b98d08d5b078fb43d1f63f94e7eb0d191938521167257c34615d2f08d5ca3a03"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_ninth_circle-channel-one.png",
+      "runtime": "img/held/cleric-relic_ninth_circle-channel-one.png",
+      "sha256": "98f25d149365080194d5dcdf341083eafdb69ce7efc1531d7ebc0c1664ea098d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_ninth_circle-rest-two.png",
+      "runtime": "img/held/mage-relic_ninth_circle-rest-two.png",
+      "sha256": "8477b1a9d92cf8867b31d3442e7c4239ce778163f7cf036b30e1ae10cc3d6138"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_ninth_circle-drive-two.png",
+      "runtime": "img/held/mage-relic_ninth_circle-drive-two.png",
+      "sha256": "a01333e0d62542e60b79bc35cf78ca21f03506e4f29c02b26e92f5a3b2247e1c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_ninth_circle-rest-one.png",
+      "runtime": "img/held/mage-relic_ninth_circle-rest-one.png",
+      "sha256": "808e8087270890be695d3ff0a247b30ce9be45da8bf1993ef5daf4ed500340d7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_ninth_circle-drive-one.png",
+      "runtime": "img/held/mage-relic_ninth_circle-drive-one.png",
+      "sha256": "d69f51461227bc561a2188c417a52c45ba42f22df13276bb6df7b632475a6cfe"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_ninth_circle-channel-one.png",
+      "runtime": "img/held/mage-relic_ninth_circle-channel-one.png",
+      "sha256": "0973d894f3e0455d79e252787e9126420271a3df3b3358785c20a65a80af9908"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_ninth_circle-rest-two.png",
+      "runtime": "img/held/druid-relic_ninth_circle-rest-two.png",
+      "sha256": "9e3c0f3902edb626bd7c2bad040a69f8ae240676c9de1c6f36c2973797f22a01"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_ninth_circle-drive-two.png",
+      "runtime": "img/held/druid-relic_ninth_circle-drive-two.png",
+      "sha256": "0bb9e95ad0ac1002221cdb21c00e6cfa0f41c37b602f1b6ad65757df1c05b514"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_ninth_circle-rest-one.png",
+      "runtime": "img/held/druid-relic_ninth_circle-rest-one.png",
+      "sha256": "35363633f7d552f8e82b86b7113fb82d6d03568bbe2737eecb0eba735fddf33c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_ninth_circle-drive-one.png",
+      "runtime": "img/held/druid-relic_ninth_circle-drive-one.png",
+      "sha256": "cd326c36be1c8c0548648e6fed6002d07461f507e07767a0bdd0e15b19baaa6a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_ninth_circle-channel-one.png",
+      "runtime": "img/held/druid-relic_ninth_circle-channel-one.png",
+      "sha256": "1b950ce44830d1e30dbdbf3138fb837fe883dbec14d67ef70038b30ca99f80ca"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_emberwood-rest-two.png",
+      "runtime": "img/held/fighter-relic_emberwood-rest-two.png",
+      "sha256": "930b0d01ca42d6b4d6842c92d1d5d6661479792788d47cdd678119347b0781c2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_emberwood-drive-two.png",
+      "runtime": "img/held/fighter-relic_emberwood-drive-two.png",
+      "sha256": "c18a44fcf6f0bf686dbd715e01a3317b864c6f2d5c3abc9227e409ac895cbc27"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_emberwood-rest-one.png",
+      "runtime": "img/held/fighter-relic_emberwood-rest-one.png",
+      "sha256": "816f6f1b7f662c2f8b0cc86f1b95a880170af551fc3ec928c303baab6e0fbf60"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_emberwood-drive-one.png",
+      "runtime": "img/held/fighter-relic_emberwood-drive-one.png",
+      "sha256": "7bd9d335236076901a9b0fa120e28c266a1ba88ee817dbc895e4a9df9aad3f58"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_emberwood-channel-one.png",
+      "runtime": "img/held/fighter-relic_emberwood-channel-one.png",
+      "sha256": "c39cb052800ab81b8a7738266bce7b4b89ba44f5edc72024ec509f50e4e33d75"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_emberwood-rest-two.png",
+      "runtime": "img/held/cleric-relic_emberwood-rest-two.png",
+      "sha256": "50570bd4412ae6e260bc8bdf215e3428e19dd819a5295097e08acd99c9cc0860"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_emberwood-drive-two.png",
+      "runtime": "img/held/cleric-relic_emberwood-drive-two.png",
+      "sha256": "608ced66fa8931bb879945f7da3671c579f89480c0f67bfe1d62d80c8eb25884"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_emberwood-rest-one.png",
+      "runtime": "img/held/cleric-relic_emberwood-rest-one.png",
+      "sha256": "62da6b613772143e4789c6809fe0b93e07cc4141b955a0a9166c126241ddba38"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_emberwood-drive-one.png",
+      "runtime": "img/held/cleric-relic_emberwood-drive-one.png",
+      "sha256": "01363593abac36bb5ef209720a78be40ac34f7aa03268cc4d6b17fac2daf5fd4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_emberwood-channel-one.png",
+      "runtime": "img/held/cleric-relic_emberwood-channel-one.png",
+      "sha256": "2679b2e8f691c9984f868d8e9044b5b661c2b91d09f9b1bbd783afea34e648a8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_emberwood-rest-two.png",
+      "runtime": "img/held/mage-relic_emberwood-rest-two.png",
+      "sha256": "555ceaffc9b92105ddf43973f52086c495027f59a4a80aae584a04825052d94a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_emberwood-drive-two.png",
+      "runtime": "img/held/mage-relic_emberwood-drive-two.png",
+      "sha256": "0fb3fad2cf04111f8542c887f167b2f6d021601c912a9e5a8360ee024f33fb4f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_emberwood-rest-one.png",
+      "runtime": "img/held/mage-relic_emberwood-rest-one.png",
+      "sha256": "35c95c6cdc32c9f38f4f82434e976ba8aca239170a480017a773c0ffd0549eb5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_emberwood-drive-one.png",
+      "runtime": "img/held/mage-relic_emberwood-drive-one.png",
+      "sha256": "db26c2c10dea582e26346ab97de8a2ff13872ed3f4f2287403da49d2a5dfc81a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_emberwood-channel-one.png",
+      "runtime": "img/held/mage-relic_emberwood-channel-one.png",
+      "sha256": "affae2e1318eb13ca81853499354d92ca6fe508c4241cc7b18f9aa109d38daa5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_emberwood-rest-two.png",
+      "runtime": "img/held/druid-relic_emberwood-rest-two.png",
+      "sha256": "1e02c175c226e2818c03aec5cbd7b547c8e5ce91f70a8f69654407ebb74e0340"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_emberwood-drive-two.png",
+      "runtime": "img/held/druid-relic_emberwood-drive-two.png",
+      "sha256": "07c94972c37480575297e479080a5f897ab6dbd186d40907859658e9a9e8d432"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_emberwood-rest-one.png",
+      "runtime": "img/held/druid-relic_emberwood-rest-one.png",
+      "sha256": "4e5b739428562939cd120e1ab696e7e149fd47193888ae358c59b3040afec195"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_emberwood-drive-one.png",
+      "runtime": "img/held/druid-relic_emberwood-drive-one.png",
+      "sha256": "0ebe570564c8b0dbc0cb892c919d049b053bfcf9d5e9af17a1a949af07ff8b96"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_emberwood-channel-one.png",
+      "runtime": "img/held/druid-relic_emberwood-channel-one.png",
+      "sha256": "db2c4b363ef4a0dd04f315006e31b453d07194c4de00a7e52a9f5106250f1461"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_vashti-rest.png",
+      "runtime": "img/held/fighter-relic_vashti-rest.png",
+      "sha256": "6d799cb5cccf31f79a164296ebaab23fbfd506a5436cd382f6cd8756057e7dfd"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_vashti-rest.png",
+      "runtime": "img/held/mage-relic_vashti-rest.png",
+      "sha256": "029dea6f6a5cd10a8b3e2e0df03e500b369f3c2caa308b2a69d3bca273a64239"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_vashti-rest.png",
+      "runtime": "img/held/thief-relic_vashti-rest.png",
+      "sha256": "1e173968ed62bf76c9264bbeaa99869ccbd5b442459e91df5d15eddcfe28955a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_vashti-rest.png",
+      "runtime": "img/held/ranger-relic_vashti-rest.png",
+      "sha256": "6d799cb5cccf31f79a164296ebaab23fbfd506a5436cd382f6cd8756057e7dfd"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_heartseeker-rest.png",
+      "runtime": "img/held/fighter-relic_heartseeker-rest.png",
+      "sha256": "2cfdfc57190e3418b2abfa0d0cf3de17ea39e91656536bbe0fdba1c98629ccd7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_heartseeker-bowdraw.png",
+      "runtime": "img/held/fighter-relic_heartseeker-bowdraw.png",
+      "sha256": "f9b64a4539ab80ad7540141927b2ab7d4a4bf9aeb6806d68c2075d970c211c4a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_heartseeker-bowfull.png",
+      "runtime": "img/held/fighter-relic_heartseeker-bowfull.png",
+      "sha256": "db40bb57ecc7d31aef356332559331d17c9106bb02d8e4cb8b118288211842aa"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_heartseeker-rest.png",
+      "runtime": "img/held/thief-relic_heartseeker-rest.png",
+      "sha256": "9d85ba0b82f528b4b4b5b95ec731c137f0eaf07468476895c13b1af800f27d31"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_heartseeker-bowdraw.png",
+      "runtime": "img/held/thief-relic_heartseeker-bowdraw.png",
+      "sha256": "a12a016c0e4a3ad6f88a895d669a54951a08dafb7c3c0d82f3c365fd81f7bc27"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_heartseeker-bowfull.png",
+      "runtime": "img/held/thief-relic_heartseeker-bowfull.png",
+      "sha256": "cae1431de543152be9f72aa92a7455bebf8729a69b6a5093dce540317cdb2a14"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_heartseeker-rest.png",
+      "runtime": "img/held/ranger-relic_heartseeker-rest.png",
+      "sha256": "2cfdfc57190e3418b2abfa0d0cf3de17ea39e91656536bbe0fdba1c98629ccd7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_heartseeker-bowdraw.png",
+      "runtime": "img/held/ranger-relic_heartseeker-bowdraw.png",
+      "sha256": "f9b64a4539ab80ad7540141927b2ab7d4a4bf9aeb6806d68c2075d970c211c4a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_heartseeker-bowfull.png",
+      "runtime": "img/held/ranger-relic_heartseeker-bowfull.png",
+      "sha256": "db40bb57ecc7d31aef356332559331d17c9106bb02d8e4cb8b118288211842aa"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_kests_bulwark-carried.png",
+      "runtime": "img/held/fighter-relic_kests_bulwark-carried.png",
+      "sha256": "c4d733534d1f67cd76f2ef7cd40c91114334a74359bc5ce20f6860a0e5cfb916"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_kests_bulwark-carried.png",
+      "runtime": "img/held/cleric-relic_kests_bulwark-carried.png",
+      "sha256": "065fba4f0e357811dcd1d072146f20cb3dd84a58dc6b9886e0377345673b18eb"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_sisters_buckler-carried.png",
+      "runtime": "img/held/fighter-relic_sisters_buckler-carried.png",
+      "sha256": "feaee1ce0dd5c431eb6d0135493aa03ffd3a25e74753036133edf430a3d4e697"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-relic_sisters_buckler-carried.png",
+      "runtime": "img/held/cleric-relic_sisters_buckler-carried.png",
+      "sha256": "72d8f6e789d1ffd30f40d50354f8591906dbf857dd5f44a33ea3ad7e71b79d6b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-relic_sisters_buckler-carried.png",
+      "runtime": "img/held/thief-relic_sisters_buckler-carried.png",
+      "sha256": "c8fee833b600794a40a546a7f2d8bd727dfb7fc782eac9157844205011e9a2bc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_sisters_buckler-carried.png",
+      "runtime": "img/held/druid-relic_sisters_buckler-carried.png",
+      "sha256": "c5303bcc4e91d2f5d7e2f13742628e422d5d583d236a375629daaa26ba592cd2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_midnight_folio-carried.png",
+      "runtime": "img/held/mage-relic_midnight_folio-carried.png",
+      "sha256": "5317131fc98f6df4172335e8062255675f3b403b02ad00215bca03f2524b9513"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-relic_sparkglass-carried.png",
+      "runtime": "img/held/mage-relic_sparkglass-carried.png",
+      "sha256": "791f52097a7a016cffb05163151169b266b8cd6f913dc502d099933f9665d576"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_boarspear-rest.png",
+      "runtime": "img/held/fighter-relic_boarspear-rest.png",
+      "sha256": "cfd8b2a695ea1c710991a14d456f3a4b0110ef46cd4b4fa62f5721fe0b3f9113"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_boarspear-drive.png",
+      "runtime": "img/held/fighter-relic_boarspear-drive.png",
+      "sha256": "bfe277e07ef408e4cd28c0a7b49ba7322b6e6a4405ad7b1c139f396c086df2e4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_boarspear-rest.png",
+      "runtime": "img/held/ranger-relic_boarspear-rest.png",
+      "sha256": "cfd8b2a695ea1c710991a14d456f3a4b0110ef46cd4b4fa62f5721fe0b3f9113"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_boarspear-drive.png",
+      "runtime": "img/held/ranger-relic_boarspear-drive.png",
+      "sha256": "bfe277e07ef408e4cd28c0a7b49ba7322b6e6a4405ad7b1c139f396c086df2e4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_boarspear-rest.png",
+      "runtime": "img/held/druid-relic_boarspear-rest.png",
+      "sha256": "c7c773740374ba3b13befefe456fa81e9fca362640c39be36c32dfa55535da69"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_boarspear-drive.png",
+      "runtime": "img/held/druid-relic_boarspear-drive.png",
+      "sha256": "b43cee2620676691327e13e00481a1e75ec15efe6130b0b905780f52429cccc3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_galewind-rest.png",
+      "runtime": "img/held/fighter-relic_galewind-rest.png",
+      "sha256": "2f1538e723f67590b94a9ee934263947950961c28ef397054fb5ea77bc14f834"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_galewind-bowdraw.png",
+      "runtime": "img/held/fighter-relic_galewind-bowdraw.png",
+      "sha256": "a7e49ec34833fad030acc398ce22e697cec6cca20f87af5d1eaaef9b7ddfa920"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-relic_galewind-bowfull.png",
+      "runtime": "img/held/fighter-relic_galewind-bowfull.png",
+      "sha256": "28fcb97c359c99c6bdb0578092c6591fc3daf11effbf8192b07f3d888bed3fe7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_galewind-rest.png",
+      "runtime": "img/held/ranger-relic_galewind-rest.png",
+      "sha256": "2f1538e723f67590b94a9ee934263947950961c28ef397054fb5ea77bc14f834"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_galewind-bowdraw.png",
+      "runtime": "img/held/ranger-relic_galewind-bowdraw.png",
+      "sha256": "a7e49ec34833fad030acc398ce22e697cec6cca20f87af5d1eaaef9b7ddfa920"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-relic_galewind-bowfull.png",
+      "runtime": "img/held/ranger-relic_galewind-bowfull.png",
+      "sha256": "28fcb97c359c99c6bdb0578092c6591fc3daf11effbf8192b07f3d888bed3fe7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_oakheart-rest-two.png",
+      "runtime": "img/held/druid-relic_oakheart-rest-two.png",
+      "sha256": "8ff4c0cd385afadd673acd4ed8947fa591d0022aafdb9ab625db109814991bef"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_oakheart-drive-two.png",
+      "runtime": "img/held/druid-relic_oakheart-drive-two.png",
+      "sha256": "48ff4871c3086b516c72639ed16836f13079d3c1c175db960caa0714e4c200d8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_oakheart-rest-one.png",
+      "runtime": "img/held/druid-relic_oakheart-rest-one.png",
+      "sha256": "c519ffab31c1602226a6d8993a16a3f1d034ccba699fb8bdbbade7ed85ccb6e5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_oakheart-drive-one.png",
+      "runtime": "img/held/druid-relic_oakheart-drive-one.png",
+      "sha256": "fe6da533e6a27ac2fc131e24578cd0e85db48ffc89e054eec30f8b70fc19024e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-relic_oakheart-channel-one.png",
+      "runtime": "img/held/druid-relic_oakheart-channel-one.png",
+      "sha256": "41f2d8b9eab04261e1b0de64e1f85fc1d5c9c93046d26fa53db26c99919958f4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_bastion-carried.png",
+      "runtime": "img/held/fighter-legend_bastion-carried.png",
+      "sha256": "5542e50b00c4ecd89e5e71cf9bb9b1790149595c8cbf85cec6369a25ac5f3da2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_bastion-carried.png",
+      "runtime": "img/held/cleric-legend_bastion-carried.png",
+      "sha256": "75140c3611d99f29ececbc03c19179d00d7df15581bf58b037a059ee47ca04f9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-rest.png",
+      "runtime": "img/held/fighter-legend_red_harvest-rest.png",
+      "sha256": "5fbd55311683ef9d13aedfe017f6a2180719bbd1a872c37ef758389fef052f22"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-drawback.png",
+      "runtime": "img/held/fighter-legend_red_harvest-drawback.png",
+      "sha256": "69a84a824e664fe603bb69c3479b2abde5284c3252cb0357df1803b07673d916"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-windup.png",
+      "runtime": "img/held/fighter-legend_red_harvest-windup.png",
+      "sha256": "2d27db899a8c3fcfec759e2699a4376d5120a5a59ba4d5e24b322019f7044b8e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-strike.png",
+      "runtime": "img/held/fighter-legend_red_harvest-strike.png",
+      "sha256": "48f6cecb3ce8d1b618ff9515a95e44a8406c7ab145205170aa7db68e089768c7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-cut.png",
+      "runtime": "img/held/fighter-legend_red_harvest-cut.png",
+      "sha256": "6eef184258244527ec71baf2720c7addd22736152fedf6c20c175bf0e856d556"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-sweep.png",
+      "runtime": "img/held/fighter-legend_red_harvest-sweep.png",
+      "sha256": "2b3d817c70d7caf9d7f68260f065f410399b7065001b088465ee24a46398c515"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-through.png",
+      "runtime": "img/held/fighter-legend_red_harvest-through.png",
+      "sha256": "fefcb9302f37a14d8e71895a1d4ded81b0cca9776017d6d37787130fca3549e9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-recover.png",
+      "runtime": "img/held/fighter-legend_red_harvest-recover.png",
+      "sha256": "bab56bbada1361b02fe1b29d6d0793d13dc602c6e1d34863c139e8950948ea1f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_red_harvest-return.png",
+      "runtime": "img/held/fighter-legend_red_harvest-return.png",
+      "sha256": "6f568ff18b2c7ef1c453ddb84e294e54a6e7f84cd96ec002921335f16e8cfde8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-rest.png",
+      "runtime": "img/held/fighter-legend_sunhammer-rest.png",
+      "sha256": "f79b297038abc8b6220137a6705a5641b83f41f2c2b87f815844e514a91b1bee"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-drawback.png",
+      "runtime": "img/held/fighter-legend_sunhammer-drawback.png",
+      "sha256": "dcab7c98807174f2e4cd7552201dc78fe6070dd2698fc226f8072935f399a9f1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-windup.png",
+      "runtime": "img/held/fighter-legend_sunhammer-windup.png",
+      "sha256": "c23c2bd2b00d084ee07418ea55e2abb36d632db4faec70be227fdb04dd9956f6"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-strike.png",
+      "runtime": "img/held/fighter-legend_sunhammer-strike.png",
+      "sha256": "5f5eec994c1c3178efa187611310707b4aa105476a85ec79025bc4e31ad0a0b6"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-cut.png",
+      "runtime": "img/held/fighter-legend_sunhammer-cut.png",
+      "sha256": "42f2278b9484553a136e7bf80f2f0bd5ec5f9d2637b01ecbd00b847fd999b44d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-sweep.png",
+      "runtime": "img/held/fighter-legend_sunhammer-sweep.png",
+      "sha256": "33b8cde1b203d8744b7933367ccdfefd30cd709e09b7de3714b8d3174fc53f91"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-through.png",
+      "runtime": "img/held/fighter-legend_sunhammer-through.png",
+      "sha256": "4a36b442a5d5313c72b110a1c60247b753e82cb2f3ac70d5c28b9a16f1053652"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-recover.png",
+      "runtime": "img/held/fighter-legend_sunhammer-recover.png",
+      "sha256": "7de9501bd2efabd9dea15be76dadc8af0fc458c1ccc9555a2ecc5af2afe05a1f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_sunhammer-return.png",
+      "runtime": "img/held/fighter-legend_sunhammer-return.png",
+      "sha256": "3950d7384667637ce587d632c7cb78715ec96a2ab91c6a888f453a939529e03e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-rest.png",
+      "runtime": "img/held/cleric-legend_sunhammer-rest.png",
+      "sha256": "0a9be1cee467370ccc9119deeccf62446f6370b5e27d5322a0f4d80c3e80fbcf"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-drawback.png",
+      "runtime": "img/held/cleric-legend_sunhammer-drawback.png",
+      "sha256": "251e3ded83aae3b6fb29fc71b71c5ad31659b7bd58fdc825b7796258aab9582d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-windup.png",
+      "runtime": "img/held/cleric-legend_sunhammer-windup.png",
+      "sha256": "d04d1e593a33a96217c91efac7f98fb93a2b01de48c25e55a6ad4ba2656921eb"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-strike.png",
+      "runtime": "img/held/cleric-legend_sunhammer-strike.png",
+      "sha256": "097f1beeecb060fae522d4addd92717d619236b3fd9178ecc80e56e38dd8654f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-cut.png",
+      "runtime": "img/held/cleric-legend_sunhammer-cut.png",
+      "sha256": "f34e32aca84e2290af45a2f918d3f6e6998531b5764e8e97333fa34417ad25ac"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-sweep.png",
+      "runtime": "img/held/cleric-legend_sunhammer-sweep.png",
+      "sha256": "9c0312b2912c5e40988e652ff6909116282486e3f393869c110727fa98ee3a54"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-through.png",
+      "runtime": "img/held/cleric-legend_sunhammer-through.png",
+      "sha256": "5900f6fa451c123e37a66d8b8509854ecfc0a430ac8f170b48b2f75fdada2fa7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-recover.png",
+      "runtime": "img/held/cleric-legend_sunhammer-recover.png",
+      "sha256": "03ec07259024a7505f8ca6e5b96a61171afc464e768705dbd767bfa04744ff11"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_sunhammer-return.png",
+      "runtime": "img/held/cleric-legend_sunhammer-return.png",
+      "sha256": "9bd3f9e3d1ca41d50a55957edfee7761b72a7d7360abb4e2851609cb2bc24503"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_lantern_mercy-carried.png",
+      "runtime": "img/held/cleric-legend_lantern_mercy-carried.png",
+      "sha256": "9831c9598d536fbe0726ba11837a814ca2668d1b24a766b9b2a36452c09b53e6"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_cinderheart-carried.png",
+      "runtime": "img/held/mage-legend_cinderheart-carried.png",
+      "sha256": "5bdfbf39047fed880d27981c8324f4a1fa4877b452537f7658f2af21f3e21e33"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_rimebound-carried.png",
+      "runtime": "img/held/mage-legend_rimebound-carried.png",
+      "sha256": "e3d65782ea383ece7dd7f2304fdf68998f3206f474180bfe96311a25b170d50c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-rest.png",
+      "runtime": "img/held/spellblade-legend_last_word-rest.png",
+      "sha256": "899c60934fb932a62e338742f4bade94685cb85ca7b339b7320a385f727a967c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-drawback.png",
+      "runtime": "img/held/spellblade-legend_last_word-drawback.png",
+      "sha256": "ddca2696ec4da1f7ad9fb6b4d89bd8963e9559505139e3f8e02c218b8cf52330"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-windup.png",
+      "runtime": "img/held/spellblade-legend_last_word-windup.png",
+      "sha256": "cf73af77a96968fc006611d0ef76aee2fa4e57e94c3e773b090c8e29e3136389"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-strike.png",
+      "runtime": "img/held/spellblade-legend_last_word-strike.png",
+      "sha256": "22b5ab8fc64ef2ba46398a9e8fae249944981512615b9722c85980898e35c88d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-cut.png",
+      "runtime": "img/held/spellblade-legend_last_word-cut.png",
+      "sha256": "728632e21cf78ccaf3bf265ec3189227b56b9145a84b24160e1803aac59e0ff1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-sweep.png",
+      "runtime": "img/held/spellblade-legend_last_word-sweep.png",
+      "sha256": "a12e84cf57b0a3c6e918994301801f5892abced9a7f420af73ca4582f548f875"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-through.png",
+      "runtime": "img/held/spellblade-legend_last_word-through.png",
+      "sha256": "28f93f5e9e6893931859a95222e3e62fffc85733b5a6c927aa2a7aad28f87ffc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-recover.png",
+      "runtime": "img/held/spellblade-legend_last_word-recover.png",
+      "sha256": "6f098399aec9a5aad27c4a645b16aff6113c0be8a621442d8391d8b77b8cb944"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-return.png",
+      "runtime": "img/held/spellblade-legend_last_word-return.png",
+      "sha256": "e8863381de5ea8595e6a15294be92293d4c940b8e23bbd560fee2d9693037ec1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-rest-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-rest-lit.png",
+      "sha256": "1145254d4390b415353721cc47153b21f2448da5611aafe47d7e21bbd5541920"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-drawback-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-drawback-lit.png",
+      "sha256": "c8bc748dd1a2f2520d9655554e795e22a6db28f3a2cc002fe16995d352edd20c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-windup-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-windup-lit.png",
+      "sha256": "21b7192ee2f551ddc71fe35ffbc8e288dfcd057c6bf401a230da8e65a4df490c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-strike-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-strike-lit.png",
+      "sha256": "28b1c932ad70169c43cf9a404ea316e904686fa4528bad9cbf7292be2936da3e"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-cut-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-cut-lit.png",
+      "sha256": "0636c31bde35b62724c8f3fa03b4e64ac31ee3d7099c4ee30f79d36b4f4020a5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-sweep-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-sweep-lit.png",
+      "sha256": "56eec1e58ea15986161df79b12f775e1d8b7eb2328b06e511e8460c19fefc72d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-through-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-through-lit.png",
+      "sha256": "e2009ce1038f7436e30770acca394d552026c6c4c276a6132dd17f2043ad40b8"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-recover-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-recover-lit.png",
+      "sha256": "9444b44eba76136da6703f199bf97db91f9f9a9e6d927073be283472dc4a7a09"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/spellblade-legend_last_word-return-lit.png",
+      "runtime": "img/held/spellblade-legend_last_word-return-lit.png",
+      "sha256": "902ba60a7b6998432a9bf761a9e751ac428570b373fb65eef53c439ac2688a90"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-rest.png",
+      "runtime": "img/held/fighter-legend_last_word-rest.png",
+      "sha256": "b20f0c14408378ef4fd2c4e09c74146cd3394f311b7007e5f1c3458559353fe4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-drawback.png",
+      "runtime": "img/held/fighter-legend_last_word-drawback.png",
+      "sha256": "4fbf7298755b5876158447f7f4411c7b3c39d5ebdad1121ca2e95ecf9faec375"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-windup.png",
+      "runtime": "img/held/fighter-legend_last_word-windup.png",
+      "sha256": "ad403959e9a4832feee06e92b00ea87652c5f873f2bf3de94bbeac21459eba55"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-strike.png",
+      "runtime": "img/held/fighter-legend_last_word-strike.png",
+      "sha256": "73bfd4131ced61d729422ec4d87a5f4489df3e681cd8babd7b7f0f74ec89877b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-cut.png",
+      "runtime": "img/held/fighter-legend_last_word-cut.png",
+      "sha256": "344001ba727f2a8f82e2028746007fe27af8ea7bae45415730f1f67c1202302d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-sweep.png",
+      "runtime": "img/held/fighter-legend_last_word-sweep.png",
+      "sha256": "dae501f7628999c5b93bf28288edeb6b98117b5e243a92cf9264d52fda98e010"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-through.png",
+      "runtime": "img/held/fighter-legend_last_word-through.png",
+      "sha256": "c411dcced62fcdd65ed792e6239028a8da8421dd226099e0c388974f2f601a43"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-recover.png",
+      "runtime": "img/held/fighter-legend_last_word-recover.png",
+      "sha256": "8ddf50dff968f44d3e4551a8501606d570efdd6bf017a32328364460529c02c2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-return.png",
+      "runtime": "img/held/fighter-legend_last_word-return.png",
+      "sha256": "032a7e2d2f5a6e292a52b087b9651068ee248bb80af2e472539bb5ba145ed0c0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-left.png",
+      "runtime": "img/held/fighter-legend_last_word-left.png",
+      "sha256": "04544f64f40bebde383dd6ca1a195bd1448e3fb05f62c3c7f59d98de3776bd48"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_last_word-thrust.png",
+      "runtime": "img/held/fighter-legend_last_word-thrust.png",
+      "sha256": "8ef63e916ba2cee2fe586fef7c0b8790ee2d9c127db8154effcf2ee118d23f9a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-rest.png",
+      "runtime": "img/held/mage-legend_last_word-rest.png",
+      "sha256": "ffd4d4fdb1e57b98dfd3b2f96b58f9f3e2fbd788301cb9df2aa75c0b6e1d675f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-drawback.png",
+      "runtime": "img/held/mage-legend_last_word-drawback.png",
+      "sha256": "d6ce2c07a7f71fb7e34890ec5041a92fb90fdee4974a2ae8232d2e08f414aa31"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-windup.png",
+      "runtime": "img/held/mage-legend_last_word-windup.png",
+      "sha256": "4980aa0bb1b739f9d23fcc56afabbab564af8636f738f205bb6ac670d451e663"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-strike.png",
+      "runtime": "img/held/mage-legend_last_word-strike.png",
+      "sha256": "c86ff34898c177f6a889e846c570aaa6aa483639232f2a1c63cd3388daeedd78"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-cut.png",
+      "runtime": "img/held/mage-legend_last_word-cut.png",
+      "sha256": "f951e7f2975d4f39f1b2fa33c4cbc7beec9f4e5b30355d27e243dbac33758a96"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-sweep.png",
+      "runtime": "img/held/mage-legend_last_word-sweep.png",
+      "sha256": "9e6b3e55c1dfc9c2242a0e49002e45d1853c4f9cccc76a5401ebaa019707dac0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-through.png",
+      "runtime": "img/held/mage-legend_last_word-through.png",
+      "sha256": "e0e5c186d7b7c28050c585dcc44612e960c6f5d37282530dace29d4c68b6bc02"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-recover.png",
+      "runtime": "img/held/mage-legend_last_word-recover.png",
+      "sha256": "c0106110e0726addbf58ec19113926019d296d83793d1342366912755adbf7fa"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_last_word-return.png",
+      "runtime": "img/held/mage-legend_last_word-return.png",
+      "sha256": "dabed2de70269a852bd54d38202ccbf71f754b6ff385b6a48ac300ad1cb76715"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-rest.png",
+      "runtime": "img/held/thief-legend_last_word-rest.png",
+      "sha256": "152526692d3c5607b71ce9fdf2700d8cd28823357e18da434d5f9543d4a92c39"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-drawback.png",
+      "runtime": "img/held/thief-legend_last_word-drawback.png",
+      "sha256": "0c33ad4793555eff560460f2962f73a6280d681716c5c967ac077ec507a5726c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-windup.png",
+      "runtime": "img/held/thief-legend_last_word-windup.png",
+      "sha256": "314353c5b41a6e2d6adba5bd9b63c7c6fd39c1925212b79afc99b2c820222247"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-strike.png",
+      "runtime": "img/held/thief-legend_last_word-strike.png",
+      "sha256": "79d1fc8c32b780d50254bb5c7c43f4641662ee065ced997f0c7bd71fffe823cc"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-cut.png",
+      "runtime": "img/held/thief-legend_last_word-cut.png",
+      "sha256": "07092c08430c1afeecb12a9d207225d968e5245d352ed0004aa010e4a2867621"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-sweep.png",
+      "runtime": "img/held/thief-legend_last_word-sweep.png",
+      "sha256": "2af63b1bec38e24d1f2c31500a0de7160d91607b1016ef2f394126df6aa5f89c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-through.png",
+      "runtime": "img/held/thief-legend_last_word-through.png",
+      "sha256": "889e145f0450ece043034286a344f47428bb807f907c50f4332581f95f0d140c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-recover.png",
+      "runtime": "img/held/thief-legend_last_word-recover.png",
+      "sha256": "0bd479fa72d049f07083741ee4dad85b188e737834e58be50aaebb0609b638fb"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/thief-legend_last_word-return.png",
+      "runtime": "img/held/thief-legend_last_word-return.png",
+      "sha256": "6de63f856553ad5f636f36a6646a35396f5972186be5ff2f5ad3258aa6e53045"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-rest.png",
+      "runtime": "img/held/ranger-legend_last_word-rest.png",
+      "sha256": "b20f0c14408378ef4fd2c4e09c74146cd3394f311b7007e5f1c3458559353fe4"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-drawback.png",
+      "runtime": "img/held/ranger-legend_last_word-drawback.png",
+      "sha256": "4fbf7298755b5876158447f7f4411c7b3c39d5ebdad1121ca2e95ecf9faec375"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-windup.png",
+      "runtime": "img/held/ranger-legend_last_word-windup.png",
+      "sha256": "ad403959e9a4832feee06e92b00ea87652c5f873f2bf3de94bbeac21459eba55"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-strike.png",
+      "runtime": "img/held/ranger-legend_last_word-strike.png",
+      "sha256": "73bfd4131ced61d729422ec4d87a5f4489df3e681cd8babd7b7f0f74ec89877b"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-cut.png",
+      "runtime": "img/held/ranger-legend_last_word-cut.png",
+      "sha256": "344001ba727f2a8f82e2028746007fe27af8ea7bae45415730f1f67c1202302d"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-sweep.png",
+      "runtime": "img/held/ranger-legend_last_word-sweep.png",
+      "sha256": "dae501f7628999c5b93bf28288edeb6b98117b5e243a92cf9264d52fda98e010"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-through.png",
+      "runtime": "img/held/ranger-legend_last_word-through.png",
+      "sha256": "c411dcced62fcdd65ed792e6239028a8da8421dd226099e0c388974f2f601a43"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-recover.png",
+      "runtime": "img/held/ranger-legend_last_word-recover.png",
+      "sha256": "8ddf50dff968f44d3e4551a8501606d570efdd6bf017a32328364460529c02c2"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_last_word-return.png",
+      "runtime": "img/held/ranger-legend_last_word-return.png",
+      "sha256": "032a7e2d2f5a6e292a52b087b9651068ee248bb80af2e472539bb5ba145ed0c0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-rest.png",
+      "runtime": "img/held/druid-legend_last_word-rest.png",
+      "sha256": "99008ee2686aca37b34ca4f9049d5efbfa09f41ab3cd8e96024acb8dd5628f4f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-drawback.png",
+      "runtime": "img/held/druid-legend_last_word-drawback.png",
+      "sha256": "d5f0c0b04917f6871a5e7bbd1ed7e04843a52ddba0e9a66ac599ce79673e6c19"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-windup.png",
+      "runtime": "img/held/druid-legend_last_word-windup.png",
+      "sha256": "21a64be92f5b25e893ebdd57cd57a168ee71c85a20a6704a598aa3fff70c9193"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-strike.png",
+      "runtime": "img/held/druid-legend_last_word-strike.png",
+      "sha256": "bc35070155d695cde2244d25be70234f30b980ea4282f4440c59d01146439c25"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-cut.png",
+      "runtime": "img/held/druid-legend_last_word-cut.png",
+      "sha256": "10bcf306eb561e1af78e0638d78c7ef2e7d639b54ccde669b0eb928143b43d60"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-sweep.png",
+      "runtime": "img/held/druid-legend_last_word-sweep.png",
+      "sha256": "eb154590e1193f9700667138271b89f93aacf71b06a52cb9e6803a7159c5530a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-through.png",
+      "runtime": "img/held/druid-legend_last_word-through.png",
+      "sha256": "671a0de9b619ea3da992643cf9bc2e063444922c167a017983b7b13bf2cd5544"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-recover.png",
+      "runtime": "img/held/druid-legend_last_word-recover.png",
+      "sha256": "ac904b724fa02799a85dad8c1a95997066c526055513321f4fe4a647ad8dc90f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_last_word-return.png",
+      "runtime": "img/held/druid-legend_last_word-return.png",
+      "sha256": "5b208ae430e72fee0d5f222efebc8892062054a283e04d6706128e0d3c053fd1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_farstrider-rest.png",
+      "runtime": "img/held/fighter-legend_farstrider-rest.png",
+      "sha256": "e13778c335c74b1270b7e269549e9497952d090db96c877a1036913f4b4ecc49"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_farstrider-bowdraw.png",
+      "runtime": "img/held/fighter-legend_farstrider-bowdraw.png",
+      "sha256": "09cf80be02f32e7bd19830cddd12ca07f63ff3e1384193a87800fb66f44ab4b9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_farstrider-bowfull.png",
+      "runtime": "img/held/fighter-legend_farstrider-bowfull.png",
+      "sha256": "25416a755d93f2ab0cbc3e330c361924c5f9ddedeaea9e08e623afa527269d56"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_farstrider-rest.png",
+      "runtime": "img/held/ranger-legend_farstrider-rest.png",
+      "sha256": "e13778c335c74b1270b7e269549e9497952d090db96c877a1036913f4b4ecc49"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_farstrider-bowdraw.png",
+      "runtime": "img/held/ranger-legend_farstrider-bowdraw.png",
+      "sha256": "09cf80be02f32e7bd19830cddd12ca07f63ff3e1384193a87800fb66f44ab4b9"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_farstrider-bowfull.png",
+      "runtime": "img/held/ranger-legend_farstrider-bowfull.png",
+      "sha256": "25416a755d93f2ab0cbc3e330c361924c5f9ddedeaea9e08e623afa527269d56"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_thornbinder-rest.png",
+      "runtime": "img/held/fighter-legend_thornbinder-rest.png",
+      "sha256": "8204fee05e87511622501c94d614f6a77e2c156249ef2bd4f14c3f851b7d5c3f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_thornbinder-drive.png",
+      "runtime": "img/held/fighter-legend_thornbinder-drive.png",
+      "sha256": "0832477d64c7b9ead03f2309b4f25139d73ec401fd9117363ee9e81935fca625"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_thornbinder-rest.png",
+      "runtime": "img/held/ranger-legend_thornbinder-rest.png",
+      "sha256": "8204fee05e87511622501c94d614f6a77e2c156249ef2bd4f14c3f851b7d5c3f"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/ranger-legend_thornbinder-drive.png",
+      "runtime": "img/held/ranger-legend_thornbinder-drive.png",
+      "sha256": "0832477d64c7b9ead03f2309b4f25139d73ec401fd9117363ee9e81935fca625"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_thornbinder-rest.png",
+      "runtime": "img/held/druid-legend_thornbinder-rest.png",
+      "sha256": "f3d45d3e29c36ca25861c41aa31fba341a94eb6fb4722e6bd0c5d107cdc8d673"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_thornbinder-drive.png",
+      "runtime": "img/held/druid-legend_thornbinder-drive.png",
+      "sha256": "ef6e20eeb9a1d5525d0d0378986bb8ad0218c89735d9b626e0a7732f5497ed36"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_heartroot-rest-two.png",
+      "runtime": "img/held/fighter-legend_heartroot-rest-two.png",
+      "sha256": "b4c50c5ae5d850a439c7a3b9f2a69c194252473e7d3921352261ad89bdc3a07c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_heartroot-drive-two.png",
+      "runtime": "img/held/fighter-legend_heartroot-drive-two.png",
+      "sha256": "c294ca82c5adc945794fc7691d070f6e77e1bd11b5496a1d18150d99bd211ae3"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_heartroot-rest-one.png",
+      "runtime": "img/held/fighter-legend_heartroot-rest-one.png",
+      "sha256": "fb7a735984be40b3e9396136fc42cfe0506625ad59bc035e986ef6a9e247ef3a"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_heartroot-drive-one.png",
+      "runtime": "img/held/fighter-legend_heartroot-drive-one.png",
+      "sha256": "c20af35f334b47ac70fe9859f8f92e163f03b808b010b03d1a16fa4b72d88584"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/fighter-legend_heartroot-channel-one.png",
+      "runtime": "img/held/fighter-legend_heartroot-channel-one.png",
+      "sha256": "e91e9443c6ad91aa63797d170e2d2681b770e1359fbc2b1d277c53eb45c49106"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_heartroot-rest-two.png",
+      "runtime": "img/held/cleric-legend_heartroot-rest-two.png",
+      "sha256": "e961161e437523ee4733ebcd1f3c08e4e3348033f443bc510b10a44c1d685172"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_heartroot-drive-two.png",
+      "runtime": "img/held/cleric-legend_heartroot-drive-two.png",
+      "sha256": "ae471f4d32a4193a26bfa448e011e411afd1c9e98292ccb3dd391dec1b028434"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_heartroot-rest-one.png",
+      "runtime": "img/held/cleric-legend_heartroot-rest-one.png",
+      "sha256": "9a4e82f2976b7c20993c29a1ac839f230ed1d4ad78f958373063e66af7314eb5"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_heartroot-drive-one.png",
+      "runtime": "img/held/cleric-legend_heartroot-drive-one.png",
+      "sha256": "b13312e1b5a55ec5ac29b54d8aa1d26dda23cfc8bc9fe72e81ba8d9596b060db"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/cleric-legend_heartroot-channel-one.png",
+      "runtime": "img/held/cleric-legend_heartroot-channel-one.png",
+      "sha256": "dbc6ae8a3251ad0c94a802e78b11d5587c15e2481c2827fe284e5ca39aa96baa"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_heartroot-rest-two.png",
+      "runtime": "img/held/mage-legend_heartroot-rest-two.png",
+      "sha256": "50c359364ca9fd730711423b914dd5f70cf5183df84c61a7da2ee2e1311abbce"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_heartroot-drive-two.png",
+      "runtime": "img/held/mage-legend_heartroot-drive-two.png",
+      "sha256": "eef0796278ae180e77b055e9a2ed7dc6fdfbaed72dee18806ce27767ebd2f090"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_heartroot-rest-one.png",
+      "runtime": "img/held/mage-legend_heartroot-rest-one.png",
+      "sha256": "8b8d6e2afe6047001f76e70c7241142f20fd8e79302c0af2b88ab84c528d76c0"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_heartroot-drive-one.png",
+      "runtime": "img/held/mage-legend_heartroot-drive-one.png",
+      "sha256": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/mage-legend_heartroot-channel-one.png",
+      "runtime": "img/held/mage-legend_heartroot-channel-one.png",
+      "sha256": "8f7d12ee356ea4c17c9af012135ed2eaea624480127078fa190cda4660d2c2ab"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-rest-two.png",
+      "runtime": "img/held/druid-legend_heartroot-rest-two.png",
+      "sha256": "50d72f90fe2a7d4f25c2da180c11dee3a3616e1897cb0381619fdc4a687e32b1"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-drive-two.png",
+      "runtime": "img/held/druid-legend_heartroot-drive-two.png",
+      "sha256": "f815d5832074f97db1146e9a635832e22e9411e6da3107bd4c55c0fed90e75a7"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-rest-one.png",
+      "runtime": "img/held/druid-legend_heartroot-rest-one.png",
+      "sha256": "6466190eed6532e7ed480771c77ffa145d147d3100da2d1d2ee0882c0dbf991c"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-drive-one.png",
+      "runtime": "img/held/druid-legend_heartroot-drive-one.png",
+      "sha256": "f078d0ee25fe8cb2bf3f4773226f5fdb83ebd4d5684136de9541103f7274ef05"
+    },
+    {
+      "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-channel-one.png",
+      "runtime": "img/held/druid-legend_heartroot-channel-one.png",
+      "sha256": "fdd5cee877fc47ffd51e111c3f38d1c26a4092fdb4d4d9adf5313642de799eaa"
     }
   ],
   "exclusions": {

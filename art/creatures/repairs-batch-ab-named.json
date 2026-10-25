@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ab16",
+    "prompt": "Correct this exact 5-column by4-row TRANSPARENT staff atlas. Preserve ALL20 figures, exact cells, right/left hand counts, class costumes (Fighter brown/grey; Cleric ivory/gold; Mage purple/bare skin; Druid brown/green), shaft continuity, poses, complete forearms and existing mature painted brushwork. The staff must have EXACTLY NINE thin BLACK transverse circular rings ABOVE the top gripping hand in EVERY cell. Current original has only about six visible bands: replace that band layout with NINE easily countable thin separated rings, arranged as THREE consecutive sets of THREE rings (3+3+3=9) with tiny wood spaces between rings and a slightly larger wood space between sets. All nine above fingers, none hidden inside hand, no tenth ring or extra tip ornament. You may extend exposed upper shaft slightly to fit9 fine rings, keep rest of composition and hand size. Thin dark rings around dark reddish wood, not brass/silver bands, beads, screws or spiral cord. Keep plain rounded wood tip, no gems/glow. Precisely20 cells in existing5x4 reading order with transparent gutters, no background/grid/text/shadow. Do not change the20 poses, merge cells or re-add lower hand in one-hand columns3/4/5.",
+    "initial_reason": "Original upper staff has fewer than nine exposed rings.",
+    "status": "generated-rejected",
+    "review_outcome": "Initial exposed-ring defect claim corrected: native grip intentionally occludes lower authored bands. Original selected."
+  },
+  {
+    "id": "ab15",
+    "prompt": "Repair only the missing named tally band on this exact nine-cell Ogre's Toll atlas, keeping3x3 equal layout and transparency. In EVERY cell, the exposed wooden axe haft ABOVE the closed glove must show EXACTLY FIVE narrow pale bone-colour tally bands, FIVE separate stripes/rings with a small dark wood gap between each:1,2,3,4,5. Current image has4 bands. Add the fifth above existing row or gently move hand down a little so all FIVE remain visible, not hidden behind fingers or axe head. Preserve the asymmetrical double steel axe head, broad large blade plus smaller opposite blade, brown haft, grey glove, steel cuff, brown sleeve, exact9 weapon/forearm angles, proportions and gritty painted materials. No ribbons/banners, extra hands, extra blades, glow, labels, backgrounds/shadows. All complete blade edges and forearms stay within their cells with transparent gutters. Keep all9 poses and exact3x3 layout.",
+    "initial_reason": "Original has four exposed bone tally bands rather than five.",
+    "status": "generated-rejected",
+    "review_outcome": "Initial exposed-band defect claim corrected: native grip occludes an authored band. Original selected."
+  },
+  {
+    "id": "ab24",
+    "prompt": "Repair this exact2-column by2-row FOUR-cell transparent Boarspear game atlas. In EVERY cell put EXACTLY THREE clearly separated narrow pale bone/leather wrap bands around the exposed wooden shaft BETWEEN steel stopping crossbar and glove, all3 fully visible ABOVE the fingers with dark wood gaps: ONE,TWO,THREE. Current painting shows only2. Add the missing third wrap and gently space it, preserving same spear length and grip. Keep pointed steel blade, broad short steel crossbar directly below blade, continuous brown shaft and round haft butt. Preserve Fighter grey glove/steel cuff/brown sleeves on top row, Druid brown glove/green cuff/brown sleeves on bottom row. One right hand each; same4 rest/drive poses and mature realistic painted materials. No other changes, no extra thorns/leaves or hands, no text/borders/background/shadows. Exactly4 cells2x2, complete tips/forearms and transparent gutters.",
+    "initial_reason": "Original has two exposed pale shaft wraps rather than three.",
+    "status": "cancelled-before-generation",
+    "review_outcome": "Initial exposed-wrap defect claim corrected after native grip comparison. Original selected; no repair output generated."
+  },
+  {
+    "id": "ab39",
+    "prompt": "Fix extraction spacing in this exact TWENTY-cell Heartroot staff atlas while preserving complete painted designs and poses. Keep EXACTLY5 equal columns by4 equal rows. Reduce each entire weapon-with-hands figure uniformly about15percent within its OWN existing cell, recentering as needed to leave clear TRANSPARENT space around EVERY leaf, fork tip, seed, hand and forearm: at least8percent of cell width/height as gutter wherever possible. The FIRST ROW's leaves are clipped by the top canvas edge: restore the complete two leaves and fork on those figures, with clear transparency above. Retain TWO leaves and ONE small russet heart seed nestled in connected wood fork in EVERY cell. Keep actual two-hand columns1/2 and single right-hand columns3/4/5. Preserve four costumes by row: Fighter grey/brown, Cleric brown/gold/IVORY, Mage bare skin/PURPLE, Druid brown/GREEN. Same poses, anatomy, wood texture and mature painted materials. No missing/sliced leaves, overlap, added cells, extra limbs, text, grid/borders, opaque background, glow/shadows or pose rotation. All20 cells fully contained with transparent gutters.",
+    "initial_reason": "Original upper leaves touch/cross the top source/cell boundary.",
+    "status": "generated-selected",
+    "review_outcome": "Spacing edit retains all20 class/hand states with complete leaves, fork and seed."
+  },
+  {
+    "id": "ab19",
+    "prompt": "Remove ONLY the entire opaque brown/grey vignette and every background/shadow from this SIX-cell Heartseeker bow atlas. Return a true RGBA TRANSPARENT background in all empty areas and between figures, not a black/grey checkerboard or painted gradient. Preserve exactly3 columns by2 rows and all6 separate complete painted LEFT-hand bows in the same positions. Keep all details/colours/pixels of reddish wooden stave, pale ivory horn insets/tips, small dark red heart mark above grip, leather wrap, grey gloves/steel cuff/BROWN sleeves in top row and charcoal gloves/brown cuff/GREY-GREEN sleeves in bottom row. Keep each distinct native stave flex pose, all complete tips/forearms, no string/arrows/right hand. No other design changes, no reposing/recolouring, no extra outlines/halos, no labels/text, borders or floor. Exactly6 clean isolated figures on full transparency.",
+    "initial_reason": "Original incorrectly includes an opaque brown/grey vignette.",
+    "status": "generated-rejected",
+    "review_outcome": "Initial opaque-vignette claim was a viewer artifact. Opaque compositing confirms original transparency is clean; original selected."
+  }
+]

@@ -1295,3 +1295,17 @@ aa-penitent are activated through the existing exact family loader and offline
 cache. See [runtime review](batch-aa-runtime116/REVIEW.md). Source-only reviews
 remain historical. Next source brief is Dawnbringer for Fighter/Cleric, then
 The Ogre's Toll; 30 named held candidates remain without held source.
+
+## Batch AB — all named equipment source complete (25 October 2026)
+
+All 30 remaining named weapon/shield candidates now have reviewed source art: 397 exact class/state files (381 held, 16 carried), 73 legal class families, and 347 unique paintings plus 50 verified Ranger reuses. Together with active Penitent, all 31 candidates have source coverage. The other 16 worn/inventory identities and the existing 47 relic portraits remain separate categories.
+
+See [Batch AB review](batch-ab-named-preview/REVIEW.md) and [library contact sheet](batch-ab-named-preview/named-library-contact.png). Source fitting covers both phone widths and 4,746 checks. This supersedes earlier notes naming Dawnbringer or another named held family as the next painting gap. **Next: activate the 381 held and 16 carried AB states**, verify native actions, fallback/loading, offline caches and performance, then publish when requested. AB is currently local source art; live v0.9.38 is unchanged.
+
+## Named equipment activated — v0.9.39
+
+All 30 remaining named weapon/shield candidates now bind to gameplay: 381 held weapon states and 16 carried shield/focus states. Every one of the 31 named weapon/shield identities, including Penitent, has a painted runtime surface. Exact class, identity, pose, hand count and Spellblade reflections are preserved; unsupported or failed images keep their procedural fallback. Bows retain live strings, arrows and drawing hands.
+
+The common delivery now contains 973 files (786 held states and 21 carried states among them), with all 576 prior common exports unchanged. There are 1,141 shipped paintings plus three icons. The 16 worn/inventory named identities and the 47 relic portraits remain separate surfaces. This activation supersedes Batch AB's historical source-only status.
+
+See [native activation review](batch-ab-runtime/REVIEW.md), [source review](batch-ab-named-preview/REVIEW.md) and [delivery inventory](runtime-delivery.json).

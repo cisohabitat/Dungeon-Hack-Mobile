@@ -7658,6 +7658,8532 @@ export const PAINTED = {
         165.77777777777777,
         164.88888888888889
       ]
+    },
+    "ranger-mythic_horizon-rest": {
+      "path": "img/held/ranger-mythic_horizon-rest.png",
+      "id": "mythic_horizon",
+      "cls": "ranger",
+      "grip": [
+        127.78482079722703,
+        127.89136360485269
+      ],
+      "bounds": [
+        110.4016,
+        63.0,
+        147.05199306759098,
+        190.55632582322357
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          143.94627383015597,
+          188.78162911611784
+        ],
+        "bot": [
+          135.2946273830156,
+          64.5528596187175
+        ]
+      }
+    },
+    "ranger-mythic_horizon-bowdraw": {
+      "path": "img/held/ranger-mythic_horizon-bowdraw.png",
+      "id": "mythic_horizon",
+      "cls": "ranger",
+      "grip": [
+        127.99944263431541,
+        127.99986412478336
+      ],
+      "bounds": [
+        111.19781213171576,
+        63.0,
+        152.1646447140381,
+        191.0
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          149.05892547660312,
+          189.22530329289427
+        ],
+        "bot": [
+          137.30155979202772,
+          64.5528596187175
+        ]
+      }
+    },
+    "ranger-mythic_horizon-bowfull": {
+      "path": "img/held/ranger-mythic_horizon-bowfull.png",
+      "id": "mythic_horizon",
+      "cls": "ranger",
+      "grip": [
+        128.21946065857884,
+        128.36082079722703
+      ],
+      "bounds": [
+        111.27017538994801,
+        65.0,
+        155.27036395147314,
+        190.1161178509532
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.9428076256499,
+          188.34142114384747
+        ],
+        "bot": [
+          143.0693240901213,
+          66.5528596187175
+        ]
+      }
+    },
+    "spellblade-relic_grimtooth-rest": {
+      "path": "img/held/spellblade-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.83192352723859,
+        128.13824600734145
+      ],
+      "bounds": [
+        117.0,
+        93.0,
+        139.25717826759922,
+        144.7510038662775
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.87081361175639,
+        95.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-drawback": {
+      "path": "img/held/spellblade-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.20296369247393,
+        128.151645675399
+      ],
+      "bounds": [
+        120.0,
+        99.0,
+        141.34608551373208,
+        143.6472544692021
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        131.61244083526915,
+        101.09669070636804
+      ]
+    },
+    "spellblade-relic_grimtooth-windup": {
+      "path": "img/held/spellblade-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.3565971919465,
+        127.71913164747976
+      ],
+      "bounds": [
+        116.8511198394822,
+        97.0,
+        150.1598903067872,
+        142.5112845809063
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        147.57934789894958,
+        98.93540680587819
+      ]
+    },
+    "spellblade-relic_grimtooth-strike": {
+      "path": "img/held/spellblade-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.1432185915984,
+        128.04046814668166
+      ],
+      "bounds": [
+        115.0,
+        92.0,
+        139.8377206754368,
+        145.20513951309397
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.9031102088173,
+        94.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-cut": {
+      "path": "img/held/spellblade-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.9829124747553,
+        128.04642758680475
+      ],
+      "bounds": [
+        95.0,
+        108.0,
+        143.1857264756091,
+        139.21356357282144
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        97.09669070636804,
+        110.09669070636804
+      ]
+    },
+    "spellblade-relic_grimtooth-sweep": {
+      "path": "img/held/spellblade-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.80746028761959,
+        128.33797545359837
+      ],
+      "bounds": [
+        94.0,
+        118.20089522645016,
+        143.22694308039146,
+        137.97462399430668
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        96.25797460685789,
+        126.22547892498233
+      ]
+    },
+    "spellblade-relic_grimtooth-through": {
+      "path": "img/held/spellblade-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.02381608796827,
+        128.01089170340495
+      ],
+      "bounds": [
+        91.0,
+        118.22579746068578,
+        143.86092741266856,
+        145.91150150775246
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        93.25797460685789,
+        142.8377206754368
+      ]
+    },
+    "spellblade-relic_grimtooth-recover": {
+      "path": "img/held/spellblade-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.18009061131136,
+        128.075741439731
+      ],
+      "bounds": [
+        94.0,
+        107.0,
+        145.1125776745785,
+        141.17950998926958
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        96.25797460685789,
+        109.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-return": {
+      "path": "img/held/spellblade-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.57770078711583,
+        128.4499397453428
+      ],
+      "bounds": [
+        99.0,
+        84.0,
+        143.39049049962225,
+        148.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.09669070636804,
+        86.09669070636804
+      ]
+    },
+    "spellblade-relic_grimtooth-rest-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-rest-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.88301826691377,
+        127.54688245780537
+      ],
+      "bounds": [
+        117.0,
+        93.0,
+        139.5797460685789,
+        145.02341237420487
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "tip": [
+        120.54824581077669,
+        95.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-drawback-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-drawback-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.36969898880034,
+        127.90374476016328
+      ],
+      "bounds": [
+        120.0,
+        98.0,
+        141.51640131264935,
+        143.40757903289133
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "tip": [
+        131.61244083526915,
+        100.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-windup-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-windup-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.98561196403973,
+        127.64735275157895
+      ],
+      "bounds": [
+        116.38610609758986,
+        96.0,
+        150.1598903067872,
+        142.56585549264923
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "tip": [
+        147.57934789894958,
+        98.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-strike-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-strike-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.19553152873448,
+        128.00036540883704
+      ],
+      "bounds": [
+        114.0,
+        91.0,
+        139.48285627739622,
+        144.89601522923232
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "tip": [
+        116.9031102088173,
+        93.09669070636804
+      ]
+    },
+    "spellblade-relic_grimtooth-cut-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-cut-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.92066444934905,
+        128.01643634149647
+      ],
+      "bounds": [
+        96.0,
+        109.0,
+        143.03432071001205,
+        139.1289615988073
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "tip": [
+        97.93540680587819,
+        111.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-sweep-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-sweep-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.86356238839281,
+        128.32442760595723
+      ],
+      "bounds": [
+        95.0,
+        118.05051411763343,
+        143.5112619003578,
+        138.08920007721468
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "tip": [
+        97.25797460685789,
+        126.22547892498233
+      ]
+    },
+    "spellblade-relic_grimtooth-through-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-through-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.2349120171122,
+        128.21204498409588
+      ],
+      "bounds": [
+        92.0,
+        118.54678467944069,
+        143.84087125563045,
+        145.84356872886613
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "tip": [
+        93.93540680587819,
+        143.16028847641653
+      ]
+    },
+    "spellblade-relic_grimtooth-recover-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-recover-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        128.10523976111838,
+        127.7921645257069
+      ],
+      "bounds": [
+        92.0,
+        106.0,
+        145.3652299127202,
+        141.13363328778743
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "tip": [
+        93.93540680587819,
+        108.25797460685789
+      ]
+    },
+    "spellblade-relic_grimtooth-return-lit": {
+      "path": "img/held/spellblade-relic_grimtooth-return-lit.png",
+      "id": "relic_grimtooth",
+      "cls": "spellblade",
+      "grip": [
+        127.86340664862638,
+        128.08296191835103
+      ],
+      "bounds": [
+        100.0,
+        85.0,
+        143.373014884992,
+        147.22955436754282
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "tip": [
+        102.25797460685789,
+        87.25797460685789
+      ]
+    },
+    "fighter-relic_grimtooth-rest": {
+      "path": "img/held/fighter-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        127.82175974732709,
+        127.80404105934826
+      ],
+      "bounds": [
+        116.0,
+        93.0,
+        138.6722721355556,
+        145.15157984592074
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.27791886297189,
+        94.91211933673361
+      ]
+    },
+    "fighter-relic_grimtooth-drawback": {
+      "path": "img/held/fighter-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.33457308094495,
+        127.57490258008067
+      ],
+      "bounds": [
+        120.0,
+        99.0,
+        142.19044537868925,
+        143.90120574489427
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        130.10691649416333,
+        100.77553938410978
+      ]
+    },
+    "fighter-relic_grimtooth-windup": {
+      "path": "img/held/fighter-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        127.73464393179539,
+        128.24093215817666
+      ],
+      "bounds": [
+        115.61284534454427,
+        98.0,
+        150.05710749269085,
+        143.84407178983759
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        145.959708913976,
+        99.63895943148594
+      ]
+    },
+    "fighter-relic_grimtooth-strike": {
+      "path": "img/held/fighter-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.3895559017478,
+        128.05797562901472
+      ],
+      "bounds": [
+        113.0,
+        95.0,
+        139.27841994067307,
+        146.0230743293711
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        115.18527924198126,
+        96.91211933673361
+      ]
+    },
+    "fighter-relic_grimtooth-cut": {
+      "path": "img/held/fighter-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.1205676604281,
+        128.26405087603234
+      ],
+      "bounds": [
+        94.0,
+        107.0,
+        144.68563989841866,
+        140.45676177468576
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        95.77553938410978,
+        108.77553938410978
+      ]
+    },
+    "fighter-relic_grimtooth-sweep": {
+      "path": "img/held/fighter-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.04992936255576,
+        127.76676156127958
+      ],
+      "bounds": [
+        89.0,
+        117.0,
+        144.98636249173052,
+        138.29590132098423
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        90.91211933673361,
+        124.92163725218208
+      ]
+    },
+    "fighter-relic_grimtooth-through": {
+      "path": "img/held/fighter-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        127.85594229497002,
+        127.56321389701017
+      ],
+      "bounds": [
+        88.0,
+        116.6210836765616,
+        145.74400990204657,
+        151.51078768219554
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        89.63895943148594,
+        150.41814806120487
+      ]
+    },
+    "fighter-relic_grimtooth-recover": {
+      "path": "img/held/fighter-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        127.5324151176935,
+        128.23642331249067
+      ],
+      "bounds": [
+        100.0,
+        108.0,
+        147.19689622057663,
+        143.37606521692737
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.63895943148594,
+        109.91211933673361
+      ]
+    },
+    "fighter-relic_grimtooth-return": {
+      "path": "img/held/fighter-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.47409547792313,
+        127.69359311978488
+      ],
+      "bounds": [
+        101.0,
+        84.0,
+        144.8765829403103,
+        148.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        102.91211933673361,
+        85.63895943148594
+      ]
+    },
+    "fighter-relic_grimtooth-left": {
+      "path": "img/held/fighter-relic_grimtooth-left.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        128.4862826778207,
+        128.43817665763248
+      ],
+      "bounds": [
+        115.88134616615805,
+        91.0,
+        140.46573763844725,
+        148.79279626112378
+      ],
+      "pose": "left",
+      "two": false,
+      "lit": false,
+      "tip": [
+        136.9146588702277,
+        92.91211933673361
+      ]
+    },
+    "fighter-relic_grimtooth-thrust": {
+      "path": "img/held/fighter-relic_grimtooth-thrust.png",
+      "id": "relic_grimtooth",
+      "cls": "fighter",
+      "grip": [
+        127.78811412962293,
+        128.39310954139012
+      ],
+      "bounds": [
+        111.06280629121406,
+        98.0,
+        159.50380930024116,
+        144.3054388698009
+      ],
+      "pose": "thrust",
+      "two": false,
+      "lit": false,
+      "tip": [
+        157.45511001088371,
+        99.77553938410978
+      ]
+    },
+    "mage-relic_grimtooth-rest": {
+      "path": "img/held/mage-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        127.6087948647526,
+        128.18562770951002
+      ],
+      "bounds": [
+        113.0,
+        84.0,
+        141.29941327294796,
+        148.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.78299942641374,
+        86.79008299874135
+      ]
+    },
+    "mage-relic_grimtooth-drawback": {
+      "path": "img/held/mage-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        127.96808967127467,
+        127.77829925757635
+      ],
+      "bounds": [
+        118.0,
+        94.0,
+        144.0241803041315,
+        146.70092116334004
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        132.7475815647757,
+        96.79008299874135
+      ]
+    },
+    "mage-relic_grimtooth-windup": {
+      "path": "img/held/mage-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        127.78909650510965,
+        128.02630338291334
+      ],
+      "bounds": [
+        112.92142179640241,
+        93.0,
+        154.83707783646503,
+        147.1335889248652
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        151.6484115521892,
+        95.39149971320687
+      ]
+    },
+    "mage-relic_grimtooth-strike": {
+      "path": "img/held/mage-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        128.3257776889269,
+        128.12626184306157
+      ],
+      "bounds": [
+        111.0,
+        87.0,
+        143.28524612829275,
+        148.32642289562037
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        114.58724956981031,
+        89.79008299874135
+      ]
+    },
+    "mage-relic_grimtooth-cut": {
+      "path": "img/held/mage-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        128.19982350233886,
+        128.36767377452765
+      ],
+      "bounds": [
+        90.0,
+        103.0,
+        147.11570935057705,
+        142.3113527107089
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.5907913559741,
+        105.5907913559741
+      ]
+    },
+    "mage-relic_grimtooth-sweep": {
+      "path": "img/held/mage-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        127.75056844827168,
+        127.83557193898935
+      ],
+      "bounds": [
+        85.0,
+        116.0,
+        146.87626853801518,
+        139.9149971320687
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        87.79008299874135,
+        124.37024899622405
+      ]
+    },
+    "mage-relic_grimtooth-through": {
+      "path": "img/held/mage-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        128.4209164052521,
+        127.81653647317316
+      ],
+      "bounds": [
+        76.0,
+        114.59433314213791,
+        150.13306329315736,
+        155.6484115521892
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        78.5907913559741,
+        154.25337005281852
+      ]
+    },
+    "mage-relic_grimtooth-recover": {
+      "path": "img/held/mage-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        127.85453640715781,
+        127.7993394727615
+      ],
+      "bounds": [
+        89.0,
+        102.0,
+        148.4685863434156,
+        143.74015981944177
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        91.79008299874135,
+        104.79008299874135
+      ]
+    },
+    "mage-relic_grimtooth-return": {
+      "path": "img/held/mage-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "mage",
+      "grip": [
+        128.44955399153136,
+        128.49613592188265
+      ],
+      "bounds": [
+        101.0,
+        89.0,
+        144.7207201652626,
+        148.33693428420358
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.39149971320687,
+        91.79008299874135
+      ]
+    },
+    "thief-relic_grimtooth-rest": {
+      "path": "img/held/thief-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        127.53023868637345,
+        128.36669385462508
+      ],
+      "bounds": [
+        114.0,
+        85.0,
+        141.91695423161153,
+        149.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.58908836684026,
+        87.67696821399015
+      ]
+    },
+    "thief-relic_grimtooth-drawback": {
+      "path": "img/held/thief-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        127.6508534330026,
+        127.86169814195699
+      ],
+      "bounds": [
+        117.0,
+        93.0,
+        144.00521710032953,
+        147.13273340563538
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        131.91453719223082,
+        95.67696821399015
+      ]
+    },
+    "thief-relic_grimtooth-windup": {
+      "path": "img/held/thief-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        127.92593522095444,
+        127.60662131356679
+      ],
+      "bounds": [
+        113.17928217814386,
+        93.0,
+        155.89088366840252,
+        146.55022512227112
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        152.83149142384235,
+        95.29454418342013
+      ]
+    },
+    "thief-relic_grimtooth-strike": {
+      "path": "img/held/thief-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        128.0974123636494,
+        128.00426701562859
+      ],
+      "bounds": [
+        113.0,
+        91.0,
+        142.82907438446165,
+        148.76488212078027
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        116.05939224456017,
+        93.67696821399015
+      ]
+    },
+    "thief-relic_grimtooth-cut": {
+      "path": "img/held/thief-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        128.12867971091134,
+        128.21035413062768
+      ],
+      "bounds": [
+        75.52969612228009,
+        94.52969612228009,
+        149.95166877298652,
+        144.15024663362283
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        76.48575619870513,
+        95.48575619870513
+      ]
+    },
+    "thief-relic_grimtooth-sweep": {
+      "path": "img/held/thief-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        127.67982026070564,
+        127.51046616891789
+      ],
+      "bounds": [
+        88.0,
+        116.0,
+        146.29801946179794,
+        139.1247222197325
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        90.67696821399015,
+        124.03090464197044
+      ]
+    },
+    "thief-relic_grimtooth-through": {
+      "path": "img/held/thief-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        128.39920348244883,
+        128.2866351764379
+      ],
+      "bounds": [
+        79.0,
+        115.0239785842543,
+        150.30081892520923,
+        155.30179530156227
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        81.48575619870513,
+        153.96331119456718
+      ]
+    },
+    "thief-relic_grimtooth-recover": {
+      "path": "img/held/thief-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        128.11463518838866,
+        127.94165822644881
+      ],
+      "bounds": [
+        90.0,
+        101.0,
+        148.5649514351358,
+        143.80483646891162
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.48575619870513,
+        103.48575619870513
+      ]
+    },
+    "thief-relic_grimtooth-return": {
+      "path": "img/held/thief-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "thief",
+      "grip": [
+        127.64654279713301,
+        127.72104557120107
+      ],
+      "bounds": [
+        99.0,
+        88.0,
+        144.28313539902064,
+        148.02397559656654
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.67696821399015,
+        90.29454418342013
+      ]
+    },
+    "ranger-relic_grimtooth-rest": {
+      "path": "img/held/ranger-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        127.82175974732709,
+        127.80404105934826
+      ],
+      "bounds": [
+        116.0,
+        93.0,
+        138.6722721355556,
+        145.15157984592074
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.27791886297189,
+        94.91211933673361
+      ]
+    },
+    "ranger-relic_grimtooth-drawback": {
+      "path": "img/held/ranger-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        128.33457308094495,
+        127.57490258008067
+      ],
+      "bounds": [
+        120.0,
+        99.0,
+        142.19044537868925,
+        143.90120574489427
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        130.10691649416333,
+        100.77553938410978
+      ]
+    },
+    "ranger-relic_grimtooth-windup": {
+      "path": "img/held/ranger-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        127.73464393179539,
+        128.24093215817666
+      ],
+      "bounds": [
+        115.61284534454427,
+        98.0,
+        150.05710749269085,
+        143.84407178983759
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        145.959708913976,
+        99.63895943148594
+      ]
+    },
+    "ranger-relic_grimtooth-strike": {
+      "path": "img/held/ranger-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        128.3895559017478,
+        128.05797562901472
+      ],
+      "bounds": [
+        113.0,
+        95.0,
+        139.27841994067307,
+        146.0230743293711
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        115.18527924198126,
+        96.91211933673361
+      ]
+    },
+    "ranger-relic_grimtooth-cut": {
+      "path": "img/held/ranger-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        128.1205676604281,
+        128.26405087603234
+      ],
+      "bounds": [
+        94.0,
+        107.0,
+        144.68563989841866,
+        140.45676177468576
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        95.77553938410978,
+        108.77553938410978
+      ]
+    },
+    "ranger-relic_grimtooth-sweep": {
+      "path": "img/held/ranger-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        128.04992936255576,
+        127.76676156127958
+      ],
+      "bounds": [
+        89.0,
+        117.0,
+        144.98636249173052,
+        138.29590132098423
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        90.91211933673361,
+        124.92163725218208
+      ]
+    },
+    "ranger-relic_grimtooth-through": {
+      "path": "img/held/ranger-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        127.85594229497002,
+        127.56321389701017
+      ],
+      "bounds": [
+        88.0,
+        116.6210836765616,
+        145.74400990204657,
+        151.51078768219554
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        89.63895943148594,
+        150.41814806120487
+      ]
+    },
+    "ranger-relic_grimtooth-recover": {
+      "path": "img/held/ranger-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        127.5324151176935,
+        128.23642331249067
+      ],
+      "bounds": [
+        100.0,
+        108.0,
+        147.19689622057663,
+        143.37606521692737
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.63895943148594,
+        109.91211933673361
+      ]
+    },
+    "ranger-relic_grimtooth-return": {
+      "path": "img/held/ranger-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "ranger",
+      "grip": [
+        128.47409547792313,
+        127.69359311978488
+      ],
+      "bounds": [
+        101.0,
+        84.0,
+        144.8765829403103,
+        148.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        102.91211933673361,
+        85.63895943148594
+      ]
+    },
+    "druid-relic_grimtooth-rest": {
+      "path": "img/held/druid-relic_grimtooth-rest.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        128.01264176291187,
+        127.69034427922223
+      ],
+      "bounds": [
+        114.0,
+        86.0,
+        141.1601571807895,
+        149.01680871070587
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.41623102603937,
+        87.91308937458204
+      ]
+    },
+    "druid-relic_grimtooth-drawback": {
+      "path": "img/held/druid-relic_grimtooth-drawback.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        127.93997511275697,
+        127.75132314897928
+      ],
+      "bounds": [
+        118.0,
+        93.0,
+        144.3452904266104,
+        147.13214835666477
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        134.39790892498897,
+        94.91308937458204
+      ]
+    },
+    "druid-relic_grimtooth-windup": {
+      "path": "img/held/druid-relic_grimtooth-windup.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        127.60709585346419,
+        128.38660376246605
+      ],
+      "bounds": [
+        116.0,
+        91.0,
+        153.71519052747462,
+        145.27808974609718
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        151.665451911851,
+        92.77644013354048
+      ]
+    },
+    "druid-relic_grimtooth-strike": {
+      "path": "img/held/druid-relic_grimtooth-strike.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        127.82767249618023,
+        127.54721786415529
+      ],
+      "bounds": [
+        113.0,
+        86.0,
+        140.32984820831493,
+        147.10604237322153
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        116.55288026708094,
+        87.91308937458204
+      ]
+    },
+    "druid-relic_grimtooth-cut": {
+      "path": "img/held/druid-relic_grimtooth-cut.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        127.63522253755933,
+        127.9021403541436
+      ],
+      "bounds": [
+        89.0,
+        106.0,
+        145.29156165314836,
+        140.9019652723035
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        90.91308937458204,
+        108.18638785666519
+      ]
+    },
+    "druid-relic_grimtooth-sweep": {
+      "path": "img/held/druid-relic_grimtooth-sweep.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        128.37468709458946,
+        127.92425874192168
+      ],
+      "bounds": [
+        90.0,
+        116.0,
+        148.1533529026434,
+        140.30662039951113
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        91.91308937458204,
+        120.91937267749668
+      ]
+    },
+    "druid-relic_grimtooth-through": {
+      "path": "img/held/druid-relic_grimtooth-through.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        128.2565051444169,
+        128.26558121619533
+      ],
+      "bounds": [
+        82.01642438471544,
+        116.56250293582355,
+        147.15542313864518,
+        153.98848900955778
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        82.6397908924989,
+        152.89529508122516
+      ]
+    },
+    "druid-relic_grimtooth-recover": {
+      "path": "img/held/druid-relic_grimtooth-recover.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        128.07980742705706,
+        127.54242403796799
+      ],
+      "bounds": [
+        101.0,
+        105.0,
+        150.23526814424352,
+        144.64762943458814
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        102.77644013354048,
+        106.77644013354048
+      ]
+    },
+    "druid-relic_grimtooth-return": {
+      "path": "img/held/druid-relic_grimtooth-return.png",
+      "id": "relic_grimtooth",
+      "cls": "druid",
+      "grip": [
+        128.1406983288652,
+        128.1578204787677
+      ],
+      "bounds": [
+        101.0,
+        85.0,
+        145.1737802560636,
+        149.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        102.77644013354048,
+        86.77644013354048
+      ]
+    },
+    "spellblade-relic_whisper-rest": {
+      "path": "img/held/spellblade-relic_whisper-rest.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.52070930712536,
+        128.40527706325435
+      ],
+      "bounds": [
+        106.0,
+        53.0,
+        148.83016512333356,
+        157.63951015248125
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        111.66869832514709,
+        57.09405990149512
+      ]
+    },
+    "spellblade-relic_whisper-drawback": {
+      "path": "img/held/spellblade-relic_whisper-drawback.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.3998389369841,
+        127.70689005537103
+      ],
+      "bounds": [
+        110.0,
+        62.0,
+        153.99627935435325,
+        156.47005431377818
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        139.60320236465702,
+        66.09405990149511
+      ]
+    },
+    "spellblade-relic_whisper-windup": {
+      "path": "img/held/spellblade-relic_whisper-windup.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.50416548100142,
+        127.7490937393501
+      ],
+      "bounds": [
+        105.12332568134042,
+        53.0,
+        179.03011383511063,
+        154.75055252937545
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        175.8587290643386,
+        57.09405990149512
+      ]
+    },
+    "spellblade-relic_whisper-strike": {
+      "path": "img/held/spellblade-relic_whisper-strike.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.65953168003797,
+        127.73941646149503
+      ],
+      "bounds": [
+        100.0,
+        49.0,
+        148.401487808362,
+        158.08805265590888
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        104.7239152709559,
+        53.408987586225514
+      ]
+    },
+    "spellblade-relic_whisper-cut": {
+      "path": "img/held/spellblade-relic_whisper-cut.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.60538323887377,
+        127.8289076620781
+      ],
+      "bounds": [
+        49.0,
+        79.0,
+        157.51872638745328,
+        151.67586180523298
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        52.77913221676472,
+        83.4089875862255
+      ]
+    },
+    "spellblade-relic_whisper-sweep": {
+      "path": "img/held/spellblade-relic_whisper-sweep.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.31995415552706,
+        128.13960294367405
+      ],
+      "bounds": [
+        49.0,
+        112.0,
+        154.92170672809254,
+        148.53161142872568
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        53.408987586225514,
+        120.81797517245103
+      ]
+    },
+    "spellblade-relic_whisper-through": {
+      "path": "img/held/spellblade-relic_whisper-through.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.09230530439447,
+        127.58249699412772
+      ],
+      "bounds": [
+        46.51942147784315,
+        109.0,
+        155.25746350494268,
+        162.53770640416695
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        48.09405990149512,
+        160.3332126110542
+      ]
+    },
+    "spellblade-relic_whisper-recover": {
+      "path": "img/held/spellblade-relic_whisper-recover.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.23387092238946,
+        128.09321409571328
+      ],
+      "bounds": [
+        57.0,
+        84.0,
+        157.18145683297473,
+        152.03855164757792
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        61.09405990149512,
+        88.09405990149511
+      ]
+    },
+    "spellblade-relic_whisper-return": {
+      "path": "img/held/spellblade-relic_whisper-return.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.84008084643564,
+        128.45518072912506
+      ],
+      "bounds": [
+        69.13970192094641,
+        58.0,
+        155.23778164938875,
+        160.30274673178172
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        73.7239152709559,
+        62.09405990149512
+      ]
+    },
+    "spellblade-relic_whisper-rest-lit": {
+      "path": "img/held/spellblade-relic_whisper-rest-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.79351991298998,
+        127.77791862043678
+      ],
+      "bounds": [
+        108.0,
+        57.0,
+        149.570454384412,
+        158.34920868795504
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "tip": [
+        114.29855369460788,
+        61.408987586225514
+      ]
+    },
+    "spellblade-relic_whisper-drawback-lit": {
+      "path": "img/held/spellblade-relic_whisper-drawback-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.015522560632,
+        127.88665077781513
+      ],
+      "bounds": [
+        109.0,
+        62.0,
+        153.82516902056366,
+        156.8899788885977
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "tip": [
+        138.60320236465702,
+        66.4089875862255
+      ]
+    },
+    "spellblade-relic_whisper-windup-lit": {
+      "path": "img/held/spellblade-relic_whisper-windup-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.88619525741402,
+        127.63147724703715
+      ],
+      "bounds": [
+        104.0045990689388,
+        57.0,
+        181.6214872909808,
+        156.44389619533615
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "tip": [
+        176.89757202002488,
+        61.09405990149512
+      ]
+    },
+    "spellblade-relic_whisper-strike-lit": {
+      "path": "img/held/spellblade-relic_whisper-strike-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.95268773907792,
+        128.3507124676496
+      ],
+      "bounds": [
+        99.0,
+        48.0,
+        149.60018693207573,
+        160.0
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "tip": [
+        104.0388429556863,
+        52.408987586225514
+      ]
+    },
+    "spellblade-relic_whisper-cut-lit": {
+      "path": "img/held/spellblade-relic_whisper-cut-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.2548124886823,
+        127.69334591544417
+      ],
+      "bounds": [
+        33.54887733904102,
+        70.51942147784315,
+        161.58688461162106,
+        154.2018798933295
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "tip": [
+        35.77913221676472,
+        72.4089875862255
+      ]
+    },
+    "spellblade-relic_whisper-sweep-lit": {
+      "path": "img/held/spellblade-relic_whisper-sweep-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.83767389913092,
+        128.46286608937422
+      ],
+      "bounds": [
+        49.0,
+        111.0,
+        155.26743434038957,
+        148.00192443310203
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "tip": [
+        53.408987586225514,
+        119.81797517245103
+      ]
+    },
+    "spellblade-relic_whisper-through-lit": {
+      "path": "img/held/spellblade-relic_whisper-through-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        127.82971860086629,
+        128.4853530508057
+      ],
+      "bounds": [
+        44.0,
+        108.14644137339964,
+        156.47535184733204,
+        165.25530175133534
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "tip": [
+        48.09405990149512,
+        161.85263408889733
+      ]
+    },
+    "spellblade-relic_whisper-recover-lit": {
+      "path": "img/held/spellblade-relic_whisper-recover-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.4298189278287,
+        128.17068630615694
+      ],
+      "bounds": [
+        57.0,
+        84.0,
+        157.73201341142038,
+        152.41363052009183
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "tip": [
+        60.77913221676472,
+        88.4089875862255
+      ]
+    },
+    "spellblade-relic_whisper-return-lit": {
+      "path": "img/held/spellblade-relic_whisper-return-lit.png",
+      "id": "relic_whisper",
+      "cls": "spellblade",
+      "grip": [
+        128.15931291777127,
+        128.2411772446752
+      ],
+      "bounds": [
+        68.48253219854391,
+        57.0,
+        156.01258810945535,
+        160.61838862751142
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "tip": [
+        72.4089875862255,
+        60.77913221676472
+      ]
+    },
+    "fighter-relic_whisper-rest": {
+      "path": "img/held/fighter-relic_whisper-rest.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.96917808219177,
+        127.58803042201087
+      ],
+      "bounds": [
+        108.0,
+        46.0,
+        149.01518919233342,
+        158.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.85318325916877,
+        49.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-drawback": {
+      "path": "img/held/fighter-relic_whisper-drawback.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.84502515778146,
+        127.68749818224123
+      ],
+      "bounds": [
+        112.0,
+        56.0,
+        153.3699938923305,
+        156.41202047523487
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        141.26591629584388,
+        59.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-windup": {
+      "path": "img/held/fighter-relic_whisper-windup.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        128.47707442631534,
+        127.87817380682314
+      ],
+      "bounds": [
+        106.14977605211878,
+        59.0,
+        175.78306139662044,
+        154.85152546316493
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        171.71128173806824,
+        62.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-strike": {
+      "path": "img/held/fighter-relic_whisper-strike.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        128.49673530523805,
+        128.29007067446122
+      ],
+      "bounds": [
+        99.0,
+        56.0,
+        149.0179958118838,
+        158.23806096035833
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.3262658872117,
+        59.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-cut": {
+      "path": "img/held/fighter-relic_whisper-cut.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        128.4352296192886,
+        128.16384550504608
+      ],
+      "bounds": [
+        63.0,
+        91.0,
+        154.3270657010732,
+        148.84003722769972
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        66.05383474391414,
+        94.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-sweep": {
+      "path": "img/held/fighter-relic_whisper-sweep.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.64508623447634,
+        128.45584300381003
+      ],
+      "bounds": [
+        53.0,
+        112.0,
+        154.34308379140856,
+        147.47222464590058
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        56.56280720123317,
+        120.14355931710438
+      ]
+    },
+    "fighter-relic_whisper-through": {
+      "path": "img/held/fighter-relic_whisper-through.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.77801529825787,
+        127.73176424395777
+      ],
+      "bounds": [
+        45.035889829276094,
+        109.0,
+        154.5861035977082,
+        162.28346130355118
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        46.308320972573654,
+        158.1158421312858
+      ]
+    },
+    "fighter-relic_whisper-recover": {
+      "path": "img/held/fighter-relic_whisper-recover.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.85865107756742,
+        127.63606287991158
+      ],
+      "bounds": [
+        60.0,
+        85.0,
+        155.37365122298812,
+        150.39364656952563
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        63.053834743914145,
+        88.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-return": {
+      "path": "img/held/fighter-relic_whisper-return.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        128.2930227147137,
+        128.46193613122765
+      ],
+      "bounds": [
+        84.0,
+        60.0,
+        152.12519995346537,
+        156.20694093011082
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        87.30832097257365,
+        63.308320972573654
+      ]
+    },
+    "fighter-relic_whisper-left": {
+      "path": "img/held/fighter-relic_whisper-left.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        127.74796411017073,
+        128.17127650292298
+      ],
+      "bounds": [
+        106.91434720646832,
+        49.0,
+        152.95599569554724,
+        158.4399703341768
+      ],
+      "pose": "left",
+      "two": false,
+      "lit": false,
+      "tip": [
+        147.86627112235698,
+        52.56280720123317
+      ]
+    },
+    "fighter-relic_whisper-thrust": {
+      "path": "img/held/fighter-relic_whisper-thrust.png",
+      "id": "relic_whisper",
+      "cls": "fighter",
+      "grip": [
+        128.22905214786377,
+        127.81082947968473
+      ],
+      "bounds": [
+        99.75163598289853,
+        61.78417386499142,
+        199.94296600063987,
+        154.98344385306694
+      ],
+      "pose": "thrust",
+      "two": false,
+      "lit": false,
+      "tip": [
+        195.87118634208767,
+        64.56280720123317
+      ]
+    },
+    "thief-relic_whisper-rest": {
+      "path": "img/held/thief-relic_whisper-rest.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        127.55668643896573,
+        128.31933020182666
+      ],
+      "bounds": [
+        109.0,
+        54.0,
+        147.01865680600355,
+        156.38267690999558
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.34377427444011,
+        56.8958495162934
+      ]
+    },
+    "thief-relic_whisper-drawback": {
+      "path": "img/held/thief-relic_whisper-drawback.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        128.40188924631454,
+        128.2345058199557
+      ],
+      "bounds": [
+        116.0,
+        57.0,
+        151.10005418636786,
+        153.7877301674015
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        140.82156728251488,
+        59.8958495162934
+      ]
+    },
+    "thief-relic_whisper-windup": {
+      "path": "img/held/thief-relic_whisper-windup.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        127.77646184071867,
+        128.16048325227538
+      ],
+      "bounds": [
+        110.0,
+        64.0,
+        169.15806868999377,
+        151.27722255526953
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        165.84852638565843,
+        66.48215672825148
+      ]
+    },
+    "thief-relic_whisper-strike": {
+      "path": "img/held/thief-relic_whisper-strike.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        127.66039257229373,
+        127.79502261089644
+      ],
+      "bounds": [
+        103.0,
+        60.0,
+        146.13984256773202,
+        154.92214117044767
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        106.72323509237722,
+        62.8958495162934
+      ]
+    },
+    "thief-relic_whisper-cut": {
+      "path": "img/held/thief-relic_whisper-cut.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        128.3760389875903,
+        127.68335658508423
+      ],
+      "bounds": [
+        65.0,
+        88.0,
+        153.94448722963602,
+        148.07845240482942
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        67.8958495162934,
+        90.8958495162934
+      ]
+    },
+    "thief-relic_whisper-sweep": {
+      "path": "img/held/thief-relic_whisper-sweep.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        127.6052203597428,
+        127.64044186822186
+      ],
+      "bounds": [
+        60.0,
+        112.0,
+        152.38736271955727,
+        145.21456656630923
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        62.8958495162934,
+        124.82447642929935
+      ]
+    },
+    "thief-relic_whisper-through": {
+      "path": "img/held/thief-relic_whisper-through.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        128.39206404259852,
+        128.37410645128045
+      ],
+      "bounds": [
+        60.0,
+        113.0,
+        152.18676308663575,
+        158.9476168894513
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        62.48215672825149,
+        155.6103571683172
+      ]
+    },
+    "thief-relic_whisper-recover": {
+      "path": "img/held/thief-relic_whisper-recover.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        127.73452779738508,
+        128.0968794635882
+      ],
+      "bounds": [
+        67.0,
+        84.0,
+        154.64760170840344,
+        150.42392060348914
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        69.8958495162934,
+        86.8958495162934
+      ]
+    },
+    "thief-relic_whisper-return": {
+      "path": "img/held/thief-relic_whisper-return.png",
+      "id": "relic_whisper",
+      "cls": "thief",
+      "grip": [
+        128.45870810390926,
+        128.47824252961317
+      ],
+      "bounds": [
+        77.0,
+        47.0,
+        154.43298897102414,
+        159.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        79.8958495162934,
+        49.48215672825149
+      ]
+    },
+    "ranger-relic_whisper-rest": {
+      "path": "img/held/ranger-relic_whisper-rest.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        127.96917808219177,
+        127.58803042201087
+      ],
+      "bounds": [
+        108.0,
+        46.0,
+        149.01518919233342,
+        158.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.85318325916877,
+        49.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-drawback": {
+      "path": "img/held/ranger-relic_whisper-drawback.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        127.84502515778146,
+        127.68749818224123
+      ],
+      "bounds": [
+        112.0,
+        56.0,
+        153.3699938923305,
+        156.41202047523487
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        141.26591629584388,
+        59.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-windup": {
+      "path": "img/held/ranger-relic_whisper-windup.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        128.47707442631534,
+        127.87817380682314
+      ],
+      "bounds": [
+        106.14977605211878,
+        59.0,
+        175.78306139662044,
+        154.85152546316493
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        171.71128173806824,
+        62.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-strike": {
+      "path": "img/held/ranger-relic_whisper-strike.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        128.49673530523805,
+        128.29007067446122
+      ],
+      "bounds": [
+        99.0,
+        56.0,
+        149.0179958118838,
+        158.23806096035833
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.3262658872117,
+        59.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-cut": {
+      "path": "img/held/ranger-relic_whisper-cut.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        128.4352296192886,
+        128.16384550504608
+      ],
+      "bounds": [
+        63.0,
+        91.0,
+        154.3270657010732,
+        148.84003722769972
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        66.05383474391414,
+        94.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-sweep": {
+      "path": "img/held/ranger-relic_whisper-sweep.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        127.64508623447634,
+        128.45584300381003
+      ],
+      "bounds": [
+        53.0,
+        112.0,
+        154.34308379140856,
+        147.47222464590058
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        56.56280720123317,
+        120.14355931710438
+      ]
+    },
+    "ranger-relic_whisper-through": {
+      "path": "img/held/ranger-relic_whisper-through.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        127.77801529825787,
+        127.73176424395777
+      ],
+      "bounds": [
+        45.035889829276094,
+        109.0,
+        154.5861035977082,
+        162.28346130355118
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        46.308320972573654,
+        158.1158421312858
+      ]
+    },
+    "ranger-relic_whisper-recover": {
+      "path": "img/held/ranger-relic_whisper-recover.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        127.85865107756742,
+        127.63606287991158
+      ],
+      "bounds": [
+        60.0,
+        85.0,
+        155.37365122298812,
+        150.39364656952563
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        63.053834743914145,
+        88.56280720123317
+      ]
+    },
+    "ranger-relic_whisper-return": {
+      "path": "img/held/ranger-relic_whisper-return.png",
+      "id": "relic_whisper",
+      "cls": "ranger",
+      "grip": [
+        128.2930227147137,
+        128.46193613122765
+      ],
+      "bounds": [
+        84.0,
+        60.0,
+        152.12519995346537,
+        156.20694093011082
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        87.30832097257365,
+        63.308320972573654
+      ]
+    },
+    "spellblade-relic_thirst-rest": {
+      "path": "img/held/spellblade-relic_thirst-rest.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.5058963565732,
+        128.34400657916095
+      ],
+      "bounds": [
+        108.0,
+        51.0,
+        146.78242238646078,
+        152.74263794054949
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        114.09438066072956,
+        54.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-drawback": {
+      "path": "img/held/spellblade-relic_thirst-drawback.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.29635094629543,
+        127.53812905110752
+      ],
+      "bounds": [
+        112.13067382294699,
+        64.0,
+        154.3241210652181,
+        152.88964453053143
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        138.14769567052255,
+        67.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-windup": {
+      "path": "img/held/spellblade-relic_thirst-windup.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.50440998560808,
+        127.77814636468895
+      ],
+      "bounds": [
+        109.6834990748055,
+        62.0,
+        171.37608345146245,
+        150.17061841948643
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        167.22082391005594,
+        65.60122493588564
+      ]
+    },
+    "spellblade-relic_thirst-strike": {
+      "path": "img/held/spellblade-relic_thirst-strike.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.36240702065726,
+        127.83949314490386
+      ],
+      "bounds": [
+        102.0,
+        53.0,
+        146.87680304719032,
+        152.56904937617003
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        106.98631144968782,
+        56.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-cut": {
+      "path": "img/held/spellblade-relic_thirst-cut.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.4363909839525,
+        128.0118957289559
+      ],
+      "bounds": [
+        57.0,
+        80.61850129310811,
+        153.78253232770282,
+        147.29933624057222
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        60.87824223864608,
+        82.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-sweep": {
+      "path": "img/held/spellblade-relic_thirst-sweep.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.20619350091437,
+        128.1150613008992
+      ],
+      "bounds": [
+        62.0,
+        113.0,
+        151.80562994383905,
+        147.35014554229383
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        65.87824223864608,
+        121.31051908281302
+      ]
+    },
+    "spellblade-relic_thirst-through": {
+      "path": "img/held/spellblade-relic_thirst-through.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.51770984601734,
+        127.62686115589798
+      ],
+      "bounds": [
+        53.0,
+        106.77017302760434,
+        151.8625444472098,
+        166.05187581833724
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        56.87824223864608,
+        164.38977200177465
+      ]
+    },
+    "spellblade-relic_thirst-recover": {
+      "path": "img/held/spellblade-relic_thirst-recover.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.01381926785194,
+        128.2149398894095
+      ],
+      "bounds": [
+        59.0,
+        81.0,
+        153.87787216084317,
+        148.80702109010636
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        62.87824223864608,
+        84.32420763312521
+      ]
+    },
+    "spellblade-relic_thirst-return": {
+      "path": "img/held/spellblade-relic_thirst-return.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.70939456569963,
+        127.87465486457532
+      ],
+      "bounds": [
+        67.0,
+        30.216138422083475,
+        152.65768365922543,
+        158.21613842208347
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        70.60122493588564,
+        31.601224935885643
+      ]
+    },
+    "spellblade-relic_thirst-rest-lit": {
+      "path": "img/held/spellblade-relic_thirst-rest-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.67435533961672,
+        128.0044253514116
+      ],
+      "bounds": [
+        107.0,
+        48.0,
+        146.33645699198166,
+        152.84024542001666
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "tip": [
+        113.09438066072956,
+        51.60122493588565
+      ]
+    },
+    "spellblade-relic_thirst-drawback-lit": {
+      "path": "img/held/spellblade-relic_thirst-drawback-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.54952182052308,
+        128.07256035406272
+      ],
+      "bounds": [
+        111.01557789488491,
+        62.0,
+        154.1996944152879,
+        154.0289708157943
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "tip": [
+        137.53278218432473,
+        65.60122493588564
+      ]
+    },
+    "spellblade-relic_thirst-windup-lit": {
+      "path": "img/held/spellblade-relic_thirst-windup-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.36822827957104,
+        127.73845454643828
+      ],
+      "bounds": [
+        110.58510252886498,
+        61.0,
+        172.37608345146245,
+        150.08095267981776
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "tip": [
+        168.49784121281638,
+        64.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-strike-lit": {
+      "path": "img/held/spellblade-relic_thirst-strike-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.10320669169923,
+        127.89570471686883
+      ],
+      "bounds": [
+        101.0,
+        52.0,
+        146.98487225823206,
+        153.09175808598357
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "tip": [
+        105.98631144968782,
+        55.87824223864608
+      ]
+    },
+    "spellblade-relic_thirst-cut-lit": {
+      "path": "img/held/spellblade-relic_thirst-cut-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.8004735264519,
+        128.30545745728415
+      ],
+      "bounds": [
+        35.216138422083475,
+        68.21613842208347,
+        155.25150314349713,
+        149.07787692207808
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "tip": [
+        36.60122493588565,
+        69.60122493588564
+      ]
+    },
+    "spellblade-relic_thirst-sweep-lit": {
+      "path": "img/held/spellblade-relic_thirst-sweep-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.61434127233181,
+        128.1153153777066
+      ],
+      "bounds": [
+        63.0,
+        112.0,
+        151.24580091545562,
+        148.01224935885642
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "tip": [
+        66.60122493588564,
+        121.14157099109433
+      ]
+    },
+    "spellblade-relic_thirst-through-lit": {
+      "path": "img/held/spellblade-relic_thirst-through-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        127.51231276984839,
+        128.27375196130413
+      ],
+      "bounds": [
+        52.0,
+        106.77017302760434,
+        151.99936805427808,
+        167.15994502937897
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "tip": [
+        55.60122493588565,
+        165.22082391005594
+      ]
+    },
+    "spellblade-relic_thirst-recover-lit": {
+      "path": "img/held/spellblade-relic_thirst-recover-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.4754638416673,
+        128.38604871608973
+      ],
+      "bounds": [
+        60.0,
+        82.0,
+        154.82967115016285,
+        149.34983173363054
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "tip": [
+        63.60122493588565,
+        85.60122493588564
+      ]
+    },
+    "spellblade-relic_thirst-return-lit": {
+      "path": "img/held/spellblade-relic_thirst-return-lit.png",
+      "id": "relic_thirst",
+      "cls": "spellblade",
+      "grip": [
+        128.24651207081254,
+        127.70725244283813
+      ],
+      "bounds": [
+        71.0,
+        34.78323872182485,
+        152.54347808208803,
+        157.18892969603843
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "tip": [
+        74.87824223864608,
+        37.32420763312521
+      ]
+    },
+    "fighter-relic_thirst-rest": {
+      "path": "img/held/fighter-relic_thirst-rest.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        128.267094548785,
+        127.9148834941063
+      ],
+      "bounds": [
+        106.0,
+        44.0,
+        147.41163036884612,
+        155.0251291139843
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.30793477097285,
+        48.26296194973416
+      ]
+    },
+    "fighter-relic_thirst-drawback": {
+      "path": "img/held/fighter-relic_thirst-drawback.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        127.89795487255124,
+        128.1015170149751
+      ],
+      "bounds": [
+        111.0,
+        59.0,
+        156.0237598277687,
+        155.49476240885897
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        139.31824723751978,
+        63.26296194973416
+      ]
+    },
+    "fighter-relic_thirst-windup": {
+      "path": "img/held/fighter-relic_thirst-windup.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        128.08585776646487,
+        128.1628108905356
+      ],
+      "bounds": [
+        108.69772412070462,
+        56.0,
+        177.861358581233,
+        152.51150975937577
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        172.9894020672511,
+        59.653967385486425
+      ]
+    },
+    "fighter-relic_thirst-strike": {
+      "path": "img/held/fighter-relic_thirst-strike.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        128.0766590938827,
+        127.75828101768703
+      ],
+      "bounds": [
+        100.0,
+        45.0,
+        148.71956513981897,
+        154.33937126069011
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        106.08994564247737,
+        48.653967385486425
+      ]
+    },
+    "fighter-relic_thirst-cut": {
+      "path": "img/held/fighter-relic_thirst-cut.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        127.69784354073246,
+        127.77501647377875
+      ],
+      "bounds": [
+        56.0,
+        84.0,
+        152.0737035671381,
+        146.30617296872956
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        59.653967385486425,
+        88.26296194973416
+      ]
+    },
+    "fighter-relic_thirst-sweep": {
+      "path": "img/held/fighter-relic_thirst-sweep.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        128.14554161264616,
+        128.13250865319424
+      ],
+      "bounds": [
+        47.0,
+        110.17070117635863,
+        152.8933755188943,
+        144.9039144552948
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        51.26296194973416,
+        122.48438856707861
+      ]
+    },
+    "fighter-relic_thirst-through": {
+      "path": "img/held/fighter-relic_thirst-through.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        127.70782439070808,
+        127.76571027559383
+      ],
+      "bounds": [
+        42.0,
+        110.43597825699095,
+        153.6825387460897,
+        166.55957751002106
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        46.26296194973416,
+        163.41850534654407
+      ]
+    },
+    "fighter-relic_thirst-recover": {
+      "path": "img/held/fighter-relic_thirst-recover.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        127.7024381192535,
+        127.65434182198803
+      ],
+      "bounds": [
+        49.0,
+        79.0,
+        155.43684226802898,
+        149.7210162596791
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        52.95846466761029,
+        82.95846466761029
+      ]
+    },
+    "fighter-relic_thirst-return": {
+      "path": "img/held/fighter-relic_thirst-return.png",
+      "id": "relic_thirst",
+      "cls": "fighter",
+      "grip": [
+        128.3263906367086,
+        127.85327750883162
+      ],
+      "bounds": [
+        64.0,
+        31.0,
+        154.02888442187145,
+        159.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        68.26296194973416,
+        34.653967385486425
+      ]
+    },
+    "thief-relic_thirst-rest": {
+      "path": "img/held/thief-relic_thirst-rest.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        127.74504714477307,
+        128.3642297739135
+      ],
+      "bounds": [
+        104.0,
+        42.0,
+        147.63362945114153,
+        156.87556526490386
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        111.48005076305283,
+        46.363362945114154
+      ]
+    },
+    "thief-relic_thirst-drawback": {
+      "path": "img/held/thief-relic_thirst-drawback.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.0319918264862,
+        128.33630619899466
+      ],
+      "bounds": [
+        110.21077088351282,
+        48.0,
+        156.8443993606894,
+        156.39503628506395
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        140.79021574297454,
+        52.363362945114154
+      ]
+    },
+    "thief-relic_thirst-windup": {
+      "path": "img/held/thief-relic_thirst-windup.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.29134018550135,
+        128.37079916745478
+      ],
+      "bounds": [
+        107.18718729638046,
+        53.0,
+        181.2938578848793,
+        154.8910074790768
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        176.3071573761774,
+        57.363362945114154
+      ]
+    },
+    "thief-relic_thirst-strike": {
+      "path": "img/held/thief-relic_thirst-strike.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.36543262061826,
+        127.76071434484787
+      ],
+      "bounds": [
+        99.0,
+        42.0,
+        150.11368021419437,
+        155.32021337623974
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        105.8567131994651,
+        46.363362945114154
+      ]
+    },
+    "thief-relic_thirst-cut": {
+      "path": "img/held/thief-relic_thirst-cut.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.42118529585645,
+        128.08357398383802
+      ],
+      "bounds": [
+        52.0,
+        80.0,
+        154.24581122027092,
+        147.76215386503378
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        56.363362945114154,
+        84.36336294511415
+      ]
+    },
+    "thief-relic_thirst-sweep": {
+      "path": "img/held/thief-relic_thirst-sweep.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        127.75057634375509,
+        128.4021092184808
+      ],
+      "bounds": [
+        47.0,
+        110.0,
+        153.14902637594463,
+        145.62336775650095
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        51.363362945114154,
+        120.59673858099151
+      ]
+    },
+    "thief-relic_thirst-through": {
+      "path": "img/held/thief-relic_thirst-through.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.25857405688538,
+        128.22028067721732
+      ],
+      "bounds": [
+        42.0,
+        109.49335025435094,
+        154.1598081678648,
+        168.08708123159815
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        45.740025381526415,
+        164.97039341365945
+      ]
+    },
+    "thief-relic_thirst-recover": {
+      "path": "img/held/thief-relic_thirst-recover.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.09193742080447,
+        127.93301653500284
+      ],
+      "bounds": [
+        49.0,
+        78.0,
+        156.9409348699903,
+        150.92912359712523
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        53.363362945114154,
+        82.36336294511415
+      ]
+    },
+    "thief-relic_thirst-return": {
+      "path": "img/held/thief-relic_thirst-return.png",
+      "id": "relic_thirst",
+      "cls": "thief",
+      "grip": [
+        128.45009062743796,
+        128.0474671554672
+      ],
+      "bounds": [
+        62.0,
+        32.0,
+        154.8914467372661,
+        160.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        66.36336294511415,
+        35.740025381526415
+      ]
+    },
+    "ranger-relic_thirst-rest": {
+      "path": "img/held/ranger-relic_thirst-rest.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        128.267094548785,
+        127.9148834941063
+      ],
+      "bounds": [
+        106.0,
+        44.0,
+        147.41163036884612,
+        155.0251291139843
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.30793477097285,
+        48.26296194973416
+      ]
+    },
+    "ranger-relic_thirst-drawback": {
+      "path": "img/held/ranger-relic_thirst-drawback.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        127.89795487255124,
+        128.1015170149751
+      ],
+      "bounds": [
+        111.0,
+        59.0,
+        156.0237598277687,
+        155.49476240885897
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        139.31824723751978,
+        63.26296194973416
+      ]
+    },
+    "ranger-relic_thirst-windup": {
+      "path": "img/held/ranger-relic_thirst-windup.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        128.08585776646487,
+        128.1628108905356
+      ],
+      "bounds": [
+        108.69772412070462,
+        56.0,
+        177.861358581233,
+        152.51150975937577
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        172.9894020672511,
+        59.653967385486425
+      ]
+    },
+    "ranger-relic_thirst-strike": {
+      "path": "img/held/ranger-relic_thirst-strike.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        128.0766590938827,
+        127.75828101768703
+      ],
+      "bounds": [
+        100.0,
+        45.0,
+        148.71956513981897,
+        154.33937126069011
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        106.08994564247737,
+        48.653967385486425
+      ]
+    },
+    "ranger-relic_thirst-cut": {
+      "path": "img/held/ranger-relic_thirst-cut.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        127.69784354073246,
+        127.77501647377875
+      ],
+      "bounds": [
+        56.0,
+        84.0,
+        152.0737035671381,
+        146.30617296872956
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        59.653967385486425,
+        88.26296194973416
+      ]
+    },
+    "ranger-relic_thirst-sweep": {
+      "path": "img/held/ranger-relic_thirst-sweep.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        128.14554161264616,
+        128.13250865319424
+      ],
+      "bounds": [
+        47.0,
+        110.17070117635863,
+        152.8933755188943,
+        144.9039144552948
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        51.26296194973416,
+        122.48438856707861
+      ]
+    },
+    "ranger-relic_thirst-through": {
+      "path": "img/held/ranger-relic_thirst-through.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        127.70782439070808,
+        127.76571027559383
+      ],
+      "bounds": [
+        42.0,
+        110.43597825699095,
+        153.6825387460897,
+        166.55957751002106
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        46.26296194973416,
+        163.41850534654407
+      ]
+    },
+    "ranger-relic_thirst-recover": {
+      "path": "img/held/ranger-relic_thirst-recover.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        127.7024381192535,
+        127.65434182198803
+      ],
+      "bounds": [
+        49.0,
+        79.0,
+        155.43684226802898,
+        149.7210162596791
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        52.95846466761029,
+        82.95846466761029
+      ]
+    },
+    "ranger-relic_thirst-return": {
+      "path": "img/held/ranger-relic_thirst-return.png",
+      "id": "relic_thirst",
+      "cls": "ranger",
+      "grip": [
+        128.3263906367086,
+        127.85327750883162
+      ],
+      "bounds": [
+        64.0,
+        31.0,
+        154.02888442187145,
+        159.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        68.26296194973416,
+        34.653967385486425
+      ]
+    },
+    "fighter-relic_dawnbringer-rest": {
+      "path": "img/held/fighter-relic_dawnbringer-rest.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        127.86522640339001,
+        128.24754028098175
+      ],
+      "bounds": [
+        92.0,
+        43.0,
+        149.4292069652978,
+        155.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.59960684624812,
+        47.05749831820039
+      ]
+    },
+    "fighter-relic_dawnbringer-drawback": {
+      "path": "img/held/fighter-relic_dawnbringer-drawback.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        128.47319347968937,
+        128.38199674619847
+      ],
+      "bounds": [
+        112.29650949248388,
+        54.0,
+        168.98668995640975,
+        153.6009093700901
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        139.46614246166416,
+        58.36961357344657
+      ]
+    },
+    "fighter-relic_dawnbringer-windup": {
+      "path": "img/held/fighter-relic_dawnbringer-windup.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        127.601906281078,
+        128.46090301259963
+      ],
+      "bounds": [
+        110.0,
+        55.0,
+        189.90150534302305,
+        152.41398019963117
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        180.74612452246834,
+        60.20192092076973
+      ]
+    },
+    "fighter-relic_dawnbringer-strike": {
+      "path": "img/held/fighter-relic_dawnbringer-strike.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        128.32201711171888,
+        127.97889264851531
+      ],
+      "bounds": [
+        86.0,
+        49.0,
+        149.04728155972913,
+        154.87355207782372
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.293647507063,
+        54.618074594431306
+      ]
+    },
+    "fighter-relic_dawnbringer-cut": {
+      "path": "img/held/fighter-relic_dawnbringer-cut.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        128.08110705051644,
+        127.80507343347404
+      ],
+      "bounds": [
+        51.0,
+        69.0,
+        153.8297416856119,
+        147.91759321238496
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        59.73922714689314,
+        82.10884072033971
+      ]
+    },
+    "fighter-relic_dawnbringer-sweep": {
+      "path": "img/held/fighter-relic_dawnbringer-sweep.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        127.89248855623845,
+        127.86933963657523
+      ],
+      "bounds": [
+        46.0,
+        96.49351664159526,
+        152.13579131528155,
+        150.95731656679908
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        50.36961357344657,
+        119.72075939870996
+      ]
+    },
+    "fighter-relic_dawnbringer-through": {
+      "path": "img/held/fighter-relic_dawnbringer-through.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        128.4140782929971,
+        128.0353197425718
+      ],
+      "bounds": [
+        47.0,
+        110.12115255246184,
+        152.56337193716007,
+        176.2890872802444
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        50.745383062954204,
+        158.8111323708665
+      ]
+    },
+    "fighter-relic_dawnbringer-recover": {
+      "path": "img/held/fighter-relic_dawnbringer-recover.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        127.88385020920083,
+        127.73425113796665
+      ],
+      "bounds": [
+        51.0,
+        71.0,
+        154.2113337966759,
+        149.20066447108448
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        59.114996636400775,
+        84.73307123083208
+      ]
+    },
+    "fighter-relic_dawnbringer-return": {
+      "path": "img/held/fighter-relic_dawnbringer-return.png",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "grip": [
+        127.94675648154703,
+        128.39913521780352
+      ],
+      "bounds": [
+        70.0,
+        52.0,
+        150.58098025369398,
+        154.94522433005298
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        82.48461020984735,
+        61.36345765738551
+      ]
+    },
+    "cleric-relic_dawnbringer-rest": {
+      "path": "img/held/cleric-relic_dawnbringer-rest.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        127.71588807594705,
+        127.60646519333714
+      ],
+      "bounds": [
+        91.0,
+        43.0,
+        147.39807122137904,
+        155.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.3113248787873,
+        47.33831317087531
+      ]
+    },
+    "cleric-relic_dawnbringer-drawback": {
+      "path": "img/held/cleric-relic_dawnbringer-drawback.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        128.47850598233467,
+        128.25883128941973
+      ],
+      "bounds": [
+        111.06891720351447,
+        50.0,
+        172.0148421219221,
+        155.37570566758563
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        138.26939707407337,
+        53.718554146464555
+      ]
+    },
+    "cleric-relic_dawnbringer-windup": {
+      "path": "img/held/cleric-relic_dawnbringer-windup.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        128.135550152339,
+        128.148604564599
+      ],
+      "bounds": [
+        112.0,
+        57.0,
+        191.32915512457708,
+        152.09838637622101
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        182.23935609988598,
+        62.16465853675632
+      ]
+    },
+    "cleric-relic_dawnbringer-strike": {
+      "path": "img/held/cleric-relic_dawnbringer-strike.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        127.95014370662378,
+        128.46451049550842
+      ],
+      "bounds": [
+        87.0,
+        49.0,
+        148.3561434166651,
+        155.153627195026
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.8742165858582,
+        56.127228780723726
+      ]
+    },
+    "cleric-relic_dawnbringer-cut": {
+      "path": "img/held/cleric-relic_dawnbringer-cut.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        127.58043531431188,
+        127.55821473986168
+      ],
+      "bounds": [
+        43.0,
+        62.661697896250125,
+        155.38462245054933,
+        149.24736353404302
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        52.29638536616138,
+        72.7754214638044
+      ]
+    },
+    "cleric-relic_dawnbringer-sweep": {
+      "path": "img/held/cleric-relic_dawnbringer-sweep.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        128.40005777039477,
+        127.55116387424647
+      ],
+      "bounds": [
+        59.0,
+        98.0,
+        152.079810575081,
+        150.11107409772495
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        63.33831317087531,
+        122.17060195201958
+      ]
+    },
+    "cleric-relic_dawnbringer-through": {
+      "path": "img/held/cleric-relic_dawnbringer-through.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        127.78527341886746,
+        127.9536375981239
+      ],
+      "bounds": [
+        50.0,
+        111.71855414646456,
+        151.67035238834103,
+        175.70018271824097
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        58.67662634175062,
+        160.3696375627091
+      ]
+    },
+    "cleric-relic_dawnbringer-recover": {
+      "path": "img/held/cleric-relic_dawnbringer-recover.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        128.38854131966616,
+        128.3135792522386
+      ],
+      "bounds": [
+        53.0,
+        71.0,
+        154.68714785790252,
+        149.77100014719275
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        61.67662634175062,
+        83.39518048821517
+      ]
+    },
+    "cleric-relic_dawnbringer-return": {
+      "path": "img/held/cleric-relic_dawnbringer-return.png",
+      "id": "relic_dawnbringer",
+      "cls": "cleric",
+      "grip": [
+        128.26848514293746,
+        128.1416968338061
+      ],
+      "bounds": [
+        69.0,
+        50.0,
+        151.41474937941095,
+        155.28906335597298
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        81.39518048821517,
+        59.60626487836676
+      ]
+    },
+    "fighter-relic_ogres_toll-rest": {
+      "path": "img/held/fighter-relic_ogres_toll-rest.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.5143936892977,
+        128.12266555719867
+      ],
+      "bounds": [
+        58.0,
+        38.0,
+        162.76388078645607,
+        157.65829591139934
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        65.47684965351736,
+        46.200415749019044
+      ]
+    },
+    "fighter-relic_ogres_toll-drawback": {
+      "path": "img/held/fighter-relic_ogres_toll-drawback.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.99541892215785,
+        128.40167415105347
+      ],
+      "bounds": [
+        93.0,
+        35.0,
+        183.1389699132173,
+        154.0827714390373
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        141.237739700112,
+        44.6475479400224
+      ]
+    },
+    "fighter-relic_ogres_toll-windup": {
+      "path": "img/held/fighter-relic_ogres_toll-windup.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.87825698957312,
+        128.2368940322379
+      ],
+      "bounds": [
+        110.0,
+        35.0,
+        189.10989310818368,
+        150.77641204677252
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        166.92053284613218,
+        57.67173765905264
+      ]
+    },
+    "fighter-relic_ogres_toll-strike": {
+      "path": "img/held/fighter-relic_ogres_toll-strike.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.94427485864081,
+        127.68246452641846
+      ],
+      "bounds": [
+        53.0,
+        37.0,
+        157.3414146621625,
+        157.7590328936162
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        58.547340065512884,
+        51.4713219100336
+      ]
+    },
+    "fighter-relic_ogres_toll-cut": {
+      "path": "img/held/fighter-relic_ogres_toll-cut.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.8306071473256,
+        127.57091324593257
+      ],
+      "bounds": [
+        28.0,
+        56.0,
+        153.802915669879,
+        148.0876298838827
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        30.89426438200672,
+        111.47340065512881
+      ]
+    },
+    "fighter-relic_ogres_toll-sweep": {
+      "path": "img/held/fighter-relic_ogres_toll-sweep.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.62178295730509,
+        128.39968735914957
+      ],
+      "bounds": [
+        34.0,
+        85.0,
+        153.0888976319792,
+        176.40984140335644
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        37.37664177900784,
+        154.46234516816128
+      ]
+    },
+    "fighter-relic_ogres_toll-through": {
+      "path": "img/held/fighter-relic_ogres_toll-through.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.83187188056336,
+        128.07831397040314
+      ],
+      "bounds": [
+        39.0,
+        112.0,
+        151.24545773846404,
+        198.3455540632005
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        56.606774990540885,
+        192.31583660068648
+      ]
+    },
+    "fighter-relic_ogres_toll-recover": {
+      "path": "img/held/fighter-relic_ogres_toll-recover.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.74379278272968,
+        127.96424679030602
+      ],
+      "bounds": [
+        33.0,
+        50.0,
+        156.06793230436205,
+        151.37633727827597
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        53.74222807104816,
+        76.5307568350616
+      ]
+    },
+    "fighter-relic_ogres_toll-return": {
+      "path": "img/held/fighter-relic_ogres_toll-return.png",
+      "id": "relic_ogres_toll",
+      "cls": "fighter",
+      "grip": [
+        127.78125692475366,
+        128.1629154286903
+      ],
+      "bounds": [
+        34.0,
+        31.0,
+        154.24322674300288,
+        159.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        72.34900306158904,
+        45.953699307034725
+      ]
+    },
+    "fighter-relic_ninth_circle-rest-two": {
+      "path": "img/held/fighter-relic_ninth_circle-rest-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "fighter",
+      "grip": [
+        127.78290216935326,
+        127.98873165727292
+      ],
+      "bounds": [
+        102.77086958959642,
+        88.0,
+        149.0073074974145,
+        181.59399596283484
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        120.98489385827557,
+        91.74590364798578
+      ]
+    },
+    "fighter-relic_ninth_circle-drive-two": {
+      "path": "img/held/fighter-relic_ninth_circle-drive-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "fighter",
+      "grip": [
+        127.59251161931029,
+        127.9284425970768
+      ],
+      "bounds": [
+        106.96462703986909,
+        84.0,
+        148.49436582863646,
+        181.5991737725481
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        126.59523680964267,
+        88.03405008244623
+      ]
+    },
+    "fighter-relic_ninth_circle-rest-one": {
+      "path": "img/held/fighter-relic_ninth_circle-rest-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "fighter",
+      "grip": [
+        128.21147196620743,
+        127.97745864190097
+      ],
+      "bounds": [
+        109.0,
+        72.0,
+        148.18791508662045,
+        181.72864030187364
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.9495645094969,
+        75.74590364798578
+      ]
+    },
+    "fighter-relic_ninth_circle-drive-one": {
+      "path": "img/held/fighter-relic_ninth_circle-drive-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "fighter",
+      "grip": [
+        128.06158597874258,
+        128.31706802955603
+      ],
+      "bounds": [
+        106.78992463542986,
+        72.0,
+        149.79825803798758,
+        187.81694394487525
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.39029668179911,
+        76.03405008244623
+      ]
+    },
+    "fighter-relic_ninth_circle-channel-one": {
+      "path": "img/held/fighter-relic_ninth_circle-channel-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "fighter",
+      "grip": [
+        127.65251564816853,
+        127.88303850674731
+      ],
+      "bounds": [
+        98.0,
+        81.0,
+        157.2392186507063,
+        181.70153117380994
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        107.79697877165512,
+        85.61034295136712
+      ]
+    },
+    "cleric-relic_ninth_circle-rest-two": {
+      "path": "img/held/cleric-relic_ninth_circle-rest-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "cleric",
+      "grip": [
+        128.38233183134855,
+        128.40714515609912
+      ],
+      "bounds": [
+        103.29181847441261,
+        84.0,
+        149.72306726746058,
+        181.8048020598648
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        122.8023817186997,
+        88.16800772449308
+      ]
+    },
+    "cleric-relic_ninth_circle-drive-two": {
+      "path": "img/held/cleric-relic_ninth_circle-drive-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "cleric",
+      "grip": [
+        128.34946411329256,
+        128.06672674605727
+      ],
+      "bounds": [
+        107.11298841326038,
+        82.0,
+        150.19214676536853,
+        183.24900547151591
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        127.26810428065657,
+        86.16800772449308
+      ]
+    },
+    "cleric-relic_ninth_circle-rest-one": {
+      "path": "img/held/cleric-relic_ninth_circle-rest-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "cleric",
+      "grip": [
+        127.66064692629546,
+        127.88924525265529
+      ],
+      "bounds": [
+        109.0,
+        69.0,
+        148.89378822014805,
+        183.08950595429673
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.31316382362408,
+        73.16800772449308
+      ]
+    },
+    "cleric-relic_ninth_circle-drive-one": {
+      "path": "img/held/cleric-relic_ninth_circle-drive-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "cleric",
+      "grip": [
+        127.54964757000322,
+        128.26121017058256
+      ],
+      "bounds": [
+        107.0,
+        69.0,
+        150.46636626971355,
+        187.91248632121017
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.50402317347924,
+        73.16800772449308
+      ]
+    },
+    "cleric-relic_ninth_circle-channel-one": {
+      "path": "img/held/cleric-relic_ninth_circle-channel-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "cleric",
+      "grip": [
+        127.85064048921788,
+        127.67406662375281
+      ],
+      "bounds": [
+        97.0,
+        76.0,
+        158.28864821371096,
+        183.01234792404247
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        107.1223044737689,
+        80.76343739942067
+      ]
+    },
+    "mage-relic_ninth_circle-rest-two": {
+      "path": "img/held/mage-relic_ninth_circle-rest-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "mage",
+      "grip": [
+        128.39801449657975,
+        128.25220441588925
+      ],
+      "bounds": [
+        104.23057037480429,
+        86.0,
+        148.97311049133106,
+        179.53892616572523
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.9042012896885,
+        90.06196987241651
+      ]
+    },
+    "mage-relic_ninth_circle-drive-two": {
+      "path": "img/held/mage-relic_ninth_circle-drive-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "mage",
+      "grip": [
+        128.45267805098635,
+        128.2559762450565
+      ],
+      "bounds": [
+        107.96352173310714,
+        86.0,
+        148.436583344878,
+        181.21942113008498
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        126.96617116210501,
+        90.06196987241651
+      ]
+    },
+    "mage-relic_ninth_circle-rest-one": {
+      "path": "img/held/mage-relic_ninth_circle-rest-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "mage",
+      "grip": [
+        127.65128694392965,
+        128.47234854524496
+      ],
+      "bounds": [
+        107.0,
+        72.0,
+        147.94210307575287,
+        183.04862758218692
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.02534679655909,
+        76.06196987241651
+      ]
+    },
+    "mage-relic_ninth_circle-drive-one": {
+      "path": "img/held/mage-relic_ninth_circle-drive-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "mage",
+      "grip": [
+        127.5876290276627,
+        127.70138770901241
+      ],
+      "bounds": [
+        106.69796248036323,
+        73.0,
+        148.3605429552007,
+        185.81883405258606
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.18590961724952,
+        77.06196987241651
+      ]
+    },
+    "mage-relic_ninth_circle-channel-one": {
+      "path": "img/held/mage-relic_ninth_circle-channel-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "mage",
+      "grip": [
+        127.88699202505143,
+        128.1323224587203
+      ],
+      "bounds": [
+        102.0,
+        90.0,
+        160.29849414360137,
+        187.5969501245514
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.44506538621387,
+        94.64225128276172
+      ]
+    },
+    "druid-relic_ninth_circle-rest-two": {
+      "path": "img/held/druid-relic_ninth_circle-rest-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "druid",
+      "grip": [
+        127.59609126176204,
+        127.58124765232652
+      ],
+      "bounds": [
+        103.00288665195721,
+        85.0,
+        148.52886494130422,
+        179.8078648245124
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.804443139743,
+        89.0877138158414
+      ]
+    },
+    "druid-relic_ninth_circle-drive-two": {
+      "path": "img/held/druid-relic_ninth_circle-drive-two.png",
+      "id": "relic_ninth_circle",
+      "cls": "druid",
+      "grip": [
+        128.39406981625805,
+        127.72317812646978
+      ],
+      "bounds": [
+        107.74200528404087,
+        86.0,
+        148.9146851513401,
+        181.13937841497713
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        125.55632048938931,
+        90.0877138158414
+      ]
+    },
+    "druid-relic_ninth_circle-rest-one": {
+      "path": "img/held/druid-relic_ninth_circle-rest-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "druid",
+      "grip": [
+        128.2887835658122,
+        128.23318907964887
+      ],
+      "bounds": [
+        108.0,
+        73.0,
+        148.5946187378276,
+        183.07722780402963
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.67918233097541,
+        77.0877138158414
+      ]
+    },
+    "druid-relic_ninth_circle-drive-one": {
+      "path": "img/held/druid-relic_ninth_circle-drive-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "druid",
+      "grip": [
+        128.25573147981552,
+        127.9068743035893
+      ],
+      "bounds": [
+        108.0,
+        71.0,
+        151.212974624609,
+        186.99285044649199
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.84710056407295,
+        75.0877138158414
+      ]
+    },
+    "druid-relic_ninth_circle-channel-one": {
+      "path": "img/held/druid-relic_ninth_circle-channel-one.png",
+      "id": "relic_ninth_circle",
+      "cls": "druid",
+      "grip": [
+        128.20940300439074,
+        128.2191109301364
+      ],
+      "bounds": [
+        97.0,
+        79.0,
+        157.4607326950818,
+        181.2680009343346
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        105.75938674823155,
+        83.67167293239017
+      ]
+    },
+    "fighter-relic_emberwood-rest-two": {
+      "path": "img/held/fighter-relic_emberwood-rest-two.png",
+      "id": "relic_emberwood",
+      "cls": "fighter",
+      "grip": [
+        127.56292206611482,
+        128.27971369757387
+      ],
+      "bounds": [
+        103.2246099124582,
+        80.0,
+        149.088508327799,
+        182.67862153996947
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.27421012560008,
+        83.73387215182858
+      ]
+    },
+    "fighter-relic_emberwood-drive-two": {
+      "path": "img/held/fighter-relic_emberwood-drive-two.png",
+      "id": "relic_emberwood",
+      "cls": "fighter",
+      "grip": [
+        127.54244022158198,
+        128.23859345813932
+      ],
+      "bounds": [
+        108.8977852498437,
+        73.0,
+        148.56588291004772,
+        181.85121005656234
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        124.29571392316197,
+        77.35618417713334
+      ]
+    },
+    "fighter-relic_emberwood-rest-one": {
+      "path": "img/held/fighter-relic_emberwood-rest-one.png",
+      "id": "relic_emberwood",
+      "cls": "fighter",
+      "grip": [
+        128.27915750620124,
+        127.58937032719028
+      ],
+      "bounds": [
+        108.0,
+        69.0,
+        148.82248646714436,
+        183.22811041760053
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.9569924048762,
+        72.73387215182858
+      ]
+    },
+    "fighter-relic_emberwood-drive-one": {
+      "path": "img/held/fighter-relic_emberwood-drive-one.png",
+      "id": "relic_emberwood",
+      "cls": "fighter",
+      "grip": [
+        128.4117303872045,
+        127.51283372697812
+      ],
+      "bounds": [
+        111.0,
+        61.0,
+        155.18415379663816,
+        189.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        122.20161645548573,
+        65.35618417713334
+      ]
+    },
+    "fighter-relic_emberwood-channel-one": {
+      "path": "img/held/fighter-relic_emberwood-channel-one.png",
+      "id": "relic_emberwood",
+      "cls": "fighter",
+      "grip": [
+        127.93990216088127,
+        128.10991294438185
+      ],
+      "bounds": [
+        94.0,
+        75.0,
+        157.49860320121195,
+        181.95776348837006
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        102.71236835426669,
+        79.35618417713334
+      ]
+    },
+    "cleric-relic_emberwood-rest-two": {
+      "path": "img/held/cleric-relic_emberwood-rest-two.png",
+      "id": "relic_emberwood",
+      "cls": "cleric",
+      "grip": [
+        128.05989939159258,
+        128.12772492516456
+      ],
+      "bounds": [
+        104.88235189386036,
+        82.0,
+        148.55248158731013,
+        180.00146726300665
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.08528888509468,
+        86.09044074042455
+      ]
+    },
+    "cleric-relic_emberwood-drive-two": {
+      "path": "img/held/cleric-relic_emberwood-drive-two.png",
+      "id": "relic_emberwood",
+      "cls": "cleric",
+      "grip": [
+        128.41112992490662,
+        128.05120903110878
+      ],
+      "bounds": [
+        111.0369244450856,
+        76.0,
+        148.20009787840343,
+        177.8503382602753
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        125.11832512886485,
+        80.09044074042455
+      ]
+    },
+    "cleric-relic_emberwood-rest-one": {
+      "path": "img/held/cleric-relic_emberwood-rest-one.png",
+      "id": "relic_emberwood",
+      "cls": "cleric",
+      "grip": [
+        127.7783328075717,
+        128.0564978431599
+      ],
+      "bounds": [
+        108.0,
+        69.0,
+        148.7859599273764,
+        186.10265682343493
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.64175317385788,
+        72.50609206322105
+      ]
+    },
+    "cleric-relic_emberwood-drive-one": {
+      "path": "img/held/cleric-relic_emberwood-drive-one.png",
+      "id": "relic_emberwood",
+      "cls": "cleric",
+      "grip": [
+        127.73627202891795,
+        128.05267081584662
+      ],
+      "bounds": [
+        111.0,
+        62.0,
+        155.4104994674666,
+        190.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        121.51827618966314,
+        66.09044074042455
+      ]
+    },
+    "cleric-relic_emberwood-channel-one": {
+      "path": "img/held/cleric-relic_emberwood-channel-one.png",
+      "id": "relic_emberwood",
+      "cls": "cleric",
+      "grip": [
+        127.77904726513405,
+        128.35695258512658
+      ],
+      "bounds": [
+        97.0,
+        79.0,
+        155.4529240944764,
+        178.75357833673365
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        105.18088148084911,
+        83.09044074042455
+      ]
+    },
+    "mage-relic_emberwood-rest-two": {
+      "path": "img/held/mage-relic_emberwood-rest-two.png",
+      "id": "relic_emberwood",
+      "cls": "mage",
+      "grip": [
+        128.42797470256082,
+        128.35219534014755
+      ],
+      "bounds": [
+        103.99801198906141,
+        82.0,
+        150.03362223499872,
+        182.9683273711831
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.03279766227986,
+        86.38830823657781
+      ]
+    },
+    "mage-relic_emberwood-drive-two": {
+      "path": "img/held/mage-relic_emberwood-drive-two.png",
+      "id": "relic_emberwood",
+      "cls": "mage",
+      "grip": [
+        128.42235122957348,
+        128.35060944960335
+      ],
+      "bounds": [
+        109.73975581352006,
+        73.0,
+        150.09363531520705,
+        181.8462183174876
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        125.64448942570205,
+        77.38830823657781
+      ]
+    },
+    "mage-relic_emberwood-rest-one": {
+      "path": "img/held/mage-relic_emberwood-rest-one.png",
+      "id": "relic_emberwood",
+      "cls": "mage",
+      "grip": [
+        127.64984124151283,
+        128.07111261969013
+      ],
+      "bounds": [
+        108.0,
+        68.0,
+        148.40678996099658,
+        184.49384846160712
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.03041882646359,
+        72.07485764825083
+      ]
+    },
+    "mage-relic_emberwood-drive-one": {
+      "path": "img/held/mage-relic_emberwood-drive-one.png",
+      "id": "relic_emberwood",
+      "cls": "mage",
+      "grip": [
+        128.0678233652281,
+        128.3512832271743
+      ],
+      "bounds": [
+        111.0,
+        62.0,
+        154.25618118912422,
+        189.29403924288408
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        121.97077059144455,
+        66.07485764825083
+      ]
+    },
+    "mage-relic_emberwood-channel-one": {
+      "path": "img/held/mage-relic_emberwood-channel-one.png",
+      "id": "relic_emberwood",
+      "cls": "mage",
+      "grip": [
+        128.32362163633633,
+        127.91522093465882
+      ],
+      "bounds": [
+        95.0,
+        77.0,
+        157.7539362051808,
+        181.45421136396754
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.77661647315564,
+        82.01520941323179
+      ]
+    },
+    "druid-relic_emberwood-rest-two": {
+      "path": "img/held/druid-relic_emberwood-rest-two.png",
+      "id": "relic_emberwood",
+      "cls": "druid",
+      "grip": [
+        127.7060157061311,
+        128.32252353059243
+      ],
+      "bounds": [
+        103.39355309764117,
+        80.0,
+        149.21805128781938,
+        182.56474779335548
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        121.12752238157618,
+        84.34396019846469
+      ]
+    },
+    "druid-relic_emberwood-drive-two": {
+      "path": "img/held/druid-relic_emberwood-drive-two.png",
+      "id": "relic_emberwood",
+      "cls": "druid",
+      "grip": [
+        128.49723411909238,
+        128.0654881088938
+      ],
+      "bounds": [
+        109.582886736086,
+        71.0,
+        151.8473233738996,
+        182.73615096037398
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        125.4732793117926,
+        75.34396019846469
+      ]
+    },
+    "druid-relic_emberwood-rest-one": {
+      "path": "img/held/druid-relic_emberwood-rest-one.png",
+      "id": "relic_emberwood",
+      "cls": "druid",
+      "grip": [
+        128.11075644055126,
+        128.49920150642333
+      ],
+      "bounds": [
+        109.0,
+        71.0,
+        149.33677327145776,
+        182.89830478892526
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.5496176248428,
+        74.72339445582688
+      ]
+    },
+    "druid-relic_emberwood-drive-one": {
+      "path": "img/held/druid-relic_emberwood-drive-one.png",
+      "id": "relic_emberwood",
+      "cls": "druid",
+      "grip": [
+        128.151940673915,
+        127.58881410856216
+      ],
+      "bounds": [
+        111.0,
+        61.0,
+        155.68073346992244,
+        189.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        122.1701833674806,
+        65.34396019846469
+      ]
+    },
+    "druid-relic_emberwood-channel-one": {
+      "path": "img/held/druid-relic_emberwood-channel-one.png",
+      "id": "relic_emberwood",
+      "cls": "druid",
+      "grip": [
+        127.8792912363512,
+        127.95726144337775
+      ],
+      "bounds": [
+        91.48757850399053,
+        71.0,
+        158.92216166319378,
+        184.84799823914472
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        99.68792039692937,
+        75.34396019846469
+      ]
+    },
+    "fighter-relic_vashti-rest": {
+      "path": "img/held/fighter-relic_vashti-rest.png",
+      "id": "relic_vashti",
+      "cls": "fighter",
+      "grip": [
+        128.480087884113,
+        127.52559089320681
+      ],
+      "bounds": [
+        113.0,
+        63.0,
+        149.52913531816296,
+        155.71945858344043
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        115.4765515469941,
+        65.16698260361984
+      ]
+    },
+    "mage-relic_vashti-rest": {
+      "path": "img/held/mage-relic_vashti-rest.png",
+      "id": "relic_vashti",
+      "cls": "mage",
+      "grip": [
+        128.07281185836186,
+        128.16213007586546
+      ],
+      "bounds": [
+        114.0,
+        67.0,
+        148.61460816340153,
+        155.2706515501075
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        116.42909530971238,
+        69.12545839599834
+      ]
+    },
+    "thief-relic_vashti-rest": {
+      "path": "img/held/thief-relic_vashti-rest.png",
+      "id": "relic_vashti",
+      "cls": "thief",
+      "grip": [
+        128.27275249923522,
+        128.03701280863277
+      ],
+      "bounds": [
+        113.0,
+        64.0,
+        148.87331004558553,
+        155.40977093570945
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        115.47402138245417,
+        66.1647687096474
+      ]
+    },
+    "ranger-relic_vashti-rest": {
+      "path": "img/held/ranger-relic_vashti-rest.png",
+      "id": "relic_vashti",
+      "cls": "ranger",
+      "grip": [
+        128.480087884113,
+        127.52559089320681
+      ],
+      "bounds": [
+        113.0,
+        63.0,
+        149.52913531816296,
+        155.71945858344043
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        115.4765515469941,
+        65.16698260361984
+      ]
+    },
+    "fighter-relic_heartseeker-rest": {
+      "path": "img/held/fighter-relic_heartseeker-rest.png",
+      "id": "relic_heartseeker",
+      "cls": "fighter",
+      "grip": [
+        127.6349168141593,
+        127.54537345132744
+      ],
+      "bounds": [
+        105.99096637168141,
+        64.0,
+        150.070796460177,
+        192.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          144.40707964601768,
+          189.73451327433628
+        ],
+        "bot": [
+          132.93805309734512,
+          65.98230088495575
+        ]
+      }
+    },
+    "fighter-relic_heartseeker-bowdraw": {
+      "path": "img/held/fighter-relic_heartseeker-bowdraw.png",
+      "id": "relic_heartseeker",
+      "cls": "fighter",
+      "grip": [
+        128.23624778761064,
+        128.21934159292036
+      ],
+      "bounds": [
+        106.31922123893806,
+        67.0,
+        157.0,
+        192.16814159292034
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.47787610619469,
+          189.61946902654867
+        ],
+        "bot": [
+          142.84070796460176,
+          68.98230088495575
+        ]
+      }
+    },
+    "fighter-relic_heartseeker-bowfull": {
+      "path": "img/held/fighter-relic_heartseeker-bowfull.png",
+      "id": "relic_heartseeker",
+      "cls": "fighter",
+      "grip": [
+        128.28454513274335,
+        127.81471150442478
+      ],
+      "bounds": [
+        106.31626194690266,
+        66.0,
+        160.83185840707964,
+        191.73451327433628
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          155.4513274336283,
+          189.1858407079646
+        ],
+        "bot": [
+          149.78761061946904,
+          67.98230088495575
+        ]
+      }
+    },
+    "thief-relic_heartseeker-rest": {
+      "path": "img/held/thief-relic_heartseeker-rest.png",
+      "id": "relic_heartseeker",
+      "cls": "thief",
+      "grip": [
+        127.63192873051224,
+        127.6928249443207
+      ],
+      "bounds": [
+        105.92418351893096,
+        63.0,
+        150.58797327394208,
+        191.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          144.88641425389756,
+          188.71937639198217
+        ],
+        "bot": [
+          133.48329621380844,
+          64.99554565701558
+        ]
+      }
+    },
+    "thief-relic_heartseeker-bowdraw": {
+      "path": "img/held/thief-relic_heartseeker-bowdraw.png",
+      "id": "relic_heartseeker",
+      "cls": "thief",
+      "grip": [
+        127.74609888641425,
+        127.64636792873051
+      ],
+      "bounds": [
+        105.61412917594654,
+        66.0,
+        157.57015590200444,
+        191.71937639198217
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.8685968819599,
+          188.58351893095767
+        ],
+        "bot": [
+          143.17371937639197,
+          67.99554565701558
+        ]
+      }
+    },
+    "thief-relic_heartseeker-bowfull": {
+      "path": "img/held/thief-relic_heartseeker-bowfull.png",
+      "id": "relic_heartseeker",
+      "cls": "thief",
+      "grip": [
+        127.86366503340757,
+        128.1446592427617
+      ],
+      "bounds": [
+        105.66507260579064,
+        67.0,
+        160.70601336302894,
+        193.0044543429844
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          155.2895322939866,
+          189.8685968819599
+        ],
+        "bot": [
+          149.44543429844097,
+          68.99554565701558
+        ]
+      }
+    },
+    "ranger-relic_heartseeker-rest": {
+      "path": "img/held/ranger-relic_heartseeker-rest.png",
+      "id": "relic_heartseeker",
+      "cls": "ranger",
+      "grip": [
+        127.6349168141593,
+        127.54537345132744
+      ],
+      "bounds": [
+        105.99096637168141,
+        64.0,
+        150.070796460177,
+        192.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          144.40707964601768,
+          189.73451327433628
+        ],
+        "bot": [
+          132.93805309734512,
+          65.98230088495575
+        ]
+      }
+    },
+    "ranger-relic_heartseeker-bowdraw": {
+      "path": "img/held/ranger-relic_heartseeker-bowdraw.png",
+      "id": "relic_heartseeker",
+      "cls": "ranger",
+      "grip": [
+        128.23624778761064,
+        128.21934159292036
+      ],
+      "bounds": [
+        106.31922123893806,
+        67.0,
+        157.0,
+        192.16814159292034
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.47787610619469,
+          189.61946902654867
+        ],
+        "bot": [
+          142.84070796460176,
+          68.98230088495575
+        ]
+      }
+    },
+    "ranger-relic_heartseeker-bowfull": {
+      "path": "img/held/ranger-relic_heartseeker-bowfull.png",
+      "id": "relic_heartseeker",
+      "cls": "ranger",
+      "grip": [
+        128.28454513274335,
+        127.81471150442478
+      ],
+      "bounds": [
+        106.31626194690266,
+        66.0,
+        160.83185840707964,
+        191.73451327433628
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          155.4513274336283,
+          189.1858407079646
+        ],
+        "bot": [
+          149.78761061946904,
+          67.98230088495575
+        ]
+      }
+    },
+    "fighter-relic_boarspear-rest": {
+      "path": "img/held/fighter-relic_boarspear-rest.png",
+      "id": "relic_boarspear",
+      "cls": "fighter",
+      "grip": [
+        127.72089110775636,
+        128.39990261010766
+      ],
+      "bounds": [
+        96.0,
+        53.0,
+        147.15408974117514,
+        173.2460939139124
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        108.80316019466268,
+        55.02976929915384
+      ]
+    },
+    "fighter-relic_boarspear-drive": {
+      "path": "img/held/fighter-relic_boarspear-drive.png",
+      "id": "relic_boarspear",
+      "cls": "fighter",
+      "grip": [
+        127.80602919549898,
+        127.79635070900426
+      ],
+      "bounds": [
+        103.0,
+        45.0,
+        152.3390075794318,
+        173.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.79951539257982,
+        47.18590539908875
+      ]
+    },
+    "ranger-relic_boarspear-rest": {
+      "path": "img/held/ranger-relic_boarspear-rest.png",
+      "id": "relic_boarspear",
+      "cls": "ranger",
+      "grip": [
+        127.72089110775636,
+        128.39990261010766
+      ],
+      "bounds": [
+        96.0,
+        53.0,
+        147.15408974117514,
+        173.2460939139124
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        108.80316019466268,
+        55.02976929915384
+      ]
+    },
+    "ranger-relic_boarspear-drive": {
+      "path": "img/held/ranger-relic_boarspear-drive.png",
+      "id": "relic_boarspear",
+      "cls": "ranger",
+      "grip": [
+        127.80602919549898,
+        127.79635070900426
+      ],
+      "bounds": [
+        103.0,
+        45.0,
+        152.3390075794318,
+        173.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.79951539257982,
+        47.18590539908875
+      ]
+    },
+    "druid-relic_boarspear-rest": {
+      "path": "img/held/druid-relic_boarspear-rest.png",
+      "id": "relic_boarspear",
+      "cls": "druid",
+      "grip": [
+        127.94387531872641,
+        127.5763150294207
+      ],
+      "bounds": [
+        97.0,
+        51.0,
+        148.09607897586707,
+        174.08629854492318
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        110.27257488458575,
+        53.26604937053903
+      ]
+    },
+    "druid-relic_boarspear-drive": {
+      "path": "img/held/druid-relic_boarspear-drive.png",
+      "id": "relic_boarspear",
+      "cls": "druid",
+      "grip": [
+        127.56481685212358,
+        127.60539835681071
+      ],
+      "bounds": [
+        103.0,
+        45.0,
+        152.20794189606625,
+        173.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        121.45211630296069,
+        47.26604937053903
+      ]
+    },
+    "fighter-relic_galewind-rest": {
+      "path": "img/held/fighter-relic_galewind-rest.png",
+      "id": "relic_galewind",
+      "cls": "fighter",
+      "grip": [
+        127.58999639639639,
+        127.62754018018018
+      ],
+      "bounds": [
+        110.64524108108108,
+        65.0,
+        147.25045045045044,
+        193.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          143.32972972972973,
+          191.15495495495497
+        ],
+        "bot": [
+          133.64324324324326,
+          66.61441441441441
+        ]
+      }
+    },
+    "fighter-relic_galewind-bowdraw": {
+      "path": "img/held/fighter-relic_galewind-bowdraw.png",
+      "id": "relic_galewind",
+      "cls": "fighter",
+      "grip": [
+        127.64008648648648,
+        127.53233009009008
+      ],
+      "bounds": [
+        110.31278414414416,
+        67.0,
+        151.63063063063063,
+        189.6954954954955
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          147.70990990990992,
+          187.85045045045047
+        ],
+        "bot": [
+          140.56036036036036,
+          68.61441441441441
+        ]
+      }
+    },
+    "fighter-relic_galewind-bowfull": {
+      "path": "img/held/fighter-relic_galewind-bowfull.png",
+      "id": "relic_galewind",
+      "cls": "fighter",
+      "grip": [
+        127.61976216216216,
+        128.28811243243243
+      ],
+      "bounds": [
+        109.95751495495495,
+        65.0,
+        157.55135135135134,
+        192.53873873873874
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          153.74594594594595,
+          190.6936936936937
+        ],
+        "bot": [
+          142.0990990990991,
+          66.61441441441441
+        ]
+      }
+    },
+    "ranger-relic_galewind-rest": {
+      "path": "img/held/ranger-relic_galewind-rest.png",
+      "id": "relic_galewind",
+      "cls": "ranger",
+      "grip": [
+        127.58999639639639,
+        127.62754018018018
+      ],
+      "bounds": [
+        110.64524108108108,
+        65.0,
+        147.25045045045044,
+        193.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          143.32972972972973,
+          191.15495495495497
+        ],
+        "bot": [
+          133.64324324324326,
+          66.61441441441441
+        ]
+      }
+    },
+    "ranger-relic_galewind-bowdraw": {
+      "path": "img/held/ranger-relic_galewind-bowdraw.png",
+      "id": "relic_galewind",
+      "cls": "ranger",
+      "grip": [
+        127.64008648648648,
+        127.53233009009008
+      ],
+      "bounds": [
+        110.31278414414416,
+        67.0,
+        151.63063063063063,
+        189.6954954954955
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          147.70990990990992,
+          187.85045045045047
+        ],
+        "bot": [
+          140.56036036036036,
+          68.61441441441441
+        ]
+      }
+    },
+    "ranger-relic_galewind-bowfull": {
+      "path": "img/held/ranger-relic_galewind-bowfull.png",
+      "id": "relic_galewind",
+      "cls": "ranger",
+      "grip": [
+        127.61976216216216,
+        128.28811243243243
+      ],
+      "bounds": [
+        109.95751495495495,
+        65.0,
+        157.55135135135134,
+        192.53873873873874
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          153.74594594594595,
+          190.6936936936937
+        ],
+        "bot": [
+          142.0990990990991,
+          66.61441441441441
+        ]
+      }
+    },
+    "druid-relic_oakheart-rest-two": {
+      "path": "img/held/druid-relic_oakheart-rest-two.png",
+      "id": "relic_oakheart",
+      "cls": "druid",
+      "grip": [
+        127.98558953739094,
+        128.35479478760283
+      ],
+      "bounds": [
+        94.40074934405567,
+        68.0,
+        147.7747808217183,
+        179.28935774561089
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        132.9814455073722,
+        70.28932171945435
+      ]
+    },
+    "druid-relic_oakheart-drive-two": {
+      "path": "img/held/druid-relic_oakheart-drive-two.png",
+      "id": "relic_oakheart",
+      "cls": "druid",
+      "grip": [
+        128.29024025869336,
+        128.29344096552143
+      ],
+      "bounds": [
+        98.40520560076426,
+        68.0,
+        149.3903298641763,
+        181.44642207887276
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        134.67326166768402,
+        70.28932171945435
+      ]
+    },
+    "druid-relic_oakheart-rest-one": {
+      "path": "img/held/druid-relic_oakheart-rest-one.png",
+      "id": "relic_oakheart",
+      "cls": "druid",
+      "grip": [
+        127.92748522352697,
+        127.64025838674871
+      ],
+      "bounds": [
+        98.0,
+        61.0,
+        149.03647047911977,
+        184.87225482603583
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        128.08822831282868,
+        63.28932171945436
+      ]
+    },
+    "druid-relic_oakheart-drive-one": {
+      "path": "img/held/druid-relic_oakheart-drive-one.png",
+      "id": "relic_oakheart",
+      "cls": "druid",
+      "grip": [
+        127.76414262985321,
+        127.89767626180335
+      ],
+      "bounds": [
+        96.0,
+        61.0,
+        152.9059970264368,
+        189.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        130.33982579181531,
+        63.28932171945436
+      ]
+    },
+    "druid-relic_oakheart-channel-one": {
+      "path": "img/held/druid-relic_oakheart-channel-one.png",
+      "id": "relic_oakheart",
+      "cls": "druid",
+      "grip": [
+        128.48741626793037,
+        127.83291911770155
+      ],
+      "bounds": [
+        83.0,
+        69.0,
+        158.74093360890362,
+        182.5275294769334
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        111.61652149317943,
+        71.45284469941538
+      ]
+    },
+    "fighter-legend_red_harvest-rest": {
+      "path": "img/held/fighter-legend_red_harvest-rest.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.92103269571113,
+        127.57572135178799
+      ],
+      "bounds": [
+        67.0,
+        34.0,
+        162.8992529609626,
+        156.85143812445722
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        110.44539320571249,
+        38.11317332125088
+      ]
+    },
+    "fighter-legend_red_harvest-drawback": {
+      "path": "img/held/fighter-legend_red_harvest-drawback.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.92180873583385,
+        128.1349128882912
+      ],
+      "bounds": [
+        97.0,
+        37.0,
+        182.53760380339997,
+        153.19714632533754
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        143.27319986407247,
+        42.65561331671997
+      ]
+    },
+    "fighter-legend_red_harvest-windup": {
+      "path": "img/held/fighter-legend_red_harvest-windup.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.60616044107357,
+        128.09262352172794
+      ],
+      "bounds": [
+        108.0,
+        32.0,
+        200.03225306298862,
+        152.48122199808643
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        176.12443313321782,
+        51.28049994336354
+      ]
+    },
+    "fighter-legend_red_harvest-strike": {
+      "path": "img/held/fighter-legend_red_harvest-strike.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        128.34885815255856,
+        128.17091841858127
+      ],
+      "bounds": [
+        60.0,
+        36.0,
+        160.4862638488216,
+        157.46493881253008
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        101.13173321250886,
+        46.797079968283576
+      ]
+    },
+    "fighter-legend_red_harvest-cut": {
+      "path": "img/held/fighter-legend_red_harvest-cut.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        128.09944078516622,
+        127.9106533599083
+      ],
+      "bounds": [
+        30.0,
+        45.05658666062544,
+        157.2680608074834,
+        150.9260689229672
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        33.34195332351634,
+        87.98783320118157
+      ]
+    },
+    "fighter-legend_red_harvest-sweep": {
+      "path": "img/held/fighter-legend_red_harvest-sweep.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.50216222773324,
+        127.75730349354626
+      ],
+      "bounds": [
+        33.0,
+        74.05658666062544,
+        155.57595834126647,
+        180.65980762881182
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        38.39853998414179,
+        110.81807321930525
+      ]
+    },
+    "fighter-legend_red_harvest-through": {
+      "path": "img/held/fighter-legend_red_harvest-through.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.91833583578156,
+        128.34847575597635
+      ],
+      "bounds": [
+        20.05658666062544,
+        112.0,
+        155.01083162419738,
+        205.57469305845768
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        29.31122663343994,
+        172.6693064884506
+      ]
+    },
+    "fighter-legend_red_harvest-recover": {
+      "path": "img/held/fighter-legend_red_harvest-recover.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        127.65584628942763,
+        128.4976642477673
+      ],
+      "bounds": [
+        36.0,
+        41.05658666062544,
+        158.51153576412236,
+        153.90216511980822
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        39.08487999093816,
+        89.38637318532336
+      ]
+    },
+    "fighter-legend_red_harvest-return": {
+      "path": "img/held/fighter-legend_red_harvest-return.png",
+      "id": "legend_red_harvest",
+      "cls": "fighter",
+      "grip": [
+        128.47191674680124,
+        127.8872524564562
+      ],
+      "bounds": [
+        45.0,
+        30.0,
+        161.18881714936202,
+        158.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        77.39123990485074,
+        42.853666628909025
+      ]
+    },
+    "fighter-legend_sunhammer-rest": {
+      "path": "img/held/fighter-legend_sunhammer-rest.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        128.4384625721184,
+        127.51219998526206
+      ],
+      "bounds": [
+        92.0,
+        52.0,
+        150.258234827501,
+        156.3006280965942
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.02626822195347,
+        56.24799628950528
+      ]
+    },
+    "fighter-legend_sunhammer-drawback": {
+      "path": "img/held/fighter-legend_sunhammer-drawback.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        127.60027221853774,
+        127.73031725596779
+      ],
+      "bounds": [
+        108.3608542807232,
+        47.0,
+        167.85046186122923,
+        156.58901936306063
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        141.80454015440165,
+        51.24799628950528
+      ]
+    },
+    "fighter-legend_sunhammer-windup": {
+      "path": "img/held/fighter-legend_sunhammer-windup.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        128.06945040464333,
+        128.1467726064925
+      ],
+      "bounds": [
+        107.29966146070387,
+        54.0,
+        185.9256427261733,
+        154.10087690780549
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        169.23708587454541,
+        62.7994208854038
+      ]
+    },
+    "fighter-legend_sunhammer-strike": {
+      "path": "img/held/fighter-legend_sunhammer-strike.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        128.0815571940684,
+        127.9787513491723
+      ],
+      "bounds": [
+        83.0,
+        52.0,
+        149.75422740651157,
+        157.79604416182264
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.63312483473995,
+        57.46170951507822
+      ]
+    },
+    "fighter-legend_sunhammer-cut": {
+      "path": "img/held/fighter-legend_sunhammer-cut.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        127.7288131185061,
+        127.6789078314846
+      ],
+      "bounds": [
+        56.0,
+        69.84535126161155,
+        155.16231247046994,
+        148.75952873249327
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        64.49599257901056,
+        87.20569838359407
+      ]
+    },
+    "fighter-legend_sunhammer-sweep": {
+      "path": "img/held/fighter-legend_sunhammer-sweep.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        128.41534133517123,
+        127.69367612062575
+      ],
+      "bounds": [
+        50.0,
+        98.87302392315462,
+        155.23664373615608,
+        151.49780881415884
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        54.24799628950528,
+        120.75712297949258
+      ]
+    },
+    "fighter-legend_sunhammer-through": {
+      "path": "img/held/fighter-legend_sunhammer-through.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        127.93592894576003,
+        128.40678465693094
+      ],
+      "bounds": [
+        53.0,
+        109.03428306393235,
+        154.12391578564092,
+        177.7978127153799
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        58.765137821471455,
+        155.4588139420972
+      ]
+    },
+    "fighter-legend_sunhammer-recover": {
+      "path": "img/held/fighter-legend_sunhammer-recover.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        127.8652344850605,
+        127.60377464813153
+      ],
+      "bounds": [
+        56.0,
+        66.0,
+        157.80705427465466,
+        151.5742467392294
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        66.61999072376321,
+        84.5091266899873
+      ]
+    },
+    "fighter-legend_sunhammer-return": {
+      "path": "img/held/fighter-legend_sunhammer-return.png",
+      "id": "legend_sunhammer",
+      "cls": "fighter",
+      "grip": [
+        128.08243713615695,
+        127.63783230817914
+      ],
+      "bounds": [
+        62.0,
+        47.0,
+        154.317940848819,
+        159.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        78.38512854523466,
+        59.13713225572938
+      ]
+    },
+    "cleric-legend_sunhammer-rest": {
+      "path": "img/held/cleric-legend_sunhammer-rest.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        127.52068847011522,
+        127.93893277313096
+      ],
+      "bounds": [
+        91.0,
+        54.0,
+        149.45949514603245,
+        156.49193933897152
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        111.83704777482345,
+        58.63045506107188
+      ]
+    },
+    "cleric-legend_sunhammer-drawback": {
+      "path": "img/held/cleric-legend_sunhammer-drawback.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        128.35553832916025,
+        128.34563504675674
+      ],
+      "bounds": [
+        109.29386490544,
+        47.0,
+        168.3662586594936,
+        156.9983121577869
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        141.57079919277112,
+        51.051648178437894
+      ]
+    },
+    "cleric-legend_sunhammer-windup": {
+      "path": "img/held/cleric-legend_sunhammer-windup.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        127.803891442702,
+        128.17687563145506
+      ],
+      "bounds": [
+        107.6919729304424,
+        55.0,
+        184.29654292085593,
+        153.30948080505834
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        166.35352955920237,
+        62.524489474241804
+      ]
+    },
+    "cleric-legend_sunhammer-strike": {
+      "path": "img/held/cleric-legend_sunhammer-strike.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        127.66571680322892,
+        127.7785360836996
+      ],
+      "bounds": [
+        83.0,
+        56.0,
+        149.56279150290823,
+        156.47688105776956
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.83704777482345,
+        61.788068826339845
+      ]
+    },
+    "cleric-legend_sunhammer-cut": {
+      "path": "img/held/cleric-legend_sunhammer-cut.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        128.4648253372713,
+        128.35193215556467
+      ],
+      "bounds": [
+        44.0,
+        62.0,
+        160.18396343180802,
+        152.39985323111188
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        51.524489474241804,
+        79.94301336165353
+      ]
+    },
+    "cleric-legend_sunhammer-sweep": {
+      "path": "img/held/cleric-legend_sunhammer-sweep.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        127.65115464221206,
+        128.36866587597513
+      ],
+      "bounds": [
+        53.0,
+        99.252769616773,
+        154.7625269054762,
+        152.45513548990576
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        57.051648178437894,
+        119.99466154009141
+      ]
+    },
+    "cleric-legend_sunhammer-through": {
+      "path": "img/held/cleric-legend_sunhammer-through.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        128.2419821034979,
+        128.25662953517156
+      ],
+      "bounds": [
+        57.0,
+        108.31522753053594,
+        153.7406826303672,
+        176.24197745237115
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        62.788068826339845,
+        154.04097125862074
+      ]
+    },
+    "cleric-legend_sunhammer-recover": {
+      "path": "img/held/cleric-legend_sunhammer-recover.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        127.78117533972605,
+        128.02579980000155
+      ],
+      "bounds": [
+        61.0,
+        69.0,
+        156.50984979444604,
+        151.08222468559677
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        71.12912044609473,
+        86.65360992033654
+      ]
+    },
+    "cleric-legend_sunhammer-return": {
+      "path": "img/held/cleric-legend_sunhammer-return.png",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "grip": [
+        128.28066707493224,
+        127.53148993677051
+      ],
+      "bounds": [
+        65.0,
+        46.0,
+        153.74151363167726,
+        158.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        81.78539959638556,
+        58.733751417947666
+      ]
+    },
+    "spellblade-legend_last_word-rest": {
+      "path": "img/held/spellblade-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.75594001756626,
+        128.38267888492652
+      ],
+      "bounds": [
+        117.0,
+        92.0,
+        139.03630428402994,
+        146.6290855281646
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.98647066570298,
+        94.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-drawback": {
+      "path": "img/held/spellblade-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.32594838590595,
+        127.53925705320377
+      ],
+      "bounds": [
+        120.0,
+        95.0,
+        139.8208739781967,
+        143.41453871990328
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        134.2686931805809,
+        97.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-windup": {
+      "path": "img/held/spellblade-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.81484607750929,
+        127.77399675843498
+      ],
+      "bounds": [
+        115.69269527940611,
+        94.0,
+        151.76756858772083,
+        143.3442270381366
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        150.17398784050172,
+        96.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-strike": {
+      "path": "img/held/spellblade-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.79407351487895,
+        128.4216326247033
+      ],
+      "bounds": [
+        115.0,
+        93.0,
+        138.89176532562382,
+        145.8503767826793
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.32281051776899,
+        95.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-cut": {
+      "path": "img/held/spellblade-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.1846271422483,
+        127.80507886667586
+      ],
+      "bounds": [
+        97.0,
+        108.0,
+        143.81193219467227,
+        139.33192651208225
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        99.32281051776899,
+        109.99098044380199
+      ]
+    },
+    "spellblade-legend_last_word-sweep": {
+      "path": "img/held/spellblade-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.43447133765886,
+        127.68830993758483
+      ],
+      "bounds": [
+        94.0,
+        118.0,
+        144.6163639927039,
+        137.80511204968326
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        96.32281051776899,
+        125.30026162727394
+      ]
+    },
+    "spellblade-legend_last_word-through": {
+      "path": "img/held/spellblade-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.5557946345151,
+        127.68934483262802
+      ],
+      "bounds": [
+        91.0,
+        117.18476609609176,
+        144.44896505310837,
+        145.20104650909576
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.99098044380199,
+        143.87372621322777
+      ]
+    },
+    "spellblade-legend_last_word-recover": {
+      "path": "img/held/spellblade-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.90974221988097,
+        127.67699867993849
+      ],
+      "bounds": [
+        96.0,
+        106.0,
+        145.20479204105567,
+        141.09039984486944
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        98.15689548078548,
+        108.15689548078548
+      ]
+    },
+    "spellblade-legend_last_word-return": {
+      "path": "img/held/spellblade-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.33601320683695,
+        128.15752284701907
+      ],
+      "bounds": [
+        106.0,
+        95.0,
+        142.86665304780738,
+        145.92762060208491
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        108.15689548078548,
+        97.15689548078548
+      ]
+    },
+    "spellblade-legend_last_word-rest-lit": {
+      "path": "img/held/spellblade-legend_last_word-rest-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.0978877978823,
+        127.79995831384696
+      ],
+      "bounds": [
+        118.0,
+        90.0,
+        139.90078488182183,
+        146.3664150634262
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "tip": [
+        120.98647066570298,
+        92.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-drawback-lit": {
+      "path": "img/held/spellblade-legend_last_word-drawback-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.9948514490086,
+        128.376766087796
+      ],
+      "bounds": [
+        119.0,
+        94.0,
+        139.6351186136969,
+        144.4493539164763
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "tip": [
+        133.60052325454788,
+        96.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-windup-lit": {
+      "path": "img/held/spellblade-legend_last_word-windup-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.22867136275352,
+        127.63761770894148
+      ],
+      "bounds": [
+        115.91532007603057,
+        93.0,
+        152.59780743278625,
+        143.46465128288617
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "tip": [
+        150.17398784050172,
+        95.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-strike-lit": {
+      "path": "img/held/spellblade-legend_last_word-strike-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.32788233305578,
+        128.28589856991607
+      ],
+      "bounds": [
+        117.0,
+        98.0,
+        139.77970319873822,
+        147.4159355171209
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "tip": [
+        119.65464059173598,
+        100.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-cut-lit": {
+      "path": "img/held/spellblade-legend_last_word-cut-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        127.75451522218616,
+        127.61481372407707
+      ],
+      "bounds": [
+        95.0,
+        106.0,
+        144.31817837733018,
+        139.84620298253017
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "tip": [
+        97.15689548078548,
+        108.15689548078548
+      ]
+    },
+    "spellblade-legend_last_word-sweep-lit": {
+      "path": "img/held/spellblade-legend_last_word-sweep-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.39434997080932,
+        128.48662672953463
+      ],
+      "bounds": [
+        95.0,
+        118.0,
+        145.13305348997096,
+        138.97205887080298
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "tip": [
+        97.32281051776899,
+        125.30026162727394
+      ]
+    },
+    "spellblade-legend_last_word-through-lit": {
+      "path": "img/held/spellblade-legend_last_word-through-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.27523852878988,
+        127.59072493464502
+      ],
+      "bounds": [
+        90.0,
+        116.0,
+        148.41211428642535,
+        148.21120984208
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "tip": [
+        92.15689548078548,
+        145.03513147211228
+      ]
+    },
+    "spellblade-legend_last_word-recover-lit": {
+      "path": "img/held/spellblade-legend_last_word-recover-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.16826169778784,
+        128.15537424729015
+      ],
+      "bounds": [
+        99.0,
+        103.0,
+        146.92986771386708,
+        142.70542614758764
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "tip": [
+        101.32281051776899,
+        105.32281051776899
+      ]
+    },
+    "spellblade-legend_last_word-return-lit": {
+      "path": "img/held/spellblade-legend_last_word-return-lit.png",
+      "id": "legend_last_word",
+      "cls": "spellblade",
+      "grip": [
+        128.080522715324,
+        128.45016171531262
+      ],
+      "bounds": [
+        100.0,
+        85.0,
+        144.72050678748047,
+        149.0
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "tip": [
+        102.32281051776899,
+        86.99098044380199
+      ]
+    },
+    "fighter-legend_last_word-rest": {
+      "path": "img/held/fighter-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        128.195037738177,
+        127.65635962845698
+      ],
+      "bounds": [
+        118.0,
+        89.0,
+        140.6943960580145,
+        147.26826602573132
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        121.88602672226276,
+        91.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-drawback": {
+      "path": "img/held/fighter-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.75496949954777,
+        128.2924264253703
+      ],
+      "bounds": [
+        119.0,
+        91.0,
+        140.51683669652755,
+        145.95420026055808
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        135.16587116461307,
+        93.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-windup": {
+      "path": "img/held/fighter-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.56641559695686,
+        128.27436805919194
+      ],
+      "bounds": [
+        115.22880925340684,
+        95.0,
+        149.50791729369325,
+        144.19675633349493
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        147.0208601914451,
+        97.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-strike": {
+      "path": "img/held/fighter-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.68496952869296,
+        127.77971571771513
+      ],
+      "bounds": [
+        114.0,
+        87.0,
+        140.1140995736057,
+        146.8385938800908
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        116.64249817113867,
+        89.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-cut": {
+      "path": "img/held/fighter-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.64237381828356,
+        128.37296044316247
+      ],
+      "bounds": [
+        93.0,
+        107.0,
+        145.11973236933963,
+        141.2191077876947
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        95.02073389557663,
+        109.02073389557663
+      ]
+    },
+    "fighter-legend_last_word-sweep": {
+      "path": "img/held/fighter-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        128.07059744746334,
+        128.19729066216922
+      ],
+      "bounds": [
+        92.0,
+        117.0,
+        146.05634155843273,
+        139.47155574165305
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        94.17617496446714,
+        124.46117130674449
+      ]
+    },
+    "fighter-legend_last_word-through": {
+      "path": "img/held/fighter-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.56856456973426,
+        127.65901281320161
+      ],
+      "bounds": [
+        87.0,
+        116.71185791909097,
+        145.22980990528782,
+        145.84468522697796
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        89.02073389557663,
+        144.7565977447444
+      ]
+    },
+    "fighter-legend_last_word-recover": {
+      "path": "img/held/fighter-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.6694807976847,
+        128.1271877116063
+      ],
+      "bounds": [
+        91.0,
+        102.0,
+        147.82686099390963,
+        143.70486987153765
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.86529282668613,
+        104.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-return": {
+      "path": "img/held/fighter-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.71091652911751,
+        127.6365729518939
+      ],
+      "bounds": [
+        102.0,
+        90.0,
+        143.66840339677594,
+        147.15835461742552
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        104.02073389557663,
+        92.02073389557663
+      ]
+    },
+    "fighter-legend_last_word-left": {
+      "path": "img/held/fighter-legend_last_word-left.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        128.30719235540823,
+        127.69843266827223
+      ],
+      "bounds": [
+        114.72556004931369,
+        84.0,
+        140.83965962291938,
+        148.0
+      ],
+      "pose": "left",
+      "two": false,
+      "lit": false,
+      "tip": [
+        137.10907396954715,
+        86.17617496446714
+      ]
+    },
+    "fighter-legend_last_word-thrust": {
+      "path": "img/held/fighter-legend_last_word-thrust.png",
+      "id": "legend_last_word",
+      "cls": "fighter",
+      "grip": [
+        127.56723360558189,
+        128.48861345595043
+      ],
+      "bounds": [
+        108.61837663176689,
+        96.0,
+        160.17140195214552,
+        146.492264378056
+      ],
+      "pose": "thrust",
+      "two": false,
+      "lit": false,
+      "tip": [
+        157.68434484989734,
+        97.86529282668613
+      ]
+    },
+    "mage-legend_last_word-rest": {
+      "path": "img/held/mage-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        128.35285914225108,
+        128.39117330892918
+      ],
+      "bounds": [
+        117.0,
+        85.0,
+        141.77036844674558,
+        149.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.59569864549533,
+        87.79665450205192
+      ]
+    },
+    "mage-legend_last_word-drawback": {
+      "path": "img/held/mage-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        127.95873061849763,
+        128.4223360305235
+      ],
+      "bounds": [
+        117.0,
+        85.0,
+        141.8683712109389,
+        147.63922782371588
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        136.97610358608515,
+        87.79665450205192
+      ]
+    },
+    "mage-legend_last_word-windup": {
+      "path": "img/held/mage-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        127.87916080388835,
+        128.10714932262283
+      ],
+      "bounds": [
+        113.19692442915162,
+        86.0,
+        156.95977312140354,
+        146.9858456821028
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        154.75005649491794,
+        88.59689346619106
+      ]
+    },
+    "mage-legend_last_word-strike": {
+      "path": "img/held/mage-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        128.16630106235417,
+        127.50442657970403
+      ],
+      "bounds": [
+        112.0,
+        87.0,
+        140.7655891639626,
+        148.01313303960137
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        114.79665450205192,
+        89.79665450205192
+      ]
+    },
+    "mage-legend_last_word-cut": {
+      "path": "img/held/mage-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        127.5485775141487,
+        127.98861611796889
+      ],
+      "bounds": [
+        86.0,
+        106.0,
+        146.50609957837938,
+        141.92058999421943
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        88.59689346619106,
+        108.59689346619106
+      ]
+    },
+    "mage-legend_last_word-sweep": {
+      "path": "img/held/mage-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        128.4832993531488,
+        127.9264929328291
+      ],
+      "bounds": [
+        86.0,
+        116.0,
+        148.50151256559343,
+        140.42685936947927
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        88.59689346619106,
+        125.18900764959916
+      ]
+    },
+    "mage-legend_last_word-through": {
+      "path": "img/held/mage-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        127.71388601385593,
+        127.9953380768256
+      ],
+      "bounds": [
+        80.5980882868868,
+        115.5980882868868,
+        147.68403672107243,
+        150.75603059839668
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        81.79665450205192,
+        149.15794231150986
+      ]
+    },
+    "mage-legend_last_word-recover": {
+      "path": "img/held/mage-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        127.77577447977856,
+        127.50924831170713
+      ],
+      "bounds": [
+        89.0,
+        101.0,
+        148.80138259606946,
+        143.80906965043067
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        91.59689346619106,
+        103.59689346619106
+      ]
+    },
+    "mage-legend_last_word-return": {
+      "path": "img/held/mage-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "mage",
+      "grip": [
+        128.1432498873223,
+        128.14693797544686
+      ],
+      "bounds": [
+        101.0,
+        87.0,
+        145.34047770354715,
+        149.1789783970925
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        103.39713243033022,
+        89.79665450205192
+      ]
+    },
+    "thief-legend_last_word-rest": {
+      "path": "img/held/thief-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        127.58239356731964,
+        127.50358163433778
+      ],
+      "bounds": [
+        117.0,
+        83.0,
+        140.102355150186,
+        147.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        120.59790776929127,
+        85.46172636846245
+      ]
+    },
+    "thief-legend_last_word-drawback": {
+      "path": "img/held/thief-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        127.95589426648543,
+        128.22272646847009
+      ],
+      "bounds": [
+        117.0,
+        85.0,
+        141.81128559517265,
+        147.36920096267704
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        137.07253808130918,
+        87.65108993526725
+      ]
+    },
+    "thief-legend_last_word-windup": {
+      "path": "img/held/thief-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.07341566308907,
+        127.66700002544573
+      ],
+      "bounds": [
+        113.96643589954499,
+        87.0,
+        156.00283749469634,
+        145.8025760546219
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        153.33443972942314,
+        89.46172636846245
+      ]
+    },
+    "thief-legend_last_word-strike": {
+      "path": "img/held/thief-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.19140691804284,
+        127.843892226093
+      ],
+      "bounds": [
+        115.0,
+        90.0,
+        140.75344508545328,
+        147.28520579381504
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        117.65108993526725,
+        92.65108993526725
+      ]
+    },
+    "thief-legend_last_word-cut": {
+      "path": "img/held/thief-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.20537839870616,
+        127.89366525610535
+      ],
+      "bounds": [
+        89.0,
+        108.0,
+        146.36776830894192,
+        141.2032350398344
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        91.27236280165764,
+        110.65108993526725
+      ]
+    },
+    "thief-legend_last_word-sweep": {
+      "path": "img/held/thief-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        127.79038044915855,
+        127.8467829792925
+      ],
+      "bounds": [
+        86.0,
+        117.0,
+        146.91409344263556,
+        139.797555553057
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        88.65108993526725,
+        125.71072407302096
+      ]
+    },
+    "thief-legend_last_word-through": {
+      "path": "img/held/thief-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.22041859999965,
+        127.58429844644947
+      ],
+      "bounds": [
+        82.51490853443843,
+        115.51490853443843,
+        147.42400514595494,
+        149.97907769291265
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        83.46172636846245,
+        148.65353272527904
+      ]
+    },
+    "thief-legend_last_word-recover": {
+      "path": "img/held/thief-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.34433989340016,
+        127.60533377991575
+      ],
+      "bounds": [
+        94.0,
+        103.0,
+        148.61321012077252,
+        143.28444774778666
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        96.46172636846245,
+        105.46172636846245
+      ]
+    },
+    "thief-legend_last_word-return": {
+      "path": "img/held/thief-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "thief",
+      "grip": [
+        128.41342386489856,
+        128.21889895737604
+      ],
+      "bounds": [
+        103.0,
+        89.0,
+        144.66445367723335,
+        148.0956729833224
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        105.46172636846245,
+        91.46172636846245
+      ]
+    },
+    "ranger-legend_last_word-rest": {
+      "path": "img/held/ranger-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        128.195037738177,
+        127.65635962845698
+      ],
+      "bounds": [
+        118.0,
+        89.0,
+        140.6943960580145,
+        147.26826602573132
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        121.88602672226276,
+        91.17617496446714
+      ]
+    },
+    "ranger-legend_last_word-drawback": {
+      "path": "img/held/ranger-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.75496949954777,
+        128.2924264253703
+      ],
+      "bounds": [
+        119.0,
+        91.0,
+        140.51683669652755,
+        145.95420026055808
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        135.16587116461307,
+        93.17617496446714
+      ]
+    },
+    "ranger-legend_last_word-windup": {
+      "path": "img/held/ranger-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.56641559695686,
+        128.27436805919194
+      ],
+      "bounds": [
+        115.22880925340684,
+        95.0,
+        149.50791729369325,
+        144.19675633349493
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        147.0208601914451,
+        97.17617496446714
+      ]
+    },
+    "ranger-legend_last_word-strike": {
+      "path": "img/held/ranger-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.68496952869296,
+        127.77971571771513
+      ],
+      "bounds": [
+        114.0,
+        87.0,
+        140.1140995736057,
+        146.8385938800908
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        116.64249817113867,
+        89.17617496446714
+      ]
+    },
+    "ranger-legend_last_word-cut": {
+      "path": "img/held/ranger-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.64237381828356,
+        128.37296044316247
+      ],
+      "bounds": [
+        93.0,
+        107.0,
+        145.11973236933963,
+        141.2191077876947
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        95.02073389557663,
+        109.02073389557663
+      ]
+    },
+    "ranger-legend_last_word-sweep": {
+      "path": "img/held/ranger-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        128.07059744746334,
+        128.19729066216922
+      ],
+      "bounds": [
+        92.0,
+        117.0,
+        146.05634155843273,
+        139.47155574165305
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        94.17617496446714,
+        124.46117130674449
+      ]
+    },
+    "ranger-legend_last_word-through": {
+      "path": "img/held/ranger-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.56856456973426,
+        127.65901281320161
+      ],
+      "bounds": [
+        87.0,
+        116.71185791909097,
+        145.22980990528782,
+        145.84468522697796
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        89.02073389557663,
+        144.7565977447444
+      ]
+    },
+    "ranger-legend_last_word-recover": {
+      "path": "img/held/ranger-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.6694807976847,
+        128.1271877116063
+      ],
+      "bounds": [
+        91.0,
+        102.0,
+        147.82686099390963,
+        143.70486987153765
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.86529282668613,
+        104.17617496446714
+      ]
+    },
+    "ranger-legend_last_word-return": {
+      "path": "img/held/ranger-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "ranger",
+      "grip": [
+        127.71091652911751,
+        127.6365729518939
+      ],
+      "bounds": [
+        102.0,
+        90.0,
+        143.66840339677594,
+        147.15835461742552
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        104.02073389557663,
+        92.02073389557663
+      ]
+    },
+    "druid-legend_last_word-rest": {
+      "path": "img/held/druid-legend_last_word-rest.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.31575174741837,
+        127.69091307134269
+      ],
+      "bounds": [
+        116.0,
+        85.0,
+        141.98837938090455,
+        149.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.25985907660039,
+        86.97737669202535
+      ]
+    },
+    "druid-legend_last_word-drawback": {
+      "path": "img/held/druid-legend_last_word-drawback.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        127.75250658978437,
+        128.08387431652505
+      ],
+      "bounds": [
+        118.0,
+        85.0,
+        141.85202160284035,
+        147.62295487167353
+      ],
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "tip": [
+        136.3613549973782,
+        86.97737669202535
+      ]
+    },
+    "druid-legend_last_word-windup": {
+      "path": "img/held/druid-legend_last_word-windup.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        127.5565150148215,
+        127.82635631268681
+      ],
+      "bounds": [
+        113.1770882068901,
+        89.0,
+        153.67746337880712,
+        146.37513837223057
+      ],
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "tip": [
+        151.4176043022067,
+        90.6948943074503
+      ]
+    },
+    "druid-legend_last_word-strike": {
+      "path": "img/held/druid-legend_last_word-strike.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.16448949253805,
+        127.59044644575367
+      ],
+      "bounds": [
+        112.0,
+        86.0,
+        140.81320322665505,
+        148.61383069065175
+      ],
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "tip": [
+        114.25985907660039,
+        87.97737669202535
+      ]
+    },
+    "druid-legend_last_word-cut": {
+      "path": "img/held/druid-legend_last_word-cut.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.25667408771432,
+        127.81758700016066
+      ],
+      "bounds": [
+        90.0,
+        104.0,
+        147.48239693365372,
+        141.91489865061698
+      ],
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "tip": [
+        91.6948943074503,
+        105.97737669202535
+      ]
+    },
+    "druid-legend_last_word-sweep": {
+      "path": "img/held/druid-legend_last_word-sweep.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.24004646835226,
+        128.44447543903942
+      ],
+      "bounds": [
+        84.0,
+        118.0,
+        147.36212652739107,
+        140.33088221014216
+      ],
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "tip": [
+        85.97737669202535,
+        126.75695392182654
+      ]
+    },
+    "druid-legend_last_word-through": {
+      "path": "img/held/druid-legend_last_word-through.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        127.7762421721483,
+        127.79914796250753
+      ],
+      "bounds": [
+        82.04525367800892,
+        116.0,
+        147.23504123360055,
+        148.7679566107057
+      ],
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "tip": [
+        83.97737669202535,
+        147.63802707240552
+      ]
+    },
+    "druid-legend_last_word-recover": {
+      "path": "img/held/druid-legend_last_word-recover.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.36541391614156,
+        127.62198383847657
+      ],
+      "bounds": [
+        91.0,
+        103.0,
+        148.54279166747585,
+        143.22899434505575
+      ],
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "tip": [
+        92.6948943074503,
+        104.97737669202535
+      ]
+    },
+    "druid-legend_last_word-return": {
+      "path": "img/held/druid-legend_last_word-return.png",
+      "id": "legend_last_word",
+      "cls": "druid",
+      "grip": [
+        128.14401128517127,
+        127.59572533531542
+      ],
+      "bounds": [
+        103.0,
+        88.0,
+        144.5920283471073,
+        147.74061761242356
+      ],
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "tip": [
+        104.83613549973782,
+        89.83613549973782
+      ]
+    },
+    "fighter-legend_farstrider-rest": {
+      "path": "img/held/fighter-legend_farstrider-rest.png",
+      "id": "legend_farstrider",
+      "cls": "fighter",
+      "grip": [
+        127.87508965517242,
+        127.94375724137932
+      ],
+      "bounds": [
+        111.25431172413793,
+        65.0,
+        147.35172413793103,
+        193.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          143.6,
+          191.2344827586207
+        ],
+        "bot": [
+          134.55172413793105,
+          66.54482758620689
+        ]
+      }
+    },
+    "fighter-legend_farstrider-bowdraw": {
+      "path": "img/held/fighter-legend_farstrider-bowdraw.png",
+      "id": "legend_farstrider",
+      "cls": "fighter",
+      "grip": [
+        127.97584551724138,
+        128.42171586206896
+      ],
+      "bounds": [
+        111.29393655172413,
+        66.0,
+        151.44137931034481,
+        190.24827586206897
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          147.68965517241378,
+          188.48275862068965
+        ],
+        "bot": [
+          131.13793103448276,
+          67.54482758620689
+        ]
+      }
+    },
+    "fighter-legend_farstrider-bowfull": {
+      "path": "img/held/fighter-legend_farstrider-bowfull.png",
+      "id": "legend_farstrider",
+      "cls": "fighter",
+      "grip": [
+        128.35005793103448,
+        128.10168275862068
+      ],
+      "bounds": [
+        111.46707862068965,
+        69.0,
+        155.29655172413794,
+        187.2896551724138
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.5448275862069,
+          185.5241379310345
+        ],
+        "bot": [
+          142.71724137931034,
+          70.54482758620689
+        ]
+      }
+    },
+    "ranger-legend_farstrider-rest": {
+      "path": "img/held/ranger-legend_farstrider-rest.png",
+      "id": "legend_farstrider",
+      "cls": "ranger",
+      "grip": [
+        127.87508965517242,
+        127.94375724137932
+      ],
+      "bounds": [
+        111.25431172413793,
+        65.0,
+        147.35172413793103,
+        193.0
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          143.6,
+          191.2344827586207
+        ],
+        "bot": [
+          134.55172413793105,
+          66.54482758620689
+        ]
+      }
+    },
+    "ranger-legend_farstrider-bowdraw": {
+      "path": "img/held/ranger-legend_farstrider-bowdraw.png",
+      "id": "legend_farstrider",
+      "cls": "ranger",
+      "grip": [
+        127.97584551724138,
+        128.42171586206896
+      ],
+      "bounds": [
+        111.29393655172413,
+        66.0,
+        151.44137931034481,
+        190.24827586206897
+      ],
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          147.68965517241378,
+          188.48275862068965
+        ],
+        "bot": [
+          131.13793103448276,
+          67.54482758620689
+        ]
+      }
+    },
+    "ranger-legend_farstrider-bowfull": {
+      "path": "img/held/ranger-legend_farstrider-bowfull.png",
+      "id": "legend_farstrider",
+      "cls": "ranger",
+      "grip": [
+        128.35005793103448,
+        128.10168275862068
+      ],
+      "bounds": [
+        111.46707862068965,
+        69.0,
+        155.29655172413794,
+        187.2896551724138
+      ],
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "nocks": {
+        "top": [
+          151.5448275862069,
+          185.5241379310345
+        ],
+        "bot": [
+          142.71724137931034,
+          70.54482758620689
+        ]
+      }
+    },
+    "fighter-legend_thornbinder-rest": {
+      "path": "img/held/fighter-legend_thornbinder-rest.png",
+      "id": "legend_thornbinder",
+      "cls": "fighter",
+      "grip": [
+        127.86894502336565,
+        127.67658106313378
+      ],
+      "bounds": [
+        106.0,
+        47.0,
+        153.19657859786804,
+        172.36682549906527
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.80606697063554,
+        49.01088342314232
+      ]
+    },
+    "fighter-legend_thornbinder-drive": {
+      "path": "img/held/fighter-legend_thornbinder-drive.png",
+      "id": "legend_thornbinder",
+      "cls": "fighter",
+      "grip": [
+        127.94822361893759,
+        128.38143896594187
+      ],
+      "bounds": [
+        112.0,
+        46.0,
+        152.37674480995096,
+        174.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.2701169913607,
+        48.165566763384035
+      ]
+    },
+    "ranger-legend_thornbinder-rest": {
+      "path": "img/held/ranger-legend_thornbinder-rest.png",
+      "id": "legend_thornbinder",
+      "cls": "ranger",
+      "grip": [
+        127.86894502336565,
+        127.67658106313378
+      ],
+      "bounds": [
+        106.0,
+        47.0,
+        153.19657859786804,
+        172.36682549906527
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.80606697063554,
+        49.01088342314232
+      ]
+    },
+    "ranger-legend_thornbinder-drive": {
+      "path": "img/held/ranger-legend_thornbinder-drive.png",
+      "id": "legend_thornbinder",
+      "cls": "ranger",
+      "grip": [
+        127.94822361893759,
+        128.38143896594187
+      ],
+      "bounds": [
+        112.0,
+        46.0,
+        152.37674480995096,
+        174.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        119.2701169913607,
+        48.165566763384035
+      ]
+    },
+    "druid-legend_thornbinder-rest": {
+      "path": "img/held/druid-legend_thornbinder-rest.png",
+      "id": "legend_thornbinder",
+      "cls": "druid",
+      "grip": [
+        128.3177968843571,
+        128.17480904393886
+      ],
+      "bounds": [
+        107.0,
+        49.0,
+        153.43634171883116,
+        172.4444753309998
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.04913321204369,
+        51.171483717143886
+      ]
+    },
+    "druid-legend_thornbinder-drive": {
+      "path": "img/held/druid-legend_thornbinder-drive.png",
+      "id": "legend_thornbinder",
+      "cls": "druid",
+      "grip": [
+        127.91464832990847,
+        127.8871162914354
+      ],
+      "bounds": [
+        111.0,
+        46.0,
+        152.67294401570837,
+        174.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        118.60019301000361,
+        48.171483717143886
+      ]
+    },
+    "fighter-legend_heartroot-rest-two": {
+      "path": "img/held/fighter-legend_heartroot-rest-two.png",
+      "id": "legend_heartroot",
+      "cls": "fighter",
+      "grip": [
+        128.42318051081838,
+        128.3888919057704
+      ],
+      "bounds": [
+        96.08408048785833,
+        72.0,
+        151.55758829856455,
+        175.28133690405076
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        137.5338527450605,
+        76.26809342932732
+      ]
+    },
+    "fighter-legend_heartroot-drive-two": {
+      "path": "img/held/fighter-legend_heartroot-drive-two.png",
+      "id": "legend_heartroot",
+      "cls": "fighter",
+      "grip": [
+        127.73668816909272,
+        128.32035851984807
+      ],
+      "bounds": [
+        95.46264608454827,
+        72.0,
+        149.11867776752038,
+        177.68323696778637
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        135.0949422140163,
+        76.26809342932732
+      ]
+    },
+    "fighter-legend_heartroot-rest-one": {
+      "path": "img/held/fighter-legend_heartroot-rest-one.png",
+      "id": "legend_heartroot",
+      "cls": "fighter",
+      "grip": [
+        127.51100701282047,
+        127.74799575858216
+      ],
+      "bounds": [
+        89.72380767285064,
+        60.0,
+        148.4026536489817,
+        183.40606812372516
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        131.98579810965379,
+        64.26809342932732
+      ]
+    },
+    "fighter-legend_heartroot-drive-one": {
+      "path": "img/held/fighter-legend_heartroot-drive-one.png",
+      "id": "legend_heartroot",
+      "cls": "fighter",
+      "grip": [
+        128.49093268321124,
+        127.76790146039295
+      ],
+      "bounds": [
+        93.43891053104419,
+        58.0,
+        152.58249090886574,
+        186.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        136.11984482431745,
+        62.26809342932733
+      ]
+    },
+    "fighter-legend_heartroot-channel-one": {
+      "path": "img/held/fighter-legend_heartroot-channel-one.png",
+      "id": "legend_heartroot",
+      "cls": "fighter",
+      "grip": [
+        128.38770865308308,
+        128.06572101721622
+      ],
+      "bounds": [
+        78.60570343038482,
+        56.0,
+        158.12436919389245,
+        182.44037768816054
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        114.88852178204334,
+        60.26809342932733
+      ]
+    },
+    "cleric-legend_heartroot-rest-two": {
+      "path": "img/held/cleric-legend_heartroot-rest-two.png",
+      "id": "legend_heartroot",
+      "cls": "cleric",
+      "grip": [
+        128.24936368380907,
+        128.42054857458928
+      ],
+      "bounds": [
+        96.67807441308585,
+        75.0,
+        150.65799956285323,
+        174.24363616898844
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        136.38381932456363,
+        78.99677046672109
+      ]
+    },
+    "cleric-legend_heartroot-drive-two": {
+      "path": "img/held/cleric-legend_heartroot-drive-two.png",
+      "id": "legend_heartroot",
+      "cls": "cleric",
+      "grip": [
+        127.53411306042885,
+        127.75159536267569
+      ],
+      "bounds": [
+        98.6999834954791,
+        74.0,
+        148.3741307247269,
+        174.74510863989366
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        136.38381932456363,
+        77.99677046672109
+      ]
+    },
+    "cleric-legend_heartroot-rest-one": {
+      "path": "img/held/cleric-legend_heartroot-rest-one.png",
+      "id": "legend_heartroot",
+      "cls": "cleric",
+      "grip": [
+        128.23733947123083,
+        127.83074123141569
+      ],
+      "bounds": [
+        92.52511051337981,
+        61.0,
+        147.95266592619356,
+        180.46329796013043
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        130.96770466721085,
+        65.28225407148688
+      ]
+    },
+    "cleric-legend_heartroot-drive-one": {
+      "path": "img/held/cleric-legend_heartroot-drive-one.png",
+      "id": "legend_heartroot",
+      "cls": "cleric",
+      "grip": [
+        127.64890066508758,
+        128.44504485215072
+      ],
+      "bounds": [
+        93.28386883812634,
+        61.0,
+        151.52252421034788,
+        185.07608494921516
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        132.39512269103983,
+        64.99677046672109
+      ]
+    },
+    "cleric-legend_heartroot-channel-one": {
+      "path": "img/held/cleric-legend_heartroot-channel-one.png",
+      "id": "legend_heartroot",
+      "cls": "cleric",
+      "grip": [
+        128.45786485027725,
+        128.10909666742498
+      ],
+      "bounds": [
+        79.0,
+        55.0,
+        158.28547735981195,
+        183.0
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.25803257189503,
+        59.56773767625267
+      ]
+    },
+    "mage-legend_heartroot-rest-two": {
+      "path": "img/held/mage-legend_heartroot-rest-two.png",
+      "id": "legend_heartroot",
+      "cls": "mage",
+      "grip": [
+        128.25827846540628,
+        128.01221762977983
+      ],
+      "bounds": [
+        94.39234559923946,
+        78.0,
+        151.24215787851443,
+        177.06033429514673
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        136.68498197064054,
+        81.56502267131604
+      ]
+    },
+    "mage-legend_heartroot-drive-two": {
+      "path": "img/held/mage-legend_heartroot-drive-two.png",
+      "id": "legend_heartroot",
+      "cls": "mage",
+      "grip": [
+        127.76070528031846,
+        128.1248760597587
+      ],
+      "bounds": [
+        98.20179513745762,
+        73.0,
+        150.4887943167597,
+        177.333894081691
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        138.0112149671535,
+        77.15919311653539
+      ]
+    },
+    "mage-legend_heartroot-rest-one": {
+      "path": "img/held/mage-legend_heartroot-rest-one.png",
+      "id": "legend_heartroot",
+      "cls": "mage",
+      "grip": [
+        127.65931752097237,
+        127.98424334250583
+      ],
+      "bounds": [
+        92.06589350237482,
+        63.0,
+        148.44619229583748,
+        180.33238266062096
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        132.99776072013458,
+        66.56502267131604
+      ]
+    },
+    "mage-legend_heartroot-drive-one": {
+      "path": "img/held/mage-legend_heartroot-drive-one.png",
+      "id": "legend_heartroot",
+      "cls": "mage",
+      "grip": [
+        128.1456460303844,
+        128.44878065083947
+      ],
+      "bounds": [
+        94.37668178087736,
+        59.0,
+        152.60538541237287,
+        185.56715797135354
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        133.5919311653539,
+        63.15919311653539
+      ]
+    },
+    "mage-legend_heartroot-channel-one": {
+      "path": "img/held/mage-legend_heartroot-channel-one.png",
+      "id": "legend_heartroot",
+      "cls": "mage",
+      "grip": [
+        128.24898341150387,
+        128.10251296962673
+      ],
+      "bounds": [
+        77.98353033797157,
+        55.0,
+        158.29731175009192,
+        183.0
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        112.65022671316049,
+        59.75336356175473
+      ]
+    },
+    "druid-legend_heartroot-rest-two": {
+      "path": "img/held/druid-legend_heartroot-rest-two.png",
+      "id": "legend_heartroot",
+      "cls": "druid",
+      "grip": [
+        127.78116791077011,
+        127.50891654443508
+      ],
+      "bounds": [
+        94.72686417827695,
+        74.0,
+        149.37806376946202,
+        175.45619477581684
+      ],
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "tip": [
+        135.336477454158,
+        77.8029296270615
+      ]
+    },
+    "druid-legend_heartroot-drive-two": {
+      "path": "img/held/druid-legend_heartroot-drive-two.png",
+      "id": "legend_heartroot",
+      "cls": "druid",
+      "grip": [
+        127.91801487073468,
+        127.90131031951465
+      ],
+      "bounds": [
+        98.477313376485,
+        72.0,
+        150.548195962404,
+        175.8261805194016
+      ],
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "tip": [
+        137.676741840042,
+        75.510396578826
+      ]
+    },
+    "druid-legend_heartroot-rest-one": {
+      "path": "img/held/druid-legend_heartroot-rest-one.png",
+      "id": "legend_heartroot",
+      "cls": "druid",
+      "grip": [
+        128.39737140772846,
+        128.0963210769604
+      ],
+      "bounds": [
+        92.27854996852984,
+        62.0,
+        148.32735545096483,
+        181.33856449462402
+      ],
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "tip": [
+        132.95462675297,
+        66.095462675297
+      ]
+    },
+    "druid-legend_heartroot-drive-one": {
+      "path": "img/held/druid-legend_heartroot-drive-one.png",
+      "id": "legend_heartroot",
+      "cls": "druid",
+      "grip": [
+        127.86659441709818,
+        128.2900163498549
+      ],
+      "bounds": [
+        93.340264385884,
+        58.0,
+        153.01700622592602,
+        186.0
+      ],
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "tip": [
+        134.00235809061851,
+        62.095462675297
+      ]
+    },
+    "druid-legend_heartroot-channel-one": {
+      "path": "img/held/druid-legend_heartroot-channel-one.png",
+      "id": "legend_heartroot",
+      "cls": "druid",
+      "grip": [
+        127.8908728317702,
+        127.92930801764523
+      ],
+      "bounds": [
+        79.0,
+        55.0,
+        157.75908212271122,
+        182.8241291314008
+      ],
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "tip": [
+        113.22636664355352,
+        59.680528771768
+      ]
     }
   },
   "atlases": {
@@ -7764,6 +16290,246 @@ export const PAINTED = {
         82.19427402862985,
         164.51738241308794,
         167.62576687116564
+      ]
+    },
+    "fighter-mythic_last_gate-carried": {
+      "path": "img/held/fighter-mythic_last_gate-carried.png",
+      "id": "mythic_last_gate",
+      "cls": "fighter",
+      "grip": [
+        128.20919483617962,
+        127.56405357652358
+      ],
+      "bounds": [
+        67.52303773301372,
+        83.0,
+        169.872389342686,
+        195.0
+      ]
+    },
+    "cleric-mythic_mercys_oath-carried": {
+      "path": "img/held/cleric-mythic_mercys_oath-carried.png",
+      "id": "mythic_mercys_oath",
+      "cls": "cleric",
+      "grip": [
+        127.88495879274608,
+        128.07984940662448
+      ],
+      "bounds": [
+        95.21585348929864,
+        78.0,
+        155.94436461145204,
+        145.55639193671854
+      ]
+    },
+    "mage-mythic_bloodstar-carried": {
+      "path": "img/held/mage-mythic_bloodstar-carried.png",
+      "id": "mythic_bloodstar",
+      "cls": "mage",
+      "grip": [
+        128.25589043061305,
+        128.30616951429576
+      ],
+      "bounds": [
+        84.87443231517585,
+        71.0,
+        164.96744743794903,
+        149.95862249152805
+      ]
+    },
+    "fighter-relic_kests_bulwark-carried": {
+      "path": "img/held/fighter-relic_kests_bulwark-carried.png",
+      "id": "relic_kests_bulwark",
+      "cls": "fighter",
+      "grip": [
+        127.69069188279634,
+        127.61166100341273
+      ],
+      "bounds": [
+        67.03761411240973,
+        83.0,
+        168.5633938784421,
+        195.0
+      ]
+    },
+    "cleric-relic_kests_bulwark-carried": {
+      "path": "img/held/cleric-relic_kests_bulwark-carried.png",
+      "id": "relic_kests_bulwark",
+      "cls": "cleric",
+      "grip": [
+        127.85665740152959,
+        127.645981782528
+      ],
+      "bounds": [
+        67.23309505168977,
+        83.0,
+        169.38265442474807,
+        195.0
+      ]
+    },
+    "fighter-relic_sisters_buckler-carried": {
+      "path": "img/held/fighter-relic_sisters_buckler-carried.png",
+      "id": "relic_sisters_buckler",
+      "cls": "fighter",
+      "grip": [
+        128.06674702346487,
+        128.0484193572158
+      ],
+      "bounds": [
+        66.03790279283737,
+        85.0,
+        167.4841093554262,
+        197.0
+      ]
+    },
+    "cleric-relic_sisters_buckler-carried": {
+      "path": "img/held/cleric-relic_sisters_buckler-carried.png",
+      "id": "relic_sisters_buckler",
+      "cls": "cleric",
+      "grip": [
+        128.09821277175232,
+        128.27410457620468
+      ],
+      "bounds": [
+        66.26647090263108,
+        85.0,
+        168.15589220770335,
+        197.0
+      ]
+    },
+    "thief-relic_sisters_buckler-carried": {
+      "path": "img/held/thief-relic_sisters_buckler-carried.png",
+      "id": "relic_sisters_buckler",
+      "cls": "thief",
+      "grip": [
+        128.47983834202483,
+        128.02631155368022
+      ],
+      "bounds": [
+        66.42643841266299,
+        85.0,
+        168.30325748456477,
+        197.0
+      ]
+    },
+    "druid-relic_sisters_buckler-carried": {
+      "path": "img/held/druid-relic_sisters_buckler-carried.png",
+      "id": "relic_sisters_buckler",
+      "cls": "druid",
+      "grip": [
+        127.97507951303922,
+        128.2681597494859
+      ],
+      "bounds": [
+        65.25512739286405,
+        86.0,
+        168.0135356692338,
+        198.0
+      ]
+    },
+    "mage-relic_midnight_folio-carried": {
+      "path": "img/held/mage-relic_midnight_folio-carried.png",
+      "id": "relic_midnight_folio",
+      "cls": "mage",
+      "grip": [
+        127.96038583126047,
+        127.7905601207388
+      ],
+      "bounds": [
+        91.35028613061891,
+        79.0,
+        160.2930707269253,
+        147.47641714769867
+      ]
+    },
+    "mage-relic_sparkglass-carried": {
+      "path": "img/held/mage-relic_sparkglass-carried.png",
+      "id": "relic_sparkglass",
+      "cls": "mage",
+      "grip": [
+        128.21309476512954,
+        127.90955134331882
+      ],
+      "bounds": [
+        84.67552603826154,
+        70.0,
+        166.3761618218449,
+        149.67137036442938
+      ]
+    },
+    "fighter-legend_bastion-carried": {
+      "path": "img/held/fighter-legend_bastion-carried.png",
+      "id": "legend_bastion",
+      "cls": "fighter",
+      "grip": [
+        127.76304466299696,
+        127.94033236035312
+      ],
+      "bounds": [
+        69.23900787225996,
+        81.0,
+        166.55357003542503,
+        193.0
+      ]
+    },
+    "cleric-legend_bastion-carried": {
+      "path": "img/held/cleric-legend_bastion-carried.png",
+      "id": "legend_bastion",
+      "cls": "cleric",
+      "grip": [
+        128.27995866129686,
+        127.74860447881278
+      ],
+      "bounds": [
+        72.25314743004263,
+        78.0,
+        167.06143692788163,
+        190.0
+      ]
+    },
+    "cleric-legend_lantern_mercy-carried": {
+      "path": "img/held/cleric-legend_lantern_mercy-carried.png",
+      "id": "legend_lantern_mercy",
+      "cls": "cleric",
+      "grip": [
+        127.60312306504166,
+        128.11408558875965
+      ],
+      "bounds": [
+        96.65712191069827,
+        83.0,
+        155.61540460946912,
+        142.54325601036558
+      ]
+    },
+    "mage-legend_cinderheart-carried": {
+      "path": "img/held/mage-legend_cinderheart-carried.png",
+      "id": "legend_cinderheart",
+      "cls": "mage",
+      "grip": [
+        128.31542753113456,
+        127.67435334251033
+      ],
+      "bounds": [
+        85.27501944664652,
+        72.0,
+        160.54695614123236,
+        152.0
+      ]
+    },
+    "mage-legend_rimebound-carried": {
+      "path": "img/held/mage-legend_rimebound-carried.png",
+      "id": "legend_rimebound",
+      "cls": "mage",
+      "grip": [
+        127.77209054413943,
+        127.65947228254036
+      ],
+      "bounds": [
+        89.99322138871634,
+        72.0,
+        163.41146872413543,
+        148.47899020875602
       ]
     }
   }

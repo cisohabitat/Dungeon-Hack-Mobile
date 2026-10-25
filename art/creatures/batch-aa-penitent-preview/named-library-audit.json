@@ -1,5 +1,5 @@
 {
-  "scope": "Named equipment identity/class coverage. Weapon/shield held candidates are separate from worn item art. Source scan requires exact id/class/pose/two metadata and covers held frames; carried source review is separate. Source states do not imply native activation; required pose families must still be audited per renderer.",
+  "scope": "Named equipment identity/class coverage. Weapon/shield candidates are separate from worn item art. Exact id/class/pose/two source states cover held frames; source_carried_classes inventories carried backs/foci separately. Source presence does not imply completed review or native activation; required pose families must still be audited per renderer.",
   "entries": [
     {
       "key": "last_gate",
@@ -14,9 +14,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "fighter"
+      ]
     },
     {
       "key": "mercys_oath",
@@ -31,9 +38,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "cleric"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "cleric"
+      ]
     },
     {
       "key": "bloodstar",
@@ -48,9 +62,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "mage"
+      ]
     },
     {
       "key": "nightglass",
@@ -65,6 +86,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -81,9 +103,50 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -99,6 +162,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -120,9 +184,794 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -140,9 +989,578 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -160,9 +1578,554 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -178,9 +2141,230 @@
         "cleric"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -306,6 +2490,7 @@
           "lit": false
         }
       ],
+      "source_carried_classes": [],
       "source_manifests": [
         "generation-batch-aa-penitent.json"
       ],
@@ -433,9 +2618,122 @@
         "fighter"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -453,9 +2751,254 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -473,9 +3016,254 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -493,9 +3281,62 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -512,9 +3353,122 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -531,6 +3485,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -553,6 +3508,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -575,6 +3531,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -593,9 +3550,18 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "cleric",
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "fighter",
+        "cleric"
+      ]
     },
     {
       "key": "sisters_buckler",
@@ -613,9 +3579,22 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "cleric",
+        "druid",
+        "fighter",
+        "thief"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "fighter",
+        "cleric",
+        "thief",
+        "druid"
+      ]
     },
     {
       "key": "hearthwool",
@@ -630,6 +3609,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -647,6 +3627,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -664,9 +3645,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "mage"
+      ]
     },
     {
       "key": "sparkglass",
@@ -681,9 +3669,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "mage"
+      ]
     },
     {
       "key": "boarspear",
@@ -699,9 +3694,86 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -717,9 +3789,86 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -741,6 +3890,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -757,9 +3907,74 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -775,6 +3990,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -798,6 +4014,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -821,6 +4038,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -844,6 +4062,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -867,6 +4086,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -890,6 +4110,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -908,9 +4129,18 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "cleric",
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "fighter",
+        "cleric"
+      ]
     },
     {
       "key": "red_harvest",
@@ -924,9 +4154,122 @@
         "fighter"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -942,9 +4285,230 @@
         "cleric"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -960,9 +4524,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "cleric"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "cleric"
+      ]
     },
     {
       "key": "cinderheart",
@@ -977,9 +4548,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "mage"
+      ]
     },
     {
       "key": "rimebound",
@@ -994,9 +4572,16 @@
       ],
       "authored_identity": true,
       "source_states": [],
-      "source_manifests": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
       "runtime_held": [],
-      "runtime_carried": []
+      "runtime_carried": [
+        "mage"
+      ]
     },
     {
       "key": "last_word",
@@ -1015,9 +4600,794 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -1038,6 +5408,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -1055,9 +5426,86 @@
         "ranger"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -1074,9 +5522,86 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     },
     {
@@ -1098,6 +5623,7 @@
       ],
       "authored_identity": true,
       "source_states": [],
+      "source_carried_classes": [],
       "source_manifests": [],
       "runtime_held": [],
       "runtime_carried": []
@@ -1117,14 +5643,261 @@
         "druid"
       ],
       "authored_identity": true,
-      "source_states": [],
-      "source_manifests": [],
-      "runtime_held": [],
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
       "runtime_carried": []
     }
   ],
   "total_named_identities": 47,
   "held_candidates": 31,
-  "held_candidates_with_source": 1,
-  "held_candidates_with_delivery": 1
+  "held_candidates_with_source": 31,
+  "held_weapon_families_with_source": 20,
+  "carried_families_with_source": 11,
+  "held_candidates_with_delivery": 31
 }

@@ -1,0 +1,45 @@
+{
+  "release": "0.9.39",
+  "native_sessions": 154,
+  "class_families": 73,
+  "class_lighting_variants": 77,
+  "native_actions": 546,
+  "native_captures": 2408,
+  "overview_galleries": 154,
+  "diagnostic_galleries_visually_reviewed": 154,
+  "offline_reloads": 154,
+  "cached_equipment_frames_per_session": 807,
+  "held_frames": 786,
+  "carried_frames": 21,
+  "common_exports": 973,
+  "unchanged_prior_common_exports": 576,
+  "console_errors": [],
+  "validation": {
+    "npm_test": "passed:751 rules, release fixtures, typecheck, generator/API/security/narration/offline/voice/art/guidance",
+    "targeted_browser_tests": "20 passed; phone and small",
+    "source_export": "397 reproduced",
+    "runtime_export": "973 reproduced;576 prior exports unchanged",
+    "named_library_audit": "47 identities;31 weapon/shield candidates with source and delivery",
+    "release_metadata": "0.9.39 build54 deepdelve-v114; patch check passed against origin/main",
+    "full_chromium": {
+      "executed": 857,
+      "passed_in_four_worker_run": 852,
+      "readiness_failures_under_load": 5,
+      "isolated_reruns_passed": 5,
+      "isolated_workers": 1,
+      "assertions_or_deadlines_changed": false
+    },
+    "isolated_performance": {
+      "passed": true,
+      "cpu_throttle": 4,
+      "fps": {
+        "fight": 38.9,
+        "wide": 40.9,
+        "flooded": 37.1,
+        "painted": 37.2,
+        "rite": 53.6
+      },
+      "startup_ms": 1853
+    }
+  }
+}

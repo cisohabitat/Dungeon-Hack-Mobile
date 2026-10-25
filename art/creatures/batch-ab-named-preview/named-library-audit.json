@@ -1,0 +1,3571 @@
+{
+  "scope": "Named equipment identity/class coverage. Weapon/shield candidates are separate from worn item art. Exact id/class/pose/two source states cover held frames; source_carried_classes inventories carried backs/foci separately. Source presence does not imply completed review or native activation; required pose families must still be audited per renderer.",
+  "entries": [
+    {
+      "key": "last_gate",
+      "id": "mythic_last_gate",
+      "name": "the Last Gate",
+      "t": "shield",
+      "kind": "shield",
+      "category": "mythic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "mercys_oath",
+      "id": "mythic_mercys_oath",
+      "name": "Mercy's Oath",
+      "t": "holy_symbol",
+      "kind": "shield",
+      "category": "mythic",
+      "held_candidate": true,
+      "legal_classes": [
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "cleric"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "bloodstar",
+      "id": "mythic_bloodstar",
+      "name": "the Bloodstar",
+      "t": "crystal_orb",
+      "kind": "shield",
+      "category": "mythic",
+      "held_candidate": true,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "nightglass",
+      "id": "mythic_nightglass",
+      "name": "Nightglass",
+      "t": "amulet_mind",
+      "kind": "amulet",
+      "category": "mythic",
+      "held_candidate": false,
+      "legal_classes": [
+        "thief"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "horizon",
+      "id": "mythic_horizon",
+      "name": "Horizon",
+      "t": "longbow",
+      "kind": "weapon",
+      "category": "mythic",
+      "held_candidate": true,
+      "legal_classes": [
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "elderseed",
+      "id": "mythic_elderseed",
+      "name": "the Elderseed",
+      "t": "amulet_ward",
+      "kind": "amulet",
+      "category": "mythic",
+      "held_candidate": false,
+      "legal_classes": [
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "grimtooth",
+      "id": "relic_grimtooth",
+      "name": "Grimtooth",
+      "t": "dagger",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "whisper",
+      "id": "relic_whisper",
+      "name": "Whisper",
+      "t": "shortsword",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "thief",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "thirst",
+      "id": "relic_thirst",
+      "name": "Thirst",
+      "t": "longsword",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "thief",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "dawnbringer",
+      "id": "relic_dawnbringer",
+      "name": "Dawnbringer",
+      "t": "mace",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "penitent",
+      "id": "relic_penitent",
+      "name": "the Penitent's Flail",
+      "t": "flail",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-aa-penitent.json"
+      ],
+      "runtime_held": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "runtime_carried": []
+    },
+    {
+      "key": "ogres_toll",
+      "id": "relic_ogres_toll",
+      "name": "the Ogre's Toll",
+      "t": "battleaxe",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "ninth_circle",
+      "id": "relic_ninth_circle",
+      "name": "Staff of the Ninth Circle",
+      "t": "staff",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric",
+        "mage",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "emberwood",
+      "id": "relic_emberwood",
+      "name": "Emberwood",
+      "t": "staff",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric",
+        "mage",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "vashti",
+      "id": "relic_vashti",
+      "name": "Vashti's Needles",
+      "t": "throwknife",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "mage",
+        "thief",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "heartseeker",
+      "id": "relic_heartseeker",
+      "name": "Heartseeker",
+      "t": "shortbow",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "thief",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "rustwarden",
+      "id": "relic_rustwarden",
+      "name": "Rustwarden Mail",
+      "t": "chain",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "shadowskin",
+      "id": "relic_shadowskin",
+      "name": "Shadowskin",
+      "t": "leather",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "briarcoat",
+      "id": "relic_briarcoat",
+      "name": "Briarcoat",
+      "t": "studded",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "kests_bulwark",
+      "id": "relic_kests_bulwark",
+      "name": "Kest's Bulwark",
+      "t": "shield",
+      "kind": "shield",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "cleric",
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "sisters_buckler",
+      "id": "relic_sisters_buckler",
+      "name": "the Sisters' Buckler",
+      "t": "buckler",
+      "kind": "shield",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric",
+        "thief",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "cleric",
+        "druid",
+        "fighter",
+        "thief"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "hearthwool",
+      "id": "relic_hearthwool",
+      "name": "the Hearthwool Robe",
+      "t": "robe_silk",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "archivist",
+      "id": "relic_archivist",
+      "name": "the Archivist's Robe",
+      "t": "robe_warded",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "midnight_folio",
+      "id": "relic_midnight_folio",
+      "name": "the Midnight Folio",
+      "t": "spellbook",
+      "kind": "shield",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "sparkglass",
+      "id": "relic_sparkglass",
+      "name": "Sparkglass",
+      "t": "crystal_orb",
+      "kind": "shield",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "boarspear",
+      "id": "relic_boarspear",
+      "name": "the Boarspear",
+      "t": "spear",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "galewind",
+      "id": "relic_galewind",
+      "name": "Galewind",
+      "t": "longbow",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "sextons_locket",
+      "id": "relic_sextons_locket",
+      "name": "the Sexton's Locket",
+      "t": "amulet_ward",
+      "kind": "amulet",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "oakheart",
+      "id": "relic_oakheart",
+      "name": "Oakheart",
+      "t": "staff",
+      "kind": "weapon",
+      "category": "relic",
+      "held_candidate": true,
+      "legal_classes": [
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "mossmantle",
+      "id": "relic_mossmantle",
+      "name": "the Mossmantle",
+      "t": "leather",
+      "kind": "armor",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "cinder_ring",
+      "id": "relic_cinder_ring",
+      "name": "the Cinder Ring",
+      "t": "ring_protect",
+      "kind": "ring",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "spider_pendant",
+      "id": "relic_spider_pendant",
+      "name": "the Spider Pendant",
+      "t": "amulet_spider",
+      "kind": "amulet",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "thane_ring",
+      "id": "relic_thane_ring",
+      "name": "Durgrim's Ring",
+      "t": "ring_forge",
+      "kind": "ring",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "hissra_tooth",
+      "id": "relic_hissra_tooth",
+      "name": "Hissra's Tooth",
+      "t": "amulet_tooth",
+      "kind": "amulet",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "warchiefs_knuckle",
+      "id": "relic_warchiefs_knuckle",
+      "name": "the Warchief's Knuckle",
+      "t": "ring_protect",
+      "kind": "ring",
+      "category": "relic",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "bastion",
+      "id": "legend_bastion",
+      "name": "the Bastion",
+      "t": "towershield",
+      "kind": "shield",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "cleric",
+        "fighter"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "red_harvest",
+      "id": "legend_red_harvest",
+      "name": "Red Harvest",
+      "t": "battleaxe",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "sunhammer",
+      "id": "legend_sunhammer",
+      "name": "the Sunhammer",
+      "t": "hammer",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "lantern_mercy",
+      "id": "legend_lantern_mercy",
+      "name": "the Lantern of Mercy",
+      "t": "holy_symbol",
+      "kind": "shield",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "cleric"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "cleric"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "cinderheart",
+      "id": "legend_cinderheart",
+      "name": "Cinderheart",
+      "t": "crystal_orb",
+      "kind": "shield",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "rimebound",
+      "id": "legend_rimebound",
+      "name": "the Rimebound Grimoire",
+      "t": "spellbook",
+      "kind": "shield",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "mage"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [
+        "mage"
+      ],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "last_word",
+      "id": "legend_last_word",
+      "name": "the Last Word",
+      "t": "dagger",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "spellblade",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "spellblade",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "left",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "thrust",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "thief",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "motley",
+      "id": "legend_motley",
+      "name": "Motley",
+      "t": "leather",
+      "kind": "armor",
+      "category": "legendary",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "farstrider",
+      "id": "legend_farstrider",
+      "name": "Farstrider",
+      "t": "longbow",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "ranger"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "thornbinder",
+      "id": "legend_thornbinder",
+      "name": "Thornbinder",
+      "t": "spear",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "ranger",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "moonbound",
+      "id": "legend_moonbound",
+      "name": "the Moonbound Torc",
+      "t": "amulet_mind",
+      "kind": "amulet",
+      "category": "legendary",
+      "held_candidate": false,
+      "legal_classes": [
+        "spellblade",
+        "fighter",
+        "cleric",
+        "mage",
+        "thief",
+        "ranger",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [],
+      "source_carried_classes": [],
+      "source_manifests": [],
+      "runtime_held": [],
+      "runtime_carried": []
+    },
+    {
+      "key": "heartroot",
+      "id": "legend_heartroot",
+      "name": "Heartroot",
+      "t": "staff",
+      "kind": "weapon",
+      "category": "legendary",
+      "held_candidate": true,
+      "legal_classes": [
+        "fighter",
+        "cleric",
+        "mage",
+        "druid"
+      ],
+      "authored_identity": true,
+      "source_states": [
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "fighter",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "cleric",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "mage",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": true,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "drive",
+          "two": false,
+          "lit": false
+        },
+        {
+          "cls": "druid",
+          "pose": "channel",
+          "two": false,
+          "lit": false
+        }
+      ],
+      "source_carried_classes": [],
+      "source_manifests": [
+        "generation-batch-ab-named.json"
+      ],
+      "runtime_held": [],
+      "runtime_carried": []
+    }
+  ],
+  "total_named_identities": 47,
+  "held_candidates": 31,
+  "held_candidates_with_source": 31,
+  "held_weapon_families_with_source": 20,
+  "carried_families_with_source": 11,
+  "held_candidates_with_delivery": 1
+}

@@ -469,6 +469,40 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   attack/read/drink overlap. Prior642 fit checks remain. Named audit now has
   1 source-complete/delivered held family and30 candidates without held source.
   See batch-aa-runtime116/REVIEW.md for current activation/release evidence.
+  AB named source completion supersedes the earlier 30-without-source count:
+  all31 weapon/shield candidates now have source (20 held including active
+  Penitent,11 carried); AB adds397 local/unactivated states:381 held+16 carried,
+  73 class families,347 unique paintings+50 native-equal Ranger reuses. Tools:
+  plan/reference/register/export/preview/gallery-batch-ab-named (reference and
+  gallery also use Python); export supports --check. Keep carried source classes
+  separate from held pose counts in audit-named-equipment.mjs. Native refs check
+  actual canEquip/spriteFor/offhand eligibility; frozen proxies are fitting only.
+  Crop complete connected figures across grid boundaries. Normalize source_density
+  across small repair sheets before choosing one physical family scale. Alpha
+  analysis measures landmarks only: never mask/repaint pixels. Include actual
+  painted tips in bounds; derive bow nocks from the bow corridor beyond the grip,
+  not full-figure forearm extrema. Compare native grip occlusion before declaring
+  missing bands; inspect opaque composites before alleging an alpha background.
+  AB selected Heartroot spacing repair and only two Dawnbringer windup cells;
+  rejected mark-exposure/Heartseeker background repairs remain provenance.
+  Review: batch-ab-named-preview/REVIEW.md,397 exact exports,1582 phone captures,
+  4746 three-height fixtures,82 galleries. Activation still needs native legal
+  actions, exact held/carried routing, whole-family loading/fallback, offline
+  delivery and performance evidence. The other16 worn/inventory identities and
+  47 existing named portraits are separate surfaces; do not call them held gaps.
+  AB397 states are now activated for0.9.39/build54/deepdelve-v114. Common delivery
+  is973 files,786 held+21 carried states,1141 shipped paintings+3 icons; all576
+  prior common exports retain identical bytes. export-painted-runtime.py binds
+  AB kind:held and kind:carried separately through existing exact family loaders.
+  Named staffs require all5 states including drive-one for consumable overlaps;
+  Spellblade daggers/shortsword include18 plain/reflected states in one family.
+  Keep named Fighter offhand left/thrust frames with the matching main family.
+  test/browser/named-equipment.cjs uses delivered Assets frames for2373 fitted
+  fixtures per width, not source substitutions; painted-world.spec.js also checks
+  corrupt named weapons, staff released pose, bow and carried images independently.
+  preview-batch-ab-runtime.cjs records real class creation/equip/action/Calm/offline
+  flows with native updates, no asset routes/proxies; AB_WIDTH splits phone widths.
+  See batch-ab-runtime/REVIEW.md for final evidence and historical source limits.
   AA fourth/fifth melee passes integrate133 class/state frames for0.9.37,
   including clubs and all remaining basic mace/sword/staff/spear class pairs.
   That0.9.37 delivery had460 files,289 held frames and628 shipped paintings plus

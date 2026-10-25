@@ -185,3 +185,54 @@ test('native greatsword read and drink overlaps release one hand and restore bot
  }
  expect(errors).toEqual([]);
 });
+
+
+// All named surfaces use the delivered loader; fixture rendering does not replace
+// the independent real equip/action/offline evidence in batch-ab-runtime.
+test('all named equipment states fit exact runtime routes without changing run or dice @mobile',async({page})=>{
+ test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'named-runtime-fit'});await faceOpenGround(page,3);
+ const {setup,cases}=require('./named-equipment.cjs');await setup(page);
+ const result=await page.evaluate(async cases=>{const{Dice,Odds}=await import('/js/rng.js'),before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],height=Renderer.H,calm=Renderer.calm;let checked=0;try{for(const h of[160,360,464]){Renderer.setHeight(h);for(const c of cases){window.__abDraw(c);checked++;}}}finally{Renderer.setHeight(height);Renderer.setCalm(calm);}return{checked,state:JSON.stringify(Game.state())===before,dice:Dice.s===dice[0]&&Odds.s===dice[1]};},cases);
+ expect(result).toEqual({checked:2373,state:true,dice:true});expect(errors).toEqual([]);
+});
+for(const[cls,id,file,count,otherCls,otherId]of[
+ ['spellblade','relic_grimtooth','spellblade-relic_grimtooth-windup-lit',18,'fighter','relic_grimtooth'],
+ ['fighter','relic_whisper','fighter-relic_whisper-thrust',11,'thief','relic_whisper'],
+ ['mage','legend_heartroot','mage-legend_heartroot-drive-one',5,'cleric','legend_heartroot'],
+ ['ranger','mythic_horizon','ranger-mythic_horizon-bowfull',3,'ranger','longbow'],
+])test(`a corrupt named ${cls} ${id} preserves its complete family fallback @mobile`,async({page})=>{
+ await page.route(`**/img/held/${file}.png`,r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));await startGame(page,{seed:'named-family-fallback'});
+ await page.evaluate(async({cls,id,otherCls,otherId})=>{const{PAINTED}=await import('/js/paintedcatalog.js');for(const m of Object.values(PAINTED.held))if(m.cls===cls&&m.id===id||m.cls===otherCls&&m.id===otherId)Assets.held(m.id,m.pose,m.cls,m.two,m.lit);},{cls,id,otherCls,otherId});
+ await expect.poll(()=>page.evaluate(({otherCls,otherId})=>Assets.held(otherId,'rest',otherCls,false,false)?.img.width,{otherCls,otherId}),{timeout:30000}).toBe(256);
+ expect(await page.evaluate(async({cls,id,count})=>{const{PAINTED}=await import('/js/paintedcatalog.js'),{paintedHeld}=await import('/js/paintedworld.js');const f=Object.values(PAINTED.held).filter(m=>m.cls===cls&&m.id===id);return f.length===count&&f.every(m=>paintedHeld(m.id,m.pose,m.cls,m.two,m.lit)===null&&!!Assets.held(m.id,m.pose,m.cls,m.two,m.lit));},{cls,id,count})).toBe(true);
+});
+for(const[cls,id,file,otherCls]of[['fighter','relic_kests_bulwark','fighter-relic_kests_bulwark-carried','cleric'],['mage','mythic_bloodstar','mage-mythic_bloodstar-carried','cleric']])test(`a corrupt named carried ${id} preserves exact independent fallback @mobile`,async({page})=>{
+ await page.route(`**/img/held/${file}.png`,r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));await startGame(page,{seed:'named-carried-fallback'});
+ await page.evaluate(({cls,id,otherCls})=>{Assets.carried(id,cls);Assets.carried('runeshield',otherCls);},{cls,id,otherCls});
+ await expect.poll(()=>page.evaluate(otherCls=>Assets.carried('runeshield',otherCls)?.img.width,otherCls),{timeout:30000}).toBe(256);
+ expect(await page.evaluate(async({cls,id})=>{const{paintedCarried}=await import('/js/paintedworld.js');return paintedCarried(id,cls)===null&&!!Assets.carried(id,cls)?.img;},{cls,id})).toBe(true);
+});
+
+test('named Fighter offhands equip and animate their own blades @mobile',async({page})=>{
+ test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'named-offhand-native',cls:'fighter'});await faceOpenGround(page,3);
+ for(const[relic,t,id]of[['grimtooth','dagger','relic_grimtooth'],['whisper','shortsword','relic_whisper'],['last_word','dagger','legend_last_word']]){
+  await page.evaluate(({relic,t,id})=>{const p=Game.player();Game.level().monsters=[];p.hp=p.maxHp=999;Game.unequip('weapon');Game.unequip('offhand');const sword={t:'longsword',q:1,e:0},it={t,u:relic,q:1,e:1};p.inv.push(sword,it);if(!Game.equip(sword)||Game.offhandReason(it)||!Game.equip(it,false,'offhand')||Game.spriteFor(p.eq.offhand)!==id)throw Error('Legal named offhand did not equip');Assets.held(id,'left','fighter',false,false);},{relic,t,id});
+  await expect.poll(()=>page.evaluate(id=>Assets.held(id,'left','fighter',false,false)?.img.width,id),{timeout:30000}).toBe(256);
+  await page.evaluate(id=>{window.__namedOffSeen=[];const ctx=document.querySelector('#view').getContext('2d');window.__namedOffDraw=ctx.drawImage;const thrust=Assets.held(id,'thrust','fighter',false,false).img;ctx.drawImage=function(img,...args){if(img===thrust)window.__namedOffSeen.push(performance.now());return window.__namedOffDraw.call(this,img,...args);};},id);
+  await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});await page.evaluate(()=>{Game.player().nextAttack=0;Game.state().blowGate=0;Game.input('attack');});await expect.poll(()=>page.evaluate(()=>window.__namedOffSeen.length)).toBeGreaterThan(0);
+  await page.evaluate(()=>{document.querySelector('#view').getContext('2d').drawImage=window.__namedOffDraw;});
+ }
+ expect(errors).toEqual([]);
+});
+for(const[cls,relic]of[['fighter','ninth_circle'],['mage','heartroot']])test(`named ${relic} read and drink overlaps use the released drive and restore both hands @mobile`,async({page})=>{
+ test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'named-staff-release',cls});await faceOpenGround(page,3);
+ const id=await page.evaluate(relic=>{const p=Game.player(),it={t:'staff',u:relic,q:1,e:1};p.hp=p.maxHp=999;p.inv.push(it);if(Game.canEquip(it)||!Game.equip(it))throw Error('Native named staff equip failed');const id=Game.spriteFor(it);Assets.held(id,'rest',p.cls,true,false);return id;},relic);
+ await expect.poll(()=>page.evaluate(({id,cls})=>Assets.held(id,'rest',cls,true,false)?.img.width,{id,cls}),{timeout:30000}).toBe(256);
+ await page.evaluate(async({id,cls})=>{const{PAINTED}=await import('/js/paintedcatalog.js'),map=new Map();for(const[key,m]of Object.entries(PAINTED.held))if(m.id===id&&m.cls===cls)map.set(Assets.held(id,m.pose,cls,m.two,m.lit).img,key);const ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;window.__namedStaff=[];ctx.drawImage=function(img,...args){if(map.has(img))window.__namedStaff.push({at:performance.now(),key:map.get(img)});return draw.call(this,img,...args);};},{id,cls});
+ for(const t of['scroll_map','potion_heal']){
+  await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});const born=await page.evaluate(async t=>{const p=Game.player(),G=Game.state();p.nextAttack=0;G.blowGate=0;p.hp=700;window.__namedStaff=[];Game.input('attack');const fx=Game.renderState(performance.now()).fx;if(fx.swingAt<0)throw Error('No native staff attack');await new Promise(r=>setTimeout(r,fx.swingMs*.12));const it={t,q:1,e:0};p.inv.push(it);Game.useItem(it);if(p.inv.includes(it))throw Error('Native consumable did not run');return Game.renderState(performance.now()).fx[t==='scroll_map'?'readAt':'useAt'];},t);
+  await expect.poll(()=>page.evaluate(born=>window.__namedStaff.some(f=>f.at>=born&&f.key.endsWith('-drive-one')),born),{timeout:5000}).toBe(true);
+  await expect.poll(()=>page.evaluate(born=>window.__namedStaff.some(f=>f.at>born+1100&&f.key.endsWith('-rest-two')),born),{timeout:5000}).toBe(true);
+ }
+ expect(errors).toEqual([]);
+});
