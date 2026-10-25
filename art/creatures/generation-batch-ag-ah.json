@@ -1,0 +1,6229 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "status": "activated for 0.9.40; original source/review provenance retained",
+  "sheets": {
+    "0": {
+      "theme": "Grey Halls",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5",
+        "decor6",
+        "decor7"
+      ],
+      "reference": "batch-ag-ah-preview/region-0-guide.png",
+      "decorations": [
+        "ring",
+        "niche",
+        "lichen",
+        "seep",
+        "banner",
+        "cobweb",
+        "sconce",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's 4 by 2 eight wall-decoration texture panels, preserving exact panel identity: iron ring, niche with tiny candle, lichen, wet seep, olive banner, corner cobweb, small candle sconce, second corner cobweb. All panels are fully OPAQUE edge-to-edge Grey Halls grey brick walls. SECOND is approved weathered painterly material style. Mature gritty hand-painted dungeon realism matching monsters, no cartoon. Preserve wall courses and ornament position/count/scale; no new lights, glowing ornaments, text, borders, gutters or scene. Same 4 columns2rows registration, flat orthographic textures, restrained light.",
+      "source": "regional-0.png",
+      "generated_original": "/workspace/generated_images/exec-09422705-7e10-4dd4-a25c-fdd9eb431e99.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "1": {
+      "theme": "Brown Catacombs",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5",
+        "decor6"
+      ],
+      "reference": "batch-ag-ah-preview/region-1-guide.png",
+      "decorations": [
+        "skulls",
+        "ossuary",
+        "burial",
+        "roots",
+        "cobweb",
+        "sconce",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for Brown Catacombs. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4, decor5, decor6. Decorations in order: skulls, ossuary, burial, roots, cobweb, sconce, cobweb. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks.",
+      "source": "regional-1.png",
+      "generated_original": "/workspace/generated_images/exec-1d40ea30-5274-48fa-a8fe-8ae43b20b88e.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "2": {
+      "theme": "Mossy Depths",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5"
+      ],
+      "reference": "batch-ag-ah-preview/region-2-guide.png",
+      "decorations": [
+        "moss",
+        "roots",
+        "seep",
+        "moss",
+        "banner",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for Mossy Depths. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4, decor5. Decorations in order: moss, roots, seep, moss, banner, cobweb. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks.",
+      "source": "regional-2.png",
+      "generated_original": "/workspace/generated_images/exec-2931c2b7-de47-4c2e-ae9c-18aeab742ef9.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "3": {
+      "theme": "Blue Vaults",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5"
+      ],
+      "reference": "batch-ag-ah-preview/region-3-guide.png",
+      "decorations": [
+        "rime",
+        "grate",
+        "ring",
+        "banner",
+        "cobweb",
+        "sconce"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for Blue Vaults. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4, decor5. Decorations in order: rime, grate, ring, banner, cobweb, sconce. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks.",
+      "source": "regional-3.png",
+      "generated_original": "/workspace/generated_images/exec-afc5746e-9dda-4022-bde2-311acc5ff66d.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "4": {
+      "theme": "Crimson Crypts",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5"
+      ],
+      "reference": "batch-ag-ah-preview/region-4-guide.png",
+      "decorations": [
+        "stain",
+        "skulls",
+        "chains",
+        "banner",
+        "cobweb",
+        "sconce"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for Crimson Crypts. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4, decor5. Decorations in order: stain, skulls, chains, banner, cobweb, sconce. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-4.png",
+      "generated_original": "/workspace/generated_images/exec-7ffb0a87-7885-47d6-b121-0ffd6b256c4a.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "5": {
+      "theme": "Obsidian Sanctum",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2"
+      ],
+      "reference": "batch-ag-ah-preview/region-5-guide.png",
+      "decorations": [
+        "runes",
+        "vein",
+        "shrine"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for Obsidian Sanctum. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2. Decorations in order: runes, vein, shrine. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-5.png",
+      "generated_original": "/workspace/generated_images/exec-4d2ac25a-35fa-451f-aab5-44cc384b4059.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "6": {
+      "theme": "The Ossuary",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3"
+      ],
+      "reference": "batch-ag-ah-preview/region-6-guide.png",
+      "decorations": [
+        "niche",
+        "cobweb",
+        "sconce",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Ossuary. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3. Decorations in order: niche, cobweb, sconce, cobweb. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-6.png",
+      "generated_original": "/workspace/generated_images/exec-b16260c6-cae7-4c4b-8b13-fb662622bc49.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "7": {
+      "theme": "The Warrens",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3"
+      ],
+      "reference": "batch-ag-ah-preview/region-7-guide.png",
+      "decorations": [
+        "roots",
+        "cobweb",
+        "sconce",
+        "banner"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Warrens. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3. Decorations in order: roots, cobweb, sconce, banner. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-7.png",
+      "generated_original": "/workspace/generated_images/exec-944b2169-4d67-4c1b-881c-7f78f5c62c68.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "8": {
+      "theme": "The Dark Elf Halls",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4"
+      ],
+      "reference": "batch-ag-ah-preview/region-8-guide.png",
+      "decorations": [
+        "banner",
+        "runes",
+        "cobweb",
+        "sconce",
+        "chains"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Dark Elf Halls. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4. Decorations in order: banner, runes, cobweb, sconce, chains. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-8.png",
+      "generated_original": "/workspace/generated_images/exec-7327dc1d-84e8-4d36-8cc3-d337afc8d8fc.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "9": {
+      "theme": "The Grey Hold",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4"
+      ],
+      "reference": "batch-ag-ah-preview/region-9-guide.png",
+      "decorations": [
+        "banner",
+        "sconce",
+        "chains",
+        "grate",
+        "ring"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Grey Hold. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4. Decorations in order: banner, sconce, chains, grate, ring. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-9.png",
+      "generated_original": "/workspace/generated_images/exec-6ced900a-aac7-4612-939d-a0c6896cc538.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "10": {
+      "theme": "The Sunless Marsh",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3"
+      ],
+      "reference": "batch-ag-ah-preview/region-10-guide.png",
+      "decorations": [
+        "moss",
+        "roots",
+        "seep",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Sunless Marsh. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3. Decorations in order: moss, roots, seep, cobweb. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-10.png",
+      "generated_original": "/workspace/generated_images/exec-386d10d4-9cd7-4dd1-a2ed-875ce86e1449.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "11": {
+      "theme": "The Drowned Halls",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4",
+        "decor5"
+      ],
+      "reference": "batch-ag-ah-preview/region-11-guide.png",
+      "decorations": [
+        "seep",
+        "moss",
+        "chains",
+        "grate",
+        "seep",
+        "cobweb"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Drowned Halls. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4, decor5. Decorations in order: seep, moss, chains, grate, seep, cobweb. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-11.png",
+      "generated_original": "/workspace/generated_images/exec-99712fa4-eeb9-4022-93e9-f26711f5cf05.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "12": {
+      "theme": "The Old Forges",
+      "grid": [
+        6,
+        6
+      ],
+      "keys": [
+        "door",
+        "cellDoor",
+        "pillar",
+        "stairsUp",
+        "stairsDown",
+        "stairsUpBack",
+        "stairsDownBack",
+        "stairArch",
+        "floor1",
+        "floor2",
+        "floor3",
+        "floor4",
+        "floor5",
+        "floor6",
+        "ceil1",
+        "ceil2",
+        "ceil3",
+        "wallB",
+        "wallDamp",
+        "wallCracked",
+        "rock",
+        "fallen",
+        "rockPillar",
+        "fountain",
+        "fountainDry",
+        "torch0",
+        "torch1",
+        "torch2",
+        "decor0",
+        "decor1",
+        "decor2",
+        "decor3",
+        "decor4"
+      ],
+      "reference": "batch-ag-ah-preview/region-12-guide.png",
+      "decorations": [
+        "sconce",
+        "chains",
+        "vein",
+        "grate",
+        "stain"
+      ],
+      "prompt": "Repaint FIRST reference's exact 6 column by 6 row texture atlas for The Old Forges. SECOND reference is material quality only: gritty mature hand-painted dungeon realism matching monster art, restrained diffuse light, rough weathered materials, no cartoon or glossy UI. This is an orthographic texture atlas, NOT a scene. Preserve EVERY matching panel's exact layout, native palette, object positions and scale. No gutters, borders, captions, text, added symbols, new objects or new light sources. Full square texture panels fill edge to edge. Preserve dark ceiling panels, floor tile density, mosaics and altar diamond/circle differences, shallow water vs rubble vs straw floor, beam/root/cave ceilings, wall face type and ornaments. Architecture first eight cells are door with SIX wood planks/TWO bands/right ring and existing region carving; cell gate with EIGHT vertical bars/TWO crossbars/right neutral lock; full square shaded pillar SURFACE not isolated column; up flat stairs; down flat stairs; up recessed stairwell BACK; down recessed stairwell BACK; open stair arch. Preserve climb versus descent and existing internal perspective. Stair arch alone has CLEAR alpha opening continuing to bottom with no threshold; other cells entirely opaque including black stair recesses, gate darkness and dark roofs. Fountain wet keeps blue water; dry has empty dark basin; three torch cells have SAME bracket/position with only three modest existing flame shapes changing. Decoration cells preserve exactly reference ornament identity/count and wall material. Keep tiny candle/sconce and rune lights as authored, never brighten whole walls. Blank unused final cells stay blank. Read cells left to right, row by row. Native cell order: door, cellDoor, pillar, stairsUp, stairsDown, stairsUpBack, stairsDownBack, stairArch, floor1, floor2, floor3, floor4, floor5, floor6, ceil1, ceil2, ceil3, wallB, wallDamp, wallCracked, rock, fallen, rockPillar, fountain, fountainDry, torch0, torch1, torch2, decor0, decor1, decor2, decor3, decor4. Decorations in order: sconce, chains, vein, grate, stain. Maintain accurate registration; no padding around texture cells. Painted detail, not enlarged pixel blocks. Gate bars must be exactly EIGHT: FOUR PAIRS of two rods, not seven.",
+      "source": "regional-12.png",
+      "generated_original": "/workspace/generated_images/exec-ea06a53e-d2ee-40e7-8b22-14184961f715.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "repair-gates": {
+      "source": "regional-repair-gates.png",
+      "generated_original": "/workspace/generated_images/exec-913126b4-728e-4898-9111-cd5329c78093.png",
+      "grid": [
+        4,
+        3
+      ],
+      "native_source_size": [
+        1448,
+        1086
+      ],
+      "prompt": "Repaint FIRST reference 4 columns by3 rows TWELVE square regional cell-gate textures. Preserve exact registration and regional wall colours. Mature gritty painterly dungeon realism, weathered forged iron. EACH gate has EXACTLY EIGHT vertical rods at local x14%,23%,32%,41%,50%,59%,68%,77%: FOUR PAIRS of2 rods, count8. TWO horizontal crossbars around y18% and81%, neutral dark lock box at right x70%,y50%. OPAQUE near-black darkness between rods, not transparency. Entire square textures edge-to-edge no scene, no borders, no labels. Native references authoritative geometry. Columns row1 brown catacomb, moss green, blue vault, crimson; row2 obsidian purple, ossuary black stone bone shelves, warren earth, dark elf violet; row3 iron granite, marsh reed mud, drowned teal, forge dark brick. Thin masonry edge only at outer gate sides; rods occupy most width. Exactly eight rods perpanel, no central additional rod, no bottom frame.",
+      "reference": "batch-ag-ah-preview/cellDoor-repair-guide.png",
+      "keys": [
+        "1-cellDoor",
+        "2-cellDoor",
+        "3-cellDoor",
+        "4-cellDoor",
+        "5-cellDoor",
+        "6-cellDoor",
+        "7-cellDoor",
+        "8-cellDoor",
+        "9-cellDoor",
+        "10-cellDoor",
+        "11-cellDoor",
+        "12-cellDoor"
+      ]
+    },
+    "repair-arches": {
+      "source": "regional-repair-arches.png",
+      "generated_original": "/workspace/generated_images/exec-4652b66b-8ba1-484b-99e2-a6a0f4ed0410.png",
+      "grid": [
+        4,
+        3
+      ],
+      "native_source_size": [
+        1448,
+        1086
+      ],
+      "prompt": "Repaint FIRST reference's EXACT broad openings and thin outer masonry in 4columns3rows twelve equal square stair-arch textures. True transparent opening continues to BOTTOM EDGE, NO threshold, NO floor, NO black fill, NO inner tunnel. Image edges filled by narrow region-specific masonry strips. Use native opening proportions exactly: square64 coordinates, for y>=20 opening CLEAR spans x11..52 inclusive; above20 clear ellipse ((x-31.5)/21)^2+((y-20)/22)^2<=1. Thus arch opening at top starts already near x22..41, NOT a full round top with thick stone above it. Narrow stone jambs occupy x0..10 and53..63 at bottom. Preserve native thin wedges and regional wall hues/ornaments. Mature gritty painterly texture matching painted monsters, orthographic surface not scene. No frames, borders, text, new lights. Row1 brown/green/blue/crimson; row2 purple/ossuary bone black/earth/violet elf; row3 iron granite/marsh reed mud/drowned teal/forge dark brick. Keep exact panel layout. Transparent only in openings, all outer stone opaque.",
+      "reference": "batch-ag-ah-preview/stairArch-repair-guide.png",
+      "keys": [
+        "1-stairArch",
+        "2-stairArch",
+        "3-stairArch",
+        "4-stairArch",
+        "5-stairArch",
+        "6-stairArch",
+        "7-stairArch",
+        "8-stairArch",
+        "9-stairArch",
+        "10-stairArch",
+        "11-stairArch",
+        "12-stairArch"
+      ]
+    },
+    "arches-painted": {
+      "source": "regional-arches-painted.png",
+      "generated_original": "/workspace/generated_images/exec-6f38b473-b800-4668-8dcb-41a518b189a2.png",
+      "grid": [
+        4,
+        3
+      ],
+      "native_source_size": [
+        1448,
+        1086
+      ],
+      "prompt": "Repaint FIRST reference's 4 columns by3 rows twelve broad open arch textures in SECOND reference's WEATHERED PAINTERLY material quality. Absolutely NO pixel art, no blocky pixel highlights, no UI bevels. Hand-painted chipped stones, rough mortar, realistic subdued dungeon texture like approved monsters. Preserve first's regional colours, ornaments, exact narrow side strips and ALPHA openings extending clear to bottom. Top edge has transparent central bite, no thick stone roof above the arch. NO floor, threshold, inner tunnel, black fill or object beyond the opening. Opaque stone at image edges only; native broad opening clear alpha. Exactly twelve equal square tiles4x3, no gutters/captions/borders. FIRST native reference is geometry/palette; SECOND's grey material rendering is STYLE ONLY, do not copy its whole atlas or change layout. Row1 brown/moss green/blue/red; row2 violet/black bone ossuary/earth/violet elf; row3 iron granite/reed mud/teal drowned/dark forge. Each region has an independent complete open arch. Keep worn hand-painted mature style.",
+      "keys": [
+        "1-stairArch",
+        "2-stairArch",
+        "3-stairArch",
+        "4-stairArch",
+        "5-stairArch",
+        "6-stairArch",
+        "7-stairArch",
+        "8-stairArch",
+        "9-stairArch",
+        "10-stairArch",
+        "11-stairArch",
+        "12-stairArch"
+      ],
+      "references": [
+        "batch-ag-ah-preview/stairArch-repair-guide.png",
+        "regional-4.png"
+      ]
+    },
+    "approved-r-gate": {
+      "source": "batch-r-preview/cellDoor-detail.png",
+      "grid": [
+        1,
+        1
+      ],
+      "keys": [
+        "1-cellDoor",
+        "2-cellDoor",
+        "3-cellDoor",
+        "4-cellDoor",
+        "5-cellDoor",
+        "6-cellDoor",
+        "7-cellDoor",
+        "8-cellDoor",
+        "9-cellDoor",
+        "10-cellDoor",
+        "11-cellDoor",
+        "12-cellDoor"
+      ],
+      "approved_reuse": "Batch R eight-bar neutral gate; native regional edge/lock composition remains integration gate"
+    }
+  },
+  "cells": {
+    "0-decor0": {
+      "theme": 0,
+      "key": "decor0",
+      "sheet": "0",
+      "index": 0,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1,
+        443,
+        443
+      ]
+    },
+    "0-decor1": {
+      "theme": 0,
+      "key": "decor1",
+      "sheet": "0",
+      "index": 1,
+      "batch": "ah",
+      "source_rect": [
+        445,
+        1,
+        886,
+        443
+      ]
+    },
+    "0-decor2": {
+      "theme": 0,
+      "key": "decor2",
+      "sheet": "0",
+      "index": 2,
+      "batch": "ah",
+      "source_rect": [
+        888,
+        1,
+        1329,
+        443
+      ]
+    },
+    "0-decor3": {
+      "theme": 0,
+      "key": "decor3",
+      "sheet": "0",
+      "index": 3,
+      "batch": "ah",
+      "source_rect": [
+        1331,
+        1,
+        1773,
+        443
+      ]
+    },
+    "0-decor4": {
+      "theme": 0,
+      "key": "decor4",
+      "sheet": "0",
+      "index": 4,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        445,
+        443,
+        886
+      ]
+    },
+    "0-decor5": {
+      "theme": 0,
+      "key": "decor5",
+      "sheet": "0",
+      "index": 5,
+      "batch": "ah",
+      "source_rect": [
+        445,
+        445,
+        886,
+        886
+      ]
+    },
+    "0-decor6": {
+      "theme": 0,
+      "key": "decor6",
+      "sheet": "0",
+      "index": 6,
+      "batch": "ah",
+      "source_rect": [
+        888,
+        445,
+        1329,
+        886
+      ]
+    },
+    "0-decor7": {
+      "theme": 0,
+      "key": "decor7",
+      "sheet": "0",
+      "index": 7,
+      "batch": "ah",
+      "source_rect": [
+        1331,
+        445,
+        1773,
+        886
+      ]
+    },
+    "1-door": {
+      "theme": 1,
+      "key": "door",
+      "sheet": "1",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "1-cellDoor": {
+      "theme": 1,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "1",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "1-pillar": {
+      "theme": 1,
+      "key": "pillar",
+      "sheet": "1",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "1-stairsUp": {
+      "theme": 1,
+      "key": "stairsUp",
+      "sheet": "1",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "1-stairsDown": {
+      "theme": 1,
+      "key": "stairsDown",
+      "sheet": "1",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "1-stairsUpBack": {
+      "theme": 1,
+      "key": "stairsUpBack",
+      "sheet": "1",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "1-stairsDownBack": {
+      "theme": 1,
+      "key": "stairsDownBack",
+      "sheet": "1",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "1-stairArch": {
+      "theme": 1,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "1",
+        "index": 7
+      },
+      "source_rect": [
+        0,
+        0,
+        362,
+        362
+      ]
+    },
+    "1-floor1": {
+      "theme": 1,
+      "key": "floor1",
+      "sheet": "1",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "1-floor2": {
+      "theme": 1,
+      "key": "floor2",
+      "sheet": "1",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "1-floor3": {
+      "theme": 1,
+      "key": "floor3",
+      "sheet": "1",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "1-floor4": {
+      "theme": 1,
+      "key": "floor4",
+      "sheet": "1",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "1-floor5": {
+      "theme": 1,
+      "key": "floor5",
+      "sheet": "1",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "1-floor6": {
+      "theme": 1,
+      "key": "floor6",
+      "sheet": "1",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "1-ceil1": {
+      "theme": 1,
+      "key": "ceil1",
+      "sheet": "1",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "1-ceil2": {
+      "theme": 1,
+      "key": "ceil2",
+      "sheet": "1",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "1-ceil3": {
+      "theme": 1,
+      "key": "ceil3",
+      "sheet": "1",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "1-wallB": {
+      "theme": 1,
+      "key": "wallB",
+      "sheet": "1",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "1-wallDamp": {
+      "theme": 1,
+      "key": "wallDamp",
+      "sheet": "1",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "1-wallCracked": {
+      "theme": 1,
+      "key": "wallCracked",
+      "sheet": "1",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "1-rock": {
+      "theme": 1,
+      "key": "rock",
+      "sheet": "1",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "1-fallen": {
+      "theme": 1,
+      "key": "fallen",
+      "sheet": "1",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "1-rockPillar": {
+      "theme": 1,
+      "key": "rockPillar",
+      "sheet": "1",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "1-fountain": {
+      "theme": 1,
+      "key": "fountain",
+      "sheet": "1",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "1-fountainDry": {
+      "theme": 1,
+      "key": "fountainDry",
+      "sheet": "1",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "1-torch0": {
+      "theme": 1,
+      "key": "torch0",
+      "sheet": "1",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "1-torch1": {
+      "theme": 1,
+      "key": "torch1",
+      "sheet": "1",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "1-torch2": {
+      "theme": 1,
+      "key": "torch2",
+      "sheet": "1",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "1-decor0": {
+      "theme": 1,
+      "key": "decor0",
+      "sheet": "1",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "1-decor1": {
+      "theme": 1,
+      "key": "decor1",
+      "sheet": "1",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "1-decor2": {
+      "theme": 1,
+      "key": "decor2",
+      "sheet": "1",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "1-decor3": {
+      "theme": 1,
+      "key": "decor3",
+      "sheet": "1",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "1-decor4": {
+      "theme": 1,
+      "key": "decor4",
+      "sheet": "1",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "1-decor5": {
+      "theme": 1,
+      "key": "decor5",
+      "sheet": "1",
+      "index": 33,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        1046,
+        835,
+        1253
+      ]
+    },
+    "1-decor6": {
+      "theme": 1,
+      "key": "decor6",
+      "sheet": "1",
+      "index": 34,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        1046,
+        1044,
+        1253
+      ]
+    },
+    "2-door": {
+      "theme": 2,
+      "key": "door",
+      "sheet": "2",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "2-cellDoor": {
+      "theme": 2,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "2",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "2-pillar": {
+      "theme": 2,
+      "key": "pillar",
+      "sheet": "2",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "2-stairsUp": {
+      "theme": 2,
+      "key": "stairsUp",
+      "sheet": "2",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "2-stairsDown": {
+      "theme": 2,
+      "key": "stairsDown",
+      "sheet": "2",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "2-stairsUpBack": {
+      "theme": 2,
+      "key": "stairsUpBack",
+      "sheet": "2",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "2-stairsDownBack": {
+      "theme": 2,
+      "key": "stairsDownBack",
+      "sheet": "2",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "2-stairArch": {
+      "theme": 2,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 1,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "2",
+        "index": 7
+      },
+      "source_rect": [
+        362,
+        0,
+        724,
+        362
+      ]
+    },
+    "2-floor1": {
+      "theme": 2,
+      "key": "floor1",
+      "sheet": "2",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "2-floor2": {
+      "theme": 2,
+      "key": "floor2",
+      "sheet": "2",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "2-floor3": {
+      "theme": 2,
+      "key": "floor3",
+      "sheet": "2",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "2-floor4": {
+      "theme": 2,
+      "key": "floor4",
+      "sheet": "2",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "2-floor5": {
+      "theme": 2,
+      "key": "floor5",
+      "sheet": "2",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "2-floor6": {
+      "theme": 2,
+      "key": "floor6",
+      "sheet": "2",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "2-ceil1": {
+      "theme": 2,
+      "key": "ceil1",
+      "sheet": "2",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "2-ceil2": {
+      "theme": 2,
+      "key": "ceil2",
+      "sheet": "2",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "2-ceil3": {
+      "theme": 2,
+      "key": "ceil3",
+      "sheet": "2",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "2-wallB": {
+      "theme": 2,
+      "key": "wallB",
+      "sheet": "2",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "2-wallDamp": {
+      "theme": 2,
+      "key": "wallDamp",
+      "sheet": "2",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "2-wallCracked": {
+      "theme": 2,
+      "key": "wallCracked",
+      "sheet": "2",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "2-rock": {
+      "theme": 2,
+      "key": "rock",
+      "sheet": "2",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "2-fallen": {
+      "theme": 2,
+      "key": "fallen",
+      "sheet": "2",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "2-rockPillar": {
+      "theme": 2,
+      "key": "rockPillar",
+      "sheet": "2",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "2-fountain": {
+      "theme": 2,
+      "key": "fountain",
+      "sheet": "2",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "2-fountainDry": {
+      "theme": 2,
+      "key": "fountainDry",
+      "sheet": "2",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "2-torch0": {
+      "theme": 2,
+      "key": "torch0",
+      "sheet": "2",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "2-torch1": {
+      "theme": 2,
+      "key": "torch1",
+      "sheet": "2",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "2-torch2": {
+      "theme": 2,
+      "key": "torch2",
+      "sheet": "2",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "2-decor0": {
+      "theme": 2,
+      "key": "decor0",
+      "sheet": "2",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "2-decor1": {
+      "theme": 2,
+      "key": "decor1",
+      "sheet": "2",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "2-decor2": {
+      "theme": 2,
+      "key": "decor2",
+      "sheet": "2",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "2-decor3": {
+      "theme": 2,
+      "key": "decor3",
+      "sheet": "2",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "2-decor4": {
+      "theme": 2,
+      "key": "decor4",
+      "sheet": "2",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "2-decor5": {
+      "theme": 2,
+      "key": "decor5",
+      "sheet": "2",
+      "index": 33,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        1046,
+        835,
+        1253
+      ]
+    },
+    "3-door": {
+      "theme": 3,
+      "key": "door",
+      "sheet": "3",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "3-cellDoor": {
+      "theme": 3,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "3",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "3-pillar": {
+      "theme": 3,
+      "key": "pillar",
+      "sheet": "3",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "3-stairsUp": {
+      "theme": 3,
+      "key": "stairsUp",
+      "sheet": "3",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "3-stairsDown": {
+      "theme": 3,
+      "key": "stairsDown",
+      "sheet": "3",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "3-stairsUpBack": {
+      "theme": 3,
+      "key": "stairsUpBack",
+      "sheet": "3",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "3-stairsDownBack": {
+      "theme": 3,
+      "key": "stairsDownBack",
+      "sheet": "3",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "3-stairArch": {
+      "theme": 3,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 2,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "3",
+        "index": 7
+      },
+      "source_rect": [
+        724,
+        0,
+        1086,
+        362
+      ]
+    },
+    "3-floor1": {
+      "theme": 3,
+      "key": "floor1",
+      "sheet": "3",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "3-floor2": {
+      "theme": 3,
+      "key": "floor2",
+      "sheet": "3",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "3-floor3": {
+      "theme": 3,
+      "key": "floor3",
+      "sheet": "3",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "3-floor4": {
+      "theme": 3,
+      "key": "floor4",
+      "sheet": "3",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "3-floor5": {
+      "theme": 3,
+      "key": "floor5",
+      "sheet": "3",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "3-floor6": {
+      "theme": 3,
+      "key": "floor6",
+      "sheet": "3",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "3-ceil1": {
+      "theme": 3,
+      "key": "ceil1",
+      "sheet": "3",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "3-ceil2": {
+      "theme": 3,
+      "key": "ceil2",
+      "sheet": "3",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "3-ceil3": {
+      "theme": 3,
+      "key": "ceil3",
+      "sheet": "3",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "3-wallB": {
+      "theme": 3,
+      "key": "wallB",
+      "sheet": "3",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "3-wallDamp": {
+      "theme": 3,
+      "key": "wallDamp",
+      "sheet": "3",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "3-wallCracked": {
+      "theme": 3,
+      "key": "wallCracked",
+      "sheet": "3",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "3-rock": {
+      "theme": 3,
+      "key": "rock",
+      "sheet": "3",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "3-fallen": {
+      "theme": 3,
+      "key": "fallen",
+      "sheet": "3",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "3-rockPillar": {
+      "theme": 3,
+      "key": "rockPillar",
+      "sheet": "3",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "3-fountain": {
+      "theme": 3,
+      "key": "fountain",
+      "sheet": "3",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "3-fountainDry": {
+      "theme": 3,
+      "key": "fountainDry",
+      "sheet": "3",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "3-torch0": {
+      "theme": 3,
+      "key": "torch0",
+      "sheet": "3",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "3-torch1": {
+      "theme": 3,
+      "key": "torch1",
+      "sheet": "3",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "3-torch2": {
+      "theme": 3,
+      "key": "torch2",
+      "sheet": "3",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "3-decor0": {
+      "theme": 3,
+      "key": "decor0",
+      "sheet": "3",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "3-decor1": {
+      "theme": 3,
+      "key": "decor1",
+      "sheet": "3",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "3-decor2": {
+      "theme": 3,
+      "key": "decor2",
+      "sheet": "3",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "3-decor3": {
+      "theme": 3,
+      "key": "decor3",
+      "sheet": "3",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "3-decor4": {
+      "theme": 3,
+      "key": "decor4",
+      "sheet": "3",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "3-decor5": {
+      "theme": 3,
+      "key": "decor5",
+      "sheet": "3",
+      "index": 33,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        1046,
+        835,
+        1253
+      ]
+    },
+    "4-door": {
+      "theme": 4,
+      "key": "door",
+      "sheet": "4",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "4-cellDoor": {
+      "theme": 4,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "4",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "4-pillar": {
+      "theme": 4,
+      "key": "pillar",
+      "sheet": "4",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "4-stairsUp": {
+      "theme": 4,
+      "key": "stairsUp",
+      "sheet": "4",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "4-stairsDown": {
+      "theme": 4,
+      "key": "stairsDown",
+      "sheet": "4",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "4-stairsUpBack": {
+      "theme": 4,
+      "key": "stairsUpBack",
+      "sheet": "4",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "4-stairsDownBack": {
+      "theme": 4,
+      "key": "stairsDownBack",
+      "sheet": "4",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "4-stairArch": {
+      "theme": 4,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 3,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "4",
+        "index": 7
+      },
+      "source_rect": [
+        1086,
+        0,
+        1448,
+        362
+      ]
+    },
+    "4-floor1": {
+      "theme": 4,
+      "key": "floor1",
+      "sheet": "4",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "4-floor2": {
+      "theme": 4,
+      "key": "floor2",
+      "sheet": "4",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "4-floor3": {
+      "theme": 4,
+      "key": "floor3",
+      "sheet": "4",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "4-floor4": {
+      "theme": 4,
+      "key": "floor4",
+      "sheet": "4",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "4-floor5": {
+      "theme": 4,
+      "key": "floor5",
+      "sheet": "4",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "4-floor6": {
+      "theme": 4,
+      "key": "floor6",
+      "sheet": "4",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "4-ceil1": {
+      "theme": 4,
+      "key": "ceil1",
+      "sheet": "4",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "4-ceil2": {
+      "theme": 4,
+      "key": "ceil2",
+      "sheet": "4",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "4-ceil3": {
+      "theme": 4,
+      "key": "ceil3",
+      "sheet": "4",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "4-wallB": {
+      "theme": 4,
+      "key": "wallB",
+      "sheet": "4",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "4-wallDamp": {
+      "theme": 4,
+      "key": "wallDamp",
+      "sheet": "4",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "4-wallCracked": {
+      "theme": 4,
+      "key": "wallCracked",
+      "sheet": "4",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "4-rock": {
+      "theme": 4,
+      "key": "rock",
+      "sheet": "4",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "4-fallen": {
+      "theme": 4,
+      "key": "fallen",
+      "sheet": "4",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "4-rockPillar": {
+      "theme": 4,
+      "key": "rockPillar",
+      "sheet": "4",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "4-fountain": {
+      "theme": 4,
+      "key": "fountain",
+      "sheet": "4",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "4-fountainDry": {
+      "theme": 4,
+      "key": "fountainDry",
+      "sheet": "4",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "4-torch0": {
+      "theme": 4,
+      "key": "torch0",
+      "sheet": "4",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "4-torch1": {
+      "theme": 4,
+      "key": "torch1",
+      "sheet": "4",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "4-torch2": {
+      "theme": 4,
+      "key": "torch2",
+      "sheet": "4",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "4-decor0": {
+      "theme": 4,
+      "key": "decor0",
+      "sheet": "4",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "4-decor1": {
+      "theme": 4,
+      "key": "decor1",
+      "sheet": "4",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "4-decor2": {
+      "theme": 4,
+      "key": "decor2",
+      "sheet": "4",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "4-decor3": {
+      "theme": 4,
+      "key": "decor3",
+      "sheet": "4",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "4-decor4": {
+      "theme": 4,
+      "key": "decor4",
+      "sheet": "4",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "4-decor5": {
+      "theme": 4,
+      "key": "decor5",
+      "sheet": "4",
+      "index": 33,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        1046,
+        835,
+        1253
+      ]
+    },
+    "5-door": {
+      "theme": 5,
+      "key": "door",
+      "sheet": "5",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "5-cellDoor": {
+      "theme": 5,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "5",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "5-pillar": {
+      "theme": 5,
+      "key": "pillar",
+      "sheet": "5",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "5-stairsUp": {
+      "theme": 5,
+      "key": "stairsUp",
+      "sheet": "5",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "5-stairsDown": {
+      "theme": 5,
+      "key": "stairsDown",
+      "sheet": "5",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "5-stairsUpBack": {
+      "theme": 5,
+      "key": "stairsUpBack",
+      "sheet": "5",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "5-stairsDownBack": {
+      "theme": 5,
+      "key": "stairsDownBack",
+      "sheet": "5",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "5-stairArch": {
+      "theme": 5,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 4,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "5",
+        "index": 7
+      },
+      "source_rect": [
+        0,
+        362,
+        362,
+        724
+      ]
+    },
+    "5-floor1": {
+      "theme": 5,
+      "key": "floor1",
+      "sheet": "5",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "5-floor2": {
+      "theme": 5,
+      "key": "floor2",
+      "sheet": "5",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "5-floor3": {
+      "theme": 5,
+      "key": "floor3",
+      "sheet": "5",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "5-floor4": {
+      "theme": 5,
+      "key": "floor4",
+      "sheet": "5",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "5-floor5": {
+      "theme": 5,
+      "key": "floor5",
+      "sheet": "5",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "5-floor6": {
+      "theme": 5,
+      "key": "floor6",
+      "sheet": "5",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "5-ceil1": {
+      "theme": 5,
+      "key": "ceil1",
+      "sheet": "5",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "5-ceil2": {
+      "theme": 5,
+      "key": "ceil2",
+      "sheet": "5",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "5-ceil3": {
+      "theme": 5,
+      "key": "ceil3",
+      "sheet": "5",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "5-wallB": {
+      "theme": 5,
+      "key": "wallB",
+      "sheet": "5",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "5-wallDamp": {
+      "theme": 5,
+      "key": "wallDamp",
+      "sheet": "5",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "5-wallCracked": {
+      "theme": 5,
+      "key": "wallCracked",
+      "sheet": "5",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "5-rock": {
+      "theme": 5,
+      "key": "rock",
+      "sheet": "5",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "5-fallen": {
+      "theme": 5,
+      "key": "fallen",
+      "sheet": "5",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "5-rockPillar": {
+      "theme": 5,
+      "key": "rockPillar",
+      "sheet": "5",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "5-fountain": {
+      "theme": 5,
+      "key": "fountain",
+      "sheet": "5",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "5-fountainDry": {
+      "theme": 5,
+      "key": "fountainDry",
+      "sheet": "5",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "5-torch0": {
+      "theme": 5,
+      "key": "torch0",
+      "sheet": "5",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "5-torch1": {
+      "theme": 5,
+      "key": "torch1",
+      "sheet": "5",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "5-torch2": {
+      "theme": 5,
+      "key": "torch2",
+      "sheet": "5",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "5-decor0": {
+      "theme": 5,
+      "key": "decor0",
+      "sheet": "5",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "5-decor1": {
+      "theme": 5,
+      "key": "decor1",
+      "sheet": "5",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "5-decor2": {
+      "theme": 5,
+      "key": "decor2",
+      "sheet": "5",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "6-door": {
+      "theme": 6,
+      "key": "door",
+      "sheet": "6",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "6-cellDoor": {
+      "theme": 6,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "6",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "6-pillar": {
+      "theme": 6,
+      "key": "pillar",
+      "sheet": "6",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "6-stairsUp": {
+      "theme": 6,
+      "key": "stairsUp",
+      "sheet": "6",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "6-stairsDown": {
+      "theme": 6,
+      "key": "stairsDown",
+      "sheet": "6",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "6-stairsUpBack": {
+      "theme": 6,
+      "key": "stairsUpBack",
+      "sheet": "6",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "6-stairsDownBack": {
+      "theme": 6,
+      "key": "stairsDownBack",
+      "sheet": "6",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "6-stairArch": {
+      "theme": 6,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 5,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "6",
+        "index": 7
+      },
+      "source_rect": [
+        362,
+        362,
+        724,
+        724
+      ]
+    },
+    "6-floor1": {
+      "theme": 6,
+      "key": "floor1",
+      "sheet": "6",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "6-floor2": {
+      "theme": 6,
+      "key": "floor2",
+      "sheet": "6",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "6-floor3": {
+      "theme": 6,
+      "key": "floor3",
+      "sheet": "6",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "6-floor4": {
+      "theme": 6,
+      "key": "floor4",
+      "sheet": "6",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "6-floor5": {
+      "theme": 6,
+      "key": "floor5",
+      "sheet": "6",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "6-floor6": {
+      "theme": 6,
+      "key": "floor6",
+      "sheet": "6",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "6-ceil1": {
+      "theme": 6,
+      "key": "ceil1",
+      "sheet": "6",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "6-ceil2": {
+      "theme": 6,
+      "key": "ceil2",
+      "sheet": "6",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "6-ceil3": {
+      "theme": 6,
+      "key": "ceil3",
+      "sheet": "6",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "6-wallB": {
+      "theme": 6,
+      "key": "wallB",
+      "sheet": "6",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "6-wallDamp": {
+      "theme": 6,
+      "key": "wallDamp",
+      "sheet": "6",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "6-wallCracked": {
+      "theme": 6,
+      "key": "wallCracked",
+      "sheet": "6",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "6-rock": {
+      "theme": 6,
+      "key": "rock",
+      "sheet": "6",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "6-fallen": {
+      "theme": 6,
+      "key": "fallen",
+      "sheet": "6",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "6-rockPillar": {
+      "theme": 6,
+      "key": "rockPillar",
+      "sheet": "6",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "6-fountain": {
+      "theme": 6,
+      "key": "fountain",
+      "sheet": "6",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "6-fountainDry": {
+      "theme": 6,
+      "key": "fountainDry",
+      "sheet": "6",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "6-torch0": {
+      "theme": 6,
+      "key": "torch0",
+      "sheet": "6",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "6-torch1": {
+      "theme": 6,
+      "key": "torch1",
+      "sheet": "6",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "6-torch2": {
+      "theme": 6,
+      "key": "torch2",
+      "sheet": "6",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "6-decor0": {
+      "theme": 6,
+      "key": "decor0",
+      "sheet": "6",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "6-decor1": {
+      "theme": 6,
+      "key": "decor1",
+      "sheet": "6",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "6-decor2": {
+      "theme": 6,
+      "key": "decor2",
+      "sheet": "6",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "6-decor3": {
+      "theme": 6,
+      "key": "decor3",
+      "sheet": "6",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "7-door": {
+      "theme": 7,
+      "key": "door",
+      "sheet": "7",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "7-cellDoor": {
+      "theme": 7,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "7",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "7-pillar": {
+      "theme": 7,
+      "key": "pillar",
+      "sheet": "7",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "7-stairsUp": {
+      "theme": 7,
+      "key": "stairsUp",
+      "sheet": "7",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "7-stairsDown": {
+      "theme": 7,
+      "key": "stairsDown",
+      "sheet": "7",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "7-stairsUpBack": {
+      "theme": 7,
+      "key": "stairsUpBack",
+      "sheet": "7",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "7-stairsDownBack": {
+      "theme": 7,
+      "key": "stairsDownBack",
+      "sheet": "7",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "7-stairArch": {
+      "theme": 7,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 6,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "7",
+        "index": 7
+      },
+      "source_rect": [
+        724,
+        362,
+        1086,
+        724
+      ]
+    },
+    "7-floor1": {
+      "theme": 7,
+      "key": "floor1",
+      "sheet": "7",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "7-floor2": {
+      "theme": 7,
+      "key": "floor2",
+      "sheet": "7",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "7-floor3": {
+      "theme": 7,
+      "key": "floor3",
+      "sheet": "7",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "7-floor4": {
+      "theme": 7,
+      "key": "floor4",
+      "sheet": "7",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "7-floor5": {
+      "theme": 7,
+      "key": "floor5",
+      "sheet": "7",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "7-floor6": {
+      "theme": 7,
+      "key": "floor6",
+      "sheet": "7",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "7-ceil1": {
+      "theme": 7,
+      "key": "ceil1",
+      "sheet": "7",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "7-ceil2": {
+      "theme": 7,
+      "key": "ceil2",
+      "sheet": "7",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "7-ceil3": {
+      "theme": 7,
+      "key": "ceil3",
+      "sheet": "7",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "7-wallB": {
+      "theme": 7,
+      "key": "wallB",
+      "sheet": "7",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "7-wallDamp": {
+      "theme": 7,
+      "key": "wallDamp",
+      "sheet": "7",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "7-wallCracked": {
+      "theme": 7,
+      "key": "wallCracked",
+      "sheet": "7",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "7-rock": {
+      "theme": 7,
+      "key": "rock",
+      "sheet": "7",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "7-fallen": {
+      "theme": 7,
+      "key": "fallen",
+      "sheet": "7",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "7-rockPillar": {
+      "theme": 7,
+      "key": "rockPillar",
+      "sheet": "7",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "7-fountain": {
+      "theme": 7,
+      "key": "fountain",
+      "sheet": "7",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "7-fountainDry": {
+      "theme": 7,
+      "key": "fountainDry",
+      "sheet": "7",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "7-torch0": {
+      "theme": 7,
+      "key": "torch0",
+      "sheet": "7",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "7-torch1": {
+      "theme": 7,
+      "key": "torch1",
+      "sheet": "7",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "7-torch2": {
+      "theme": 7,
+      "key": "torch2",
+      "sheet": "7",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "7-decor0": {
+      "theme": 7,
+      "key": "decor0",
+      "sheet": "7",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "7-decor1": {
+      "theme": 7,
+      "key": "decor1",
+      "sheet": "7",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "7-decor2": {
+      "theme": 7,
+      "key": "decor2",
+      "sheet": "7",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "7-decor3": {
+      "theme": 7,
+      "key": "decor3",
+      "sheet": "7",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "8-door": {
+      "theme": 8,
+      "key": "door",
+      "sheet": "8",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "8-cellDoor": {
+      "theme": 8,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "8",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "8-pillar": {
+      "theme": 8,
+      "key": "pillar",
+      "sheet": "8",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "8-stairsUp": {
+      "theme": 8,
+      "key": "stairsUp",
+      "sheet": "8",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "8-stairsDown": {
+      "theme": 8,
+      "key": "stairsDown",
+      "sheet": "8",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "8-stairsUpBack": {
+      "theme": 8,
+      "key": "stairsUpBack",
+      "sheet": "8",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "8-stairsDownBack": {
+      "theme": 8,
+      "key": "stairsDownBack",
+      "sheet": "8",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "8-stairArch": {
+      "theme": 8,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 7,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "8",
+        "index": 7
+      },
+      "source_rect": [
+        1086,
+        362,
+        1448,
+        724
+      ]
+    },
+    "8-floor1": {
+      "theme": 8,
+      "key": "floor1",
+      "sheet": "8",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "8-floor2": {
+      "theme": 8,
+      "key": "floor2",
+      "sheet": "8",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "8-floor3": {
+      "theme": 8,
+      "key": "floor3",
+      "sheet": "8",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "8-floor4": {
+      "theme": 8,
+      "key": "floor4",
+      "sheet": "8",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "8-floor5": {
+      "theme": 8,
+      "key": "floor5",
+      "sheet": "8",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "8-floor6": {
+      "theme": 8,
+      "key": "floor6",
+      "sheet": "8",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "8-ceil1": {
+      "theme": 8,
+      "key": "ceil1",
+      "sheet": "8",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "8-ceil2": {
+      "theme": 8,
+      "key": "ceil2",
+      "sheet": "8",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "8-ceil3": {
+      "theme": 8,
+      "key": "ceil3",
+      "sheet": "8",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "8-wallB": {
+      "theme": 8,
+      "key": "wallB",
+      "sheet": "8",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "8-wallDamp": {
+      "theme": 8,
+      "key": "wallDamp",
+      "sheet": "8",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "8-wallCracked": {
+      "theme": 8,
+      "key": "wallCracked",
+      "sheet": "8",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "8-rock": {
+      "theme": 8,
+      "key": "rock",
+      "sheet": "8",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "8-fallen": {
+      "theme": 8,
+      "key": "fallen",
+      "sheet": "8",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "8-rockPillar": {
+      "theme": 8,
+      "key": "rockPillar",
+      "sheet": "8",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "8-fountain": {
+      "theme": 8,
+      "key": "fountain",
+      "sheet": "8",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "8-fountainDry": {
+      "theme": 8,
+      "key": "fountainDry",
+      "sheet": "8",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "8-torch0": {
+      "theme": 8,
+      "key": "torch0",
+      "sheet": "8",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "8-torch1": {
+      "theme": 8,
+      "key": "torch1",
+      "sheet": "8",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "8-torch2": {
+      "theme": 8,
+      "key": "torch2",
+      "sheet": "8",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "8-decor0": {
+      "theme": 8,
+      "key": "decor0",
+      "sheet": "8",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "8-decor1": {
+      "theme": 8,
+      "key": "decor1",
+      "sheet": "8",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "8-decor2": {
+      "theme": 8,
+      "key": "decor2",
+      "sheet": "8",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "8-decor3": {
+      "theme": 8,
+      "key": "decor3",
+      "sheet": "8",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "8-decor4": {
+      "theme": 8,
+      "key": "decor4",
+      "sheet": "8",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "9-door": {
+      "theme": 9,
+      "key": "door",
+      "sheet": "9",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "9-cellDoor": {
+      "theme": 9,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "9",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "9-pillar": {
+      "theme": 9,
+      "key": "pillar",
+      "sheet": "9",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "9-stairsUp": {
+      "theme": 9,
+      "key": "stairsUp",
+      "sheet": "9",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "9-stairsDown": {
+      "theme": 9,
+      "key": "stairsDown",
+      "sheet": "9",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "9-stairsUpBack": {
+      "theme": 9,
+      "key": "stairsUpBack",
+      "sheet": "9",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "9-stairsDownBack": {
+      "theme": 9,
+      "key": "stairsDownBack",
+      "sheet": "9",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "9-stairArch": {
+      "theme": 9,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 8,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "9",
+        "index": 7
+      },
+      "source_rect": [
+        0,
+        724,
+        362,
+        1086
+      ]
+    },
+    "9-floor1": {
+      "theme": 9,
+      "key": "floor1",
+      "sheet": "9",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "9-floor2": {
+      "theme": 9,
+      "key": "floor2",
+      "sheet": "9",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "9-floor3": {
+      "theme": 9,
+      "key": "floor3",
+      "sheet": "9",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "9-floor4": {
+      "theme": 9,
+      "key": "floor4",
+      "sheet": "9",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "9-floor5": {
+      "theme": 9,
+      "key": "floor5",
+      "sheet": "9",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "9-floor6": {
+      "theme": 9,
+      "key": "floor6",
+      "sheet": "9",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "9-ceil1": {
+      "theme": 9,
+      "key": "ceil1",
+      "sheet": "9",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "9-ceil2": {
+      "theme": 9,
+      "key": "ceil2",
+      "sheet": "9",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "9-ceil3": {
+      "theme": 9,
+      "key": "ceil3",
+      "sheet": "9",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "9-wallB": {
+      "theme": 9,
+      "key": "wallB",
+      "sheet": "9",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "9-wallDamp": {
+      "theme": 9,
+      "key": "wallDamp",
+      "sheet": "9",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "9-wallCracked": {
+      "theme": 9,
+      "key": "wallCracked",
+      "sheet": "9",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "9-rock": {
+      "theme": 9,
+      "key": "rock",
+      "sheet": "9",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "9-fallen": {
+      "theme": 9,
+      "key": "fallen",
+      "sheet": "9",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "9-rockPillar": {
+      "theme": 9,
+      "key": "rockPillar",
+      "sheet": "9",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "9-fountain": {
+      "theme": 9,
+      "key": "fountain",
+      "sheet": "9",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "9-fountainDry": {
+      "theme": 9,
+      "key": "fountainDry",
+      "sheet": "9",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "9-torch0": {
+      "theme": 9,
+      "key": "torch0",
+      "sheet": "9",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "9-torch1": {
+      "theme": 9,
+      "key": "torch1",
+      "sheet": "9",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "9-torch2": {
+      "theme": 9,
+      "key": "torch2",
+      "sheet": "9",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "9-decor0": {
+      "theme": 9,
+      "key": "decor0",
+      "sheet": "9",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "9-decor1": {
+      "theme": 9,
+      "key": "decor1",
+      "sheet": "9",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "9-decor2": {
+      "theme": 9,
+      "key": "decor2",
+      "sheet": "9",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "9-decor3": {
+      "theme": 9,
+      "key": "decor3",
+      "sheet": "9",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "9-decor4": {
+      "theme": 9,
+      "key": "decor4",
+      "sheet": "9",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "10-door": {
+      "theme": 10,
+      "key": "door",
+      "sheet": "10",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "10-cellDoor": {
+      "theme": 10,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "10",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "10-pillar": {
+      "theme": 10,
+      "key": "pillar",
+      "sheet": "10",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "10-stairsUp": {
+      "theme": 10,
+      "key": "stairsUp",
+      "sheet": "10",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "10-stairsDown": {
+      "theme": 10,
+      "key": "stairsDown",
+      "sheet": "10",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "10-stairsUpBack": {
+      "theme": 10,
+      "key": "stairsUpBack",
+      "sheet": "10",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "10-stairsDownBack": {
+      "theme": 10,
+      "key": "stairsDownBack",
+      "sheet": "10",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "10-stairArch": {
+      "theme": 10,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 9,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "10",
+        "index": 7
+      },
+      "source_rect": [
+        362,
+        724,
+        724,
+        1086
+      ]
+    },
+    "10-floor1": {
+      "theme": 10,
+      "key": "floor1",
+      "sheet": "10",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "10-floor2": {
+      "theme": 10,
+      "key": "floor2",
+      "sheet": "10",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "10-floor3": {
+      "theme": 10,
+      "key": "floor3",
+      "sheet": "10",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "10-floor4": {
+      "theme": 10,
+      "key": "floor4",
+      "sheet": "10",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "10-floor5": {
+      "theme": 10,
+      "key": "floor5",
+      "sheet": "10",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "10-floor6": {
+      "theme": 10,
+      "key": "floor6",
+      "sheet": "10",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "10-ceil1": {
+      "theme": 10,
+      "key": "ceil1",
+      "sheet": "10",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "10-ceil2": {
+      "theme": 10,
+      "key": "ceil2",
+      "sheet": "10",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "10-ceil3": {
+      "theme": 10,
+      "key": "ceil3",
+      "sheet": "10",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "10-wallB": {
+      "theme": 10,
+      "key": "wallB",
+      "sheet": "10",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "10-wallDamp": {
+      "theme": 10,
+      "key": "wallDamp",
+      "sheet": "10",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "10-wallCracked": {
+      "theme": 10,
+      "key": "wallCracked",
+      "sheet": "10",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "10-rock": {
+      "theme": 10,
+      "key": "rock",
+      "sheet": "10",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "10-fallen": {
+      "theme": 10,
+      "key": "fallen",
+      "sheet": "10",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "10-rockPillar": {
+      "theme": 10,
+      "key": "rockPillar",
+      "sheet": "10",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "10-fountain": {
+      "theme": 10,
+      "key": "fountain",
+      "sheet": "10",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "10-fountainDry": {
+      "theme": 10,
+      "key": "fountainDry",
+      "sheet": "10",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "10-torch0": {
+      "theme": 10,
+      "key": "torch0",
+      "sheet": "10",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "10-torch1": {
+      "theme": 10,
+      "key": "torch1",
+      "sheet": "10",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "10-torch2": {
+      "theme": 10,
+      "key": "torch2",
+      "sheet": "10",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "10-decor0": {
+      "theme": 10,
+      "key": "decor0",
+      "sheet": "10",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "10-decor1": {
+      "theme": 10,
+      "key": "decor1",
+      "sheet": "10",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "10-decor2": {
+      "theme": 10,
+      "key": "decor2",
+      "sheet": "10",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "10-decor3": {
+      "theme": 10,
+      "key": "decor3",
+      "sheet": "10",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "11-door": {
+      "theme": 11,
+      "key": "door",
+      "sheet": "11",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "11-cellDoor": {
+      "theme": 11,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "11",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "11-pillar": {
+      "theme": 11,
+      "key": "pillar",
+      "sheet": "11",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "11-stairsUp": {
+      "theme": 11,
+      "key": "stairsUp",
+      "sheet": "11",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "11-stairsDown": {
+      "theme": 11,
+      "key": "stairsDown",
+      "sheet": "11",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "11-stairsUpBack": {
+      "theme": 11,
+      "key": "stairsUpBack",
+      "sheet": "11",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "11-stairsDownBack": {
+      "theme": 11,
+      "key": "stairsDownBack",
+      "sheet": "11",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "11-stairArch": {
+      "theme": 11,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 10,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "11",
+        "index": 7
+      },
+      "source_rect": [
+        724,
+        724,
+        1086,
+        1086
+      ]
+    },
+    "11-floor1": {
+      "theme": 11,
+      "key": "floor1",
+      "sheet": "11",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "11-floor2": {
+      "theme": 11,
+      "key": "floor2",
+      "sheet": "11",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "11-floor3": {
+      "theme": 11,
+      "key": "floor3",
+      "sheet": "11",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "11-floor4": {
+      "theme": 11,
+      "key": "floor4",
+      "sheet": "11",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "11-floor5": {
+      "theme": 11,
+      "key": "floor5",
+      "sheet": "11",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "11-floor6": {
+      "theme": 11,
+      "key": "floor6",
+      "sheet": "11",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "11-ceil1": {
+      "theme": 11,
+      "key": "ceil1",
+      "sheet": "11",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "11-ceil2": {
+      "theme": 11,
+      "key": "ceil2",
+      "sheet": "11",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "11-ceil3": {
+      "theme": 11,
+      "key": "ceil3",
+      "sheet": "11",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "11-wallB": {
+      "theme": 11,
+      "key": "wallB",
+      "sheet": "11",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "11-wallDamp": {
+      "theme": 11,
+      "key": "wallDamp",
+      "sheet": "11",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "11-wallCracked": {
+      "theme": 11,
+      "key": "wallCracked",
+      "sheet": "11",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "11-rock": {
+      "theme": 11,
+      "key": "rock",
+      "sheet": "11",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "11-fallen": {
+      "theme": 11,
+      "key": "fallen",
+      "sheet": "11",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "11-rockPillar": {
+      "theme": 11,
+      "key": "rockPillar",
+      "sheet": "11",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "11-fountain": {
+      "theme": 11,
+      "key": "fountain",
+      "sheet": "11",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "11-fountainDry": {
+      "theme": 11,
+      "key": "fountainDry",
+      "sheet": "11",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "11-torch0": {
+      "theme": 11,
+      "key": "torch0",
+      "sheet": "11",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "11-torch1": {
+      "theme": 11,
+      "key": "torch1",
+      "sheet": "11",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "11-torch2": {
+      "theme": 11,
+      "key": "torch2",
+      "sheet": "11",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "11-decor0": {
+      "theme": 11,
+      "key": "decor0",
+      "sheet": "11",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "11-decor1": {
+      "theme": 11,
+      "key": "decor1",
+      "sheet": "11",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "11-decor2": {
+      "theme": 11,
+      "key": "decor2",
+      "sheet": "11",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "11-decor3": {
+      "theme": 11,
+      "key": "decor3",
+      "sheet": "11",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "11-decor4": {
+      "theme": 11,
+      "key": "decor4",
+      "sheet": "11",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    },
+    "11-decor5": {
+      "theme": 11,
+      "key": "decor5",
+      "sheet": "11",
+      "index": 33,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        1046,
+        835,
+        1253
+      ]
+    },
+    "12-door": {
+      "theme": 12,
+      "key": "door",
+      "sheet": "12",
+      "index": 0,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        1,
+        208,
+        208
+      ]
+    },
+    "12-cellDoor": {
+      "theme": 12,
+      "key": "cellDoor",
+      "sheet": "approved-r-gate",
+      "index": 0,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "12",
+        "index": 1
+      },
+      "approved_reuse": true,
+      "source_rect": [
+        0,
+        0,
+        256,
+        256
+      ]
+    },
+    "12-pillar": {
+      "theme": 12,
+      "key": "pillar",
+      "sheet": "12",
+      "index": 2,
+      "batch": "ag",
+      "source_rect": [
+        419,
+        1,
+        626,
+        208
+      ]
+    },
+    "12-stairsUp": {
+      "theme": 12,
+      "key": "stairsUp",
+      "sheet": "12",
+      "index": 3,
+      "batch": "ag",
+      "source_rect": [
+        628,
+        1,
+        835,
+        208
+      ]
+    },
+    "12-stairsDown": {
+      "theme": 12,
+      "key": "stairsDown",
+      "sheet": "12",
+      "index": 4,
+      "batch": "ag",
+      "source_rect": [
+        837,
+        1,
+        1044,
+        208
+      ]
+    },
+    "12-stairsUpBack": {
+      "theme": 12,
+      "key": "stairsUpBack",
+      "sheet": "12",
+      "index": 5,
+      "batch": "ag",
+      "source_rect": [
+        1046,
+        1,
+        1253,
+        208
+      ]
+    },
+    "12-stairsDownBack": {
+      "theme": 12,
+      "key": "stairsDownBack",
+      "sheet": "12",
+      "index": 6,
+      "batch": "ag",
+      "source_rect": [
+        1,
+        210,
+        208,
+        417
+      ]
+    },
+    "12-stairArch": {
+      "theme": 12,
+      "key": "stairArch",
+      "sheet": "arches-painted",
+      "index": 11,
+      "batch": "ag",
+      "rejected_original": {
+        "sheet": "12",
+        "index": 7
+      },
+      "source_rect": [
+        1086,
+        724,
+        1448,
+        1086
+      ]
+    },
+    "12-floor1": {
+      "theme": 12,
+      "key": "floor1",
+      "sheet": "12",
+      "index": 8,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        210,
+        626,
+        417
+      ]
+    },
+    "12-floor2": {
+      "theme": 12,
+      "key": "floor2",
+      "sheet": "12",
+      "index": 9,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        210,
+        835,
+        417
+      ]
+    },
+    "12-floor3": {
+      "theme": 12,
+      "key": "floor3",
+      "sheet": "12",
+      "index": 10,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        210,
+        1044,
+        417
+      ]
+    },
+    "12-floor4": {
+      "theme": 12,
+      "key": "floor4",
+      "sheet": "12",
+      "index": 11,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        210,
+        1253,
+        417
+      ]
+    },
+    "12-floor5": {
+      "theme": 12,
+      "key": "floor5",
+      "sheet": "12",
+      "index": 12,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        419,
+        208,
+        626
+      ]
+    },
+    "12-floor6": {
+      "theme": 12,
+      "key": "floor6",
+      "sheet": "12",
+      "index": 13,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        419,
+        417,
+        626
+      ]
+    },
+    "12-ceil1": {
+      "theme": 12,
+      "key": "ceil1",
+      "sheet": "12",
+      "index": 14,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        419,
+        626,
+        626
+      ]
+    },
+    "12-ceil2": {
+      "theme": 12,
+      "key": "ceil2",
+      "sheet": "12",
+      "index": 15,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        419,
+        835,
+        626
+      ]
+    },
+    "12-ceil3": {
+      "theme": 12,
+      "key": "ceil3",
+      "sheet": "12",
+      "index": 16,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        419,
+        1044,
+        626
+      ]
+    },
+    "12-wallB": {
+      "theme": 12,
+      "key": "wallB",
+      "sheet": "12",
+      "index": 17,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        419,
+        1253,
+        626
+      ]
+    },
+    "12-wallDamp": {
+      "theme": 12,
+      "key": "wallDamp",
+      "sheet": "12",
+      "index": 18,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        628,
+        208,
+        835
+      ]
+    },
+    "12-wallCracked": {
+      "theme": 12,
+      "key": "wallCracked",
+      "sheet": "12",
+      "index": 19,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        628,
+        417,
+        835
+      ]
+    },
+    "12-rock": {
+      "theme": 12,
+      "key": "rock",
+      "sheet": "12",
+      "index": 20,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        628,
+        626,
+        835
+      ]
+    },
+    "12-fallen": {
+      "theme": 12,
+      "key": "fallen",
+      "sheet": "12",
+      "index": 21,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        628,
+        835,
+        835
+      ]
+    },
+    "12-rockPillar": {
+      "theme": 12,
+      "key": "rockPillar",
+      "sheet": "12",
+      "index": 22,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        628,
+        1044,
+        835
+      ]
+    },
+    "12-fountain": {
+      "theme": 12,
+      "key": "fountain",
+      "sheet": "12",
+      "index": 23,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        628,
+        1253,
+        835
+      ]
+    },
+    "12-fountainDry": {
+      "theme": 12,
+      "key": "fountainDry",
+      "sheet": "12",
+      "index": 24,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        837,
+        208,
+        1044
+      ]
+    },
+    "12-torch0": {
+      "theme": 12,
+      "key": "torch0",
+      "sheet": "12",
+      "index": 25,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        837,
+        417,
+        1044
+      ]
+    },
+    "12-torch1": {
+      "theme": 12,
+      "key": "torch1",
+      "sheet": "12",
+      "index": 26,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        837,
+        626,
+        1044
+      ]
+    },
+    "12-torch2": {
+      "theme": 12,
+      "key": "torch2",
+      "sheet": "12",
+      "index": 27,
+      "batch": "ah",
+      "source_rect": [
+        628,
+        837,
+        835,
+        1044
+      ]
+    },
+    "12-decor0": {
+      "theme": 12,
+      "key": "decor0",
+      "sheet": "12",
+      "index": 28,
+      "batch": "ah",
+      "source_rect": [
+        837,
+        837,
+        1044,
+        1044
+      ]
+    },
+    "12-decor1": {
+      "theme": 12,
+      "key": "decor1",
+      "sheet": "12",
+      "index": 29,
+      "batch": "ah",
+      "source_rect": [
+        1046,
+        837,
+        1253,
+        1044
+      ]
+    },
+    "12-decor2": {
+      "theme": 12,
+      "key": "decor2",
+      "sheet": "12",
+      "index": 30,
+      "batch": "ah",
+      "source_rect": [
+        1,
+        1046,
+        208,
+        1253
+      ]
+    },
+    "12-decor3": {
+      "theme": 12,
+      "key": "decor3",
+      "sheet": "12",
+      "index": 31,
+      "batch": "ah",
+      "source_rect": [
+        210,
+        1046,
+        417,
+        1253
+      ]
+    },
+    "12-decor4": {
+      "theme": 12,
+      "key": "decor4",
+      "sheet": "12",
+      "index": 32,
+      "batch": "ah",
+      "source_rect": [
+        419,
+        1046,
+        626,
+        1253
+      ]
+    }
+  },
+  "rejected_repairs": {
+    "repair-gates": "incorrect rod counts; approved R gate reused instead",
+    "repair-arches": "pixel-style finish rejected; second painted repair selected"
+  },
+  "registration_note": "Opaque RGB texture exports omit incidental near-opaque generated alpha without changing RGB; one source pixel inset excludes shared panel boundaries. No holes are allowed inside opaque crops. Arch alpha remains authored and measured, never replaced by a script mask.",
+  "review": "batch-ag-ah-preview/REVIEW.md",
+  "counts": {
+    "ag_bindings": 96,
+    "ag_new_selected": 84,
+    "ag_approved_gate_reuses": 12,
+    "ah_new_selected": 309,
+    "ah_secondary_materials": 240,
+    "ah_decorations": 69,
+    "atlases": 25
+  },
+  "model": "not disclosed",
+  "runtime_review": "batch-ac-ah-runtime/REVIEW.md"
+}

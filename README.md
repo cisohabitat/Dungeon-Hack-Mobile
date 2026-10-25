@@ -1610,3 +1610,30 @@ All 30 remaining named weapon/shield candidates now bind to gameplay: 381 held w
 The common delivery now contains 973 files (786 held states and 21 carried states among them), with all 576 prior common exports unchanged. There are 1,141 shipped paintings plus three icons. The 16 worn/inventory named identities and the 47 relic portraits remain separate surfaces. This activation supersedes Batch AB's historical source-only status.
 
 See [native activation review](art/creatures/batch-ab-runtime/REVIEW.md), [source review](art/creatures/batch-ab-named-preview/REVIEW.md) and [delivery inventory](art/creatures/runtime-delivery.json).
+
+
+## Batch AC — ordinary caster art source review
+
+Seven ordinary caster frames are painted and reviewed locally: Mage spellbook,
+Crystal Orb and Orb of Storms; Cleric Holy Symbol, Silver Sunburst and Reliquary;
+and the Wayfarer's Silver Lantern. [Review and reproduction commands](art/creatures/batch-ac-casters-preview/REVIEW.md)
+record98 source-preview captures,294 fitting checks and12 equipment regressions.
+This is source art awaiting native activation/offline/release checks; public0.9.39
+is unchanged. [The roadmap](art/creatures/ATLAS-ROADMAP.md#remaining-procedural-art-conversion-plan)
+now reserves AD for remaining ordinary shield backs and AE–AH for later passes.
+
+
+## Batch AD — remaining ordinary shield source review
+
+Seven shield-back frames are painted locally: Fighter/Cleric/Druid bucklers,
+Fighter/Cleric tower shields and Fighter/Cleric Quill Shields. The full ordinary
+shield audit now has source coverage for all12 legal class/item pairs: five
+already active, seven awaiting activation. [Review](art/creatures/batch-ad-shields-preview/REVIEW.md)
+records112 source-preview captures and336 fitting checks. AC+AD total14 pending
+carried frames; public0.9.39 remains unchanged. Subsequent AE–AH source work is documented below.
+
+AE/AF source art is complete locally: 24 empty-hand bindings and 142 small-item sources (156 new selected paintings plus ten reuses). Runtime activation/publication remains pending. See [atlas roadmap](art/creatures/ATLAS-ROADMAP.md).
+
+AG/AH add 25 local regional source atlases: architecture for twelve regions, secondary materials and all thirteen regions’ decoration slots. See the [source review](art/creatures/batch-ag-ah-preview/REVIEW.md) for coverage and the remaining arch/gate/material fitting gates. Runtime activation and publication remain pending.
+
+AC–AH are activated for **0.9.40**: painted carried foci/shields, empty hands, small floor/Pack items and regional architecture/materials/decorations. Native openings, coloured locks, item identity, rarity edges and separate relic portraits remain intact. [Runtime review](art/creatures/batch-ac-ah-runtime/REVIEW.md) records 1,228 native captures, independent fallback and all 1,550 catalogued art files decoding offline. Earlier source-only notes above are historical.

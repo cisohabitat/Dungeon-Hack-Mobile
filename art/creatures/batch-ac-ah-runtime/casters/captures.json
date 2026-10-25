@@ -1,0 +1,5234 @@
+{
+  "scope": "Native shipped class/id frames, no Assets/source-image substitutions; frozen presentation fits with Game/Dice/Odds neutrality. Native actions/offline/performance verified separately.",
+  "audits": [
+    {
+      "width": 390,
+      "checks": [
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8861263139536248,
+            99,
+            76.57697462957267,
+            159.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            155,
+            78.57697462957267,
+            215.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            167,
+            78.57697462957267,
+            227.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            167,
+            78.57697462957267,
+            227.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.906151274513121,
+            88,
+            85.59018078627793,
+            159.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            145,
+            87.59018078627793,
+            216.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            157,
+            87.59018078627793,
+            228.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            157,
+            87.59018078627793,
+            228.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.0158906081753685,
+            89,
+            83.8800253755347,
+            159.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            146,
+            85.8800253755347,
+            216.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            158,
+            85.8800253755347,
+            228.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            158,
+            85.8800253755347,
+            228.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8127808316088192,
+            79,
+            87.83388869529975,
+            159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            136,
+            89.83388869529975,
+            216
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            148,
+            89.83388869529975,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            148,
+            89.83388869529975,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.7395844516078398,
+            79,
+            81.77122206973391,
+            159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            136,
+            83.77122206973391,
+            216
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            148,
+            83.77122206973391,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            148,
+            83.77122206973391,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.9278486436909361,
+            86,
+            74.85430977937071,
+            159.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            142,
+            76.85430977937071,
+            215.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            155,
+            76.85430977937071,
+            228.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            155,
+            76.85430977937071,
+            228.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            70.5911330049261,
+            100.6847290640394,
+            150.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            150.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            52.05911330049261,
+            74.5911330049261,
+            103.6847290640394,
+            154.59113300492612
+          ],
+          "base": [
+            75.22602955665025,
+            154.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            45.05911330049261,
+            79.5911330049261,
+            96.6847290640394,
+            159.59113300492612
+          ],
+          "base": [
+            68.22602955665025,
+            159.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            50.05911330049261,
+            69.5911330049261,
+            101.6847290640394,
+            149.59113300492612
+          ],
+          "base": [
+            73.22602955665025,
+            149.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            152.59113300492612,
+            100.6847290640394,
+            232.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            232.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            166.59113300492612,
+            100.6847290640394,
+            246.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            246.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            166.59113300492612,
+            100.6847290640394,
+            246.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            246.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.3425495857106284,
+            256.53515625,
+            127.67511724455068,
+            359.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            387.53515625,
+            130.67511724455068,
+            490.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            415.53515625,
+            130.67511724455068,
+            518.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            415.53515625,
+            130.67511724455068,
+            518.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.8190646220178763,
+            251.9375,
+            128.32578111050609,
+            359.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            382.9375,
+            130.32578111050609,
+            490.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            410.9375,
+            130.32578111050609,
+            518.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            410.9375,
+            130.32578111050609,
+            518.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.5479562118330819,
+            250.98046875,
+            127.86175790365706,
+            358.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            381.98046875,
+            129.86175790365706,
+            489.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            409.98046875,
+            129.86175790365706,
+            517.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            409.98046875,
+            129.86175790365706,
+            517.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.1000218464254488,
+            242.15625,
+            128.4435240212215,
+            359.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            373.15625,
+            130.4435240212215,
+            490.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            400.15625,
+            130.4435240212215,
+            517.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            400.15625,
+            130.4435240212215,
+            517.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.151531712693611,
+            232.9375,
+            127.45145982879882,
+            359.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            363.9375,
+            130.45145982879882,
+            490.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            391.9375,
+            130.45145982879882,
+            518.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            391.9375,
+            130.45145982879882,
+            518.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.4373624914014727,
+            232.28125,
+            127.91919352359605,
+            359.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            363.28125,
+            130.91919352359605,
+            490.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            391.28125,
+            130.91919352359605,
+            518.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            391.28125,
+            130.91919352359605,
+            518.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            211.0344827586207,
+            122.19827586206895,
+            351.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            351.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            34.853448275862064,
+            214.0344827586207,
+            125.19827586206895,
+            354.0344827586207
+          ],
+          "base": [
+            75.39555172413793,
+            354.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            27.853448275862064,
+            219.0344827586207,
+            118.19827586206895,
+            359.0344827586207
+          ],
+          "base": [
+            68.39555172413793,
+            359.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            32.853448275862064,
+            210.0344827586207,
+            123.19827586206895,
+            350.0344827586207
+          ],
+          "base": [
+            73.39555172413793,
+            350.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            349.0344827586207,
+            122.19827586206895,
+            489.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            489.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            377.0344827586207,
+            122.19827586206895,
+            517.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            517.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            377.0344827586207,
+            122.19827586206895,
+            517.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            517.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.3425495857106284,
+            360.53515625,
+            127.67511724455068,
+            463.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            530.53515625,
+            130.67511724455068,
+            633.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            565.53515625,
+            130.67511724455068,
+            668.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            565.53515625,
+            130.67511724455068,
+            668.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.8190646220178763,
+            355.9375,
+            128.32578111050609,
+            463.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            525.9375,
+            130.32578111050609,
+            633.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            560.9375,
+            130.32578111050609,
+            668.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            560.9375,
+            130.32578111050609,
+            668.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.5479562118330819,
+            354.98046875,
+            127.86175790365706,
+            462.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            524.98046875,
+            129.86175790365706,
+            632.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            560.98046875,
+            129.86175790365706,
+            668.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            560.98046875,
+            129.86175790365706,
+            668.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.1000218464254488,
+            346.15625,
+            128.4435240212215,
+            463.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            516.15625,
+            130.4435240212215,
+            633.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            551.15625,
+            130.4435240212215,
+            668.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            551.15625,
+            130.4435240212215,
+            668.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.151531712693611,
+            336.9375,
+            127.45145982879882,
+            463.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            506.9375,
+            130.45145982879882,
+            633.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            541.9375,
+            130.45145982879882,
+            668.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            541.9375,
+            130.45145982879882,
+            668.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.4373624914014727,
+            336.28125,
+            127.91919352359605,
+            463.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            506.28125,
+            130.91919352359605,
+            633.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            541.28125,
+            130.91919352359605,
+            668.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            541.28125,
+            130.91919352359605,
+            668.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            274.33004926108373,
+            136.54064039408865,
+            454.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            454.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            23.383004926108384,
+            278.33004926108373,
+            139.54064039408865,
+            458.3300492610838
+          ],
+          "base": [
+            75.50856650246305,
+            458.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            16.383004926108384,
+            283.33004926108373,
+            132.54064039408865,
+            463.3300492610838
+          ],
+          "base": [
+            68.50856650246305,
+            463.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            21.383004926108384,
+            274.33004926108373,
+            137.54064039408865,
+            454.3300492610838
+          ],
+          "base": [
+            73.50856650246305,
+            454.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            450.33004926108373,
+            136.54064039408865,
+            630.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            630.3300492610838
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            486.33004926108373,
+            136.54064039408865,
+            666.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            666.3300492610838
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            486.33004926108373,
+            136.54064039408865,
+            666.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            666.3300492610838
+          ],
+          "intentionally_lowered": true
+        }
+      ],
+      "guards": [
+        [
+          "spellbook",
+          "fighter"
+        ],
+        [
+          "spellbook",
+          "cleric"
+        ],
+        [
+          "spellbook",
+          "thief"
+        ],
+        [
+          "spellbook",
+          "ranger"
+        ],
+        [
+          "spellbook",
+          "druid"
+        ],
+        [
+          "spellbook",
+          "spellblade"
+        ],
+        [
+          "spellbook",
+          "bear"
+        ],
+        [
+          "crystal_orb",
+          "fighter"
+        ],
+        [
+          "crystal_orb",
+          "cleric"
+        ],
+        [
+          "crystal_orb",
+          "thief"
+        ],
+        [
+          "crystal_orb",
+          "ranger"
+        ],
+        [
+          "crystal_orb",
+          "druid"
+        ],
+        [
+          "crystal_orb",
+          "spellblade"
+        ],
+        [
+          "crystal_orb",
+          "bear"
+        ],
+        [
+          "orb_storms",
+          "fighter"
+        ],
+        [
+          "orb_storms",
+          "cleric"
+        ],
+        [
+          "orb_storms",
+          "thief"
+        ],
+        [
+          "orb_storms",
+          "ranger"
+        ],
+        [
+          "orb_storms",
+          "druid"
+        ],
+        [
+          "orb_storms",
+          "spellblade"
+        ],
+        [
+          "orb_storms",
+          "bear"
+        ],
+        [
+          "holy_symbol",
+          "fighter"
+        ],
+        [
+          "holy_symbol",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "thief"
+        ],
+        [
+          "holy_symbol",
+          "ranger"
+        ],
+        [
+          "holy_symbol",
+          "druid"
+        ],
+        [
+          "holy_symbol",
+          "spellblade"
+        ],
+        [
+          "holy_symbol",
+          "bear"
+        ],
+        [
+          "silver_symbol",
+          "fighter"
+        ],
+        [
+          "silver_symbol",
+          "mage"
+        ],
+        [
+          "silver_symbol",
+          "thief"
+        ],
+        [
+          "silver_symbol",
+          "ranger"
+        ],
+        [
+          "silver_symbol",
+          "druid"
+        ],
+        [
+          "silver_symbol",
+          "spellblade"
+        ],
+        [
+          "silver_symbol",
+          "bear"
+        ],
+        [
+          "reliquary",
+          "fighter"
+        ],
+        [
+          "reliquary",
+          "mage"
+        ],
+        [
+          "reliquary",
+          "thief"
+        ],
+        [
+          "reliquary",
+          "ranger"
+        ],
+        [
+          "reliquary",
+          "druid"
+        ],
+        [
+          "reliquary",
+          "spellblade"
+        ],
+        [
+          "reliquary",
+          "bear"
+        ],
+        [
+          "wayfarer_lantern",
+          "fighter"
+        ],
+        [
+          "wayfarer_lantern",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "mage"
+        ],
+        [
+          "wayfarer_lantern",
+          "thief"
+        ],
+        [
+          "wayfarer_lantern",
+          "ranger"
+        ],
+        [
+          "wayfarer_lantern",
+          "druid"
+        ],
+        [
+          "wayfarer_lantern",
+          "bear"
+        ],
+        [
+          "runeshield",
+          "fighter"
+        ],
+        [
+          "runeshield",
+          "cleric"
+        ],
+        [
+          "shield",
+          "fighter"
+        ],
+        [
+          "shield",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "mythic_last_gate",
+          "fighter"
+        ],
+        [
+          "mythic_mercys_oath",
+          "cleric"
+        ],
+        [
+          "mythic_bloodstar",
+          "mage"
+        ],
+        [
+          "relic_kests_bulwark",
+          "fighter"
+        ],
+        [
+          "relic_kests_bulwark",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "fighter"
+        ],
+        [
+          "relic_sisters_buckler",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "thief"
+        ],
+        [
+          "relic_sisters_buckler",
+          "druid"
+        ],
+        [
+          "relic_midnight_folio",
+          "mage"
+        ],
+        [
+          "relic_sparkglass",
+          "mage"
+        ],
+        [
+          "legend_bastion",
+          "fighter"
+        ],
+        [
+          "legend_bastion",
+          "cleric"
+        ],
+        [
+          "legend_lantern_mercy",
+          "cleric"
+        ],
+        [
+          "legend_cinderheart",
+          "mage"
+        ],
+        [
+          "legend_rimebound",
+          "mage"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "fighter"
+        ],
+        [
+          "buckler",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "druid"
+        ],
+        [
+          "towershield",
+          "fighter"
+        ],
+        [
+          "towershield",
+          "cleric"
+        ],
+        [
+          "quillshield",
+          "fighter"
+        ],
+        [
+          "quillshield",
+          "cleric"
+        ]
+      ],
+      "state_unchanged": true,
+      "dice_unchanged": true
+    },
+    {
+      "width": 320,
+      "checks": [
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8861263139536248,
+            99,
+            76.57697462957267,
+            159.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            95,
+            78.57697462957267,
+            155.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            155,
+            78.57697462957267,
+            215.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            167,
+            78.57697462957267,
+            227.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.886126313953625,
+            167,
+            78.57697462957267,
+            227.73846483562073
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.906151274513121,
+            88,
+            85.59018078627793,
+            159.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            85,
+            87.59018078627793,
+            156.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            145,
+            87.59018078627793,
+            216.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            157,
+            87.59018078627793,
+            228.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.906151274513121,
+            157,
+            87.59018078627793,
+            228.16680920084787
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.0158906081753685,
+            89,
+            83.8800253755347,
+            159.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            86,
+            85.8800253755347,
+            156.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            146,
+            85.8800253755347,
+            216.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            158,
+            85.8800253755347,
+            228.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.0158906081753685,
+            158,
+            85.8800253755347,
+            228.00144202421245
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8127808316088192,
+            79,
+            87.83388869529975,
+            159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            76,
+            89.83388869529975,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            136,
+            89.83388869529975,
+            216
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            148,
+            89.83388869529975,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.812780831608819,
+            148,
+            89.83388869529975,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.7395844516078398,
+            79,
+            81.77122206973391,
+            159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            76,
+            83.77122206973391,
+            156
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            136,
+            83.77122206973391,
+            216
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            148,
+            83.77122206973391,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.73958445160784,
+            148,
+            83.77122206973391,
+            228
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.9278486436909361,
+            86,
+            74.85430977937071,
+            159.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            83,
+            76.85430977937071,
+            156.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            142,
+            76.85430977937071,
+            215.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            155,
+            76.85430977937071,
+            228.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.927848643690936,
+            155,
+            76.85430977937071,
+            228.3450823577393
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            70.5911330049261,
+            100.6847290640394,
+            150.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            150.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            52.05911330049261,
+            74.5911330049261,
+            103.6847290640394,
+            154.59113300492612
+          ],
+          "base": [
+            75.22602955665025,
+            154.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            45.05911330049261,
+            79.5911330049261,
+            96.6847290640394,
+            159.59113300492612
+          ],
+          "base": [
+            68.22602955665025,
+            159.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            50.05911330049261,
+            69.5911330049261,
+            101.6847290640394,
+            149.59113300492612
+          ],
+          "base": [
+            73.22602955665025,
+            149.59113300492612
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            152.59113300492612,
+            100.6847290640394,
+            232.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            232.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            166.59113300492612,
+            100.6847290640394,
+            246.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            246.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 160,
+          "box": [
+            49.05911330049261,
+            166.59113300492612,
+            100.6847290640394,
+            246.59113300492612
+          ],
+          "base": [
+            72.22602955665025,
+            246.59113300492612
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.3425495857106284,
+            256.53515625,
+            127.67511724455068,
+            359.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            253.53515625,
+            130.67511724455068,
+            356.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            387.53515625,
+            130.67511724455068,
+            490.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            415.53515625,
+            130.67511724455068,
+            518.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.342549585710628,
+            415.53515625,
+            130.67511724455068,
+            518.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.8190646220178763,
+            251.9375,
+            128.32578111050609,
+            359.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            248.9375,
+            130.32578111050609,
+            356.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            382.9375,
+            130.32578111050609,
+            490.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            410.9375,
+            130.32578111050609,
+            518.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.8190646220178763,
+            410.9375,
+            130.32578111050609,
+            518.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.5479562118330819,
+            250.98046875,
+            127.86175790365706,
+            358.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            247.98046875,
+            129.86175790365706,
+            355.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            381.98046875,
+            129.86175790365706,
+            489.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            409.98046875,
+            129.86175790365706,
+            517.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.547956211833082,
+            409.98046875,
+            129.86175790365706,
+            517.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.1000218464254488,
+            242.15625,
+            128.4435240212215,
+            359.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            238.15625,
+            130.4435240212215,
+            355.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            373.15625,
+            130.4435240212215,
+            490.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            400.15625,
+            130.4435240212215,
+            517.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.100021846425449,
+            400.15625,
+            130.4435240212215,
+            517.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.151531712693611,
+            232.9375,
+            127.45145982879882,
+            359.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            229.9375,
+            130.45145982879882,
+            356.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            363.9375,
+            130.45145982879882,
+            490.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            391.9375,
+            130.45145982879882,
+            518.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.151531712693611,
+            391.9375,
+            130.45145982879882,
+            518.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.4373624914014727,
+            232.28125,
+            127.91919352359605,
+            359.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            229.28125,
+            130.91919352359605,
+            356.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            363.28125,
+            130.91919352359605,
+            490.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            391.28125,
+            130.91919352359605,
+            518.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.437362491401473,
+            391.28125,
+            130.91919352359605,
+            518.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            211.0344827586207,
+            122.19827586206895,
+            351.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            351.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            34.853448275862064,
+            214.0344827586207,
+            125.19827586206895,
+            354.0344827586207
+          ],
+          "base": [
+            75.39555172413793,
+            354.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            27.853448275862064,
+            219.0344827586207,
+            118.19827586206895,
+            359.0344827586207
+          ],
+          "base": [
+            68.39555172413793,
+            359.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            32.853448275862064,
+            210.0344827586207,
+            123.19827586206895,
+            350.0344827586207
+          ],
+          "base": [
+            73.39555172413793,
+            350.0344827586207
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            349.0344827586207,
+            122.19827586206895,
+            489.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            489.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            377.0344827586207,
+            122.19827586206895,
+            517.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            517.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 360,
+          "box": [
+            31.853448275862064,
+            377.0344827586207,
+            122.19827586206895,
+            517.0344827586207
+          ],
+          "base": [
+            72.39555172413793,
+            517.0344827586207
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.3425495857106284,
+            360.53515625,
+            127.67511724455068,
+            463.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            357.53515625,
+            130.67511724455068,
+            460.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            530.53515625,
+            130.67511724455068,
+            633.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            565.53515625,
+            130.67511724455068,
+            668.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-spellbook",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.342549585710628,
+            565.53515625,
+            130.67511724455068,
+            668.2685752883741
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.8190646220178763,
+            355.9375,
+            128.32578111050609,
+            463.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            352.9375,
+            130.32578111050609,
+            460.52169984659423
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            525.9375,
+            130.32578111050609,
+            633.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            560.9375,
+            130.32578111050609,
+            668.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-crystal_orb",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.8190646220178763,
+            560.9375,
+            130.32578111050609,
+            668.5216998465942
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.5479562118330819,
+            354.98046875,
+            127.86175790365706,
+            462.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            351.98046875,
+            129.86175790365706,
+            459.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            524.98046875,
+            129.86175790365706,
+            632.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            560.98046875,
+            129.86175790365706,
+            668.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "mage-orb_storms",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.547956211833082,
+            560.98046875,
+            129.86175790365706,
+            668.9905062482966
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.1000218464254488,
+            346.15625,
+            128.4435240212215,
+            463.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            342.15625,
+            130.4435240212215,
+            459.65625
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            516.15625,
+            130.4435240212215,
+            633.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            551.15625,
+            130.4435240212215,
+            668.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-holy_symbol",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.100021846425449,
+            551.15625,
+            130.4435240212215,
+            668.65625
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.151531712693611,
+            336.9375,
+            127.45145982879882,
+            463.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            333.9375,
+            130.45145982879882,
+            460.1875
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            506.9375,
+            130.45145982879882,
+            633.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            541.9375,
+            130.45145982879882,
+            668.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-silver_symbol",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.151531712693611,
+            541.9375,
+            130.45145982879882,
+            668.1875
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.4373624914014727,
+            336.28125,
+            127.91919352359605,
+            463.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            333.28125,
+            130.91919352359605,
+            460.4891272142041
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            506.28125,
+            130.91919352359605,
+            633.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            541.28125,
+            130.91919352359605,
+            668.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-reliquary",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.437362491401473,
+            541.28125,
+            130.91919352359605,
+            668.489127214204
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            274.33004926108373,
+            136.54064039408865,
+            454.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            454.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            23.383004926108384,
+            278.33004926108373,
+            139.54064039408865,
+            458.3300492610838
+          ],
+          "base": [
+            75.50856650246305,
+            458.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            16.383004926108384,
+            283.33004926108373,
+            132.54064039408865,
+            463.3300492610838
+          ],
+          "base": [
+            68.50856650246305,
+            463.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            21.383004926108384,
+            274.33004926108373,
+            137.54064039408865,
+            454.3300492610838
+          ],
+          "base": [
+            73.50856650246305,
+            454.3300492610838
+          ],
+          "intentionally_lowered": false
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            450.33004926108373,
+            136.54064039408865,
+            630.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            630.3300492610838
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "read",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            486.33004926108373,
+            136.54064039408865,
+            666.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            666.3300492610838
+          ],
+          "intentionally_lowered": true
+        },
+        {
+          "key": "spellblade-wayfarer_lantern",
+          "state": "use",
+          "height": 464,
+          "box": [
+            20.383004926108384,
+            486.33004926108373,
+            136.54064039408865,
+            666.3300492610838
+          ],
+          "base": [
+            72.50856650246305,
+            666.3300492610838
+          ],
+          "intentionally_lowered": true
+        }
+      ],
+      "guards": [
+        [
+          "spellbook",
+          "fighter"
+        ],
+        [
+          "spellbook",
+          "cleric"
+        ],
+        [
+          "spellbook",
+          "thief"
+        ],
+        [
+          "spellbook",
+          "ranger"
+        ],
+        [
+          "spellbook",
+          "druid"
+        ],
+        [
+          "spellbook",
+          "spellblade"
+        ],
+        [
+          "spellbook",
+          "bear"
+        ],
+        [
+          "crystal_orb",
+          "fighter"
+        ],
+        [
+          "crystal_orb",
+          "cleric"
+        ],
+        [
+          "crystal_orb",
+          "thief"
+        ],
+        [
+          "crystal_orb",
+          "ranger"
+        ],
+        [
+          "crystal_orb",
+          "druid"
+        ],
+        [
+          "crystal_orb",
+          "spellblade"
+        ],
+        [
+          "crystal_orb",
+          "bear"
+        ],
+        [
+          "orb_storms",
+          "fighter"
+        ],
+        [
+          "orb_storms",
+          "cleric"
+        ],
+        [
+          "orb_storms",
+          "thief"
+        ],
+        [
+          "orb_storms",
+          "ranger"
+        ],
+        [
+          "orb_storms",
+          "druid"
+        ],
+        [
+          "orb_storms",
+          "spellblade"
+        ],
+        [
+          "orb_storms",
+          "bear"
+        ],
+        [
+          "holy_symbol",
+          "fighter"
+        ],
+        [
+          "holy_symbol",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "thief"
+        ],
+        [
+          "holy_symbol",
+          "ranger"
+        ],
+        [
+          "holy_symbol",
+          "druid"
+        ],
+        [
+          "holy_symbol",
+          "spellblade"
+        ],
+        [
+          "holy_symbol",
+          "bear"
+        ],
+        [
+          "silver_symbol",
+          "fighter"
+        ],
+        [
+          "silver_symbol",
+          "mage"
+        ],
+        [
+          "silver_symbol",
+          "thief"
+        ],
+        [
+          "silver_symbol",
+          "ranger"
+        ],
+        [
+          "silver_symbol",
+          "druid"
+        ],
+        [
+          "silver_symbol",
+          "spellblade"
+        ],
+        [
+          "silver_symbol",
+          "bear"
+        ],
+        [
+          "reliquary",
+          "fighter"
+        ],
+        [
+          "reliquary",
+          "mage"
+        ],
+        [
+          "reliquary",
+          "thief"
+        ],
+        [
+          "reliquary",
+          "ranger"
+        ],
+        [
+          "reliquary",
+          "druid"
+        ],
+        [
+          "reliquary",
+          "spellblade"
+        ],
+        [
+          "reliquary",
+          "bear"
+        ],
+        [
+          "wayfarer_lantern",
+          "fighter"
+        ],
+        [
+          "wayfarer_lantern",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "mage"
+        ],
+        [
+          "wayfarer_lantern",
+          "thief"
+        ],
+        [
+          "wayfarer_lantern",
+          "ranger"
+        ],
+        [
+          "wayfarer_lantern",
+          "druid"
+        ],
+        [
+          "wayfarer_lantern",
+          "bear"
+        ],
+        [
+          "runeshield",
+          "fighter"
+        ],
+        [
+          "runeshield",
+          "cleric"
+        ],
+        [
+          "shield",
+          "fighter"
+        ],
+        [
+          "shield",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "mythic_last_gate",
+          "fighter"
+        ],
+        [
+          "mythic_mercys_oath",
+          "cleric"
+        ],
+        [
+          "mythic_bloodstar",
+          "mage"
+        ],
+        [
+          "relic_kests_bulwark",
+          "fighter"
+        ],
+        [
+          "relic_kests_bulwark",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "fighter"
+        ],
+        [
+          "relic_sisters_buckler",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "thief"
+        ],
+        [
+          "relic_sisters_buckler",
+          "druid"
+        ],
+        [
+          "relic_midnight_folio",
+          "mage"
+        ],
+        [
+          "relic_sparkglass",
+          "mage"
+        ],
+        [
+          "legend_bastion",
+          "fighter"
+        ],
+        [
+          "legend_bastion",
+          "cleric"
+        ],
+        [
+          "legend_lantern_mercy",
+          "cleric"
+        ],
+        [
+          "legend_cinderheart",
+          "mage"
+        ],
+        [
+          "legend_rimebound",
+          "mage"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "fighter"
+        ],
+        [
+          "buckler",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "druid"
+        ],
+        [
+          "towershield",
+          "fighter"
+        ],
+        [
+          "towershield",
+          "cleric"
+        ],
+        [
+          "quillshield",
+          "fighter"
+        ],
+        [
+          "quillshield",
+          "cleric"
+        ]
+      ],
+      "state_unchanged": true,
+      "dice_unchanged": true
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "rest",
+      "file": "390-mage-spellbook-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "walk",
+      "file": "390-mage-spellbook-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "hurt",
+      "file": "390-mage-spellbook-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "calm",
+      "file": "390-mage-spellbook-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "cast",
+      "file": "390-mage-spellbook-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "read",
+      "file": "390-mage-spellbook-read.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-spellbook",
+      "state": "use",
+      "file": "390-mage-spellbook-use.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "rest",
+      "file": "390-mage-crystal_orb-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "walk",
+      "file": "390-mage-crystal_orb-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "hurt",
+      "file": "390-mage-crystal_orb-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "calm",
+      "file": "390-mage-crystal_orb-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "cast",
+      "file": "390-mage-crystal_orb-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "read",
+      "file": "390-mage-crystal_orb-read.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-crystal_orb",
+      "state": "use",
+      "file": "390-mage-crystal_orb-use.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "rest",
+      "file": "390-mage-orb_storms-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "walk",
+      "file": "390-mage-orb_storms-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "hurt",
+      "file": "390-mage-orb_storms-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "calm",
+      "file": "390-mage-orb_storms-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "cast",
+      "file": "390-mage-orb_storms-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "read",
+      "file": "390-mage-orb_storms-read.png"
+    },
+    {
+      "width": 390,
+      "key": "mage-orb_storms",
+      "state": "use",
+      "file": "390-mage-orb_storms-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "rest",
+      "file": "390-cleric-holy_symbol-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "walk",
+      "file": "390-cleric-holy_symbol-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "hurt",
+      "file": "390-cleric-holy_symbol-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "calm",
+      "file": "390-cleric-holy_symbol-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "cast",
+      "file": "390-cleric-holy_symbol-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "read",
+      "file": "390-cleric-holy_symbol-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-holy_symbol",
+      "state": "use",
+      "file": "390-cleric-holy_symbol-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "rest",
+      "file": "390-cleric-silver_symbol-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "walk",
+      "file": "390-cleric-silver_symbol-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "hurt",
+      "file": "390-cleric-silver_symbol-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "calm",
+      "file": "390-cleric-silver_symbol-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "cast",
+      "file": "390-cleric-silver_symbol-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "read",
+      "file": "390-cleric-silver_symbol-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-silver_symbol",
+      "state": "use",
+      "file": "390-cleric-silver_symbol-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "rest",
+      "file": "390-cleric-reliquary-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "walk",
+      "file": "390-cleric-reliquary-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "hurt",
+      "file": "390-cleric-reliquary-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "calm",
+      "file": "390-cleric-reliquary-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "cast",
+      "file": "390-cleric-reliquary-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "read",
+      "file": "390-cleric-reliquary-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-reliquary",
+      "state": "use",
+      "file": "390-cleric-reliquary-use.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "rest",
+      "file": "390-spellblade-wayfarer_lantern-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "walk",
+      "file": "390-spellblade-wayfarer_lantern-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "hurt",
+      "file": "390-spellblade-wayfarer_lantern-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "calm",
+      "file": "390-spellblade-wayfarer_lantern-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "cast",
+      "file": "390-spellblade-wayfarer_lantern-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "read",
+      "file": "390-spellblade-wayfarer_lantern-read.png"
+    },
+    {
+      "width": 390,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "use",
+      "file": "390-spellblade-wayfarer_lantern-use.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "rest",
+      "file": "320-mage-spellbook-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "walk",
+      "file": "320-mage-spellbook-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "hurt",
+      "file": "320-mage-spellbook-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "calm",
+      "file": "320-mage-spellbook-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "cast",
+      "file": "320-mage-spellbook-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "read",
+      "file": "320-mage-spellbook-read.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-spellbook",
+      "state": "use",
+      "file": "320-mage-spellbook-use.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "rest",
+      "file": "320-mage-crystal_orb-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "walk",
+      "file": "320-mage-crystal_orb-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "hurt",
+      "file": "320-mage-crystal_orb-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "calm",
+      "file": "320-mage-crystal_orb-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "cast",
+      "file": "320-mage-crystal_orb-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "read",
+      "file": "320-mage-crystal_orb-read.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-crystal_orb",
+      "state": "use",
+      "file": "320-mage-crystal_orb-use.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "rest",
+      "file": "320-mage-orb_storms-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "walk",
+      "file": "320-mage-orb_storms-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "hurt",
+      "file": "320-mage-orb_storms-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "calm",
+      "file": "320-mage-orb_storms-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "cast",
+      "file": "320-mage-orb_storms-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "read",
+      "file": "320-mage-orb_storms-read.png"
+    },
+    {
+      "width": 320,
+      "key": "mage-orb_storms",
+      "state": "use",
+      "file": "320-mage-orb_storms-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "rest",
+      "file": "320-cleric-holy_symbol-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "walk",
+      "file": "320-cleric-holy_symbol-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "hurt",
+      "file": "320-cleric-holy_symbol-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "calm",
+      "file": "320-cleric-holy_symbol-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "cast",
+      "file": "320-cleric-holy_symbol-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "read",
+      "file": "320-cleric-holy_symbol-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-holy_symbol",
+      "state": "use",
+      "file": "320-cleric-holy_symbol-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "rest",
+      "file": "320-cleric-silver_symbol-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "walk",
+      "file": "320-cleric-silver_symbol-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "hurt",
+      "file": "320-cleric-silver_symbol-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "calm",
+      "file": "320-cleric-silver_symbol-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "cast",
+      "file": "320-cleric-silver_symbol-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "read",
+      "file": "320-cleric-silver_symbol-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-silver_symbol",
+      "state": "use",
+      "file": "320-cleric-silver_symbol-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "rest",
+      "file": "320-cleric-reliquary-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "walk",
+      "file": "320-cleric-reliquary-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "hurt",
+      "file": "320-cleric-reliquary-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "calm",
+      "file": "320-cleric-reliquary-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "cast",
+      "file": "320-cleric-reliquary-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "read",
+      "file": "320-cleric-reliquary-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-reliquary",
+      "state": "use",
+      "file": "320-cleric-reliquary-use.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "rest",
+      "file": "320-spellblade-wayfarer_lantern-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "walk",
+      "file": "320-spellblade-wayfarer_lantern-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "hurt",
+      "file": "320-spellblade-wayfarer_lantern-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "calm",
+      "file": "320-spellblade-wayfarer_lantern-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "cast",
+      "file": "320-spellblade-wayfarer_lantern-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "read",
+      "file": "320-spellblade-wayfarer_lantern-read.png"
+    },
+    {
+      "width": 320,
+      "key": "spellblade-wayfarer_lantern",
+      "state": "use",
+      "file": "320-spellblade-wayfarer_lantern-use.png"
+    }
+  ],
+  "console_errors": []
+}

@@ -1,0 +1,198 @@
+{
+  "fighter-buckler": {
+    "source": "held-ad1-shields.png",
+    "native_to_source": {
+      "scale": 3.1934729171028606,
+      "offset": [
+        -91.38358400134925,
+        -95.28238909990856
+      ]
+    },
+    "silhouette_iou": 0.8047,
+    "source_grip": [
+      483.1861,
+      220.7437
+    ],
+    "source_object_bounds": [
+      232,
+      3,
+      659,
+      431
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      656,
+      592
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-buckler": {
+    "source": "held-ad1-shields.png",
+    "native_to_source": {
+      "scale": 3.2610810785587425,
+      "offset": [
+        -130.4366777180053,
+        -80.84299945527998
+      ]
+    },
+    "silhouette_iou": 0.8115,
+    "source_grip": [
+      456.297,
+      241.8736
+    ],
+    "source_object_bounds": [
+      225,
+      3,
+      654,
+      433
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      651,
+      593
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "druid-buckler": {
+    "source": "held-ad1-shields.png",
+    "native_to_source": {
+      "scale": 3.4001113340648126,
+      "offset": [
+        -168.77813478672869,
+        -101.57442079938552
+      ]
+    },
+    "silhouette_iou": 0.8337,
+    "source_grip": [
+      442.9699,
+      234.9006
+    ],
+    "source_object_bounds": [
+      223,
+      3,
+      651,
+      432
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      648,
+      592
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "fighter-towershield": {
+    "source": "held-ad2-shields.png",
+    "native_to_source": {
+      "scale": 4.269948226848766,
+      "offset": [
+        -229.15297996949738,
+        -98.68831941266752
+      ]
+    },
+    "silhouette_iou": 0.9079,
+    "source_grip": [
+      533.6089,
+      358.3995
+    ],
+    "source_object_bounds": [
+      280,
+      3,
+      751,
+      760
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      748,
+      761
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-towershield": {
+    "source": "held-ad2-shields.png",
+    "native_to_source": {
+      "scale": 4.084485399101918,
+      "offset": [
+        -237.3953166815075,
+        -56.03142290078499
+      ]
+    },
+    "silhouette_iou": 0.8557,
+    "source_grip": [
+      492.2364,
+      381.203
+    ],
+    "source_object_bounds": [
+      246,
+      3,
+      704,
+      764
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      701,
+      765
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "fighter-quillshield": {
+    "source": "held-ad3-shields.png",
+    "native_to_source": {
+      "scale": 3.8368880505738963,
+      "offset": [
+        -65.82726479969905,
+        -92.61830368318313
+      ]
+    },
+    "silhouette_iou": 0.7717,
+    "source_grip": [
+      561.9318,
+      337.7756
+    ],
+    "source_object_bounds": [
+      200,
+      3,
+      839,
+      642
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      836,
+      767
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-quillshield": {
+    "source": "held-ad3-shields.png",
+    "native_to_source": {
+      "scale": 3.9811103528675935,
+      "offset": [
+        -106.99346169136439,
+        -115.29435621842272
+      ]
+    },
+    "silhouette_iou": 0.7602,
+    "source_grip": [
+      544.362,
+      331.2774
+    ],
+    "source_object_bounds": [
+      178,
+      3,
+      817,
+      642
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      814,
+      767
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  }
+}

@@ -1309,3 +1309,29 @@ All 30 remaining named weapon/shield candidates now bind to gameplay: 381 held w
 The common delivery now contains 973 files (786 held states and 21 carried states among them), with all 576 prior common exports unchanged. There are 1,141 shipped paintings plus three icons. The 16 worn/inventory named identities and the 47 relic portraits remain separate surfaces. This activation supersedes Batch AB's historical source-only status.
 
 See [native activation review](batch-ab-runtime/REVIEW.md), [source review](batch-ab-named-preview/REVIEW.md) and [delivery inventory](runtime-delivery.json).
+
+
+## Current AC–AH numbering
+
+AB is the completed named-equipment pass, active in0.9.39. Ordinary caster
+sources are now AC, with seven frames reviewed locally; see
+[AC brief](REQUEST-batch-ac-casters.md) and [review](batch-ac-casters-preview/REVIEW.md).
+The former prospective labels are superseded: AD ordinary shield backs, AE action
+hands/bear claws, AF small item sprites, AG regional architecture, AH secondary
+regional materials. Native delivery and source painting remain separate gates.
+
+
+## AD ordinary shield backs — source complete
+
+[AD brief](REQUEST-batch-ad-shields.md) follows the35-pair ordinary shield audit:
+seven new exact pairs complete source coverage for all12 legal pairs, preserving
+five prior P/Y frames and named AB art. Shared item scale preserves construction
+across class gloves/sleeves. [Review](batch-ad-shields-preview/REVIEW.md) separates
+112 frozen source captures/336 fitted fixtures from native activation and offline
+gates. AC+AD are14 pending carried frames; next painting is AE action hands.
+
+AE/AF source art is complete locally: 24 empty-hand bindings and 142 small-item sources (156 new selected paintings plus ten reuses). Runtime activation/publication remains pending. See [roadmap](ATLAS-ROADMAP.md).
+
+AG/AH regional source painting is complete locally: 25 atlases and 405 selections (393 new paintings plus 12 approved gate reuses). [Review](batch-ag-ah-preview/REVIEW.md) records exact-mask, regional-edge, repeat/decoration join and torch integration gates. No activation/publication.
+
+AC–AH are activated for 0.9.40. [Native delivery](batch-ac-ah-runtime/REVIEW.md) supersedes the historical source-only activation notes, with exact masks/locks, region edges, cached rarity outlines and independent lazy loading.

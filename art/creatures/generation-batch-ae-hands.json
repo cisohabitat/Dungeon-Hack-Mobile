@@ -1,0 +1,910 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-ae-hands.md",
+  "status": "activated for 0.9.40; original source/review provenance retained",
+  "sheets": {
+    "ae-spellblade": {
+      "source": "ae-spellblade.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "spellblade-empty-fist",
+        "spellblade-empty-punch",
+        "spellblade-empty-cast"
+      ],
+      "cls": "spellblade",
+      "references": [
+        "batch-ae-hands-preview/ae-spellblade-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Charcoal leather glove, dark slate cloth sleeve, silver cuff trim and one tiny blue rune, no aura. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms. CRITICAL THIRD CELL: place the OPEN hand/fingertips at UPPER-RIGHT of its own square and run its forearm diagonally to LOWER-LEFT. The elbow/sleeve end is LEFT of the wrist, never right. This third pose is different from the first two down-right arms. No drawn grid lines.",
+      "generated_original": "/workspace/generated_images/exec-84cf9278-2209-4c4d-9098-ebb054836d83.png",
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-fighter": {
+      "source": "ae-fighter.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "fighter-empty-fist",
+        "fighter-empty-punch",
+        "fighter-empty-cast"
+      ],
+      "cls": "fighter",
+      "references": [
+        "batch-ae-hands-preview/ae-fighter-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Grey armoured leather glove/grey cuff, coarse earth-brown sleeve. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms.",
+      "generated_original": "/workspace/generated_images/exec-566266e3-c773-40b7-b1c5-db484630cdbf.png",
+      "rejected_cells": {
+        "2": "Open hand arm extends down-right; replace cast only."
+      },
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-cleric": {
+      "source": "ae-cleric.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "cleric-empty-fist",
+        "cleric-empty-punch",
+        "cleric-empty-cast"
+      ],
+      "cls": "cleric",
+      "references": [
+        "batch-ae-hands-preview/ae-cleric-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Worn brown leather glove, restrained ochre-gold cuff, ivory cloth sleeve. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms.",
+      "generated_original": "/workspace/generated_images/exec-6635831a-4740-40ba-b3d2-2123099f77e5.png",
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-mage": {
+      "source": "ae-mage.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "mage-empty-fist",
+        "mage-empty-punch",
+        "mage-empty-cast"
+      ],
+      "cls": "mage",
+      "references": [
+        "batch-ae-hands-preview/ae-mage-reference.png",
+        "held-t2.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Bare pale weathered living skin, violet cuff, dark purple cloth sleeve; no glove or bones. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms.",
+      "generated_original": "/workspace/generated_images/exec-1fe29eca-402b-4397-921a-2dbc154e49cc.png",
+      "native_source_size": [
+        2170,
+        725
+      ]
+    },
+    "ae-thief": {
+      "source": "ae-thief.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "thief-empty-fist",
+        "thief-empty-punch",
+        "thief-empty-cast"
+      ],
+      "cls": "thief",
+      "references": [
+        "batch-ae-hands-preview/ae-thief-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Charcoal leather glove, brown cuff, muted dark olive sleeve. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms.",
+      "generated_original": "/workspace/generated_images/exec-ce80cad3-fe20-4195-a6ce-b7efd148f6a3.png",
+      "rejected_cells": {
+        "2": "Open hand arm extends down-right; replace cast only. Thin drawn cell separators remain outside selected figure crops."
+      },
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-druid": {
+      "source": "ae-druid.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "druid-empty-fist",
+        "druid-empty-punch",
+        "druid-empty-cast"
+      ],
+      "cls": "druid",
+      "references": [
+        "batch-ae-hands-preview/ae-druid-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Brown leather glove, muted green cuff and earth-brown sleeve. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms. CRITICAL THIRD CELL: place the OPEN hand/fingertips at UPPER-RIGHT of its own square and run its forearm diagonally to LOWER-LEFT. The elbow/sleeve end is LEFT of the wrist, never right. This third pose is different from the first two down-right arms. No drawn grid lines.",
+      "generated_original": "/workspace/generated_images/exec-82478f3b-b6bb-4527-98ae-6d89300846b1.png",
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-bear": {
+      "source": "ae-bear.png",
+      "grid": [
+        3,
+        1
+      ],
+      "keys": [
+        "bear-empty-fist",
+        "bear-empty-punch",
+        "bear-empty-cast"
+      ],
+      "cls": "bear",
+      "references": [
+        "batch-ae-hands-preview/ae-bear-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a THREE-CELL horizontal sprite strip, equal square cells, true transparent RGBA. Exact native anatomy directions and forearm angles in FIRST reference; SECOND is only mature worn painted material quality, no equipment. LEFT: empty RIGHT FIST, knuckles facing forward, folded thumb over curled fingers, forearm diagonally DOWN-RIGHT. MIDDLE: RIGHT PUNCH, same connected empty fist with shallower DOWN-RIGHT forearm angle exactly reference. RIGHT: OPEN LEFT action hand with five natural connected fingers/thumb, forearm DOWN-LEFT exactly reference. Bear anatomy only: brown fur from paw to elbow, natural pale hooked claws, no human glove or clothing. Rest/punch have four prominent knuckle claws; open action pose is a furred paw with five connected digits, not a human hand. Entire connected fist/paw/fingers and complete sleeve/fur end INSIDE each cell with8% transparent margins. Realistic mature dark fantasy painterly textures matching approved dungeon monsters, restrained lighting and natural proportions. No cartoon, glossy toy, giant hand, extra digits, disembodied parts, held objects, magic effects, text, border, scene, ground shadow, black matte or backdrop. Preserve reference gestures, class colours and relative sizes closely. In closed human fists the fingers curl away, no round object in fist. Do not copy the second reference's weapons/shields or add an item. Exactly three complete isolated connected arms. CRITICAL THIRD CELL: place the OPEN hand/fingertips at UPPER-RIGHT of its own square and run its forearm diagonally to LOWER-LEFT. The elbow/sleeve end is LEFT of the wrist, never right. This third pose is different from the first two down-right arms. No drawn grid lines.",
+      "generated_original": "/workspace/generated_images/exec-169f5e0f-a326-4797-a043-8e64122a2cc7.png",
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ae-open-repair": {
+      "source": "ae-open-repair.png",
+      "grid": [
+        2,
+        1
+      ],
+      "keys": [
+        "fighter-empty-cast",
+        "thief-empty-cast"
+      ],
+      "references": [
+        "batch-ae-hands-preview/ae-open1-reference.png",
+        "ae-fighter.png",
+        "ae-thief.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint exactly TWO equal square cells horizontally, true transparent RGBA. FIRST native reference defines pose/anatomy/arm angle EXACTLY, second/third references define only painted materials. BOTH cells show OPEN LEFT hand with five natural connected fingers/thumb. Put fingertips/hand at UPPER-RIGHT of each cell; forearm descends diagonally DOWN-LEFT to sleeve end at LOWER-LEFT. Elbow must be LEFT of wrist, never right. Copy native first reference orientation closely. LEFT Fighter: grey armoured leather glove and cuff, coarse brown cloth sleeve. RIGHT Thief: charcoal leather glove, brown cuff and muted dark olive sleeve. Entire connected hand/fingers/sleeve inside cell with at least12% transparent margin ALL sides, no clipped tips. Rich mature worn painted leather/cloth, natural anatomy matching second/third material style, not cartoon/toy. No fist, object, spell glow, other arm, body, text, border, separators, scene, floor shadow or backdrop. TWO OPEN LEFT hands only. Do not copy the incorrectly down-right open arms in the style references.",
+      "generated_original": "/workspace/generated_images/exec-b0c5200f-5a39-4500-a995-160a9b099cc5.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    }
+  },
+  "cells": {
+    "spellblade-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 0,
+      "source_rect": [
+        30,
+        37,
+        657,
+        679
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        143.71116487807788,
+        73.68030603097189
+      ],
+      "source_object_bounds": [
+        -64.96504183522947,
+        -169.7752684678867,
+        352.3873715913852,
+        204.102935226789
+      ],
+      "source_to_native_scale": 0.11501071625752106
+    },
+    "spellblade-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 1,
+      "source_rect": [
+        760,
+        49,
+        1433,
+        659
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        116.91260989349976,
+        85.59687837632775
+      ],
+      "source_object_bounds": [
+        -60.16052480146499,
+        -120.98844543446445,
+        293.9857445884645,
+        196.2675875606807
+      ],
+      "source_to_native_scale": 0.13553721766626897
+    },
+    "spellblade-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 2,
+      "source_rect": [
+        1581,
+        18,
+        2150,
+        693
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        366.5660046133178,
+        121.27351827291947
+      ],
+      "source_object_bounds": [
+        197.5850437064785,
+        -75.870936118393,
+        535.5469655201571,
+        226.886618839694
+      ],
+      "source_to_native_scale": 0.14202783479987086
+    },
+    "fighter-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 0,
+      "source_rect": [
+        51,
+        53,
+        662,
+        686
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        126.98016350801375,
+        61.790924386564114
+      ],
+      "source_object_bounds": [
+        -34.03796033227282,
+        -126.06355342710353,
+        287.9982873483003,
+        162.42725178674323
+      ],
+      "source_to_native_scale": 0.14905154418396735
+    },
+    "fighter-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 1,
+      "source_rect": [
+        739,
+        62,
+        1435,
+        646
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        137.22204667821168,
+        85.92594994911188
+      ],
+      "source_object_bounds": [
+        -72.8500760274035,
+        -159.15819320743918,
+        347.2941693838269,
+        217.22102664012135
+      ],
+      "source_to_native_scale": 0.1142464773092831
+    },
+    "fighter-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-open-repair",
+      "index": 0,
+      "source_rect": [
+        92,
+        41,
+        852,
+        852
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        523.5820576796732,
+        132.08214440440793
+      ],
+      "source_object_bounds": [
+        288.8237270174934,
+        -141.80257470146853,
+        758.340388341853,
+        278.8061010682703
+      ],
+      "source_to_native_scale": 0.10223279375135914
+    },
+    "cleric-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 0,
+      "source_rect": [
+        100,
+        55,
+        664,
+        675
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        118.11655139951378,
+        58.7323238500465
+      ],
+      "source_object_bounds": [
+        -33.506410113858664,
+        -118.16113124888804,
+        269.7395129128862,
+        153.49667479590428
+      ],
+      "source_to_native_scale": 0.15828737125599088
+    },
+    "cleric-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 1,
+      "source_rect": [
+        833,
+        54,
+        1400,
+        544
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        96.478109122003,
+        58.49460457890943
+      ],
+      "source_object_bounds": [
+        -59.40605879166431,
+        -123.37025798703577,
+        252.36227703567033,
+        155.9222095249515
+      ],
+      "source_to_native_scale": 0.15396047155533987
+    },
+    "cleric-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 2,
+      "source_rect": [
+        1653,
+        70,
+        2113,
+        676
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        295.8080099709735,
+        95.31574493668727
+      ],
+      "source_object_bounds": [
+        152.72123133441747,
+        -71.61883013929476,
+        438.89478860752956,
+        184.7449815845348
+      ],
+      "source_to_native_scale": 0.1677303817214349
+    },
+    "mage-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 0,
+      "source_rect": [
+        71,
+        48,
+        652,
+        688
+      ],
+      "source_density": 2.8255208333333335,
+      "source_grip": [
+        122.74206060002844,
+        77.10125126255298
+      ],
+      "source_object_bounds": [
+        -44.0142293410501,
+        -117.44775366870533,
+        289.49835054110696,
+        181.32393247572708
+      ],
+      "source_to_native_scale": 0.14392260710813445
+    },
+    "mage-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 1,
+      "source_rect": [
+        755,
+        57,
+        1433,
+        646
+      ],
+      "source_density": 2.8255208333333335,
+      "source_grip": [
+        130.80427909201694,
+        81.70741889944499
+      ],
+      "source_object_bounds": [
+        -75.25699104755913,
+        -158.69739626339378,
+        336.86554923159304,
+        210.49571273668005
+      ],
+      "source_to_native_scale": 0.1164702128825254
+    },
+    "mage-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 2,
+      "source_rect": [
+        1610,
+        47,
+        2117,
+        689
+      ],
+      "source_density": 2.8255208333333335,
+      "source_grip": [
+        323.38475680530445,
+        124.2630209914208
+      ],
+      "source_object_bounds": [
+        170.59050627738887,
+        -53.996937957814026,
+        476.17900733322006,
+        219.75942757136804
+      ],
+      "source_to_native_scale": 0.1570739731179557
+    },
+    "thief-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-thief",
+      "index": 0,
+      "source_rect": [
+        77,
+        42,
+        628,
+        678
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        113.53941377718402,
+        79.9462183030997
+      ],
+      "source_object_bounds": [
+        -50.16361342370428,
+        -111.04064676460331,
+        277.2424409780723,
+        182.26061030365486
+      ],
+      "source_to_native_scale": 0.1466069406923574
+    },
+    "thief-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-thief",
+      "index": 1,
+      "source_rect": [
+        781,
+        45,
+        1417,
+        669
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        100.15515555513772,
+        83.71514464888446
+      ],
+      "source_object_bounds": [
+        -56.88501894491398,
+        -99.49839226784255,
+        257.1953300551894,
+        181.86525371141678
+      ],
+      "source_to_native_scale": 0.15282713532639444
+    },
+    "thief-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-open-repair",
+      "index": 1,
+      "source_rect": [
+        960,
+        41,
+        1704,
+        849
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        501.2569191160903,
+        143.839049289489
+      ],
+      "source_object_bounds": [
+        273.65111384350797,
+        -121.70105686185698,
+        728.8627243886726,
+        286.09267758485294
+      ],
+      "source_to_native_scale": 0.10544546511569612
+    },
+    "ranger-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 0,
+      "registered_reuse": "fighter-empty-fist",
+      "source_rect": [
+        51,
+        53,
+        662,
+        686
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        126.98016350801375,
+        61.790924386564114
+      ],
+      "source_object_bounds": [
+        -34.03796033227282,
+        -126.06355342710353,
+        287.9982873483003,
+        162.42725178674323
+      ],
+      "source_to_native_scale": 0.14905154418396735
+    },
+    "ranger-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 1,
+      "registered_reuse": "fighter-empty-punch",
+      "source_rect": [
+        739,
+        62,
+        1435,
+        646
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        137.22204667821168,
+        85.92594994911188
+      ],
+      "source_object_bounds": [
+        -72.8500760274035,
+        -159.15819320743918,
+        347.2941693838269,
+        217.22102664012135
+      ],
+      "source_to_native_scale": 0.1142464773092831
+    },
+    "ranger-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-open-repair",
+      "index": 0,
+      "registered_reuse": "fighter-empty-cast",
+      "source_rect": [
+        92,
+        41,
+        852,
+        852
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        523.5820576796732,
+        132.08214440440793
+      ],
+      "source_object_bounds": [
+        288.8237270174934,
+        -141.80257470146853,
+        758.340388341853,
+        278.8061010682703
+      ],
+      "source_to_native_scale": 0.10223279375135914
+    },
+    "druid-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 0,
+      "source_rect": [
+        57,
+        64,
+        621,
+        673
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        109.13258773801282,
+        55.41212326082618
+      ],
+      "source_object_bounds": [
+        -41.65855081567635,
+        -120.51087171847786,
+        259.923726291702,
+        149.65658485688192
+      ],
+      "source_to_native_scale": 0.1591605463702683
+    },
+    "druid-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 1,
+      "source_rect": [
+        711,
+        68,
+        1394,
+        674
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        118.43790865480949,
+        93.57916961596851
+      ],
+      "source_object_bounds": [
+        -77.59963225491961,
+        -135.13129477871544,
+        314.4754495645386,
+        216.1026326845492
+      ],
+      "source_to_native_scale": 0.12242553078673571
+    },
+    "druid-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 2,
+      "source_rect": [
+        1585,
+        23,
+        2145,
+        686
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        363.2294132687059,
+        149.03284755510123
+      ],
+      "source_object_bounds": [
+        172.94407848912553,
+        -72.96670968774254,
+        553.5147480482863,
+        267.96118179233895
+      ],
+      "source_to_native_scale": 0.12612637767277615
+    },
+    "bear-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 0,
+      "source_rect": [
+        74,
+        58,
+        632,
+        677
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        134.18269511890892,
+        111.87795563982517
+      ],
+      "source_object_bounds": [
+        -65.06715268523709,
+        -120.58020013167852,
+        333.43254292305494,
+        236.40911051741642
+      ],
+      "source_to_native_scale": 0.12045178585828062
+    },
+    "bear-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 1,
+      "source_rect": [
+        777,
+        64,
+        1405,
+        655
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        117.37705228717118,
+        105.05304552048948
+      ],
+      "source_object_bounds": [
+        -77.27705380920099,
+        -122.04341159194472,
+        312.03115838354336,
+        226.71186183072206
+      ],
+      "source_to_native_scale": 0.12329562669547661
+    },
+    "bear-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 2,
+      "source_rect": [
+        1590,
+        35,
+        2151,
+        680
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        362.4289078725161,
+        117.63188233307905
+      ],
+      "source_object_bounds": [
+        195.3014487311445,
+        -77.35015333185449,
+        529.5563670138877,
+        222.0865442964363
+      ],
+      "source_to_native_scale": 0.14360297298422167
+    }
+  },
+  "registration": "Complete selected rectangular crops only; alpha used for measurements, never masks. AE uses uniform native-silhouette landmark alignment and nominal native pixel scale; AF uses complete object crops.",
+  "review": "batch-ae-hands-preview/REVIEW.md",
+  "runtime_review": "batch-ac-ah-runtime/REVIEW.md"
+}

@@ -503,6 +503,34 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   preview-batch-ab-runtime.cjs records real class creation/equip/action/Calm/offline
   flows with native updates, no asset routes/proxies; AB_WIDTH splits phone widths.
   See batch-ab-runtime/REVIEW.md for final evidence and historical source limits.
+  AC ordinary caster source tools: reference-batch-ac-casters.cjs/.py,
+  register-batch-ac-casters.py, export-batch-ac-casters.py --check,
+  preview-batch-ac-casters.cjs and gallery-batch-ac-casters.py. Seven exact
+  carried pairs cover three Mage foci, three Cleric foci and the Spellblade
+  lantern. Six open palms differ from its closed carry handle. Preserve the
+  authored source_base and copy it to at.base during future runtime export;
+  it fits the lantern cage in short views. Registration measures landmarks only,
+  uses complete component crop rectangles and preserves raw pixels; one wooden
+  sun crosses the nominal sheet cell boundary. No masks or scripted repaint.
+  Source preview freezes updates and proxies exact carried pairs:98 captures,
+  294 three-height fits,70 guards per width and full Game/Dice/Odds neutrality
+  are not native actions, activation or offline proof. UI class labels remain
+  the setup Fighter; only the presentation fixture selects the target class.
+  See batch-ac-casters-preview/REVIEW.md. Current delivery stays0.9.39;
+  roadmap labels now AC casters, AD shields, AE hands, AF small items, AG regional
+  architecture, AH regional secondary materials, superseding prospective AB–AG.
+  AD ordinary shield tools mirror AC with the batch-ad-shields suffix. The
+  reference captures audit all35 ordinary shield/class combinations through
+  actual canEquip and exact active catalog keys:12 legal pairs,5 delivered P/Y
+  pairs and7 source gaps (three bucklers, two tower shields, two Quill Shields).
+  Export uses one shared physical item scale across classes, authored shield-only
+  bounds excluding sleeves, and complete component crops across nominal grid
+  boundaries. Quill alpha can look coloured on transparent tool previews: inspect
+  opaque composites before requesting a repair; do not mask source pixels.
+  Source previews cover112 captures/336 fits and guard active21 carried pairs
+  plus AC pending sources. Bash/cast are fitting stress fixtures, not granted
+  abilities. See batch-ad-shields-preview/REVIEW.md. AC+AD remain14 local pending
+  carried frames, not gameplay/offline activation; subsequent AE–AH source work is documented below.
   AA fourth/fifth melee passes integrate133 class/state frames for0.9.37,
   including clubs and all remaining basic mace/sword/staff/spear class pairs.
   That0.9.37 delivery had460 files,289 held frames and628 shipped paintings plus
@@ -539,7 +567,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   with75 total held frames. Keep authored grips/bounds/nocks and whole-family
   lazy upgrades: one failed pose leaves that family procedural, other kits load.
   preview-batch-zaa-runtime.cjs captures real class creation/equip, attack, read,
-  drink, Cleric healing, Calm and native offline continue at390/320; its passive
+  drink, Cleric healing, Calm and native offline continue at 390/320; its passive
   drawImage observer forwards native calls unchanged. No renderer/asset proxy
   or frozen update loop. Save source and native evidence separately; see
   batch-zaa-runtime/REVIEW.md. Sword released-hand actions remain procedural.
@@ -748,7 +776,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   known selected pack items, with keyboard/touch zoom and named-sprite fallback.
   The 47 exports in `img/relics/` come from four approved sheets in `art/relics/`;
   `python3 art/relics/export.py --check` verifies their manifest crops. Keep
-  inventory/floor/held sprites pixel art and unidentified paintings hidden.
+  inventory/floor/held surfaces on their separate small painted routes, and unidentified portraits hidden.
 - `js/namedart.js`: one deterministic parts drawer per `RELICS` id, shared by
   floor sprites, pack inspection, discovered codex and held weapons/foci.
   Resolve identity with `namedSprite` and base weapon type with `namedBase`;
@@ -1247,3 +1275,14 @@ and its raw records live in `docs/balance/2026-10-16/`.
   pose before asserting its native binding, particularly in WebKit. The whole cache can
   take over a minute at 4x CPU slowdown; keep the existing timeout and await
   the relevant readiness signal instead of adding a fixed sleep.
+
+### AE/AF source tools and integration cautions
+AE/AF source tooling preceded native activation for0.9.40. Use `python3 art/creatures/export-batch-ae-af.py --check` for reproducibility; reference/register/export/preview/gallery tools live alongside generation manifests. `plan-batch-ae-af.mjs` is initial planning only: do not rerun over completed generation manifests. AE null-id class/pose/two/lit routing is exact; Ranger reuses verified Fighter geometry. Native quiet hands crop lower wrist at viewport bottom. AF has 140 live keys and two reserves (`key`, `amulet_tooth`); preserve seeded appearances through identification, 47 separate large relic portraits, native rarity outlines, cached shades/flashes and floor scale/hover behavior during future activation. Frozen source previews do not prove native actions, runtime loading, offline or performance. Source reviews document selected repairs and honest visual coverage.
+
+### AG/AH regional source tooling
+`reference-batch-ag-ah.cjs` captures native regional geometry/material/decor slots; `reference-batch-ag-ah.py` composes guides without overwriting production manifests. `generation-batch-ag-ah.json` records selected/rejected provenance. `export-batch-ag-ah.py --check` reproduces 405 native singles/detail exports and 25 source atlases plus diagnostics; opaque RGB material encoding omits incidental near-opaque source alpha and rejects holes; one-pixel crop insets exclude sheet seams. No scripted source painting or arch mask correction. `preview-batch-ag.cjs` and `preview-batch-ah.cjs` capture frozen source booths at 390/320; `gallery-batch-ag-ah.py` composes review galleries. These are not activation tools. AG uses 84 new candidates plus 12 shared approved R eight-bar gates; AH has 240 regional materials plus 69 decoration slots. Exact native arches remain authoritative (new alpha differs 15–17 pixels); shared gate masonry needs native regional edge/lock composition. Review adjoining wall/decor/door courses, repeat seams and torch bracket stability before activation; retain procedural variants when unresolved. AH decoration fixtures force each candidate into native slots so central native ornaments cannot cover the selected picture; they do not prove seeded slot generation. AH previews eagerly allocate all regional shade levels for audit; production must remain lazy and bounded. See `batch-ag-ah-preview/REVIEW.md` for honest coverage and integration limits.
+
+### AC–AH native delivery for 0.9.40
+`tools/export-painted-runtime.py --check` now reproduces 1,550 catalogued files (577 additions;973 prior files unchanged), including 810 held frames,35 carried frames and regional materials. Preserve optional carried `base` landmarks through catalog and heldFrame; the Wayfarer lantern renderer requires `at.base`. Family lookup must also compare strict metadata id/class: null and the literal string `null` otherwise collide in a concatenated cache key. AF keeps reserved `key`/`amulet_tooth` excluded, seeded identification and 47 independent large relic portraits. Cached rarity outlines use variant-specific image entries and cached Pack data URLs; base and rarity aliases must not share an unoutlined completed frame.
+`paintTheme` starts image/level work on property demand, increments material revision on late floor/ceiling decode and caches composition independently: original exact arch alpha, native regional gate edges, unchanged coloured lock patches, and a stable lower torch wall/bracket below y 30. Source alpha/crop files are never silently changed. Failed decoration/torch families retain their native family until complete; other images remain independent. Production must not eagerly warm all regional shade caches as review fixtures do.
+Native capture scripts are `preview-runtime-{casters,shields,hands,items,regions}.cjs`, under `batch-ac-ah-runtime/`; they use shipped Assets/Pack pictures without source substitutions, with frozen scene fitting clearly labelled. `gallery-runtime-{casters,shields,hands-items}.py` composes diagnostic captures. Browser tests in painted-world cover all new native equip pairs, exact hand guards, mask/edge/lock byte equivalence, torch stability, rarity/seeded appearances, corrupt-image independence and all-export offline reload. When testing demand-loaded region snapshots, warm the same requested fields before awaiting readiness on each reload. Full Chromium and isolated performance checks remain required for publication.

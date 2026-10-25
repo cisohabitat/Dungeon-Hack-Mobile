@@ -1,0 +1,36 @@
+{
+  "status": "source complete; not activated",
+  "captures": 602,
+  "widths": [
+    390,
+    320
+  ],
+  "console_errors": [],
+  "visually_reviewed_export_panels": [
+    "af-armour-repair-scales.png",
+    "af-heartroot-repair-scales.png",
+    "af-orbs-repair-scales.png",
+    "af-spacing-repair-scales.png",
+    "af01-scales.png",
+    "af02-scales.png",
+    "af03-scales.png",
+    "af04-scales.png",
+    "af05-scales.png",
+    "af06-scales.png",
+    "af07-scales.png",
+    "af08-scales.png",
+    "af09-scales.png",
+    "af10-scales.png",
+    "af11-scales.png",
+    "af12-scales.png",
+    "af13-scales.png",
+    "af14-scales.png",
+    "af15-scales.png",
+    "af16-scales.png",
+    "af17-scales.png"
+  ],
+  "visual_scope": "All selected new source art reviewed through final alpha panels (AE) or size panels (AF); representative phone previews reviewed. All 94 composed phone galleries are available, not individually visually signed off.",
+  "regressions": "28 phone/small held-equipment, relic-portraits and collection-browser tests passed",
+  "limits": "Frozen source substitutions; native actions, activation, rarity wrappers, loader failures, offline and performance remain integration gates.",
+  "repository_checks": "npm test passed: agent docs, art inventory,17 release tests,typecheck,level/telemetry/security/narration/offline/voice/rules suites; all source exports reproduce and973 runtime exports unchanged; syntax and git diff --check passed"
+}

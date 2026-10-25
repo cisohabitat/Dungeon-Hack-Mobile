@@ -1,0 +1,198 @@
+{
+  "mage-spellbook": {
+    "source": "held-ac1-casters.png",
+    "native_to_source": {
+      "scale": 3.481342448050981,
+      "offset": [
+        -147.9726354751906,
+        -109.09278785491429
+      ]
+    },
+    "silhouette_iou": 0.7948,
+    "source_grip": [
+      426.2002,
+      177.8693
+    ],
+    "source_object_bounds": [
+      247.7939,
+      0,
+      585,
+      274.2154
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      579,
+      679
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "mage-crystal_orb": {
+    "source": "held-ac1-casters.png",
+    "native_to_source": {
+      "scale": 3.4323136180468317,
+      "offset": [
+        -145.76119914949288,
+        -106.31791082562553
+      ]
+    },
+    "silhouette_iou": 0.7535,
+    "source_grip": [
+      406.5845,
+      202.0299
+    ],
+    "source_object_bounds": [
+      213.7004,
+      0,
+      565,
+      298.7532
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      559,
+      668
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "mage-orb_storms": {
+    "source": "held-ac1-casters.png",
+    "native_to_source": {
+      "scale": 3.4550746856774426,
+      "offset": [
+        -142.09055725739708,
+        -111.66347907591522
+      ]
+    },
+    "silhouette_iou": 0.7487,
+    "source_grip": [
+      413.9179,
+      198.7291
+    ],
+    "source_object_bounds": [
+      219.9058,
+      0,
+      566,
+      295.9427
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      560,
+      668
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-holy_symbol": {
+    "source": "held-ac2-casters.png",
+    "native_to_source": {
+      "scale": 3.5688308072033452,
+      "offset": [
+        -170.6018250741487,
+        -84.18049464161518
+      ]
+    },
+    "silhouette_iou": 0.6556,
+    "source_grip": [
+      423.4712,
+      221.6409
+    ],
+    "source_object_bounds": [
+      240.3609,
+      0,
+      598,
+      332.6059
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      592,
+      671
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-silver_symbol": {
+    "source": "held-ac2-casters.png",
+    "native_to_source": {
+      "scale": 3.4666374396848756,
+      "offset": [
+        -152.79245072496886,
+        -71.39042472879633
+      ]
+    },
+    "silhouette_iou": 0.6181,
+    "source_grip": [
+      416.2694,
+      225.6737
+    ],
+    "source_object_bounds": [
+      227.2107,
+      0,
+      572,
+      344.653
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      566,
+      676
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "cleric-reliquary": {
+    "source": "held-ac2-casters.png",
+    "native_to_source": {
+      "scale": 3.270911179331136,
+      "offset": [
+        -161.27839779213787,
+        -81.88068025819489
+      ]
+    },
+    "silhouette_iou": 0.7171,
+    "source_grip": [
+      392.6423,
+      191.3448
+    ],
+    "source_object_bounds": [
+      252.8156,
+      0,
+      532.469,
+      281.2587
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      532,
+      617
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  },
+  "spellblade-wayfarer_lantern": {
+    "source": "held-ac3-casters.png",
+    "native_to_source": {
+      "scale": 4.807303234050205,
+      "offset": [
+        -56.897273390836396,
+        -158.24908009251976
+      ]
+    },
+    "silhouette_iou": 0.9023,
+    "source_grip": [
+      804.1442,
+      77.8429
+    ],
+    "source_object_bounds": [
+      569,
+      6,
+      1093,
+      818
+    ],
+    "source_alpha32_bounds": [
+      6,
+      6,
+      1091,
+      969
+    ],
+    "method": "Uniform silhouette alignment measures landmarks only; no rotation or source pixel editing. Review diagnostic overlay."
+  }
+}

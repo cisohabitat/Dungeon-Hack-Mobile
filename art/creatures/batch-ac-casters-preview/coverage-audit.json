@@ -1,0 +1,30 @@
+{
+  "scope": "Frozen exact class/id source proxies; not native actions, runtime activation, offline or performance evidence. Full Game/Dice/Odds neutrality checked.",
+  "source_frames": 7,
+  "source_sheets": 3,
+  "captures": 98,
+  "reviewed_galleries": 14,
+  "fitting_cases": 294,
+  "guards_per_width": [
+    70,
+    70
+  ],
+  "minimum_alpha32_clearance": 16,
+  "state_and_dice_unchanged": true,
+  "console_errors": [],
+  "baseline_browser": {
+    "passed": 12,
+    "seconds": 47.5,
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "runtime_files_changed": 0,
+  "activated": false,
+  "published": false,
+  "export_check": "pass: all7 source frames reproduce exactly",
+  "repository_checks": "npm test passed: guidance, reviewed art hashes, release fixtures, typecheck, generator/API/security/narration/offline/voice and751 rules across74 files",
+  "existing_runtime_export_check": "pass:973 files unchanged",
+  "balance": "Not required: source art, review tools and documentation only; no gameplay/runtime change."
+}

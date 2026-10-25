@@ -1,0 +1,275 @@
+{
+  "family_scale": {
+    "buckler": 0.6578604762376775,
+    "towershield": 0.5827858081471747,
+    "quillshield": 0.6072965571205008
+  },
+  "cells": {
+    "fighter-buckler": {
+      "source": "held-ad1-shields.png",
+      "source_sha256": "c471e0ec45ac19114089f761c0ec940dd6f544501194644560661bacdbc60fff",
+      "source_rect": [
+        85,
+        85,
+        747,
+        683
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        656,
+        592
+      ],
+      "scale": 0.23261364905641635,
+      "offset": [
+        16,
+        77
+      ],
+      "grip": [
+        128.3956818943385,
+        128.34799756321485
+      ],
+      "object_bounds": [
+        69.9663665810886,
+        77.69784094716925,
+        169.29239472817838,
+        177.25648274331544
+      ],
+      "visible_bounds": [
+        17,
+        78,
+        169,
+        215
+      ],
+      "export_sha256": "f38c98f7a10198d8d7c64755bcb04705d63d45fe2e606c5fa60b0205e6df8699"
+    },
+    "cleric-buckler": {
+      "source": "held-ad1-shields.png",
+      "source_sha256": "c471e0ec45ac19114089f761c0ec940dd6f544501194644560661bacdbc60fff",
+      "source_rect": [
+        759,
+        83,
+        1416,
+        682
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        651,
+        593
+      ],
+      "scale": 0.23261364905641635,
+      "offset": [
+        22,
+        72
+      ],
+      "grip": [
+        128.1409102234956,
+        128.26310070641202
+      ],
+      "object_bounds": [
+        74.33807103769368,
+        72.69784094716925,
+        174.1293264828963,
+        172.72171004142828
+      ],
+      "visible_bounds": [
+        23,
+        73,
+        174,
+        210
+      ],
+      "export_sha256": "7750c07dafe415fb04af9fef0c80b7b2ae4ee80da9108d4255ee6c162e56f1f8"
+    },
+    "druid-buckler": {
+      "source": "held-ad1-shields.png",
+      "source_sha256": "c471e0ec45ac19114089f761c0ec940dd6f544501194644560661bacdbc60fff",
+      "source_rect": [
+        1457,
+        85,
+        2111,
+        683
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        648,
+        592
+      ],
+      "scale": 0.23261364905641635,
+      "offset": [
+        25,
+        73
+      ],
+      "grip": [
+        128.04084486115585,
+        127.64108573154164
+      ],
+      "object_bounds": [
+        76.87284373958084,
+        73.69784094716925,
+        176.43148553572703,
+        173.48909639237186
+      ],
+      "visible_bounds": [
+        26,
+        74,
+        176,
+        211
+      ],
+      "export_sha256": "2f2e954de1d941bf2b47a5f050305f20fe4418c3206aac8d717ae92a43342ef0"
+    },
+    "fighter-towershield": {
+      "source": "held-ad2-shields.png",
+      "source_sha256": "ffc226b8bf1d0d48a788fc153c3f52031f388d3a5be4296dda90ef96323cb465",
+      "source_rect": [
+        76,
+        63,
+        830,
+        830
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        748,
+        761
+      ],
+      "scale": 0.16819973718791062,
+      "offset": [
+        38,
+        68
+      ],
+      "grip": [
+        127.75287674113007,
+        128.28270170827858
+      ],
+      "object_bounds": [
+        85.09592641261497,
+        68.50459921156373,
+        164.3180026281209,
+        195.83180026281207
+      ],
+      "visible_bounds": [
+        39,
+        69,
+        164,
+        196
+      ],
+      "export_sha256": "9e2738c04b76a3cd16398da8bb331c1572ec615fa78b528fd19b2f78e24731cf"
+    },
+    "cleric-towershield": {
+      "source": "held-ad2-shields.png",
+      "source_sha256": "ffc226b8bf1d0d48a788fc153c3f52031f388d3a5be4296dda90ef96323cb465",
+      "source_rect": [
+        852,
+        60,
+        1559,
+        831
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        701,
+        765
+      ],
+      "scale": 0.16819973718791062,
+      "offset": [
+        45,
+        64
+      ],
+      "grip": [
+        127.79403311432324,
+        128.11824441524308
+      ],
+      "object_bounds": [
+        86.377135348226,
+        64.50459921156373,
+        163.41261498028908,
+        192.50459921156371
+      ],
+      "visible_bounds": [
+        46,
+        65,
+        163,
+        193
+      ],
+      "export_sha256": "fcddabc268e4f5f77161a543be66b2a1293a05f36f70c5cf37060b223aabea80"
+    },
+    "fighter-quillshield": {
+      "source": "held-ad3-shields.png",
+      "source_sha256": "81f11a2509a2c2182ebc6471be9de3ec2e65658127b1270ba2882b2a33459807",
+      "source_rect": [
+        49,
+        61,
+        891,
+        834
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        836,
+        767
+      ],
+      "scale": 0.1752738654147105,
+      "offset": [
+        30,
+        69
+      ],
+      "grip": [
+        128.491958685446,
+        128.20323505477307
+      ],
+      "object_bounds": [
+        65.05477308294209,
+        69.52582159624413,
+        177.0547730829421,
+        181.52582159624413
+      ],
+      "visible_bounds": [
+        31,
+        70,
+        177,
+        203
+      ],
+      "export_sha256": "86d50761706f7bde87d27e9f3d97aaa27b96e9c85cf89476f8e3a8312c420f0f"
+    },
+    "cleric-quillshield": {
+      "source": "held-ad3-shields.png",
+      "source_sha256": "81f11a2509a2c2182ebc6471be9de3ec2e65658127b1270ba2882b2a33459807",
+      "source_rect": [
+        930,
+        62,
+        1750,
+        835
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        814,
+        767
+      ],
+      "scale": 0.1752738654147105,
+      "offset": [
+        33,
+        70
+      ],
+      "grip": [
+        128.41243192488264,
+        128.0642704225352
+      ],
+      "object_bounds": [
+        64.19874804381847,
+        70.52582159624413,
+        176.19874804381848,
+        182.52582159624413
+      ],
+      "visible_bounds": [
+        34,
+        71,
+        176,
+        204
+      ],
+      "export_sha256": "f52f3d4c4fd6d0d9604931a7506e3ba81e49a045c9b5742c25908213c787fe3f"
+    }
+  }
+}

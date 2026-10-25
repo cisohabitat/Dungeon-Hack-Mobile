@@ -1,0 +1,40 @@
+{
+  "scope": "Frozen exact class/id source proxies; not native actions, runtime activation, offline or performance evidence. Full Game/Dice/Odds neutrality checked.",
+  "ordinary_shield_inventory": {
+    "class_item_pairs_audited": 35,
+    "legal": 12,
+    "rejected": 23,
+    "previously_delivered": 5,
+    "new_source_pairs": 7,
+    "total_pairs_with_source": 12
+  },
+  "source_frames": 7,
+  "source_sheets": 3,
+  "captures": 112,
+  "reviewed_galleries": 14,
+  "fitting_cases": 336,
+  "guards_per_width": [
+    45,
+    45
+  ],
+  "minimum_alpha32_clearance": 17,
+  "state_and_dice_unchanged": true,
+  "console_errors": [],
+  "baseline_browser": {
+    "passed": 12,
+    "seconds": 48.5,
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "runtime_files_changed": 0,
+  "activated": false,
+  "published": false,
+  "ac_ad_pending_carried_frames": 14,
+  "export_check": "pass:7 AD source frames reproduce exactly",
+  "repository_checks": "npm test passed: guidance, reviewed-art hashes, release fixtures, typecheck, generator/API/security/narration/offline/voice and751 rules across74 files",
+  "balance": "Not required: no runtime or gameplay changes.",
+  "ac_export_check": "pass:7 pending AC source frames unchanged",
+  "existing_runtime_export_check": "pass:973 current runtime files unchanged"
+}

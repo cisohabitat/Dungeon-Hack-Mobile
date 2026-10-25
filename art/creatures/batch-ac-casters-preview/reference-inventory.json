@@ -1,0 +1,480 @@
+{
+  "scope": "Native procedural carried geometry and actual canEquip/spriteFor fixtures; no real class creation, gameplay transitions or painted delivery.",
+  "groups": {
+    "ac1": [
+      [
+        "mage",
+        "spellbook"
+      ],
+      [
+        "mage",
+        "crystal_orb"
+      ],
+      [
+        "mage",
+        "orb_storms"
+      ]
+    ],
+    "ac2": [
+      [
+        "cleric",
+        "holy_symbol"
+      ],
+      [
+        "cleric",
+        "silver_symbol"
+      ],
+      [
+        "cleric",
+        "reliquary"
+      ]
+    ],
+    "ac3": [
+      [
+        "spellblade",
+        "wayfarer_lantern"
+      ]
+    ]
+  },
+  "rows": {
+    "mage-spellbook": {
+      "group": "ac1",
+      "cls": "mage",
+      "id": "spellbook",
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "grip": [
+        164.92857142857144,
+        82.42857142857143
+      ],
+      "object_bounds": [
+        122.92428571428573,
+        15.391428571428577,
+        208.44142857142856,
+        100.86142857142855
+      ],
+      "native": {
+        "size": [
+          99,
+          140
+        ],
+        "grip": [
+          73,
+          41
+        ],
+        "marks": {
+          "min": [
+            46.27000000000001,
+            -1.6599999999999966
+          ],
+          "max": [
+            100.69,
+            52.72999999999999
+          ],
+          "tip": [
+            87.88,
+            3.680000000000007
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Spellbook",
+        "ac": 0,
+        "value": 40,
+        "sprite": "spellbook",
+        "tier": 2,
+        "focus": "mage",
+        "regen": 1,
+        "desc": "Spell points come back a quarter faster as you walk."
+      },
+      "legality": {
+        "spellblade": "Only a mage can draw on that.",
+        "fighter": "Only a mage can draw on that.",
+        "cleric": "Only a mage can draw on that.",
+        "mage": null,
+        "thief": "Only a mage can draw on that.",
+        "ranger": "Only a mage can draw on that.",
+        "druid": "Only a mage can draw on that."
+      }
+    },
+    "mage-crystal_orb": {
+      "group": "ac1",
+      "cls": "mage",
+      "id": "crystal_orb",
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "grip": [
+        160.92517006802723,
+        89.83673469387755
+      ],
+      "object_bounds": [
+        113.78231292517006,
+        14.67755102040814,
+        208.06802721088437,
+        108.96326530612244
+      ],
+      "native": {
+        "size": [
+          102,
+          147
+        ],
+        "grip": [
+          73,
+          48
+        ],
+        "marks": {
+          "min": [
+            41.5,
+            -2.220000000000006
+          ],
+          "max": [
+            104.5,
+            60.78
+          ],
+          "tip": [
+            65.56,
+            21.840000000000003
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Crystal Orb",
+        "ac": 0,
+        "value": 90,
+        "sprite": "crystal_orb",
+        "tier": 3,
+        "focus": "mage",
+        "die": 1,
+        "desc": "One more damage on each of a spell's dice, up to two."
+      },
+      "legality": {
+        "spellblade": "Only a mage can draw on that.",
+        "fighter": "Only a mage can draw on that.",
+        "cleric": "Only a mage can draw on that.",
+        "mage": null,
+        "thief": "Only a mage can draw on that.",
+        "ranger": "Only a mage can draw on that.",
+        "druid": "Only a mage can draw on that."
+      }
+    },
+    "mage-orb_storms": {
+      "group": "ac1",
+      "cls": "mage",
+      "id": "orb_storms",
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "grip": [
+        160.92517006802723,
+        89.83673469387755
+      ],
+      "object_bounds": [
+        113.78231292517006,
+        14.67755102040814,
+        208.06802721088437,
+        108.96326530612244
+      ],
+      "native": {
+        "size": [
+          102,
+          147
+        ],
+        "grip": [
+          73,
+          48
+        ],
+        "marks": {
+          "min": [
+            41.5,
+            -2.220000000000006
+          ],
+          "max": [
+            104.5,
+            60.78
+          ],
+          "tip": [
+            65.56,
+            19.980000000000004
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Orb of Storms",
+        "ac": 0,
+        "value": 260,
+        "sprite": "orb_storms",
+        "tier": 5,
+        "focus": "mage",
+        "storm": 1,
+        "desc": "Lightning Bolt and Cone of Cold strike a fifth harder and hold what they hit back a moment longer."
+      },
+      "legality": {
+        "spellblade": "Only a mage can draw on that.",
+        "fighter": "Only a mage can draw on that.",
+        "cleric": "Only a mage can draw on that.",
+        "mage": null,
+        "thief": "Only a mage can draw on that.",
+        "ranger": "Only a mage can draw on that.",
+        "druid": "Only a mage can draw on that."
+      }
+    },
+    "cleric-holy_symbol": {
+      "group": "ac2",
+      "cls": "cleric",
+      "id": "holy_symbol",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        166.46153846153845,
+        85.6923076923077
+      ],
+      "object_bounds": [
+        124.36923076923077,
+        15.630769230769232,
+        208.5538461538461,
+        107.56923076923076
+      ],
+      "native": {
+        "size": [
+          96,
+          143
+        ],
+        "grip": [
+          73,
+          44
+        ],
+        "marks": {
+          "min": [
+            45.64,
+            -1.5399999999999991
+          ],
+          "max": [
+            100.35999999999999,
+            58.219999999999985
+          ],
+          "tip": [
+            73,
+            2.960000000000008
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Holy Symbol",
+        "ac": 1,
+        "value": 40,
+        "sprite": "holy_symbol",
+        "tier": 2,
+        "focus": "cleric",
+        "mercy": 1,
+        "desc": "Your healing spells heal a quarter more."
+      },
+      "legality": {
+        "spellblade": "Only a cleric can call on that.",
+        "fighter": "Only a cleric can call on that.",
+        "cleric": null,
+        "mage": "Only a cleric can call on that.",
+        "thief": "Only a cleric can call on that.",
+        "ranger": "Only a cleric can call on that.",
+        "druid": "Only a cleric can call on that."
+      }
+    },
+    "cleric-silver_symbol": {
+      "group": "ac2",
+      "cls": "cleric",
+      "id": "silver_symbol",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        164.15384615384616,
+        85.6923076923077
+      ],
+      "object_bounds": [
+        118.69230769230766,
+        15.630769230769232,
+        209.61538461538464,
+        110.93846153846154
+      ],
+      "native": {
+        "size": [
+          99,
+          143
+        ],
+        "grip": [
+          73,
+          44
+        ],
+        "marks": {
+          "min": [
+            43.44999999999999,
+            -1.5399999999999991
+          ],
+          "max": [
+            102.55000000000001,
+            60.41
+          ],
+          "tip": [
+            73,
+            2.960000000000008
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Silver Sunburst",
+        "ac": 1,
+        "value": 90,
+        "sprite": "silver_symbol",
+        "tier": 3,
+        "focus": "cleric",
+        "wrath": 1,
+        "desc": "Holy Smite and Flame Strike strike a quarter harder."
+      },
+      "legality": {
+        "spellblade": "Only a cleric can call on that.",
+        "fighter": "Only a cleric can call on that.",
+        "cleric": null,
+        "mage": "Only a cleric can call on that.",
+        "thief": "Only a cleric can call on that.",
+        "ranger": "Only a cleric can call on that.",
+        "druid": "Only a cleric can call on that."
+      }
+    },
+    "cleric-reliquary": {
+      "group": "ac2",
+      "cls": "cleric",
+      "id": "reliquary",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        169.34751773049646,
+        83.53191489361703
+      ],
+      "object_bounds": [
+        135.645390070922,
+        15.519148936170229,
+        203.04964539007096,
+        101.97446808510638
+      ],
+      "native": {
+        "size": [
+          93,
+          141
+        ],
+        "grip": [
+          73,
+          42
+        ],
+        "marks": {
+          "min": [
+            51.400000000000006,
+            -1.5899999999999892
+          ],
+          "max": [
+            94.60000000000002,
+            53.81999999999999
+          ],
+          "tip": [
+            73,
+            5.609999999999999
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Reliquary",
+        "ac": 1,
+        "value": 260,
+        "sprite": "reliquary",
+        "tier": 5,
+        "focus": "cleric",
+        "mercy": 1,
+        "wrath": 1,
+        "desc": "Your healing spells heal a quarter more, and Holy Smite and Flame Strike strike a quarter harder."
+      },
+      "legality": {
+        "spellblade": "Only a cleric can call on that.",
+        "fighter": "Only a cleric can call on that.",
+        "cleric": null,
+        "mage": "Only a cleric can call on that.",
+        "thief": "Only a cleric can call on that.",
+        "ranger": "Only a cleric can call on that.",
+        "druid": "Only a cleric can call on that."
+      }
+    },
+    "spellblade-wayfarer_lantern": {
+      "group": "ac3",
+      "cls": "spellblade",
+      "id": "wayfarer_lantern",
+      "palette": [
+        "#3c424b",
+        "#515c6a",
+        "#242a32"
+      ],
+      "grip": [
+        179.1111111111111,
+        49.111111111111114
+      ],
+      "object_bounds": null,
+      "base": [
+        179.1111111111111,
+        202.44444444444446
+      ],
+      "native": {
+        "size": [
+          96,
+          99
+        ],
+        "grip": [
+          71,
+          14
+        ],
+        "marks": {
+          "base": [
+            71,
+            83
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Silver Lantern",
+        "ac": 1,
+        "value": 0,
+        "sprite": "wayfarer_lantern",
+        "tier": 99,
+        "focus": "spellblade",
+        "desc": "The last flame from the other side, carried in worn silver. A focus for the Wayfarer alone. Deepward: +1 armour class from floor 9, another every two floors, up to +4 while held."
+      },
+      "legality": {
+        "spellblade": null,
+        "fighter": "Only the Wayfarer can carry that flame.",
+        "cleric": "Only the Wayfarer can carry that flame.",
+        "mage": "Only the Wayfarer can carry that flame.",
+        "thief": "Only the Wayfarer can carry that flame.",
+        "ranger": "Only the Wayfarer can carry that flame.",
+        "druid": "Only the Wayfarer can carry that flame."
+      }
+    }
+  }
+}

@@ -1,0 +1,3343 @@
+{
+  "scope": "Native procedural source geometry/routing fixtures, not gameplay transitions or delivery. Existing held/world painted requests blocked.",
+  "rows": {
+    "wayfarer_lantern": {
+      "kind": "small-item",
+      "id": "wayfarer_lantern",
+      "base": "wayfarer_lantern",
+      "named": false,
+      "label": "Silver Lantern",
+      "sheet": "af01",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8e3c756893a48299fb2030ee35b05ceee0d95c7247ecfcf9af0eb137a0ad2159"
+    },
+    "ring_silver": {
+      "kind": "small-item",
+      "id": "ring_silver",
+      "base": "ring_silver",
+      "named": false,
+      "label": "Ring of Protection",
+      "sheet": "af01",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "c1b8ac6217f707fbcb0377da5eb1b2c002a702989313badbefe31662ea425a08"
+    },
+    "ring_gold": {
+      "kind": "small-item",
+      "id": "ring_gold",
+      "base": "ring_gold",
+      "named": false,
+      "label": "Ring of Might",
+      "sheet": "af01",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "373a7c06d70cc1328c17905c618911ae8d507f095fa339daeaa92f27a552d813"
+    },
+    "ring_garnet": {
+      "kind": "small-item",
+      "id": "ring_garnet",
+      "base": "ring_garnet",
+      "named": false,
+      "label": "Ring of Regeneration",
+      "sheet": "af01",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d6e456ab4afea57d8cc7ea96657679bca14c7be98d08b9bd9dc34a07ec8c5fd5"
+    },
+    "ring_onyx": {
+      "kind": "small-item",
+      "id": "ring_onyx",
+      "base": "ring_onyx",
+      "named": false,
+      "label": "ring onyx",
+      "sheet": "af01",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "fcaf899ab2d1cae916f4c9250362df08382e0f8d5c69e5015a713bdc76735964"
+    },
+    "ring_copper": {
+      "kind": "small-item",
+      "id": "ring_copper",
+      "base": "ring_copper",
+      "named": false,
+      "label": "Ring of Warmth",
+      "sheet": "af01",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "306c826c3ff462c90f78a29478dffe021e4a41c7d0fba047a4c1ef2ff82795b5"
+    },
+    "ring_black": {
+      "kind": "small-item",
+      "id": "ring_black",
+      "base": "ring_black",
+      "named": false,
+      "label": "Gallows Ring",
+      "sheet": "af01",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "ce1494f5fdfdbecc341493b18fd4184ede0913ba87cc69dc135e7f6bfbeafad3"
+    },
+    "ring_forge": {
+      "kind": "small-item",
+      "id": "ring_forge",
+      "base": "ring_forge",
+      "named": false,
+      "label": "Forge Ring",
+      "sheet": "af01",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "b135a67e6e5a5e09724442a698828977cb2a090754c5d8ad8647cf7a9edd63a7"
+    },
+    "ring_jade": {
+      "kind": "small-item",
+      "id": "ring_jade",
+      "base": "ring_jade",
+      "named": false,
+      "label": "Ring of Evasion",
+      "sheet": "af02",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "76343d23459765918bbb11521fb7bef028757adc55e70289dbb8a42588091ff1"
+    },
+    "ring_bone": {
+      "kind": "small-item",
+      "id": "ring_bone",
+      "base": "ring_bone",
+      "named": false,
+      "label": "Ring of the Seer",
+      "sheet": "af02",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8db7e3f420b616b16b0bc8797ac2ac4e664b98a4e6633d126fd7d0b10f061e30"
+    },
+    "ring_iron": {
+      "kind": "small-item",
+      "id": "ring_iron",
+      "base": "ring_iron",
+      "named": false,
+      "label": "Ring of Stealth",
+      "sheet": "af02",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "dffdf19930ae9a282ed06cbe06c7cfe918dfae03b6a853fcc0c5b71b69b30fb6"
+    },
+    "amulet_amber": {
+      "kind": "small-item",
+      "id": "amulet_amber",
+      "base": "amulet_amber",
+      "named": false,
+      "label": "Amulet of Life Saving",
+      "sheet": "af02",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "ea33d6c230ac219184db59d81a85fd44cba2df8d694930c39ccd12578cdcc9fa"
+    },
+    "amulet_silver": {
+      "kind": "small-item",
+      "id": "amulet_silver",
+      "base": "amulet_silver",
+      "named": false,
+      "label": "Amulet of Warding",
+      "sheet": "af02",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "12bdfc9d6ed6c778f6f5eb298a1408661f71e105e3c813f3bb9ffa9f57854d65"
+    },
+    "amulet_obsidian": {
+      "kind": "small-item",
+      "id": "amulet_obsidian",
+      "base": "amulet_obsidian",
+      "named": false,
+      "label": "Amulet of Wizardry",
+      "sheet": "af02",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d7b816affa4adf18ee7883b7071506d4f8a8278ba827f162d3e76a5a2dfe70dc"
+    },
+    "amulet_bone": {
+      "kind": "small-item",
+      "id": "amulet_bone",
+      "base": "amulet_bone",
+      "named": false,
+      "label": "amulet bone",
+      "sheet": "af02",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "83e716a30fe50336fcddfd7705402f5c8b257b3d5d79ccfde23d1e6dc0b4c8bc"
+    },
+    "amulet_spider": {
+      "kind": "small-item",
+      "id": "amulet_spider",
+      "base": "amulet_spider",
+      "named": false,
+      "label": "Spider Pendant",
+      "sheet": "af02",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f7e4d9b96088f30666327996ccd2df0d44dd75f904c1d023cf2b75e58e9e2d86"
+    },
+    "scimitar": {
+      "kind": "small-item",
+      "id": "scimitar",
+      "base": "scimitar",
+      "named": false,
+      "label": "Dark Elf Scimitar",
+      "sheet": "af03",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7f67566b9d3b2202c9a3d0356d8bd8e47eff8f4a8cc6421268cbc9ea776fb5be"
+    },
+    "dagger": {
+      "kind": "small-item",
+      "id": "dagger",
+      "base": "dagger",
+      "named": false,
+      "label": "Dagger",
+      "sheet": "af03",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "0522d591d163d72b8f01a84dc08c99a1b2389f9af0fe0956aff61bbc8aee72c8"
+    },
+    "shortsword": {
+      "kind": "small-item",
+      "id": "shortsword",
+      "base": "shortsword",
+      "named": false,
+      "label": "Short Sword",
+      "sheet": "af03",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f64c88b48a5491065c78ced58a38df355e0a8d8966cfe20238a53df51486373d"
+    },
+    "longsword": {
+      "kind": "small-item",
+      "id": "longsword",
+      "base": "longsword",
+      "named": false,
+      "label": "Long Sword",
+      "sheet": "af03",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "36da85f0e0f71c9c3f544610e35e34c6e813b3ce8c1b765bdb1303c9c639c036"
+    },
+    "greatsword": {
+      "kind": "small-item",
+      "id": "greatsword",
+      "base": "greatsword",
+      "named": false,
+      "label": "Two-handed Sword",
+      "sheet": "af03",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7e5ac3965cf4574ee849963240412de2a5836b7c6415c566d5f3de32296613fd"
+    },
+    "throwknife": {
+      "kind": "small-item",
+      "id": "throwknife",
+      "base": "throwknife",
+      "named": false,
+      "label": "Throwing Knives",
+      "sheet": "af03",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "cabd1497c20b90f7ca006e6f2ed74b471ac8e1c3e4be7963e22b94869cd503ea"
+    },
+    "club": {
+      "kind": "small-item",
+      "id": "club",
+      "base": "club",
+      "named": false,
+      "label": "Club",
+      "sheet": "af03",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "02e04645e19e6e2468c91659b4f909f69b7e415b42cf2ba3b242d46a9bd45583"
+    },
+    "staff": {
+      "kind": "small-item",
+      "id": "staff",
+      "base": "staff",
+      "named": false,
+      "label": "Quarterstaff",
+      "sheet": "af03",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d165aafdd14ceb5bf3c90b7e50cbc65c4aeeaf908f70c16b0124768da7aeed1b"
+    },
+    "spear": {
+      "kind": "small-item",
+      "id": "spear",
+      "base": "spear",
+      "named": false,
+      "label": "Spear",
+      "sheet": "af04",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "0559e40c96776d66f729fbbf844029a739b7c4782f103b3288829d508eca3bb1"
+    },
+    "mace": {
+      "kind": "small-item",
+      "id": "mace",
+      "base": "mace",
+      "named": false,
+      "label": "Mace",
+      "sheet": "af04",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8153763f60915ffa7311f3efd49870d62a03676816ac3de5137985abadb7ae0b"
+    },
+    "hammer": {
+      "kind": "small-item",
+      "id": "hammer",
+      "base": "hammer",
+      "named": false,
+      "label": "War Hammer",
+      "sheet": "af04",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "9bbc55e58c425027fb7903d92e74fdab137e7fcff5e04b711933bf667abc5431"
+    },
+    "flail": {
+      "kind": "small-item",
+      "id": "flail",
+      "base": "flail",
+      "named": false,
+      "label": "Flail",
+      "sheet": "af04",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a21714edc9c3fefb7deb89fd36973d7e1899c76870871aab26f52f99c1a40f7b"
+    },
+    "battleaxe": {
+      "kind": "small-item",
+      "id": "battleaxe",
+      "base": "battleaxe",
+      "named": false,
+      "label": "Battle Axe",
+      "sheet": "af04",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "6cabffdc09d566eeec75d1b6bcc428a9eb9a478c9985d3d20182d52dd2f5ee2a"
+    },
+    "sling": {
+      "kind": "small-item",
+      "id": "sling",
+      "base": "sling",
+      "named": false,
+      "label": "Sling",
+      "sheet": "af04",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d4f83c47ffd1b5ec1a63b0de5b822c0c38ffce16ee444cdaf146f83bb7c24fea"
+    },
+    "shortbow": {
+      "kind": "small-item",
+      "id": "shortbow",
+      "base": "shortbow",
+      "named": false,
+      "label": "Short Bow",
+      "sheet": "af04",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "50914fd905674cdf177ced7639af3e7bba2be98523a25dac58f699fa2ad63606"
+    },
+    "longbow": {
+      "kind": "small-item",
+      "id": "longbow",
+      "base": "longbow",
+      "named": false,
+      "label": "Long Bow",
+      "sheet": "af04",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "26043e23c4cad4c9ffcdee591ca24bda2c4f4c58461fd3871133ab9f11a009a4"
+    },
+    "leather": {
+      "kind": "small-item",
+      "id": "leather",
+      "base": "leather",
+      "named": false,
+      "label": "Leather Armour",
+      "sheet": "af05",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "005c9cadcc1427cc57b2e122fcb286bfc6cca39c392fdaf7ff6194c5ac975f70"
+    },
+    "studded": {
+      "kind": "small-item",
+      "id": "studded",
+      "base": "studded",
+      "named": false,
+      "label": "Studded Leather",
+      "sheet": "af05",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f3fa136637e6db65b358a4396515bfc7d8bf655f33f57e6d027495901537898c"
+    },
+    "scale": {
+      "kind": "small-item",
+      "id": "scale",
+      "base": "scale",
+      "named": false,
+      "label": "Scale Mail",
+      "sheet": "af05",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "215ec6b2388a7fc9862b819fd1333a12387cdbe3e0b87c0c215a6bce13aabee9"
+    },
+    "wyrmscale": {
+      "kind": "small-item",
+      "id": "wyrmscale",
+      "base": "wyrmscale",
+      "named": false,
+      "label": "Wyrm-Scale Mail",
+      "sheet": "af05",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "9c6a19993b7e9dcfce69dfa5e59cb2ede1efd8959111dee7be8a7df62e903f83"
+    },
+    "chain": {
+      "kind": "small-item",
+      "id": "chain",
+      "base": "chain",
+      "named": false,
+      "label": "Chain Mail",
+      "sheet": "af05",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "030991735be7cf08f0b08fa157be2f0bd15d285c6f8e370ee3577798badfef39"
+    },
+    "splint": {
+      "kind": "small-item",
+      "id": "splint",
+      "base": "splint",
+      "named": false,
+      "label": "Splint Mail",
+      "sheet": "af05",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "e0bd4769fe8381d46eef8786b572e8938641371abc3f7637d033b174a74b621f"
+    },
+    "plate": {
+      "kind": "small-item",
+      "id": "plate",
+      "base": "plate",
+      "named": false,
+      "label": "Plate Mail",
+      "sheet": "af05",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "e28a6124c7f66228a4b607f5ed9f44da8d0e260dfd17ac5ec8c66c7dbd2ba28d"
+    },
+    "robe_apprentice": {
+      "kind": "small-item",
+      "id": "robe_apprentice",
+      "base": "robe_apprentice",
+      "named": false,
+      "label": "Apprentice's Robe",
+      "sheet": "af05",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "91927ee315b74997ec567079da3ea80e4b42dc55c0c86d829315c4d23feedbb0"
+    },
+    "robe_silk": {
+      "kind": "small-item",
+      "id": "robe_silk",
+      "base": "robe_silk",
+      "named": false,
+      "label": "Silk Robe",
+      "sheet": "af06",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "c81a13e13c391d50dc19c600f828b74ad2cb1b8bc61174eafef342a883da5d0d"
+    },
+    "robe_warded": {
+      "kind": "small-item",
+      "id": "robe_warded",
+      "base": "robe_warded",
+      "named": false,
+      "label": "Warded Robe",
+      "sheet": "af06",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "b7c58b2825faca62427d6c1cc175a3168cf564ca99be79d89e60012be9350e87"
+    },
+    "robe_magi": {
+      "kind": "small-item",
+      "id": "robe_magi",
+      "base": "robe_magi",
+      "named": false,
+      "label": "Robe of the Magi",
+      "sheet": "af06",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "39d619391747e51357a6f4ccd5d0393d2d3b4dfe484c40b1306b540923f90245"
+    },
+    "buckler": {
+      "kind": "small-item",
+      "id": "buckler",
+      "base": "buckler",
+      "named": false,
+      "label": "Buckler",
+      "sheet": "af06",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "1a5ccc86a64ecdbe6c98594f1a1ace677d0f49f6f8190eb16e56719991fb6569"
+    },
+    "shield": {
+      "kind": "small-item",
+      "id": "shield",
+      "base": "shield",
+      "named": false,
+      "label": "Shield",
+      "sheet": "af06",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "fa1c11a566c7da0c8facf657b873ab6d6de084b9e4d87fefecff1fea52e7aa4e"
+    },
+    "quillshield": {
+      "kind": "small-item",
+      "id": "quillshield",
+      "base": "quillshield",
+      "named": false,
+      "label": "Quill Shield",
+      "sheet": "af06",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "73943630f0d120c121d170d840f374b4cb374ed6a3612d156838a0a3bc123a30"
+    },
+    "towershield": {
+      "kind": "small-item",
+      "id": "towershield",
+      "base": "towershield",
+      "named": false,
+      "label": "Tower Shield",
+      "sheet": "af06",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "44e8a3d8865f179f07711d971319357fa0cff308d2e3ff2901375f77889c6aa8"
+    },
+    "cloak_protect": {
+      "kind": "small-item",
+      "id": "cloak_protect",
+      "base": "cloak_protect",
+      "named": false,
+      "label": "Cloak of Protection",
+      "sheet": "af06",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "9f902d96661ce6b0e4cd925213d0607ccd5784c5cb02955f9d3a63b838bbaf15"
+    },
+    "cloak_elven": {
+      "kind": "small-item",
+      "id": "cloak_elven",
+      "base": "cloak_elven",
+      "named": false,
+      "label": "Elven Cloak",
+      "sheet": "af07",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "809a834fe0b03c49003b2a0529922c1a7cf537721dbacb75303f210dac34a601"
+    },
+    "cloak_shadow": {
+      "kind": "small-item",
+      "id": "cloak_shadow",
+      "base": "cloak_shadow",
+      "named": false,
+      "label": "Shadow-Spun Cloak",
+      "sheet": "af07",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d8308e76b5fe4b7f60bd8b9016d66afc1a34bf103f30f4e61808f45bb236b7cc"
+    },
+    "cloak_warmth": {
+      "kind": "small-item",
+      "id": "cloak_warmth",
+      "base": "cloak_warmth",
+      "named": false,
+      "label": "Cloak of Warmth",
+      "sheet": "af07",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "afe832663f33f85e15f4f2e5e1156b4c7f689c930ef7bed20842eff147e551ac"
+    },
+    "spellbook": {
+      "kind": "small-item",
+      "id": "spellbook",
+      "base": "spellbook",
+      "named": false,
+      "label": "Spellbook",
+      "sheet": "af07",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a1c70b5d95edffa4995532f965ee64ced7cf9250958675755ddb4553c0f7e22d"
+    },
+    "crystal_orb": {
+      "kind": "small-item",
+      "id": "crystal_orb",
+      "base": "crystal_orb",
+      "named": false,
+      "label": "Crystal Orb",
+      "sheet": "af07",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "26d5a3f0e82c1cfe33d5ca6ef48369775bdd693cc367a280502561133b96543d"
+    },
+    "orb_storms": {
+      "kind": "small-item",
+      "id": "orb_storms",
+      "base": "orb_storms",
+      "named": false,
+      "label": "Orb of Storms",
+      "sheet": "af07",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "b3e074e6e90bba6d143ea49f73c2d4771ac7e989b06cf3de56b718478e2b92a8"
+    },
+    "holy_symbol": {
+      "kind": "small-item",
+      "id": "holy_symbol",
+      "base": "holy_symbol",
+      "named": false,
+      "label": "Holy Symbol",
+      "sheet": "af07",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f3f7061186d54b23b2b46a7c6b603716d0088aa5627c0efab9e5d61065ce7033"
+    },
+    "silver_symbol": {
+      "kind": "small-item",
+      "id": "silver_symbol",
+      "base": "silver_symbol",
+      "named": false,
+      "label": "Silver Sunburst",
+      "sheet": "af07",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7fbb3e9c248cbd8bee8932bb81122e58511fa1d777845236071298ffa1ec6b82"
+    },
+    "reliquary": {
+      "kind": "small-item",
+      "id": "reliquary",
+      "base": "reliquary",
+      "named": false,
+      "label": "Reliquary",
+      "sheet": "af08",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "732f3f9467347ba0d6edec58f2d63ef92ba808530693d15363b393dbc15b97bd"
+    },
+    "potion_red": {
+      "kind": "small-item",
+      "id": "potion_red",
+      "base": "potion_red",
+      "named": false,
+      "label": "Potion of Healing",
+      "sheet": "af08",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "3eac66ca352317a571a433bcd24102ad8a595039ea9048ccf6d8aef8e38c3434"
+    },
+    "potion_pink": {
+      "kind": "small-item",
+      "id": "potion_pink",
+      "base": "potion_pink",
+      "named": false,
+      "label": "Potion of Extra Healing",
+      "sheet": "af08",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "4fa4c641212336ce86320f346bbad1921988b0357a10cbb4d10c7f366388b916"
+    },
+    "potion_green": {
+      "kind": "small-item",
+      "id": "potion_green",
+      "base": "potion_green",
+      "named": false,
+      "label": "Antidote",
+      "sheet": "af08",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "294b849fdda9020e3650f7eda07b9a0b8e1388b92562fedec8522617d250be8f"
+    },
+    "potion_orange": {
+      "kind": "small-item",
+      "id": "potion_orange",
+      "base": "potion_orange",
+      "named": false,
+      "label": "Potion of Might",
+      "sheet": "af08",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "239cfac907f30fb4fb66a3e63a4f14854a1084b4dd53b010cbdd5a996981742e"
+    },
+    "potion_blue": {
+      "kind": "small-item",
+      "id": "potion_blue",
+      "base": "potion_blue",
+      "named": false,
+      "label": "Potion of Clarity",
+      "sheet": "af08",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d4f3e6d7ca9dee6b8cdcc35155342e23cb0494eef9cdf0e435372b9fdc9c94f8"
+    },
+    "satchel": {
+      "kind": "small-item",
+      "id": "satchel",
+      "base": "satchel",
+      "named": false,
+      "label": "Lampfolk Satchel",
+      "sheet": "af08",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "88eab96953e7badcde85e820d78735c78adb342c1f9c1bda4f307d38c14b8af3"
+    },
+    "quench": {
+      "kind": "small-item",
+      "id": "quench",
+      "base": "quench",
+      "named": false,
+      "label": "Smiths' Quench",
+      "sheet": "af08",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "c31847657212fd42b789ec41f759a95ba550f821f76823107a2e99992624aa1a"
+    },
+    "charm_collar": {
+      "kind": "small-item",
+      "id": "charm_collar",
+      "base": "charm_collar",
+      "named": false,
+      "label": "Iron-Studded Collar",
+      "sheet": "af09",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "60ccd507f9db3b14786f41b26432aa09facfe57f9d5fe8b6c84eb3a379a041a1"
+    },
+    "charm_fang": {
+      "kind": "small-item",
+      "id": "charm_fang",
+      "base": "charm_fang",
+      "named": false,
+      "label": "Fang Charm",
+      "sheet": "af09",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7ead678c96f7542ae761ff9c762598530ce3836686907bc69538cb74bbd2a6e8"
+    },
+    "charm_rowan": {
+      "kind": "small-item",
+      "id": "charm_rowan",
+      "base": "charm_rowan",
+      "named": false,
+      "label": "Rowan Knot",
+      "sheet": "af09",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7d1264886a1edf5bb9296bd7f7ccf4e968a418b08c7c296cbda22e187b21bf94"
+    },
+    "charm_whetstone": {
+      "kind": "small-item",
+      "id": "charm_whetstone",
+      "base": "charm_whetstone",
+      "named": false,
+      "label": "Sellsword's Whetstone",
+      "sheet": "af09",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "d7e59a65b06544cd101b8b8f950d11aea95eda293963498a16bd7037359f45de"
+    },
+    "oil_fire": {
+      "kind": "small-item",
+      "id": "oil_fire",
+      "base": "oil_fire",
+      "named": false,
+      "label": "Fire Oil",
+      "sheet": "af09",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "4a62c8b215d2c6ae9c71b099c52b9d1bcf2be240da0d1dd98112b7a0e8cc8bc5"
+    },
+    "lamp_oil": {
+      "kind": "small-item",
+      "id": "lamp_oil",
+      "base": "lamp_oil",
+      "named": false,
+      "label": "Flask of Lamp Oil",
+      "sheet": "af09",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "075c95c4a28cf0287172ccc91425f84e28b02c199da1781ba110f947424ea983"
+    },
+    "oil_silver": {
+      "kind": "small-item",
+      "id": "oil_silver",
+      "base": "oil_silver",
+      "named": false,
+      "label": "Silver Wash",
+      "sheet": "af09",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "c68e80f61c8df33d3cb4851ef061dfd648ab16d5b32a05e178660336a9c57f43"
+    },
+    "oil_venom": {
+      "kind": "small-item",
+      "id": "oil_venom",
+      "base": "oil_venom",
+      "named": false,
+      "label": "Blade Venom",
+      "sheet": "af09",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "4d49c2c63c1cb799bb717bd2ea6db5a0c54cc0439366285b1a24de4d57510b2f"
+    },
+    "oil_frost": {
+      "kind": "small-item",
+      "id": "oil_frost",
+      "base": "oil_frost",
+      "named": false,
+      "label": "Frost Oil",
+      "sheet": "af10",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "78451c9d3b8ed061e48e4612426ae0e0a84cfbf0b248d67b8e6548dbe1123c3d"
+    },
+    "scroll": {
+      "kind": "small-item",
+      "id": "scroll",
+      "base": "scroll",
+      "named": false,
+      "label": "Scroll of Fire",
+      "sheet": "af10",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "618af5a5c702c65a13f4aee082790dfb3529ad0aefb7f5f0c0b353b2f3ccf967"
+    },
+    "page": {
+      "kind": "small-item",
+      "id": "page",
+      "base": "page",
+      "named": false,
+      "label": "Torn Page",
+      "sheet": "af10",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a60a885b1f455d3fa08add6ee16b1b0efd9a91f70d32c3219dc6872bb124ed43"
+    },
+    "ration": {
+      "kind": "small-item",
+      "id": "ration",
+      "base": "ration",
+      "named": false,
+      "label": "Iron Ration",
+      "sheet": "af10",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "5f79fb0c0843ce83f5ab69fbd2e62991433072618cec70704da625d8d312cef2"
+    },
+    "meat": {
+      "kind": "small-item",
+      "id": "meat",
+      "base": "meat",
+      "named": false,
+      "label": "Dried Meat",
+      "sheet": "af10",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a4ccde8a67b17aa6ee8872dba426028693a03a9be53fd12c4d975a0e7ea4f02e"
+    },
+    "caps": {
+      "kind": "small-item",
+      "id": "caps",
+      "base": "caps",
+      "named": false,
+      "label": "Pale Caps",
+      "sheet": "af10",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f186ece49933be701fce7fa5770190a1c87fcc0e651bfc6e89adcafc51a20e3a"
+    },
+    "bread": {
+      "kind": "small-item",
+      "id": "bread",
+      "base": "bread",
+      "named": false,
+      "label": "Stale Bread",
+      "sheet": "af10",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "66e1115a1089db86e3ccd837d12659ffb8e0704662af6da253e1885b5608d4ad"
+    },
+    "gold": {
+      "kind": "small-item",
+      "id": "gold",
+      "base": "gold",
+      "named": false,
+      "label": "Gold",
+      "sheet": "af10",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "de6229377dccdad3d72ba5edbe69d4572448d53ba2252a4b6d85f02dd13b56a1"
+    },
+    "gem": {
+      "kind": "small-item",
+      "id": "gem",
+      "base": "gem",
+      "named": false,
+      "label": "Gem",
+      "sheet": "af11",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "6012a8c2ede0895b5bab7030dc4b7788eb052eff1e8ca7cb27a5251b2e8599d7"
+    },
+    "artifact": {
+      "kind": "small-item",
+      "id": "artifact",
+      "base": "artifact",
+      "named": false,
+      "label": "The Heart of the Mountain",
+      "sheet": "af11",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "44b5bb5c9c308c97e38f7e99450184f14e819018ede726a6938f5d40a0ac7cdc"
+    },
+    "key": {
+      "kind": "small-item",
+      "id": "key",
+      "base": "key",
+      "named": false,
+      "label": "Key",
+      "sheet": "af11",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "bbdc9d45c39707d897a614761351acda0c39a4ebede7e9e81659937f50b4eb3e"
+    },
+    "key_brass": {
+      "kind": "small-item",
+      "id": "key_brass",
+      "base": "key_brass",
+      "named": false,
+      "label": "key brass",
+      "sheet": "af11",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "e19726ab436884125a037166d8c3464d59d131972f6f1db33c4847dd69d02325"
+    },
+    "key_silver": {
+      "kind": "small-item",
+      "id": "key_silver",
+      "base": "key_silver",
+      "named": false,
+      "label": "key silver",
+      "sheet": "af11",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "633b1189c3d9a1ef1a1fdb5d18cab2272498b6be12e00692180c432239a40d62"
+    },
+    "key_gold": {
+      "kind": "small-item",
+      "id": "key_gold",
+      "base": "key_gold",
+      "named": false,
+      "label": "key gold",
+      "sheet": "af11",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "725194ffaaf0152433346c427673d0c1776e816d799a5931cfeb2ff3bfdfc232"
+    },
+    "key_iron": {
+      "kind": "small-item",
+      "id": "key_iron",
+      "base": "key_iron",
+      "named": false,
+      "label": "key iron",
+      "sheet": "af11",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "dc93cde2dfb107e53bc9a6717211a9742cb40b86d3b5a61727b8ecc5fe878919"
+    },
+    "key_bone": {
+      "kind": "small-item",
+      "id": "key_bone",
+      "base": "key_bone",
+      "named": false,
+      "label": "key bone",
+      "sheet": "af11",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "dab805bf6a0892c6ca550443e8819bc9c9457c67bfe5f2fbaa1f4ec6c1af749d"
+    },
+    "elvenchain": {
+      "kind": "small-item",
+      "id": "elvenchain",
+      "base": "elvenchain",
+      "named": false,
+      "label": "Elven Chain",
+      "approved_reuse": "batch-p-preview/elvenchain.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a519c5d10ca5ccb688e991d96bcb44b3df41d21be48f1c31587bb5432cb9b57d"
+    },
+    "dwarfplate": {
+      "kind": "small-item",
+      "id": "dwarfplate",
+      "base": "dwarfplate",
+      "named": false,
+      "label": "Dwarven Plate",
+      "approved_reuse": "batch-p-preview/dwarfplate.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8952bef29b4329fcccbe345f745e355da71c91e0953506086efdbd61e446d72b"
+    },
+    "dwarfhammer": {
+      "kind": "small-item",
+      "id": "dwarfhammer",
+      "base": "dwarfhammer",
+      "named": false,
+      "label": "Dwarven Hammer",
+      "approved_reuse": "batch-p-preview/dwarfhammer.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "5e27c7c9014a57ceaad8920ab110ff09cd6bc28b3f99022e98d93306817ef73f"
+    },
+    "runeshield": {
+      "kind": "small-item",
+      "id": "runeshield",
+      "base": "runeshield",
+      "named": false,
+      "label": "Rune-Cut Shield",
+      "approved_reuse": "batch-p-preview/runeshield.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f431997f3de675135df79c9397be83d5c484dfe0ad29670e68d306ba774b3eaf"
+    },
+    "marshhide": {
+      "kind": "small-item",
+      "id": "marshhide",
+      "base": "marshhide",
+      "named": false,
+      "label": "Marsh-Hide Armour",
+      "approved_reuse": "batch-p-preview/marshhide.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "73c193524f7bb016fe458ad6dda7a56d274c56b0d2f64c81892f69d855dfe0d9"
+    },
+    "amulet_tooth": {
+      "kind": "small-item",
+      "id": "amulet_tooth",
+      "base": "amulet_tooth",
+      "named": false,
+      "label": "Tooth Charm",
+      "approved_reuse": "batch-p-preview/amulet_tooth.webp",
+      "reserve": true,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "4c1085b8c4c893972c84d1e5bb88f7fd4ef241a7da94d12a173f2e08d7889435"
+    },
+    "handxbow": {
+      "kind": "small-item",
+      "id": "handxbow",
+      "base": "handxbow",
+      "named": false,
+      "label": "Dark Elf Hand Crossbow",
+      "approved_reuse": "batch-p-preview/handxbow.webp",
+      "reserve": false,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "870ce0324dc15a2def79e55024dce2aab60b770d2c88919825d8d20bbdad511f"
+    },
+    "mythic_last_gate": {
+      "kind": "small-item",
+      "id": "mythic_last_gate",
+      "base": "shield",
+      "named": true,
+      "relic": "last_gate",
+      "item_t": "shield",
+      "label": "the Last Gate",
+      "sheet": "af12",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "93e7f2beb78d8a2c9f34e240a804531f9bc89f37390ca6c0bfeac6dd92e78c46"
+    },
+    "mythic_mercys_oath": {
+      "kind": "small-item",
+      "id": "mythic_mercys_oath",
+      "base": "holy_symbol",
+      "named": true,
+      "relic": "mercys_oath",
+      "item_t": "holy_symbol",
+      "label": "Mercy's Oath",
+      "sheet": "af12",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "eb00525baece8b116ebaac120c66df9c0b5284ef87b15005504b0547e55c03a5"
+    },
+    "mythic_bloodstar": {
+      "kind": "small-item",
+      "id": "mythic_bloodstar",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "bloodstar",
+      "item_t": "crystal_orb",
+      "label": "the Bloodstar",
+      "sheet": "af12",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "55cb67598efecce1f5996a913f5db3244e43a196cea7694ab8b8463a7de7fbb6"
+    },
+    "mythic_nightglass": {
+      "kind": "small-item",
+      "id": "mythic_nightglass",
+      "base": "amulet_obsidian",
+      "named": true,
+      "relic": "nightglass",
+      "item_t": "amulet_mind",
+      "label": "Nightglass",
+      "sheet": "af12",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "350b50c31cc6d4117c7aab4809457a828e8696d5a4f51ffea85c82dc1829fc6b"
+    },
+    "mythic_horizon": {
+      "kind": "small-item",
+      "id": "mythic_horizon",
+      "base": "longbow",
+      "named": true,
+      "relic": "horizon",
+      "item_t": "longbow",
+      "label": "Horizon",
+      "sheet": "af12",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8183bcf50c5ca3543fd5ee7d583c3eefb5661710ee880a7340e64736331a9be8"
+    },
+    "mythic_elderseed": {
+      "kind": "small-item",
+      "id": "mythic_elderseed",
+      "base": "amulet_silver",
+      "named": true,
+      "relic": "elderseed",
+      "item_t": "amulet_ward",
+      "label": "the Elderseed",
+      "sheet": "af12",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "1865b83a79abb964d46e4270c652056513e96f6c1da9eaae81d8d26b716ebf02"
+    },
+    "relic_grimtooth": {
+      "kind": "small-item",
+      "id": "relic_grimtooth",
+      "base": "dagger",
+      "named": true,
+      "relic": "grimtooth",
+      "item_t": "dagger",
+      "label": "Grimtooth",
+      "sheet": "af12",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "eba42bd10d74ac1c7ff836e2c2ff404023aef4ddb8b9e14ce42148eff776c834"
+    },
+    "relic_whisper": {
+      "kind": "small-item",
+      "id": "relic_whisper",
+      "base": "shortsword",
+      "named": true,
+      "relic": "whisper",
+      "item_t": "shortsword",
+      "label": "Whisper",
+      "sheet": "af12",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8d280fb024a67796459b697f216b74d4745ebb019e14a834050f473651bafb61"
+    },
+    "relic_thirst": {
+      "kind": "small-item",
+      "id": "relic_thirst",
+      "base": "longsword",
+      "named": true,
+      "relic": "thirst",
+      "item_t": "longsword",
+      "label": "Thirst",
+      "sheet": "af13",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "ad5c37e74f78614a54f12a41e691fae67e25fde23c57f77c3c14449937994ad9"
+    },
+    "relic_dawnbringer": {
+      "kind": "small-item",
+      "id": "relic_dawnbringer",
+      "base": "mace",
+      "named": true,
+      "relic": "dawnbringer",
+      "item_t": "mace",
+      "label": "Dawnbringer",
+      "sheet": "af13",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "e055d66cac46c46284c75670ebbe2a0b3f262b92145a594258b928bc0f2fef06"
+    },
+    "relic_penitent": {
+      "kind": "small-item",
+      "id": "relic_penitent",
+      "base": "flail",
+      "named": true,
+      "relic": "penitent",
+      "item_t": "flail",
+      "label": "the Penitent's Flail",
+      "sheet": "af13",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "9f2232f5e3bd3cfcc95fa0fde5d2ca12e67f21ccca8a399a83f8c0a502c3b041"
+    },
+    "relic_ogres_toll": {
+      "kind": "small-item",
+      "id": "relic_ogres_toll",
+      "base": "battleaxe",
+      "named": true,
+      "relic": "ogres_toll",
+      "item_t": "battleaxe",
+      "label": "the Ogre's Toll",
+      "sheet": "af13",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "e45f1e93cc2820b7a17f1395fddfe1f37d575e215632493edc36f6fdb6e289b5"
+    },
+    "relic_ninth_circle": {
+      "kind": "small-item",
+      "id": "relic_ninth_circle",
+      "base": "staff",
+      "named": true,
+      "relic": "ninth_circle",
+      "item_t": "staff",
+      "label": "Staff of the Ninth Circle",
+      "sheet": "af13",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "c22fc281b0dabf1b998ad5dbfdac6ca562a11b3945a2ed6f20d953b2e95f01b0"
+    },
+    "relic_emberwood": {
+      "kind": "small-item",
+      "id": "relic_emberwood",
+      "base": "staff",
+      "named": true,
+      "relic": "emberwood",
+      "item_t": "staff",
+      "label": "Emberwood",
+      "sheet": "af13",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "b465efdc89208be35c133a483b7db79483a10cffd038b6ea791ef66ae8ad66c5"
+    },
+    "relic_vashti": {
+      "kind": "small-item",
+      "id": "relic_vashti",
+      "base": "throwknife",
+      "named": true,
+      "relic": "vashti",
+      "item_t": "throwknife",
+      "label": "Vashti's Needles",
+      "sheet": "af13",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "30f7d21c3ebd9c2a3d99eca6334a62002934954377ac4b096d9dc463badb7b31"
+    },
+    "relic_heartseeker": {
+      "kind": "small-item",
+      "id": "relic_heartseeker",
+      "base": "shortbow",
+      "named": true,
+      "relic": "heartseeker",
+      "item_t": "shortbow",
+      "label": "Heartseeker",
+      "sheet": "af13",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "8020ecde38d07daf2116468f1a1834acd4d06ba3fbd2e541cae90f08e82968a0"
+    },
+    "relic_rustwarden": {
+      "kind": "small-item",
+      "id": "relic_rustwarden",
+      "base": "chain",
+      "named": true,
+      "relic": "rustwarden",
+      "item_t": "chain",
+      "label": "Rustwarden Mail",
+      "sheet": "af14",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "75d1901988456053f76dc1f4c1d8bb449f356bfc08ebfc0b6848c820ab4fac0a"
+    },
+    "relic_shadowskin": {
+      "kind": "small-item",
+      "id": "relic_shadowskin",
+      "base": "leather",
+      "named": true,
+      "relic": "shadowskin",
+      "item_t": "leather",
+      "label": "Shadowskin",
+      "sheet": "af14",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "002a7c340f813722f693df7a3f4f0e520f9b78f1d88b62560ab8d7666cb406db"
+    },
+    "relic_briarcoat": {
+      "kind": "small-item",
+      "id": "relic_briarcoat",
+      "base": "studded",
+      "named": true,
+      "relic": "briarcoat",
+      "item_t": "studded",
+      "label": "Briarcoat",
+      "sheet": "af14",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "9c95e26bab3742135228bf087e97e0d27bd6c7fb929a43fd6acb6901a428991f"
+    },
+    "relic_kests_bulwark": {
+      "kind": "small-item",
+      "id": "relic_kests_bulwark",
+      "base": "shield",
+      "named": true,
+      "relic": "kests_bulwark",
+      "item_t": "shield",
+      "label": "Kest's Bulwark",
+      "sheet": "af14",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "ffae55453c1c23634bb7cde9ee5426d0a9d58bd89f8d9824f8634787414d0cdf"
+    },
+    "relic_sisters_buckler": {
+      "kind": "small-item",
+      "id": "relic_sisters_buckler",
+      "base": "buckler",
+      "named": true,
+      "relic": "sisters_buckler",
+      "item_t": "buckler",
+      "label": "the Sisters' Buckler",
+      "sheet": "af14",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "4e4b0ef17d8b02e39123d3bc26a4799a783d4c7a1658f7dd9102eb8e53e56e59"
+    },
+    "relic_hearthwool": {
+      "kind": "small-item",
+      "id": "relic_hearthwool",
+      "base": "robe_silk",
+      "named": true,
+      "relic": "hearthwool",
+      "item_t": "robe_silk",
+      "label": "the Hearthwool Robe",
+      "sheet": "af14",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "485cc63cc35d39755cb89cbc7aa951037e1e0697a904e17a51c87275f724bc72"
+    },
+    "relic_archivist": {
+      "kind": "small-item",
+      "id": "relic_archivist",
+      "base": "robe_warded",
+      "named": true,
+      "relic": "archivist",
+      "item_t": "robe_warded",
+      "label": "the Archivist's Robe",
+      "sheet": "af14",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "54160b9953b136a407a9f0ee5183c585e90a6b34aabfbcd28a7eec545861b090"
+    },
+    "relic_midnight_folio": {
+      "kind": "small-item",
+      "id": "relic_midnight_folio",
+      "base": "spellbook",
+      "named": true,
+      "relic": "midnight_folio",
+      "item_t": "spellbook",
+      "label": "the Midnight Folio",
+      "sheet": "af14",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "33f07c088e33e356e309cac877ce2b6f7a8cee6f4af78798cb3a69ab63f34bd6"
+    },
+    "relic_sparkglass": {
+      "kind": "small-item",
+      "id": "relic_sparkglass",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "sparkglass",
+      "item_t": "crystal_orb",
+      "label": "Sparkglass",
+      "sheet": "af15",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "ef10eb84dc0134342a0e85e5a65e5b2f75bf872850488df6634e9a531d925b28"
+    },
+    "relic_boarspear": {
+      "kind": "small-item",
+      "id": "relic_boarspear",
+      "base": "spear",
+      "named": true,
+      "relic": "boarspear",
+      "item_t": "spear",
+      "label": "the Boarspear",
+      "sheet": "af15",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a4210600de7fa2a66b904cb7b73406b6778c13194665253ff7792549fd24587a"
+    },
+    "relic_galewind": {
+      "kind": "small-item",
+      "id": "relic_galewind",
+      "base": "longbow",
+      "named": true,
+      "relic": "galewind",
+      "item_t": "longbow",
+      "label": "Galewind",
+      "sheet": "af15",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7665f1f2a31de14b3322dc690a441013426697e5a6b3edf8523bc7e79d6350bf"
+    },
+    "relic_sextons_locket": {
+      "kind": "small-item",
+      "id": "relic_sextons_locket",
+      "base": "amulet_silver",
+      "named": true,
+      "relic": "sextons_locket",
+      "item_t": "amulet_ward",
+      "label": "the Sexton's Locket",
+      "sheet": "af15",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "fce653d4d8c1d1bcd7702a534ef291848f305ef0e65b6436b83a7cd452cb56ec"
+    },
+    "relic_oakheart": {
+      "kind": "small-item",
+      "id": "relic_oakheart",
+      "base": "staff",
+      "named": true,
+      "relic": "oakheart",
+      "item_t": "staff",
+      "label": "Oakheart",
+      "sheet": "af15",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "6c4bda574cf3aa8d920f97482c7d3e0bebdf09358615718928dff8e4e975d084"
+    },
+    "relic_mossmantle": {
+      "kind": "small-item",
+      "id": "relic_mossmantle",
+      "base": "leather",
+      "named": true,
+      "relic": "mossmantle",
+      "item_t": "leather",
+      "label": "the Mossmantle",
+      "sheet": "af15",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "2cb5211b0066dcda05b594d58c4f17c724ba8f943b91ba99ca33d48a0539e8e0"
+    },
+    "relic_cinder_ring": {
+      "kind": "small-item",
+      "id": "relic_cinder_ring",
+      "base": "ring_silver",
+      "named": true,
+      "relic": "cinder_ring",
+      "item_t": "ring_protect",
+      "label": "the Cinder Ring",
+      "sheet": "af15",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "f1e16a9101e1f34ef605a479428363eaf8ccb8d1c4a1483dc7ec95b04b32347c"
+    },
+    "relic_spider_pendant": {
+      "kind": "small-item",
+      "id": "relic_spider_pendant",
+      "base": "amulet_spider",
+      "named": true,
+      "relic": "spider_pendant",
+      "item_t": "amulet_spider",
+      "label": "the Spider Pendant",
+      "sheet": "af15",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "be4a9c159a62b19f29b73b66e95a37dc33071c11ae204f87ccf92ff35f336c13"
+    },
+    "relic_thane_ring": {
+      "kind": "small-item",
+      "id": "relic_thane_ring",
+      "base": "ring_forge",
+      "named": true,
+      "relic": "thane_ring",
+      "item_t": "ring_forge",
+      "label": "Durgrim's Ring",
+      "sheet": "af16",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a8ee36dcc05fd9e3881b10007d84a3d0184dfb2a67806461e45d3c5adada8366"
+    },
+    "relic_hissra_tooth": {
+      "kind": "small-item",
+      "id": "relic_hissra_tooth",
+      "base": "amulet_tooth",
+      "named": true,
+      "relic": "hissra_tooth",
+      "item_t": "amulet_tooth",
+      "label": "Hissra's Tooth",
+      "sheet": "af16",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "0c33b739a8d1a9caec5f71c3f6c8ba708c78d43eaae6a4c92a47e9ac6faf755f"
+    },
+    "relic_warchiefs_knuckle": {
+      "kind": "small-item",
+      "id": "relic_warchiefs_knuckle",
+      "base": "ring_silver",
+      "named": true,
+      "relic": "warchiefs_knuckle",
+      "item_t": "ring_protect",
+      "label": "the Warchief's Knuckle",
+      "sheet": "af16",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "1db7b4b6c696527e14ed12cf71c37e387768fca69447ec23709f2624b5ba2ebf"
+    },
+    "legend_bastion": {
+      "kind": "small-item",
+      "id": "legend_bastion",
+      "base": "towershield",
+      "named": true,
+      "relic": "bastion",
+      "item_t": "towershield",
+      "label": "the Bastion",
+      "sheet": "af16",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "cbbc3142991abf05a8497706741946e72c50eed4fd7f38c6cfd40488ae7f1e25"
+    },
+    "legend_red_harvest": {
+      "kind": "small-item",
+      "id": "legend_red_harvest",
+      "base": "battleaxe",
+      "named": true,
+      "relic": "red_harvest",
+      "item_t": "battleaxe",
+      "label": "Red Harvest",
+      "sheet": "af16",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "1dec7f6d501f18a7db47d68b84194d2b52af56e191e22145968cd0656221bd23"
+    },
+    "legend_sunhammer": {
+      "kind": "small-item",
+      "id": "legend_sunhammer",
+      "base": "hammer",
+      "named": true,
+      "relic": "sunhammer",
+      "item_t": "hammer",
+      "label": "the Sunhammer",
+      "sheet": "af16",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "7665527a91b1c4921e0cf023fa44cb18d6b4cee76b525a8aef3dbfafd04dcb8a"
+    },
+    "legend_lantern_mercy": {
+      "kind": "small-item",
+      "id": "legend_lantern_mercy",
+      "base": "holy_symbol",
+      "named": true,
+      "relic": "lantern_mercy",
+      "item_t": "holy_symbol",
+      "label": "the Lantern of Mercy",
+      "sheet": "af16",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "575448aa6e0f2cec1caea367c1b095f25d34e84abc4c969fac877721ed37f856"
+    },
+    "legend_cinderheart": {
+      "kind": "small-item",
+      "id": "legend_cinderheart",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "cinderheart",
+      "item_t": "crystal_orb",
+      "label": "Cinderheart",
+      "sheet": "af16",
+      "index": 7,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "34c1afc30b8fbf8d3150e146b2783a197863700b93fdc41fe9814fa0955e808b"
+    },
+    "legend_rimebound": {
+      "kind": "small-item",
+      "id": "legend_rimebound",
+      "base": "spellbook",
+      "named": true,
+      "relic": "rimebound",
+      "item_t": "spellbook",
+      "label": "the Rimebound Grimoire",
+      "sheet": "af17",
+      "index": 0,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "a468b7c5f60e62c0971e4c9231914035268d1926ef5faed7b11b1ebd1c86ad87"
+    },
+    "legend_last_word": {
+      "kind": "small-item",
+      "id": "legend_last_word",
+      "base": "dagger",
+      "named": true,
+      "relic": "last_word",
+      "item_t": "dagger",
+      "label": "the Last Word",
+      "sheet": "af17",
+      "index": 1,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "255c318c6fafaf6e85b040a25cfc1e569dd83c0ceab0d801f7a5dd4899430d51"
+    },
+    "legend_motley": {
+      "kind": "small-item",
+      "id": "legend_motley",
+      "base": "leather",
+      "named": true,
+      "relic": "motley",
+      "item_t": "leather",
+      "label": "Motley",
+      "sheet": "af17",
+      "index": 2,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "27af099aebb438fcb2eaa0fbead8c132900fa0b6aafcb2eb5c4eb90272d39cac"
+    },
+    "legend_farstrider": {
+      "kind": "small-item",
+      "id": "legend_farstrider",
+      "base": "longbow",
+      "named": true,
+      "relic": "farstrider",
+      "item_t": "longbow",
+      "label": "Farstrider",
+      "sheet": "af17",
+      "index": 3,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "eac321a07e2e985bb1992bfb2e03e7ba20897d9e09b6bfc19da358954fa89ada"
+    },
+    "legend_thornbinder": {
+      "kind": "small-item",
+      "id": "legend_thornbinder",
+      "base": "spear",
+      "named": true,
+      "relic": "thornbinder",
+      "item_t": "spear",
+      "label": "Thornbinder",
+      "sheet": "af17",
+      "index": 4,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "80afacdb0eb72ac3c66bd4b219ffaa65369788ee5b38408cfea9c35c6cce5b6b"
+    },
+    "legend_moonbound": {
+      "kind": "small-item",
+      "id": "legend_moonbound",
+      "base": "amulet_obsidian",
+      "named": true,
+      "relic": "moonbound",
+      "item_t": "amulet_mind",
+      "label": "the Moonbound Torc",
+      "sheet": "af17",
+      "index": 5,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "0fb909bc64981e204f1ebcc850773dbf6f4a9a69f885cd3f3e926fc5affb7af3"
+    },
+    "legend_heartroot": {
+      "kind": "small-item",
+      "id": "legend_heartroot",
+      "base": "staff",
+      "named": true,
+      "relic": "heartroot",
+      "item_t": "staff",
+      "label": "Heartroot",
+      "sheet": "af17",
+      "index": 6,
+      "native_size": [
+        132,
+        132
+      ],
+      "reference_sha256": "6414cb40d5a024749d34a1eec849e29a0379a0b043707d306fbdf914d1f9690f"
+    }
+  },
+  "seeded_looks": {
+    "POTION_LOOKS": [
+      [
+        "cloudy",
+        "potion_red"
+      ],
+      [
+        "fizzy",
+        "potion_pink"
+      ],
+      [
+        "murky",
+        "potion_green"
+      ],
+      [
+        "golden",
+        "potion_orange"
+      ],
+      [
+        "silvery",
+        "potion_blue"
+      ],
+      [
+        "oily",
+        "potion_red"
+      ],
+      [
+        "glowing",
+        "potion_pink"
+      ],
+      [
+        "dark",
+        "potion_green"
+      ]
+    ],
+    "RING_LOOKS": [
+      [
+        "silver",
+        "ring_silver"
+      ],
+      [
+        "gold",
+        "ring_gold"
+      ],
+      [
+        "jade",
+        "ring_jade"
+      ],
+      [
+        "bone",
+        "ring_bone"
+      ],
+      [
+        "garnet",
+        "ring_garnet"
+      ],
+      [
+        "iron",
+        "ring_iron"
+      ],
+      [
+        "onyx",
+        "ring_onyx"
+      ],
+      [
+        "copper",
+        "ring_copper"
+      ],
+      [
+        "blackened",
+        "ring_black"
+      ]
+    ],
+    "AMULET_LOOKS": [
+      [
+        "amber",
+        "amulet_amber"
+      ],
+      [
+        "silver",
+        "amulet_silver"
+      ],
+      [
+        "obsidian",
+        "amulet_obsidian"
+      ],
+      [
+        "bone",
+        "amulet_bone"
+      ]
+    ]
+  },
+  "items": {
+    "dagger": {
+      "kind": "weapon",
+      "name": "Dagger",
+      "dmg": [
+        1,
+        4,
+        0
+      ],
+      "speed": 400,
+      "cls": [
+        "fighter",
+        "mage",
+        "thief",
+        "ranger",
+        "druid",
+        "spellblade"
+      ],
+      "value": 2,
+      "sprite": "dagger",
+      "tier": 1
+    },
+    "club": {
+      "kind": "weapon",
+      "name": "Club",
+      "dmg": [
+        1,
+        4,
+        0
+      ],
+      "speed": 500,
+      "cls": [
+        "fighter",
+        "cleric",
+        "thief",
+        "druid"
+      ],
+      "value": 1,
+      "sprite": "club",
+      "tier": 1,
+      "blunt": true
+    },
+    "staff": {
+      "kind": "weapon",
+      "name": "Quarterstaff",
+      "dmg": [
+        1,
+        6,
+        0
+      ],
+      "speed": 600,
+      "cls": [
+        "fighter",
+        "mage",
+        "cleric",
+        "druid"
+      ],
+      "twoHanded": true,
+      "value": 2,
+      "sprite": "staff",
+      "tier": 1,
+      "blunt": true
+    },
+    "shortsword": {
+      "kind": "weapon",
+      "name": "Short Sword",
+      "dmg": [
+        1,
+        6,
+        0
+      ],
+      "speed": 550,
+      "cls": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "value": 8,
+      "sprite": "shortsword",
+      "tier": 1
+    },
+    "mace": {
+      "kind": "weapon",
+      "name": "Mace",
+      "dmg": [
+        1,
+        6,
+        1
+      ],
+      "speed": 700,
+      "cls": [
+        "fighter",
+        "cleric"
+      ],
+      "value": 8,
+      "sprite": "mace",
+      "tier": 1,
+      "blunt": true
+    },
+    "hammer": {
+      "kind": "weapon",
+      "name": "War Hammer",
+      "dmg": [
+        1,
+        4,
+        2
+      ],
+      "speed": 650,
+      "cls": [
+        "fighter",
+        "cleric"
+      ],
+      "value": 9,
+      "sprite": "hammer",
+      "tier": 2,
+      "blunt": true
+    },
+    "spear": {
+      "kind": "weapon",
+      "name": "Spear",
+      "dmg": [
+        1,
+        8,
+        0
+      ],
+      "speed": 700,
+      "cls": [
+        "fighter",
+        "ranger",
+        "druid"
+      ],
+      "value": 6,
+      "sprite": "spear",
+      "tier": 2
+    },
+    "longsword": {
+      "kind": "weapon",
+      "name": "Long Sword",
+      "dmg": [
+        1,
+        8,
+        0
+      ],
+      "speed": 700,
+      "cls": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "value": 15,
+      "sprite": "longsword",
+      "tier": 2
+    },
+    "flail": {
+      "kind": "weapon",
+      "name": "Flail",
+      "dmg": [
+        2,
+        4,
+        0
+      ],
+      "speed": 800,
+      "cls": [
+        "fighter",
+        "cleric"
+      ],
+      "value": 15,
+      "sprite": "flail",
+      "tier": 3,
+      "blunt": true
+    },
+    "battleaxe": {
+      "kind": "weapon",
+      "name": "Battle Axe",
+      "dmg": [
+        1,
+        8,
+        1
+      ],
+      "speed": 850,
+      "cls": [
+        "fighter"
+      ],
+      "value": 18,
+      "sprite": "battleaxe",
+      "tier": 3
+    },
+    "greatsword": {
+      "kind": "weapon",
+      "name": "Two-handed Sword",
+      "dmg": [
+        1,
+        10,
+        2
+      ],
+      "speed": 1000,
+      "cls": [
+        "fighter"
+      ],
+      "twoHanded": true,
+      "value": 40,
+      "sprite": "greatsword",
+      "tier": 4
+    },
+    "throwknife": {
+      "kind": "weapon",
+      "name": "Throwing Knives",
+      "dmg": [
+        1,
+        4,
+        0
+      ],
+      "speed": 520,
+      "range": 4,
+      "cls": [
+        "fighter",
+        "thief",
+        "mage",
+        "ranger"
+      ],
+      "value": 12,
+      "sprite": "throwknife",
+      "tier": 1
+    },
+    "sling": {
+      "kind": "weapon",
+      "name": "Sling",
+      "dmg": [
+        1,
+        4,
+        1
+      ],
+      "speed": 800,
+      "range": 5,
+      "cls": [
+        "fighter",
+        "thief",
+        "cleric",
+        "ranger",
+        "druid"
+      ],
+      "value": 10,
+      "sprite": "sling",
+      "tier": 2,
+      "aimed": true
+    },
+    "shortbow": {
+      "kind": "weapon",
+      "name": "Short Bow",
+      "dmg": [
+        1,
+        6,
+        0
+      ],
+      "speed": 850,
+      "range": 6,
+      "cls": [
+        "fighter",
+        "thief",
+        "ranger"
+      ],
+      "twoHanded": true,
+      "value": 30,
+      "sprite": "shortbow",
+      "tier": 3,
+      "aimed": true
+    },
+    "longbow": {
+      "kind": "weapon",
+      "name": "Long Bow",
+      "dmg": [
+        1,
+        8,
+        0
+      ],
+      "speed": 950,
+      "range": 7,
+      "cls": [
+        "fighter",
+        "ranger"
+      ],
+      "twoHanded": true,
+      "value": 70,
+      "sprite": "longbow",
+      "tier": 5,
+      "aimed": true
+    },
+    "leather": {
+      "kind": "armor",
+      "name": "Leather Armour",
+      "ac": 2,
+      "weight": "light",
+      "value": 10,
+      "sprite": "leather",
+      "tier": 1
+    },
+    "studded": {
+      "kind": "armor",
+      "name": "Studded Leather",
+      "ac": 3,
+      "weight": "light",
+      "value": 20,
+      "sprite": "studded",
+      "tier": 2
+    },
+    "scale": {
+      "kind": "armor",
+      "name": "Scale Mail",
+      "ac": 4,
+      "weight": "heavy",
+      "value": 45,
+      "sprite": "scale",
+      "tier": 2
+    },
+    "chain": {
+      "kind": "armor",
+      "name": "Chain Mail",
+      "ac": 5,
+      "weight": "heavy",
+      "value": 75,
+      "sprite": "chain",
+      "tier": 3
+    },
+    "splint": {
+      "kind": "armor",
+      "name": "Splint Mail",
+      "ac": 6,
+      "weight": "heavy",
+      "value": 120,
+      "sprite": "splint",
+      "tier": 4
+    },
+    "plate": {
+      "kind": "armor",
+      "name": "Plate Mail",
+      "ac": 7,
+      "weight": "heavy",
+      "value": 300,
+      "sprite": "plate",
+      "tier": 5
+    },
+    "robe_apprentice": {
+      "kind": "armor",
+      "name": "Apprentice's Robe",
+      "ac": 1,
+      "weight": "cloth",
+      "value": 8,
+      "sprite": "robe_apprentice",
+      "tier": 1
+    },
+    "robe_silk": {
+      "kind": "armor",
+      "name": "Silk Robe",
+      "ac": 1,
+      "weight": "cloth",
+      "value": 60,
+      "sprite": "robe_silk",
+      "tier": 2,
+      "sp": 4
+    },
+    "robe_warded": {
+      "kind": "armor",
+      "name": "Warded Robe",
+      "ac": 2,
+      "weight": "cloth",
+      "value": 90,
+      "sprite": "robe_warded",
+      "tier": 3
+    },
+    "robe_magi": {
+      "kind": "armor",
+      "name": "Robe of the Magi",
+      "ac": 2,
+      "weight": "cloth",
+      "value": 250,
+      "sprite": "robe_magi",
+      "tier": 5,
+      "sp": 6,
+      "cheap": 1
+    },
+    "buckler": {
+      "kind": "shield",
+      "name": "Buckler",
+      "ac": 1,
+      "value": 5,
+      "sprite": "buckler",
+      "tier": 1,
+      "light": true
+    },
+    "shield": {
+      "kind": "shield",
+      "name": "Shield",
+      "ac": 2,
+      "value": 12,
+      "sprite": "shield",
+      "tier": 2
+    },
+    "towershield": {
+      "kind": "shield",
+      "name": "Tower Shield",
+      "ac": 3,
+      "value": 40,
+      "sprite": "towershield",
+      "tier": 4
+    },
+    "wyrmscale": {
+      "kind": "armor",
+      "name": "Wyrm-Scale Mail",
+      "ac": 4,
+      "weight": "light",
+      "power": "fireward",
+      "value": 260,
+      "sprite": "wyrmscale",
+      "tier": 99
+    },
+    "quillshield": {
+      "kind": "shield",
+      "name": "Quill Shield",
+      "ac": 2,
+      "power": "thorns",
+      "value": 110,
+      "sprite": "quillshield",
+      "tier": 99
+    },
+    "elvenchain": {
+      "kind": "armor",
+      "name": "Elven Chain",
+      "ac": 5,
+      "weight": "light",
+      "value": 320,
+      "sprite": "elvenchain",
+      "tier": 99
+    },
+    "scimitar": {
+      "kind": "weapon",
+      "name": "Dark Elf Scimitar",
+      "dmg": [
+        1,
+        8,
+        1
+      ],
+      "speed": 600,
+      "cls": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "value": 150,
+      "sprite": "scimitar",
+      "tier": 99
+    },
+    "handxbow": {
+      "kind": "weapon",
+      "name": "Dark Elf Hand Crossbow",
+      "dmg": [
+        1,
+        6,
+        1
+      ],
+      "speed": 900,
+      "range": 5,
+      "cls": [
+        "fighter",
+        "thief",
+        "ranger"
+      ],
+      "value": 220,
+      "sprite": "handxbow",
+      "tier": 99,
+      "aimed": true,
+      "drowse": true
+    },
+    "marshhide": {
+      "kind": "armor",
+      "name": "Marsh-Hide Armour",
+      "ac": 4,
+      "weight": "light",
+      "power": "pure",
+      "value": 200,
+      "sprite": "marshhide",
+      "tier": 99
+    },
+    "dwarfplate": {
+      "kind": "armor",
+      "name": "Dwarven Plate",
+      "ac": 8,
+      "weight": "heavy",
+      "value": 600,
+      "sprite": "dwarfplate",
+      "tier": 99
+    },
+    "dwarfhammer": {
+      "kind": "weapon",
+      "name": "Dwarven Hammer",
+      "dmg": [
+        2,
+        4,
+        2
+      ],
+      "speed": 700,
+      "cls": [
+        "fighter",
+        "cleric"
+      ],
+      "value": 180,
+      "sprite": "dwarfhammer",
+      "tier": 99,
+      "blunt": true
+    },
+    "runeshield": {
+      "kind": "shield",
+      "name": "Rune-Cut Shield",
+      "ac": 3,
+      "power": "ward",
+      "value": 240,
+      "sprite": "runeshield",
+      "tier": 99
+    },
+    "cloak_protect": {
+      "kind": "cloak",
+      "name": "Cloak of Protection",
+      "ac": 1,
+      "value": 80,
+      "sprite": "cloak_protect",
+      "tier": 2,
+      "desc": "Armour class +1, over whatever else you wear."
+    },
+    "cloak_elven": {
+      "kind": "cloak",
+      "name": "Elven Cloak",
+      "power": "quiet",
+      "value": 90,
+      "sprite": "cloak_elven",
+      "tier": 2,
+      "desc": "Sleeping things notice you a square later."
+    },
+    "cloak_shadow": {
+      "kind": "cloak",
+      "name": "Shadow-Spun Cloak",
+      "ac": 1,
+      "power": "quiet",
+      "value": 220,
+      "sprite": "cloak_shadow",
+      "tier": 99,
+      "desc": "Armour class +1, and sleeping things notice you a square later."
+    },
+    "cloak_warmth": {
+      "kind": "cloak",
+      "name": "Cloak of Warmth",
+      "power": "warmth",
+      "value": 70,
+      "sprite": "cloak_warmth",
+      "tier": 2,
+      "desc": "Cold does half as much to you: a wraith's touch, the lich's grave-cold and its storm."
+    },
+    "wayfarer_lantern": {
+      "kind": "shield",
+      "name": "Silver Lantern",
+      "ac": 1,
+      "value": 0,
+      "sprite": "wayfarer_lantern",
+      "tier": 99,
+      "focus": "spellblade",
+      "desc": "The last flame from the other side, carried in worn silver. A focus for the Wayfarer alone. Deepward: +1 armour class from floor 9, another every two floors, up to +4 while held."
+    },
+    "spellbook": {
+      "kind": "shield",
+      "name": "Spellbook",
+      "ac": 0,
+      "value": 40,
+      "sprite": "spellbook",
+      "tier": 2,
+      "focus": "mage",
+      "regen": 1,
+      "desc": "Spell points come back a quarter faster as you walk."
+    },
+    "crystal_orb": {
+      "kind": "shield",
+      "name": "Crystal Orb",
+      "ac": 0,
+      "value": 90,
+      "sprite": "crystal_orb",
+      "tier": 3,
+      "focus": "mage",
+      "die": 1,
+      "desc": "One more damage on each of a spell's dice, up to two."
+    },
+    "orb_storms": {
+      "kind": "shield",
+      "name": "Orb of Storms",
+      "ac": 0,
+      "value": 260,
+      "sprite": "orb_storms",
+      "tier": 5,
+      "focus": "mage",
+      "storm": 1,
+      "desc": "Lightning Bolt and Cone of Cold strike a fifth harder and hold what they hit back a moment longer."
+    },
+    "holy_symbol": {
+      "kind": "shield",
+      "name": "Holy Symbol",
+      "ac": 1,
+      "value": 40,
+      "sprite": "holy_symbol",
+      "tier": 2,
+      "focus": "cleric",
+      "mercy": 1,
+      "desc": "Your healing spells heal a quarter more."
+    },
+    "silver_symbol": {
+      "kind": "shield",
+      "name": "Silver Sunburst",
+      "ac": 1,
+      "value": 90,
+      "sprite": "silver_symbol",
+      "tier": 3,
+      "focus": "cleric",
+      "wrath": 1,
+      "desc": "Holy Smite and Flame Strike strike a quarter harder."
+    },
+    "reliquary": {
+      "kind": "shield",
+      "name": "Reliquary",
+      "ac": 1,
+      "value": 260,
+      "sprite": "reliquary",
+      "tier": 5,
+      "focus": "cleric",
+      "mercy": 1,
+      "wrath": 1,
+      "desc": "Your healing spells heal a quarter more, and Holy Smite and Flame Strike strike a quarter harder."
+    },
+    "potion_heal": {
+      "kind": "potion",
+      "name": "Potion of Healing",
+      "stack": true,
+      "value": 25,
+      "sprite": "potion_red",
+      "effect": "heal",
+      "heal": [
+        2,
+        8,
+        2
+      ],
+      "desc": "Restores 2d8+2 hit points."
+    },
+    "potion_xheal": {
+      "kind": "potion",
+      "name": "Potion of Extra Healing",
+      "stack": true,
+      "value": 60,
+      "sprite": "potion_pink",
+      "effect": "heal",
+      "heal": [
+        4,
+        8,
+        4
+      ],
+      "desc": "Restores 4d8+4 hit points."
+    },
+    "potion_cure": {
+      "kind": "potion",
+      "name": "Antidote",
+      "stack": true,
+      "value": 20,
+      "sprite": "potion_green",
+      "effect": "cure",
+      "desc": "Neutralises poison."
+    },
+    "potion_might": {
+      "kind": "potion",
+      "name": "Potion of Might",
+      "stack": true,
+      "value": 40,
+      "sprite": "potion_orange",
+      "effect": "might",
+      "desc": "+2 to hit and damage for two minutes."
+    },
+    "potion_mana": {
+      "kind": "potion",
+      "name": "Potion of Clarity",
+      "stack": true,
+      "value": 40,
+      "sprite": "potion_blue",
+      "effect": "mana",
+      "desc": "Restores all spell points."
+    },
+    "scroll_fire": {
+      "kind": "scroll",
+      "name": "Scroll of Fire",
+      "stack": true,
+      "value": 30,
+      "sprite": "scroll",
+      "effect": "fire",
+      "desc": "Hurls a ball of fire (4d6) at the foe ahead. With none, it bursts where it lands, and sets spilt oil alight."
+    },
+    "scroll_frost": {
+      "kind": "scroll",
+      "name": "Scroll of Frost",
+      "stack": true,
+      "value": 30,
+      "sprite": "scroll",
+      "effect": "frost",
+      "desc": "A cone of cold (3d6) over everything up to three squares ahead, holding each back a moment; water round them freezes."
+    },
+    "scroll_lightning": {
+      "kind": "scroll",
+      "name": "Scroll of Lightning",
+      "stack": true,
+      "value": 30,
+      "sprite": "scroll",
+      "effect": "lightning",
+      "desc": "A bolt of lightning (3d6) through everything up to three squares ahead, and through water to all standing in it."
+    },
+    "scroll_heal": {
+      "kind": "scroll",
+      "name": "Scroll of Restoration",
+      "stack": true,
+      "value": 35,
+      "sprite": "scroll",
+      "effect": "heal",
+      "heal": [
+        3,
+        8,
+        3
+      ],
+      "desc": "Restores 3d8+3 hit points."
+    },
+    "scroll_map": {
+      "kind": "scroll",
+      "name": "Scroll of Mapping",
+      "stack": true,
+      "value": 30,
+      "sprite": "scroll",
+      "effect": "map",
+      "desc": "Reveals the layout of this floor."
+    },
+    "scroll_teleport": {
+      "kind": "scroll",
+      "name": "Scroll of Teleport",
+      "stack": true,
+      "value": 30,
+      "sprite": "scroll",
+      "effect": "teleport",
+      "desc": "Whisks you to a random spot on this floor."
+    },
+    "satchel": {
+      "kind": "quest",
+      "name": "Lampfolk Satchel",
+      "value": 0,
+      "sprite": "satchel",
+      "desc": "Lost by one of the Lampfolk. The next trader you meet will pay for its return."
+    },
+    "quench": {
+      "kind": "quest",
+      "name": "Smiths' Quench",
+      "value": 0,
+      "sprite": "quench",
+      "desc": "A stone flask of black water, cold as the deep. Poured on the Heart of the Mountain, it puts the fire out for good."
+    },
+    "charm_collar": {
+      "kind": "charm",
+      "name": "Iron-Studded Collar",
+      "value": 40,
+      "sprite": "charm_collar",
+      "charm": "collar",
+      "desc": "For your companion to wear: blows find it harder to land (+3 armour)."
+    },
+    "charm_fang": {
+      "kind": "charm",
+      "name": "Fang Charm",
+      "value": 40,
+      "sprite": "charm_fang",
+      "charm": "fang",
+      "desc": "For your companion to wear: its every blow deals 2 more."
+    },
+    "charm_rowan": {
+      "kind": "charm",
+      "name": "Rowan Knot",
+      "value": 40,
+      "sprite": "charm_rowan",
+      "charm": "rowan",
+      "desc": "For your companion to wear: its wounds close by themselves, a hit point every four seconds."
+    },
+    "charm_whetstone": {
+      "kind": "charm",
+      "name": "Sellsword's Whetstone",
+      "value": 45,
+      "sprite": "charm_whetstone",
+      "charm": "whetstone",
+      "desc": "For a sellsword to wear: their every cut deals 3 more. A hound, a wolf or a goblin has no use for it."
+    },
+    "lamp_oil": {
+      "kind": "flask",
+      "name": "Flask of Lamp Oil",
+      "stack": true,
+      "value": 12,
+      "sprite": "lamp_oil",
+      "desc": "Throw it: it smashes up to three squares ahead, or on the first thing in the way, and spills lamp oil there. Any fire sets the oil alight."
+    },
+    "oil_fire": {
+      "kind": "oil",
+      "name": "Fire Oil",
+      "stack": true,
+      "value": 30,
+      "sprite": "oil_fire",
+      "coat": "fire",
+      "desc": "Coats your weapon: its next 20 blows that land burn for 1d4 more, and no troll mends the wound."
+    },
+    "oil_silver": {
+      "kind": "oil",
+      "name": "Silver Wash",
+      "stack": true,
+      "value": 30,
+      "sprite": "oil_silver",
+      "coat": "silver",
+      "desc": "Coats your weapon: its next 20 blows that land deal 1d6 more to the undead."
+    },
+    "oil_venom": {
+      "kind": "oil",
+      "name": "Blade Venom",
+      "stack": true,
+      "value": 30,
+      "sprite": "oil_venom",
+      "coat": "venom",
+      "desc": "Coats your weapon: for its next 20 blows that land, one in three poisons the living."
+    },
+    "oil_frost": {
+      "kind": "oil",
+      "name": "Frost Oil",
+      "stack": true,
+      "value": 30,
+      "sprite": "oil_frost",
+      "coat": "frost",
+      "desc": "Coats your weapon: its next 20 blows that land chill for 1d4 more and hold the foe back a moment, and water round it freezes."
+    },
+    "scroll_uncurse": {
+      "kind": "scroll",
+      "name": "Scroll of Remove Curse",
+      "stack": true,
+      "value": 40,
+      "sprite": "scroll",
+      "effect": "uncurse",
+      "desc": "Breaks any curse on what you wear, and shows the true quality of all your gear."
+    },
+    "ring_protect": {
+      "kind": "ring",
+      "name": "Ring of Protection",
+      "value": 90,
+      "sprite": "ring_silver",
+      "power": "protect",
+      "bonus": 1,
+      "tier": 2,
+      "desc": "Armour class +1, more if finely made."
+    },
+    "ring_might": {
+      "kind": "ring",
+      "name": "Ring of Might",
+      "value": 110,
+      "sprite": "ring_gold",
+      "power": "might",
+      "bonus": 1,
+      "tier": 3,
+      "desc": "+1 to hit and to damage with every blow, more if finely made."
+    },
+    "ring_evasion": {
+      "kind": "ring",
+      "name": "Ring of Evasion",
+      "value": 90,
+      "sprite": "ring_jade",
+      "power": "evasion",
+      "bonus": 2,
+      "tier": 2,
+      "desc": "+2 to every saving throw: venom, traps, and the tricks that land."
+    },
+    "ring_seer": {
+      "kind": "ring",
+      "name": "Ring of the Seer",
+      "value": 60,
+      "sprite": "ring_bone",
+      "power": "seer",
+      "bonus": 6,
+      "tier": 2,
+      "desc": "+6 to spot a trap before it springs, and the Seer sees hidden doors as you pass."
+    },
+    "ring_mend": {
+      "kind": "ring",
+      "name": "Ring of Regeneration",
+      "value": 140,
+      "sprite": "ring_garnet",
+      "power": "mend",
+      "tier": 3,
+      "desc": "Heals a hit point every four seconds, even mid-fight."
+    },
+    "ring_quiet": {
+      "kind": "ring",
+      "name": "Ring of Stealth",
+      "value": 70,
+      "sprite": "ring_iron",
+      "power": "quiet",
+      "tier": 2,
+      "desc": "Sleeping monsters notice you a square later."
+    },
+    "ring_warmth": {
+      "kind": "ring",
+      "name": "Ring of Warmth",
+      "value": 90,
+      "sprite": "ring_copper",
+      "power": "warmth",
+      "tier": 3,
+      "desc": "Cold does half as much to you: a wraith's touch, the lich's grave-cold and its storm."
+    },
+    "ring_gallows": {
+      "kind": "ring",
+      "name": "Gallows Ring",
+      "value": 120,
+      "sprite": "ring_black",
+      "power": [
+        "might",
+        "gallows"
+      ],
+      "bonus": 3,
+      "tier": 3,
+      "cursed": true,
+      "desc": "+3 to hit and to damage with every blow. It is cursed: once on, it will not come off until the curse is broken, and while it is worn your wounds do not close by themselves, nor with rest."
+    },
+    "ring_forge": {
+      "kind": "ring",
+      "name": "Forge Ring",
+      "value": 200,
+      "sprite": "ring_forge",
+      "power": "might",
+      "bonus": 1,
+      "tier": 99,
+      "desc": "+1 to hit and to damage with every blow, more if finely made."
+    },
+    "amulet_life": {
+      "kind": "amulet",
+      "name": "Amulet of Life Saving",
+      "value": 260,
+      "sprite": "amulet_amber",
+      "power": "lifesave",
+      "tier": 4,
+      "desc": "The blow that would kill you does not: you are left standing at half your life, and the amulet crumbles to dust."
+    },
+    "amulet_spider": {
+      "kind": "amulet",
+      "name": "Spider Pendant",
+      "value": 200,
+      "sprite": "amulet_spider",
+      "power": "evasion",
+      "bonus": 2,
+      "tier": 99,
+      "desc": "+2 to every saving throw."
+    },
+    "amulet_ward": {
+      "kind": "amulet",
+      "name": "Amulet of Warding",
+      "value": 150,
+      "sprite": "amulet_silver",
+      "power": [
+        "ward",
+        "pure"
+      ],
+      "tier": 3,
+      "desc": "Your life force cannot be drained, and poison cannot take hold of you."
+    },
+    "amulet_mind": {
+      "kind": "amulet",
+      "name": "Amulet of Wizardry",
+      "value": 150,
+      "sprite": "amulet_obsidian",
+      "power": "mind",
+      "tier": 3,
+      "desc": "+6 spell points for anyone who has spells to spend them on."
+    },
+    "amulet_tooth": {
+      "kind": "amulet",
+      "name": "Tooth Charm",
+      "value": 180,
+      "sprite": "amulet_tooth",
+      "power": "mend",
+      "tier": 99,
+      "desc": "Heals a hit point every four seconds, even mid-fight."
+    },
+    "ration": {
+      "kind": "food",
+      "name": "Iron Ration",
+      "stack": true,
+      "value": 3,
+      "sprite": "ration",
+      "food": 45
+    },
+    "meat": {
+      "kind": "food",
+      "name": "Dried Meat",
+      "stack": true,
+      "value": 2,
+      "sprite": "meat",
+      "food": 30
+    },
+    "bread": {
+      "kind": "food",
+      "name": "Stale Bread",
+      "stack": true,
+      "value": 1,
+      "sprite": "bread",
+      "food": 18
+    },
+    "caps": {
+      "kind": "food",
+      "name": "Pale Caps",
+      "stack": true,
+      "value": 1,
+      "sprite": "caps",
+      "food": 22
+    },
+    "key": {
+      "kind": "key",
+      "name": "Key",
+      "sprite": "key",
+      "value": 0,
+      "desc": "Opens one locked door of matching colour on this floor."
+    },
+    "page": {
+      "kind": "page",
+      "name": "Torn Page",
+      "sprite": "page",
+      "value": 0,
+      "desc": "Something one of the earlier crews left behind."
+    },
+    "gold": {
+      "kind": "gold",
+      "name": "Gold",
+      "sprite": "gold"
+    },
+    "gem": {
+      "kind": "gem",
+      "name": "Gem",
+      "sprite": "gem"
+    },
+    "artifact": {
+      "kind": "artifact",
+      "name": "The Heart of the Mountain",
+      "sprite": "artifact",
+      "desc": "The treasure you came for. Its light is warm in your hands."
+    }
+  },
+  "key_colors": {
+    "brass": "#c9a24a",
+    "silver": "#cfd8e0",
+    "gold": "#ffd34a",
+    "iron": "#7a7f88",
+    "bone": "#e8e0c8"
+  },
+  "looks": {
+    "potion_heal": {
+      "adj": "murky",
+      "sprite": "potion_green"
+    },
+    "potion_xheal": {
+      "adj": "cloudy",
+      "sprite": "potion_red"
+    },
+    "potion_cure": {
+      "adj": "golden",
+      "sprite": "potion_orange"
+    },
+    "potion_might": {
+      "adj": "glowing",
+      "sprite": "potion_pink"
+    },
+    "potion_mana": {
+      "adj": "silvery",
+      "sprite": "potion_blue"
+    },
+    "scroll_fire": {
+      "adj": "water-damaged",
+      "sprite": "scroll"
+    },
+    "scroll_frost": {
+      "adj": "tightly rolled",
+      "sprite": "scroll"
+    },
+    "scroll_lightning": {
+      "adj": "blood-stained",
+      "sprite": "scroll"
+    },
+    "scroll_heal": {
+      "adj": "crisp",
+      "sprite": "scroll"
+    },
+    "scroll_map": {
+      "adj": "singed",
+      "sprite": "scroll"
+    },
+    "scroll_teleport": {
+      "adj": "gilt-edged",
+      "sprite": "scroll"
+    },
+    "scroll_uncurse": {
+      "adj": "crumbling",
+      "sprite": "scroll"
+    },
+    "ring_protect": {
+      "adj": "gold",
+      "sprite": "ring_gold"
+    },
+    "ring_might": {
+      "adj": "bone",
+      "sprite": "ring_bone"
+    },
+    "ring_evasion": {
+      "adj": "copper",
+      "sprite": "ring_copper"
+    },
+    "ring_seer": {
+      "adj": "blackened",
+      "sprite": "ring_black"
+    },
+    "ring_mend": {
+      "adj": "iron",
+      "sprite": "ring_iron"
+    },
+    "ring_quiet": {
+      "adj": "jade",
+      "sprite": "ring_jade"
+    },
+    "ring_warmth": {
+      "adj": "onyx",
+      "sprite": "ring_onyx"
+    },
+    "ring_gallows": {
+      "adj": "garnet",
+      "sprite": "ring_garnet"
+    },
+    "ring_forge": {
+      "adj": "silver",
+      "sprite": "ring_silver"
+    },
+    "amulet_life": {
+      "adj": "amber",
+      "sprite": "amulet_amber"
+    },
+    "amulet_spider": {
+      "adj": "silver",
+      "sprite": "amulet_silver"
+    },
+    "amulet_ward": {
+      "adj": "obsidian",
+      "sprite": "amulet_obsidian"
+    },
+    "amulet_mind": {
+      "adj": "bone",
+      "sprite": "amulet_bone"
+    },
+    "amulet_tooth": {
+      "adj": "amber",
+      "sprite": "amulet_amber"
+    }
+  }
+}

@@ -1,0 +1,283 @@
+{
+  "family_scale": {
+    "mage|spellbook": 0.6264271476483081,
+    "mage|crystal_orb": 0.6736953186481279,
+    "mage|orb_storms": 0.6689566197264736,
+    "cleric|holy_symbol": 0.680234475696312,
+    "cleric|silver_symbol": 0.6564573643635773,
+    "cleric|reliquary": 0.7375027369570487,
+    "spellblade|wayfarer_lantern": 0.4826046798029557
+  },
+  "cells": {
+    "mage-spellbook": {
+      "source": "held-ac1-casters.png",
+      "source_sha256": "7d253f5480e61e02d037f12024a12633852e9086aafede9e18c309e662fba587",
+      "source_rect": [
+        121,
+        30,
+        706,
+        715
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        579,
+        679
+      ],
+      "scale": 0.22149910193089348,
+      "offset": [
+        34,
+        89
+      ],
+      "grip": [
+        128.40296154276717,
+        128.39789021107669
+      ],
+      "object_bounds": [
+        88.88612631395362,
+        89.0,
+        163.57697462957267,
+        149.73846483562073
+      ],
+      "visible_bounds": [
+        35,
+        90,
+        163,
+        240
+      ],
+      "export_sha256": "6b4202bfa363b990b67d1ba86a06c4e3d8801b5186be55a77b848b51d669c8d9"
+    },
+    "mage-crystal_orb": {
+      "source": "held-ac1-casters.png",
+      "source_sha256": "7d253f5480e61e02d037f12024a12633852e9086aafede9e18c309e662fba587",
+      "source_rect": [
+        804,
+        41,
+        1369,
+        715
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        559,
+        668
+      ],
+      "scale": 0.23821270935624414,
+      "offset": [
+        31,
+        80
+      ],
+      "grip": [
+        127.85359532725384,
+        128.12608984997107
+      ],
+      "object_bounds": [
+        81.90615127451312,
+        80.0,
+        165.59018078627793,
+        151.16680920084787
+      ],
+      "visible_bounds": [
+        32,
+        81,
+        165,
+        240
+      ],
+      "export_sha256": "63449a9511730c97f0366d60341b0465a152f54feca7fb1d4e75225dc2b27e0b"
+    },
+    "mage-orb_storms": {
+      "source": "held-ac1-casters.png",
+      "source_sha256": "7d253f5480e61e02d037f12024a12633852e9086aafede9e18c309e662fba587",
+      "source_rect": [
+        1519,
+        41,
+        2085,
+        715
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        560,
+        668
+      ],
+      "scale": 0.2365371473065984,
+      "offset": [
+        30,
+        81
+      ],
+      "grip": [
+        127.90695928513786,
+        128.0068144008077
+      ],
+      "object_bounds": [
+        82.01589060817537,
+        81.0,
+        163.8800253755347,
+        151.00144202421245
+      ],
+      "visible_bounds": [
+        31,
+        82,
+        163,
+        239
+      ],
+      "export_sha256": "20798a2172769abb88a8853babe79e2b58e798f7f74722b6cfc310039699a64b"
+    },
+    "cleric-holy_symbol": {
+      "source": "held-ac2-casters.png",
+      "source_sha256": "b97f8e42cfb1c7aa03be45a82bd4e1b059bb2a5e1b339b9f47b485c9195d9045",
+      "source_rect": [
+        138,
+        26,
+        736,
+        703
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        592,
+        671
+      ],
+      "scale": 0.24052489748377884,
+      "offset": [
+        26,
+        75
+      ],
+      "grip": [
+        127.85536696733281,
+        128.31015475071246
+      ],
+      "object_bounds": [
+        83.81278083160882,
+        75.0,
+        169.83388869529975,
+        155.0
+      ],
+      "visible_bounds": [
+        27,
+        76,
+        169,
+        237
+      ],
+      "export_sha256": "bf55275dbd74c8c6c17160af66b4209eec27a73d7a7478be8476765656a5d21e"
+    },
+    "cleric-silver_symbol": {
+      "source": "held-ac2-casters.png",
+      "source_sha256": "b97f8e42cfb1c7aa03be45a82bd4e1b059bb2a5e1b339b9f47b485c9195d9045",
+      "source_rect": [
+        823,
+        21,
+        1395,
+        703
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        566,
+        676
+      ],
+      "scale": 0.2321175211009334,
+      "offset": [
+        31,
+        76
+      ],
+      "grip": [
+        127.62342123817288,
+        128.3828198216757
+      ],
+      "object_bounds": [
+        83.73958445160784,
+        76.0,
+        163.7712220697339,
+        156.0
+      ],
+      "visible_bounds": [
+        32,
+        77,
+        163,
+        233
+      ],
+      "export_sha256": "f3193f66e1e00f6cdb76e374ce246d8cd38b31a1167265813090f5a8a3861732"
+    },
+    "cleric-reliquary": {
+      "source": "held-ac2-casters.png",
+      "source_sha256": "b97f8e42cfb1c7aa03be45a82bd4e1b059bb2a5e1b339b9f47b485c9195d9045",
+      "source_rect": [
+        1496,
+        80,
+        2034,
+        703
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        532,
+        617
+      ],
+      "scale": 0.26077444842680175,
+      "offset": [
+        26,
+        78
+      ],
+      "grip": [
+        128.39107921153084,
+        127.8978346793367
+      ],
+      "object_bounds": [
+        91.92784864369094,
+        78.0,
+        164.8543097793707,
+        151.3450823577393
+      ],
+      "visible_bounds": [
+        27,
+        79,
+        165,
+        239
+      ],
+      "export_sha256": "c9cb7982d42b98191c5da7f5fa7f92ae92654758cee78f4b5c02d33db90a4e6e"
+    },
+    "spellblade-wayfarer_lantern": {
+      "source": "held-ac3-casters.png",
+      "source_sha256": "dca19425d40e747d97968bb4b05f91cc889c1f5e9d5c60630e07bb29f62923ae",
+      "source_rect": [
+        81,
+        186,
+        1178,
+        1161
+      ],
+      "source_visible_bounds": [
+        6,
+        6,
+        1091,
+        969
+      ],
+      "scale": 0.09852216748768473,
+      "offset": [
+        49,
+        120
+      ],
+      "grip": [
+        128.22602955665025,
+        127.6692512315271
+      ],
+      "object_bounds": [
+        105.05911330049261,
+        120.5911330049261,
+        156.6847290640394,
+        200.59113300492612
+      ],
+      "visible_bounds": [
+        49,
+        120,
+        157,
+        216
+      ],
+      "export_sha256": "59646d094f40f257032bbc0b5e87097f4186882c1afce2501177ffad85120523",
+      "base": [
+        128.22602955665025,
+        200.59113300492612
+      ]
+    }
+  }
+}

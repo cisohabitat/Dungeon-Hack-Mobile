@@ -1,0 +1,215 @@
+{
+  "scope": "Actual canEquip for all35 ordinary shield/class pairs; delivered means an exact active catalog entry. Source-only AC foci and named AB shields are separate.",
+  "pairs": [
+    {
+      "id": "buckler",
+      "cls": "spellblade",
+      "reason": "Spellblades cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "buckler",
+      "cls": "fighter",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "buckler",
+      "cls": "cleric",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "buckler",
+      "cls": "mage",
+      "reason": "Mages cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "buckler",
+      "cls": "thief",
+      "reason": null,
+      "delivered": true
+    },
+    {
+      "id": "buckler",
+      "cls": "ranger",
+      "reason": "Rangers cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "buckler",
+      "cls": "druid",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "shield",
+      "cls": "spellblade",
+      "reason": "Spellblades cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "shield",
+      "cls": "fighter",
+      "reason": null,
+      "delivered": true
+    },
+    {
+      "id": "shield",
+      "cls": "cleric",
+      "reason": null,
+      "delivered": true
+    },
+    {
+      "id": "shield",
+      "cls": "mage",
+      "reason": "Mages cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "shield",
+      "cls": "thief",
+      "reason": "Thieves carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "shield",
+      "cls": "ranger",
+      "reason": "Rangers cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "shield",
+      "cls": "druid",
+      "reason": "Druids carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "spellblade",
+      "reason": "Spellblades cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "fighter",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "cleric",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "mage",
+      "reason": "Mages cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "thief",
+      "reason": "Thieves carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "ranger",
+      "reason": "Rangers cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "towershield",
+      "cls": "druid",
+      "reason": "Druids carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "spellblade",
+      "reason": "Spellblades cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "fighter",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "cleric",
+      "reason": null,
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "mage",
+      "reason": "Mages cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "thief",
+      "reason": "Thieves carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "ranger",
+      "reason": "Rangers cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "quillshield",
+      "cls": "druid",
+      "reason": "Druids carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "runeshield",
+      "cls": "spellblade",
+      "reason": "Spellblades cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "runeshield",
+      "cls": "fighter",
+      "reason": null,
+      "delivered": true
+    },
+    {
+      "id": "runeshield",
+      "cls": "cleric",
+      "reason": null,
+      "delivered": true
+    },
+    {
+      "id": "runeshield",
+      "cls": "mage",
+      "reason": "Mages cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "runeshield",
+      "cls": "thief",
+      "reason": "Thieves carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    },
+    {
+      "id": "runeshield",
+      "cls": "ranger",
+      "reason": "Rangers cannot use shields.",
+      "delivered": false
+    },
+    {
+      "id": "runeshield",
+      "cls": "druid",
+      "reason": "Druids carry only a buckler: anything bigger slows the hands.",
+      "delivered": false
+    }
+  ]
+}

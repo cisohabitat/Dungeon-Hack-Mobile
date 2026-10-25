@@ -17,7 +17,7 @@ test('approved world, equipment and material exports load through their native c
  for(const key of ['dog','wolf','scrag','sellsword','mender','renegade']){paintedCreature(Assets.sprites[key]);paintedCreature(Assets.sprites[key].sit);}
  paintedCreature(Assets.sprites.mender.heal);
  });
- await expect.poll(()=>page.evaluate(async()=>{const {PAINTED}=await import('/js/paintedcatalog.js'),{paintedWorldState}=await import('/js/paintedworld.js');return Object.keys(PAINTED.static).every(k=>Assets.sprites[k].url===PAINTED.static[k])&&Object.values(paintedWorldState()).every(s=>s==='ready');}),{timeout:30000}).toBe(true);
+ await expect.poll(()=>page.evaluate(async()=>{const {PAINTED}=await import('/js/paintedcatalog.js'),{paintedWorldState}=await import('/js/paintedworld.js');return Object.keys(PAINTED.static).every(k=>(/^(mythic|legend|relic)_/.test(k)?Assets.sprites[k].url.startsWith('data:image/'):Assets.sprites[k].url===PAINTED.static[k]))&&Object.values(paintedWorldState()).every(s=>s==='ready');}),{timeout:30000}).toBe(true);
  await expect.poll(()=>page.evaluate(async()=>{const {paintedCreature}=await import('/js/paintedcreatures.js');return ['mage','cleric','ranger','thief','druid','spellblade'].every(c=>{const s=Assets.sprites.shade.elite['shade_'+c];return paintedCreature(s)!==s;})&&['dog','wolf','scrag','sellsword','mender','renegade'].every(k=>paintedCreature(Assets.sprites[k].sit)!==Assets.sprites[k].sit)&&paintedCreature(Assets.sprites.mender.heal)!==Assets.sprites.mender.heal;})).toBe(true);
  const result=await page.evaluate(async()=>{const {PAINTED}=await import('/js/paintedcatalog.js'),{paintedHeld,paintedCarried}=await import('/js/paintedworld.js');return {statics:Object.keys(PAINTED.static).length,held:Object.values(PAINTED.held).every(m=>!!paintedHeld(m.id,m.pose,m.cls,m.two,!!m.lit)),guards:[paintedHeld('longsword','rest','mage',false,false),paintedHeld('longsword','rest','fighter',false,true),paintedHeld('legend_longsword','rest','fighter',false,false),paintedCarried('runeshield','mage')].every(v=>v===null),surfaces:Assets.themes.every(t=>t.floorOf(0).length===8&&t.ceilOf(0).length===8&&t.floorOf(0)[7].every(v=>v===0xff000000)),url:Assets.sprites.dress_ripple.url};});
  expect(result.statics).toBeGreaterThan(70);expect(result.held&&result.guards&&result.surfaces).toBe(true);expect(result.url).toBe('img/world/dress_ripple.png');expect(errors).toEqual([]);
@@ -55,7 +55,7 @@ test('ordinary painted shields follow exact equipment pairs and survive a native
   await expect.poll(()=>page.evaluate(()=>{const p=Game.player();return Assets.carried(p.eq.shield.t,p.cls)?.img.width;})).toBe(256);
   const key=await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield);expect(key).toBe(id);
  }
- const guards=await page.evaluate(async()=>{const{paintedCarried}=await import('/js/paintedworld.js');return [['fighter','buckler'],['thief','shield'],['mage','shield'],['fighter','legend_bastion'],['fighter','towershield']].every(([cls,id])=>paintedCarried(id,cls)===null);});expect(guards).toBe(true);
+ const guards=await page.evaluate(async()=>{const{paintedCarried}=await import('/js/paintedworld.js');return [['mage','shield'],['mage','buckler'],['thief','towershield'],['fighter','holy_symbol'],['cleric','spellbook']].every(([cls,id])=>paintedCarried(id,cls)===null);});expect(guards).toBe(true);
  await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
  await expect.poll(()=>page.evaluate(async()=>{for(const key of ['fighter-shield','cleric-shield','thief-buckler'])if(!await caches.match('./img/held/'+key+'.png'))return false;return true;}),{timeout:30000}).toBe(true);
  connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>typeof Assets!=='undefined');
@@ -235,4 +235,79 @@ for(const[cls,relic]of[['fighter','ninth_circle'],['mage','heartroot']])test(`na
   await expect.poll(()=>page.evaluate(born=>window.__namedStaff.some(f=>f.at>born+1100&&f.key.endsWith('-rest-two')),born),{timeout:5000}).toBe(true);
  }
  expect(errors).toEqual([]);
+});
+
+test('pending carried gear and all empty-hand families use exact native bindings @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'all-painted-kits'});
+ const pairs=[['mage','spellbook'],['mage','crystal_orb'],['mage','orb_storms'],['cleric','holy_symbol'],['cleric','silver_symbol'],['cleric','reliquary'],['spellblade','wayfarer_lantern'],['fighter','buckler'],['cleric','buckler'],['druid','buckler'],['fighter','towershield'],['cleric','towershield'],['fighter','quillshield'],['cleric','quillshield']];
+ for(const[cls,id]of pairs){
+  await page.evaluate(({cls,id})=>{const p=Game.player();p.cls=cls;p.eq.weapon=null;p.eq.shield=null;const item={t:id,q:1,e:0};p.inv.push(item);if(Game.canEquip(item))throw Error('Illegal kit '+cls+'/'+id);Game.equip(item);},{cls,id});
+  await expect.poll(()=>page.evaluate(()=>{const p=Game.player(),id=Game.renderState(performance.now()).fx.view.shield;return {id,width:Assets.carried(id,p.cls)?.img.width};})).toEqual({id,width:256});
+ }
+ await page.evaluate(async()=>{const{paintedHeld}=await import('/js/paintedworld.js');for(const cls of ['fighter','cleric','mage','thief','ranger','druid','spellblade','bear'])for(const pose of ['fist','punch','cast'])paintedHeld(null,pose,cls,false,false);});
+ await expect.poll(()=>page.evaluate(async()=>{const{paintedHeld}=await import('/js/paintedworld.js');return ['fighter','cleric','mage','thief','ranger','druid','spellblade','bear'].every(cls=>['fist','punch','cast'].every(pose=>paintedHeld(null,pose,cls,false,false)?.img.width===256));})).toBe(true);
+ expect(await page.evaluate(async()=>{const{paintedHeld,paintedCarried}=await import('/js/paintedworld.js');return !paintedHeld('null','fist','mage',false,false)&&!paintedHeld(undefined,'fist','mage',false,false)&&!paintedHeld(null,'rest','mage',false,false)&&!paintedHeld(null,'fist','mage',true,false)&&!paintedHeld(null,'cast','mage',false,true)&&!paintedCarried(undefined,'mage')&&!paintedCarried('buckler','mage');})).toBe(true);expect(errors).toEqual([]);
+});
+
+test('regional painted composition retains exact native arch masks, gate edges, locks and fixed torch brackets @mobile',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.Assets?.themes.length);
+ const before=await page.evaluate(async()=>{
+  const{Dice,Odds}=await import('/js/rng.js');window.__regionDice=[Dice.s,Odds.s];
+  const pixels=(c,x=0,y=0,w=64,h=64)=>Array.from(c.getContext('2d').getImageData(x,y,w,h).data);
+  window.__regionPixels=pixels;
+  window.__regionBefore=Assets.themes.map(t=>({arch:pixels(t.stairArch).filter((_,i)=>i%4===3),gate:pixels(t.cellDoor),locks:Object.fromEntries(Object.keys(t.locked).map(k=>[k,pixels(t.locked[k],38,27,14,16)])),cells:Object.fromEntries(Object.keys(t.locked).map(k=>[k,pixels(t.cellLocked(k),40,26,12,12)]))}));
+  for(const t of Assets.themes){void t.torchFrames;void t.decor;for(let i=0;i<7;i++)t.floorOf(i);for(let i=0;i<4;i++)t.ceilOf(i);}
+  window.__regionState=(await import('/js/paintedworld.js')).paintedWorldState;return Assets.themes.length;
+ });expect(before).toBe(13);
+ await page.waitForFunction(()=>Object.entries(window.__regionState()).filter(([u])=>u.includes('/materials/')).every(([,s])=>s==='ready'));
+ const checks=await page.evaluate(async()=>{
+  const{Dice,Odds}=await import('/js/rng.js');const p=window.__regionPixels;
+  return {dice:[Dice.s,Odds.s],before:window.__regionDice,regions:Assets.themes.map((t,n)=>{
+   const old=window.__regionBefore[n],arch=p(t.stairArch).filter((_,i)=>i%4===3),gate=p(t.cellDoor),frames=t.torchFrames.map(c=>p(c,0,30,64,34));
+   return {arch:JSON.stringify(arch)===JSON.stringify(old.arch),edges:gate.every((v,i)=>{const x=Math.floor(i/4)%64,y=Math.floor(i/256);return x>=8&&x<56&&y>=4||v===old.gate[i];}),locks:Object.keys(t.locked).every(k=>JSON.stringify(p(t.locked[k],38,27,14,16))===JSON.stringify(old.locks[k])&&JSON.stringify(p(t.cellLocked(k),40,26,12,12))===JSON.stringify(old.cells[k])),torch:frames.every(f=>JSON.stringify(f)===JSON.stringify(frames[0])),decor:t.decor===t.decor,opaque:t.floorOf(4).every(a=>a.every(v=>v>>>24===255))};
+  })};
+ });expect(checks.dice).toEqual(checks.before);for(const r of checks.regions)expect(Object.values(r).every(Boolean),JSON.stringify(r)).toBe(true);
+});
+
+test('new art failures remain independent across hands, items and regional surfaces @mobile',async({page})=>{
+ for(const url of ['img/held/fighter-empty-punch.png','img/world/dagger.png','img/materials/region_7-floor6.png'])await page.route('**/'+url,r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));
+ await startGame(page,{seed:'new-painting-failures'});
+ await page.evaluate(()=>{Assets.held(null,'fist','fighter',false);Assets.held(null,'fist','mage',false);void Assets.sprites.dagger.url;void Assets.sprites.shortsword.url;Assets.themes[7].floorOf(6);Assets.themes[8].floorOf(6);});
+ await expect.poll(()=>page.evaluate(async()=>{const{paintedWorldState}=await import('/js/paintedworld.js');const s=paintedWorldState();return ['img/held/fighter-empty-punch.png','img/world/dagger.png','img/materials/region_7-floor6.png'].every(k=>s[k]==='failed')&&s['img/materials/region_8-floor6.png']==='ready';})).toBe(true);
+ await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.sprites.shortsword.url)).toBe('img/world/shortsword.png');
+ expect(await page.evaluate(()=>Assets.held(null,'fist','fighter',false)?.img.width)).not.toBe(256);
+ expect(await page.evaluate(()=>Assets.sprites.dagger.url.startsWith('data:image/'))).toBe(true);
+ expect(await page.evaluate(()=>Assets.themes[7].floorOf(6)[0].length)).toBe(4096);
+});
+
+test('small painted treasure caches rarity outlines without changing seeded unidentified appearances @mobile',async({page})=>{
+ await startGame(page,{seed:'painted-treasure-outlines'});
+ await page.evaluate(()=>{for(const k of ['longsword','relic_longsword','legend_staff','mythic_last_gate'])void Assets.sprites[k].url;});
+ await expect.poll(()=>page.evaluate(()=>['longsword','relic_longsword','legend_staff','mythic_last_gate'].every(k=>Assets.sprites[k].w===256))).toBe(true);
+ const result=await page.evaluate(()=>{
+  const colours={'relic_longsword':[232,184,74],'legend_staff':[255,160,64],'mythic_last_gate':[226,188,255]};
+  const edges=Object.entries(colours).map(([key,colour])=>{const s=Assets.sprites[key],a=s.levels[0].getContext('2d').getImageData(0,0,256,256).data;let count=0;for(let i=0;i<a.length;i+=4)if(a[i+3]>128&&colour.every((v,j)=>Math.abs(v-a[i+j])<=1))count++;return {key,count,cached:s.levels===s.levels&&s.flash===s.flash&&s.url===s.url,url:s.url.startsWith('data:image/')};});
+  const G=Game.state(),before=JSON.stringify(G.looks),known={...G.known},checks=[];
+  for(const t of Object.keys(G.looks)){const it={t,q:1,e:0};G.known[t]=false;const a=Game.spriteFor(it);G.known[t]=true;checks.push(a===Game.spriteFor(it));if(t==='amulet_tooth')checks.push(a!=='amulet_tooth');}G.known=known;
+  return{edges,identified:checks.every(Boolean),unchanged:before===JSON.stringify(G.looks),ordinary:Assets.sprites.longsword.url};
+ });for(const edge of result.edges){expect(edge.count,edge.key).toBeGreaterThan(100);expect(edge.cached&&edge.url).toBe(true);}expect(result.ordinary).toBe('img/world/longsword.png');expect(result.identified&&result.unchanged).toBe(true);
+});
+
+test('all activated art files decode after a native offline reload @mobile',async({browser,browserName},testInfo)=>{
+ test.setTimeout(120000);let connected=true;const http=require('node:http'),{serve}=require('../server');
+ const server=http.createServer((req,res)=>{if(!connected){req.socket.destroy();return;}serve(req,res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));
+ const context=await browser.newContext({baseURL:`http://127.0.0.1:${server.address().port}`,viewport:testInfo.project.use.viewport,isMobile:true,hasTouch:true}),page=await context.newPage();
+ try{
+  const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'all-paintings-offline'});
+  await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+  const urls=await page.evaluate(async()=>{const{PAINTED:p}=await import('/js/paintedcatalog.js');return [...new Set([...Object.values(p.static),...Object.values(p.atlases),...Object.values(p.effects),...Object.values(p.themes).flatMap(Object.values),...Object.values(p.held).map(m=>m.path),...Object.values(p.carried).map(m=>m.path)])];});
+  expect(urls.length).toBeGreaterThan(1500);
+  await page.evaluate(async urls=>{for(const url of urls)if(!await caches.match('./'+url))throw Error('Uncached art '+url);},urls);
+  connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.Assets?.themes.length===13);
+  const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
+  for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
+  await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
+  connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
+ }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });

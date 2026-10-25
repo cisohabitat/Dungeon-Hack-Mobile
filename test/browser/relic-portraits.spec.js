@@ -31,7 +31,7 @@ test('all 47 discovered relic paintings load and enlarge accessibly @mobile', as
   expect(errors).toEqual([]);
 });
 
-test('hidden quality does not reveal a relic painting and pack slots stay pixel art', async ({ page }) => {
+test('hidden quality hides the large portrait while Pack keeps its native small sprite', async ({ page }) => {
   const errors = watchForErrors(page);
   await startGame(page, { seed: 'relic-painting' });
   await page.evaluate(() => {
@@ -42,7 +42,7 @@ test('hidden quality does not reveal a relic painting and pack slots stay pixel 
   await page.click('[data-open="inv"]');
   await page.locator('#inv-grid button').first().click();
   await expect(page.locator('#item-detail .relic-portrait')).toHaveCount(0);
-  await expect(page.locator('#inv-grid img').first()).toHaveAttribute('src', /^data:image/);
+  await expect.poll(()=>page.evaluate(()=>{const key=Game.spriteFor(Game.player().inv[0]);return document.querySelector('#inv-grid img').getAttribute('src')===Assets.sprites[key].url;})).toBe(true);
   await page.locator('#inv-grid button').nth(1).click();
   await expect(page.locator('#item-detail .relic-portrait')).toHaveCount(0);
   expect(errors).toEqual([]);

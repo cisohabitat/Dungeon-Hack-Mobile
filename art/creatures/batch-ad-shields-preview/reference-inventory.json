@@ -1,0 +1,445 @@
+{
+  "scope": "Native procedural carried geometry and actual canEquip/spriteFor fixtures; no real class creation, gameplay transitions or painted delivery.",
+  "groups": {
+    "ad1": [
+      [
+        "fighter",
+        "buckler"
+      ],
+      [
+        "cleric",
+        "buckler"
+      ],
+      [
+        "druid",
+        "buckler"
+      ]
+    ],
+    "ad2": [
+      [
+        "fighter",
+        "towershield"
+      ],
+      [
+        "cleric",
+        "towershield"
+      ]
+    ],
+    "ad3": [
+      [
+        "fighter",
+        "quillshield"
+      ],
+      [
+        "cleric",
+        "quillshield"
+      ]
+    ]
+  },
+  "rows": {
+    "fighter-buckler": {
+      "group": "ad1",
+      "cls": "fighter",
+      "id": "buckler",
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "grip": [
+        179.92,
+        98.96
+      ],
+      "object_bounds": [
+        95.44,
+        14.479999999999997,
+        264.4,
+        194
+      ],
+      "native": {
+        "size": [
+          125,
+          99
+        ],
+        "grip": [
+          92,
+          33
+        ],
+        "marks": {
+          "min": [
+            44,
+            -15
+          ],
+          "max": [
+            140,
+            87
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Buckler",
+        "ac": 1,
+        "value": 5,
+        "sprite": "buckler",
+        "tier": 1,
+        "light": true
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": null,
+        "ranger": "Rangers cannot use shields.",
+        "druid": null
+      }
+    },
+    "cleric-buckler": {
+      "group": "ad1",
+      "cls": "cleric",
+      "id": "buckler",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        179.92,
+        98.96
+      ],
+      "object_bounds": [
+        95.44,
+        14.479999999999997,
+        264.4,
+        194
+      ],
+      "native": {
+        "size": [
+          125,
+          99
+        ],
+        "grip": [
+          92,
+          33
+        ],
+        "marks": {
+          "min": [
+            44,
+            -15
+          ],
+          "max": [
+            140,
+            87
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Buckler",
+        "ac": 1,
+        "value": 5,
+        "sprite": "buckler",
+        "tier": 1,
+        "light": true
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": null,
+        "ranger": "Rangers cannot use shields.",
+        "druid": null
+      }
+    },
+    "druid-buckler": {
+      "group": "ad1",
+      "cls": "druid",
+      "id": "buckler",
+      "palette": [
+        "#8a6a44",
+        "#4e6a34",
+        "#5a4a2e"
+      ],
+      "grip": [
+        179.92,
+        98.96
+      ],
+      "object_bounds": [
+        95.44,
+        14.479999999999997,
+        264.4,
+        194
+      ],
+      "native": {
+        "size": [
+          125,
+          99
+        ],
+        "grip": [
+          92,
+          33
+        ],
+        "marks": {
+          "min": [
+            44,
+            -15
+          ],
+          "max": [
+            140,
+            87
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Buckler",
+        "ac": 1,
+        "value": 5,
+        "sprite": "buckler",
+        "tier": 1,
+        "light": true
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": null,
+        "ranger": "Rangers cannot use shields.",
+        "druid": null
+      }
+    },
+    "fighter-towershield": {
+      "group": "ad2",
+      "cls": "fighter",
+      "id": "towershield",
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "grip": [
+        178.63492063492063,
+        107.04761904761904
+      ],
+      "object_bounds": [
+        94.82539682539682,
+        23.238095238095234,
+        262.44444444444446,
+        201.33333333333331
+      ],
+      "native": {
+        "size": [
+          126,
+          108
+        ],
+        "grip": [
+          92,
+          42
+        ],
+        "marks": {
+          "min": [
+            44,
+            -6
+          ],
+          "max": [
+            140,
+            96
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Tower Shield",
+        "ac": 3,
+        "value": 40,
+        "sprite": "towershield",
+        "tier": 4
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": "Thieves carry only a buckler: anything bigger slows the hands.",
+        "ranger": "Rangers cannot use shields.",
+        "druid": "Druids carry only a buckler: anything bigger slows the hands."
+      }
+    },
+    "cleric-towershield": {
+      "group": "ad2",
+      "cls": "cleric",
+      "id": "towershield",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        178.63492063492063,
+        107.04761904761904
+      ],
+      "object_bounds": [
+        94.82539682539682,
+        23.238095238095234,
+        262.44444444444446,
+        201.33333333333331
+      ],
+      "native": {
+        "size": [
+          126,
+          108
+        ],
+        "grip": [
+          92,
+          42
+        ],
+        "marks": {
+          "min": [
+            44,
+            -6
+          ],
+          "max": [
+            140,
+            96
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Tower Shield",
+        "ac": 3,
+        "value": 40,
+        "sprite": "towershield",
+        "tier": 4
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": "Thieves carry only a buckler: anything bigger slows the hands.",
+        "ranger": "Rangers cannot use shields.",
+        "druid": "Druids carry only a buckler: anything bigger slows the hands."
+      }
+    },
+    "fighter-quillshield": {
+      "group": "ad3",
+      "cls": "fighter",
+      "id": "quillshield",
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "grip": [
+        163.6115107913669,
+        112.1726618705036
+      ],
+      "object_bounds": [
+        87.64028776978417,
+        36.20143884892087,
+        239.58273381294964,
+        197.64028776978418
+      ],
+      "native": {
+        "size": [
+          139,
+          112
+        ],
+        "grip": [
+          92,
+          46
+        ],
+        "marks": {
+          "min": [
+            44,
+            -2
+          ],
+          "max": [
+            140,
+            100
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Quill Shield",
+        "ac": 2,
+        "power": "thorns",
+        "value": 110,
+        "sprite": "quillshield",
+        "tier": 99
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": "Thieves carry only a buckler: anything bigger slows the hands.",
+        "ranger": "Rangers cannot use shields.",
+        "druid": "Druids carry only a buckler: anything bigger slows the hands."
+      }
+    },
+    "cleric-quillshield": {
+      "group": "ad3",
+      "cls": "cleric",
+      "id": "quillshield",
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "grip": [
+        163.6115107913669,
+        112.1726618705036
+      ],
+      "object_bounds": [
+        87.64028776978417,
+        36.20143884892087,
+        239.58273381294964,
+        197.64028776978418
+      ],
+      "native": {
+        "size": [
+          139,
+          112
+        ],
+        "grip": [
+          92,
+          46
+        ],
+        "marks": {
+          "min": [
+            44,
+            -2
+          ],
+          "max": [
+            140,
+            100
+          ]
+        }
+      },
+      "item": {
+        "kind": "shield",
+        "name": "Quill Shield",
+        "ac": 2,
+        "power": "thorns",
+        "value": 110,
+        "sprite": "quillshield",
+        "tier": 99
+      },
+      "legality": {
+        "spellblade": "Spellblades cannot use shields.",
+        "fighter": null,
+        "cleric": null,
+        "mage": "Mages cannot use shields.",
+        "thief": "Thieves carry only a buckler: anything bigger slows the hands.",
+        "ranger": "Rangers cannot use shields.",
+        "druid": "Druids carry only a buckler: anything bigger slows the hands."
+      }
+    }
+  }
+}

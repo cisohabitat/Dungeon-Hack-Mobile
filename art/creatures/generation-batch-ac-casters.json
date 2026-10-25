@@ -1,0 +1,312 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-ac-casters.md",
+  "status": "activated for 0.9.40; original source/review provenance retained",
+  "sheets": {
+    "ac1": {
+      "source": "held-ac1-casters.png",
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference as a horizontal THREE-CELL strip of exactly three equal square cells, transparent RGBA. First reference defines exact first-person object view, hand placement and forearm direction. SECOND reference defines only mature gritty painted material quality. Each cell has ONE connected LEFT hand with forearm extending diagonally DOWN-LEFT, open palm supporting the object immediately above/behind the fingers. Copy reference anatomy and direction, thumb opposing four fingers, no detached parts, extra hands or arms. Entire object and complete arm/sleeve end contained in its own cell with at least 8% clear margin on every side. Painterly weathered materials matching dark dungeon monster paintings, restrained natural highlights, no cartoon, toy proportions or glossy plastic. No scene, floor shadow, text, borders, backdrop, black matte or external halo. Preserve these as ordinary items rather than named relics. All three Mage hands are bare pale weathered skin, with violet cuffs and dark purple cloth sleeves. LEFT: CLOSED upright oxblood-red leather spellbook, thick cream page block visible along right/bottom, dark red spine on left, brass corners and clasp on right, simple tooled gold circle with a plus through centre. The book rests on the upturned palm; no open pages. MIDDLE: pale ice-blue crystal sphere, brass claw stand and low brass pedestal seated on palm, quiet cloudy interior and small upper-left glass reflection, no lightning. RIGHT: navy storm-blue glass sphere on SILVER claw stand/pedestal on palm, small pale yellow jagged lightning INSIDE glass only, small upper-left reflection. Same sphere size in middle/right. Keep full round glass outline, all stand feet connected, fingers in front of lower edge as reference. No staff or gripping fist. Exact three objects in listed order.",
+      "references": [
+        "batch-ac-casters-preview/ac1-reference.png",
+        "held-t2.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/generated_images/exec-11546e97-d932-4a6e-b235-5ef11d108354.png",
+      "repairs": [],
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "keys": [
+        "mage-spellbook",
+        "mage-crystal_orb",
+        "mage-orb_storms"
+      ]
+    },
+    "ac2": {
+      "source": "held-ac2-casters.png",
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference as a horizontal THREE-CELL strip of exactly three equal square cells, transparent RGBA. First reference defines exact first-person object view, hand placement and forearm direction. SECOND reference defines only mature gritty painted material quality. Each cell has ONE connected LEFT hand with forearm extending diagonally DOWN-LEFT, open palm supporting the object immediately above/behind the fingers. Copy reference anatomy and direction, thumb opposing four fingers, no detached parts, extra hands or arms. Entire object and complete arm/sleeve end contained in its own cell with at least 8% clear margin on every side. Painterly weathered materials matching dark dungeon monster paintings, restrained natural highlights, no cartoon, toy proportions or glossy plastic. No scene, floor shadow, text, borders, backdrop, black matte or external halo. Preserve these as ordinary items rather than named relics. All three Cleric hands wear worn BROWN leather gloves, ochre gold cuffs and ivory/off-white cloth sleeves. LEFT: ordinary carved WOODEN sun medallion, twelve stubby wooden rays and circular carved centre, a simple tan cord forming a loop above attached to medallion; brown carved wood rather than metal. MIDDLE: SILVER SUNBURST medallion with sixteen alternating long/short silver rays around a plain bright circular boss, attached fine silver chain loop above. These two sun pendants rest on the open palm, fingers overlap lower right edge; no staff, shield or gripping fist. RIGHT: a tiny GILT HOUSE reliquary seated on palm: rectangular golden box, triangular peaked roof, one small RED gemstone above roof apex, dark rectangular FRONT window showing ONE SMALL horizontal ivory bone, four tiny muted BLUE studs near front corners. Keep red/blue detail distinct and brass/gold tarnished. Complete attached cords/chains, no floating segments. Exact three objects in listed order.",
+      "references": [
+        "batch-ac-casters-preview/ac2-reference.png",
+        "held-t2.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/generated_images/exec-5206422a-fb5e-433e-83d0-4300260eb353.png",
+      "repairs": [],
+      "native_source_size": [
+        2172,
+        724
+      ],
+      "keys": [
+        "cleric-holy_symbol",
+        "cleric-silver_symbol",
+        "cleric-reliquary"
+      ]
+    },
+    "ac3": {
+      "source": "held-ac3-casters.png",
+      "grid": [
+        1,
+        1
+      ],
+      "prompt": "Repaint the FIRST reference as ONE isolated first-person LEFT HAND carrying the Wayfarer's Silver Lantern. Transparent RGBA square sprite. FIRST reference is authoritative construction and exact pose: closed LEFT fist horizontally gripping the TOP bar of a rigid attached rectangular silver CARRY HANDLE; the tall sides descend from each side of fist to the roof of the hanging cage BELOW the fist. Cage has broad front dark-blue glass pane and narrower RIGHT side pane, coherent three-quarter perspective, silver roof/base matching perspective, slim worn silver corner uprights and bars, ONE small cold BLUE flame inside with pale blue core. Keep the entire cage below the grip; no finial or extra ring above fist, no loose chain, open palm, staff, sword, other hand, second lantern, ground shadow or scene. Forearm from left fist extends diagonally DOWN-LEFT exactly as reference, charcoal leather glove with visible curled fingers/thumb, muted silver-trimmed charcoal cuff with one tiny blue rune and dark slate/black cloth sleeve. Blue lantern reflection lightly catches fingers, no exterior aura or world light. SECOND reference is material/style only: mature dark fantasy worn painted materials, scratched silver, weathered leather, textured matte cloth matching monster art, realistic proportions, no cartoon or glossy toy. Entire connected lantern, complete hand/handle and clean sleeve end inside image with at least 10% clear TRANSPARENT margin all sides. Keep low rectangular bottom rim and perspective, no large decorative flourishes. Preserve same frame composition as first reference.",
+      "references": [
+        "batch-ac-casters-preview/ac3-reference.png",
+        "held-t2.png"
+      ],
+      "transparent_background": true,
+      "generated_original": "/workspace/generated_images/exec-b12a4549-bd40-47a1-b1e5-ac9f6dd39992.png",
+      "repairs": [],
+      "native_source_size": [
+        1254,
+        1254
+      ],
+      "keys": [
+        "spellblade-wayfarer_lantern"
+      ]
+    }
+  },
+  "cells": {
+    "mage-spellbook": {
+      "sheet": "ac1",
+      "cls": "mage",
+      "id": "spellbook",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "spellbook",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        121,
+        30,
+        706,
+        715
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        426.2002,
+        177.8693
+      ],
+      "source_object_bounds": [
+        247.7939,
+        0,
+        585,
+        274.2154
+      ],
+      "object_height_limit": 80
+    },
+    "mage-crystal_orb": {
+      "sheet": "ac1",
+      "cls": "mage",
+      "id": "crystal_orb",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "crystal_orb",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        804,
+        41,
+        1369,
+        715
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        406.5845,
+        202.0299
+      ],
+      "source_object_bounds": [
+        213.7004,
+        0,
+        565,
+        298.7532
+      ],
+      "object_height_limit": 80
+    },
+    "mage-orb_storms": {
+      "sheet": "ac1",
+      "cls": "mage",
+      "id": "orb_storms",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "orb_storms",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        1519,
+        41,
+        2085,
+        715
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        413.9179,
+        198.7291
+      ],
+      "source_object_bounds": [
+        219.9058,
+        0,
+        566,
+        295.9427
+      ],
+      "object_height_limit": 80
+    },
+    "cleric-holy_symbol": {
+      "sheet": "ac2",
+      "cls": "cleric",
+      "id": "holy_symbol",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "holy_symbol",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        138,
+        26,
+        736,
+        703
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        423.4712,
+        221.6409
+      ],
+      "source_object_bounds": [
+        240.3609,
+        0,
+        598,
+        332.6059
+      ],
+      "object_height_limit": 80
+    },
+    "cleric-silver_symbol": {
+      "sheet": "ac2",
+      "cls": "cleric",
+      "id": "silver_symbol",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "silver_symbol",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        823,
+        21,
+        1395,
+        703
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        416.2694,
+        225.6737
+      ],
+      "source_object_bounds": [
+        227.2107,
+        0,
+        572,
+        344.653
+      ],
+      "object_height_limit": 80
+    },
+    "cleric-reliquary": {
+      "sheet": "ac2",
+      "cls": "cleric",
+      "id": "reliquary",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "reliquary",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        1496,
+        80,
+        2034,
+        703
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        392.6423,
+        191.3448
+      ],
+      "source_object_bounds": [
+        252.8156,
+        0,
+        532.469,
+        281.2587
+      ],
+      "object_height_limit": 80
+    },
+    "spellblade-wayfarer_lantern": {
+      "sheet": "ac3",
+      "cls": "spellblade",
+      "id": "wayfarer_lantern",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "wayfarer_lantern",
+      "two": false,
+      "lit": false,
+      "source_base": [
+        804.1442,
+        818
+      ],
+      "source_rect": [
+        81,
+        186,
+        1178,
+        1161
+      ],
+      "source_density": 4.8984375,
+      "source_grip": [
+        804.1442,
+        77.8429
+      ],
+      "source_object_bounds": [
+        569,
+        6,
+        1093,
+        818
+      ],
+      "object_height_limit": 80,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          569,
+          6,
+          1093,
+          818
+        ],
+        "source_base": [
+          804.1442,
+          818
+        ]
+      }
+    }
+  },
+  "registration": "Native geometry measured by uniform silhouette alignment without rotation/pixel edits; landmarks and exports require visual review.",
+  "review": {
+    "report": "batch-ac-casters-preview/REVIEW.md",
+    "frames": 7,
+    "source_sheets": 3,
+    "captures": 98,
+    "galleries": 14,
+    "fitting_cases": 294,
+    "guards_per_width": 70,
+    "minimum_alpha32_clearance": 16,
+    "baseline_browser_tests": 12,
+    "baseline_result": "12 passed,47.5s, phone/small",
+    "runtime_activation": false,
+    "publication": false,
+    "export_check": "pass",
+    "repository_checks": "npm test passed, including751 rule checks"
+  },
+  "source_spacing_exception": "Wooden sun crosses nominal first724px cell boundary by6px; complete connected-component crops retain all parts with no overlap. Source8\u201310% margins not uniformly met; registered alpha32 clearance>=16px.",
+  "runtime_review": "batch-ac-ah-runtime/REVIEW.md"
+}

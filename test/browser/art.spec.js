@@ -390,6 +390,7 @@ test.describe('art', () => {
     await page.goto('/');
     await page.waitForFunction(() => typeof Assets !== 'undefined' && Assets.themes.length === 13);
     await page.evaluate(async () => { window.__paintedWorldState = (await import('/js/paintedworld.js')).paintedWorldState; });
+    await page.evaluate(() => { for(const t of Assets.themes) void t.wall; });
     await page.waitForFunction(() => Object.entries(window.__paintedWorldState()).filter(([p]) => p.includes('/materials/')).every(([, s]) => s === 'ready'));
     const out = await page.evaluate(async () => {
       const { PAINTED } = await import('/js/paintedcatalog.js');

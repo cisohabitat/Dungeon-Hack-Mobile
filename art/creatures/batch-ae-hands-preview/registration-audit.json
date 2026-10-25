@@ -1,0 +1,170 @@
+{
+  "spellblade-empty-cast": {
+    "silhouette_iou": 0.5149,
+    "source_grip": [
+      366.5660046133178,
+      121.27351827291947
+    ],
+    "nominal_source_to_native_pixel_scale": 0.14202783479987086
+  },
+  "spellblade-empty-fist": {
+    "silhouette_iou": 0.7174,
+    "source_grip": [
+      143.71116487807788,
+      73.68030603097189
+    ],
+    "nominal_source_to_native_pixel_scale": 0.11501071625752106
+  },
+  "spellblade-empty-punch": {
+    "silhouette_iou": 0.8837,
+    "source_grip": [
+      116.91260989349976,
+      85.59687837632775
+    ],
+    "nominal_source_to_native_pixel_scale": 0.13553721766626897
+  },
+  "fighter-empty-fist": {
+    "silhouette_iou": 0.7014,
+    "source_grip": [
+      126.98016350801375,
+      61.790924386564114
+    ],
+    "nominal_source_to_native_pixel_scale": 0.14905154418396735
+  },
+  "fighter-empty-punch": {
+    "silhouette_iou": 0.789,
+    "source_grip": [
+      137.22204667821168,
+      85.92594994911188
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1142464773092831
+  },
+  "cleric-empty-punch": {
+    "silhouette_iou": 0.8093,
+    "source_grip": [
+      96.478109122003,
+      58.49460457890943
+    ],
+    "nominal_source_to_native_pixel_scale": 0.15396047155533987
+  },
+  "cleric-empty-fist": {
+    "silhouette_iou": 0.7684,
+    "source_grip": [
+      118.11655139951378,
+      58.7323238500465
+    ],
+    "nominal_source_to_native_pixel_scale": 0.15828737125599088
+  },
+  "cleric-empty-cast": {
+    "silhouette_iou": 0.6474,
+    "source_grip": [
+      295.8080099709735,
+      95.31574493668727
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1677303817214349
+  },
+  "mage-empty-cast": {
+    "silhouette_iou": 0.6333,
+    "source_grip": [
+      323.38475680530445,
+      124.2630209914208
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1570739731179557
+  },
+  "mage-empty-fist": {
+    "silhouette_iou": 0.8048,
+    "source_grip": [
+      122.74206060002844,
+      77.10125126255298
+    ],
+    "nominal_source_to_native_pixel_scale": 0.14392260710813445
+  },
+  "mage-empty-punch": {
+    "silhouette_iou": 0.8193,
+    "source_grip": [
+      130.80427909201694,
+      81.70741889944499
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1164702128825254
+  },
+  "thief-empty-fist": {
+    "silhouette_iou": 0.8159,
+    "source_grip": [
+      113.53941377718402,
+      79.9462183030997
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1466069406923574
+  },
+  "thief-empty-punch": {
+    "silhouette_iou": 0.9386,
+    "source_grip": [
+      100.15515555513772,
+      83.71514464888446
+    ],
+    "nominal_source_to_native_pixel_scale": 0.15282713532639444
+  },
+  "druid-empty-cast": {
+    "silhouette_iou": 0.5473,
+    "source_grip": [
+      363.2294132687059,
+      149.03284755510123
+    ],
+    "nominal_source_to_native_pixel_scale": 0.12612637767277615
+  },
+  "druid-empty-fist": {
+    "silhouette_iou": 0.7417,
+    "source_grip": [
+      109.13258773801282,
+      55.41212326082618
+    ],
+    "nominal_source_to_native_pixel_scale": 0.1591605463702683
+  },
+  "druid-empty-punch": {
+    "silhouette_iou": 0.8348,
+    "source_grip": [
+      118.43790865480949,
+      93.57916961596851
+    ],
+    "nominal_source_to_native_pixel_scale": 0.12242553078673571
+  },
+  "bear-empty-cast": {
+    "silhouette_iou": 0.5876,
+    "source_grip": [
+      362.4289078725161,
+      117.63188233307905
+    ],
+    "nominal_source_to_native_pixel_scale": 0.14360297298422167
+  },
+  "bear-empty-fist": {
+    "silhouette_iou": 0.7972,
+    "source_grip": [
+      134.18269511890892,
+      111.87795563982517
+    ],
+    "nominal_source_to_native_pixel_scale": 0.12045178585828062
+  },
+  "bear-empty-punch": {
+    "silhouette_iou": 0.8385,
+    "source_grip": [
+      117.37705228717118,
+      105.05304552048948
+    ],
+    "nominal_source_to_native_pixel_scale": 0.12329562669547661
+  },
+  "fighter-empty-cast": {
+    "silhouette_iou": 0.4538,
+    "source_grip": [
+      523.5820576796732,
+      132.08214440440793
+    ],
+    "nominal_source_to_native_pixel_scale": 0.10223279375135914
+  },
+  "thief-empty-cast": {
+    "silhouette_iou": 0.4656,
+    "source_grip": [
+      501.2569191160903,
+      143.839049289489
+    ],
+    "nominal_source_to_native_pixel_scale": 0.10544546511569612
+  }
+}

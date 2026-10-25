@@ -1,0 +1,3059 @@
+{
+  "scope": "Source-only registered exports; no runtime activation",
+  "cells": {
+    "wayfarer_lantern": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        80,
+        52,
+        341,
+        427
+      ],
+      "scale": 0.5950413223140496,
+      "offset": [
+        50,
+        16
+      ],
+      "visible_bounds": [
+        53,
+        19,
+        201,
+        235
+      ],
+      "export_sha256": "9eed6f6aeea9507cc0e0485e2f67e45116164b03fda63f722ff5c23c0be3d71c"
+    },
+    "ring_silver": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        477,
+        126,
+        846,
+        427
+      ],
+      "scale": 0.6050420168067226,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        19,
+        40,
+        236,
+        216
+      ],
+      "export_sha256": "ddf14ad3a8da4fd074728c7704e9a057c0eaf164aec865e2a3a6cdd488538f2b"
+    },
+    "ring_gold": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        921,
+        126,
+        1292,
+        427
+      ],
+      "scale": 0.6016713091922006,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        19,
+        40,
+        235,
+        215
+      ],
+      "export_sha256": "ac6da3c834125433320ac331b773b40480ee61a827da439cfbda7168ac64cb90"
+    },
+    "ring_garnet": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        1365,
+        125,
+        1735,
+        427
+      ],
+      "scale": 0.6033519553072626,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        19,
+        41,
+        236,
+        215
+      ],
+      "export_sha256": "28ab22af231bec6dce3f6c092497203393bc0ab2a0104639344e04b366005e5f"
+    },
+    "ring_onyx": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        33,
+        524,
+        407,
+        828
+      ],
+      "scale": 0.5966850828729282,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        19,
+        40,
+        235,
+        215
+      ],
+      "export_sha256": "3fee19803db9d0000c632b31063c9c65a7cd27f1f3e7e3462d1bc3485cc557e0"
+    },
+    "ring_copper": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        477,
+        523,
+        849,
+        828
+      ],
+      "scale": 0.6,
+      "offset": [
+        16,
+        36
+      ],
+      "visible_bounds": [
+        19,
+        40,
+        236,
+        216
+      ],
+      "export_sha256": "2e411348d33c6dfeb5efa6d90fb8d57e98e8780c90c55f514e1414812df3cf4c"
+    },
+    "ring_black": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        921,
+        524,
+        1295,
+        828
+      ],
+      "scale": 0.5966850828729282,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        19,
+        40,
+        235,
+        215
+      ],
+      "export_sha256": "432fa62067a1509fe1ece1bf232143df32cc4371cbe78134e2f8219519e5de92"
+    },
+    "ring_forge": {
+      "source": "items-af01.png",
+      "source_sha256": "bdab32af5632a28c373804e399d29d1ba3c2497f06a7ab3cc6f454639c2ab01e",
+      "source_rect": [
+        1363,
+        522,
+        1738,
+        827
+      ],
+      "scale": 0.5950413223140496,
+      "offset": [
+        16,
+        37
+      ],
+      "visible_bounds": [
+        20,
+        40,
+        236,
+        215
+      ],
+      "export_sha256": "6e34462ebab8a8dbe476295724e837be26b9f62ebcb547135e2b077ab255831f"
+    },
+    "ring_jade": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        35,
+        153,
+        403,
+        382
+      ],
+      "scale": 0.6067415730337079,
+      "offset": [
+        16,
+        59
+      ],
+      "visible_bounds": [
+        20,
+        63,
+        235,
+        195
+      ],
+      "export_sha256": "a6d76625937b4b737785480feba5c83407bff90341e319cc05a127c5765b3c25"
+    },
+    "ring_bone": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        478,
+        153,
+        846,
+        381
+      ],
+      "scale": 0.6067415730337079,
+      "offset": [
+        16,
+        59
+      ],
+      "visible_bounds": [
+        20,
+        62,
+        235,
+        194
+      ],
+      "export_sha256": "2fc8e834165e33a6fcfdbf14d3e43ee7ee3c414f1a90ae9de18393e54c3d24b9"
+    },
+    "ring_iron": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        926,
+        150,
+        1293,
+        378
+      ],
+      "scale": 0.6084507042253521,
+      "offset": [
+        16,
+        59
+      ],
+      "visible_bounds": [
+        20,
+        63,
+        236,
+        194
+      ],
+      "export_sha256": "838a4cfbb8c2eca7367f8f9d5e72d77875e685b31cc32d9e2ea7e9cf0ab085ff"
+    },
+    "amulet_amber": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        1396,
+        28,
+        1734,
+        423
+      ],
+      "scale": 0.5639686684073107,
+      "offset": [
+        33,
+        17
+      ],
+      "visible_bounds": [
+        36,
+        20,
+        221,
+        237
+      ],
+      "export_sha256": "699d4d99de083fae553de4df2e297f8a9560586cbe97690ba07ac0b7008c76a8"
+    },
+    "amulet_silver": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        58,
+        459,
+        386,
+        852
+      ],
+      "scale": 0.5669291338582677,
+      "offset": [
+        35,
+        17
+      ],
+      "visible_bounds": [
+        38,
+        20,
+        218,
+        237
+      ],
+      "export_sha256": "3fc6f922b09c5b99195bfb151ac3376e89ca38defdfa389305de18a2b9572ae7"
+    },
+    "amulet_obsidian": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        502,
+        459,
+        829,
+        852
+      ],
+      "scale": 0.5669291338582677,
+      "offset": [
+        35,
+        17
+      ],
+      "visible_bounds": [
+        38,
+        20,
+        217,
+        237
+      ],
+      "export_sha256": "78b3e55bf65ed1cbd4c946e84c164449a2f974ff82d570575e7c70bf6dccddd3"
+    },
+    "amulet_bone": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        940,
+        460,
+        1278,
+        852
+      ],
+      "scale": 0.5684210526315789,
+      "offset": [
+        32,
+        17
+      ],
+      "visible_bounds": [
+        35,
+        21,
+        221,
+        237
+      ],
+      "export_sha256": "8e5d4a6b68e8d472f5580a727a6463d4314bacf65e0957a2c85afb32bf231483"
+    },
+    "amulet_spider": {
+      "source": "items-af02.png",
+      "source_sha256": "97296c6bee76d280c1585f9abb20ea45508195f14ecf0ea27d26d7fa0eb8db86",
+      "source_rect": [
+        1389,
+        459,
+        1715,
+        863
+      ],
+      "scale": 0.5510204081632653,
+      "offset": [
+        38,
+        17
+      ],
+      "visible_bounds": [
+        41,
+        20,
+        215,
+        237
+      ],
+      "export_sha256": "043549859c5597daf8a68be91e23eece2b66b718572e70bf0de22feff269ecae"
+    },
+    "scimitar": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        41,
+        69,
+        452,
+        400
+      ],
+      "scale": 0.5413533834586466,
+      "offset": [
+        17,
+        38
+      ],
+      "visible_bounds": [
+        20,
+        41,
+        236,
+        214
+      ],
+      "export_sha256": "f2bf080ef61174cdb423d536ea0e28ae5c3b445005383df5201256a689b55447"
+    },
+    "dagger": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        565,
+        137,
+        805,
+        384
+      ],
+      "scale": 0.9191489361702128,
+      "offset": [
+        18,
+        14
+      ],
+      "visible_bounds": [
+        23,
+        19,
+        234,
+        236
+      ],
+      "export_sha256": "211113d2026ca1600b9962f417938ea5a12695c595228c6e0c52a6e6a53cd0cd"
+    },
+    "shortsword": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        964,
+        97,
+        1262,
+        407
+      ],
+      "scale": 0.7248322147651006,
+      "offset": [
+        20,
+        16
+      ],
+      "visible_bounds": [
+        24,
+        20,
+        232,
+        237
+      ],
+      "export_sha256": "be37e4263c68928975d2845c6cdde0372a0d796d0af3e0cdc6116ac882f21db4"
+    },
+    "longsword": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        1376,
+        23,
+        1743,
+        407
+      ],
+      "scale": 0.5806451612903226,
+      "offset": [
+        21,
+        17
+      ],
+      "visible_bounds": [
+        24,
+        20,
+        231,
+        237
+      ],
+      "export_sha256": "ab115e4db3ba7e2bd5df73e1d51d1f61f561b1f8da38243ca185de5ae4d64ac2"
+    },
+    "greatsword": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        41,
+        447,
+        471,
+        861
+      ],
+      "scale": 0.5167464114832536,
+      "offset": [
+        17,
+        21
+      ],
+      "visible_bounds": [
+        20,
+        24,
+        236,
+        232
+      ],
+      "export_sha256": "cd55e6f7ff1936b11df056a33ccbbfbd4d30535ae454f7f60ee95f6030b9e95e"
+    },
+    "throwknife": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        524,
+        517,
+        885,
+        835
+      ],
+      "scale": 0.6189111747851003,
+      "offset": [
+        16,
+        30
+      ],
+      "visible_bounds": [
+        19,
+        33,
+        236,
+        224
+      ],
+      "export_sha256": "665d38b8b761914d9fd21579e71042ba6d58b2750dc4d464f6a4c0bbe48ac93c"
+    },
+    "club": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        952,
+        487,
+        1298,
+        835
+      ],
+      "scale": 0.6428571428571429,
+      "offset": [
+        17,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        235,
+        236
+      ],
+      "export_sha256": "97b82d86ce0de3073033266da88c5e4d5fedb81a35e242f07b94c937e4d487be"
+    },
+    "staff": {
+      "source": "items-af03.png",
+      "source_sha256": "21437dcb12e77c7486c93903847212915a4c863028bbfe798d0ee04470be5d63",
+      "source_rect": [
+        1348,
+        465,
+        1743,
+        850
+      ],
+      "scale": 0.5639686684073107,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        22,
+        237,
+        233
+      ],
+      "export_sha256": "d804642bf9a8255d47559429ae61ebba242edb865d5094ea1f0eb2677876aa9c"
+    },
+    "spear": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        50,
+        30,
+        439,
+        415
+      ],
+      "scale": 0.5729442970822282,
+      "offset": [
+        17,
+        18
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        237,
+        236
+      ],
+      "export_sha256": "77a761a01d704da052a9a01d7392e053019d9ae52b00acf67acc16506be32468"
+    },
+    "mace": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        494,
+        47,
+        865,
+        411
+      ],
+      "scale": 0.6016713091922006,
+      "offset": [
+        16,
+        18
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        234
+      ],
+      "export_sha256": "72b692e598a70bcaf39e142e7225e747b1d67848513d14946f4a3284949f93be"
+    },
+    "hammer": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        920,
+        34,
+        1292,
+        411
+      ],
+      "scale": 0.5917808219178082,
+      "offset": [
+        18,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        19,
+        235,
+        236
+      ],
+      "export_sha256": "1d8420f09b2b356f53ff62ab745250548800632718aaf61fec88f98ea05ef44d"
+    },
+    "flail": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        1346,
+        138,
+        1754,
+        397
+      ],
+      "scale": 0.5454545454545454,
+      "offset": [
+        17,
+        57
+      ],
+      "visible_bounds": [
+        20,
+        60,
+        237,
+        195
+      ],
+      "export_sha256": "0c662b69dcc5735e90f58a4c8040e05a0e3ef7aaee3575f40b9adfe61241872d"
+    },
+    "battleaxe": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        48,
+        454,
+        410,
+        857
+      ],
+      "scale": 0.5524296675191815,
+      "offset": [
+        28,
+        17
+      ],
+      "visible_bounds": [
+        31,
+        20,
+        225,
+        237
+      ],
+      "export_sha256": "66edae0330fc8b910872211d42bc8a1311640a1496811da647ff91ee4642d968"
+    },
+    "sling": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        474,
+        487,
+        850,
+        817
+      ],
+      "scale": 0.5934065934065934,
+      "offset": [
+        16,
+        30
+      ],
+      "visible_bounds": [
+        19,
+        34,
+        236,
+        223
+      ],
+      "export_sha256": "57a53334cdc4f5718200e88b1d210ed5a1f91906ccdb4951732a4683b5ea5004"
+    },
+    "shortbow": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        922,
+        453,
+        1282,
+        843
+      ],
+      "scale": 0.5714285714285714,
+      "offset": [
+        25,
+        17
+      ],
+      "visible_bounds": [
+        28,
+        20,
+        228,
+        237
+      ],
+      "export_sha256": "37c1bdd254831d42758300ae0017d05595a24595cd12224437a9c7b3a972c01d"
+    },
+    "longbow": {
+      "source": "items-af04.png",
+      "source_sha256": "f591be3cf2ee28d9fb6d732246f5953653704a6d6ec720cff21feb70a9a5cd43",
+      "source_rect": [
+        1364,
+        430,
+        1746,
+        871
+      ],
+      "scale": 0.5034965034965035,
+      "offset": [
+        32,
+        17
+      ],
+      "visible_bounds": [
+        35,
+        20,
+        221,
+        236
+      ],
+      "export_sha256": "cb48e943193e41cf4015b4890616a61b1290e965eaf7452710ce4c3c4f70ed1e"
+    },
+    "leather": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        20,
+        35,
+        422,
+        406
+      ],
+      "scale": 0.5538461538461539,
+      "offset": [
+        17,
+        25
+      ],
+      "visible_bounds": [
+        20,
+        28,
+        237,
+        227
+      ],
+      "export_sha256": "9fde43fac3896d152f19ee6c1dac7b9da0e8aa61d2a270bc511caeedfe0b7c91"
+    },
+    "studded": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        466,
+        35,
+        865,
+        404
+      ],
+      "scale": 0.5581395348837209,
+      "offset": [
+        17,
+        25
+      ],
+      "visible_bounds": [
+        20,
+        28,
+        237,
+        228
+      ],
+      "export_sha256": "fef1098fe8b6c7d3286c8fb0f970b5ab5cfac2c3ae004fb4a79ca6b6e6dab5bc"
+    },
+    "scale": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        908,
+        36,
+        1312,
+        398
+      ],
+      "scale": 0.5510204081632653,
+      "offset": [
+        17,
+        28
+      ],
+      "visible_bounds": [
+        20,
+        31,
+        237,
+        224
+      ],
+      "export_sha256": "f714b3cdfdf7a41b37f69a18ab67d7d840cc53ebbb5c8832da27b98441aafe41"
+    },
+    "wyrmscale": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        1349,
+        36,
+        1756,
+        407
+      ],
+      "scale": 0.5468354430379747,
+      "offset": [
+        17,
+        27
+      ],
+      "visible_bounds": [
+        20,
+        30,
+        237,
+        227
+      ],
+      "export_sha256": "192df4107110a987fb531d2d81fe32a304d64d81ef6accc9cce10ed30de893a4"
+    },
+    "chain": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        6,
+        455,
+        441,
+        845
+      ],
+      "scale": 0.5106382978723404,
+      "offset": [
+        17,
+        28
+      ],
+      "visible_bounds": [
+        20,
+        31,
+        236,
+        224
+      ],
+      "export_sha256": "be552a2863deb1ba57b3fb959d477013f3a83a254b4e0267c62a13ddc77fa281"
+    },
+    "splint": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        469,
+        456,
+        863,
+        840
+      ],
+      "scale": 0.5654450261780105,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        22,
+        237,
+        233
+      ],
+      "export_sha256": "4f385082ddb6223b55a3fa850a95c3926d29f0bed49e70668be55ae3f3517512"
+    },
+    "plate": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        893,
+        453,
+        1324,
+        853
+      ],
+      "scale": 0.5155131264916468,
+      "offset": [
+        17,
+        25
+      ],
+      "visible_bounds": [
+        20,
+        28,
+        236,
+        228
+      ],
+      "export_sha256": "2108e9d41cb001b905663ba2b01c18f90b8ad8cc7999912abb6897aedfe93959"
+    },
+    "robe_apprentice": {
+      "source": "items-af05.png",
+      "source_sha256": "a59923760d8367c5d87ed02daacd143aca96fbd868dda80077f65b400a609211",
+      "source_rect": [
+        1332,
+        446,
+        1767,
+        856
+      ],
+      "scale": 0.5106382978723404,
+      "offset": [
+        17,
+        23
+      ],
+      "visible_bounds": [
+        20,
+        26,
+        236,
+        229
+      ],
+      "export_sha256": "8132458b1f3ead6e9e57774fb10bb8b196cb3b0edad685c524de17c862c67bb7"
+    },
+    "robe_silk": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        33,
+        26,
+        427,
+        411
+      ],
+      "scale": 0.5654450261780105,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        22,
+        237,
+        234
+      ],
+      "export_sha256": "fd50007980cb30a129b60c74a0a78470184b9545ff04b36e1445c8b317b8b338"
+    },
+    "robe_warded": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        473,
+        26,
+        867,
+        412
+      ],
+      "scale": 0.5654450261780105,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        22,
+        237,
+        234
+      ],
+      "export_sha256": "b34b8038e5ad9c1ac6be73e599b2b99947114f7fd5afc7cf8d7ee78acedb3a61"
+    },
+    "robe_magi": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        909,
+        26,
+        1304,
+        410
+      ],
+      "scale": 0.5639686684073107,
+      "offset": [
+        17,
+        20
+      ],
+      "visible_bounds": [
+        20,
+        23,
+        237,
+        234
+      ],
+      "export_sha256": "7d4849303cfecc991dbdd2c717d0480f5f9f352e1aed36c563d40dc593cb431a"
+    },
+    "buckler": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        1381,
+        66,
+        1710,
+        399
+      ],
+      "scale": 0.6728971962616822,
+      "offset": [
+        17,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        234,
+        236
+      ],
+      "export_sha256": "2bce98111a653e60217f85ec3c85448f2c52c5e9d76e5464ba55091f4a3d3084"
+    },
+    "shield": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        68,
+        432,
+        392,
+        844
+      ],
+      "scale": 0.54,
+      "offset": [
+        41,
+        17
+      ],
+      "visible_bounds": [
+        44,
+        20,
+        213,
+        236
+      ],
+      "export_sha256": "cf4ece5f0d259df6ba8692db4bb43e63a07a56bdd4206fdbe763fc295f77a416"
+    },
+    "quillshield": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        452,
+        412,
+        896,
+        854
+      ],
+      "scale": 0.5,
+      "offset": [
+        17,
+        18
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        236
+      ],
+      "export_sha256": "78957dfc6b42b6affbc53c877c48759294efdafb59d47193f5283d9d59bcaed3"
+    },
+    "towershield": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        950,
+        421,
+        1273,
+        861
+      ],
+      "scale": 0.5046728971962616,
+      "offset": [
+        46,
+        17
+      ],
+      "visible_bounds": [
+        49,
+        20,
+        206,
+        236
+      ],
+      "export_sha256": "dd72b6d71f41091517eb55f1980d85fb5199f163cf524bd763595f2251db1e20"
+    },
+    "cloak_protect": {
+      "source": "items-af06.png",
+      "source_sha256": "30f8fe1b5c0504d03e779481e1402a892a79fec2b93f584008e2609d5f1bbebb",
+      "source_rect": [
+        1343,
+        442,
+        1737,
+        851
+      ],
+      "scale": 0.5440806045340051,
+      "offset": [
+        21,
+        17
+      ],
+      "visible_bounds": [
+        24,
+        20,
+        232,
+        237
+      ],
+      "export_sha256": "399ce014519cfa1e2dfbd6b2d80f00edbf7728616f572e99591e7e6a18b61265"
+    },
+    "cloak_elven": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        64,
+        52,
+        425,
+        438
+      ],
+      "scale": 0.5775401069518716,
+      "offset": [
+        24,
+        17
+      ],
+      "visible_bounds": [
+        27,
+        20,
+        229,
+        237
+      ],
+      "export_sha256": "8a1e291ac8e7c2751325f69236e2ad2a6e2376e0fc5127ac3b829fda3979bdde"
+    },
+    "cloak_shadow": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        503,
+        51,
+        863,
+        439
+      ],
+      "scale": 0.574468085106383,
+      "offset": [
+        25,
+        17
+      ],
+      "visible_bounds": [
+        28,
+        21,
+        228,
+        237
+      ],
+      "export_sha256": "51ef54a39177883a2bb8f577aa2498e2f7cb1c445f1e0795d33c444aa730c632"
+    },
+    "cloak_warmth": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        940,
+        52,
+        1307,
+        440
+      ],
+      "scale": 0.574468085106383,
+      "offset": [
+        23,
+        17
+      ],
+      "visible_bounds": [
+        27,
+        20,
+        231,
+        237
+      ],
+      "export_sha256": "e946e21513b7ee9f01caf1c48c27e2796770ce16d0e6c1ca122082feeb07b896"
+    },
+    "spellbook": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        1385,
+        61,
+        1733,
+        425
+      ],
+      "scale": 0.6136363636363636,
+      "offset": [
+        21,
+        16
+      ],
+      "visible_bounds": [
+        24,
+        19,
+        231,
+        236
+      ],
+      "export_sha256": "17579c6d2642ad6ac162d7a447974541755b80e40934c3d00d80ead6fe62dc38"
+    },
+    "crystal_orb": {
+      "source": "items-af-orbs-repair.png",
+      "source_sha256": "27651eb92171d06a1304fb75a0e3ce27e44937a64551e0835cf4d18da3bfd1c9",
+      "source_rect": [
+        166,
+        96,
+        771,
+        825
+      ],
+      "scale": 0.301255230125523,
+      "offset": [
+        37,
+        18
+      ],
+      "visible_bounds": [
+        39,
+        19,
+        217,
+        236
+      ],
+      "export_sha256": "d60106f1495fcced0f87715b6ec21697d74d08961d2c1cb07fb24cc000272c0d"
+    },
+    "orb_storms": {
+      "source": "items-af-orbs-repair.png",
+      "source_sha256": "27651eb92171d06a1304fb75a0e3ce27e44937a64551e0835cf4d18da3bfd1c9",
+      "source_rect": [
+        996,
+        95,
+        1601,
+        825
+      ],
+      "scale": 0.3008356545961003,
+      "offset": [
+        37,
+        18
+      ],
+      "visible_bounds": [
+        39,
+        20,
+        217,
+        236
+      ],
+      "export_sha256": "4aef4ba8a8ebcbae940b35d8b1158554621b5fdc70ee77a6ee9728a93b870aed"
+    },
+    "holy_symbol": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        952,
+        467,
+        1291,
+        853
+      ],
+      "scale": 0.5775401069518716,
+      "offset": [
+        30,
+        17
+      ],
+      "visible_bounds": [
+        33,
+        20,
+        223,
+        236
+      ],
+      "export_sha256": "f37658b73bed6d3f912ea7315b024dcae59eda6c0dd571c6e1b6630fc2e32bdd"
+    },
+    "silver_symbol": {
+      "source": "items-af07.png",
+      "source_sha256": "89966851205f56f2c5a08a1bee3c93a27cb9e6934fdc11ae28cfee8538f9af1e",
+      "source_rect": [
+        1379,
+        466,
+        1722,
+        855
+      ],
+      "scale": 0.5729442970822282,
+      "offset": [
+        30,
+        17
+      ],
+      "visible_bounds": [
+        33,
+        20,
+        224,
+        237
+      ],
+      "export_sha256": "d0920e0f68451537889e3fb14f801de4c7ccf766596f52f6e91eb84b8cc97c3b"
+    },
+    "reliquary": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        71,
+        45,
+        379,
+        422
+      ],
+      "scale": 0.5917808219178082,
+      "offset": [
+        37,
+        16
+      ],
+      "visible_bounds": [
+        40,
+        20,
+        215,
+        235
+      ],
+      "export_sha256": "3bffb1550d887dc56041faba7adfa9246712b2c754e1a2c7c475b1cae1b96a36"
+    },
+    "potion_red": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        557,
+        86,
+        820,
+        434
+      ],
+      "scale": 0.6428571428571429,
+      "offset": [
+        43,
+        16
+      ],
+      "visible_bounds": [
+        46,
+        19,
+        208,
+        236
+      ],
+      "export_sha256": "3d5d66a62c96e71255e89d76579779e24629e60de2bcc3c83fa1f29616a92812"
+    },
+    "potion_pink": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        965,
+        62,
+        1277,
+        434
+      ],
+      "scale": 0.6,
+      "offset": [
+        34,
+        16
+      ],
+      "visible_bounds": [
+        37,
+        20,
+        217,
+        235
+      ],
+      "export_sha256": "6892bebe9a06b459989a6c75a4f13338a3ebc9980841ee0fea4e9965ca29db70"
+    },
+    "potion_green": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        1510,
+        46,
+        1626,
+        434
+      ],
+      "scale": 0.574468085106383,
+      "offset": [
+        95,
+        17
+      ],
+      "visible_bounds": [
+        98,
+        20,
+        158,
+        236
+      ],
+      "export_sha256": "25a32aa81535db555ecf731a69067fbe9c30d6e1ded0faba9880cb17210719c0"
+    },
+    "potion_orange": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        105,
+        451,
+        349,
+        842
+      ],
+      "scale": 0.5699208443271768,
+      "offset": [
+        58,
+        17
+      ],
+      "visible_bounds": [
+        61,
+        21,
+        194,
+        237
+      ],
+      "export_sha256": "35caf6ea94edb68218de2b03cd2f9571139d4af6d783eacaa30994131369a3ae"
+    },
+    "potion_blue": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        517,
+        528,
+        849,
+        838
+      ],
+      "scale": 0.675,
+      "offset": [
+        16,
+        23
+      ],
+      "visible_bounds": [
+        20,
+        27,
+        236,
+        228
+      ],
+      "export_sha256": "7ba84899b8add9fb3af21fc539759c10c85a74afac0f1315e07eb797bc0d3864"
+    },
+    "satchel": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        928,
+        460,
+        1302,
+        840
+      ],
+      "scale": 0.5869565217391305,
+      "offset": [
+        18,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        234,
+        236
+      ],
+      "export_sha256": "2750f043f986e789f3461c4852955cb636d9565ddd5cb1dcf65c85b6db0a6644"
+    },
+    "quench": {
+      "source": "items-af08.png",
+      "source_sha256": "e7ffdc7d85bb54409320254eecb78459c6f8f8587d9d6f1bcabf0924d3d9a8b3",
+      "source_rect": [
+        1413,
+        461,
+        1716,
+        844
+      ],
+      "scale": 0.5822102425876011,
+      "offset": [
+        40,
+        17
+      ],
+      "visible_bounds": [
+        43,
+        20,
+        213,
+        237
+      ],
+      "export_sha256": "d0bb80d7f363a09f5937bb1afaf2cbd79cca89398015a2782c1d26e95e829b81"
+    },
+    "charm_collar": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        57,
+        155,
+        464,
+        427
+      ],
+      "scale": 0.5468354430379747,
+      "offset": [
+        17,
+        54
+      ],
+      "visible_bounds": [
+        20,
+        57,
+        237,
+        200
+      ],
+      "export_sha256": "a330ea1e31e02f50914ff5ad10d0a6bd004f1c61cb3dd82a32e895d3d810c552"
+    },
+    "charm_fang": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        510,
+        35,
+        779,
+        447
+      ],
+      "scale": 0.54,
+      "offset": [
+        55,
+        17
+      ],
+      "visible_bounds": [
+        58,
+        20,
+        197,
+        236
+      ],
+      "export_sha256": "04f071faa06b4278fc985038c777eeb7c893d9d82363e2f1d7a5505ac012cd7b"
+    },
+    "charm_rowan": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        999,
+        100,
+        1269,
+        453
+      ],
+      "scale": 0.6334310850439883,
+      "offset": [
+        42,
+        16
+      ],
+      "visible_bounds": [
+        45,
+        19,
+        210,
+        237
+      ],
+      "export_sha256": "b0e9fdbaafcf8b17aeb4748ef178a7de49fe03622898eaa6551889f63b52a1a3"
+    },
+    "charm_whetstone": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        1402,
+        52,
+        1716,
+        458
+      ],
+      "scale": 0.5482233502538071,
+      "offset": [
+        42,
+        17
+      ],
+      "visible_bounds": [
+        45,
+        20,
+        211,
+        237
+      ],
+      "export_sha256": "42ca148e528433267134fdc55fb4dcebdff0fd5ba6f51b458f744a4d488bd1c3"
+    },
+    "oil_fire": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        52,
+        484,
+        408,
+        839
+      ],
+      "scale": 0.627906976744186,
+      "offset": [
+        16,
+        17
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        237
+      ],
+      "export_sha256": "9349d0ef0125b293986add89ce3fcf63fc712cb6545a2958c53be854297d8ad2"
+    },
+    "lamp_oil": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        503,
+        484,
+        855,
+        839
+      ],
+      "scale": 0.6297376093294461,
+      "offset": [
+        17,
+        16
+      ],
+      "visible_bounds": [
+        20,
+        19,
+        236,
+        236
+      ],
+      "export_sha256": "b8770c301c756e28891a0610c3efe58ebd32416269762aa80bea3720cfb4f9d0"
+    },
+    "oil_silver": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        944,
+        484,
+        1298,
+        840
+      ],
+      "scale": 0.627906976744186,
+      "offset": [
+        17,
+        16
+      ],
+      "visible_bounds": [
+        20,
+        20,
+        235,
+        236
+      ],
+      "export_sha256": "870dfa2d6ad461d0321cab9f5a05a80a8eb5a7cdd2cf215ca697f7bf69501ac4"
+    },
+    "oil_venom": {
+      "source": "items-af09.png",
+      "source_sha256": "769bd4bd141f7e4ceff7a627b054d830933327c31b063af84ed75107f816eb57",
+      "source_rect": [
+        1390,
+        484,
+        1740,
+        840
+      ],
+      "scale": 0.627906976744186,
+      "offset": [
+        18,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        235,
+        236
+      ],
+      "export_sha256": "9a748d28d59fd3c069169a8d0dfc04c1a5c162fcfa70c328b5ab7b1271b62c64"
+    },
+    "oil_frost": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        43,
+        113,
+        411,
+        461
+      ],
+      "scale": 0.6067415730337079,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        20,
+        26,
+        235,
+        230
+      ],
+      "export_sha256": "f8df4ca2b8d87448181b29d6904e347b0fd215bb17558246a20ceb0fa381c6da"
+    },
+    "scroll": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        497,
+        93,
+        862,
+        476
+      ],
+      "scale": 0.5822102425876011,
+      "offset": [
+        22,
+        17
+      ],
+      "visible_bounds": [
+        25,
+        21,
+        232,
+        237
+      ],
+      "export_sha256": "1ec3f0c5756fc2df72d938256ccf786a82f40f3da4a9de43776a8c36d5287ce8"
+    },
+    "page": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        972,
+        89,
+        1279,
+        461
+      ],
+      "scale": 0.6,
+      "offset": [
+        36,
+        16
+      ],
+      "visible_bounds": [
+        40,
+        19,
+        216,
+        235
+      ],
+      "export_sha256": "f6ee68294d0e292b4d1da33d65ca547f3104ee441c56693b6d8488f8328de4a4"
+    },
+    "ration": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        1383,
+        133,
+        1743,
+        449
+      ],
+      "scale": 0.6206896551724138,
+      "offset": [
+        16,
+        30
+      ],
+      "visible_bounds": [
+        19,
+        34,
+        235,
+        222
+      ],
+      "export_sha256": "a74c909e6501e70a63e1dd967800231903097f30a1c643a91ebd8db23814026b"
+    },
+    "meat": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        42,
+        492,
+        425,
+        835
+      ],
+      "scale": 0.5822102425876011,
+      "offset": [
+        17,
+        28
+      ],
+      "visible_bounds": [
+        20,
+        31,
+        237,
+        224
+      ],
+      "export_sha256": "55a12f99d56df29fd0b39d27f6c90a42fdd6d491dfe961d72b626fca739efb13"
+    },
+    "caps": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        504,
+        524,
+        861,
+        830
+      ],
+      "scale": 0.6260869565217392,
+      "offset": [
+        16,
+        32
+      ],
+      "visible_bounds": [
+        20,
+        36,
+        236,
+        220
+      ],
+      "export_sha256": "db543e189fab56a78570fca293d70e50ae883df5995f96272c962e85eef4b670"
+    },
+    "bread": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        917,
+        562,
+        1313,
+        822
+      ],
+      "scale": 0.5625,
+      "offset": [
+        17,
+        55
+      ],
+      "visible_bounds": [
+        20,
+        58,
+        237,
+        198
+      ],
+      "export_sha256": "40e9de0e869daf90e6e7f02b967427efc128d22fc3856b6facd1cbbd2f83fb41"
+    },
+    "gold": {
+      "source": "items-af10.png",
+      "source_sha256": "107ea53b6456a7caaee7541eb469cd86b353a2cfc92f7b87e6689e1550c1a5dd",
+      "source_rect": [
+        1377,
+        599,
+        1739,
+        832
+      ],
+      "scale": 0.6171428571428571,
+      "offset": [
+        16,
+        56
+      ],
+      "visible_bounds": [
+        20,
+        60,
+        235,
+        196
+      ],
+      "export_sha256": "3d7690beb80001acf7833c228f5fca2e4aedf9704d20ba35778afa91d42c07bc"
+    },
+    "gem": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        74,
+        117,
+        404,
+        409
+      ],
+      "scale": 0.6792452830188679,
+      "offset": [
+        16,
+        29
+      ],
+      "visible_bounds": [
+        20,
+        33,
+        236,
+        223
+      ],
+      "export_sha256": "bc292b00459707cec34e613c2b835f242414a47264d82ef1319e0832fa86677f"
+    },
+    "artifact": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        510,
+        74,
+        828,
+        432
+      ],
+      "scale": 0.6242774566473989,
+      "offset": [
+        29,
+        16
+      ],
+      "visible_bounds": [
+        32,
+        19,
+        224,
+        235
+      ],
+      "export_sha256": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+    },
+    "key": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        941,
+        82,
+        1294,
+        417
+      ],
+      "scale": 0.6334310850439883,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        20,
+        26,
+        236,
+        230
+      ],
+      "export_sha256": "7a0abbc7fc38479fadf7e2af716364e932261557817160a1cefbe780f3fbe4c7"
+    },
+    "key_brass": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        1385,
+        82,
+        1737,
+        417
+      ],
+      "scale": 0.6352941176470588,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        19,
+        26,
+        236,
+        231
+      ],
+      "export_sha256": "abf7adb3a73f1f483c8fcc8b79d108d5a155b9b92d46f0b697d9bad82d11dc67"
+    },
+    "key_silver": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        54,
+        488,
+        407,
+        824
+      ],
+      "scale": 0.6334310850439883,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        20,
+        26,
+        236,
+        231
+      ],
+      "export_sha256": "aee41abb91f46305464fcf3650dc122595bf50f3cf4565351bff04b4ed266931"
+    },
+    "key_gold": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        498,
+        488,
+        850,
+        824
+      ],
+      "scale": 0.6352941176470588,
+      "offset": [
+        16,
+        21
+      ],
+      "visible_bounds": [
+        19,
+        25,
+        237,
+        230
+      ],
+      "export_sha256": "ca026ef3974e1ad3a4450ac463d38b36aa46279dccc153b5c1cc0f3be591f6e2"
+    },
+    "key_iron": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        941,
+        488,
+        1294,
+        824
+      ],
+      "scale": 0.6334310850439883,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        20,
+        26,
+        237,
+        231
+      ],
+      "export_sha256": "064c005dd8c51df0268cea4049f4d6b711ca6c03071defdf39b4b8f32094688c"
+    },
+    "key_bone": {
+      "source": "items-af11.png",
+      "source_sha256": "03e84d163f5319746e70270d0fe78e68aa6e1150b624c4ada16b0a96eb0dc8ab",
+      "source_rect": [
+        1385,
+        488,
+        1737,
+        824
+      ],
+      "scale": 0.6352941176470588,
+      "offset": [
+        16,
+        21
+      ],
+      "visible_bounds": [
+        19,
+        25,
+        236,
+        230
+      ],
+      "export_sha256": "3b869af9f3c933ace1eb8013c90337b47be8ea3af7d6ef0752d55b17be5b71e4"
+    },
+    "elvenchain": {
+      "approved_reuse": "batch-p-preview/elvenchain.webp",
+      "source_sha256": "d3022bbfaeb0369d09265be525fc868596d27c76e5aafc234460628569b72ecb",
+      "reserve": false,
+      "visible_bounds": [
+        21,
+        40,
+        235,
+        216
+      ],
+      "export_sha256": "3aad214dc848fc97a775b8d69f951d5f95fa34e9477f0b30d4304fa9e477581f"
+    },
+    "dwarfplate": {
+      "approved_reuse": "batch-p-preview/dwarfplate.webp",
+      "source_sha256": "714c6b0f17e5df7c219ad296ec2b1160481d80aeab42f0dc41dc4e851beb09b8",
+      "reserve": false,
+      "visible_bounds": [
+        21,
+        35,
+        235,
+        220
+      ],
+      "export_sha256": "bd7861f1d54a0e7b96e82329b897ca5acef714599af08f758c6c644094e51c05"
+    },
+    "dwarfhammer": {
+      "approved_reuse": "batch-p-preview/dwarfhammer.webp",
+      "source_sha256": "c6b26f6ddc4659ed8655ed42933716210f6bc720928c6a2e26dc23ae2c539e62",
+      "reserve": false,
+      "visible_bounds": [
+        21,
+        25,
+        235,
+        230
+      ],
+      "export_sha256": "53d296c2b365699bfe8851fbe6f54e81c3eb5211ac713e5521d0f64d6992f5be"
+    },
+    "runeshield": {
+      "approved_reuse": "batch-p-preview/runeshield.webp",
+      "source_sha256": "4f01aad220c8a01febbbb542a0b0d1335d7014773752ce6c02eaa72257c69bcf",
+      "reserve": false,
+      "visible_bounds": [
+        55,
+        21,
+        200,
+        235
+      ],
+      "export_sha256": "27162a9f5a31980b48e3e6807888a8ce131c68f60dc87ed457afe714426cbf5c"
+    },
+    "marshhide": {
+      "approved_reuse": "batch-p-preview/marshhide.webp",
+      "source_sha256": "e89fdd67c27bcaa06ba5e1d9eff5c26accbfcb13f68bd639850241ec43a528ac",
+      "reserve": false,
+      "visible_bounds": [
+        21,
+        34,
+        235,
+        222
+      ],
+      "export_sha256": "d5b702ed4044619893140244c97668d47b6af32470ac93414541d93b03e9ce7f"
+    },
+    "amulet_tooth": {
+      "approved_reuse": "batch-p-preview/amulet_tooth.webp",
+      "source_sha256": "04940ff2f7cca6993b787830eb38fbfd61a893ffb144f4b76b2bf6d0eb222b5a",
+      "reserve": true,
+      "visible_bounds": [
+        38,
+        21,
+        218,
+        235
+      ],
+      "export_sha256": "64ecd7e854d4d9312e6199ff065e4941052508c3aaadeec6c148a1c3bba1d19d"
+    },
+    "handxbow": {
+      "approved_reuse": "batch-p-preview/handxbow.webp",
+      "source_sha256": "3c533408273cdd741bc1c1b205fc022b136b98c094d59006b24aa947f810e5ec",
+      "reserve": false,
+      "visible_bounds": [
+        21,
+        33,
+        235,
+        223
+      ],
+      "export_sha256": "c3ed300ae2ca5c6238761c20af89ff807acd85518d7f6d154346df9973b66b8f"
+    },
+    "mythic_last_gate": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        77,
+        55,
+        403,
+        446
+      ],
+      "scale": 0.5699208443271768,
+      "offset": [
+        35,
+        17
+      ],
+      "visible_bounds": [
+        38,
+        21,
+        217,
+        237
+      ],
+      "export_sha256": "76b131385cf69ef34c763ca2b69c03b2f05ebd3e9e632d059242ab41b61009d2"
+    },
+    "mythic_mercys_oath": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        532,
+        46,
+        849,
+        440
+      ],
+      "scale": 0.5654450261780105,
+      "offset": [
+        38,
+        17
+      ],
+      "visible_bounds": [
+        41,
+        20,
+        214,
+        237
+      ],
+      "export_sha256": "9c22155ba5c3e030d674f2336a2b2fd62bf6b028fb1e64570ed743ec6aa48b6a"
+    },
+    "mythic_bloodstar": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        972,
+        94,
+        1272,
+        459
+      ],
+      "scale": 0.6118980169971672,
+      "offset": [
+        36,
+        16
+      ],
+      "visible_bounds": [
+        39,
+        20,
+        217,
+        236
+      ],
+      "export_sha256": "c925011bb16fcaede8d4b0abc75c4d4285e6a1c79167ed3562dc54df2c5b33a4"
+    },
+    "mythic_nightglass": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        1476,
+        43,
+        1708,
+        444
+      ],
+      "scale": 0.5552699228791774,
+      "offset": [
+        64,
+        17
+      ],
+      "visible_bounds": [
+        67,
+        20,
+        190,
+        237
+      ],
+      "export_sha256": "e99d0b3b847850dc9a2936287ed689bbf0c28a64cd64a74485b74cffcae6b472"
+    },
+    "mythic_horizon": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        51,
+        449,
+        429,
+        848
+      ],
+      "scale": 0.5581395348837209,
+      "offset": [
+        23,
+        17
+      ],
+      "visible_bounds": [
+        26,
+        20,
+        231,
+        237
+      ],
+      "export_sha256": "3202d516f3214bb141b6d47891e9f9df132a3e59e67bc29a42cd1fd974aa31b3"
+    },
+    "mythic_elderseed": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        569,
+        473,
+        812,
+        835
+      ],
+      "scale": 0.6171428571428571,
+      "offset": [
+        53,
+        16
+      ],
+      "visible_bounds": [
+        57,
+        19,
+        200,
+        236
+      ],
+      "export_sha256": "e34858033385b26445a00c66cea01b154f9f5e1bf3be030a6e4603a4c0b54cca"
+    },
+    "relic_grimtooth": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        932,
+        487,
+        1302,
+        844
+      ],
+      "scale": 0.6033519553072626,
+      "offset": [
+        16,
+        20
+      ],
+      "visible_bounds": [
+        20,
+        24,
+        235,
+        231
+      ],
+      "export_sha256": "236a66444abcfb4ddf1a5867adaf8fba5e655f07da0b4b7bf9fa9b51ac4d5f25"
+    },
+    "relic_whisper": {
+      "source": "items-af12.png",
+      "source_sha256": "2156a1a5d004ee11dad21340390ca14887d1de7833e8da77bea3e15031aa5082",
+      "source_rect": [
+        1386,
+        463,
+        1744,
+        832
+      ],
+      "scale": 0.6050420168067226,
+      "offset": [
+        20,
+        16
+      ],
+      "visible_bounds": [
+        23,
+        19,
+        233,
+        235
+      ],
+      "export_sha256": "9eaa3cb3b8c69b9478e66aa3a70965094547100106b3e7d5f650e620daed9625"
+    },
+    "relic_thirst": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        35,
+        53,
+        417,
+        427
+      ],
+      "scale": 0.5837837837837838,
+      "offset": [
+        16,
+        19
+      ],
+      "visible_bounds": [
+        19,
+        22,
+        236,
+        234
+      ],
+      "export_sha256": "0e8c8986923de537b99478aa94a4fdcf61a173db1c8af3c612526eeb254896e0"
+    },
+    "relic_dawnbringer": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        475,
+        52,
+        871,
+        437
+      ],
+      "scale": 0.5625,
+      "offset": [
+        17,
+        20
+      ],
+      "visible_bounds": [
+        20,
+        23,
+        237,
+        234
+      ],
+      "export_sha256": "59f5bff79a60b3d737c342570c78bfd050d93a1922686fb9c162da85b2645db2"
+    },
+    "relic_penitent": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        894,
+        162,
+        1326,
+        433
+      ],
+      "scale": 0.5142857142857142,
+      "offset": [
+        17,
+        58
+      ],
+      "visible_bounds": [
+        20,
+        61,
+        236,
+        194
+      ],
+      "export_sha256": "531d107b435b35658a017c8fb32eca26f9f8e6836b9e1d99496c04e41f79f31c"
+    },
+    "relic_ogres_toll": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        1362,
+        25,
+        1756,
+        437
+      ],
+      "scale": 0.54,
+      "offset": [
+        22,
+        17
+      ],
+      "visible_bounds": [
+        25,
+        20,
+        232,
+        236
+      ],
+      "export_sha256": "b4791868d7761e241dd7c6e76f52eefd08b162eb5dfbcc3f32cdd7000b86c5da"
+    },
+    "relic_ninth_circle": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        37,
+        477,
+        430,
+        845
+      ],
+      "scale": 0.5669291338582677,
+      "offset": [
+        17,
+        24
+      ],
+      "visible_bounds": [
+        20,
+        27,
+        237,
+        230
+      ],
+      "export_sha256": "e97d97946d7302d3e330cb1b42261c50652bd308213d78e1305faa4f9081fa79"
+    },
+    "relic_emberwood": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        462,
+        462,
+        853,
+        843
+      ],
+      "scale": 0.5699208443271768,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        22,
+        237,
+        233
+      ],
+      "export_sha256": "501c0fe83b6181350cde055588f5a9f9a0664040a84dbae9d55e88de3376dfa0"
+    },
+    "relic_vashti": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        957,
+        492,
+        1313,
+        831
+      ],
+      "scale": 0.627906976744186,
+      "offset": [
+        16,
+        22
+      ],
+      "visible_bounds": [
+        20,
+        25,
+        236,
+        231
+      ],
+      "export_sha256": "28e9ac28a1587b1ee22d4e5f785485b25002895d473b93c965331e3be052a0f1"
+    },
+    "relic_heartseeker": {
+      "source": "items-af13.png",
+      "source_sha256": "daf9d2acaa9f65e6770fdaeae1e352f0a0a9597b5960d9de4ec1fa24662ee181",
+      "source_rect": [
+        1387,
+        456,
+        1748,
+        848
+      ],
+      "scale": 0.5684210526315789,
+      "offset": [
+        25,
+        17
+      ],
+      "visible_bounds": [
+        28,
+        20,
+        226,
+        237
+      ],
+      "export_sha256": "6e37b0a50833fb20dc20c613c29e15eab39d5d765530c41b2f4bbb0ff3f0e4fa"
+    },
+    "relic_rustwarden": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        34,
+        62,
+        442,
+        403
+      ],
+      "scale": 0.5454545454545454,
+      "offset": [
+        17,
+        35
+      ],
+      "visible_bounds": [
+        20,
+        38,
+        237,
+        218
+      ],
+      "export_sha256": "c5b5544679318faab55842cfd86b3094a951a502fba554f9024405ced7af0266"
+    },
+    "relic_shadowskin": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        462,
+        62,
+        858,
+        402
+      ],
+      "scale": 0.5625,
+      "offset": [
+        17,
+        32
+      ],
+      "visible_bounds": [
+        20,
+        35,
+        237,
+        220
+      ],
+      "export_sha256": "d524645ab519ad09f78019336e958c8cf92d9974261f2c434aae8b709df15ceb"
+    },
+    "relic_briarcoat": {
+      "source": "items-af-armour-repair.png",
+      "source_sha256": "3e22c00c5bb356507a600f049551f54c3c983c1f73b0c79bb36600198617b099",
+      "source_rect": [
+        105,
+        73,
+        883,
+        797
+      ],
+      "scale": 0.2819843342036554,
+      "offset": [
+        18,
+        26
+      ],
+      "visible_bounds": [
+        20,
+        27,
+        236,
+        229
+      ],
+      "export_sha256": "6b25c03be0714cfd65466c0d00629288353f3f032538f624f0561aec53b64b51"
+    },
+    "relic_kests_bulwark": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        1384,
+        46,
+        1712,
+        429
+      ],
+      "scale": 0.5822102425876011,
+      "offset": [
+        33,
+        17
+      ],
+      "visible_bounds": [
+        37,
+        20,
+        221,
+        237
+      ],
+      "export_sha256": "74b76b6e43168b2fb3f7de40624534d62f8d5eb7d47917bd84bb23107496461b"
+    },
+    "relic_sisters_buckler": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        49,
+        481,
+        392,
+        826
+      ],
+      "scale": 0.6486486486486487,
+      "offset": [
+        17,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        235,
+        236
+      ],
+      "export_sha256": "8f6dfaed7431b6532ff2edf073d913b1a4d12a1e7984df2928db34e8c6bee561"
+    },
+    "relic_hearthwool": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        462,
+        449,
+        867,
+        847
+      ],
+      "scale": 0.549618320610687,
+      "offset": [
+        17,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        23,
+        237,
+        235
+      ],
+      "export_sha256": "0fde8f209f473f016a80fcba0476d171cec46ce324995f7e46195031319b5edd"
+    },
+    "relic_archivist": {
+      "source": "items-af-armour-repair.png",
+      "source_sha256": "3e22c00c5bb356507a600f049551f54c3c983c1f73b0c79bb36600198617b099",
+      "source_rect": [
+        931,
+        54,
+        1685,
+        810
+      ],
+      "scale": 0.2903225806451613,
+      "offset": [
+        19,
+        18
+      ],
+      "visible_bounds": [
+        21,
+        19,
+        237,
+        235
+      ],
+      "export_sha256": "950948eb44490053a3ede9a56f9f876d00b1b648582d19f39e7aa50da80675e6"
+    },
+    "relic_midnight_folio": {
+      "source": "items-af14.png",
+      "source_sha256": "e98915fdbb3a70961d5089a6e55f427c8d7feaf4cd9ac601c6c519d4cad7080a",
+      "source_rect": [
+        1380,
+        461,
+        1748,
+        844
+      ],
+      "scale": 0.5822102425876011,
+      "offset": [
+        21,
+        17
+      ],
+      "visible_bounds": [
+        24,
+        21,
+        232,
+        237
+      ],
+      "export_sha256": "65918a39fcb649e02039727ca39b860ef1c9e052413ab7feba4156b5324d3e9f"
+    },
+    "relic_sparkglass": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        73,
+        83,
+        348,
+        435
+      ],
+      "scale": 0.6352941176470588,
+      "offset": [
+        41,
+        16
+      ],
+      "visible_bounds": [
+        45,
+        20,
+        212,
+        236
+      ],
+      "export_sha256": "c80e7a368a5e1cabba56b23d7a152a6dabb37043cf29e3eb76c1742495231f2c"
+    },
+    "relic_boarspear": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        435,
+        41,
+        827,
+        430
+      ],
+      "scale": 0.5684210526315789,
+      "offset": [
+        17,
+        17
+      ],
+      "visible_bounds": [
+        20,
+        20,
+        237,
+        235
+      ],
+      "export_sha256": "365b94ffc94657c4c6480f84b1cc9a7635cf7b72c825b91a152d2875f437e4a5"
+    },
+    "relic_galewind": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        925,
+        13,
+        1335,
+        444
+      ],
+      "scale": 0.5155131264916468,
+      "offset": [
+        22,
+        17
+      ],
+      "visible_bounds": [
+        25,
+        20,
+        230,
+        236
+      ],
+      "export_sha256": "48853d6b69288e67cd576143da2d10b501ce8141b448ce7495d5ea1222540d1c"
+    },
+    "relic_sextons_locket": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        1398,
+        13,
+        1738,
+        429
+      ],
+      "scale": 0.5346534653465347,
+      "offset": [
+        37,
+        17
+      ],
+      "visible_bounds": [
+        40,
+        20,
+        216,
+        236
+      ],
+      "export_sha256": "f43f5447fbaa960fb3398cec6c1e5e6bd32627de5ed02e3ca7f658bcfca50b1e"
+    },
+    "relic_oakheart": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        34,
+        454,
+        424,
+        851
+      ],
+      "scale": 0.561038961038961,
+      "offset": [
+        19,
+        17
+      ],
+      "visible_bounds": [
+        22,
+        20,
+        235,
+        237
+      ],
+      "export_sha256": "bc9afe7b9be9ece2440f9b7e6c2c931b634ee114fe91d5f145a9144988a6a4b9"
+    },
+    "relic_mossmantle": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        474,
+        458,
+        860,
+        843
+      ],
+      "scale": 0.5775401069518716,
+      "offset": [
+        17,
+        17
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        237,
+        236
+      ],
+      "export_sha256": "cdba26caff0dfb4dc0555e821dee99cded1b116868280d46cd116932a07ad6aa"
+    },
+    "relic_cinder_ring": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        951,
+        516,
+        1282,
+        845
+      ],
+      "scale": 0.677115987460815,
+      "offset": [
+        16,
+        17
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        236
+      ],
+      "export_sha256": "54473ff0182ee6e1e75afe75658496ab0d4b1d3d235e06c991de6ab1628db0b5"
+    },
+    "relic_spider_pendant": {
+      "source": "items-af15.png",
+      "source_sha256": "68f73dc56ebd98b7e738c145623e989d271902b7c137f01bfb3550cca32d66b8",
+      "source_rect": [
+        1396,
+        439,
+        1733,
+        868
+      ],
+      "scale": 0.5179856115107914,
+      "offset": [
+        41,
+        17
+      ],
+      "visible_bounds": [
+        44,
+        20,
+        213,
+        236
+      ],
+      "export_sha256": "7796f70683ff478473ba7ef5b45bdd3c4cc7def95333a4a4cc1fd0f156e2e19b"
+    },
+    "relic_thane_ring": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        48,
+        51,
+        425,
+        404
+      ],
+      "scale": 0.5917808219178082,
+      "offset": [
+        16,
+        24
+      ],
+      "visible_bounds": [
+        19,
+        27,
+        236,
+        229
+      ],
+      "export_sha256": "45dcd68826d904b59e3798cd57d0b64be3bf0c06944c8cc2772a8d95cdf4c908"
+    },
+    "relic_hissra_tooth": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        485,
+        36,
+        855,
+        412
+      ],
+      "scale": 0.5934065934065934,
+      "offset": [
+        18,
+        16
+      ],
+      "visible_bounds": [
+        21,
+        19,
+        234,
+        235
+      ],
+      "export_sha256": "b42122986c6fb2ec5c6154a904b9e9582e16e986c4d795f688bffebfbf6b1370"
+    },
+    "relic_warchiefs_knuckle": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        941,
+        32,
+        1277,
+        421
+      ],
+      "scale": 0.5729442970822282,
+      "offset": [
+        32,
+        17
+      ],
+      "visible_bounds": [
+        35,
+        20,
+        222,
+        236
+      ],
+      "export_sha256": "52752b8dcac801f83cb72b890eb32904a847a55c867b2da9e2ddcd63ae78cad7"
+    },
+    "legend_bastion": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        1393,
+        29,
+        1729,
+        429
+      ],
+      "scale": 0.5567010309278351,
+      "offset": [
+        34,
+        17
+      ],
+      "visible_bounds": [
+        37,
+        20,
+        218,
+        237
+      ],
+      "export_sha256": "f5d402ed7b9536c76a451ad08a52f4bbe3119b6e577dabf7f273b77d3b10b870"
+    },
+    "legend_red_harvest": {
+      "source": "items-af-spacing-repair.png",
+      "source_sha256": "f91e128c28c7e2e54b909cf38545c24e543c08c9aa7d7b949a912d9bf9a133cc",
+      "source_rect": [
+        121,
+        97,
+        826,
+        781
+      ],
+      "scale": 0.3116883116883117,
+      "offset": [
+        18,
+        21
+      ],
+      "visible_bounds": [
+        20,
+        23,
+        236,
+        232
+      ],
+      "export_sha256": "56aadecad2fef340e03d51b9d715fcc3d8fa9115d9c2d0fb352c3568091396e8"
+    },
+    "legend_sunhammer": {
+      "source": "items-af-spacing-repair.png",
+      "source_sha256": "f91e128c28c7e2e54b909cf38545c24e543c08c9aa7d7b949a912d9bf9a133cc",
+      "source_rect": [
+        1032,
+        137,
+        1689,
+        789
+      ],
+      "scale": 0.33488372093023255,
+      "offset": [
+        18,
+        19
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        235
+      ],
+      "export_sha256": "32ece064866cb0f38ec39697d1a3aea85e50929dd56e82c8683c337f6391f0bc"
+    },
+    "legend_lantern_mercy": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        928,
+        472,
+        1280,
+        836
+      ],
+      "scale": 0.6136363636363636,
+      "offset": [
+        20,
+        16
+      ],
+      "visible_bounds": [
+        24,
+        20,
+        232,
+        235
+      ],
+      "export_sha256": "a11be56e40e07bd5469175458bd17ed242cc5e6cf00cbcd481c64816a3302dec"
+    },
+    "legend_cinderheart": {
+      "source": "items-af16.png",
+      "source_sha256": "e3cf1b2dd461542bdcdcb7c3712d5b26541c3fd06e428ec2fb50022febd07f3d",
+      "source_rect": [
+        1412,
+        481,
+        1707,
+        850
+      ],
+      "scale": 0.6050420168067226,
+      "offset": [
+        39,
+        16
+      ],
+      "visible_bounds": [
+        43,
+        19,
+        213,
+        236
+      ],
+      "export_sha256": "7af816fe88532c64362e8ced8b18bb3f3e4f6ea6290df9dd187e697916138b01"
+    },
+    "legend_rimebound": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        54,
+        54,
+        418,
+        426
+      ],
+      "scale": 0.6,
+      "offset": [
+        19,
+        16
+      ],
+      "visible_bounds": [
+        22,
+        19,
+        233,
+        236
+      ],
+      "export_sha256": "c47dd19836f4633558ded45faeb0dcf3abbf8c1af07d91bdc38d3af86a2ceeb3"
+    },
+    "legend_last_word": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        495,
+        68,
+        845,
+        414
+      ],
+      "scale": 0.6390532544378699,
+      "offset": [
+        16,
+        17
+      ],
+      "visible_bounds": [
+        20,
+        21,
+        236,
+        234
+      ],
+      "export_sha256": "6899f2acdcab579da650fad7af74646919338bec4943d885176f27a63d23df3c"
+    },
+    "legend_motley": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        901,
+        67,
+        1309,
+        417
+      ],
+      "scale": 0.5454545454545454,
+      "offset": [
+        17,
+        33
+      ],
+      "visible_bounds": [
+        20,
+        36,
+        237,
+        221
+      ],
+      "export_sha256": "8fa08d8cf199bf7b1d1669809fe93e923ae9b0888d3a106b650df0b4b33474fb"
+    },
+    "legend_farstrider": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        1377,
+        18,
+        1762,
+        435
+      ],
+      "scale": 0.5333333333333333,
+      "offset": [
+        25,
+        17
+      ],
+      "visible_bounds": [
+        28,
+        20,
+        227,
+        236
+      ],
+      "export_sha256": "397576bf65d34f395a8351a787460b2fb20f99e9e7e7d34e2f28fee3d5cfbc51"
+    },
+    "legend_thornbinder": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        32,
+        451,
+        415,
+        846
+      ],
+      "scale": 0.5639686684073107,
+      "offset": [
+        20,
+        17
+      ],
+      "visible_bounds": [
+        23,
+        20,
+        233,
+        237
+      ],
+      "export_sha256": "65f644bde153d669be2545fce37b7076229b593f8f5630b9c3136b6ed7d2c648"
+    },
+    "legend_moonbound": {
+      "source": "items-af17.png",
+      "source_sha256": "a71cd629678297cd28c8dba694c3c21e45f59903d9eba147ab0231fe7736b72e",
+      "source_rect": [
+        506,
+        508,
+        849,
+        824
+      ],
+      "scale": 0.6525679758308157,
+      "offset": [
+        16,
+        25
+      ],
+      "visible_bounds": [
+        20,
+        29,
+        236,
+        227
+      ],
+      "export_sha256": "79caffc8ef2504601d4e749c23d0c6e679c6aca0e2a4eacc1f26082b588baa1a"
+    },
+    "legend_heartroot": {
+      "source": "items-af-heartroot-repair.png",
+      "source_sha256": "ea5658f87122250d582a8b8cc19a9a48486a2f31db95294ea9d6732ae8029db5",
+      "source_rect": [
+        146,
+        105,
+        1175,
+        1150
+      ],
+      "scale": 0.2090997095837367,
+      "offset": [
+        20,
+        19
+      ],
+      "visible_bounds": [
+        21,
+        20,
+        234,
+        237
+      ],
+      "export_sha256": "b2db23bf6094fc2f430f0aca97612d0f91b6571ceaa2d8934edb2bd15e18202f"
+    }
+  }
+}

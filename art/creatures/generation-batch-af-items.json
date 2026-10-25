@@ -1,0 +1,2986 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-af-items.md",
+  "status": "activated for 0.9.40; original source/review provenance retained",
+  "sheets": {
+    "af01": {
+      "source": "items-af01.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "wayfarer_lantern",
+        "ring_silver",
+        "ring_gold",
+        "ring_garnet",
+        "ring_onyx",
+        "ring_copper",
+        "ring_black",
+        "ring_forge"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af01-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Silver Lantern: Small inventory SILVER LANTERN with hanging ring at TOP, square silver cage and cold blue flame; no arm or carry fist.\n2. Ring of Protection: silver band with BLUE stone\n3. Ring of Might: gold band with RED stone\n4. Ring of Regeneration: silver band with dark GARNET stone\n5. ring onyx: silver band with BLACK stone\n6. Ring of Warmth: copper/gold band and warm AMBER stone\n7. Gallows Ring: blackened dark band/dark RED stone\n8. Forge Ring: dark forged band with COPPER gem and small gold arc on inner lower band",
+      "generated_original": "/workspace/generated_images/exec-80acc661-0a81-4a39-b274-c84505d4a903.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af02": {
+      "source": "items-af02.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "ring_jade",
+        "ring_bone",
+        "ring_iron",
+        "amulet_amber",
+        "amulet_silver",
+        "amulet_obsidian",
+        "amulet_bone",
+        "amulet_spider"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af02-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Ring of Evasion: plain JADE GREEN band, NO gem\n2. Ring of the Seer: plain IVORY BONE band, NO gem\n3. Ring of Stealth: plain dark IRON band, three little front rivets, NO gem\n4. Amulet of Life Saving: amber/gold round pendant, attached gold chain\n5. Amulet of Warding: silver round pendant with attached silver chain\n6. Amulet of Wizardry: black obsidian pendant with attached silver chain\n7. amulet bone: ivory bone round pendant and brown cord\n8. Spider Pendant: black spider pendant with EIGHT silver legs, two tiny red eyes, attached chain",
+      "generated_original": "/workspace/generated_images/exec-3a1320f5-c917-490d-bd67-8d02b2623000.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af03": {
+      "source": "items-af03.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "scimitar",
+        "dagger",
+        "shortsword",
+        "longsword",
+        "greatsword",
+        "throwknife",
+        "club",
+        "staff"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af03-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Dark Elf Scimitar: curved broad silver blade, dark grip/guard and violet guard inset\n2. Dagger: short silver dagger with brass guard\n3. Short Sword: compact broad silver shortsword, dark crossguard\n4. Long Sword: long silver blade and dark guard\n5. Two-handed Sword: very long two-hand silver sword, long wrapped grip and brass crossguard\n6. Throwing Knives: THREE spare throwing knives in diagonal fan, not one\n7. Club: knotted blunt wooden club with nails/knots, no metal mace head\n8. Quarterstaff: wooden quarterstaff with small BLUE glass orb tip",
+      "generated_original": "/workspace/generated_images/exec-5c851d7e-e61f-4efd-ba17-8117268628af.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af04": {
+      "source": "items-af04.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "spear",
+        "mace",
+        "hammer",
+        "flail",
+        "battleaxe",
+        "sling",
+        "shortbow",
+        "longbow"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af04-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Spear: wooden spear, silver leaf tip, small red tie\n2. Mace: compact silver spiked mace, brown shaft\n3. War Hammer: compact rectangular metal hammer with opposite pointed pick\n4. Flail: brown handle, connected short chain, ONE iron spiked ball\n5. Battle Axe: single broad iron axe blade, wood handle, short rear pick\n6. Sling: brown sling pouch with grey stone and two connected cords\n7. Short Bow: short brown bow with pale string and ONE red-fletched arrow\n8. Long Bow: long brown bow with pale string and ONE light-fletched arrow",
+      "generated_original": "/workspace/generated_images/exec-aab98f8f-0c91-4e26-92b9-972bfbccb58f.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af05": {
+      "source": "items-af05.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "leather",
+        "studded",
+        "scale",
+        "wyrmscale",
+        "chain",
+        "splint",
+        "plate",
+        "robe_apprentice"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af05-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Leather Armour: empty brown leather cuirass with laced front and belt\n2. Studded Leather: empty brown cuirass covered with small metal studs\n3. Scale Mail: empty tan/brass overlapping scale armour\n4. Wyrm-Scale Mail: empty dark red-brown large scale armour with pale centre bands\n5. Chain Mail: empty silver chainmail shirt with individual linked rings\n6. Splint Mail: empty armour with long vertical silver splints and brown backing\n7. Plate Mail: empty iron breastplate, layered pauldrons, narrow brass trim\n8. Apprentice's Robe: empty grey-brown simple robe with cord belt",
+      "generated_original": "/workspace/generated_images/exec-0199c585-4433-4953-86cd-910f42abbe1d.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af06": {
+      "source": "items-af06.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "robe_silk",
+        "robe_warded",
+        "robe_magi",
+        "buckler",
+        "shield",
+        "quillshield",
+        "towershield",
+        "cloak_protect"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af06-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Silk Robe: empty blue silk robe, silver trim and small silver clasp\n2. Warded Robe: empty dark red robe, gold circle chest mark, faint lower stitched runes\n3. Robe of the Magi: empty purple robe, gold trim and tiny gold crosses, silver clasp\n4. Buckler: FRONT of small round wood/iron buckler with central metal boss\n5. Shield: FRONT of blue pointed shield, broad diagonal gold band and tiny silver crosses\n6. Quill Shield: FRONT of round dark wood Quill Shield, central metal boss, full radial narrow ivory quill rim\n7. Tower Shield: FRONT of tall rectangular wood tower shield with flat bottom, three iron crossbars and red vertical panel\n8. Cloak of Protection: empty blue cloak with silver clasp and silver ring front",
+      "generated_original": "/workspace/generated_images/exec-05463b4d-3a59-4bfb-9ed0-f92e074fbf44.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af07": {
+      "source": "items-af07.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "cloak_elven",
+        "cloak_shadow",
+        "cloak_warmth",
+        "spellbook",
+        "crystal_orb",
+        "orb_storms",
+        "holy_symbol",
+        "silver_symbol"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af07-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Elven Cloak: empty green cloak with leaf clasp\n2. Shadow-Spun Cloak: empty charcoal cloak, silver spider clasp and violet hem\n3. Cloak of Warmth: empty red-brown cloak with ivory fur collar and hem\n4. Spellbook: closed red leather spellbook, brass corners/clasp and gold circle-and-cross sigil\n5. Crystal Orb: pale blue crystal sphere on brass stand, NO lightning\n6. Orb of Storms: dark navy glass orb on silver stand, pale lightning INSIDE only\n7. Holy Symbol: twelve-rayed WOODEN sun medallion, attached tan cord loop\n8. Silver Sunburst: sixteen alternating SILVER sunburst rays, attached silver chain loop",
+      "generated_original": "/workspace/generated_images/exec-f4a31701-fea3-4f08-a041-116b49e5d8fa.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "rejected_cells": {
+        "4": "Crystal highlights became raised silver spheres",
+        "5": "Storm orb highlight became raised silver bead"
+      }
+    },
+    "af08": {
+      "source": "items-af08.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "reliquary",
+        "potion_red",
+        "potion_pink",
+        "potion_green",
+        "potion_orange",
+        "potion_blue",
+        "satchel",
+        "quench"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af08-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Reliquary: gilt peaked house with red roof gem, bone in dark front window and four tiny blue studs\n2. Potion of Healing: ROUND clear glass red-liquid bottle and cork\n3. Potion of Extra Healing: TRIANGULAR squat flask, pink liquid, narrow neck and cork\n4. Antidote: TALL slender cylindrical vial, green liquid, small cork\n5. Potion of Might: straight-sided square/rectangular flask, orange liquid, faint gold bands\n6. Potion of Clarity: SQUAT flattened round blue-liquid bottle and red stopper\n7. Lampfolk Satchel: brown quest satchel, connected top handle and TWO round front brass buttons\n8. Smiths' Quench: squat iron/grey square quenchant bottle with red stopper and black front seal",
+      "generated_original": "/workspace/generated_images/exec-54e6f501-46f7-4705-b879-c7193cbebeaa.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af09": {
+      "source": "items-af09.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "charm_collar",
+        "charm_fang",
+        "charm_rowan",
+        "charm_whetstone",
+        "oil_fire",
+        "lamp_oil",
+        "oil_silver",
+        "oil_venom"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af09-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Iron-Studded Collar: brown leather collar loop with silver studs\n2. Fang Charm: ivory fang hanging from attached brown cord\n3. Rowan Knot: THREE red-ended rowan sticks bound together with two green leaves\n4. Sellsword's Whetstone: grey oblong whetstone with groove and brown hanging loop\n5. Fire Oil: squat amber/orange oil flask with tied rag wick\n6. Flask of Lamp Oil: squat ochre/brown oil flask with tied rag wick\n7. Silver Wash: squat silver/grey oil flask with tied rag wick\n8. Blade Venom: squat green oil flask with tied rag wick On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-e364ba85-3d1b-44a9-9e01-d1152e0da826.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af10": {
+      "source": "items-af10.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "oil_frost",
+        "scroll",
+        "page",
+        "ration",
+        "meat",
+        "caps",
+        "bread",
+        "gold"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af10-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Frost Oil: squat BLUE oil flask with tied rag wick\n2. Scroll of Fire: open small parchment scroll on top/bottom rollers and red wax seal, faint unreadable lines\n3. Torn Page: single torn parchment leaf with faint unreadable ink, no rollers or seal\n4. Iron Ration: brown paper ration parcel tied with string\n5. Dried Meat: roasted brown meat joint with visible bone end\n6. Pale Caps: THREE pale mushrooms, no new plants\n7. Stale Bread: one scored brown round loaf\n8. Gold: small pile of gold coins, no bag On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-c217a868-8699-4769-ad32-23ce5a9e0efc.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af11": {
+      "source": "items-af11.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "gem",
+        "artifact",
+        "key",
+        "key_brass",
+        "key_silver",
+        "key_gold",
+        "key_iron",
+        "key_bone"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af11-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Gem: ONE blue faceted diamond-cut gem\n2. The Heart of the Mountain: red faceted HEART on small gold base, two rounded lobes and pointed bottom\n3. Key: brass key with round bow and TWO squared teeth\n4. key brass: brass key with round bow and TWO squared teeth\n5. key silver: silver key, round bow, two teeth\n6. key gold: gold key, round bow, two teeth\n7. key iron: dark iron key, round bow, two teeth\n8. key bone: ivory bone key, round bow, two teeth On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-56de2791-11e6-4b9e-a2b9-df39c2e54618.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af12": {
+      "source": "items-af12.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "mythic_last_gate",
+        "mythic_mercys_oath",
+        "mythic_bloodstar",
+        "mythic_nightglass",
+        "mythic_horizon",
+        "mythic_elderseed",
+        "relic_grimtooth",
+        "relic_whisper"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af12-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. the Last Gate: blue pointed front shield, diagonal gold band, purple split/crack and two vertical silver strips; use exact reference rather than a rear shield\n2. Mercy's Oath: pale violet reliquary house with silver hanging loop, ivory centre relic and pale radiating marks\n3. the Bloodstar: blue glass orb on brass pedestal, RED/PINK four-point star over glass and pale centre\n4. Nightglass: attached silver ring loop and long cracked angular dark purple obsidian shard\n5. Horizon: pale wood/horn longbow, silver bands and small violet studs, string/arrow present\n6. the Elderseed: acorn pendant with olive cap, attached brown loop and two leaves\n7. Grimtooth: short greenish grey dagger, FOUR dark blade teeth/bands and green pommel inset\n8. Whisper: slim grey dagger, grey wrapped grip with FOUR bands, simple silver crossguard On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-de3c40d6-89ed-4944-bce1-65007333c1ad.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af13": {
+      "source": "items-af13.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "relic_thirst",
+        "relic_dawnbringer",
+        "relic_penitent",
+        "relic_ogres_toll",
+        "relic_ninth_circle",
+        "relic_emberwood",
+        "relic_vashti",
+        "relic_heartseeker"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af13-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Thirst: dark long sword with red blade groove, red guard and red pommel\n2. Dawnbringer: gold sunburst-headed mace on brown shaft\n3. the Penitent's Flail: one iron flail ball and connected short chain, THREE pale prayer studs on shaft and small gold cross near grip\n4. the Ogre's Toll: double-bladed grey axe with FIVE pale tally bands on shaft\n5. Staff of the Ninth Circle: dark wooden staff with NINE black transverse rings\n6. Emberwood: warm wooden staff, orange ember crack at upper shaft and warm tip\n7. Vashti's Needles: ONE central silver dagger plus TWO spare fine needles beside it: THREE implements total in pack picture\n8. Heartseeker: short brown bow, ivory horn tips and red diamond grip accent, string and arrow On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-f4197524-1e56-4179-ba4a-535e5f3ab8b8.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af14": {
+      "source": "items-af14.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "relic_rustwarden",
+        "relic_shadowskin",
+        "relic_briarcoat",
+        "relic_kests_bulwark",
+        "relic_sisters_buckler",
+        "relic_hearthwool",
+        "relic_archivist",
+        "relic_midnight_folio"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af14-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Rustwarden Mail: silver chainmail shirt with THREE small pale cross repair marks\n2. Shadowskin: near-black leather coat, broad dark shoulder flap, narrow silver-blue centre seam\n3. Briarcoat: brown studded leather armour, FOUR pale thorns at shoulder/side locations\n4. Kest's Bulwark: blue pointed front shield with diagonal gold band and red inset smaller shield bearing pale stepped crack\n5. the Sisters' Buckler: wood round buckler, silver circular wreath/ring and TWO silver leaves flanking boss\n6. the Hearthwool Robe: blue cloak with thick ivory collar and FIVE pale fur tufts at hem\n7. the Archivist's Robe: red-brown robe, FOUR brown square repairs and a small ink slash\n8. the Midnight Folio: closed dark navy book, pale silver circle-and-cross sigil and diagonal pale page stroke On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-4d362956-7f88-43ab-b4f5-be8122835231.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "rejected_cells": {
+        "2": "Six thorns instead of four",
+        "6": "Five square patches instead of four"
+      }
+    },
+    "af15": {
+      "source": "items-af15.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "relic_sparkglass",
+        "relic_boarspear",
+        "relic_galewind",
+        "relic_sextons_locket",
+        "relic_oakheart",
+        "relic_mossmantle",
+        "relic_cinder_ring",
+        "relic_spider_pendant"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af15-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Sparkglass: pale blue orb on brass stand with fine warm zigzag crack inside, no red star\n2. the Boarspear: silver spearhead, wide metal crossbar under head and THREE pale grip bands\n3. Galewind: pale brown longbow with TWO pale leaf motifs, ivory tips, string and arrow\n4. the Sexton's Locket: dark round amulet, small pale oval centre and inner gold ring, connected chain\n5. Oakheart: forked wooden staff, ONE small green leaf on one fork\n6. the Mossmantle: empty brown leather coat with SIX muted green leaves at shoulders and lower corners\n7. the Cinder Ring: thick plain black iron ring with warm orange crack at upper band, no gem\n8. the Spider Pendant: eight-legged black/silver spider pendant, TWO red eyes, attached chain On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-528f4fd4-3ed6-4523-9b28-0990a809eac8.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af16": {
+      "source": "items-af16.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "relic_thane_ring",
+        "relic_hissra_tooth",
+        "relic_warchiefs_knuckle",
+        "legend_bastion",
+        "legend_red_harvest",
+        "legend_sunhammer",
+        "legend_lantern_mercy",
+        "legend_cinderheart"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af16-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 8 isolated inventory/floor item sprites in exact ROW-MAJOR order.  FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. Durgrim's Ring: gold band with copper/amber stone and jagged warm seam across front\n2. Hissra's Tooth: ivory tooth on brown cord with TWO dark horizontal cut marks\n3. the Warchief's Knuckle: thick iron ring with THREE short bronze spikes on top\n4. the Bastion: rectangular iron/wood shield with THREE brass horizontal bars, TWO vertical bars and tiny gold stud\n5. Red Harvest: dark red double-bladed axe, THREE small red/gold/blue cloth pennants near grip\n6. the Sunhammer: gold rectangular hammer with raised sun motif\n7. the Lantern of Mercy: gold/silver radiant circular focus on small base, pale warm central oval, no carry hand\n8. Cinderheart: black glass orb on brass pedestal with warm red/orange cracks and small warm core On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-2ea039a2-2962-40cb-9655-bc44ec11dd30.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "rejected_cells": {
+        "4": "Bounding rectangle overlaps adjacent hammer; spacing repair",
+        "5": "Bounding rectangle overlaps adjacent axe; spacing repair"
+      }
+    },
+    "af17": {
+      "source": "items-af17.png",
+      "grid": [
+        4,
+        2
+      ],
+      "keys": [
+        "legend_rimebound",
+        "legend_last_word",
+        "legend_motley",
+        "legend_farstrider",
+        "legend_thornbinder",
+        "legend_moonbound",
+        "legend_heartroot"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af17-reference.png",
+        "equipment-p1.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint FIRST reference as a FOUR-COLUMN, TWO-ROW sheet of 7 isolated inventory/floor item sprites in exact ROW-MAJOR order. Bottom-right eighth cell must remain EMPTY transparent. FIRST reference defines each object's shape, colour, viewing angle and distinguishing details; SECOND is ONLY mature hand-painted worn material quality, not substitute armour/shield construction. True transparent RGBA. One complete isolated OBJECT per cell; multiple parts only when reference has a fan, pile or connected cord. No hands, bodies, wearer, mannequin, background, cast floor shadow, exterior aura, captions, readable letters, borders or scene. Rich restrained painted dark fantasy realism matching dungeon monsters, weathered metal/wood, matte cloth/leather, simple strong silhouettes readable at32px, no cartoon or toy finish. Copy reference camera angle: weapon hilt lower-left and tip upper-right, FRONT shields, upright empty garments, ring holes genuinely transparent. All tips, straps, loops, bow strings/arrows and garment hems fully inside own cell with8% transparent margins and no overlap. Do NOT draw coloured rarity outline around objects: existing game draws those separately. Tiny existing surface incisions/insets are allowed, no external glow. Preserve exact item identities; names below are instructions only, NEVER paint labels.\n1. the Rimebound Grimoire: blue frost-covered closed book with pale edge ice shards and cracked cover lines\n2. the Last Word: plain narrow grey shortsword, dark guard and grip, no jewels\n3. Motley: brown leather coat with FOUR muted red/blue/gold/green patches and two small shoulder flaps\n4. Farstrider: dark longbow with TWO small silver road fins near limb tips, pale string and arrow\n5. Thornbinder: wooden spear with FOUR green vine/ thorn wraps on shaft\n6. the Moonbound Torc: OPEN silver torc with TWO pale rounded endcaps, five small scored marks along lower band\n7. Heartroot: wooden forked staff, small reddish heart inset at fork and TWO green leaves On glass orbs, white circles in the pixel reference are FLAT specular GLASS reflections, never physical silver balls, studs or attached beads. Plain glazed surface stays smooth.",
+      "generated_original": "/workspace/generated_images/exec-4b7ea8ec-1941-43a2-a689-bc1b7a90755d.png",
+      "native_source_size": [
+        1774,
+        887
+      ],
+      "rejected_cells": {
+        "6": "Two green globes instead of flat leaves"
+      }
+    },
+    "af-orbs-repair": {
+      "source": "items-af-orbs-repair.png",
+      "grid": [
+        2,
+        1
+      ],
+      "keys": [
+        "crystal_orb",
+        "orb_storms"
+      ],
+      "named": false,
+      "references": [
+        "batch-af-items-preview/af-orbs-repair-reference.png",
+        "items-af07.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Correct ONLY the two ordinary glass orbs as TWO isolated inventory sprites side by side on true transparent RGBA, equal square cells. Native FIRST reference defines sphere/stand size and second supplies painted materials. LEFT: ONE SMOOTH pale ice-blue GLASS SPHERE on connected brass claw stand/pedestal. RIGHT: ONE SMOOTH dark navy GLASS SPHERE on connected SILVER claw stand/pedestal, with a small pale yellow zigzag lightning crack INSIDE the glass. The white circles in pixel reference are SPECULAR GLASS REFLECTIONS: paint soft FLAT white reflection patches integrated into curved glass, NOT protruding little spheres or silver beads. There are ZERO attached beads, studs, nails, bumps, bubbles, gem settings or metal objects on either orb's glass surface. Same clean spherical outline across both; keep natural cloudy interiors and small top-left reflected light, worn subdued stands. Mature dark fantasy painterly realism, not cartoon/toy, no exterior glow, background, scene, hands, text, labels, border or ground shadow. Entire sphere and complete stand with12% transparent margin each cell. Do not copy the incorrect raised silver bumps from second reference. Exactly two smooth glass orb objects.",
+      "generated_original": "/workspace/generated_images/exec-279bbe9e-84bc-4947-a101-daf0ca49f3a6.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af-armour-repair": {
+      "source": "items-af-armour-repair.png",
+      "grid": [
+        2,
+        1
+      ],
+      "keys": [
+        "relic_briarcoat",
+        "relic_archivist"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af-armour-repair-reference.png",
+        "items-af14.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Correct TWO isolated named inventory garments as two equal square cells, true transparent RGBA. FIRST native reference defines exact distinguishing detail COUNT/placement, SECOND painted sheet supplies mature worn materials only. LEFT Briarcoat: empty brown leather studded cuirass, attached leather shoulder plates and plain metal studs. Exactly FOUR pale bone thorns total: ONE at LEFT SHOULDER, ONE at RIGHT SHOULDER, ONE at LEFT LOWER TORSO SIDE and ONE at RIGHT LOWER TORSO SIDE. No other thorns, spikes, teeth, horns, raised shoulder studs or stray pointed decorations. Four means TWO on each side total. RIGHT Archivist: empty dark red robe, gold circle mark on chest, gold trim/faint unreadable stitched lower marks, and exactly FOUR brown SQUARE sewn repair patches total: TWO at mid-chest level (one left, one right), TWO at LOWER TORSO (one left, one right). Do not add a fifth patch at collar or hem. Native first reference has FOUR and only FOUR square patches. Preserve small dark ink slash on one patch. No wearer, head, arms, body, text labels, scene, backdrop, ground shadow, border or external aura. Realistic mature weathered painted leather/cloth matching approved dungeon monster/item art, no cartoon/plastic. Both complete garments inside cells with12% transparent margin. Do not copy the extra side thorns or fifth robe patch from second reference.",
+      "generated_original": "/workspace/generated_images/exec-dd4212af-d708-48e8-bd1d-2fab3eaf7f70.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "af-heartroot-repair": {
+      "source": "items-af-heartroot-repair.png",
+      "grid": [
+        1,
+        1
+      ],
+      "keys": [
+        "legend_heartroot"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/legend_heartroot-reference.png",
+        "items-af17.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Correct ONE isolated small inventory Heartroot staff, transparent RGBA square. FIRST native reference defines the actual shape and colours; SECOND supplies mature painted wood texture only. Long brown WOODEN STAFF diagonal, butt LOWER-LEFT, forked wooden tip UPPER-RIGHT. A small reddish HEART-SHAPED inset sits in the crotch of the wooden fork. At the two upper wooden prongs, exactly TWO GREEN LEAVES, one per prong: each leaf is FLAT, POINTED OVAL with a centre vein and visible fine branching veins, matte foliage. NOT spheres, glass globes, beads, round gems, green fruit, acorns, flower buds or orbs. There are ZERO green spherical objects anywhere. Leaves should follow the first reference's two green flat leaf silhouettes. Keep only the one small RED heart inset; no other gems. Worn natural wood, brown lower grip wrap, muted green foliage, gritty mature painterly dungeon realism, no cartoon/toy. Entire staff/prong/leaf tips fully inside image with12% transparent margin. No hand, body, scene, text, borders, ground shadow, background or exterior glow. Do NOT copy the incorrect two green globes from second reference.",
+      "generated_original": "/workspace/generated_images/exec-17f6e303-1ecd-42a7-8d22-0ff21df6f0c4.png",
+      "native_source_size": [
+        1254,
+        1254
+      ]
+    },
+    "af-spacing-repair": {
+      "source": "items-af-spacing-repair.png",
+      "grid": [
+        2,
+        1
+      ],
+      "keys": [
+        "legend_red_harvest",
+        "legend_sunhammer"
+      ],
+      "named": true,
+      "references": [
+        "batch-af-items-preview/af-spacing-repair-reference.png",
+        "items-af16.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint ONLY Red Harvest axe and Sunhammer as TWO widely separated isolated inventory objects in two equal square horizontal cells, true transparent RGBA. FIRST reference defines exact two objects; SECOND defines mature worn painted materials only. LEFT: dark red DOUBLE-BLADED axe on long brown wood shaft, hilt lower-left/blades upper-right, THREE small cloth pennants in RED, GOLD and BLUE tied near lower grip. RIGHT: GOLD rectangular-headed hammer on diagonal brown shaft, raised SUN motif on head, small brown lower grip and brass guard. Preserve exact native construction/colours, no extra hand, weapon or jewel. CRITICAL SPACING: each COMPLETE object including all pennant tips lies inside CENTRAL70% of its own cell, leaving at least15% fully transparent margin all four edges. A wide empty TRANSPARENT vertical gutter must separate the figures, with NO overlapping bounding rectangles or parts reaching another cell. Do not enlarge figures to fill strip. Mature realistic weathered painted dungeon materials, restrained highlights, no cartoon/plastic, external aura, rarity outline, scene, text, border, background or ground shadow. Exactly TWO complete objects with generous margins.",
+      "generated_original": "/workspace/generated_images/exec-a9787bd1-a12e-4824-9af7-873f25a9b99e.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    }
+  },
+  "cells": {
+    "wayfarer_lantern": {
+      "kind": "small-item",
+      "id": "wayfarer_lantern",
+      "base": "wayfarer_lantern",
+      "named": false,
+      "label": "Silver Lantern",
+      "sheet": "af01",
+      "index": 0,
+      "source_rect": [
+        80,
+        52,
+        341,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_silver": {
+      "kind": "small-item",
+      "id": "ring_silver",
+      "base": "ring_silver",
+      "named": false,
+      "label": "Ring of Protection",
+      "sheet": "af01",
+      "index": 1,
+      "source_rect": [
+        477,
+        126,
+        846,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_gold": {
+      "kind": "small-item",
+      "id": "ring_gold",
+      "base": "ring_gold",
+      "named": false,
+      "label": "Ring of Might",
+      "sheet": "af01",
+      "index": 2,
+      "source_rect": [
+        921,
+        126,
+        1292,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_garnet": {
+      "kind": "small-item",
+      "id": "ring_garnet",
+      "base": "ring_garnet",
+      "named": false,
+      "label": "Ring of Regeneration",
+      "sheet": "af01",
+      "index": 3,
+      "source_rect": [
+        1365,
+        125,
+        1735,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_onyx": {
+      "kind": "small-item",
+      "id": "ring_onyx",
+      "base": "ring_onyx",
+      "named": false,
+      "label": "ring onyx",
+      "sheet": "af01",
+      "index": 4,
+      "source_rect": [
+        33,
+        524,
+        407,
+        828
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_copper": {
+      "kind": "small-item",
+      "id": "ring_copper",
+      "base": "ring_copper",
+      "named": false,
+      "label": "Ring of Warmth",
+      "sheet": "af01",
+      "index": 5,
+      "source_rect": [
+        477,
+        523,
+        849,
+        828
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_black": {
+      "kind": "small-item",
+      "id": "ring_black",
+      "base": "ring_black",
+      "named": false,
+      "label": "Gallows Ring",
+      "sheet": "af01",
+      "index": 6,
+      "source_rect": [
+        921,
+        524,
+        1295,
+        828
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_forge": {
+      "kind": "small-item",
+      "id": "ring_forge",
+      "base": "ring_forge",
+      "named": false,
+      "label": "Forge Ring",
+      "sheet": "af01",
+      "index": 7,
+      "source_rect": [
+        1363,
+        522,
+        1738,
+        827
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_jade": {
+      "kind": "small-item",
+      "id": "ring_jade",
+      "base": "ring_jade",
+      "named": false,
+      "label": "Ring of Evasion",
+      "sheet": "af02",
+      "index": 0,
+      "source_rect": [
+        35,
+        153,
+        403,
+        382
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_bone": {
+      "kind": "small-item",
+      "id": "ring_bone",
+      "base": "ring_bone",
+      "named": false,
+      "label": "Ring of the Seer",
+      "sheet": "af02",
+      "index": 1,
+      "source_rect": [
+        478,
+        153,
+        846,
+        381
+      ],
+      "source_density": 1.732421875
+    },
+    "ring_iron": {
+      "kind": "small-item",
+      "id": "ring_iron",
+      "base": "ring_iron",
+      "named": false,
+      "label": "Ring of Stealth",
+      "sheet": "af02",
+      "index": 2,
+      "source_rect": [
+        926,
+        150,
+        1293,
+        378
+      ],
+      "source_density": 1.732421875
+    },
+    "amulet_amber": {
+      "kind": "small-item",
+      "id": "amulet_amber",
+      "base": "amulet_amber",
+      "named": false,
+      "label": "Amulet of Life Saving",
+      "sheet": "af02",
+      "index": 3,
+      "source_rect": [
+        1396,
+        28,
+        1734,
+        423
+      ],
+      "source_density": 1.732421875
+    },
+    "amulet_silver": {
+      "kind": "small-item",
+      "id": "amulet_silver",
+      "base": "amulet_silver",
+      "named": false,
+      "label": "Amulet of Warding",
+      "sheet": "af02",
+      "index": 4,
+      "source_rect": [
+        58,
+        459,
+        386,
+        852
+      ],
+      "source_density": 1.732421875
+    },
+    "amulet_obsidian": {
+      "kind": "small-item",
+      "id": "amulet_obsidian",
+      "base": "amulet_obsidian",
+      "named": false,
+      "label": "Amulet of Wizardry",
+      "sheet": "af02",
+      "index": 5,
+      "source_rect": [
+        502,
+        459,
+        829,
+        852
+      ],
+      "source_density": 1.732421875
+    },
+    "amulet_bone": {
+      "kind": "small-item",
+      "id": "amulet_bone",
+      "base": "amulet_bone",
+      "named": false,
+      "label": "amulet bone",
+      "sheet": "af02",
+      "index": 6,
+      "source_rect": [
+        940,
+        460,
+        1278,
+        852
+      ],
+      "source_density": 1.732421875
+    },
+    "amulet_spider": {
+      "kind": "small-item",
+      "id": "amulet_spider",
+      "base": "amulet_spider",
+      "named": false,
+      "label": "Spider Pendant",
+      "sheet": "af02",
+      "index": 7,
+      "source_rect": [
+        1389,
+        459,
+        1715,
+        863
+      ],
+      "source_density": 1.732421875
+    },
+    "scimitar": {
+      "kind": "small-item",
+      "id": "scimitar",
+      "base": "scimitar",
+      "named": false,
+      "label": "Dark Elf Scimitar",
+      "sheet": "af03",
+      "index": 0,
+      "source_rect": [
+        41,
+        69,
+        452,
+        400
+      ],
+      "source_density": 1.732421875
+    },
+    "dagger": {
+      "kind": "small-item",
+      "id": "dagger",
+      "base": "dagger",
+      "named": false,
+      "label": "Dagger",
+      "sheet": "af03",
+      "index": 1,
+      "source_rect": [
+        565,
+        137,
+        805,
+        384
+      ],
+      "source_density": 1.732421875
+    },
+    "shortsword": {
+      "kind": "small-item",
+      "id": "shortsword",
+      "base": "shortsword",
+      "named": false,
+      "label": "Short Sword",
+      "sheet": "af03",
+      "index": 2,
+      "source_rect": [
+        964,
+        97,
+        1262,
+        407
+      ],
+      "source_density": 1.732421875
+    },
+    "longsword": {
+      "kind": "small-item",
+      "id": "longsword",
+      "base": "longsword",
+      "named": false,
+      "label": "Long Sword",
+      "sheet": "af03",
+      "index": 3,
+      "source_rect": [
+        1376,
+        23,
+        1743,
+        407
+      ],
+      "source_density": 1.732421875
+    },
+    "greatsword": {
+      "kind": "small-item",
+      "id": "greatsword",
+      "base": "greatsword",
+      "named": false,
+      "label": "Two-handed Sword",
+      "sheet": "af03",
+      "index": 4,
+      "source_rect": [
+        41,
+        447,
+        471,
+        861
+      ],
+      "source_density": 1.732421875
+    },
+    "throwknife": {
+      "kind": "small-item",
+      "id": "throwknife",
+      "base": "throwknife",
+      "named": false,
+      "label": "Throwing Knives",
+      "sheet": "af03",
+      "index": 5,
+      "source_rect": [
+        524,
+        517,
+        885,
+        835
+      ],
+      "source_density": 1.732421875
+    },
+    "club": {
+      "kind": "small-item",
+      "id": "club",
+      "base": "club",
+      "named": false,
+      "label": "Club",
+      "sheet": "af03",
+      "index": 6,
+      "source_rect": [
+        952,
+        487,
+        1298,
+        835
+      ],
+      "source_density": 1.732421875
+    },
+    "staff": {
+      "kind": "small-item",
+      "id": "staff",
+      "base": "staff",
+      "named": false,
+      "label": "Quarterstaff",
+      "sheet": "af03",
+      "index": 7,
+      "source_rect": [
+        1348,
+        465,
+        1743,
+        850
+      ],
+      "source_density": 1.732421875
+    },
+    "spear": {
+      "kind": "small-item",
+      "id": "spear",
+      "base": "spear",
+      "named": false,
+      "label": "Spear",
+      "sheet": "af04",
+      "index": 0,
+      "source_rect": [
+        50,
+        30,
+        439,
+        415
+      ],
+      "source_density": 1.732421875
+    },
+    "mace": {
+      "kind": "small-item",
+      "id": "mace",
+      "base": "mace",
+      "named": false,
+      "label": "Mace",
+      "sheet": "af04",
+      "index": 1,
+      "source_rect": [
+        494,
+        47,
+        865,
+        411
+      ],
+      "source_density": 1.732421875
+    },
+    "hammer": {
+      "kind": "small-item",
+      "id": "hammer",
+      "base": "hammer",
+      "named": false,
+      "label": "War Hammer",
+      "sheet": "af04",
+      "index": 2,
+      "source_rect": [
+        920,
+        34,
+        1292,
+        411
+      ],
+      "source_density": 1.732421875
+    },
+    "flail": {
+      "kind": "small-item",
+      "id": "flail",
+      "base": "flail",
+      "named": false,
+      "label": "Flail",
+      "sheet": "af04",
+      "index": 3,
+      "source_rect": [
+        1346,
+        138,
+        1754,
+        397
+      ],
+      "source_density": 1.732421875
+    },
+    "battleaxe": {
+      "kind": "small-item",
+      "id": "battleaxe",
+      "base": "battleaxe",
+      "named": false,
+      "label": "Battle Axe",
+      "sheet": "af04",
+      "index": 4,
+      "source_rect": [
+        48,
+        454,
+        410,
+        857
+      ],
+      "source_density": 1.732421875
+    },
+    "sling": {
+      "kind": "small-item",
+      "id": "sling",
+      "base": "sling",
+      "named": false,
+      "label": "Sling",
+      "sheet": "af04",
+      "index": 5,
+      "source_rect": [
+        474,
+        487,
+        850,
+        817
+      ],
+      "source_density": 1.732421875
+    },
+    "shortbow": {
+      "kind": "small-item",
+      "id": "shortbow",
+      "base": "shortbow",
+      "named": false,
+      "label": "Short Bow",
+      "sheet": "af04",
+      "index": 6,
+      "source_rect": [
+        922,
+        453,
+        1282,
+        843
+      ],
+      "source_density": 1.732421875
+    },
+    "longbow": {
+      "kind": "small-item",
+      "id": "longbow",
+      "base": "longbow",
+      "named": false,
+      "label": "Long Bow",
+      "sheet": "af04",
+      "index": 7,
+      "source_rect": [
+        1364,
+        430,
+        1746,
+        871
+      ],
+      "source_density": 1.732421875
+    },
+    "leather": {
+      "kind": "small-item",
+      "id": "leather",
+      "base": "leather",
+      "named": false,
+      "label": "Leather Armour",
+      "sheet": "af05",
+      "index": 0,
+      "source_rect": [
+        20,
+        35,
+        422,
+        406
+      ],
+      "source_density": 1.732421875
+    },
+    "studded": {
+      "kind": "small-item",
+      "id": "studded",
+      "base": "studded",
+      "named": false,
+      "label": "Studded Leather",
+      "sheet": "af05",
+      "index": 1,
+      "source_rect": [
+        466,
+        35,
+        865,
+        404
+      ],
+      "source_density": 1.732421875
+    },
+    "scale": {
+      "kind": "small-item",
+      "id": "scale",
+      "base": "scale",
+      "named": false,
+      "label": "Scale Mail",
+      "sheet": "af05",
+      "index": 2,
+      "source_rect": [
+        908,
+        36,
+        1312,
+        398
+      ],
+      "source_density": 1.732421875
+    },
+    "wyrmscale": {
+      "kind": "small-item",
+      "id": "wyrmscale",
+      "base": "wyrmscale",
+      "named": false,
+      "label": "Wyrm-Scale Mail",
+      "sheet": "af05",
+      "index": 3,
+      "source_rect": [
+        1349,
+        36,
+        1756,
+        407
+      ],
+      "source_density": 1.732421875
+    },
+    "chain": {
+      "kind": "small-item",
+      "id": "chain",
+      "base": "chain",
+      "named": false,
+      "label": "Chain Mail",
+      "sheet": "af05",
+      "index": 4,
+      "source_rect": [
+        6,
+        455,
+        441,
+        845
+      ],
+      "source_density": 1.732421875
+    },
+    "splint": {
+      "kind": "small-item",
+      "id": "splint",
+      "base": "splint",
+      "named": false,
+      "label": "Splint Mail",
+      "sheet": "af05",
+      "index": 5,
+      "source_rect": [
+        469,
+        456,
+        863,
+        840
+      ],
+      "source_density": 1.732421875
+    },
+    "plate": {
+      "kind": "small-item",
+      "id": "plate",
+      "base": "plate",
+      "named": false,
+      "label": "Plate Mail",
+      "sheet": "af05",
+      "index": 6,
+      "source_rect": [
+        893,
+        453,
+        1324,
+        853
+      ],
+      "source_density": 1.732421875
+    },
+    "robe_apprentice": {
+      "kind": "small-item",
+      "id": "robe_apprentice",
+      "base": "robe_apprentice",
+      "named": false,
+      "label": "Apprentice's Robe",
+      "sheet": "af05",
+      "index": 7,
+      "source_rect": [
+        1332,
+        446,
+        1767,
+        856
+      ],
+      "source_density": 1.732421875
+    },
+    "robe_silk": {
+      "kind": "small-item",
+      "id": "robe_silk",
+      "base": "robe_silk",
+      "named": false,
+      "label": "Silk Robe",
+      "sheet": "af06",
+      "index": 0,
+      "source_rect": [
+        33,
+        26,
+        427,
+        411
+      ],
+      "source_density": 1.732421875
+    },
+    "robe_warded": {
+      "kind": "small-item",
+      "id": "robe_warded",
+      "base": "robe_warded",
+      "named": false,
+      "label": "Warded Robe",
+      "sheet": "af06",
+      "index": 1,
+      "source_rect": [
+        473,
+        26,
+        867,
+        412
+      ],
+      "source_density": 1.732421875
+    },
+    "robe_magi": {
+      "kind": "small-item",
+      "id": "robe_magi",
+      "base": "robe_magi",
+      "named": false,
+      "label": "Robe of the Magi",
+      "sheet": "af06",
+      "index": 2,
+      "source_rect": [
+        909,
+        26,
+        1304,
+        410
+      ],
+      "source_density": 1.732421875
+    },
+    "buckler": {
+      "kind": "small-item",
+      "id": "buckler",
+      "base": "buckler",
+      "named": false,
+      "label": "Buckler",
+      "sheet": "af06",
+      "index": 3,
+      "source_rect": [
+        1381,
+        66,
+        1710,
+        399
+      ],
+      "source_density": 1.732421875
+    },
+    "shield": {
+      "kind": "small-item",
+      "id": "shield",
+      "base": "shield",
+      "named": false,
+      "label": "Shield",
+      "sheet": "af06",
+      "index": 4,
+      "source_rect": [
+        68,
+        432,
+        392,
+        844
+      ],
+      "source_density": 1.732421875
+    },
+    "quillshield": {
+      "kind": "small-item",
+      "id": "quillshield",
+      "base": "quillshield",
+      "named": false,
+      "label": "Quill Shield",
+      "sheet": "af06",
+      "index": 5,
+      "source_rect": [
+        452,
+        412,
+        896,
+        854
+      ],
+      "source_density": 1.732421875
+    },
+    "towershield": {
+      "kind": "small-item",
+      "id": "towershield",
+      "base": "towershield",
+      "named": false,
+      "label": "Tower Shield",
+      "sheet": "af06",
+      "index": 6,
+      "source_rect": [
+        950,
+        421,
+        1273,
+        861
+      ],
+      "source_density": 1.732421875
+    },
+    "cloak_protect": {
+      "kind": "small-item",
+      "id": "cloak_protect",
+      "base": "cloak_protect",
+      "named": false,
+      "label": "Cloak of Protection",
+      "sheet": "af06",
+      "index": 7,
+      "source_rect": [
+        1343,
+        442,
+        1737,
+        851
+      ],
+      "source_density": 1.732421875
+    },
+    "cloak_elven": {
+      "kind": "small-item",
+      "id": "cloak_elven",
+      "base": "cloak_elven",
+      "named": false,
+      "label": "Elven Cloak",
+      "sheet": "af07",
+      "index": 0,
+      "source_rect": [
+        64,
+        52,
+        425,
+        438
+      ],
+      "source_density": 1.732421875
+    },
+    "cloak_shadow": {
+      "kind": "small-item",
+      "id": "cloak_shadow",
+      "base": "cloak_shadow",
+      "named": false,
+      "label": "Shadow-Spun Cloak",
+      "sheet": "af07",
+      "index": 1,
+      "source_rect": [
+        503,
+        51,
+        863,
+        439
+      ],
+      "source_density": 1.732421875
+    },
+    "cloak_warmth": {
+      "kind": "small-item",
+      "id": "cloak_warmth",
+      "base": "cloak_warmth",
+      "named": false,
+      "label": "Cloak of Warmth",
+      "sheet": "af07",
+      "index": 2,
+      "source_rect": [
+        940,
+        52,
+        1307,
+        440
+      ],
+      "source_density": 1.732421875
+    },
+    "spellbook": {
+      "kind": "small-item",
+      "id": "spellbook",
+      "base": "spellbook",
+      "named": false,
+      "label": "Spellbook",
+      "sheet": "af07",
+      "index": 3,
+      "source_rect": [
+        1385,
+        61,
+        1733,
+        425
+      ],
+      "source_density": 1.732421875
+    },
+    "crystal_orb": {
+      "kind": "small-item",
+      "id": "crystal_orb",
+      "base": "crystal_orb",
+      "named": false,
+      "label": "Crystal Orb",
+      "sheet": "af-orbs-repair",
+      "index": 0,
+      "source_rect": [
+        166,
+        96,
+        771,
+        825
+      ],
+      "source_density": 3.46484375
+    },
+    "orb_storms": {
+      "kind": "small-item",
+      "id": "orb_storms",
+      "base": "orb_storms",
+      "named": false,
+      "label": "Orb of Storms",
+      "sheet": "af-orbs-repair",
+      "index": 1,
+      "source_rect": [
+        996,
+        95,
+        1601,
+        825
+      ],
+      "source_density": 3.46484375
+    },
+    "holy_symbol": {
+      "kind": "small-item",
+      "id": "holy_symbol",
+      "base": "holy_symbol",
+      "named": false,
+      "label": "Holy Symbol",
+      "sheet": "af07",
+      "index": 6,
+      "source_rect": [
+        952,
+        467,
+        1291,
+        853
+      ],
+      "source_density": 1.732421875
+    },
+    "silver_symbol": {
+      "kind": "small-item",
+      "id": "silver_symbol",
+      "base": "silver_symbol",
+      "named": false,
+      "label": "Silver Sunburst",
+      "sheet": "af07",
+      "index": 7,
+      "source_rect": [
+        1379,
+        466,
+        1722,
+        855
+      ],
+      "source_density": 1.732421875
+    },
+    "reliquary": {
+      "kind": "small-item",
+      "id": "reliquary",
+      "base": "reliquary",
+      "named": false,
+      "label": "Reliquary",
+      "sheet": "af08",
+      "index": 0,
+      "source_rect": [
+        71,
+        45,
+        379,
+        422
+      ],
+      "source_density": 1.732421875
+    },
+    "potion_red": {
+      "kind": "small-item",
+      "id": "potion_red",
+      "base": "potion_red",
+      "named": false,
+      "label": "Potion of Healing",
+      "sheet": "af08",
+      "index": 1,
+      "source_rect": [
+        557,
+        86,
+        820,
+        434
+      ],
+      "source_density": 1.732421875
+    },
+    "potion_pink": {
+      "kind": "small-item",
+      "id": "potion_pink",
+      "base": "potion_pink",
+      "named": false,
+      "label": "Potion of Extra Healing",
+      "sheet": "af08",
+      "index": 2,
+      "source_rect": [
+        965,
+        62,
+        1277,
+        434
+      ],
+      "source_density": 1.732421875
+    },
+    "potion_green": {
+      "kind": "small-item",
+      "id": "potion_green",
+      "base": "potion_green",
+      "named": false,
+      "label": "Antidote",
+      "sheet": "af08",
+      "index": 3,
+      "source_rect": [
+        1510,
+        46,
+        1626,
+        434
+      ],
+      "source_density": 1.732421875
+    },
+    "potion_orange": {
+      "kind": "small-item",
+      "id": "potion_orange",
+      "base": "potion_orange",
+      "named": false,
+      "label": "Potion of Might",
+      "sheet": "af08",
+      "index": 4,
+      "source_rect": [
+        105,
+        451,
+        349,
+        842
+      ],
+      "source_density": 1.732421875
+    },
+    "potion_blue": {
+      "kind": "small-item",
+      "id": "potion_blue",
+      "base": "potion_blue",
+      "named": false,
+      "label": "Potion of Clarity",
+      "sheet": "af08",
+      "index": 5,
+      "source_rect": [
+        517,
+        528,
+        849,
+        838
+      ],
+      "source_density": 1.732421875
+    },
+    "satchel": {
+      "kind": "small-item",
+      "id": "satchel",
+      "base": "satchel",
+      "named": false,
+      "label": "Lampfolk Satchel",
+      "sheet": "af08",
+      "index": 6,
+      "source_rect": [
+        928,
+        460,
+        1302,
+        840
+      ],
+      "source_density": 1.732421875
+    },
+    "quench": {
+      "kind": "small-item",
+      "id": "quench",
+      "base": "quench",
+      "named": false,
+      "label": "Smiths' Quench",
+      "sheet": "af08",
+      "index": 7,
+      "source_rect": [
+        1413,
+        461,
+        1716,
+        844
+      ],
+      "source_density": 1.732421875
+    },
+    "charm_collar": {
+      "kind": "small-item",
+      "id": "charm_collar",
+      "base": "charm_collar",
+      "named": false,
+      "label": "Iron-Studded Collar",
+      "sheet": "af09",
+      "index": 0,
+      "source_rect": [
+        57,
+        155,
+        464,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "charm_fang": {
+      "kind": "small-item",
+      "id": "charm_fang",
+      "base": "charm_fang",
+      "named": false,
+      "label": "Fang Charm",
+      "sheet": "af09",
+      "index": 1,
+      "source_rect": [
+        510,
+        35,
+        779,
+        447
+      ],
+      "source_density": 1.732421875
+    },
+    "charm_rowan": {
+      "kind": "small-item",
+      "id": "charm_rowan",
+      "base": "charm_rowan",
+      "named": false,
+      "label": "Rowan Knot",
+      "sheet": "af09",
+      "index": 2,
+      "source_rect": [
+        999,
+        100,
+        1269,
+        453
+      ],
+      "source_density": 1.732421875
+    },
+    "charm_whetstone": {
+      "kind": "small-item",
+      "id": "charm_whetstone",
+      "base": "charm_whetstone",
+      "named": false,
+      "label": "Sellsword's Whetstone",
+      "sheet": "af09",
+      "index": 3,
+      "source_rect": [
+        1402,
+        52,
+        1716,
+        458
+      ],
+      "source_density": 1.732421875
+    },
+    "oil_fire": {
+      "kind": "small-item",
+      "id": "oil_fire",
+      "base": "oil_fire",
+      "named": false,
+      "label": "Fire Oil",
+      "sheet": "af09",
+      "index": 4,
+      "source_rect": [
+        52,
+        484,
+        408,
+        839
+      ],
+      "source_density": 1.732421875
+    },
+    "lamp_oil": {
+      "kind": "small-item",
+      "id": "lamp_oil",
+      "base": "lamp_oil",
+      "named": false,
+      "label": "Flask of Lamp Oil",
+      "sheet": "af09",
+      "index": 5,
+      "source_rect": [
+        503,
+        484,
+        855,
+        839
+      ],
+      "source_density": 1.732421875
+    },
+    "oil_silver": {
+      "kind": "small-item",
+      "id": "oil_silver",
+      "base": "oil_silver",
+      "named": false,
+      "label": "Silver Wash",
+      "sheet": "af09",
+      "index": 6,
+      "source_rect": [
+        944,
+        484,
+        1298,
+        840
+      ],
+      "source_density": 1.732421875
+    },
+    "oil_venom": {
+      "kind": "small-item",
+      "id": "oil_venom",
+      "base": "oil_venom",
+      "named": false,
+      "label": "Blade Venom",
+      "sheet": "af09",
+      "index": 7,
+      "source_rect": [
+        1390,
+        484,
+        1740,
+        840
+      ],
+      "source_density": 1.732421875
+    },
+    "oil_frost": {
+      "kind": "small-item",
+      "id": "oil_frost",
+      "base": "oil_frost",
+      "named": false,
+      "label": "Frost Oil",
+      "sheet": "af10",
+      "index": 0,
+      "source_rect": [
+        43,
+        113,
+        411,
+        461
+      ],
+      "source_density": 1.732421875
+    },
+    "scroll": {
+      "kind": "small-item",
+      "id": "scroll",
+      "base": "scroll",
+      "named": false,
+      "label": "Scroll of Fire",
+      "sheet": "af10",
+      "index": 1,
+      "source_rect": [
+        497,
+        93,
+        862,
+        476
+      ],
+      "source_density": 1.732421875
+    },
+    "page": {
+      "kind": "small-item",
+      "id": "page",
+      "base": "page",
+      "named": false,
+      "label": "Torn Page",
+      "sheet": "af10",
+      "index": 2,
+      "source_rect": [
+        972,
+        89,
+        1279,
+        461
+      ],
+      "source_density": 1.732421875
+    },
+    "ration": {
+      "kind": "small-item",
+      "id": "ration",
+      "base": "ration",
+      "named": false,
+      "label": "Iron Ration",
+      "sheet": "af10",
+      "index": 3,
+      "source_rect": [
+        1383,
+        133,
+        1743,
+        449
+      ],
+      "source_density": 1.732421875
+    },
+    "meat": {
+      "kind": "small-item",
+      "id": "meat",
+      "base": "meat",
+      "named": false,
+      "label": "Dried Meat",
+      "sheet": "af10",
+      "index": 4,
+      "source_rect": [
+        42,
+        492,
+        425,
+        835
+      ],
+      "source_density": 1.732421875
+    },
+    "caps": {
+      "kind": "small-item",
+      "id": "caps",
+      "base": "caps",
+      "named": false,
+      "label": "Pale Caps",
+      "sheet": "af10",
+      "index": 5,
+      "source_rect": [
+        504,
+        524,
+        861,
+        830
+      ],
+      "source_density": 1.732421875
+    },
+    "bread": {
+      "kind": "small-item",
+      "id": "bread",
+      "base": "bread",
+      "named": false,
+      "label": "Stale Bread",
+      "sheet": "af10",
+      "index": 6,
+      "source_rect": [
+        917,
+        562,
+        1313,
+        822
+      ],
+      "source_density": 1.732421875
+    },
+    "gold": {
+      "kind": "small-item",
+      "id": "gold",
+      "base": "gold",
+      "named": false,
+      "label": "Gold",
+      "sheet": "af10",
+      "index": 7,
+      "source_rect": [
+        1377,
+        599,
+        1739,
+        832
+      ],
+      "source_density": 1.732421875
+    },
+    "gem": {
+      "kind": "small-item",
+      "id": "gem",
+      "base": "gem",
+      "named": false,
+      "label": "Gem",
+      "sheet": "af11",
+      "index": 0,
+      "source_rect": [
+        74,
+        117,
+        404,
+        409
+      ],
+      "source_density": 1.732421875
+    },
+    "artifact": {
+      "kind": "small-item",
+      "id": "artifact",
+      "base": "artifact",
+      "named": false,
+      "label": "The Heart of the Mountain",
+      "sheet": "af11",
+      "index": 1,
+      "source_rect": [
+        510,
+        74,
+        828,
+        432
+      ],
+      "source_density": 1.732421875
+    },
+    "key": {
+      "kind": "small-item",
+      "id": "key",
+      "base": "key",
+      "named": false,
+      "label": "Key",
+      "sheet": "af11",
+      "index": 2,
+      "source_rect": [
+        941,
+        82,
+        1294,
+        417
+      ],
+      "source_density": 1.732421875
+    },
+    "key_brass": {
+      "kind": "small-item",
+      "id": "key_brass",
+      "base": "key_brass",
+      "named": false,
+      "label": "key brass",
+      "sheet": "af11",
+      "index": 3,
+      "source_rect": [
+        1385,
+        82,
+        1737,
+        417
+      ],
+      "source_density": 1.732421875
+    },
+    "key_silver": {
+      "kind": "small-item",
+      "id": "key_silver",
+      "base": "key_silver",
+      "named": false,
+      "label": "key silver",
+      "sheet": "af11",
+      "index": 4,
+      "source_rect": [
+        54,
+        488,
+        407,
+        824
+      ],
+      "source_density": 1.732421875
+    },
+    "key_gold": {
+      "kind": "small-item",
+      "id": "key_gold",
+      "base": "key_gold",
+      "named": false,
+      "label": "key gold",
+      "sheet": "af11",
+      "index": 5,
+      "source_rect": [
+        498,
+        488,
+        850,
+        824
+      ],
+      "source_density": 1.732421875
+    },
+    "key_iron": {
+      "kind": "small-item",
+      "id": "key_iron",
+      "base": "key_iron",
+      "named": false,
+      "label": "key iron",
+      "sheet": "af11",
+      "index": 6,
+      "source_rect": [
+        941,
+        488,
+        1294,
+        824
+      ],
+      "source_density": 1.732421875
+    },
+    "key_bone": {
+      "kind": "small-item",
+      "id": "key_bone",
+      "base": "key_bone",
+      "named": false,
+      "label": "key bone",
+      "sheet": "af11",
+      "index": 7,
+      "source_rect": [
+        1385,
+        488,
+        1737,
+        824
+      ],
+      "source_density": 1.732421875
+    },
+    "elvenchain": {
+      "kind": "small-item",
+      "id": "elvenchain",
+      "base": "elvenchain",
+      "named": false,
+      "label": "Elven Chain",
+      "approved_reuse": "batch-p-preview/elvenchain.webp",
+      "reserve": false
+    },
+    "dwarfplate": {
+      "kind": "small-item",
+      "id": "dwarfplate",
+      "base": "dwarfplate",
+      "named": false,
+      "label": "Dwarven Plate",
+      "approved_reuse": "batch-p-preview/dwarfplate.webp",
+      "reserve": false
+    },
+    "dwarfhammer": {
+      "kind": "small-item",
+      "id": "dwarfhammer",
+      "base": "dwarfhammer",
+      "named": false,
+      "label": "Dwarven Hammer",
+      "approved_reuse": "batch-p-preview/dwarfhammer.webp",
+      "reserve": false
+    },
+    "runeshield": {
+      "kind": "small-item",
+      "id": "runeshield",
+      "base": "runeshield",
+      "named": false,
+      "label": "Rune-Cut Shield",
+      "approved_reuse": "batch-p-preview/runeshield.webp",
+      "reserve": false
+    },
+    "marshhide": {
+      "kind": "small-item",
+      "id": "marshhide",
+      "base": "marshhide",
+      "named": false,
+      "label": "Marsh-Hide Armour",
+      "approved_reuse": "batch-p-preview/marshhide.webp",
+      "reserve": false
+    },
+    "amulet_tooth": {
+      "kind": "small-item",
+      "id": "amulet_tooth",
+      "base": "amulet_tooth",
+      "named": false,
+      "label": "Tooth Charm",
+      "approved_reuse": "batch-p-preview/amulet_tooth.webp",
+      "reserve": true
+    },
+    "handxbow": {
+      "kind": "small-item",
+      "id": "handxbow",
+      "base": "handxbow",
+      "named": false,
+      "label": "Dark Elf Hand Crossbow",
+      "approved_reuse": "batch-p-preview/handxbow.webp",
+      "reserve": false
+    },
+    "mythic_last_gate": {
+      "kind": "small-item",
+      "id": "mythic_last_gate",
+      "base": "shield",
+      "named": true,
+      "relic": "last_gate",
+      "item_t": "shield",
+      "label": "the Last Gate",
+      "sheet": "af12",
+      "index": 0,
+      "native_construction": "() => [...base('last_gate'), ...crack('#e2c4f0', [[13, 5], [17, 11], [14, 17], [18, 25]]), ...[10, 22].map(x => limb(x, 9, x, 20, 0.8, 0.8, '#a8a0b8'))]",
+      "source_rect": [
+        77,
+        55,
+        403,
+        446
+      ],
+      "source_density": 1.732421875
+    },
+    "mythic_mercys_oath": {
+      "kind": "small-item",
+      "id": "mythic_mercys_oath",
+      "base": "holy_symbol",
+      "named": true,
+      "relic": "mercys_oath",
+      "item_t": "holy_symbol",
+      "label": "Mercy's Oath",
+      "sheet": "af12",
+      "index": 1,
+      "native_construction": "() => [sheet([[10, 10], [22, 10], [24, 25], [8, 25]], '#a79bb8'), ...ring(16, 6, 4, '#d7cce9'), ball(16, 17, 4, 6, '#f4d9b7'), ...ray(16, 17, 5, '#e7d8f6', 4), limb(7, 26, 25, 26, 1, 1, '#8b769a')]",
+      "source_rect": [
+        532,
+        46,
+        849,
+        440
+      ],
+      "source_density": 1.732421875
+    },
+    "mythic_bloodstar": {
+      "kind": "small-item",
+      "id": "mythic_bloodstar",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "bloodstar",
+      "item_t": "crystal_orb",
+      "label": "the Bloodstar",
+      "sheet": "af12",
+      "index": 2,
+      "native_construction": "() => [...base('bloodstar'), sheet([[16, 4], [18, 11], [24, 14], [18, 17], [16, 24], [14, 17], [8, 14], [14, 11]], '#b64072'), ball(16, 14, 1.8, 1.8, '#ffb9c4')]",
+      "source_rect": [
+        972,
+        94,
+        1272,
+        459
+      ],
+      "source_density": 1.732421875
+    },
+    "mythic_nightglass": {
+      "kind": "small-item",
+      "id": "mythic_nightglass",
+      "base": "amulet_obsidian",
+      "named": true,
+      "relic": "nightglass",
+      "item_t": "amulet_mind",
+      "label": "Nightglass",
+      "sheet": "af12",
+      "index": 3,
+      "native_construction": "() => [...ring(16, 9, 7, '#9c8bad'), sheet([[12, 15], [22, 12], [19, 28], [14, 24]], '#383047'), hair(13, 16, 18, 25, '#e7d1f5'), ...crack('#9989b3', [[20, 14], [17, 19], [18, 22]])]",
+      "source_rect": [
+        1476,
+        43,
+        1708,
+        444
+      ],
+      "source_density": 1.732421875
+    },
+    "mythic_horizon": {
+      "kind": "small-item",
+      "id": "mythic_horizon",
+      "base": "longbow",
+      "named": true,
+      "relic": "horizon",
+      "item_t": "longbow",
+      "label": "Horizon",
+      "sheet": "af12",
+      "index": 4,
+      "native_construction": "() => [...bow('#c6b99a', '#62667c'), ...[7, 25].flatMap(y => [limb(10, y, 15, y, 0.8, 0.8, '#9392ad'), ball(14, y, 1.1, 1.1, '#e1b9f5')])]",
+      "source_rect": [
+        51,
+        449,
+        429,
+        848
+      ],
+      "source_density": 1.732421875
+    },
+    "mythic_elderseed": {
+      "kind": "small-item",
+      "id": "mythic_elderseed",
+      "base": "amulet_silver",
+      "named": true,
+      "relic": "elderseed",
+      "item_t": "amulet_ward",
+      "label": "the Elderseed",
+      "sheet": "af12",
+      "index": 5,
+      "native_construction": "() => [...ring(16, 10, 7, '#826749'), ball(16, 22, 4.4, 6, '#ac8459'), ball(16, 18, 5.1, 2.5, '#646a48'), ...[11, 21].map(x => leaf(x, 23, '#8c9a6b')), hair(16, 21, 16, 26, '#e6c6e8')]",
+      "source_rect": [
+        569,
+        473,
+        812,
+        835
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_grimtooth": {
+      "kind": "small-item",
+      "id": "relic_grimtooth",
+      "base": "dagger",
+      "named": true,
+      "relic": "grimtooth",
+      "item_t": "dagger",
+      "label": "Grimtooth",
+      "sheet": "af12",
+      "index": 6,
+      "native_construction": "() => [...blade(29, 1.7, '#a4aa8d'), ...[15, 18, 21, 24].map(s => cross(s, 1.8, '#433a30')), gem(3, '#7a943f')]",
+      "source_rect": [
+        932,
+        487,
+        1302,
+        844
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_whisper": {
+      "kind": "small-item",
+      "id": "relic_whisper",
+      "base": "shortsword",
+      "named": true,
+      "relic": "whisper",
+      "item_t": "shortsword",
+      "label": "Whisper",
+      "sheet": "af12",
+      "index": 7,
+      "native_construction": "() => [...blade(32, 1.4, '#727984'), ...[3, 5, 7, 9].map(s => cross(s, 1.7, '#a5a3a6')), cross(10, 3.5, '#99979c')]",
+      "source_rect": [
+        1386,
+        463,
+        1744,
+        832
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_thirst": {
+      "kind": "small-item",
+      "id": "relic_thirst",
+      "base": "longsword",
+      "named": true,
+      "relic": "thirst",
+      "item_t": "longsword",
+      "label": "Thirst",
+      "sheet": "af13",
+      "index": 0,
+      "native_construction": "() => [...blade(35, 1.7, '#62606c', '#863b47'), rod(14, 30, 0.45, '#742b3c'), gem(3, '#b83c4c')]",
+      "source_rect": [
+        35,
+        53,
+        417,
+        427
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_dawnbringer": {
+      "kind": "small-item",
+      "id": "relic_dawnbringer",
+      "base": "mace",
+      "named": true,
+      "relic": "dawnbringer",
+      "item_t": "mace",
+      "label": "Dawnbringer",
+      "sheet": "af13",
+      "index": 1,
+      "native_construction": "() => [rod(1, 22, 1.3, '#775031'), ...ray(...at(25), 3.4, '#d4b056'), gem(25, '#f3dca0', 3.2)]",
+      "source_rect": [
+        475,
+        52,
+        871,
+        437
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_penitent": {
+      "kind": "small-item",
+      "id": "relic_penitent",
+      "base": "flail",
+      "named": true,
+      "relic": "penitent",
+      "item_t": "flail",
+      "label": "the Penitent's Flail",
+      "sheet": "af13",
+      "index": 2,
+      "native_construction": "() => [...base('penitent'), ...[12, 15, 18].map(s => gem(s, '#c4ac7b', 0.9)), cross(7, 3, '#d7c294'), rod(5, 9, 0.5, '#d7c294')]",
+      "source_rect": [
+        894,
+        162,
+        1326,
+        433
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_ogres_toll": {
+      "kind": "small-item",
+      "id": "relic_ogres_toll",
+      "base": "battleaxe",
+      "named": true,
+      "relic": "ogres_toll",
+      "item_t": "battleaxe",
+      "label": "the Ogre's Toll",
+      "sheet": "af13",
+      "index": 3,
+      "native_construction": "() => [...axe('#a4adb6'), ...[8, 10, 12, 14, 16].map(s => cross(s, 1.2, '#e0c99e'))]",
+      "source_rect": [
+        1362,
+        25,
+        1756,
+        437
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_ninth_circle": {
+      "kind": "small-item",
+      "id": "relic_ninth_circle",
+      "base": "staff",
+      "named": true,
+      "relic": "ninth_circle",
+      "item_t": "staff",
+      "label": "Staff of the Ninth Circle",
+      "sheet": "af13",
+      "index": 4,
+      "native_construction": "() => staff('#43343a', Array.from({ length: 9 }, (_, i) => cross(11 + i * 2, 1.6, '#181c29')))",
+      "source_rect": [
+        37,
+        477,
+        430,
+        845
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_emberwood": {
+      "kind": "small-item",
+      "id": "relic_emberwood",
+      "base": "staff",
+      "named": true,
+      "relic": "emberwood",
+      "item_t": "staff",
+      "label": "Emberwood",
+      "sheet": "af13",
+      "index": 5,
+      "native_construction": "() => staff('#744027', [...crack('#f5a14c', [at(17), at(21, 0.5), at(24, -0.7), at(28)]), gem(29, '#ec9944', 1.6)])",
+      "source_rect": [
+        462,
+        462,
+        853,
+        843
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_vashti": {
+      "kind": "small-item",
+      "id": "relic_vashti",
+      "base": "throwknife",
+      "named": true,
+      "relic": "vashti",
+      "item_t": "throwknife",
+      "label": "Vashti's Needles",
+      "sheet": "af13",
+      "index": 6,
+      "native_construction": "() => [rod(9, 15, 0.9, '#45414c'), cross(15, 1.5, '#c4ac7b'), sheet([at(15, -0.9), at(26, -0.9), at(30), at(26, 0.9), at(15, 0.9)], '#e3e7ec'), ...[0, 1].flatMap(i => [hair(10 + i * 4, 25, 24 + i * 3, 9, '#b8c1cc'), ball(10 + i * 4, 25, 0.8, 0.8, '#c49d62')])]",
+      "source_rect": [
+        957,
+        492,
+        1313,
+        831
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_heartseeker": {
+      "kind": "small-item",
+      "id": "relic_heartseeker",
+      "base": "shortbow",
+      "named": true,
+      "relic": "heartseeker",
+      "item_t": "shortbow",
+      "label": "Heartseeker",
+      "sheet": "af13",
+      "index": 7,
+      "native_construction": "() => [...bow('#87503b', '#eee0bd', false), sheet([[21, 11], [23, 13], [21, 16], [19, 13]], '#b54a51')]",
+      "source_rect": [
+        1387,
+        456,
+        1748,
+        848
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_rustwarden": {
+      "kind": "small-item",
+      "id": "relic_rustwarden",
+      "base": "chain",
+      "named": true,
+      "relic": "rustwarden",
+      "item_t": "chain",
+      "label": "Rustwarden Mail",
+      "sheet": "af14",
+      "index": 0,
+      "native_construction": "() => [...base('rustwarden'), ...[[12, 13], [20, 13], [16, 20]].flatMap(([x, y]) => [hair(x - 1, y, x + 1, y, '#d6d3a7'), hair(x, y - 1, x, y + 2, '#d6d3a7')])]",
+      "source_rect": [
+        34,
+        62,
+        442,
+        403
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_shadowskin": {
+      "kind": "small-item",
+      "id": "relic_shadowskin",
+      "base": "leather",
+      "named": true,
+      "relic": "shadowskin",
+      "item_t": "leather",
+      "label": "Shadowskin",
+      "sheet": "af14",
+      "index": 1,
+      "native_construction": "() => [...base('shadowskin').map(p => ({ ...p, c: '#282d3b' })), sheet([[9, 7], [5, 11], [3, 18], [7, 16], [11, 9]], '#393e4c'), hair(16, 12, 16, 25, '#606979')]",
+      "source_rect": [
+        462,
+        62,
+        858,
+        402
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_briarcoat": {
+      "kind": "small-item",
+      "id": "relic_briarcoat",
+      "base": "studded",
+      "named": true,
+      "relic": "briarcoat",
+      "item_t": "studded",
+      "label": "Briarcoat",
+      "sheet": "af-armour-repair",
+      "index": 0,
+      "native_construction": "() => [...base('briarcoat'), ...[[8, 10], [24, 10], [9, 19], [23, 19]].map(([x, y]) => sheet([[x - 1, y], [x + 1, y], [x + (x < 16 ? -3 : 3), y - 3]], '#aeb1a1'))]",
+      "source_rect": [
+        105,
+        73,
+        883,
+        797
+      ],
+      "source_density": 3.46484375
+    },
+    "relic_kests_bulwark": {
+      "kind": "small-item",
+      "id": "relic_kests_bulwark",
+      "base": "shield",
+      "named": true,
+      "relic": "kests_bulwark",
+      "item_t": "shield",
+      "label": "Kest's Bulwark",
+      "sheet": "af14",
+      "index": 3,
+      "native_construction": "() => [...base('kests_bulwark'), sheet([[12, 11], [20, 11], [20, 20], [16, 25], [12, 20]], '#8b3c36'), ...crack('#ded3ac', [[13, 19], [16, 19], [16, 16], [19, 16], [19, 13]])]",
+      "source_rect": [
+        1384,
+        46,
+        1712,
+        429
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_sisters_buckler": {
+      "kind": "small-item",
+      "id": "relic_sisters_buckler",
+      "base": "buckler",
+      "named": true,
+      "relic": "sisters_buckler",
+      "item_t": "buckler",
+      "label": "the Sisters' Buckler",
+      "sheet": "af14",
+      "index": 4,
+      "native_construction": "() => [...base('sisters_buckler'), ...ring(16, 16, 7.5, '#dfe4e1'), ...[12, 20].map(x => leaf(x, 16, '#ceded9'))]",
+      "source_rect": [
+        49,
+        481,
+        392,
+        826
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_hearthwool": {
+      "kind": "small-item",
+      "id": "relic_hearthwool",
+      "base": "robe_silk",
+      "named": true,
+      "relic": "hearthwool",
+      "item_t": "robe_silk",
+      "label": "the Hearthwool Robe",
+      "sheet": "af14",
+      "index": 5,
+      "native_construction": "() => [...base('hearthwool'), limb(9, 9, 23, 9, 1.7, 1.7, '#e1d7bd'), ...[8, 12, 16, 20, 24].map(x => ball(x, 28, 1.4, 1.2, '#d8ccb0'))]",
+      "source_rect": [
+        462,
+        449,
+        867,
+        847
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_archivist": {
+      "kind": "small-item",
+      "id": "relic_archivist",
+      "base": "robe_warded",
+      "named": true,
+      "relic": "archivist",
+      "item_t": "robe_warded",
+      "label": "the Archivist's Robe",
+      "sheet": "af-armour-repair",
+      "index": 1,
+      "native_construction": "() => [...base('archivist'), ...[[10, 15], [20, 15], [9, 23], [21, 23]].map(([x, y]) => sheet([[x, y], [x + 3, y], [x + 3, y + 3], [x, y + 3]], '#8b7057')), hair(9, 17, 11, 18, '#242535')]",
+      "source_rect": [
+        931,
+        54,
+        1685,
+        810
+      ],
+      "source_density": 3.46484375
+    },
+    "relic_midnight_folio": {
+      "kind": "small-item",
+      "id": "relic_midnight_folio",
+      "base": "spellbook",
+      "named": true,
+      "relic": "midnight_folio",
+      "item_t": "spellbook",
+      "label": "the Midnight Folio",
+      "sheet": "af14",
+      "index": 7,
+      "native_construction": "() => [...base('midnight_folio').map(p => ({ ...p, c: '#282a40' })), ...ring(17, 15, 4.5, '#bfc6e2'), hair(13, 22, 23, 18, '#bfc6e2')]",
+      "source_rect": [
+        1380,
+        461,
+        1748,
+        844
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_sparkglass": {
+      "kind": "small-item",
+      "id": "relic_sparkglass",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "sparkglass",
+      "item_t": "crystal_orb",
+      "label": "Sparkglass",
+      "sheet": "af15",
+      "index": 0,
+      "native_construction": "() => [...base('sparkglass'), ...crack('#f5e1a4', [[15, 6], [13, 11], [18, 15], [15, 22]]), ball(15, 12, 1, 1, '#fff5cb')]",
+      "source_rect": [
+        73,
+        83,
+        348,
+        435
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_boarspear": {
+      "kind": "small-item",
+      "id": "relic_boarspear",
+      "base": "spear",
+      "named": true,
+      "relic": "boarspear",
+      "item_t": "spear",
+      "label": "the Boarspear",
+      "sheet": "af15",
+      "index": 1,
+      "native_construction": "() => [...base('boarspear'), cross(24, 4.6, '#b6bcc4'), ...[12, 15, 18].map(s => cross(s, 1.2, '#dbbf8c'))]",
+      "source_rect": [
+        435,
+        41,
+        827,
+        430
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_galewind": {
+      "kind": "small-item",
+      "id": "relic_galewind",
+      "base": "longbow",
+      "named": true,
+      "relic": "galewind",
+      "item_t": "longbow",
+      "label": "Galewind",
+      "sheet": "af15",
+      "index": 2,
+      "native_construction": "() => [...bow('#ac895c', '#e5e6cd'), ...[8, 23].map(y => leaf(14, y, '#ddd8ac'))]",
+      "source_rect": [
+        925,
+        13,
+        1335,
+        444
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_sextons_locket": {
+      "kind": "small-item",
+      "id": "relic_sextons_locket",
+      "base": "amulet_silver",
+      "named": true,
+      "relic": "sextons_locket",
+      "item_t": "amulet_ward",
+      "label": "the Sexton's Locket",
+      "sheet": "af15",
+      "index": 3,
+      "native_construction": "() => [...base('sextons_locket'), ball(16, 22, 4, 5, '#a79874'), ...ring(16, 22, 3, '#dfcda5'), hair(16, 20, 16, 24, '#d8d8d1')]",
+      "source_rect": [
+        1398,
+        13,
+        1738,
+        429
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_oakheart": {
+      "kind": "small-item",
+      "id": "relic_oakheart",
+      "base": "staff",
+      "named": true,
+      "relic": "oakheart",
+      "item_t": "staff",
+      "label": "Oakheart",
+      "sheet": "af15",
+      "index": 4,
+      "native_construction": "() => staff('#735334', [limb(...at(23), ...at(30, -3), 1, 0.5, '#735334'), limb(...at(24), ...at(31, 2), 1, 0.4, '#735334'), leaf(...at(28, -3), '#7c9751')])",
+      "source_rect": [
+        34,
+        454,
+        424,
+        851
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_mossmantle": {
+      "kind": "small-item",
+      "id": "relic_mossmantle",
+      "base": "leather",
+      "named": true,
+      "relic": "mossmantle",
+      "item_t": "leather",
+      "label": "the Mossmantle",
+      "sheet": "af15",
+      "index": 5,
+      "native_construction": "() => [...base('mossmantle'), ...[[7, 10], [11, 8], [22, 9], [25, 12], [8, 24], [22, 25]].map(([x, y]) => leaf(x, y, '#6d8747'))]",
+      "source_rect": [
+        474,
+        458,
+        860,
+        843
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_cinder_ring": {
+      "kind": "small-item",
+      "id": "relic_cinder_ring",
+      "base": "ring_silver",
+      "named": true,
+      "relic": "cinder_ring",
+      "item_t": "ring_protect",
+      "label": "the Cinder Ring",
+      "sheet": "af15",
+      "index": 6,
+      "native_construction": "() => [...ring(16, 19, 8, '#45414a', 1.6), ...crack('#eaae66', [[10, 13], [13, 11], [16, 12], [20, 11], [22, 15]])]",
+      "source_rect": [
+        951,
+        516,
+        1282,
+        845
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_spider_pendant": {
+      "kind": "small-item",
+      "id": "relic_spider_pendant",
+      "base": "amulet_spider",
+      "named": true,
+      "relic": "spider_pendant",
+      "item_t": "amulet_spider",
+      "label": "the Spider Pendant",
+      "sheet": "af15",
+      "index": 7,
+      "native_construction": "() => [...base('spider_pendant'), ball(14.5, 21, 0.7, 0.7, '#c64b68'), ball(17.5, 21, 0.7, 0.7, '#c64b68')]",
+      "source_rect": [
+        1396,
+        439,
+        1733,
+        868
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_thane_ring": {
+      "kind": "small-item",
+      "id": "relic_thane_ring",
+      "base": "ring_forge",
+      "named": true,
+      "relic": "thane_ring",
+      "item_t": "ring_forge",
+      "label": "Durgrim's Ring",
+      "sheet": "af16",
+      "index": 0,
+      "native_construction": "() => [...base('thane_ring'), ...crack('#d3935c', [[9, 15], [13, 17], [16, 15], [20, 18], [23, 16]])]",
+      "source_rect": [
+        48,
+        51,
+        425,
+        404
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_hissra_tooth": {
+      "kind": "small-item",
+      "id": "relic_hissra_tooth",
+      "base": "amulet_tooth",
+      "named": true,
+      "relic": "hissra_tooth",
+      "item_t": "amulet_tooth",
+      "label": "Hissra's Tooth",
+      "sheet": "af16",
+      "index": 1,
+      "native_construction": "() => [...base('hissra_tooth'), hair(14, 18, 18, 19, '#715a34'), hair(14, 20, 17.5, 21, '#715a34')]",
+      "source_rect": [
+        485,
+        36,
+        855,
+        412
+      ],
+      "source_density": 1.732421875
+    },
+    "relic_warchiefs_knuckle": {
+      "kind": "small-item",
+      "id": "relic_warchiefs_knuckle",
+      "base": "ring_silver",
+      "named": true,
+      "relic": "warchiefs_knuckle",
+      "item_t": "ring_protect",
+      "label": "the Warchief's Knuckle",
+      "sheet": "af16",
+      "index": 2,
+      "native_construction": "() => [...ring(16, 19, 7, '#777780', 1.6), ...[10, 16, 22].map(x => sheet([[x - 1.7, 13], [x + 1.7, 13], [x, 7]], '#978677'))]",
+      "source_rect": [
+        941,
+        32,
+        1277,
+        421
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_bastion": {
+      "kind": "small-item",
+      "id": "legend_bastion",
+      "base": "towershield",
+      "named": true,
+      "relic": "bastion",
+      "item_t": "towershield",
+      "label": "the Bastion",
+      "sheet": "af16",
+      "index": 3,
+      "native_construction": "() => [sheet([[5, 4], [27, 4], [27, 29], [5, 29]], '#626a73'), sheet([[8, 7], [24, 7], [24, 27], [8, 27]], '#453b34'),\n    ...[9, 16, 24].map(y => limb(6, y, 26, y, 0.9, 0.9, '#b69b69')), ...[10, 22].map(x => limb(x, 5, x, 28, 0.6, 0.6, '#9d8d72')), ball(21, 19, 1.2, 1.2, '#d0b67f')]",
+      "source_rect": [
+        1393,
+        29,
+        1729,
+        429
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_red_harvest": {
+      "kind": "small-item",
+      "id": "legend_red_harvest",
+      "base": "battleaxe",
+      "named": true,
+      "relic": "red_harvest",
+      "item_t": "battleaxe",
+      "label": "Red Harvest",
+      "sheet": "af-spacing-repair",
+      "index": 0,
+      "native_construction": "() => axe('#944350', true)",
+      "source_rect": [
+        121,
+        97,
+        826,
+        781
+      ],
+      "source_density": 3.46484375
+    },
+    "legend_sunhammer": {
+      "kind": "small-item",
+      "id": "legend_sunhammer",
+      "base": "hammer",
+      "named": true,
+      "relic": "sunhammer",
+      "item_t": "hammer",
+      "label": "the Sunhammer",
+      "sheet": "af-spacing-repair",
+      "index": 1,
+      "native_construction": "() => [rod(0.5, 23, 1.2, '#8a5732'), cross(6, 1.6, '#d8b359'),\n  sheet([at(20, -6), at(26, -6), at(27, 5), at(21, 5)], '#d3a246'),\n  ...ray(...at(23, -0.5), 2, '#ffe5a0'), gem(23, '#fff2bd', 1.8)]",
+      "source_rect": [
+        1032,
+        137,
+        1689,
+        789
+      ],
+      "source_density": 3.46484375
+    },
+    "legend_lantern_mercy": {
+      "kind": "small-item",
+      "id": "legend_lantern_mercy",
+      "base": "holy_symbol",
+      "named": true,
+      "relic": "lantern_mercy",
+      "item_t": "holy_symbol",
+      "label": "the Lantern of Mercy",
+      "sheet": "af16",
+      "index": 6,
+      "native_construction": "() => [...ray(16, 16, 6.5, '#dbc28c'), ...ring(16, 16, 5.8, '#e1d5af'), ball(16, 16, 3.4, 4.4, '#fff0c3'), limb(13, 25, 19, 25, 0.8, 0.8, '#b99859')]",
+      "source_rect": [
+        928,
+        472,
+        1280,
+        836
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_cinderheart": {
+      "kind": "small-item",
+      "id": "legend_cinderheart",
+      "base": "crystal_orb",
+      "named": true,
+      "relic": "cinderheart",
+      "item_t": "crystal_orb",
+      "label": "Cinderheart",
+      "sheet": "af16",
+      "index": 7,
+      "native_construction": "() => [ball(16, 15, 10, 10, '#33303c'), ...crack('#eb7947', [[11, 7], [15, 12], [12, 17], [19, 20], [20, 24]]),\n    ...crack('#d84b3d', [[24, 12], [19, 13], [18, 17], [12, 17], [8, 20]]), ball(15, 15, 2, 2, '#ffc68b'), sheet([[7, 29], [11, 24], [21, 24], [25, 29]], '#977650')]",
+      "source_rect": [
+        1412,
+        481,
+        1707,
+        850
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_rimebound": {
+      "kind": "small-item",
+      "id": "legend_rimebound",
+      "base": "spellbook",
+      "named": true,
+      "relic": "rimebound",
+      "item_t": "spellbook",
+      "label": "the Rimebound Grimoire",
+      "sheet": "af17",
+      "index": 0,
+      "native_construction": "() => [...base('rimebound').map(p => ({ ...p, c: '#698aaf' })), sheet([[7, 10], [11, 3], [12, 11]], '#c5e4eb'), sheet([[23, 23], [28, 18], [26, 29]], '#b3d9e6'),\n    ...crack('#e0f4ef', [[14, 10], [21, 18], [16, 19], [23, 23]]), ...crack('#e0f4ef', [[21, 9], [13, 22]])]",
+      "source_rect": [
+        54,
+        54,
+        418,
+        426
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_last_word": {
+      "kind": "small-item",
+      "id": "legend_last_word",
+      "base": "dagger",
+      "named": true,
+      "relic": "last_word",
+      "item_t": "dagger",
+      "label": "the Last Word",
+      "sheet": "af17",
+      "index": 1,
+      "native_construction": "() => blade(28, 1.15, '#828996', '#656b77')",
+      "source_rect": [
+        495,
+        68,
+        845,
+        414
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_motley": {
+      "kind": "small-item",
+      "id": "legend_motley",
+      "base": "leather",
+      "named": true,
+      "relic": "motley",
+      "item_t": "leather",
+      "label": "Motley",
+      "sheet": "af17",
+      "index": 2,
+      "native_construction": "() => [...base('motley'), ...[[8, 11], [18, 11], [11, 18], [20, 21]].map(([x, y], i) => sheet([[x, y], [x + 4, y - 1], [x + 5, y + 4], [x + 1, y + 5]], ['#aa5861', '#748eab', '#b89c61', '#718366'][i])),\n    sheet([[6, 8], [3, 15], [9, 12]], '#aa5861'), sheet([[25, 8], [29, 15], [23, 12]], '#748eab')]",
+      "source_rect": [
+        901,
+        67,
+        1309,
+        417
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_farstrider": {
+      "kind": "small-item",
+      "id": "legend_farstrider",
+      "base": "longbow",
+      "named": true,
+      "relic": "farstrider",
+      "item_t": "longbow",
+      "label": "Farstrider",
+      "sheet": "af17",
+      "index": 3,
+      "native_construction": "() => [...bow('#302c38', '#bdc6cf'), ...[7, 25].map(y => sheet([[11, y], [15, y - 2], [15, y + 1]], '#8c969e'))]",
+      "source_rect": [
+        1377,
+        18,
+        1762,
+        435
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_thornbinder": {
+      "kind": "small-item",
+      "id": "legend_thornbinder",
+      "base": "spear",
+      "named": true,
+      "relic": "thornbinder",
+      "item_t": "spear",
+      "label": "Thornbinder",
+      "sheet": "af17",
+      "index": 4,
+      "native_construction": "() => [...base('thornbinder'), ...[5, 11, 17, 23].flatMap(s => [rod(s, s + 3, 0.65, '#73824c', 1.4), sheet([at(s, 1), at(s + 2, 1), at(s + 1, 4)], '#8d9c61')])]",
+      "source_rect": [
+        32,
+        451,
+        415,
+        846
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_moonbound": {
+      "kind": "small-item",
+      "id": "legend_moonbound",
+      "base": "amulet_obsidian",
+      "named": true,
+      "relic": "moonbound",
+      "item_t": "amulet_mind",
+      "label": "the Moonbound Torc",
+      "sheet": "af17",
+      "index": 5,
+      "native_construction": "() => [...ring(16, 17, 10, '#ccd7de', 1.3).slice(0, 13),\n  ball(26, 17, 2, 2, '#f0eee0'), ball(20, 8, 2, 2, '#f0eee0'),\n  ...[0, 1, 2, 3, 4].map(i => hair(7 + i * 2.4, 22 + Math.sin(i) * 2, 8 + i * 2.4, 25 + Math.sin(i) * 2, '#8294aa'))]",
+      "source_rect": [
+        506,
+        508,
+        849,
+        824
+      ],
+      "source_density": 1.732421875
+    },
+    "legend_heartroot": {
+      "kind": "small-item",
+      "id": "legend_heartroot",
+      "base": "staff",
+      "named": true,
+      "relic": "heartroot",
+      "item_t": "staff",
+      "label": "Heartroot",
+      "sheet": "af-heartroot-repair",
+      "index": 0,
+      "native_construction": "() => staff('#744d35', [limb(...at(23), ...at(31, -4), 1.5, 0.4, '#744d35'), limb(...at(24), ...at(32, 3), 1.3, 0.3, '#744d35'),\n    gem(27, '#c68167', 2), leaf(...at(30, -3), '#83a05e'), leaf(...at(31, 3), '#628947')])",
+      "source_rect": [
+        146,
+        105,
+        1175,
+        1150
+      ],
+      "source_density": 4.8984375
+    }
+  },
+  "inventory": {
+    "base_keys": 95,
+    "named_keys": 47,
+    "approved_base_reuses": 7,
+    "new_base_paintings": 88,
+    "new_named_paintings": 47,
+    "new_paintings": 135,
+    "total_small_item_sources": 142,
+    "reserve": "amulet_tooth remains unbound; seeded amulet appearance persists"
+  },
+  "registration": "Complete selected rectangular crops only; alpha used for measurements, never masks. AE uses uniform native-silhouette landmark alignment and nominal native pixel scale; AF uses complete object crops.",
+  "review": "batch-af-items-preview/REVIEW.md",
+  "runtime_review": "batch-ac-ah-runtime/REVIEW.md"
+}

@@ -1,0 +1,40 @@
+{
+  "status": "source painting complete; native integration gates remain; not activated",
+  "new_selected_paintings": 393,
+  "approved_gate_reuses": 12,
+  "selections": 405,
+  "atlases": 25,
+  "ag_captures": 240,
+  "ah_captures": 618,
+  "ag_console_errors": [],
+  "ah_console_errors": [],
+  "ah_shade_levels_per_width": [
+    864,
+    864
+  ],
+  "opaque_non_arch_exports": 393,
+  "arch_mask_differences": {
+    "1-stairArch": 17,
+    "2-stairArch": 17,
+    "3-stairArch": 16,
+    "4-stairArch": 17,
+    "5-stairArch": 17,
+    "6-stairArch": 17,
+    "7-stairArch": 17,
+    "8-stairArch": 15,
+    "9-stairArch": 16,
+    "10-stairArch": 16,
+    "11-stairArch": 16,
+    "12-stairArch": 16
+  },
+  "visual_review": "All13 contacts,12 repeat panels and arch alpha; representative phone galleries. Not every screenshot individually reviewed.",
+  "existing_browser_regressions": "8 region-art and painted-cache tests passed at390/320",
+  "repository_verification": "npm test passed: agent guidance, art inventory,17 release checks,typecheck,192 level generation cases,telemetry/security/narration/offline/voice and751 rules checks. All405 source exports and25 atlases reproduce.973 shipped runtime exports unchanged. Python/JavaScript syntax and git diff --check passed.",
+  "remaining_integration": [
+    "exact native arch geometry",
+    "native regional gate edges/coloured locks",
+    "adjoining material/door/decoration courses and repeat joins",
+    "temporal torch registration and Calm",
+    "native selection/actions, lazy memory bounds, failure, offline and performance"
+  ]
+}

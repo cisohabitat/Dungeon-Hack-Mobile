@@ -4,6 +4,8 @@ const { startGame, faceOpenGround, placeMonster, artReady, watchForErrors } = re
 
 async function surfaces(page) {
   await page.evaluate(async () => { window.__surfaceState = (await import('/js/paintedworld.js')).paintedWorldState; });
+  // Exercise the same properties on each reload before waiting for demand-loaded art.
+  await page.evaluate(() => { for(const t of Assets.themes) { void t.wall; void t.wallB; void t.door; void t.decor; t.floorOf(0); t.floorOf(4); for(const k of Object.keys(t.locked)) void t.locked[k]; } });
   await page.waitForFunction(() => Object.entries(window.__surfaceState()).filter(([p]) => p.includes('/materials/')).every(([, s]) => s === 'ready'));
   return page.evaluate(async () => {
     const { Dice, Odds } = await import('/js/rng.js');

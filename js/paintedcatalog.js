@@ -74,7 +74,199 @@ export const PAINTED = {
     "handxbow": "img/world/handxbow.webp",
     "dress_flames": "img/world/dress_flames.png",
     "dress_ripple": "img/world/dress_ripple.png",
-    "dress_snare": "img/world/dress_snare.png"
+    "dress_snare": "img/world/dress_snare.png",
+    "wayfarer_lantern": "img/world/wayfarer_lantern.png",
+    "ring_silver": "img/world/ring_silver.png",
+    "ring_gold": "img/world/ring_gold.png",
+    "ring_garnet": "img/world/ring_garnet.png",
+    "ring_onyx": "img/world/ring_onyx.png",
+    "ring_copper": "img/world/ring_copper.png",
+    "ring_black": "img/world/ring_black.png",
+    "ring_forge": "img/world/ring_forge.png",
+    "ring_jade": "img/world/ring_jade.png",
+    "ring_bone": "img/world/ring_bone.png",
+    "ring_iron": "img/world/ring_iron.png",
+    "amulet_amber": "img/world/amulet_amber.png",
+    "amulet_silver": "img/world/amulet_silver.png",
+    "amulet_obsidian": "img/world/amulet_obsidian.png",
+    "amulet_bone": "img/world/amulet_bone.png",
+    "amulet_spider": "img/world/amulet_spider.png",
+    "scimitar": "img/world/scimitar.png",
+    "dagger": "img/world/dagger.png",
+    "shortsword": "img/world/shortsword.png",
+    "longsword": "img/world/longsword.png",
+    "greatsword": "img/world/greatsword.png",
+    "throwknife": "img/world/throwknife.png",
+    "club": "img/world/club.png",
+    "staff": "img/world/staff.png",
+    "spear": "img/world/spear.png",
+    "mace": "img/world/mace.png",
+    "hammer": "img/world/hammer.png",
+    "flail": "img/world/flail.png",
+    "battleaxe": "img/world/battleaxe.png",
+    "sling": "img/world/sling.png",
+    "shortbow": "img/world/shortbow.png",
+    "longbow": "img/world/longbow.png",
+    "leather": "img/world/leather.png",
+    "studded": "img/world/studded.png",
+    "scale": "img/world/scale.png",
+    "wyrmscale": "img/world/wyrmscale.png",
+    "chain": "img/world/chain.png",
+    "splint": "img/world/splint.png",
+    "plate": "img/world/plate.png",
+    "robe_apprentice": "img/world/robe_apprentice.png",
+    "robe_silk": "img/world/robe_silk.png",
+    "robe_warded": "img/world/robe_warded.png",
+    "robe_magi": "img/world/robe_magi.png",
+    "buckler": "img/world/buckler.png",
+    "shield": "img/world/shield.png",
+    "quillshield": "img/world/quillshield.png",
+    "towershield": "img/world/towershield.png",
+    "cloak_protect": "img/world/cloak_protect.png",
+    "cloak_elven": "img/world/cloak_elven.png",
+    "cloak_shadow": "img/world/cloak_shadow.png",
+    "cloak_warmth": "img/world/cloak_warmth.png",
+    "spellbook": "img/world/spellbook.png",
+    "crystal_orb": "img/world/crystal_orb.png",
+    "orb_storms": "img/world/orb_storms.png",
+    "holy_symbol": "img/world/holy_symbol.png",
+    "silver_symbol": "img/world/silver_symbol.png",
+    "reliquary": "img/world/reliquary.png",
+    "potion_red": "img/world/potion_red.png",
+    "potion_pink": "img/world/potion_pink.png",
+    "potion_green": "img/world/potion_green.png",
+    "potion_orange": "img/world/potion_orange.png",
+    "potion_blue": "img/world/potion_blue.png",
+    "satchel": "img/world/satchel.png",
+    "quench": "img/world/quench.png",
+    "charm_collar": "img/world/charm_collar.png",
+    "charm_fang": "img/world/charm_fang.png",
+    "charm_rowan": "img/world/charm_rowan.png",
+    "charm_whetstone": "img/world/charm_whetstone.png",
+    "oil_fire": "img/world/oil_fire.png",
+    "lamp_oil": "img/world/lamp_oil.png",
+    "oil_silver": "img/world/oil_silver.png",
+    "oil_venom": "img/world/oil_venom.png",
+    "oil_frost": "img/world/oil_frost.png",
+    "scroll": "img/world/scroll.png",
+    "page": "img/world/page.png",
+    "ration": "img/world/ration.png",
+    "meat": "img/world/meat.png",
+    "caps": "img/world/caps.png",
+    "bread": "img/world/bread.png",
+    "gold": "img/world/gold.png",
+    "gem": "img/world/gem.png",
+    "artifact": "img/world/artifact.png",
+    "key_brass": "img/world/key_brass.png",
+    "key_silver": "img/world/key_silver.png",
+    "key_gold": "img/world/key_gold.png",
+    "key_iron": "img/world/key_iron.png",
+    "key_bone": "img/world/key_bone.png",
+    "mythic_last_gate": "img/world/mythic_last_gate.png",
+    "mythic_mercys_oath": "img/world/mythic_mercys_oath.png",
+    "mythic_bloodstar": "img/world/mythic_bloodstar.png",
+    "mythic_nightglass": "img/world/mythic_nightglass.png",
+    "mythic_horizon": "img/world/mythic_horizon.png",
+    "mythic_elderseed": "img/world/mythic_elderseed.png",
+    "relic_grimtooth": "img/world/relic_grimtooth.png",
+    "relic_whisper": "img/world/relic_whisper.png",
+    "relic_thirst": "img/world/relic_thirst.png",
+    "relic_dawnbringer": "img/world/relic_dawnbringer.png",
+    "relic_penitent": "img/world/relic_penitent.png",
+    "relic_ogres_toll": "img/world/relic_ogres_toll.png",
+    "relic_ninth_circle": "img/world/relic_ninth_circle.png",
+    "relic_emberwood": "img/world/relic_emberwood.png",
+    "relic_vashti": "img/world/relic_vashti.png",
+    "relic_heartseeker": "img/world/relic_heartseeker.png",
+    "relic_rustwarden": "img/world/relic_rustwarden.png",
+    "relic_shadowskin": "img/world/relic_shadowskin.png",
+    "relic_briarcoat": "img/world/relic_briarcoat.png",
+    "relic_kests_bulwark": "img/world/relic_kests_bulwark.png",
+    "relic_sisters_buckler": "img/world/relic_sisters_buckler.png",
+    "relic_hearthwool": "img/world/relic_hearthwool.png",
+    "relic_archivist": "img/world/relic_archivist.png",
+    "relic_midnight_folio": "img/world/relic_midnight_folio.png",
+    "relic_sparkglass": "img/world/relic_sparkglass.png",
+    "relic_boarspear": "img/world/relic_boarspear.png",
+    "relic_galewind": "img/world/relic_galewind.png",
+    "relic_sextons_locket": "img/world/relic_sextons_locket.png",
+    "relic_oakheart": "img/world/relic_oakheart.png",
+    "relic_mossmantle": "img/world/relic_mossmantle.png",
+    "relic_cinder_ring": "img/world/relic_cinder_ring.png",
+    "relic_spider_pendant": "img/world/relic_spider_pendant.png",
+    "relic_thane_ring": "img/world/relic_thane_ring.png",
+    "relic_hissra_tooth": "img/world/relic_hissra_tooth.png",
+    "relic_warchiefs_knuckle": "img/world/relic_warchiefs_knuckle.png",
+    "legend_bastion": "img/world/legend_bastion.png",
+    "legend_red_harvest": "img/world/legend_red_harvest.png",
+    "legend_sunhammer": "img/world/legend_sunhammer.png",
+    "legend_lantern_mercy": "img/world/legend_lantern_mercy.png",
+    "legend_cinderheart": "img/world/legend_cinderheart.png",
+    "legend_rimebound": "img/world/legend_rimebound.png",
+    "legend_last_word": "img/world/legend_last_word.png",
+    "legend_motley": "img/world/legend_motley.png",
+    "legend_farstrider": "img/world/legend_farstrider.png",
+    "legend_thornbinder": "img/world/legend_thornbinder.png",
+    "legend_moonbound": "img/world/legend_moonbound.png",
+    "legend_heartroot": "img/world/legend_heartroot.png",
+    "relic_dagger": "img/world/dagger.png",
+    "relic_club": "img/world/club.png",
+    "relic_staff": "img/world/staff.png",
+    "relic_shortsword": "img/world/shortsword.png",
+    "relic_mace": "img/world/mace.png",
+    "relic_hammer": "img/world/hammer.png",
+    "relic_spear": "img/world/spear.png",
+    "relic_longsword": "img/world/longsword.png",
+    "relic_flail": "img/world/flail.png",
+    "relic_battleaxe": "img/world/battleaxe.png",
+    "relic_greatsword": "img/world/greatsword.png",
+    "relic_throwknife": "img/world/throwknife.png",
+    "relic_sling": "img/world/sling.png",
+    "relic_shortbow": "img/world/shortbow.png",
+    "relic_longbow": "img/world/longbow.png",
+    "relic_leather": "img/world/leather.png",
+    "relic_studded": "img/world/studded.png",
+    "relic_scale": "img/world/scale.png",
+    "relic_chain": "img/world/chain.png",
+    "relic_splint": "img/world/splint.png",
+    "relic_plate": "img/world/plate.png",
+    "relic_robe_apprentice": "img/world/robe_apprentice.png",
+    "relic_robe_silk": "img/world/robe_silk.png",
+    "relic_robe_warded": "img/world/robe_warded.png",
+    "relic_robe_magi": "img/world/robe_magi.png",
+    "relic_buckler": "img/world/buckler.png",
+    "relic_shield": "img/world/shield.png",
+    "relic_towershield": "img/world/towershield.png",
+    "relic_wyrmscale": "img/world/wyrmscale.png",
+    "relic_quillshield": "img/world/quillshield.png",
+    "relic_elvenchain": "img/world/elvenchain.webp",
+    "relic_scimitar": "img/world/scimitar.png",
+    "relic_handxbow": "img/world/handxbow.webp",
+    "relic_marshhide": "img/world/marshhide.webp",
+    "relic_dwarfplate": "img/world/dwarfplate.webp",
+    "relic_dwarfhammer": "img/world/dwarfhammer.webp",
+    "relic_runeshield": "img/world/runeshield.webp",
+    "relic_wayfarer_lantern": "img/world/wayfarer_lantern.png",
+    "relic_spellbook": "img/world/spellbook.png",
+    "relic_crystal_orb": "img/world/crystal_orb.png",
+    "relic_orb_storms": "img/world/orb_storms.png",
+    "relic_holy_symbol": "img/world/holy_symbol.png",
+    "relic_silver_symbol": "img/world/silver_symbol.png",
+    "relic_reliquary": "img/world/reliquary.png",
+    "relic_ring_forge": "img/world/ring_forge.png",
+    "relic_amulet_spider": "img/world/amulet_spider.png",
+    "legend_towershield": "img/world/towershield.png",
+    "legend_battleaxe": "img/world/battleaxe.png",
+    "legend_hammer": "img/world/hammer.png",
+    "legend_holy_symbol": "img/world/holy_symbol.png",
+    "legend_crystal_orb": "img/world/crystal_orb.png",
+    "legend_spellbook": "img/world/spellbook.png",
+    "legend_dagger": "img/world/dagger.png",
+    "legend_leather": "img/world/leather.png",
+    "legend_longbow": "img/world/longbow.png",
+    "legend_spear": "img/world/spear.png",
+    "legend_amulet_obsidian": "img/world/amulet_obsidian.png",
+    "legend_staff": "img/world/staff.png"
   },
   "themes": {
     "0": {
@@ -107,67 +299,472 @@ export const PAINTED = {
       "fountainDry": "img/materials/halls_fountainDry.png",
       "torch0": "img/materials/halls_torch0.png",
       "torch1": "img/materials/halls_torch1.png",
-      "torch2": "img/materials/halls_torch2.png"
+      "torch2": "img/materials/halls_torch2.png",
+      "decor0": "img/materials/region_0-decor0.png",
+      "decor1": "img/materials/region_0-decor1.png",
+      "decor2": "img/materials/region_0-decor2.png",
+      "decor3": "img/materials/region_0-decor3.png",
+      "decor4": "img/materials/region_0-decor4.png",
+      "decor5": "img/materials/region_0-decor5.png",
+      "decor6": "img/materials/region_0-decor6.png",
+      "decor7": "img/materials/region_0-decor7.png"
     },
     "1": {
       "wall": "img/materials/brown_catacombs_wall.png",
       "floor": "img/materials/brown_catacombs_floor.png",
-      "ceiling": "img/materials/brown_catacombs_ceiling.png"
+      "ceiling": "img/materials/brown_catacombs_ceiling.png",
+      "door": "img/materials/region_1-door.png",
+      "cellDoor": "img/materials/region_1-cellDoor.png",
+      "pillar": "img/materials/region_1-pillar.png",
+      "stairsUp": "img/materials/region_1-stairsUp.png",
+      "stairsDown": "img/materials/region_1-stairsDown.png",
+      "stairsUpBack": "img/materials/region_1-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_1-stairsDownBack.png",
+      "stairArch": "img/materials/region_1-stairArch.png",
+      "floor1": "img/materials/region_1-floor1.png",
+      "floor2": "img/materials/region_1-floor2.png",
+      "floor3": "img/materials/region_1-floor3.png",
+      "floor4": "img/materials/region_1-floor4.png",
+      "floor5": "img/materials/region_1-floor5.png",
+      "floor6": "img/materials/region_1-floor6.png",
+      "ceil1": "img/materials/region_1-ceil1.png",
+      "ceil2": "img/materials/region_1-ceil2.png",
+      "ceil3": "img/materials/region_1-ceil3.png",
+      "wallB": "img/materials/region_1-wallB.png",
+      "wallDamp": "img/materials/region_1-wallDamp.png",
+      "wallCracked": "img/materials/region_1-wallCracked.png",
+      "rock": "img/materials/region_1-rock.png",
+      "fallen": "img/materials/region_1-fallen.png",
+      "rockPillar": "img/materials/region_1-rockPillar.png",
+      "fountain": "img/materials/region_1-fountain.png",
+      "fountainDry": "img/materials/region_1-fountainDry.png",
+      "torch0": "img/materials/region_1-torch0.png",
+      "torch1": "img/materials/region_1-torch1.png",
+      "torch2": "img/materials/region_1-torch2.png",
+      "decor0": "img/materials/region_1-decor0.png",
+      "decor1": "img/materials/region_1-decor1.png",
+      "decor2": "img/materials/region_1-decor2.png",
+      "decor3": "img/materials/region_1-decor3.png",
+      "decor4": "img/materials/region_1-decor4.png",
+      "decor5": "img/materials/region_1-decor5.png",
+      "decor6": "img/materials/region_1-decor6.png"
     },
     "2": {
       "wall": "img/materials/mossy_depths_wall.png",
       "floor": "img/materials/mossy_depths_floor.png",
-      "ceiling": "img/materials/mossy_depths_ceiling.png"
+      "ceiling": "img/materials/mossy_depths_ceiling.png",
+      "door": "img/materials/region_2-door.png",
+      "cellDoor": "img/materials/region_2-cellDoor.png",
+      "pillar": "img/materials/region_2-pillar.png",
+      "stairsUp": "img/materials/region_2-stairsUp.png",
+      "stairsDown": "img/materials/region_2-stairsDown.png",
+      "stairsUpBack": "img/materials/region_2-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_2-stairsDownBack.png",
+      "stairArch": "img/materials/region_2-stairArch.png",
+      "floor1": "img/materials/region_2-floor1.png",
+      "floor2": "img/materials/region_2-floor2.png",
+      "floor3": "img/materials/region_2-floor3.png",
+      "floor4": "img/materials/region_2-floor4.png",
+      "floor5": "img/materials/region_2-floor5.png",
+      "floor6": "img/materials/region_2-floor6.png",
+      "ceil1": "img/materials/region_2-ceil1.png",
+      "ceil2": "img/materials/region_2-ceil2.png",
+      "ceil3": "img/materials/region_2-ceil3.png",
+      "wallB": "img/materials/region_2-wallB.png",
+      "wallDamp": "img/materials/region_2-wallDamp.png",
+      "wallCracked": "img/materials/region_2-wallCracked.png",
+      "rock": "img/materials/region_2-rock.png",
+      "fallen": "img/materials/region_2-fallen.png",
+      "rockPillar": "img/materials/region_2-rockPillar.png",
+      "fountain": "img/materials/region_2-fountain.png",
+      "fountainDry": "img/materials/region_2-fountainDry.png",
+      "torch0": "img/materials/region_2-torch0.png",
+      "torch1": "img/materials/region_2-torch1.png",
+      "torch2": "img/materials/region_2-torch2.png",
+      "decor0": "img/materials/region_2-decor0.png",
+      "decor1": "img/materials/region_2-decor1.png",
+      "decor2": "img/materials/region_2-decor2.png",
+      "decor3": "img/materials/region_2-decor3.png",
+      "decor4": "img/materials/region_2-decor4.png",
+      "decor5": "img/materials/region_2-decor5.png"
     },
     "3": {
       "wall": "img/materials/blue_vaults_wall.png",
       "floor": "img/materials/blue_vaults_floor.png",
-      "ceiling": "img/materials/blue_vaults_ceiling.png"
+      "ceiling": "img/materials/blue_vaults_ceiling.png",
+      "door": "img/materials/region_3-door.png",
+      "cellDoor": "img/materials/region_3-cellDoor.png",
+      "pillar": "img/materials/region_3-pillar.png",
+      "stairsUp": "img/materials/region_3-stairsUp.png",
+      "stairsDown": "img/materials/region_3-stairsDown.png",
+      "stairsUpBack": "img/materials/region_3-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_3-stairsDownBack.png",
+      "stairArch": "img/materials/region_3-stairArch.png",
+      "floor1": "img/materials/region_3-floor1.png",
+      "floor2": "img/materials/region_3-floor2.png",
+      "floor3": "img/materials/region_3-floor3.png",
+      "floor4": "img/materials/region_3-floor4.png",
+      "floor5": "img/materials/region_3-floor5.png",
+      "floor6": "img/materials/region_3-floor6.png",
+      "ceil1": "img/materials/region_3-ceil1.png",
+      "ceil2": "img/materials/region_3-ceil2.png",
+      "ceil3": "img/materials/region_3-ceil3.png",
+      "wallB": "img/materials/region_3-wallB.png",
+      "wallDamp": "img/materials/region_3-wallDamp.png",
+      "wallCracked": "img/materials/region_3-wallCracked.png",
+      "rock": "img/materials/region_3-rock.png",
+      "fallen": "img/materials/region_3-fallen.png",
+      "rockPillar": "img/materials/region_3-rockPillar.png",
+      "fountain": "img/materials/region_3-fountain.png",
+      "fountainDry": "img/materials/region_3-fountainDry.png",
+      "torch0": "img/materials/region_3-torch0.png",
+      "torch1": "img/materials/region_3-torch1.png",
+      "torch2": "img/materials/region_3-torch2.png",
+      "decor0": "img/materials/region_3-decor0.png",
+      "decor1": "img/materials/region_3-decor1.png",
+      "decor2": "img/materials/region_3-decor2.png",
+      "decor3": "img/materials/region_3-decor3.png",
+      "decor4": "img/materials/region_3-decor4.png",
+      "decor5": "img/materials/region_3-decor5.png"
     },
     "4": {
       "wall": "img/materials/crimson_crypts_wall.png",
       "floor": "img/materials/crimson_crypts_floor.png",
-      "ceiling": "img/materials/crimson_crypts_ceiling.png"
+      "ceiling": "img/materials/crimson_crypts_ceiling.png",
+      "door": "img/materials/region_4-door.png",
+      "cellDoor": "img/materials/region_4-cellDoor.png",
+      "pillar": "img/materials/region_4-pillar.png",
+      "stairsUp": "img/materials/region_4-stairsUp.png",
+      "stairsDown": "img/materials/region_4-stairsDown.png",
+      "stairsUpBack": "img/materials/region_4-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_4-stairsDownBack.png",
+      "stairArch": "img/materials/region_4-stairArch.png",
+      "floor1": "img/materials/region_4-floor1.png",
+      "floor2": "img/materials/region_4-floor2.png",
+      "floor3": "img/materials/region_4-floor3.png",
+      "floor4": "img/materials/region_4-floor4.png",
+      "floor5": "img/materials/region_4-floor5.png",
+      "floor6": "img/materials/region_4-floor6.png",
+      "ceil1": "img/materials/region_4-ceil1.png",
+      "ceil2": "img/materials/region_4-ceil2.png",
+      "ceil3": "img/materials/region_4-ceil3.png",
+      "wallB": "img/materials/region_4-wallB.png",
+      "wallDamp": "img/materials/region_4-wallDamp.png",
+      "wallCracked": "img/materials/region_4-wallCracked.png",
+      "rock": "img/materials/region_4-rock.png",
+      "fallen": "img/materials/region_4-fallen.png",
+      "rockPillar": "img/materials/region_4-rockPillar.png",
+      "fountain": "img/materials/region_4-fountain.png",
+      "fountainDry": "img/materials/region_4-fountainDry.png",
+      "torch0": "img/materials/region_4-torch0.png",
+      "torch1": "img/materials/region_4-torch1.png",
+      "torch2": "img/materials/region_4-torch2.png",
+      "decor0": "img/materials/region_4-decor0.png",
+      "decor1": "img/materials/region_4-decor1.png",
+      "decor2": "img/materials/region_4-decor2.png",
+      "decor3": "img/materials/region_4-decor3.png",
+      "decor4": "img/materials/region_4-decor4.png",
+      "decor5": "img/materials/region_4-decor5.png"
     },
     "5": {
       "wall": "img/materials/obsidian_sanctum_wall.png",
       "floor": "img/materials/obsidian_sanctum_floor.png",
-      "ceiling": "img/materials/obsidian_sanctum_ceiling.png"
+      "ceiling": "img/materials/obsidian_sanctum_ceiling.png",
+      "door": "img/materials/region_5-door.png",
+      "cellDoor": "img/materials/region_5-cellDoor.png",
+      "pillar": "img/materials/region_5-pillar.png",
+      "stairsUp": "img/materials/region_5-stairsUp.png",
+      "stairsDown": "img/materials/region_5-stairsDown.png",
+      "stairsUpBack": "img/materials/region_5-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_5-stairsDownBack.png",
+      "stairArch": "img/materials/region_5-stairArch.png",
+      "floor1": "img/materials/region_5-floor1.png",
+      "floor2": "img/materials/region_5-floor2.png",
+      "floor3": "img/materials/region_5-floor3.png",
+      "floor4": "img/materials/region_5-floor4.png",
+      "floor5": "img/materials/region_5-floor5.png",
+      "floor6": "img/materials/region_5-floor6.png",
+      "ceil1": "img/materials/region_5-ceil1.png",
+      "ceil2": "img/materials/region_5-ceil2.png",
+      "ceil3": "img/materials/region_5-ceil3.png",
+      "wallB": "img/materials/region_5-wallB.png",
+      "wallDamp": "img/materials/region_5-wallDamp.png",
+      "wallCracked": "img/materials/region_5-wallCracked.png",
+      "rock": "img/materials/region_5-rock.png",
+      "fallen": "img/materials/region_5-fallen.png",
+      "rockPillar": "img/materials/region_5-rockPillar.png",
+      "fountain": "img/materials/region_5-fountain.png",
+      "fountainDry": "img/materials/region_5-fountainDry.png",
+      "torch0": "img/materials/region_5-torch0.png",
+      "torch1": "img/materials/region_5-torch1.png",
+      "torch2": "img/materials/region_5-torch2.png",
+      "decor0": "img/materials/region_5-decor0.png",
+      "decor1": "img/materials/region_5-decor1.png",
+      "decor2": "img/materials/region_5-decor2.png"
     },
     "6": {
       "wall": "img/materials/ossuary_wall.png",
       "floor": "img/materials/ossuary_floor.png",
-      "ceiling": "img/materials/ossuary_ceiling.png"
+      "ceiling": "img/materials/ossuary_ceiling.png",
+      "door": "img/materials/region_6-door.png",
+      "cellDoor": "img/materials/region_6-cellDoor.png",
+      "pillar": "img/materials/region_6-pillar.png",
+      "stairsUp": "img/materials/region_6-stairsUp.png",
+      "stairsDown": "img/materials/region_6-stairsDown.png",
+      "stairsUpBack": "img/materials/region_6-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_6-stairsDownBack.png",
+      "stairArch": "img/materials/region_6-stairArch.png",
+      "floor1": "img/materials/region_6-floor1.png",
+      "floor2": "img/materials/region_6-floor2.png",
+      "floor3": "img/materials/region_6-floor3.png",
+      "floor4": "img/materials/region_6-floor4.png",
+      "floor5": "img/materials/region_6-floor5.png",
+      "floor6": "img/materials/region_6-floor6.png",
+      "ceil1": "img/materials/region_6-ceil1.png",
+      "ceil2": "img/materials/region_6-ceil2.png",
+      "ceil3": "img/materials/region_6-ceil3.png",
+      "wallB": "img/materials/region_6-wallB.png",
+      "wallDamp": "img/materials/region_6-wallDamp.png",
+      "wallCracked": "img/materials/region_6-wallCracked.png",
+      "rock": "img/materials/region_6-rock.png",
+      "fallen": "img/materials/region_6-fallen.png",
+      "rockPillar": "img/materials/region_6-rockPillar.png",
+      "fountain": "img/materials/region_6-fountain.png",
+      "fountainDry": "img/materials/region_6-fountainDry.png",
+      "torch0": "img/materials/region_6-torch0.png",
+      "torch1": "img/materials/region_6-torch1.png",
+      "torch2": "img/materials/region_6-torch2.png",
+      "decor0": "img/materials/region_6-decor0.png",
+      "decor1": "img/materials/region_6-decor1.png",
+      "decor2": "img/materials/region_6-decor2.png",
+      "decor3": "img/materials/region_6-decor3.png"
     },
     "7": {
       "wall": "img/materials/warrens_wall.png",
       "floor": "img/materials/warrens_floor.png",
-      "ceiling": "img/materials/warrens_ceiling.png"
+      "ceiling": "img/materials/warrens_ceiling.png",
+      "door": "img/materials/region_7-door.png",
+      "cellDoor": "img/materials/region_7-cellDoor.png",
+      "pillar": "img/materials/region_7-pillar.png",
+      "stairsUp": "img/materials/region_7-stairsUp.png",
+      "stairsDown": "img/materials/region_7-stairsDown.png",
+      "stairsUpBack": "img/materials/region_7-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_7-stairsDownBack.png",
+      "stairArch": "img/materials/region_7-stairArch.png",
+      "floor1": "img/materials/region_7-floor1.png",
+      "floor2": "img/materials/region_7-floor2.png",
+      "floor3": "img/materials/region_7-floor3.png",
+      "floor4": "img/materials/region_7-floor4.png",
+      "floor5": "img/materials/region_7-floor5.png",
+      "floor6": "img/materials/region_7-floor6.png",
+      "ceil1": "img/materials/region_7-ceil1.png",
+      "ceil2": "img/materials/region_7-ceil2.png",
+      "ceil3": "img/materials/region_7-ceil3.png",
+      "wallB": "img/materials/region_7-wallB.png",
+      "wallDamp": "img/materials/region_7-wallDamp.png",
+      "wallCracked": "img/materials/region_7-wallCracked.png",
+      "rock": "img/materials/region_7-rock.png",
+      "fallen": "img/materials/region_7-fallen.png",
+      "rockPillar": "img/materials/region_7-rockPillar.png",
+      "fountain": "img/materials/region_7-fountain.png",
+      "fountainDry": "img/materials/region_7-fountainDry.png",
+      "torch0": "img/materials/region_7-torch0.png",
+      "torch1": "img/materials/region_7-torch1.png",
+      "torch2": "img/materials/region_7-torch2.png",
+      "decor0": "img/materials/region_7-decor0.png",
+      "decor1": "img/materials/region_7-decor1.png",
+      "decor2": "img/materials/region_7-decor2.png",
+      "decor3": "img/materials/region_7-decor3.png"
     },
     "8": {
       "wall": "img/materials/dark_elf_halls_wall.png",
       "floor": "img/materials/dark_elf_halls_floor.png",
-      "ceiling": "img/materials/dark_elf_halls_ceiling.png"
+      "ceiling": "img/materials/dark_elf_halls_ceiling.png",
+      "door": "img/materials/region_8-door.png",
+      "cellDoor": "img/materials/region_8-cellDoor.png",
+      "pillar": "img/materials/region_8-pillar.png",
+      "stairsUp": "img/materials/region_8-stairsUp.png",
+      "stairsDown": "img/materials/region_8-stairsDown.png",
+      "stairsUpBack": "img/materials/region_8-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_8-stairsDownBack.png",
+      "stairArch": "img/materials/region_8-stairArch.png",
+      "floor1": "img/materials/region_8-floor1.png",
+      "floor2": "img/materials/region_8-floor2.png",
+      "floor3": "img/materials/region_8-floor3.png",
+      "floor4": "img/materials/region_8-floor4.png",
+      "floor5": "img/materials/region_8-floor5.png",
+      "floor6": "img/materials/region_8-floor6.png",
+      "ceil1": "img/materials/region_8-ceil1.png",
+      "ceil2": "img/materials/region_8-ceil2.png",
+      "ceil3": "img/materials/region_8-ceil3.png",
+      "wallB": "img/materials/region_8-wallB.png",
+      "wallDamp": "img/materials/region_8-wallDamp.png",
+      "wallCracked": "img/materials/region_8-wallCracked.png",
+      "rock": "img/materials/region_8-rock.png",
+      "fallen": "img/materials/region_8-fallen.png",
+      "rockPillar": "img/materials/region_8-rockPillar.png",
+      "fountain": "img/materials/region_8-fountain.png",
+      "fountainDry": "img/materials/region_8-fountainDry.png",
+      "torch0": "img/materials/region_8-torch0.png",
+      "torch1": "img/materials/region_8-torch1.png",
+      "torch2": "img/materials/region_8-torch2.png",
+      "decor0": "img/materials/region_8-decor0.png",
+      "decor1": "img/materials/region_8-decor1.png",
+      "decor2": "img/materials/region_8-decor2.png",
+      "decor3": "img/materials/region_8-decor3.png",
+      "decor4": "img/materials/region_8-decor4.png"
     },
     "9": {
       "wall": "img/materials/grey_hold_wall.png",
       "floor": "img/materials/grey_hold_floor.png",
-      "ceiling": "img/materials/grey_hold_ceiling.png"
+      "ceiling": "img/materials/grey_hold_ceiling.png",
+      "door": "img/materials/region_9-door.png",
+      "cellDoor": "img/materials/region_9-cellDoor.png",
+      "pillar": "img/materials/region_9-pillar.png",
+      "stairsUp": "img/materials/region_9-stairsUp.png",
+      "stairsDown": "img/materials/region_9-stairsDown.png",
+      "stairsUpBack": "img/materials/region_9-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_9-stairsDownBack.png",
+      "stairArch": "img/materials/region_9-stairArch.png",
+      "floor1": "img/materials/region_9-floor1.png",
+      "floor2": "img/materials/region_9-floor2.png",
+      "floor3": "img/materials/region_9-floor3.png",
+      "floor4": "img/materials/region_9-floor4.png",
+      "floor5": "img/materials/region_9-floor5.png",
+      "floor6": "img/materials/region_9-floor6.png",
+      "ceil1": "img/materials/region_9-ceil1.png",
+      "ceil2": "img/materials/region_9-ceil2.png",
+      "ceil3": "img/materials/region_9-ceil3.png",
+      "wallB": "img/materials/region_9-wallB.png",
+      "wallDamp": "img/materials/region_9-wallDamp.png",
+      "wallCracked": "img/materials/region_9-wallCracked.png",
+      "rock": "img/materials/region_9-rock.png",
+      "fallen": "img/materials/region_9-fallen.png",
+      "rockPillar": "img/materials/region_9-rockPillar.png",
+      "fountain": "img/materials/region_9-fountain.png",
+      "fountainDry": "img/materials/region_9-fountainDry.png",
+      "torch0": "img/materials/region_9-torch0.png",
+      "torch1": "img/materials/region_9-torch1.png",
+      "torch2": "img/materials/region_9-torch2.png",
+      "decor0": "img/materials/region_9-decor0.png",
+      "decor1": "img/materials/region_9-decor1.png",
+      "decor2": "img/materials/region_9-decor2.png",
+      "decor3": "img/materials/region_9-decor3.png",
+      "decor4": "img/materials/region_9-decor4.png"
     },
     "10": {
       "wall": "img/materials/sunless_marsh_wall.png",
       "floor": "img/materials/sunless_marsh_floor.png",
-      "ceiling": "img/materials/sunless_marsh_ceiling.png"
+      "ceiling": "img/materials/sunless_marsh_ceiling.png",
+      "door": "img/materials/region_10-door.png",
+      "cellDoor": "img/materials/region_10-cellDoor.png",
+      "pillar": "img/materials/region_10-pillar.png",
+      "stairsUp": "img/materials/region_10-stairsUp.png",
+      "stairsDown": "img/materials/region_10-stairsDown.png",
+      "stairsUpBack": "img/materials/region_10-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_10-stairsDownBack.png",
+      "stairArch": "img/materials/region_10-stairArch.png",
+      "floor1": "img/materials/region_10-floor1.png",
+      "floor2": "img/materials/region_10-floor2.png",
+      "floor3": "img/materials/region_10-floor3.png",
+      "floor4": "img/materials/region_10-floor4.png",
+      "floor5": "img/materials/region_10-floor5.png",
+      "floor6": "img/materials/region_10-floor6.png",
+      "ceil1": "img/materials/region_10-ceil1.png",
+      "ceil2": "img/materials/region_10-ceil2.png",
+      "ceil3": "img/materials/region_10-ceil3.png",
+      "wallB": "img/materials/region_10-wallB.png",
+      "wallDamp": "img/materials/region_10-wallDamp.png",
+      "wallCracked": "img/materials/region_10-wallCracked.png",
+      "rock": "img/materials/region_10-rock.png",
+      "fallen": "img/materials/region_10-fallen.png",
+      "rockPillar": "img/materials/region_10-rockPillar.png",
+      "fountain": "img/materials/region_10-fountain.png",
+      "fountainDry": "img/materials/region_10-fountainDry.png",
+      "torch0": "img/materials/region_10-torch0.png",
+      "torch1": "img/materials/region_10-torch1.png",
+      "torch2": "img/materials/region_10-torch2.png",
+      "decor0": "img/materials/region_10-decor0.png",
+      "decor1": "img/materials/region_10-decor1.png",
+      "decor2": "img/materials/region_10-decor2.png",
+      "decor3": "img/materials/region_10-decor3.png"
     },
     "11": {
       "wall": "img/materials/drowned_halls_wall.png",
       "floor": "img/materials/drowned_halls_floor.png",
-      "ceiling": "img/materials/drowned_halls_ceiling.png"
+      "ceiling": "img/materials/drowned_halls_ceiling.png",
+      "door": "img/materials/region_11-door.png",
+      "cellDoor": "img/materials/region_11-cellDoor.png",
+      "pillar": "img/materials/region_11-pillar.png",
+      "stairsUp": "img/materials/region_11-stairsUp.png",
+      "stairsDown": "img/materials/region_11-stairsDown.png",
+      "stairsUpBack": "img/materials/region_11-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_11-stairsDownBack.png",
+      "stairArch": "img/materials/region_11-stairArch.png",
+      "floor1": "img/materials/region_11-floor1.png",
+      "floor2": "img/materials/region_11-floor2.png",
+      "floor3": "img/materials/region_11-floor3.png",
+      "floor4": "img/materials/region_11-floor4.png",
+      "floor5": "img/materials/region_11-floor5.png",
+      "floor6": "img/materials/region_11-floor6.png",
+      "ceil1": "img/materials/region_11-ceil1.png",
+      "ceil2": "img/materials/region_11-ceil2.png",
+      "ceil3": "img/materials/region_11-ceil3.png",
+      "wallB": "img/materials/region_11-wallB.png",
+      "wallDamp": "img/materials/region_11-wallDamp.png",
+      "wallCracked": "img/materials/region_11-wallCracked.png",
+      "rock": "img/materials/region_11-rock.png",
+      "fallen": "img/materials/region_11-fallen.png",
+      "rockPillar": "img/materials/region_11-rockPillar.png",
+      "fountain": "img/materials/region_11-fountain.png",
+      "fountainDry": "img/materials/region_11-fountainDry.png",
+      "torch0": "img/materials/region_11-torch0.png",
+      "torch1": "img/materials/region_11-torch1.png",
+      "torch2": "img/materials/region_11-torch2.png",
+      "decor0": "img/materials/region_11-decor0.png",
+      "decor1": "img/materials/region_11-decor1.png",
+      "decor2": "img/materials/region_11-decor2.png",
+      "decor3": "img/materials/region_11-decor3.png",
+      "decor4": "img/materials/region_11-decor4.png",
+      "decor5": "img/materials/region_11-decor5.png"
     },
     "12": {
       "wall": "img/materials/old_forges_wall.png",
       "floor": "img/materials/old_forges_floor.png",
-      "ceiling": "img/materials/old_forges_ceiling.png"
+      "ceiling": "img/materials/old_forges_ceiling.png",
+      "door": "img/materials/region_12-door.png",
+      "cellDoor": "img/materials/region_12-cellDoor.png",
+      "pillar": "img/materials/region_12-pillar.png",
+      "stairsUp": "img/materials/region_12-stairsUp.png",
+      "stairsDown": "img/materials/region_12-stairsDown.png",
+      "stairsUpBack": "img/materials/region_12-stairsUpBack.png",
+      "stairsDownBack": "img/materials/region_12-stairsDownBack.png",
+      "stairArch": "img/materials/region_12-stairArch.png",
+      "floor1": "img/materials/region_12-floor1.png",
+      "floor2": "img/materials/region_12-floor2.png",
+      "floor3": "img/materials/region_12-floor3.png",
+      "floor4": "img/materials/region_12-floor4.png",
+      "floor5": "img/materials/region_12-floor5.png",
+      "floor6": "img/materials/region_12-floor6.png",
+      "ceil1": "img/materials/region_12-ceil1.png",
+      "ceil2": "img/materials/region_12-ceil2.png",
+      "ceil3": "img/materials/region_12-ceil3.png",
+      "wallB": "img/materials/region_12-wallB.png",
+      "wallDamp": "img/materials/region_12-wallDamp.png",
+      "wallCracked": "img/materials/region_12-wallCracked.png",
+      "rock": "img/materials/region_12-rock.png",
+      "fallen": "img/materials/region_12-fallen.png",
+      "rockPillar": "img/materials/region_12-rockPillar.png",
+      "fountain": "img/materials/region_12-fountain.png",
+      "fountainDry": "img/materials/region_12-fountainDry.png",
+      "torch0": "img/materials/region_12-torch0.png",
+      "torch1": "img/materials/region_12-torch1.png",
+      "torch2": "img/materials/region_12-torch2.png",
+      "decor0": "img/materials/region_12-decor0.png",
+      "decor1": "img/materials/region_12-decor1.png",
+      "decor2": "img/materials/region_12-decor2.png",
+      "decor3": "img/materials/region_12-decor3.png",
+      "decor4": "img/materials/region_12-decor4.png"
     }
   },
   "held": {
@@ -16184,6 +16781,438 @@ export const PAINTED = {
         113.22636664355352,
         59.680528771768
       ]
+    },
+    "spellblade-empty-fist": {
+      "path": "img/held/spellblade-empty-fist.png",
+      "id": null,
+      "cls": "spellblade",
+      "grip": [
+        127.52832400683045,
+        128.47402477069542
+      ],
+      "bounds": [
+        103.52832400683045,
+        100.47402477069542,
+        151.52832400683045,
+        143.47402477069542
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "spellblade-empty-punch": {
+      "path": "img/held/spellblade-empty-punch.png",
+      "id": null,
+      "cls": "spellblade",
+      "grip": [
+        127.84600985506687,
+        127.60156273604548
+      ],
+      "bounds": [
+        103.84600985506687,
+        99.60156273604548,
+        151.84600985506688,
+        142.60156273604548
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "spellblade-empty-cast": {
+      "path": "img/held/spellblade-empty-cast.png",
+      "id": null,
+      "cls": "spellblade",
+      "grip": [
+        128.062575946469,
+        128.2242152188653
+      ],
+      "bounds": [
+        104.062575946469,
+        100.22421521886533,
+        152.062575946469,
+        143.2242152188653
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "fighter-empty-fist": {
+      "path": "img/held/fighter-empty-fist.png",
+      "id": null,
+      "cls": "fighter",
+      "grip": [
+        127.92658945160211,
+        128.21003269637214
+      ],
+      "bounds": [
+        103.92658945160211,
+        100.21003269637215,
+        151.92658945160213,
+        143.21003269637214
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "fighter-empty-punch": {
+      "path": "img/held/fighter-empty-punch.png",
+      "id": null,
+      "cls": "fighter",
+      "grip": [
+        127.6771354421557,
+        127.8167370911398
+      ],
+      "bounds": [
+        103.6771354421557,
+        99.8167370911398,
+        151.6771354421557,
+        142.8167370911398
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "fighter-empty-cast": {
+      "path": "img/held/fighter-empty-cast.png",
+      "id": null,
+      "cls": "fighter",
+      "grip": [
+        127.52725651467826,
+        127.50312662713307
+      ],
+      "bounds": [
+        103.52725651467826,
+        99.50312662713307,
+        151.52725651467824,
+        142.50312662713307
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "cleric-empty-fist": {
+      "path": "img/held/cleric-empty-fist.png",
+      "id": null,
+      "cls": "cleric",
+      "grip": [
+        127.69635842285217,
+        128.2965851499794
+      ],
+      "bounds": [
+        103.69635842285217,
+        100.29658514997939,
+        151.69635842285217,
+        143.2965851499794
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "cleric-empty-punch": {
+      "path": "img/held/cleric-empty-punch.png",
+      "id": null,
+      "cls": "cleric",
+      "grip": [
+        127.85381517519112,
+        128.00585690441204
+      ],
+      "bounds": [
+        103.85381517519112,
+        100.00585690441204,
+        151.85381517519113,
+        143.00585690441204
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "cleric-empty-cast": {
+      "path": "img/held/cleric-empty-cast.png",
+      "id": null,
+      "cls": "cleric",
+      "grip": [
+        127.6159904286894,
+        127.98734628229349
+      ],
+      "bounds": [
+        103.6159904286894,
+        99.98734628229349,
+        151.61599042868943,
+        142.9873462822935
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "mage-empty-fist": {
+      "path": "img/held/mage-empty-fist.png",
+      "id": null,
+      "cls": "mage",
+      "grip": [
+        127.66535736338072,
+        128.09661309300597
+      ],
+      "bounds": [
+        103.66535736338072,
+        100.09661309300597,
+        151.66535736338074,
+        143.09661309300597
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "mage-empty-punch": {
+      "path": "img/held/mage-empty-punch.png",
+      "id": null,
+      "cls": "mage",
+      "grip": [
+        128.2348022317925,
+        127.51648047330004
+      ],
+      "bounds": [
+        104.23480223179249,
+        99.51648047330004,
+        152.2348022317925,
+        142.51648047330005
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "mage-empty-cast": {
+      "path": "img/held/mage-empty-cast.png",
+      "id": null,
+      "cls": "mage",
+      "grip": [
+        127.79532859719303,
+        127.5184864187624
+      ],
+      "bounds": [
+        103.79532859719303,
+        99.5184864187624,
+        151.79532859719302,
+        142.5184864187624
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "thief-empty-fist": {
+      "path": "img/held/thief-empty-fist.png",
+      "id": null,
+      "cls": "thief",
+      "grip": [
+        127.64566610187664,
+        127.72067048534079
+      ],
+      "bounds": [
+        103.64566610187664,
+        99.72067048534079,
+        151.64566610187666,
+        142.7206704853408
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "thief-empty-punch": {
+      "path": "img/held/thief-empty-punch.png",
+      "id": null,
+      "cls": "thief",
+      "grip": [
+        128.30642551166113,
+        127.79394574012375
+      ],
+      "bounds": [
+        104.30642551166112,
+        99.79394574012375,
+        152.30642551166113,
+        142.79394574012375
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "thief-empty-cast": {
+      "path": "img/held/thief-empty-cast.png",
+      "id": null,
+      "cls": "thief",
+      "grip": [
+        127.85526897865701,
+        128.1671754541297
+      ],
+      "bounds": [
+        103.85526897865701,
+        100.1671754541297,
+        151.85526897865702,
+        143.1671754541297
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "ranger-empty-fist": {
+      "path": "img/held/ranger-empty-fist.png",
+      "id": null,
+      "cls": "ranger",
+      "grip": [
+        127.92658945160211,
+        128.21003269637214
+      ],
+      "bounds": [
+        103.92658945160211,
+        100.21003269637215,
+        151.92658945160213,
+        143.21003269637214
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "ranger-empty-punch": {
+      "path": "img/held/ranger-empty-punch.png",
+      "id": null,
+      "cls": "ranger",
+      "grip": [
+        127.6771354421557,
+        127.8167370911398
+      ],
+      "bounds": [
+        103.6771354421557,
+        99.8167370911398,
+        151.6771354421557,
+        142.8167370911398
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "ranger-empty-cast": {
+      "path": "img/held/ranger-empty-cast.png",
+      "id": null,
+      "cls": "ranger",
+      "grip": [
+        127.52725651467826,
+        127.50312662713307
+      ],
+      "bounds": [
+        103.52725651467826,
+        99.50312662713307,
+        151.52725651467824,
+        142.50312662713307
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "druid-empty-fist": {
+      "path": "img/held/druid-empty-fist.png",
+      "id": null,
+      "cls": "druid",
+      "grip": [
+        128.36960229118336,
+        127.81942381372974
+      ],
+      "bounds": [
+        104.36960229118337,
+        99.81942381372974,
+        152.36960229118336,
+        142.81942381372974
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "druid-empty-punch": {
+      "path": "img/held/druid-empty-punch.png",
+      "id": null,
+      "cls": "druid",
+      "grip": [
+        128.49982383233598,
+        128.4564795108169
+      ],
+      "bounds": [
+        104.49982383233598,
+        100.45647951081692,
+        152.49982383233598,
+        143.4564795108169
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "druid-empty-cast": {
+      "path": "img/held/druid-empty-cast.png",
+      "id": null,
+      "cls": "druid",
+      "grip": [
+        127.81281015978969,
+        127.79697321638398
+      ],
+      "bounds": [
+        103.81281015978969,
+        99.79697321638398,
+        151.8128101597897,
+        142.79697321638398
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
+    },
+    "bear-empty-fist": {
+      "path": "img/held/bear-empty-fist.png",
+      "id": null,
+      "cls": "bear",
+      "grip": [
+        128.16254525834978,
+        128.47589955499043
+      ],
+      "bounds": [
+        104.16254525834978,
+        100.47589955499043,
+        152.16254525834978,
+        143.47589955499043
+      ],
+      "pose": "fist",
+      "two": false,
+      "lit": false
+    },
+    "bear-empty-punch": {
+      "path": "img/held/bear-empty-punch.png",
+      "id": null,
+      "cls": "bear",
+      "grip": [
+        128.4720772214145,
+        127.95258108371718
+      ],
+      "bounds": [
+        104.4720772214145,
+        99.95258108371718,
+        152.4720772214145,
+        142.95258108371718
+      ],
+      "pose": "punch",
+      "two": false,
+      "lit": false
+    },
+    "bear-empty-cast": {
+      "path": "img/held/bear-empty-cast.png",
+      "id": null,
+      "cls": "bear",
+      "grip": [
+        128.0458686659179,
+        127.89228802076029
+      ],
+      "bounds": [
+        104.0458686659179,
+        99.89228802076029,
+        152.0458686659179,
+        142.8922880207603
+      ],
+      "pose": "cast",
+      "two": false,
+      "lit": false
     }
   },
   "atlases": {
@@ -16530,6 +17559,220 @@ export const PAINTED = {
         72.0,
         163.41146872413543,
         148.47899020875602
+      ]
+    },
+    "mage-spellbook": {
+      "path": "img/held/mage-spellbook.png",
+      "id": "spellbook",
+      "cls": "mage",
+      "grip": [
+        128.40296154276717,
+        128.39789021107669
+      ],
+      "bounds": [
+        88.88612631395362,
+        89.0,
+        163.57697462957267,
+        149.73846483562073
+      ]
+    },
+    "mage-crystal_orb": {
+      "path": "img/held/mage-crystal_orb.png",
+      "id": "crystal_orb",
+      "cls": "mage",
+      "grip": [
+        127.85359532725384,
+        128.12608984997107
+      ],
+      "bounds": [
+        81.90615127451312,
+        80.0,
+        165.59018078627793,
+        151.16680920084787
+      ]
+    },
+    "mage-orb_storms": {
+      "path": "img/held/mage-orb_storms.png",
+      "id": "orb_storms",
+      "cls": "mage",
+      "grip": [
+        127.90695928513786,
+        128.0068144008077
+      ],
+      "bounds": [
+        82.01589060817537,
+        81.0,
+        163.8800253755347,
+        151.00144202421245
+      ]
+    },
+    "cleric-holy_symbol": {
+      "path": "img/held/cleric-holy_symbol.png",
+      "id": "holy_symbol",
+      "cls": "cleric",
+      "grip": [
+        127.85536696733281,
+        128.31015475071246
+      ],
+      "bounds": [
+        83.81278083160882,
+        75.0,
+        169.83388869529975,
+        155.0
+      ]
+    },
+    "cleric-silver_symbol": {
+      "path": "img/held/cleric-silver_symbol.png",
+      "id": "silver_symbol",
+      "cls": "cleric",
+      "grip": [
+        127.62342123817288,
+        128.3828198216757
+      ],
+      "bounds": [
+        83.73958445160784,
+        76.0,
+        163.7712220697339,
+        156.0
+      ]
+    },
+    "cleric-reliquary": {
+      "path": "img/held/cleric-reliquary.png",
+      "id": "reliquary",
+      "cls": "cleric",
+      "grip": [
+        128.39107921153084,
+        127.8978346793367
+      ],
+      "bounds": [
+        91.92784864369094,
+        78.0,
+        164.8543097793707,
+        151.3450823577393
+      ]
+    },
+    "spellblade-wayfarer_lantern": {
+      "path": "img/held/spellblade-wayfarer_lantern.png",
+      "id": "wayfarer_lantern",
+      "cls": "spellblade",
+      "grip": [
+        128.22602955665025,
+        127.6692512315271
+      ],
+      "bounds": [
+        105.05911330049261,
+        120.5911330049261,
+        156.6847290640394,
+        200.59113300492612
+      ],
+      "base": [
+        128.22602955665025,
+        200.59113300492612
+      ]
+    },
+    "fighter-buckler": {
+      "path": "img/held/fighter-buckler.png",
+      "id": "buckler",
+      "cls": "fighter",
+      "grip": [
+        128.3956818943385,
+        128.34799756321485
+      ],
+      "bounds": [
+        69.9663665810886,
+        77.69784094716925,
+        169.29239472817838,
+        177.25648274331544
+      ]
+    },
+    "cleric-buckler": {
+      "path": "img/held/cleric-buckler.png",
+      "id": "buckler",
+      "cls": "cleric",
+      "grip": [
+        128.1409102234956,
+        128.26310070641202
+      ],
+      "bounds": [
+        74.33807103769368,
+        72.69784094716925,
+        174.1293264828963,
+        172.72171004142828
+      ]
+    },
+    "druid-buckler": {
+      "path": "img/held/druid-buckler.png",
+      "id": "buckler",
+      "cls": "druid",
+      "grip": [
+        128.04084486115585,
+        127.64108573154164
+      ],
+      "bounds": [
+        76.87284373958084,
+        73.69784094716925,
+        176.43148553572703,
+        173.48909639237186
+      ]
+    },
+    "fighter-towershield": {
+      "path": "img/held/fighter-towershield.png",
+      "id": "towershield",
+      "cls": "fighter",
+      "grip": [
+        127.75287674113007,
+        128.28270170827858
+      ],
+      "bounds": [
+        85.09592641261497,
+        68.50459921156373,
+        164.3180026281209,
+        195.83180026281207
+      ]
+    },
+    "cleric-towershield": {
+      "path": "img/held/cleric-towershield.png",
+      "id": "towershield",
+      "cls": "cleric",
+      "grip": [
+        127.79403311432324,
+        128.11824441524308
+      ],
+      "bounds": [
+        86.377135348226,
+        64.50459921156373,
+        163.41261498028908,
+        192.50459921156371
+      ]
+    },
+    "fighter-quillshield": {
+      "path": "img/held/fighter-quillshield.png",
+      "id": "quillshield",
+      "cls": "fighter",
+      "grip": [
+        128.491958685446,
+        128.20323505477307
+      ],
+      "bounds": [
+        65.05477308294209,
+        69.52582159624413,
+        177.0547730829421,
+        181.52582159624413
+      ]
+    },
+    "cleric-quillshield": {
+      "path": "img/held/cleric-quillshield.png",
+      "id": "quillshield",
+      "cls": "cleric",
+      "grip": [
+        128.41243192488264,
+        128.0642704225352
+      ],
+      "bounds": [
+        64.19874804381847,
+        70.52582159624413,
+        176.19874804381848,
+        182.52582159624413
       ]
     }
   }

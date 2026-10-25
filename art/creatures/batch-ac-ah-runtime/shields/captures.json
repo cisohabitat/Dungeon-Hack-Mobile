@@ -1,0 +1,5538 @@
+{
+  "scope": "Native shipped class/id frames, no Assets/source-image substitutions; frozen presentation fits with Game/Dice/Odds neutrality. Native actions/offline/performance verified separately.",
+  "audits": [
+    {
+      "width": 390,
+      "checks": [
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.966366581088593,
+            59.697840947169254,
+            101.29239472817838,
+            159.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            108.12734628062302,
+            37.77158206397358,
+            193.4856517195283,
+            123.32978985753672
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            116.69784094716925,
+            103.29239472817838,
+            216.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            128.69784094716925,
+            103.29239472817838,
+            228.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            128.69784094716925,
+            103.29239472817838,
+            228.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.3380710376936804,
+            59.697840947169254,
+            101.12932648289629,
+            159.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            107.88427979801801,
+            38.474707063973575,
+            193.642389946239,
+            124.43271956685243
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            115.69784094716925,
+            104.12932648289629,
+            215.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            127.69784094716925,
+            104.12932648289629,
+            227.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            127.69784094716925,
+            104.12932648289629,
+            227.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8728437395808442,
+            59.697840947169254,
+            101.43148553572703,
+            159.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            107.06260008870228,
+            38.334082063973575,
+            192.6208078822654,
+            124.09219221219456
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            115.69784094716925,
+            103.43148553572703,
+            215.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            128.69784094716925,
+            103.43148553572703,
+            228.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            128.69784094716925,
+            103.43148553572703,
+            228.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.095926412614972,
+            32.50459921156373,
+            81.3180026281209,
+            159.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            106.12931176084099,
+            11.871139947437577,
+            174.2107835085414,
+            121.29295335085413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            88.50459921156373,
+            83.3180026281209,
+            215.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            100.50459921156373,
+            83.3180026281209,
+            227.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            100.50459921156373,
+            83.3180026281209,
+            227.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.3771353482260054,
+            31.50459921156373,
+            78.41261498028908,
+            159.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            106.23035068988172,
+            11.433639947437577,
+            172.43271599868592,
+            121.43363994743757
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            87.50459921156373,
+            81.41261498028908,
+            215.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            99.50459921156373,
+            81.41261498028908,
+            227.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            99.50459921156373,
+            81.41261498028908,
+            227.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.0547730829420914,
+            47.52582159624413,
+            114.05477308294209,
+            159.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            108.90644561815336,
+            26.748752934272296,
+            205.15644561815336,
+            122.99875293427229
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            103.52582159624413,
+            116.05477308294209,
+            215.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            115.52582159624413,
+            116.05477308294209,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            115.52582159624413,
+            116.05477308294209,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.198748043818469,
+            47.52582159624413,
+            113.19874804381848,
+            159.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            109.1707991001565,
+            26.608127934272296,
+            205.4207991001565,
+            122.85812793427229
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            103.52582159624413,
+            116.19874804381848,
+            215.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            115.52582159624413,
+            116.19874804381848,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            115.52582159624413,
+            116.19874804381848,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.0977949431050007,
+            232.94334433116086,
+            128.58328391166467,
+            359.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.52571344806564,
+            180.98201353596636,
+            219.16355673394511,
+            289.87427800050125
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            363.94334433116086,
+            130.58328391166467,
+            490.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            390.94334433116086,
+            130.58328391166467,
+            517.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            390.94334433116086,
+            130.58328391166467,
+            517.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.084121157081057,
+            233.0082049487611,
+            128.38242882991563,
+            359.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.01688210748647,
+            181.2292875947665,
+            218.773758159094,
+            290.23967617796285
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            364.0082049487611,
+            130.38242882991563,
+            490.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            391.0082049487611,
+            130.38242882991563,
+            517.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            391.0082049487611,
+            130.38242882991563,
+            517.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.5924774037647467,
+            232.56171213996097,
+            127.98528437152845,
+            359.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.07967284016655,
+            181.60701353596636,
+            217.97193730470144,
+            290.7536991791567
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            363.56171213996095,
+            129.98528437152845,
+            490.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            391.56171213996095,
+            129.98528437152845,
+            518.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            391.56171213996095,
+            129.98528437152845,
+            518.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.6216327201051115,
+            156.1792049934297,
+            127.88181668856765,
+            359.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.67449285479631,
+            108.92622782522996,
+            218.29538641590014,
+            283.50375739159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            287.1792049934297,
+            129.88181668856765,
+            490.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            315.1792049934297,
+            129.88181668856765,
+            518.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            315.1792049934297,
+            129.88181668856765,
+            518.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.7124876806832958,
+            149.82785808147173,
+            128.09882145203676,
+            359.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.80525726839683,
+            102.96156373193166,
+            218.43732034329827,
+            283.4615637319316
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            280.82785808147173,
+            130.09882145203676,
+            490.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            307.82785808147173,
+            130.09882145203676,
+            517.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            307.82785808147173,
+            130.09882145203676,
+            517.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.440739925665099,
+            233.48813453638496,
+            127.8782399256651,
+            359.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.02181142410015,
+            181.3531396713615,
+            218.52181142410015,
+            289.85313967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            364.48813453638496,
+            130.8782399256651,
+            490.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            391.48813453638496,
+            130.8782399256651,
+            517.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            391.48813453638496,
+            130.8782399256651,
+            517.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.4743679088419412,
+            232.61704078638496,
+            127.91186790884197,
+            359.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.19253716744913,
+            181.3218896713615,
+            218.69253716744916,
+            289.82188967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            364.61704078638496,
+            130.91186790884197,
+            491.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            391.61704078638496,
+            130.91186790884197,
+            518.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            391.61704078638496,
+            130.91186790884197,
+            518.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.0977949431050007,
+            336.94334433116086,
+            128.58328391166467,
+            463.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.52571344806564,
+            267.98201353596636,
+            219.16355673394511,
+            376.87427800050125
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            506.94334433116086,
+            130.58328391166467,
+            633.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            541.9433443311608,
+            130.58328391166467,
+            668.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            541.9433443311608,
+            130.58328391166467,
+            668.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.084121157081057,
+            337.0082049487611,
+            128.38242882991563,
+            463.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.01688210748647,
+            269.2292875947665,
+            218.773758159094,
+            378.23967617796285
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            507.0082049487611,
+            130.38242882991563,
+            633.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            542.0082049487611,
+            130.38242882991563,
+            668.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            542.0082049487611,
+            130.38242882991563,
+            668.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.5924774037647467,
+            336.56171213996095,
+            127.98528437152845,
+            463.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.07967284016655,
+            268.60701353596636,
+            217.97193730470144,
+            377.7536991791567
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            506.56171213996095,
+            129.98528437152845,
+            633.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            542.561712139961,
+            129.98528437152845,
+            669.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            542.561712139961,
+            129.98528437152845,
+            669.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.6216327201051115,
+            260.1792049934297,
+            127.88181668856765,
+            463.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.67449285479631,
+            195.92622782522994,
+            218.29538641590014,
+            370.50375739159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            430.1792049934297,
+            129.88181668856765,
+            633.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            465.1792049934297,
+            129.88181668856765,
+            668.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            465.1792049934297,
+            129.88181668856765,
+            668.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.7124876806832958,
+            253.82785808147173,
+            128.09882145203676,
+            463.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.80525726839683,
+            189.96156373193168,
+            218.43732034329827,
+            370.4615637319316
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            423.82785808147173,
+            130.09882145203676,
+            633.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            458.82785808147173,
+            130.09882145203676,
+            668.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            458.82785808147173,
+            130.09882145203676,
+            668.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.440739925665099,
+            337.48813453638496,
+            127.8782399256651,
+            463.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.02181142410015,
+            268.35313967136153,
+            218.52181142410015,
+            376.85313967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            507.48813453638496,
+            130.8782399256651,
+            633.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            542.488134536385,
+            130.8782399256651,
+            668.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            542.488134536385,
+            130.8782399256651,
+            668.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.4743679088419412,
+            336.61704078638496,
+            127.91186790884197,
+            463.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.19253716744913,
+            268.32188967136153,
+            218.69253716744916,
+            376.82188967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            507.61704078638496,
+            130.91186790884197,
+            634.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            542.617040786385,
+            130.91186790884197,
+            669.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            542.617040786385,
+            130.91186790884197,
+            669.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        }
+      ],
+      "guards": [
+        [
+          "buckler",
+          "mage"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "buckler",
+          "ranger"
+        ],
+        [
+          "buckler",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "bear"
+        ],
+        [
+          "towershield",
+          "mage"
+        ],
+        [
+          "towershield",
+          "thief"
+        ],
+        [
+          "towershield",
+          "ranger"
+        ],
+        [
+          "towershield",
+          "druid"
+        ],
+        [
+          "towershield",
+          "spellblade"
+        ],
+        [
+          "towershield",
+          "bear"
+        ],
+        [
+          "quillshield",
+          "mage"
+        ],
+        [
+          "quillshield",
+          "thief"
+        ],
+        [
+          "quillshield",
+          "ranger"
+        ],
+        [
+          "quillshield",
+          "druid"
+        ],
+        [
+          "quillshield",
+          "spellblade"
+        ],
+        [
+          "quillshield",
+          "bear"
+        ],
+        [
+          "runeshield",
+          "fighter"
+        ],
+        [
+          "runeshield",
+          "cleric"
+        ],
+        [
+          "shield",
+          "fighter"
+        ],
+        [
+          "shield",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "mythic_last_gate",
+          "fighter"
+        ],
+        [
+          "mythic_mercys_oath",
+          "cleric"
+        ],
+        [
+          "mythic_bloodstar",
+          "mage"
+        ],
+        [
+          "relic_kests_bulwark",
+          "fighter"
+        ],
+        [
+          "relic_kests_bulwark",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "fighter"
+        ],
+        [
+          "relic_sisters_buckler",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "thief"
+        ],
+        [
+          "relic_sisters_buckler",
+          "druid"
+        ],
+        [
+          "relic_midnight_folio",
+          "mage"
+        ],
+        [
+          "relic_sparkglass",
+          "mage"
+        ],
+        [
+          "legend_bastion",
+          "fighter"
+        ],
+        [
+          "legend_bastion",
+          "cleric"
+        ],
+        [
+          "legend_lantern_mercy",
+          "cleric"
+        ],
+        [
+          "legend_cinderheart",
+          "mage"
+        ],
+        [
+          "legend_rimebound",
+          "mage"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "fighter"
+        ],
+        [
+          "buckler",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "druid"
+        ],
+        [
+          "towershield",
+          "fighter"
+        ],
+        [
+          "towershield",
+          "cleric"
+        ],
+        [
+          "quillshield",
+          "fighter"
+        ],
+        [
+          "quillshield",
+          "cleric"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ]
+      ],
+      "state_unchanged": true,
+      "dice_unchanged": true
+    },
+    {
+      "width": 320,
+      "checks": [
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.966366581088593,
+            59.697840947169254,
+            101.29239472817838,
+            159.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            56.697840947169254,
+            103.29239472817838,
+            156.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            108.12734628062302,
+            37.77158206397358,
+            193.4856517195283,
+            123.32978985753672
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            116.69784094716925,
+            103.29239472817838,
+            216.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            128.69784094716925,
+            103.29239472817838,
+            228.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.966366581088593,
+            128.69784094716925,
+            103.29239472817838,
+            228.25648274331544
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.3380710376936804,
+            59.697840947169254,
+            101.12932648289629,
+            159.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            55.697840947169254,
+            104.12932648289629,
+            155.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            107.88427979801801,
+            38.474707063973575,
+            193.642389946239,
+            124.43271956685243
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            115.69784094716925,
+            104.12932648289629,
+            215.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            127.69784094716925,
+            104.12932648289629,
+            227.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.33807103769368,
+            127.69784094716925,
+            104.12932648289629,
+            227.72171004142828
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.8728437395808442,
+            59.697840947169254,
+            101.43148553572703,
+            159.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            56.697840947169254,
+            103.43148553572703,
+            156.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            107.06260008870228,
+            38.334082063973575,
+            192.6208078822654,
+            124.09219221219456
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            115.69784094716925,
+            103.43148553572703,
+            215.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            128.69784094716925,
+            103.43148553572703,
+            228.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 160,
+          "box": [
+            3.872843739580844,
+            128.69784094716925,
+            103.43148553572703,
+            228.48909639237186
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.095926412614972,
+            32.50459921156373,
+            81.3180026281209,
+            159.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            28.50459921156373,
+            83.3180026281209,
+            155.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            106.12931176084099,
+            11.871139947437577,
+            174.2107835085414,
+            121.29295335085413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            88.50459921156373,
+            83.3180026281209,
+            215.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            100.50459921156373,
+            83.3180026281209,
+            227.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.095926412614972,
+            100.50459921156373,
+            83.3180026281209,
+            227.83180026281207
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.3771353482260054,
+            31.50459921156373,
+            78.41261498028908,
+            159.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            27.50459921156373,
+            81.41261498028908,
+            155.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            106.23035068988172,
+            11.433639947437577,
+            172.43271599868592,
+            121.43363994743757
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            87.50459921156373,
+            81.41261498028908,
+            215.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            99.50459921156373,
+            81.41261498028908,
+            227.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.377135348226005,
+            99.50459921156373,
+            81.41261498028908,
+            227.50459921156371
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            2.0547730829420914,
+            47.52582159624413,
+            114.05477308294209,
+            159.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            43.52582159624413,
+            116.05477308294209,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            108.90644561815336,
+            26.748752934272296,
+            205.15644561815336,
+            122.99875293427229
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            103.52582159624413,
+            116.05477308294209,
+            215.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            115.52582159624413,
+            116.05477308294209,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.054773082942091,
+            115.52582159624413,
+            116.05477308294209,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 160,
+          "box": [
+            1.198748043818469,
+            47.52582159624413,
+            113.19874804381848,
+            159.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            43.52582159624413,
+            116.19874804381848,
+            155.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 160,
+          "box": [
+            109.1707991001565,
+            26.608127934272296,
+            205.4207991001565,
+            122.85812793427229
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            103.52582159624413,
+            116.19874804381848,
+            215.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            115.52582159624413,
+            116.19874804381848,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 160,
+          "box": [
+            4.198748043818469,
+            115.52582159624413,
+            116.19874804381848,
+            227.52582159624413
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.0977949431050007,
+            232.94334433116086,
+            128.58328391166467,
+            359.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            228.94334433116086,
+            130.58328391166467,
+            355.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.52571344806564,
+            180.98201353596636,
+            219.16355673394511,
+            289.87427800050125
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            363.94334433116086,
+            130.58328391166467,
+            490.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            390.94334433116086,
+            130.58328391166467,
+            517.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.097794943105001,
+            390.94334433116086,
+            130.58328391166467,
+            517.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            2.084121157081057,
+            233.0082049487611,
+            128.38242882991563,
+            359.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            229.0082049487611,
+            130.38242882991563,
+            355.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.01688210748647,
+            181.2292875947665,
+            218.773758159094,
+            290.23967617796285
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            364.0082049487611,
+            130.38242882991563,
+            490.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            391.0082049487611,
+            130.38242882991563,
+            517.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.084121157081057,
+            391.0082049487611,
+            130.38242882991563,
+            517.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.5924774037647467,
+            232.56171213996097,
+            127.98528437152845,
+            359.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            229.56171213996097,
+            129.98528437152845,
+            356.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.07967284016655,
+            181.60701353596636,
+            217.97193730470144,
+            290.7536991791567
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            363.56171213996095,
+            129.98528437152845,
+            490.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            391.56171213996095,
+            129.98528437152845,
+            518.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.5924774037647467,
+            391.56171213996095,
+            129.98528437152845,
+            518.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.6216327201051115,
+            156.1792049934297,
+            127.88181668856765,
+            359.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            153.1792049934297,
+            129.88181668856765,
+            356.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.67449285479631,
+            108.92622782522996,
+            218.29538641590014,
+            283.50375739159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            287.1792049934297,
+            129.88181668856765,
+            490.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            315.1792049934297,
+            129.88181668856765,
+            518.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.6216327201051115,
+            315.1792049934297,
+            129.88181668856765,
+            518.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.7124876806832958,
+            149.82785808147173,
+            128.09882145203676,
+            359.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            145.82785808147173,
+            130.09882145203676,
+            355.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            109.80525726839683,
+            102.96156373193166,
+            218.43732034329827,
+            283.4615637319316
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            280.82785808147173,
+            130.09882145203676,
+            490.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            307.82785808147173,
+            130.09882145203676,
+            517.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            3.712487680683296,
+            307.82785808147173,
+            130.09882145203676,
+            517.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.440739925665099,
+            233.48813453638496,
+            127.8782399256651,
+            359.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            229.48813453638496,
+            130.8782399256651,
+            355.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.02181142410015,
+            181.3531396713615,
+            218.52181142410015,
+            289.85313967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            364.48813453638496,
+            130.8782399256651,
+            490.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            391.48813453638496,
+            130.8782399256651,
+            517.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.440739925665099,
+            391.48813453638496,
+            130.8782399256651,
+            517.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 360,
+          "box": [
+            1.4743679088419412,
+            232.61704078638496,
+            127.91186790884197,
+            359.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            229.61704078638496,
+            130.91186790884197,
+            356.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 360,
+          "box": [
+            110.19253716744913,
+            181.3218896713615,
+            218.69253716744916,
+            289.82188967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            364.61704078638496,
+            130.91186790884197,
+            491.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            391.61704078638496,
+            130.91186790884197,
+            518.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 360,
+          "box": [
+            4.474367908841941,
+            391.61704078638496,
+            130.91186790884197,
+            518.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.0977949431050007,
+            336.94334433116086,
+            128.58328391166467,
+            463.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            332.94334433116086,
+            130.58328391166467,
+            459.72505224344076
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.52571344806564,
+            267.98201353596636,
+            219.16355673394511,
+            376.87427800050125
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            506.94334433116086,
+            130.58328391166467,
+            633.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            541.9433443311608,
+            130.58328391166467,
+            668.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.097794943105001,
+            541.9433443311608,
+            130.58328391166467,
+            668.7250522434408
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            2.084121157081057,
+            337.0082049487611,
+            128.38242882991563,
+            463.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            333.0082049487611,
+            130.38242882991563,
+            459.60091427118266
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.01688210748647,
+            269.2292875947665,
+            218.773758159094,
+            378.23967617796285
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            507.0082049487611,
+            130.38242882991563,
+            633.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            542.0082049487611,
+            130.38242882991563,
+            668.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.084121157081057,
+            542.0082049487611,
+            130.38242882991563,
+            668.6009142711827
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.5924774037647467,
+            336.56171213996095,
+            127.98528437152845,
+            463.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            333.56171213996095,
+            129.98528437152845,
+            460.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.07967284016655,
+            268.60701353596636,
+            217.97193730470144,
+            377.7536991791567
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "druid-buckler",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            506.56171213996095,
+            129.98528437152845,
+            633.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            542.561712139961,
+            129.98528437152845,
+            669.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "druid-buckler",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.5924774037647467,
+            542.561712139961,
+            129.98528437152845,
+            669.2498294043784
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.6216327201051115,
+            260.1792049934297,
+            127.88181668856765,
+            463.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            257.1792049934297,
+            129.88181668856765,
+            460.10693166885676
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.67449285479631,
+            195.92622782522994,
+            218.29538641590014,
+            370.50375739159
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            430.1792049934297,
+            129.88181668856765,
+            633.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            465.1792049934297,
+            129.88181668856765,
+            668.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-towershield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.6216327201051115,
+            465.1792049934297,
+            129.88181668856765,
+            668.1069316688568
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.7124876806832958,
+            253.82785808147173,
+            128.09882145203676,
+            463.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            249.82785808147173,
+            130.09882145203676,
+            459.82785808147173
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            109.80525726839683,
+            189.96156373193168,
+            218.43732034329827,
+            370.4615637319316
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            423.82785808147173,
+            130.09882145203676,
+            633.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            458.82785808147173,
+            130.09882145203676,
+            668.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-towershield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            3.712487680683296,
+            458.82785808147173,
+            130.09882145203676,
+            668.8278580814717
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.440739925665099,
+            337.48813453638496,
+            127.8782399256651,
+            463.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            333.48813453638496,
+            130.8782399256651,
+            459.92563453638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.02181142410015,
+            268.35313967136153,
+            218.52181142410015,
+            376.85313967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            507.48813453638496,
+            130.8782399256651,
+            633.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            542.488134536385,
+            130.8782399256651,
+            668.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "fighter-quillshield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.440739925665099,
+            542.488134536385,
+            130.8782399256651,
+            668.9256345363849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "rest",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "walk",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "hurt",
+          "height": 464,
+          "box": [
+            1.4743679088419412,
+            336.61704078638496,
+            127.91186790884197,
+            463.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "calm",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            333.61704078638496,
+            130.91186790884197,
+            460.05454078638496
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "bash",
+          "height": 464,
+          "box": [
+            110.19253716744913,
+            268.32188967136153,
+            218.69253716744916,
+            376.82188967136153
+          ],
+          "base": null,
+          "intentionally_lowered": false
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "cast",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            507.61704078638496,
+            130.91186790884197,
+            634.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "read",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            542.617040786385,
+            130.91186790884197,
+            669.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        },
+        {
+          "key": "cleric-quillshield",
+          "state": "use",
+          "height": 464,
+          "box": [
+            4.474367908841941,
+            542.617040786385,
+            130.91186790884197,
+            669.0545407863849
+          ],
+          "base": null,
+          "intentionally_lowered": true
+        }
+      ],
+      "guards": [
+        [
+          "buckler",
+          "mage"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "buckler",
+          "ranger"
+        ],
+        [
+          "buckler",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "bear"
+        ],
+        [
+          "towershield",
+          "mage"
+        ],
+        [
+          "towershield",
+          "thief"
+        ],
+        [
+          "towershield",
+          "ranger"
+        ],
+        [
+          "towershield",
+          "druid"
+        ],
+        [
+          "towershield",
+          "spellblade"
+        ],
+        [
+          "towershield",
+          "bear"
+        ],
+        [
+          "quillshield",
+          "mage"
+        ],
+        [
+          "quillshield",
+          "thief"
+        ],
+        [
+          "quillshield",
+          "ranger"
+        ],
+        [
+          "quillshield",
+          "druid"
+        ],
+        [
+          "quillshield",
+          "spellblade"
+        ],
+        [
+          "quillshield",
+          "bear"
+        ],
+        [
+          "runeshield",
+          "fighter"
+        ],
+        [
+          "runeshield",
+          "cleric"
+        ],
+        [
+          "shield",
+          "fighter"
+        ],
+        [
+          "shield",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "thief"
+        ],
+        [
+          "mythic_last_gate",
+          "fighter"
+        ],
+        [
+          "mythic_mercys_oath",
+          "cleric"
+        ],
+        [
+          "mythic_bloodstar",
+          "mage"
+        ],
+        [
+          "relic_kests_bulwark",
+          "fighter"
+        ],
+        [
+          "relic_kests_bulwark",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "fighter"
+        ],
+        [
+          "relic_sisters_buckler",
+          "cleric"
+        ],
+        [
+          "relic_sisters_buckler",
+          "thief"
+        ],
+        [
+          "relic_sisters_buckler",
+          "druid"
+        ],
+        [
+          "relic_midnight_folio",
+          "mage"
+        ],
+        [
+          "relic_sparkglass",
+          "mage"
+        ],
+        [
+          "legend_bastion",
+          "fighter"
+        ],
+        [
+          "legend_bastion",
+          "cleric"
+        ],
+        [
+          "legend_lantern_mercy",
+          "cleric"
+        ],
+        [
+          "legend_cinderheart",
+          "mage"
+        ],
+        [
+          "legend_rimebound",
+          "mage"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ],
+        [
+          "buckler",
+          "fighter"
+        ],
+        [
+          "buckler",
+          "cleric"
+        ],
+        [
+          "buckler",
+          "druid"
+        ],
+        [
+          "towershield",
+          "fighter"
+        ],
+        [
+          "towershield",
+          "cleric"
+        ],
+        [
+          "quillshield",
+          "fighter"
+        ],
+        [
+          "quillshield",
+          "cleric"
+        ],
+        [
+          "spellbook",
+          "mage"
+        ],
+        [
+          "crystal_orb",
+          "mage"
+        ],
+        [
+          "orb_storms",
+          "mage"
+        ],
+        [
+          "holy_symbol",
+          "cleric"
+        ],
+        [
+          "silver_symbol",
+          "cleric"
+        ],
+        [
+          "reliquary",
+          "cleric"
+        ],
+        [
+          "wayfarer_lantern",
+          "spellblade"
+        ]
+      ],
+      "state_unchanged": true,
+      "dice_unchanged": true
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "rest",
+      "file": "390-fighter-buckler-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "walk",
+      "file": "390-fighter-buckler-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "hurt",
+      "file": "390-fighter-buckler-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "calm",
+      "file": "390-fighter-buckler-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "bash",
+      "file": "390-fighter-buckler-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "cast",
+      "file": "390-fighter-buckler-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "read",
+      "file": "390-fighter-buckler-read.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-buckler",
+      "state": "use",
+      "file": "390-fighter-buckler-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "rest",
+      "file": "390-cleric-buckler-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "walk",
+      "file": "390-cleric-buckler-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "hurt",
+      "file": "390-cleric-buckler-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "calm",
+      "file": "390-cleric-buckler-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "bash",
+      "file": "390-cleric-buckler-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "cast",
+      "file": "390-cleric-buckler-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "read",
+      "file": "390-cleric-buckler-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-buckler",
+      "state": "use",
+      "file": "390-cleric-buckler-use.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "rest",
+      "file": "390-druid-buckler-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "walk",
+      "file": "390-druid-buckler-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "hurt",
+      "file": "390-druid-buckler-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "calm",
+      "file": "390-druid-buckler-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "bash",
+      "file": "390-druid-buckler-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "cast",
+      "file": "390-druid-buckler-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "read",
+      "file": "390-druid-buckler-read.png"
+    },
+    {
+      "width": 390,
+      "key": "druid-buckler",
+      "state": "use",
+      "file": "390-druid-buckler-use.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "rest",
+      "file": "390-fighter-towershield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "walk",
+      "file": "390-fighter-towershield-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "hurt",
+      "file": "390-fighter-towershield-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "calm",
+      "file": "390-fighter-towershield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "bash",
+      "file": "390-fighter-towershield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "cast",
+      "file": "390-fighter-towershield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "read",
+      "file": "390-fighter-towershield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-towershield",
+      "state": "use",
+      "file": "390-fighter-towershield-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "rest",
+      "file": "390-cleric-towershield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "walk",
+      "file": "390-cleric-towershield-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "hurt",
+      "file": "390-cleric-towershield-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "calm",
+      "file": "390-cleric-towershield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "bash",
+      "file": "390-cleric-towershield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "cast",
+      "file": "390-cleric-towershield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "read",
+      "file": "390-cleric-towershield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-towershield",
+      "state": "use",
+      "file": "390-cleric-towershield-use.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "rest",
+      "file": "390-fighter-quillshield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "walk",
+      "file": "390-fighter-quillshield-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "hurt",
+      "file": "390-fighter-quillshield-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "calm",
+      "file": "390-fighter-quillshield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "bash",
+      "file": "390-fighter-quillshield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "cast",
+      "file": "390-fighter-quillshield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "read",
+      "file": "390-fighter-quillshield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "fighter-quillshield",
+      "state": "use",
+      "file": "390-fighter-quillshield-use.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "rest",
+      "file": "390-cleric-quillshield-rest.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "walk",
+      "file": "390-cleric-quillshield-walk.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "hurt",
+      "file": "390-cleric-quillshield-hurt.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "calm",
+      "file": "390-cleric-quillshield-calm.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "bash",
+      "file": "390-cleric-quillshield-bash.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "cast",
+      "file": "390-cleric-quillshield-cast.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "read",
+      "file": "390-cleric-quillshield-read.png"
+    },
+    {
+      "width": 390,
+      "key": "cleric-quillshield",
+      "state": "use",
+      "file": "390-cleric-quillshield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "rest",
+      "file": "320-fighter-buckler-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "walk",
+      "file": "320-fighter-buckler-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "hurt",
+      "file": "320-fighter-buckler-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "calm",
+      "file": "320-fighter-buckler-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "bash",
+      "file": "320-fighter-buckler-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "cast",
+      "file": "320-fighter-buckler-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "read",
+      "file": "320-fighter-buckler-read.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-buckler",
+      "state": "use",
+      "file": "320-fighter-buckler-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "rest",
+      "file": "320-cleric-buckler-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "walk",
+      "file": "320-cleric-buckler-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "hurt",
+      "file": "320-cleric-buckler-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "calm",
+      "file": "320-cleric-buckler-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "bash",
+      "file": "320-cleric-buckler-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "cast",
+      "file": "320-cleric-buckler-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "read",
+      "file": "320-cleric-buckler-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-buckler",
+      "state": "use",
+      "file": "320-cleric-buckler-use.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "rest",
+      "file": "320-druid-buckler-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "walk",
+      "file": "320-druid-buckler-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "hurt",
+      "file": "320-druid-buckler-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "calm",
+      "file": "320-druid-buckler-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "bash",
+      "file": "320-druid-buckler-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "cast",
+      "file": "320-druid-buckler-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "read",
+      "file": "320-druid-buckler-read.png"
+    },
+    {
+      "width": 320,
+      "key": "druid-buckler",
+      "state": "use",
+      "file": "320-druid-buckler-use.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "rest",
+      "file": "320-fighter-towershield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "walk",
+      "file": "320-fighter-towershield-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "hurt",
+      "file": "320-fighter-towershield-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "calm",
+      "file": "320-fighter-towershield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "bash",
+      "file": "320-fighter-towershield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "cast",
+      "file": "320-fighter-towershield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "read",
+      "file": "320-fighter-towershield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-towershield",
+      "state": "use",
+      "file": "320-fighter-towershield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "rest",
+      "file": "320-cleric-towershield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "walk",
+      "file": "320-cleric-towershield-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "hurt",
+      "file": "320-cleric-towershield-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "calm",
+      "file": "320-cleric-towershield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "bash",
+      "file": "320-cleric-towershield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "cast",
+      "file": "320-cleric-towershield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "read",
+      "file": "320-cleric-towershield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-towershield",
+      "state": "use",
+      "file": "320-cleric-towershield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "rest",
+      "file": "320-fighter-quillshield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "walk",
+      "file": "320-fighter-quillshield-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "hurt",
+      "file": "320-fighter-quillshield-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "calm",
+      "file": "320-fighter-quillshield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "bash",
+      "file": "320-fighter-quillshield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "cast",
+      "file": "320-fighter-quillshield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "read",
+      "file": "320-fighter-quillshield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "fighter-quillshield",
+      "state": "use",
+      "file": "320-fighter-quillshield-use.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "rest",
+      "file": "320-cleric-quillshield-rest.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "walk",
+      "file": "320-cleric-quillshield-walk.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "hurt",
+      "file": "320-cleric-quillshield-hurt.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "calm",
+      "file": "320-cleric-quillshield-calm.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "bash",
+      "file": "320-cleric-quillshield-bash.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "cast",
+      "file": "320-cleric-quillshield-cast.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "read",
+      "file": "320-cleric-quillshield-read.png"
+    },
+    {
+      "width": 320,
+      "key": "cleric-quillshield",
+      "state": "use",
+      "file": "320-cleric-quillshield-use.png"
+    }
+  ],
+  "console_errors": []
+}

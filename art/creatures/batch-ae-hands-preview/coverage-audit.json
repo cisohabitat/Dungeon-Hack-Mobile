@@ -1,0 +1,23 @@
+{
+  "status": "source complete; not activated",
+  "captures": 176,
+  "widths": [
+    390,
+    320
+  ],
+  "console_errors": [],
+  "visually_reviewed_export_panels": [
+    "ae-bear-alpha.png",
+    "ae-cleric-alpha.png",
+    "ae-druid-alpha.png",
+    "ae-fighter-alpha.png",
+    "ae-mage-alpha.png",
+    "ae-open-repair-alpha.png",
+    "ae-spellblade-alpha.png",
+    "ae-thief-alpha.png"
+  ],
+  "visual_scope": "All selected new source art reviewed through final alpha panels (AE) or size panels (AF); representative phone previews reviewed. All 94 composed phone galleries are available, not individually visually signed off.",
+  "regressions": "28 phone/small held-equipment, relic-portraits and collection-browser tests passed",
+  "limits": "Frozen source substitutions; native actions, activation, rarity wrappers, loader failures, offline and performance remain integration gates.",
+  "repository_checks": "npm test passed: agent docs, art inventory,17 release tests,typecheck,level/telemetry/security/narration/offline/voice/rules suites; all source exports reproduce and973 runtime exports unchanged; syntax and git diff --check passed"
+}

@@ -4864,12 +4864,2897 @@
       "source": "art/creatures/batch-ab-named-preview/druid-legend_heartroot-channel-one.png",
       "runtime": "img/held/druid-legend_heartroot-channel-one.png",
       "sha256": "fdd5cee877fc47ffd51e111c3f38d1c26a4092fdb4d4d9adf5313642de799eaa"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/mage-spellbook.png",
+      "runtime": "img/held/mage-spellbook.png",
+      "sha256": "6b4202bfa363b990b67d1ba86a06c4e3d8801b5186be55a77b848b51d669c8d9"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/mage-crystal_orb.png",
+      "runtime": "img/held/mage-crystal_orb.png",
+      "sha256": "63449a9511730c97f0366d60341b0465a152f54feca7fb1d4e75225dc2b27e0b"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/mage-orb_storms.png",
+      "runtime": "img/held/mage-orb_storms.png",
+      "sha256": "20798a2172769abb88a8853babe79e2b58e798f7f74722b6cfc310039699a64b"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/cleric-holy_symbol.png",
+      "runtime": "img/held/cleric-holy_symbol.png",
+      "sha256": "bf55275dbd74c8c6c17160af66b4209eec27a73d7a7478be8476765656a5d21e"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/cleric-silver_symbol.png",
+      "runtime": "img/held/cleric-silver_symbol.png",
+      "sha256": "f3193f66e1e00f6cdb76e374ce246d8cd38b31a1167265813090f5a8a3861732"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/cleric-reliquary.png",
+      "runtime": "img/held/cleric-reliquary.png",
+      "sha256": "c9cb7982d42b98191c5da7f5fa7f92ae92654758cee78f4b5c02d33db90a4e6e"
+    },
+    {
+      "source": "art/creatures/batch-ac-casters-preview/spellblade-wayfarer_lantern.png",
+      "runtime": "img/held/spellblade-wayfarer_lantern.png",
+      "sha256": "59646d094f40f257032bbc0b5e87097f4186882c1afce2501177ffad85120523"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/fighter-buckler.png",
+      "runtime": "img/held/fighter-buckler.png",
+      "sha256": "f38c98f7a10198d8d7c64755bcb04705d63d45fe2e606c5fa60b0205e6df8699"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/cleric-buckler.png",
+      "runtime": "img/held/cleric-buckler.png",
+      "sha256": "7750c07dafe415fb04af9fef0c80b7b2ae4ee80da9108d4255ee6c162e56f1f8"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/druid-buckler.png",
+      "runtime": "img/held/druid-buckler.png",
+      "sha256": "2f2e954de1d941bf2b47a5f050305f20fe4418c3206aac8d717ae92a43342ef0"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/fighter-towershield.png",
+      "runtime": "img/held/fighter-towershield.png",
+      "sha256": "9e2738c04b76a3cd16398da8bb331c1572ec615fa78b528fd19b2f78e24731cf"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/cleric-towershield.png",
+      "runtime": "img/held/cleric-towershield.png",
+      "sha256": "fcddabc268e4f5f77161a543be66b2a1293a05f36f70c5cf37060b223aabea80"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/fighter-quillshield.png",
+      "runtime": "img/held/fighter-quillshield.png",
+      "sha256": "86d50761706f7bde87d27e9f3d97aaa27b96e9c85cf89476f8e3a8312c420f0f"
+    },
+    {
+      "source": "art/creatures/batch-ad-shields-preview/cleric-quillshield.png",
+      "runtime": "img/held/cleric-quillshield.png",
+      "sha256": "f52f3d4c4fd6d0d9604931a7506e3ba81e49a045c9b5742c25908213c787fe3f"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/spellblade-empty-fist.png",
+      "runtime": "img/held/spellblade-empty-fist.png",
+      "sha256": "b9fd75c01db13b4712df42d99793038fefaba400bcdf5c732be609cfcf9d58ef"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/spellblade-empty-punch.png",
+      "runtime": "img/held/spellblade-empty-punch.png",
+      "sha256": "15a234a3934c25b9c2d790535a035773b4bd43a54e118b8823e80d16b671ca1f"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/spellblade-empty-cast.png",
+      "runtime": "img/held/spellblade-empty-cast.png",
+      "sha256": "72976b70d248d9463a90ebe7af4f5daba8bbc7e490b67ca741029590b6838441"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/fighter-empty-fist.png",
+      "runtime": "img/held/fighter-empty-fist.png",
+      "sha256": "5c5bd9fdac241a6de44955b912aac7c45e680a40d55effbe09b3f4837842418d"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/fighter-empty-punch.png",
+      "runtime": "img/held/fighter-empty-punch.png",
+      "sha256": "21bb4068776309f4a87e10ae533c51d61b74bd10bf204e1fc0afcf87d028dd78"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/fighter-empty-cast.png",
+      "runtime": "img/held/fighter-empty-cast.png",
+      "sha256": "b34c8504657e1883827c930e47532e87c44b2b266c35ffb87a635f11d01801b5"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/cleric-empty-fist.png",
+      "runtime": "img/held/cleric-empty-fist.png",
+      "sha256": "979c41efa83915255797465ffa24076b432e8db4192738b13fa2f50a2d92a672"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/cleric-empty-punch.png",
+      "runtime": "img/held/cleric-empty-punch.png",
+      "sha256": "1416ecec92168391ba7b15b43f802965da88f3338237952cf0592883d026593b"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/cleric-empty-cast.png",
+      "runtime": "img/held/cleric-empty-cast.png",
+      "sha256": "88c4f0f6f284793e21161f591ffbbb3c22b9c635a27a88a7c57441ff49b31cd0"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/mage-empty-fist.png",
+      "runtime": "img/held/mage-empty-fist.png",
+      "sha256": "3c47ed0e5b8e352c7fc7422e67970565ebd15ed497edf78a2617820cb456f137"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/mage-empty-punch.png",
+      "runtime": "img/held/mage-empty-punch.png",
+      "sha256": "f04772c9fefd4fd7ba54d9b747dca3d4885274e3939883eb80b02d2b1949d0c5"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/mage-empty-cast.png",
+      "runtime": "img/held/mage-empty-cast.png",
+      "sha256": "a9ec87e368845040765a1808bcf5fedc3744e75aae5a0a1b15cf69da5a897b94"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/thief-empty-fist.png",
+      "runtime": "img/held/thief-empty-fist.png",
+      "sha256": "11d56caa6fe082fe4b0bfcb76d871f413377a96223d9316a6a509ee69d34d736"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/thief-empty-punch.png",
+      "runtime": "img/held/thief-empty-punch.png",
+      "sha256": "ddac6f235df2467b5f167873dbbe1d0af69e35f4d602b67290148df85d9fcfd8"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/thief-empty-cast.png",
+      "runtime": "img/held/thief-empty-cast.png",
+      "sha256": "a7d66b22960c48310de32f53f01e7082d5675f8d8cb2ca30e1d5d1e54a348ec4"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/ranger-empty-fist.png",
+      "runtime": "img/held/ranger-empty-fist.png",
+      "sha256": "5c5bd9fdac241a6de44955b912aac7c45e680a40d55effbe09b3f4837842418d"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/ranger-empty-punch.png",
+      "runtime": "img/held/ranger-empty-punch.png",
+      "sha256": "21bb4068776309f4a87e10ae533c51d61b74bd10bf204e1fc0afcf87d028dd78"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/ranger-empty-cast.png",
+      "runtime": "img/held/ranger-empty-cast.png",
+      "sha256": "b34c8504657e1883827c930e47532e87c44b2b266c35ffb87a635f11d01801b5"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/druid-empty-fist.png",
+      "runtime": "img/held/druid-empty-fist.png",
+      "sha256": "e710e4c7a5a94892088927c2d8b07260c2b59706222789e16ac5b8adf5112d6c"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/druid-empty-punch.png",
+      "runtime": "img/held/druid-empty-punch.png",
+      "sha256": "a20f3a2f3adc8b2c2945b3488573ed62082eef7bdbbab481aa45edbb30238c43"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/druid-empty-cast.png",
+      "runtime": "img/held/druid-empty-cast.png",
+      "sha256": "ad42a83636680aa44a9e2ba98ef690d86f767979e14d5da5d367a5eaeb051f2f"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/bear-empty-fist.png",
+      "runtime": "img/held/bear-empty-fist.png",
+      "sha256": "a33406574d96b5920ed4ee6da069079c0f2e46a3cb8393a5223bd9e580d0709f"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/bear-empty-punch.png",
+      "runtime": "img/held/bear-empty-punch.png",
+      "sha256": "fe2f0b4e2ad58f622969cab8160752dcd1814885a5cd3af7efd36c18d275fe94"
+    },
+    {
+      "source": "art/creatures/batch-ae-hands-preview/bear-empty-cast.png",
+      "runtime": "img/held/bear-empty-cast.png",
+      "sha256": "94e56d1a2c2ecabccba6449b90313c3aa5acdfd27bc3a7ef60abab24fa88ec0e"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/wayfarer_lantern.png",
+      "runtime": "img/world/wayfarer_lantern.png",
+      "sha256": "9eed6f6aeea9507cc0e0485e2f67e45116164b03fda63f722ff5c23c0be3d71c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_silver.png",
+      "runtime": "img/world/ring_silver.png",
+      "sha256": "ddf14ad3a8da4fd074728c7704e9a057c0eaf164aec865e2a3a6cdd488538f2b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_gold.png",
+      "runtime": "img/world/ring_gold.png",
+      "sha256": "ac6da3c834125433320ac331b773b40480ee61a827da439cfbda7168ac64cb90"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_garnet.png",
+      "runtime": "img/world/ring_garnet.png",
+      "sha256": "28ab22af231bec6dce3f6c092497203393bc0ab2a0104639344e04b366005e5f"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_onyx.png",
+      "runtime": "img/world/ring_onyx.png",
+      "sha256": "3fee19803db9d0000c632b31063c9c65a7cd27f1f3e7e3462d1bc3485cc557e0"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_copper.png",
+      "runtime": "img/world/ring_copper.png",
+      "sha256": "2e411348d33c6dfeb5efa6d90fb8d57e98e8780c90c55f514e1414812df3cf4c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_black.png",
+      "runtime": "img/world/ring_black.png",
+      "sha256": "432fa62067a1509fe1ece1bf232143df32cc4371cbe78134e2f8219519e5de92"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_forge.png",
+      "runtime": "img/world/ring_forge.png",
+      "sha256": "6e34462ebab8a8dbe476295724e837be26b9f62ebcb547135e2b077ab255831f"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_jade.png",
+      "runtime": "img/world/ring_jade.png",
+      "sha256": "a6d76625937b4b737785480feba5c83407bff90341e319cc05a127c5765b3c25"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_bone.png",
+      "runtime": "img/world/ring_bone.png",
+      "sha256": "2fc8e834165e33a6fcfdbf14d3e43ee7ee3c414f1a90ae9de18393e54c3d24b9"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ring_iron.png",
+      "runtime": "img/world/ring_iron.png",
+      "sha256": "838a4cfbb8c2eca7367f8f9d5e72d77875e685b31cc32d9e2ea7e9cf0ab085ff"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/amulet_amber.png",
+      "runtime": "img/world/amulet_amber.png",
+      "sha256": "699d4d99de083fae553de4df2e297f8a9560586cbe97690ba07ac0b7008c76a8"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/amulet_silver.png",
+      "runtime": "img/world/amulet_silver.png",
+      "sha256": "3fc6f922b09c5b99195bfb151ac3376e89ca38defdfa389305de18a2b9572ae7"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/amulet_obsidian.png",
+      "runtime": "img/world/amulet_obsidian.png",
+      "sha256": "78b3e55bf65ed1cbd4c946e84c164449a2f974ff82d570575e7c70bf6dccddd3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/amulet_bone.png",
+      "runtime": "img/world/amulet_bone.png",
+      "sha256": "8e5d4a6b68e8d472f5580a727a6463d4314bacf65e0957a2c85afb32bf231483"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/amulet_spider.png",
+      "runtime": "img/world/amulet_spider.png",
+      "sha256": "043549859c5597daf8a68be91e23eece2b66b718572e70bf0de22feff269ecae"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/scimitar.png",
+      "runtime": "img/world/scimitar.png",
+      "sha256": "f2bf080ef61174cdb423d536ea0e28ae5c3b445005383df5201256a689b55447"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/dagger.png",
+      "runtime": "img/world/dagger.png",
+      "sha256": "211113d2026ca1600b9962f417938ea5a12695c595228c6e0c52a6e6a53cd0cd"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/shortsword.png",
+      "runtime": "img/world/shortsword.png",
+      "sha256": "be37e4263c68928975d2845c6cdde0372a0d796d0af3e0cdc6116ac882f21db4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/longsword.png",
+      "runtime": "img/world/longsword.png",
+      "sha256": "ab115e4db3ba7e2bd5df73e1d51d1f61f561b1f8da38243ca185de5ae4d64ac2"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/greatsword.png",
+      "runtime": "img/world/greatsword.png",
+      "sha256": "cd55e6f7ff1936b11df056a33ccbbfbd4d30535ae454f7f60ee95f6030b9e95e"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/throwknife.png",
+      "runtime": "img/world/throwknife.png",
+      "sha256": "665d38b8b761914d9fd21579e71042ba6d58b2750dc4d464f6a4c0bbe48ac93c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/club.png",
+      "runtime": "img/world/club.png",
+      "sha256": "97b82d86ce0de3073033266da88c5e4d5fedb81a35e242f07b94c937e4d487be"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/staff.png",
+      "runtime": "img/world/staff.png",
+      "sha256": "d804642bf9a8255d47559429ae61ebba242edb865d5094ea1f0eb2677876aa9c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/spear.png",
+      "runtime": "img/world/spear.png",
+      "sha256": "77a761a01d704da052a9a01d7392e053019d9ae52b00acf67acc16506be32468"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mace.png",
+      "runtime": "img/world/mace.png",
+      "sha256": "72b692e598a70bcaf39e142e7225e747b1d67848513d14946f4a3284949f93be"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/hammer.png",
+      "runtime": "img/world/hammer.png",
+      "sha256": "1d8420f09b2b356f53ff62ab745250548800632718aaf61fec88f98ea05ef44d"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/flail.png",
+      "runtime": "img/world/flail.png",
+      "sha256": "0c662b69dcc5735e90f58a4c8040e05a0e3ef7aaee3575f40b9adfe61241872d"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/battleaxe.png",
+      "runtime": "img/world/battleaxe.png",
+      "sha256": "66edae0330fc8b910872211d42bc8a1311640a1496811da647ff91ee4642d968"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/sling.png",
+      "runtime": "img/world/sling.png",
+      "sha256": "57a53334cdc4f5718200e88b1d210ed5a1f91906ccdb4951732a4683b5ea5004"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/shortbow.png",
+      "runtime": "img/world/shortbow.png",
+      "sha256": "37c1bdd254831d42758300ae0017d05595a24595cd12224437a9c7b3a972c01d"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/longbow.png",
+      "runtime": "img/world/longbow.png",
+      "sha256": "cb48e943193e41cf4015b4890616a61b1290e965eaf7452710ce4c3c4f70ed1e"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/leather.png",
+      "runtime": "img/world/leather.png",
+      "sha256": "9fde43fac3896d152f19ee6c1dac7b9da0e8aa61d2a270bc511caeedfe0b7c91"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/studded.png",
+      "runtime": "img/world/studded.png",
+      "sha256": "fef1098fe8b6c7d3286c8fb0f970b5ab5cfac2c3ae004fb4a79ca6b6e6dab5bc"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/scale.png",
+      "runtime": "img/world/scale.png",
+      "sha256": "f714b3cdfdf7a41b37f69a18ab67d7d840cc53ebbb5c8832da27b98441aafe41"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/wyrmscale.png",
+      "runtime": "img/world/wyrmscale.png",
+      "sha256": "192df4107110a987fb531d2d81fe32a304d64d81ef6accc9cce10ed30de893a4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/chain.png",
+      "runtime": "img/world/chain.png",
+      "sha256": "be552a2863deb1ba57b3fb959d477013f3a83a254b4e0267c62a13ddc77fa281"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/splint.png",
+      "runtime": "img/world/splint.png",
+      "sha256": "4f385082ddb6223b55a3fa850a95c3926d29f0bed49e70668be55ae3f3517512"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/plate.png",
+      "runtime": "img/world/plate.png",
+      "sha256": "2108e9d41cb001b905663ba2b01c18f90b8ad8cc7999912abb6897aedfe93959"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/robe_apprentice.png",
+      "runtime": "img/world/robe_apprentice.png",
+      "sha256": "8132458b1f3ead6e9e57774fb10bb8b196cb3b0edad685c524de17c862c67bb7"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/robe_silk.png",
+      "runtime": "img/world/robe_silk.png",
+      "sha256": "fd50007980cb30a129b60c74a0a78470184b9545ff04b36e1445c8b317b8b338"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/robe_warded.png",
+      "runtime": "img/world/robe_warded.png",
+      "sha256": "b34b8038e5ad9c1ac6be73e599b2b99947114f7fd5afc7cf8d7ee78acedb3a61"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/robe_magi.png",
+      "runtime": "img/world/robe_magi.png",
+      "sha256": "7d4849303cfecc991dbdd2c717d0480f5f9f352e1aed36c563d40dc593cb431a"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/buckler.png",
+      "runtime": "img/world/buckler.png",
+      "sha256": "2bce98111a653e60217f85ec3c85448f2c52c5e9d76e5464ba55091f4a3d3084"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/shield.png",
+      "runtime": "img/world/shield.png",
+      "sha256": "cf4ece5f0d259df6ba8692db4bb43e63a07a56bdd4206fdbe763fc295f77a416"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/quillshield.png",
+      "runtime": "img/world/quillshield.png",
+      "sha256": "78957dfc6b42b6affbc53c877c48759294efdafb59d47193f5283d9d59bcaed3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/towershield.png",
+      "runtime": "img/world/towershield.png",
+      "sha256": "dd72b6d71f41091517eb55f1980d85fb5199f163cf524bd763595f2251db1e20"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/cloak_protect.png",
+      "runtime": "img/world/cloak_protect.png",
+      "sha256": "399ce014519cfa1e2dfbd6b2d80f00edbf7728616f572e99591e7e6a18b61265"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/cloak_elven.png",
+      "runtime": "img/world/cloak_elven.png",
+      "sha256": "8a1e291ac8e7c2751325f69236e2ad2a6e2376e0fc5127ac3b829fda3979bdde"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/cloak_shadow.png",
+      "runtime": "img/world/cloak_shadow.png",
+      "sha256": "51ef54a39177883a2bb8f577aa2498e2f7cb1c445f1e0795d33c444aa730c632"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/cloak_warmth.png",
+      "runtime": "img/world/cloak_warmth.png",
+      "sha256": "e946e21513b7ee9f01caf1c48c27e2796770ce16d0e6c1ca122082feeb07b896"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/spellbook.png",
+      "runtime": "img/world/spellbook.png",
+      "sha256": "17579c6d2642ad6ac162d7a447974541755b80e40934c3d00d80ead6fe62dc38"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/crystal_orb.png",
+      "runtime": "img/world/crystal_orb.png",
+      "sha256": "d60106f1495fcced0f87715b6ec21697d74d08961d2c1cb07fb24cc000272c0d"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/orb_storms.png",
+      "runtime": "img/world/orb_storms.png",
+      "sha256": "4aef4ba8a8ebcbae940b35d8b1158554621b5fdc70ee77a6ee9728a93b870aed"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/holy_symbol.png",
+      "runtime": "img/world/holy_symbol.png",
+      "sha256": "f37658b73bed6d3f912ea7315b024dcae59eda6c0dd571c6e1b6630fc2e32bdd"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/silver_symbol.png",
+      "runtime": "img/world/silver_symbol.png",
+      "sha256": "d0920e0f68451537889e3fb14f801de4c7ccf766596f52f6e91eb84b8cc97c3b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/reliquary.png",
+      "runtime": "img/world/reliquary.png",
+      "sha256": "3bffb1550d887dc56041faba7adfa9246712b2c754e1a2c7c475b1cae1b96a36"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/potion_red.png",
+      "runtime": "img/world/potion_red.png",
+      "sha256": "3d5d66a62c96e71255e89d76579779e24629e60de2bcc3c83fa1f29616a92812"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/potion_pink.png",
+      "runtime": "img/world/potion_pink.png",
+      "sha256": "6892bebe9a06b459989a6c75a4f13338a3ebc9980841ee0fea4e9965ca29db70"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/potion_green.png",
+      "runtime": "img/world/potion_green.png",
+      "sha256": "25a32aa81535db555ecf731a69067fbe9c30d6e1ded0faba9880cb17210719c0"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/potion_orange.png",
+      "runtime": "img/world/potion_orange.png",
+      "sha256": "35caf6ea94edb68218de2b03cd2f9571139d4af6d783eacaa30994131369a3ae"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/potion_blue.png",
+      "runtime": "img/world/potion_blue.png",
+      "sha256": "7ba84899b8add9fb3af21fc539759c10c85a74afac0f1315e07eb797bc0d3864"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/satchel.png",
+      "runtime": "img/world/satchel.png",
+      "sha256": "2750f043f986e789f3461c4852955cb636d9565ddd5cb1dcf65c85b6db0a6644"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/quench.png",
+      "runtime": "img/world/quench.png",
+      "sha256": "d0bb80d7f363a09f5937bb1afaf2cbd79cca89398015a2782c1d26e95e829b81"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/charm_collar.png",
+      "runtime": "img/world/charm_collar.png",
+      "sha256": "a330ea1e31e02f50914ff5ad10d0a6bd004f1c61cb3dd82a32e895d3d810c552"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/charm_fang.png",
+      "runtime": "img/world/charm_fang.png",
+      "sha256": "04f071faa06b4278fc985038c777eeb7c893d9d82363e2f1d7a5505ac012cd7b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/charm_rowan.png",
+      "runtime": "img/world/charm_rowan.png",
+      "sha256": "b0e9fdbaafcf8b17aeb4748ef178a7de49fe03622898eaa6551889f63b52a1a3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/charm_whetstone.png",
+      "runtime": "img/world/charm_whetstone.png",
+      "sha256": "42ca148e528433267134fdc55fb4dcebdff0fd5ba6f51b458f744a4d488bd1c3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/oil_fire.png",
+      "runtime": "img/world/oil_fire.png",
+      "sha256": "9349d0ef0125b293986add89ce3fcf63fc712cb6545a2958c53be854297d8ad2"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/lamp_oil.png",
+      "runtime": "img/world/lamp_oil.png",
+      "sha256": "b8770c301c756e28891a0610c3efe58ebd32416269762aa80bea3720cfb4f9d0"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/oil_silver.png",
+      "runtime": "img/world/oil_silver.png",
+      "sha256": "870dfa2d6ad461d0321cab9f5a05a80a8eb5a7cdd2cf215ca697f7bf69501ac4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/oil_venom.png",
+      "runtime": "img/world/oil_venom.png",
+      "sha256": "9a748d28d59fd3c069169a8d0dfc04c1a5c162fcfa70c328b5ab7b1271b62c64"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/oil_frost.png",
+      "runtime": "img/world/oil_frost.png",
+      "sha256": "f8df4ca2b8d87448181b29d6904e347b0fd215bb17558246a20ceb0fa381c6da"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/scroll.png",
+      "runtime": "img/world/scroll.png",
+      "sha256": "1ec3f0c5756fc2df72d938256ccf786a82f40f3da4a9de43776a8c36d5287ce8"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/page.png",
+      "runtime": "img/world/page.png",
+      "sha256": "f6ee68294d0e292b4d1da33d65ca547f3104ee441c56693b6d8488f8328de4a4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/ration.png",
+      "runtime": "img/world/ration.png",
+      "sha256": "a74c909e6501e70a63e1dd967800231903097f30a1c643a91ebd8db23814026b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/meat.png",
+      "runtime": "img/world/meat.png",
+      "sha256": "55a12f99d56df29fd0b39d27f6c90a42fdd6d491dfe961d72b626fca739efb13"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/caps.png",
+      "runtime": "img/world/caps.png",
+      "sha256": "db543e189fab56a78570fca293d70e50ae883df5995f96272c962e85eef4b670"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/bread.png",
+      "runtime": "img/world/bread.png",
+      "sha256": "40e9de0e869daf90e6e7f02b967427efc128d22fc3856b6facd1cbbd2f83fb41"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/gold.png",
+      "runtime": "img/world/gold.png",
+      "sha256": "3d7690beb80001acf7833c228f5fca2e4aedf9704d20ba35778afa91d42c07bc"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/gem.png",
+      "runtime": "img/world/gem.png",
+      "sha256": "bc292b00459707cec34e613c2b835f242414a47264d82ef1319e0832fa86677f"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/artifact.png",
+      "runtime": "img/world/artifact.png",
+      "sha256": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/key_brass.png",
+      "runtime": "img/world/key_brass.png",
+      "sha256": "abf7adb3a73f1f483c8fcc8b79d108d5a155b9b92d46f0b697d9bad82d11dc67"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/key_silver.png",
+      "runtime": "img/world/key_silver.png",
+      "sha256": "aee41abb91f46305464fcf3650dc122595bf50f3cf4565351bff04b4ed266931"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/key_gold.png",
+      "runtime": "img/world/key_gold.png",
+      "sha256": "ca026ef3974e1ad3a4450ac463d38b36aa46279dccc153b5c1cc0f3be591f6e2"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/key_iron.png",
+      "runtime": "img/world/key_iron.png",
+      "sha256": "064c005dd8c51df0268cea4049f4d6b711ca6c03071defdf39b4b8f32094688c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/key_bone.png",
+      "runtime": "img/world/key_bone.png",
+      "sha256": "3b869af9f3c933ace1eb8013c90337b47be8ea3af7d6ef0752d55b17be5b71e4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_last_gate.png",
+      "runtime": "img/world/mythic_last_gate.png",
+      "sha256": "76b131385cf69ef34c763ca2b69c03b2f05ebd3e9e632d059242ab41b61009d2"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_mercys_oath.png",
+      "runtime": "img/world/mythic_mercys_oath.png",
+      "sha256": "9c22155ba5c3e030d674f2336a2b2fd62bf6b028fb1e64570ed743ec6aa48b6a"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_bloodstar.png",
+      "runtime": "img/world/mythic_bloodstar.png",
+      "sha256": "c925011bb16fcaede8d4b0abc75c4d4285e6a1c79167ed3562dc54df2c5b33a4"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_nightglass.png",
+      "runtime": "img/world/mythic_nightglass.png",
+      "sha256": "e99d0b3b847850dc9a2936287ed689bbf0c28a64cd64a74485b74cffcae6b472"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_horizon.png",
+      "runtime": "img/world/mythic_horizon.png",
+      "sha256": "3202d516f3214bb141b6d47891e9f9df132a3e59e67bc29a42cd1fd974aa31b3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/mythic_elderseed.png",
+      "runtime": "img/world/mythic_elderseed.png",
+      "sha256": "e34858033385b26445a00c66cea01b154f9f5e1bf3be030a6e4603a4c0b54cca"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_grimtooth.png",
+      "runtime": "img/world/relic_grimtooth.png",
+      "sha256": "236a66444abcfb4ddf1a5867adaf8fba5e655f07da0b4b7bf9fa9b51ac4d5f25"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_whisper.png",
+      "runtime": "img/world/relic_whisper.png",
+      "sha256": "9eaa3cb3b8c69b9478e66aa3a70965094547100106b3e7d5f650e620daed9625"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_thirst.png",
+      "runtime": "img/world/relic_thirst.png",
+      "sha256": "0e8c8986923de537b99478aa94a4fdcf61a173db1c8af3c612526eeb254896e0"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_dawnbringer.png",
+      "runtime": "img/world/relic_dawnbringer.png",
+      "sha256": "59f5bff79a60b3d737c342570c78bfd050d93a1922686fb9c162da85b2645db2"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_penitent.png",
+      "runtime": "img/world/relic_penitent.png",
+      "sha256": "531d107b435b35658a017c8fb32eca26f9f8e6836b9e1d99496c04e41f79f31c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_ogres_toll.png",
+      "runtime": "img/world/relic_ogres_toll.png",
+      "sha256": "b4791868d7761e241dd7c6e76f52eefd08b162eb5dfbcc3f32cdd7000b86c5da"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_ninth_circle.png",
+      "runtime": "img/world/relic_ninth_circle.png",
+      "sha256": "e97d97946d7302d3e330cb1b42261c50652bd308213d78e1305faa4f9081fa79"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_emberwood.png",
+      "runtime": "img/world/relic_emberwood.png",
+      "sha256": "501c0fe83b6181350cde055588f5a9f9a0664040a84dbae9d55e88de3376dfa0"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_vashti.png",
+      "runtime": "img/world/relic_vashti.png",
+      "sha256": "28e9ac28a1587b1ee22d4e5f785485b25002895d473b93c965331e3be052a0f1"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_heartseeker.png",
+      "runtime": "img/world/relic_heartseeker.png",
+      "sha256": "6e37b0a50833fb20dc20c613c29e15eab39d5d765530c41b2f4bbb0ff3f0e4fa"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_rustwarden.png",
+      "runtime": "img/world/relic_rustwarden.png",
+      "sha256": "c5b5544679318faab55842cfd86b3094a951a502fba554f9024405ced7af0266"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_shadowskin.png",
+      "runtime": "img/world/relic_shadowskin.png",
+      "sha256": "d524645ab519ad09f78019336e958c8cf92d9974261f2c434aae8b709df15ceb"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_briarcoat.png",
+      "runtime": "img/world/relic_briarcoat.png",
+      "sha256": "6b25c03be0714cfd65466c0d00629288353f3f032538f624f0561aec53b64b51"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_kests_bulwark.png",
+      "runtime": "img/world/relic_kests_bulwark.png",
+      "sha256": "74b76b6e43168b2fb3f7de40624534d62f8d5eb7d47917bd84bb23107496461b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_sisters_buckler.png",
+      "runtime": "img/world/relic_sisters_buckler.png",
+      "sha256": "8f6dfaed7431b6532ff2edf073d913b1a4d12a1e7984df2928db34e8c6bee561"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_hearthwool.png",
+      "runtime": "img/world/relic_hearthwool.png",
+      "sha256": "0fde8f209f473f016a80fcba0476d171cec46ce324995f7e46195031319b5edd"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_archivist.png",
+      "runtime": "img/world/relic_archivist.png",
+      "sha256": "950948eb44490053a3ede9a56f9f876d00b1b648582d19f39e7aa50da80675e6"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_midnight_folio.png",
+      "runtime": "img/world/relic_midnight_folio.png",
+      "sha256": "65918a39fcb649e02039727ca39b860ef1c9e052413ab7feba4156b5324d3e9f"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_sparkglass.png",
+      "runtime": "img/world/relic_sparkglass.png",
+      "sha256": "c80e7a368a5e1cabba56b23d7a152a6dabb37043cf29e3eb76c1742495231f2c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_boarspear.png",
+      "runtime": "img/world/relic_boarspear.png",
+      "sha256": "365b94ffc94657c4c6480f84b1cc9a7635cf7b72c825b91a152d2875f437e4a5"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_galewind.png",
+      "runtime": "img/world/relic_galewind.png",
+      "sha256": "48853d6b69288e67cd576143da2d10b501ce8141b448ce7495d5ea1222540d1c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_sextons_locket.png",
+      "runtime": "img/world/relic_sextons_locket.png",
+      "sha256": "f43f5447fbaa960fb3398cec6c1e5e6bd32627de5ed02e3ca7f658bcfca50b1e"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_oakheart.png",
+      "runtime": "img/world/relic_oakheart.png",
+      "sha256": "bc9afe7b9be9ece2440f9b7e6c2c931b634ee114fe91d5f145a9144988a6a4b9"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_mossmantle.png",
+      "runtime": "img/world/relic_mossmantle.png",
+      "sha256": "cdba26caff0dfb4dc0555e821dee99cded1b116868280d46cd116932a07ad6aa"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_cinder_ring.png",
+      "runtime": "img/world/relic_cinder_ring.png",
+      "sha256": "54473ff0182ee6e1e75afe75658496ab0d4b1d3d235e06c991de6ab1628db0b5"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_spider_pendant.png",
+      "runtime": "img/world/relic_spider_pendant.png",
+      "sha256": "7796f70683ff478473ba7ef5b45bdd3c4cc7def95333a4a4cc1fd0f156e2e19b"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_thane_ring.png",
+      "runtime": "img/world/relic_thane_ring.png",
+      "sha256": "45dcd68826d904b59e3798cd57d0b64be3bf0c06944c8cc2772a8d95cdf4c908"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_hissra_tooth.png",
+      "runtime": "img/world/relic_hissra_tooth.png",
+      "sha256": "b42122986c6fb2ec5c6154a904b9e9582e16e986c4d795f688bffebfbf6b1370"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/relic_warchiefs_knuckle.png",
+      "runtime": "img/world/relic_warchiefs_knuckle.png",
+      "sha256": "52752b8dcac801f83cb72b890eb32904a847a55c867b2da9e2ddcd63ae78cad7"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_bastion.png",
+      "runtime": "img/world/legend_bastion.png",
+      "sha256": "f5d402ed7b9536c76a451ad08a52f4bbe3119b6e577dabf7f273b77d3b10b870"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_red_harvest.png",
+      "runtime": "img/world/legend_red_harvest.png",
+      "sha256": "56aadecad2fef340e03d51b9d715fcc3d8fa9115d9c2d0fb352c3568091396e8"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_sunhammer.png",
+      "runtime": "img/world/legend_sunhammer.png",
+      "sha256": "32ece064866cb0f38ec39697d1a3aea85e50929dd56e82c8683c337f6391f0bc"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_lantern_mercy.png",
+      "runtime": "img/world/legend_lantern_mercy.png",
+      "sha256": "a11be56e40e07bd5469175458bd17ed242cc5e6cf00cbcd481c64816a3302dec"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_cinderheart.png",
+      "runtime": "img/world/legend_cinderheart.png",
+      "sha256": "7af816fe88532c64362e8ced8b18bb3f3e4f6ea6290df9dd187e697916138b01"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_rimebound.png",
+      "runtime": "img/world/legend_rimebound.png",
+      "sha256": "c47dd19836f4633558ded45faeb0dcf3abbf8c1af07d91bdc38d3af86a2ceeb3"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_last_word.png",
+      "runtime": "img/world/legend_last_word.png",
+      "sha256": "6899f2acdcab579da650fad7af74646919338bec4943d885176f27a63d23df3c"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_motley.png",
+      "runtime": "img/world/legend_motley.png",
+      "sha256": "8fa08d8cf199bf7b1d1669809fe93e923ae9b0888d3a106b650df0b4b33474fb"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_farstrider.png",
+      "runtime": "img/world/legend_farstrider.png",
+      "sha256": "397576bf65d34f395a8351a787460b2fb20f99e9e7e7d34e2f28fee3d5cfbc51"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_thornbinder.png",
+      "runtime": "img/world/legend_thornbinder.png",
+      "sha256": "65f644bde153d669be2545fce37b7076229b593f8f5630b9c3136b6ed7d2c648"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_moonbound.png",
+      "runtime": "img/world/legend_moonbound.png",
+      "sha256": "79caffc8ef2504601d4e749c23d0c6e679c6aca0e2a4eacc1f26082b588baa1a"
+    },
+    {
+      "source": "art/creatures/batch-af-items-preview/legend_heartroot.png",
+      "runtime": "img/world/legend_heartroot.png",
+      "sha256": "b2db23bf6094fc2f430f0aca97612d0f91b6571ceaa2d8934edb2bd15e18202f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor0.png",
+      "runtime": "img/materials/region_0-decor0.png",
+      "sha256": "c426150013aeafae27c229fe4b315b8f04111cd895800060a618ee6e3a45ff54"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor1.png",
+      "runtime": "img/materials/region_0-decor1.png",
+      "sha256": "373a85bd8c79b7f6fe8ca109b4359c0836c6207bc6e0b870211fdfab1c970402"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor2.png",
+      "runtime": "img/materials/region_0-decor2.png",
+      "sha256": "fe4f480293dca74e1634d237ef30661486bb54379ba8f6c7e0d9c7b7b9afeb69"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor3.png",
+      "runtime": "img/materials/region_0-decor3.png",
+      "sha256": "15db13aaafd046bc49b7405fdb6cd969a59abcc0ebdbf12ea0a844b3cbc324e3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor4.png",
+      "runtime": "img/materials/region_0-decor4.png",
+      "sha256": "0260f55f180965de8382f4efb9a1a2f9640e891955167ac9c3540e3d6f472161"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor5.png",
+      "runtime": "img/materials/region_0-decor5.png",
+      "sha256": "bfc500e8b0fefd25befaff327133da692dc88263e12f499d39691261b451671f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor6.png",
+      "runtime": "img/materials/region_0-decor6.png",
+      "sha256": "781128862e31af5cf6eb7edba8803ff918def191437ef26174e76173bad2b95b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/0-decor7.png",
+      "runtime": "img/materials/region_0-decor7.png",
+      "sha256": "5d98a80d64b5b9c755a006359a74471b837f44c6ca9722c0de8293bcb1f41bba"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-door.png",
+      "runtime": "img/materials/region_1-door.png",
+      "sha256": "f1a53b4c260e2c3cea5f908efafb6a3d4922410df84ed9beb76e6a36a8c9addc"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-cellDoor.png",
+      "runtime": "img/materials/region_1-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-pillar.png",
+      "runtime": "img/materials/region_1-pillar.png",
+      "sha256": "453493616938a5067e2fb6a3ac763a9e9035035ffcd655824484a5c74e9db8c4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-stairsUp.png",
+      "runtime": "img/materials/region_1-stairsUp.png",
+      "sha256": "ae6056d84a1cbe03e0d489b23fb622515b8090408973c7d07fb9ae7b77fd0003"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-stairsDown.png",
+      "runtime": "img/materials/region_1-stairsDown.png",
+      "sha256": "a8743b594cf55e61b2290ab4632e26e58f0972a6e8943383fe69a0015e6469f3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-stairsUpBack.png",
+      "runtime": "img/materials/region_1-stairsUpBack.png",
+      "sha256": "67704293b140208059dc5b7492436f28bb24e12191583130b633460fe946837b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-stairsDownBack.png",
+      "runtime": "img/materials/region_1-stairsDownBack.png",
+      "sha256": "1e8294dc051b5c767cebd521c7bfa7695e0887653ea5f002baf9995190dac30f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-stairArch.png",
+      "runtime": "img/materials/region_1-stairArch.png",
+      "sha256": "3076559c8d5137bf502d10f67f2ab84766a3ba15ed4e5f4f87216562c35011db"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor1.png",
+      "runtime": "img/materials/region_1-floor1.png",
+      "sha256": "34b34171ae609e4e1ae108ee231f5a2782c8381eef335a83a11fa39f6f584996"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor2.png",
+      "runtime": "img/materials/region_1-floor2.png",
+      "sha256": "f0b2e368df8b7403628a17a0db0573105579845873df3bc1cecc026c8c318aac"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor3.png",
+      "runtime": "img/materials/region_1-floor3.png",
+      "sha256": "c505610b34109c3153b31b50f7a83d269abab5c63feca8fa17a633db481994ed"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor4.png",
+      "runtime": "img/materials/region_1-floor4.png",
+      "sha256": "1224a0d33cd139e780a14a69c9c5451953f96b86b0be5687a0ef2cb592705f29"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor5.png",
+      "runtime": "img/materials/region_1-floor5.png",
+      "sha256": "736066894c36e4848c76bbebca76fcc87b86ab1ad55aee7f12bd098407887647"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-floor6.png",
+      "runtime": "img/materials/region_1-floor6.png",
+      "sha256": "f0b44f70e4ac7a34487631b9812637826161c68509d1980180fcca7863559f59"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-ceil1.png",
+      "runtime": "img/materials/region_1-ceil1.png",
+      "sha256": "925751d596125bb6c8494a69c80ed821937b6cc6da373dc0944bdd48e4ce4aca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-ceil2.png",
+      "runtime": "img/materials/region_1-ceil2.png",
+      "sha256": "60ec8363d8b080b5fb5de88a94320712429f411b38aed528d338ca8b075e4273"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-ceil3.png",
+      "runtime": "img/materials/region_1-ceil3.png",
+      "sha256": "9b72b9a707a61a28661c6cdf260dabe8a3ea6b3c5af2380212a8dfdecb11d040"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-wallB.png",
+      "runtime": "img/materials/region_1-wallB.png",
+      "sha256": "b9a5423be606fb176a5a547c5c02d8a6220f13a8689ef92ce13882e12418f994"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-wallDamp.png",
+      "runtime": "img/materials/region_1-wallDamp.png",
+      "sha256": "036e3a6f15caed7aba97a3a45488930a667a3b8d79cc226fbfa15b887d8b5773"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-wallCracked.png",
+      "runtime": "img/materials/region_1-wallCracked.png",
+      "sha256": "3ee75817672bb7d027fed4995959a75085c7e7065bb6eb0193fb1eda6c05ef75"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-rock.png",
+      "runtime": "img/materials/region_1-rock.png",
+      "sha256": "ec35665a0c8829f683123e836cc3ad6650fb0c3eaabf1bcfd125973af171d46a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-fallen.png",
+      "runtime": "img/materials/region_1-fallen.png",
+      "sha256": "6edd3a2ef6e8b2b4470d79c66f9741161e6e25ca95d6a72dac40763b5602084b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-rockPillar.png",
+      "runtime": "img/materials/region_1-rockPillar.png",
+      "sha256": "16986ca4ea6acdf566b9e630f9fbd9db2432020d114dbaf6b490f2eeeeea6da9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-fountain.png",
+      "runtime": "img/materials/region_1-fountain.png",
+      "sha256": "b88b17f8f74604d2ed2783572783c665aaea17e08da4faf5236902242cb2b362"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-fountainDry.png",
+      "runtime": "img/materials/region_1-fountainDry.png",
+      "sha256": "6c22c45a95df7cde4eaf67c51f7e5445c1d6a846e9dc9e8548bee8ce83f0975e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-torch0.png",
+      "runtime": "img/materials/region_1-torch0.png",
+      "sha256": "6b236d19a2362ab56c1a096e3629f894f3c7f021e74f22f848ce3f9359487046"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-torch1.png",
+      "runtime": "img/materials/region_1-torch1.png",
+      "sha256": "e2ce109445a2294485a6ec02f3b7818c87a0f05fbd194e986eb4c0303700f30c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-torch2.png",
+      "runtime": "img/materials/region_1-torch2.png",
+      "sha256": "5a60e3c7cbbafbf9045ede9e0c5126270c600b491c3786c9a5421060207dd4b5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor0.png",
+      "runtime": "img/materials/region_1-decor0.png",
+      "sha256": "669ff5167589b90e19c5ca42834e6d05eb351559334c47a3c891eb986c3a7ffb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor1.png",
+      "runtime": "img/materials/region_1-decor1.png",
+      "sha256": "9676be3e84c2c47bacac62bd49f8bdf862ce2149f374849d94179b1b72d71797"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor2.png",
+      "runtime": "img/materials/region_1-decor2.png",
+      "sha256": "51b2a74e3284e34b62a17b9837c3dd08a5967d98626fc551cbbb765fbcf8c29f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor3.png",
+      "runtime": "img/materials/region_1-decor3.png",
+      "sha256": "1d729872cb5a1ea76abc95d9133edcb9f6976706617b61dd233f58d0f69032f0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor4.png",
+      "runtime": "img/materials/region_1-decor4.png",
+      "sha256": "f89b2d29072cb4c6cffe3d9f370b3a8add7dc3d197d1dcc1b6d5f4c2605f82cd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor5.png",
+      "runtime": "img/materials/region_1-decor5.png",
+      "sha256": "146745b4a07bef535eb94c5232014d99d80aa8f0af8b06a13135d015a3bf2bf3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/1-decor6.png",
+      "runtime": "img/materials/region_1-decor6.png",
+      "sha256": "6b81aa2fa880ca657eec055663a05c74b3619bf805d495a0f845403541be93d0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-door.png",
+      "runtime": "img/materials/region_2-door.png",
+      "sha256": "f8df6529aa35d030488ebcd7f7c5318568e8af9cbed0837d8c3f4643bda867f2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-cellDoor.png",
+      "runtime": "img/materials/region_2-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-pillar.png",
+      "runtime": "img/materials/region_2-pillar.png",
+      "sha256": "f0b435462a10a44e8d1eaa32993bdce3f6592d9274561a0628729687a95e1186"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-stairsUp.png",
+      "runtime": "img/materials/region_2-stairsUp.png",
+      "sha256": "1be795561c766a5ee9f293d256b1b9a0baa202d26e801a74626ca29aaa9952db"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-stairsDown.png",
+      "runtime": "img/materials/region_2-stairsDown.png",
+      "sha256": "ba8757eb24cdc8b4687df675fbc8f8000a4c8a0d3b121736f6a3f442bb627d1e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-stairsUpBack.png",
+      "runtime": "img/materials/region_2-stairsUpBack.png",
+      "sha256": "e6fab4496d7c8f9f61074dcda50638972530a9f2b05f61aa44e45758fd76b615"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-stairsDownBack.png",
+      "runtime": "img/materials/region_2-stairsDownBack.png",
+      "sha256": "dafbc3e6ffeb369adde31dd03299d9c5d6a3e819334c7a9b33df3ca91ab618c8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-stairArch.png",
+      "runtime": "img/materials/region_2-stairArch.png",
+      "sha256": "9d43493fa42754981ee9a0292b3c02eace1a694f6ef026f47f193d5bddae77f7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor1.png",
+      "runtime": "img/materials/region_2-floor1.png",
+      "sha256": "ade5744d9061c7aa4b3b81f2d461b829ca47e923700f2cf53983932558c9fa1a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor2.png",
+      "runtime": "img/materials/region_2-floor2.png",
+      "sha256": "dd6381f4404d1808ad26f1101f9a6598ac65a8cab7dab5e470def376678d426d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor3.png",
+      "runtime": "img/materials/region_2-floor3.png",
+      "sha256": "e450bfaffd9e0878f5089a45b096d4779185f714a6fd2a1063b9481805bff66c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor4.png",
+      "runtime": "img/materials/region_2-floor4.png",
+      "sha256": "3ddb17f9858de9c9529a1e2c7bc4d921da1419aac9bfd4b9e5a1ae5e5aa360aa"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor5.png",
+      "runtime": "img/materials/region_2-floor5.png",
+      "sha256": "a90c60147304a43f1c1b0f3632f984334cb9c6e237a03f2fc3ecfc5eda003c84"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-floor6.png",
+      "runtime": "img/materials/region_2-floor6.png",
+      "sha256": "7bf5b4ac1447b6a8248e085d2189dde574f5d63355ae9ec56a6be089b0d4ec8a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-ceil1.png",
+      "runtime": "img/materials/region_2-ceil1.png",
+      "sha256": "67873cbba80af00852ac6b1e4037ec751bbb17e582bb67b5cffc31b108e9fbdb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-ceil2.png",
+      "runtime": "img/materials/region_2-ceil2.png",
+      "sha256": "e538d57168bd284bf2cb83e4e00293c31208efca72f9c8c960148d0828351b67"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-ceil3.png",
+      "runtime": "img/materials/region_2-ceil3.png",
+      "sha256": "90f4ce2483907ae35b69d4dcb17e69910ec56c387da40a425bdf205bc1e78da4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-wallB.png",
+      "runtime": "img/materials/region_2-wallB.png",
+      "sha256": "e35bb7af497ccc422203ea581cc6cba85fb3aea5ebc0cc36e5434e00dea83646"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-wallDamp.png",
+      "runtime": "img/materials/region_2-wallDamp.png",
+      "sha256": "0cc7a4d41f220247111828ccb4654b80e2bed74ead8ddae92248974d485a80af"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-wallCracked.png",
+      "runtime": "img/materials/region_2-wallCracked.png",
+      "sha256": "b6473fbdd957c7b74c1e645f98126352ebd0f24d389603eeba7ebabe9de5a4a7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-rock.png",
+      "runtime": "img/materials/region_2-rock.png",
+      "sha256": "17128db390e79961179f299d3dd3908004efdd3dc92b1d2bb9b0317a8d2097af"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-fallen.png",
+      "runtime": "img/materials/region_2-fallen.png",
+      "sha256": "a3d83ed7077c177c174defef91871dcdc8573bff0116dd9c2cc8de4414caaab5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-rockPillar.png",
+      "runtime": "img/materials/region_2-rockPillar.png",
+      "sha256": "24cce7fc0252722350204a550cb631c45f54e40197b2adbe6ff3df0f748b2d0f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-fountain.png",
+      "runtime": "img/materials/region_2-fountain.png",
+      "sha256": "81abc83c7b845c04878cffeef8f27e9dfed8d1586c01f78f6571cfdc4b642d7b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-fountainDry.png",
+      "runtime": "img/materials/region_2-fountainDry.png",
+      "sha256": "3a7e87e08303b0dc0eedff35e648c49c4e78d9bca29699a2011ac828b7b91b44"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-torch0.png",
+      "runtime": "img/materials/region_2-torch0.png",
+      "sha256": "2c125a4bd6f77b1508f96f9ceaddcd95505ea51ea0901b2d3d1f4e9cb36f27fd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-torch1.png",
+      "runtime": "img/materials/region_2-torch1.png",
+      "sha256": "24707c035456b654253fb6dee453cdbf575103e85311f037847b17bda9c85453"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-torch2.png",
+      "runtime": "img/materials/region_2-torch2.png",
+      "sha256": "632672cf65814aadc8043a008527f914cf710e55097a1e2c8948b7641b08c799"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor0.png",
+      "runtime": "img/materials/region_2-decor0.png",
+      "sha256": "3cf6092633b04949a178b45cbf5bf4a28e6815e7ac40d33057873e6365368ea8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor1.png",
+      "runtime": "img/materials/region_2-decor1.png",
+      "sha256": "fde3fe74d78335426a88ed288fc66178dd5fe89e0b73b7c302106fcc64f3e9b9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor2.png",
+      "runtime": "img/materials/region_2-decor2.png",
+      "sha256": "cc35a5c42dbfe77b2847591f227f4540775120cdb3fcc8be7e1957cf0abf1ffb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor3.png",
+      "runtime": "img/materials/region_2-decor3.png",
+      "sha256": "aa66dfdded7c9dd5644dabc69f98304098b0ad3f146906cd0597765c57235bac"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor4.png",
+      "runtime": "img/materials/region_2-decor4.png",
+      "sha256": "41a316a88918c13afb9fd230d3a002e64572cec00edfe08ab924738780aaa1e8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/2-decor5.png",
+      "runtime": "img/materials/region_2-decor5.png",
+      "sha256": "5a4c0c27086d1446eefc05226a520e371860140e0a5d4fc1387731d43f4bc480"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-door.png",
+      "runtime": "img/materials/region_3-door.png",
+      "sha256": "b3bf3d23f6b2210de1a1738f51260512050890e2bb849adb69109ba2d23d9b32"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-cellDoor.png",
+      "runtime": "img/materials/region_3-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-pillar.png",
+      "runtime": "img/materials/region_3-pillar.png",
+      "sha256": "394d658d2b0c32ea9f4a0e4a0e464ecdaefa543fc66b6a7ca941de6f1abd1594"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-stairsUp.png",
+      "runtime": "img/materials/region_3-stairsUp.png",
+      "sha256": "7403a692386da0dee211729c626ae453f152dc439942568ae59b1a4321ca39e1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-stairsDown.png",
+      "runtime": "img/materials/region_3-stairsDown.png",
+      "sha256": "c93c5416ac05f24d80cfb0c6fc9bca898cb4f6c8796e846d5565682fbeb907f2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-stairsUpBack.png",
+      "runtime": "img/materials/region_3-stairsUpBack.png",
+      "sha256": "0862fcb85dc39f30172633da32aa365aa6b86f056926836e37e087bbdf71373f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-stairsDownBack.png",
+      "runtime": "img/materials/region_3-stairsDownBack.png",
+      "sha256": "0dce27cc56c6630aaae25d9b94d6cb896c3c889394b6ae2f59c84032d7cebe5d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-stairArch.png",
+      "runtime": "img/materials/region_3-stairArch.png",
+      "sha256": "1de075aa3e5febb7f87d4aab7b62c3808040352fee1fdbffa3526e089a14c1b6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor1.png",
+      "runtime": "img/materials/region_3-floor1.png",
+      "sha256": "813193c33ac2a410a7e5f2e4ef6b52b3a3a3838e3f649401c64df3c0a1e0f143"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor2.png",
+      "runtime": "img/materials/region_3-floor2.png",
+      "sha256": "fb19f871541af41ac1c03f5634cfb80834b1feffa010798c52be80f94953babe"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor3.png",
+      "runtime": "img/materials/region_3-floor3.png",
+      "sha256": "6ca718055e5566bebad30a1c31c09c820716bc0f360cd6abf42d141685787b9d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor4.png",
+      "runtime": "img/materials/region_3-floor4.png",
+      "sha256": "e7cc8b5cca03a83c2812ffcd9ff182fcc0c057e6c2bed5dddec754eea54f8cfb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor5.png",
+      "runtime": "img/materials/region_3-floor5.png",
+      "sha256": "5a4080eb93fdcf1c9298cb089b2b6d5db46bdbc42ebc6dd52bb3f4dd6c2cc68f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-floor6.png",
+      "runtime": "img/materials/region_3-floor6.png",
+      "sha256": "e8e8b3fa3dc5418f5c1066be77750ae48351761363206d2ad74015261d65a75d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-ceil1.png",
+      "runtime": "img/materials/region_3-ceil1.png",
+      "sha256": "48fce4a3608d919db6d29542c95f4ba796c5a1bb7145e6bf314fabdbdaa113ae"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-ceil2.png",
+      "runtime": "img/materials/region_3-ceil2.png",
+      "sha256": "b484715381608212cd55076ff5e23cbc5baf4931f079f1cc58bf0fffffd287eb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-ceil3.png",
+      "runtime": "img/materials/region_3-ceil3.png",
+      "sha256": "fd92b7e5b5bf517bb07f13c14e1de4e082347b84a292f549299606e3d16d33f0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-wallB.png",
+      "runtime": "img/materials/region_3-wallB.png",
+      "sha256": "89a837589828f7303ae3a5cc6f3f49502b20c51e700c5d52015ccda4bed392ba"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-wallDamp.png",
+      "runtime": "img/materials/region_3-wallDamp.png",
+      "sha256": "1450c8234f3a7007359220e5d3141f48ae78919ad932a0988329b71e97adeef5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-wallCracked.png",
+      "runtime": "img/materials/region_3-wallCracked.png",
+      "sha256": "dcb96eaa85c26c7c1c3cb618f83bef45f44efd43aec690a4720f0a69a9172829"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-rock.png",
+      "runtime": "img/materials/region_3-rock.png",
+      "sha256": "2033d2a78877b1dfe47335f3e4e0f4e6a20bfa380408d7371a809fd3d47600dc"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-fallen.png",
+      "runtime": "img/materials/region_3-fallen.png",
+      "sha256": "c33b2307486eef84d90ea3741add1472660ae2738f4a858c6d5a4bc3e825b713"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-rockPillar.png",
+      "runtime": "img/materials/region_3-rockPillar.png",
+      "sha256": "82431359fb47af427f0118a981bf75c6b9f2ec197cb96b92f174209d38dc47cd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-fountain.png",
+      "runtime": "img/materials/region_3-fountain.png",
+      "sha256": "8f9ddd1fe86d1a5c8f8b619b6aef5ae763a31223b85d357245dac272696c8d67"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-fountainDry.png",
+      "runtime": "img/materials/region_3-fountainDry.png",
+      "sha256": "1f834ee65ebb327253208b4f3e3e7d76e28d951ecffab6ff90cb6786b3e67999"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-torch0.png",
+      "runtime": "img/materials/region_3-torch0.png",
+      "sha256": "5766397fd37d556407166eae26a9d0beb58552a0a2f2d51da0a2afaa735f7ca6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-torch1.png",
+      "runtime": "img/materials/region_3-torch1.png",
+      "sha256": "cf965461bd0f9a8803327516b0c1a4f484d136e695519bbc39d9db5bac280e37"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-torch2.png",
+      "runtime": "img/materials/region_3-torch2.png",
+      "sha256": "01568ac51281abea8bede86685ac13cb69885000ede370e76cffd3310340dec7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor0.png",
+      "runtime": "img/materials/region_3-decor0.png",
+      "sha256": "653d962526bae105a2889c3947c682cb8d5fe6c7139d09e7f8ae75a5f4df4227"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor1.png",
+      "runtime": "img/materials/region_3-decor1.png",
+      "sha256": "cbab35644e0e2cd741dd5cc0b4539c484b9f97b0c983aa5bdf37a0c54207b1b0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor2.png",
+      "runtime": "img/materials/region_3-decor2.png",
+      "sha256": "9601790cf3ac1e682c942087d4191fb75de1bccb73ebbb95506cefd7c51b0c05"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor3.png",
+      "runtime": "img/materials/region_3-decor3.png",
+      "sha256": "f64c327fcb5fbb1013461362ae7381bb63e2581d81cadd122dfcc9b9225e70db"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor4.png",
+      "runtime": "img/materials/region_3-decor4.png",
+      "sha256": "6d627fd61ed59b01ecd08606cdc573fa625be94144af7f54969f91595cc09b87"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/3-decor5.png",
+      "runtime": "img/materials/region_3-decor5.png",
+      "sha256": "c68259fd12af9be2b236b1f0658900db6d26e4b2ebce5cbd8182fde37855487e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-door.png",
+      "runtime": "img/materials/region_4-door.png",
+      "sha256": "a6a04f0082ecec926fe2767469f4c1bea27e8de2ea5f9bc95d6cdf080c8acc83"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-cellDoor.png",
+      "runtime": "img/materials/region_4-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-pillar.png",
+      "runtime": "img/materials/region_4-pillar.png",
+      "sha256": "01c260e1c64d0800b2723d2a4ba09932d428e45877e8f435bc8f62155ddabec5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-stairsUp.png",
+      "runtime": "img/materials/region_4-stairsUp.png",
+      "sha256": "ede1d5e1519fb13e7d5454a99c78e5a21c73c0c742bbb45fa4a6266ed9bc7d8d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-stairsDown.png",
+      "runtime": "img/materials/region_4-stairsDown.png",
+      "sha256": "d23f1393f60f61c7eaf7096a49b3a8cae790f3bbddc824243cf1fa6f9a4e4248"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-stairsUpBack.png",
+      "runtime": "img/materials/region_4-stairsUpBack.png",
+      "sha256": "5bf426d0c7721b9cb4687c14e07458bd7b188b6ca7b83e20187163042bac204a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-stairsDownBack.png",
+      "runtime": "img/materials/region_4-stairsDownBack.png",
+      "sha256": "9f925700cd408c85a79b8ff02ef4a668a606190fce951a690f2056c41a603da8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-stairArch.png",
+      "runtime": "img/materials/region_4-stairArch.png",
+      "sha256": "dd6d86a29ba974fb75be1467f3416ecff752551a9403a73b69a02566793eeaa8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor1.png",
+      "runtime": "img/materials/region_4-floor1.png",
+      "sha256": "861a7772d15b29bd5b72bf007b17477f653d3222e34c90f6c253edde37aeff0c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor2.png",
+      "runtime": "img/materials/region_4-floor2.png",
+      "sha256": "d5da37a51fd124772055b5d308d2a4dfff313654a4c9ca05b338068c3a5e3955"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor3.png",
+      "runtime": "img/materials/region_4-floor3.png",
+      "sha256": "263af1e2acd0a356ccd3327bd4543a3bee0c4860bdf524160734f6ac15d0233f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor4.png",
+      "runtime": "img/materials/region_4-floor4.png",
+      "sha256": "54a87a8194004a360f81dfd5e7c4948ff651fb47c522785bf89018dee4359d6b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor5.png",
+      "runtime": "img/materials/region_4-floor5.png",
+      "sha256": "d8fa51316a124f89f677d7ae83656ecb5f6416cff38e14ac12c07e4540b33290"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-floor6.png",
+      "runtime": "img/materials/region_4-floor6.png",
+      "sha256": "2f5d3adc9ed3493f0774db85959ff9aab326ae53e799fe02c201f0ffe6ce23ca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-ceil1.png",
+      "runtime": "img/materials/region_4-ceil1.png",
+      "sha256": "fd2be5db5d427d039b6efe89406eb35865e9a1428cd016df9e60b950bbd047fa"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-ceil2.png",
+      "runtime": "img/materials/region_4-ceil2.png",
+      "sha256": "3ea4633f56c6903db0d425f8ea8ebf7662fac15d2d4d941d3926e40866bb7cff"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-ceil3.png",
+      "runtime": "img/materials/region_4-ceil3.png",
+      "sha256": "8605239d37dd073385f1d9c507b79317ff02b8d8399f00781430d6d87cb11fd7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-wallB.png",
+      "runtime": "img/materials/region_4-wallB.png",
+      "sha256": "9c1467f1ade7c025819e2be06301a5552eaaafde095be7fc3a1510c4358326fc"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-wallDamp.png",
+      "runtime": "img/materials/region_4-wallDamp.png",
+      "sha256": "777d517b5894f54cddf02e5c4a77e35036fc543cb759ab8c7fd3ab77025ab07b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-wallCracked.png",
+      "runtime": "img/materials/region_4-wallCracked.png",
+      "sha256": "65fe9ffe4fbc63543d1b235799543f38cb24c93a4f8d545cf813104a6577ed6b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-rock.png",
+      "runtime": "img/materials/region_4-rock.png",
+      "sha256": "e3701ca8bae1371e18d67e04b544130eaa57f891edab795eae51877e40bed96a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-fallen.png",
+      "runtime": "img/materials/region_4-fallen.png",
+      "sha256": "539686ac04b969c9a02a244f7e5f62e97e39a038845953c3a4d119daa30f81f4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-rockPillar.png",
+      "runtime": "img/materials/region_4-rockPillar.png",
+      "sha256": "e439659f96d464f18006d754711e195b608f31f06d57c528d600a73bac6fecc4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-fountain.png",
+      "runtime": "img/materials/region_4-fountain.png",
+      "sha256": "d1efd3e0fd2100bfc3bfe83077531c7275af90a351c8e5e6c76000799c1b634a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-fountainDry.png",
+      "runtime": "img/materials/region_4-fountainDry.png",
+      "sha256": "72467a77c12abfac4980c6282d0f1a0ad2b7e633af7829d6f1d07ac8805a722a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-torch0.png",
+      "runtime": "img/materials/region_4-torch0.png",
+      "sha256": "f8da0d59144f89b352c97b10e733eafeaaead755bac520a8eb8146eada30e8c4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-torch1.png",
+      "runtime": "img/materials/region_4-torch1.png",
+      "sha256": "e44d1ad99ea1f9534830f9b58f3b6529362b714eb8edb214c0025c21b2e77f7c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-torch2.png",
+      "runtime": "img/materials/region_4-torch2.png",
+      "sha256": "21036ad8249b1e3a50ba290cc3d82365d2c0a6e2288a61c1fa0c09e29422a3b2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor0.png",
+      "runtime": "img/materials/region_4-decor0.png",
+      "sha256": "422befbf4beb1d2132e762e21c685d5fe7a817375a7c75a022afcb8dc968b7ca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor1.png",
+      "runtime": "img/materials/region_4-decor1.png",
+      "sha256": "26ec3e9fd6bf2c219c4362fcf520f9e3aef0144648d7eb3be92094aef0ecb51b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor2.png",
+      "runtime": "img/materials/region_4-decor2.png",
+      "sha256": "f36a34f1bffe931358f601fcf7363c39ad90a0a8d38dd98f32e7a7e398561b4a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor3.png",
+      "runtime": "img/materials/region_4-decor3.png",
+      "sha256": "3efa63eff4422227be8f754012ceb96a303f473e0f5c6859658891194555a037"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor4.png",
+      "runtime": "img/materials/region_4-decor4.png",
+      "sha256": "07e01a3b41ad4f370e09b403e80e7ebf9b236ec571400a189dc08cd482a8d9a1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/4-decor5.png",
+      "runtime": "img/materials/region_4-decor5.png",
+      "sha256": "bc256a05bfbed3f03d25a735a7bbe51b71845fb6ae5d7ec54fcbba6335b36b4b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-door.png",
+      "runtime": "img/materials/region_5-door.png",
+      "sha256": "240a1a49ce8ba30e6f1e1883175a5ea4f29d88d9f05556cf1b47b70ca3557c13"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-cellDoor.png",
+      "runtime": "img/materials/region_5-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-pillar.png",
+      "runtime": "img/materials/region_5-pillar.png",
+      "sha256": "14bf08849f6f78a2b234783ecca5a015f513b4ac56bcec9f8f742a15d9a28e1a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-stairsUp.png",
+      "runtime": "img/materials/region_5-stairsUp.png",
+      "sha256": "f9822531113a2eaaf95b0986482ed11380ccc74cbe262390cb2339873342b731"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-stairsDown.png",
+      "runtime": "img/materials/region_5-stairsDown.png",
+      "sha256": "50eea00cc47cc16f8f0656c26617a47c6853b2cb0b276124be0cddf8b9c67567"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-stairsUpBack.png",
+      "runtime": "img/materials/region_5-stairsUpBack.png",
+      "sha256": "23c7a0696c8d4f3c387852a3f3e6856c47a3975e0a00f6c67c583a32da23b809"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-stairsDownBack.png",
+      "runtime": "img/materials/region_5-stairsDownBack.png",
+      "sha256": "a66851d0f5f4b84c1d3e33cb82430f737c8be9b15be102028633f24467fb9d80"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-stairArch.png",
+      "runtime": "img/materials/region_5-stairArch.png",
+      "sha256": "6bdf85f42d81228ec301b21855677bb6b1f1dd7c24839ed4379580d1343451a5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor1.png",
+      "runtime": "img/materials/region_5-floor1.png",
+      "sha256": "cb40bcbbe103ef1820f56432cc32bb313344cef8869038768562c211d17226a8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor2.png",
+      "runtime": "img/materials/region_5-floor2.png",
+      "sha256": "fc16df618a7484a2cf71cffcbcd79cbe1e020b9f8e4f266e157fb55847fbd8e2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor3.png",
+      "runtime": "img/materials/region_5-floor3.png",
+      "sha256": "14db4a69550de133a2abe47195d278c711a0f72d8af7b70c8ca05a89361b521b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor4.png",
+      "runtime": "img/materials/region_5-floor4.png",
+      "sha256": "a9fe4e94984acbaccd785ea23e8c3a0fbc926971b6cca67b4d9331e93ea12a57"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor5.png",
+      "runtime": "img/materials/region_5-floor5.png",
+      "sha256": "8ddb1e0111df8e3b364460c5d33e65b8b81dab249a0ca7f9114523f8911817a0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-floor6.png",
+      "runtime": "img/materials/region_5-floor6.png",
+      "sha256": "684ea93c020f62a8a9bc0c51622f4acee0890f0611c35f23d5268bc0b956fed9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-ceil1.png",
+      "runtime": "img/materials/region_5-ceil1.png",
+      "sha256": "86d727919911f5af2b127850da83d0382efa386851b392cecb5f9a275265b7bc"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-ceil2.png",
+      "runtime": "img/materials/region_5-ceil2.png",
+      "sha256": "1bfdd94c5456d37fde63c54f4352fd3aa3e75668b08c381102acb66bb157dc84"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-ceil3.png",
+      "runtime": "img/materials/region_5-ceil3.png",
+      "sha256": "68701b87fd74c54456d030df709d0de80cf55073a765f1e7737d21f620b9e144"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-wallB.png",
+      "runtime": "img/materials/region_5-wallB.png",
+      "sha256": "1ab22e660d942d98d107a5198148035722abe3f0b9cab92c5037bf591935f633"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-wallDamp.png",
+      "runtime": "img/materials/region_5-wallDamp.png",
+      "sha256": "8e049820a39c169e7e75fda38d680ac1f76ab8be7715cc9e6d311d811c3c9803"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-wallCracked.png",
+      "runtime": "img/materials/region_5-wallCracked.png",
+      "sha256": "1d0db6163ae8b7dfd72bf44877e4d771857a004b434cd798dd71af7e775129e4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-rock.png",
+      "runtime": "img/materials/region_5-rock.png",
+      "sha256": "5fa56932f0816cfe3ac2a8a6c506d5e87f0c2c40528d16ee3057ee42fb69e67a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-fallen.png",
+      "runtime": "img/materials/region_5-fallen.png",
+      "sha256": "db1e60cbc6bd01cf45cd71b1a5599663dafc6d24bf0223abfa4b9037eb8339ce"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-rockPillar.png",
+      "runtime": "img/materials/region_5-rockPillar.png",
+      "sha256": "18f5b7c28659eb19a0912daad7569af1e8beecb2962c44a87d789570ee21b5d9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-fountain.png",
+      "runtime": "img/materials/region_5-fountain.png",
+      "sha256": "a44440e956cbf94dd37bb4824e0b601cef28c78475370a3cb754b99356882332"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-fountainDry.png",
+      "runtime": "img/materials/region_5-fountainDry.png",
+      "sha256": "08572707a2894f2a8cf5f6fb40fea1dd3990554890306e3f8df4fff36aadca74"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-torch0.png",
+      "runtime": "img/materials/region_5-torch0.png",
+      "sha256": "478bda68857b0fe9b205f1c1a023e33636c43e3f5025555f4fb0632a2432f2eb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-torch1.png",
+      "runtime": "img/materials/region_5-torch1.png",
+      "sha256": "8e9fd67d990460cb6b322d66fa7c64b3fadc6fc707cf288bc6f91b56447ca110"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-torch2.png",
+      "runtime": "img/materials/region_5-torch2.png",
+      "sha256": "cde2f873ff6bbf4383b82ce031e251f97d3b1081d5ebad35068028d9521981bb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-decor0.png",
+      "runtime": "img/materials/region_5-decor0.png",
+      "sha256": "0872df2aee1ba344c0fee770c637c076da0a0886d68b7adf563094936cd9a7fd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-decor1.png",
+      "runtime": "img/materials/region_5-decor1.png",
+      "sha256": "11a616a4c9a3f2aa2341bff4b3987681ac75f3b365821d6bcbd5ce57f7e39ada"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/5-decor2.png",
+      "runtime": "img/materials/region_5-decor2.png",
+      "sha256": "10f1489b9c379b3a203c73a5d67cf00cd8aa1c3bbb260ac24e1c4fcec63c2cb5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-door.png",
+      "runtime": "img/materials/region_6-door.png",
+      "sha256": "4fd30d447e06aa486a9cd6361ff97a2f299634054be27c55aa41a104cb0479a2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-cellDoor.png",
+      "runtime": "img/materials/region_6-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-pillar.png",
+      "runtime": "img/materials/region_6-pillar.png",
+      "sha256": "bd115dc3c2804f54de0ec87c6f69d8ece6075785f745c5a0d51a049873db6a3a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-stairsUp.png",
+      "runtime": "img/materials/region_6-stairsUp.png",
+      "sha256": "dc5e7236da7be91fa6cdc05d1a786810efe6585d6eb4697478692f36af9841bf"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-stairsDown.png",
+      "runtime": "img/materials/region_6-stairsDown.png",
+      "sha256": "1a91f1dbb3060f3f99103a62f5ad583a5d0c404412b05b78a72037f050d85f91"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-stairsUpBack.png",
+      "runtime": "img/materials/region_6-stairsUpBack.png",
+      "sha256": "6d000eda53c7c784f99d0d9cd9e31cb92147a735f374244c9f29108a96db340f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-stairsDownBack.png",
+      "runtime": "img/materials/region_6-stairsDownBack.png",
+      "sha256": "7cdb0fff8e34955a1a1e2466f534bfc3bf77ed4227f39779d578f3c348740bca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-stairArch.png",
+      "runtime": "img/materials/region_6-stairArch.png",
+      "sha256": "bba8448e712147d6e681373cb4d4a7d03325985ed0d3ecfa591763f285dd61c2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor1.png",
+      "runtime": "img/materials/region_6-floor1.png",
+      "sha256": "39c666f08a99068f75c21cdeff5ca2ab408e30c4e9e161e47514f58c0ba1e21a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor2.png",
+      "runtime": "img/materials/region_6-floor2.png",
+      "sha256": "0c9e8221bffb195266739066d1b98c042db84dec7c4d5427de498cf6baceee3f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor3.png",
+      "runtime": "img/materials/region_6-floor3.png",
+      "sha256": "9cc6348d9de9f3430639febb125670089fdb7102e0db78924fcf0d3685061f5f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor4.png",
+      "runtime": "img/materials/region_6-floor4.png",
+      "sha256": "5e202ccbd8196a9508276c33d99b119fd296cf8d64b7356425696f8bd9d18967"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor5.png",
+      "runtime": "img/materials/region_6-floor5.png",
+      "sha256": "58809bf94f832a02cd9d38e1c3585061f3c08c9ae8c79ad9655f2d41bcfd7e3d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-floor6.png",
+      "runtime": "img/materials/region_6-floor6.png",
+      "sha256": "5d92e3a2c12cabe813efeb364aa38c491482b3e7a3cc3caa7d589a40cc5ef3d2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-ceil1.png",
+      "runtime": "img/materials/region_6-ceil1.png",
+      "sha256": "3e5ce695a3a1d9513deb0211210b1707cebba2ccb4abfab99954857207b51204"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-ceil2.png",
+      "runtime": "img/materials/region_6-ceil2.png",
+      "sha256": "7c8f4149acd44ab38a81309a31df6024ed853648afec540c7c69bce6bce40820"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-ceil3.png",
+      "runtime": "img/materials/region_6-ceil3.png",
+      "sha256": "0cb4f92833f36e6f6436c4f1ba2383341d47f64f1ab0dd8d698cea41f4bd6691"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-wallB.png",
+      "runtime": "img/materials/region_6-wallB.png",
+      "sha256": "aec220247d6dacdc879a7beb40d5a52dc91fb20eb52b94857d43014f1d5a86b9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-wallDamp.png",
+      "runtime": "img/materials/region_6-wallDamp.png",
+      "sha256": "10662de0644c528fef7aeda9b3f0cfa2c37eb17b288f182c0b6f8dbac709a504"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-wallCracked.png",
+      "runtime": "img/materials/region_6-wallCracked.png",
+      "sha256": "b9d8e64f7a790a2681f680c0593aab83f4064a19a9a0b4aac549bb89b76c46e8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-rock.png",
+      "runtime": "img/materials/region_6-rock.png",
+      "sha256": "12180344358b12af9d7983598b5a9c9ac404c145a1ffd657f0f4779fa45a42e1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-fallen.png",
+      "runtime": "img/materials/region_6-fallen.png",
+      "sha256": "ca194fa83fafc5aa8fc5f69acc622d38510c6c55f15468b9f72df1eff766169c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-rockPillar.png",
+      "runtime": "img/materials/region_6-rockPillar.png",
+      "sha256": "d9dcf71f19fb0988cc2a02e0473bf28494070b66767ab1b76b4fc31f2f49c151"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-fountain.png",
+      "runtime": "img/materials/region_6-fountain.png",
+      "sha256": "410aa9fefa625b29c12e9d3e48b90678250ecb97b6620abb08325304671f3a1a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-fountainDry.png",
+      "runtime": "img/materials/region_6-fountainDry.png",
+      "sha256": "f0c90c16f4156bb0563d30c8b200c5987e5848b38a21b2f8d354217dde9d589b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-torch0.png",
+      "runtime": "img/materials/region_6-torch0.png",
+      "sha256": "c11d530cb655cf648fa8840458879520ecd22c81b95c3a39301c70b9dcb672a0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-torch1.png",
+      "runtime": "img/materials/region_6-torch1.png",
+      "sha256": "c9bcb33c767627b6f1b833005e10f963971e864b46a6004f74ca96c9797245eb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-torch2.png",
+      "runtime": "img/materials/region_6-torch2.png",
+      "sha256": "b3c2fa453222588eae33eb17705d61c86e53cba5a9beaaa9c591b84f33fe6a8e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-decor0.png",
+      "runtime": "img/materials/region_6-decor0.png",
+      "sha256": "0ab978e1f04c9169cdd391368b8500b9e1c22cb05153ef170346db18e7242712"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-decor1.png",
+      "runtime": "img/materials/region_6-decor1.png",
+      "sha256": "a83b6c6e2a0ff393c9ac1562d7be8ea1ff8a89057f4f173ad2ce01ec9d6cef67"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-decor2.png",
+      "runtime": "img/materials/region_6-decor2.png",
+      "sha256": "dff5d3cd2623603a6d6b6703ac2ec35c67edcf656a1bd453fe20affc05c61491"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/6-decor3.png",
+      "runtime": "img/materials/region_6-decor3.png",
+      "sha256": "d50215c537c180fd98a85677e8b18f841d975cc4a5b2f676453eeef5a19922c3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-door.png",
+      "runtime": "img/materials/region_7-door.png",
+      "sha256": "b51f17ea1e4040893671c3d84343e8ce270f654989acc7348712ba4087bba9d5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-cellDoor.png",
+      "runtime": "img/materials/region_7-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-pillar.png",
+      "runtime": "img/materials/region_7-pillar.png",
+      "sha256": "49d454015614438206540744ce0c451e5d8b6740d026037be7751b7764f9680c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-stairsUp.png",
+      "runtime": "img/materials/region_7-stairsUp.png",
+      "sha256": "10df7f7687f0507eacfd6c4ff47efa7a10c2da8721377355cbe6b55b91b92947"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-stairsDown.png",
+      "runtime": "img/materials/region_7-stairsDown.png",
+      "sha256": "7ef873f4427551194c4b95bd651ad462196edfb5025270cc37f5feb08f31db2c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-stairsUpBack.png",
+      "runtime": "img/materials/region_7-stairsUpBack.png",
+      "sha256": "38ff00070a7af953d5ae849346bca08d0e5a8b96ed96da8391c89319d5ee388c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-stairsDownBack.png",
+      "runtime": "img/materials/region_7-stairsDownBack.png",
+      "sha256": "5e8266dd09e70e4359f5a393554f158fc31465f9af3dea217307534f3fc300e6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-stairArch.png",
+      "runtime": "img/materials/region_7-stairArch.png",
+      "sha256": "11c80e2c525c841aa54cb6db274b09dca377226560fae32491650f1c77f984fa"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor1.png",
+      "runtime": "img/materials/region_7-floor1.png",
+      "sha256": "a29d7ce9d3c9bfbc95e273ce77a2787a58f3ad51de1dc560f76158b7e73af3c1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor2.png",
+      "runtime": "img/materials/region_7-floor2.png",
+      "sha256": "0338ec702275309cfc2d5bd6081846cc7579c6e6ae8b871a1c9b90b0bbc4fb64"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor3.png",
+      "runtime": "img/materials/region_7-floor3.png",
+      "sha256": "b8f1024961c9d31ee3809b4360513d2bcd0187d670318505dd658f11da7b4980"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor4.png",
+      "runtime": "img/materials/region_7-floor4.png",
+      "sha256": "403b5e93bfb649ca98e4fbc1221640844dd82ad3a71d2d23403494058942519e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor5.png",
+      "runtime": "img/materials/region_7-floor5.png",
+      "sha256": "0322552d30488dddbc45085906f4d9ccd9718b75869e461699e319777200d010"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-floor6.png",
+      "runtime": "img/materials/region_7-floor6.png",
+      "sha256": "ea8cd927802a1b4da05fcd2c55677aaaca65f324a3a443cd4decc4c0b0f13758"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-ceil1.png",
+      "runtime": "img/materials/region_7-ceil1.png",
+      "sha256": "213af94c53359c003d2e764502e460e3bbe1ca014fa76f617c38d6d7b5057809"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-ceil2.png",
+      "runtime": "img/materials/region_7-ceil2.png",
+      "sha256": "1e1a23ac82661979f1c02cc82682d5dfd5a3800182d4c83f4b27be473f7f9225"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-ceil3.png",
+      "runtime": "img/materials/region_7-ceil3.png",
+      "sha256": "33765a2c7ab142256bb0017ad5f3ae164c87cd172420a606f38a344678a227d1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-wallB.png",
+      "runtime": "img/materials/region_7-wallB.png",
+      "sha256": "d8d158687e040488f050d3900b24f095040e683f05a34535a198d203adf18900"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-wallDamp.png",
+      "runtime": "img/materials/region_7-wallDamp.png",
+      "sha256": "ac097a2d51c8281844b50d16e9fd3d43d5d84636018838ac40411d890669ae39"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-wallCracked.png",
+      "runtime": "img/materials/region_7-wallCracked.png",
+      "sha256": "b908604ba5aceda085c421f106b29fde45be9a3f78c041c77553d07609ebdeac"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-rock.png",
+      "runtime": "img/materials/region_7-rock.png",
+      "sha256": "5ccccd386b4f71e53decab153b9ee7d70a2621ee0dd1c4f1534b753735bd3633"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-fallen.png",
+      "runtime": "img/materials/region_7-fallen.png",
+      "sha256": "620c629c7d67697d538759431e67ec091209f5726cae039f6c765f1b055d18be"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-rockPillar.png",
+      "runtime": "img/materials/region_7-rockPillar.png",
+      "sha256": "1bcbdd19b123748cd13799ed98f8867ecada18d55b1776f74f2d444c6ffdcd73"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-fountain.png",
+      "runtime": "img/materials/region_7-fountain.png",
+      "sha256": "83444fb171a9fdceaf5b539252015b5171e5e40780c690e2fca2bd7f6b14c244"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-fountainDry.png",
+      "runtime": "img/materials/region_7-fountainDry.png",
+      "sha256": "09f7ca00ca71ef13d60710c48864f60de2020208decb664438dccb8e024cdbd3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-torch0.png",
+      "runtime": "img/materials/region_7-torch0.png",
+      "sha256": "cb6701e981380e5c9d84b1586b66e2dff2350c9a51d59ab1de0a8fbc965208ef"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-torch1.png",
+      "runtime": "img/materials/region_7-torch1.png",
+      "sha256": "8a3cd69368bd1839b43c7c114e43a591ef9431fd09df3bad991448b1c4fccfe4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-torch2.png",
+      "runtime": "img/materials/region_7-torch2.png",
+      "sha256": "36708e841838f0e4d47b38a723404171e90bcdcc8d82445e7d1c1a5c758fdc86"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-decor0.png",
+      "runtime": "img/materials/region_7-decor0.png",
+      "sha256": "5f420d86e76d086b58948eea0d9698f0eda7f2a4909593d990295c8aa2c4c6a1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-decor1.png",
+      "runtime": "img/materials/region_7-decor1.png",
+      "sha256": "c932f311eeb2ac00aa157eb26cf61e6f373dcef2b70902d2bbead7c54be1d1d3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-decor2.png",
+      "runtime": "img/materials/region_7-decor2.png",
+      "sha256": "5cdd08bb4f0e835ae3a9a0a9f155ada1e0959da628fde110cfbd4f48bed8d9f9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/7-decor3.png",
+      "runtime": "img/materials/region_7-decor3.png",
+      "sha256": "b275be7d1fe79ac8126fbeee93232f27bd29641e73b48baa1d730064e6c3b1e8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-door.png",
+      "runtime": "img/materials/region_8-door.png",
+      "sha256": "43099e0b1424e0c948f1fca78ad6d3c9648ed5e6440b298675ce07224f1fda9e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-cellDoor.png",
+      "runtime": "img/materials/region_8-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-pillar.png",
+      "runtime": "img/materials/region_8-pillar.png",
+      "sha256": "d546cd3adc8af6db7ad8a6f910771a954d532c35024e23c842f39c5dde1c9b41"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-stairsUp.png",
+      "runtime": "img/materials/region_8-stairsUp.png",
+      "sha256": "7d82ed431ad62506a0c3414eddb1e827210eee27ca2bb01e3c4f3b7e8c27f75c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-stairsDown.png",
+      "runtime": "img/materials/region_8-stairsDown.png",
+      "sha256": "a2571bedf7873527786f5d2993083813532ea170da9cdf575bbd292c18626ed8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-stairsUpBack.png",
+      "runtime": "img/materials/region_8-stairsUpBack.png",
+      "sha256": "4634d785ae99ce52677674ad3102fc2dd504e701854699a0029e6acc429b644d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-stairsDownBack.png",
+      "runtime": "img/materials/region_8-stairsDownBack.png",
+      "sha256": "40904083d1544bcba640254a6fa032eb001226694fcff97187bb383a0ce94cd9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-stairArch.png",
+      "runtime": "img/materials/region_8-stairArch.png",
+      "sha256": "0ff88bfd9a521ae1f36ad3a8196cf05fee9af1d91ea6ee25d89ba8f453570a65"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor1.png",
+      "runtime": "img/materials/region_8-floor1.png",
+      "sha256": "5f98790b1267e137337c9dbe7ffbbc893b83d1c5b700ca40df00dcb41e0d6ef7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor2.png",
+      "runtime": "img/materials/region_8-floor2.png",
+      "sha256": "0371ba6505868aa734977510c6d728dab7780f4bb35f9f6b575d11f38aa2f044"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor3.png",
+      "runtime": "img/materials/region_8-floor3.png",
+      "sha256": "8ab1cddf850e5e9ba5a524618ad5db1362090eb89ce9f24b037069f4dc6f0581"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor4.png",
+      "runtime": "img/materials/region_8-floor4.png",
+      "sha256": "41b78c4c7cae794f3db888ff0a76fd095ff78ec795c75e3392777e55a484c053"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor5.png",
+      "runtime": "img/materials/region_8-floor5.png",
+      "sha256": "2f591a76e825b937fe12a44aedb9dd701572a7cb3e452a39405afe32be9a0e8a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-floor6.png",
+      "runtime": "img/materials/region_8-floor6.png",
+      "sha256": "dc10485692ea1090453ff34f0c5b034811c208576d2704cc2fbf6a8ff3e9a495"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-ceil1.png",
+      "runtime": "img/materials/region_8-ceil1.png",
+      "sha256": "b421bbf2679249e1b5f365a7ebfea9b1fa44a7ba875a36deaad6ad284af0148c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-ceil2.png",
+      "runtime": "img/materials/region_8-ceil2.png",
+      "sha256": "42cacb9134fc6592cffda7eec2528b6ef9dc885ae015d69b95a2b5e2164b03f7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-ceil3.png",
+      "runtime": "img/materials/region_8-ceil3.png",
+      "sha256": "32ec41fc6cc6e3cd6377b9c1751330915f10752104e42fd504556c880068219b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-wallB.png",
+      "runtime": "img/materials/region_8-wallB.png",
+      "sha256": "d7a0d59920bcc10729eb8997a05ac1f83d94b01ade5c456ab6eca389a2d98895"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-wallDamp.png",
+      "runtime": "img/materials/region_8-wallDamp.png",
+      "sha256": "0ad9887b8d982555419bacbb71820ebd22bd851e3995aa2ca1017992051dc8f3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-wallCracked.png",
+      "runtime": "img/materials/region_8-wallCracked.png",
+      "sha256": "f96c70bd649e32fb2431a4daae7545c9882e71af29d00822396042699075f626"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-rock.png",
+      "runtime": "img/materials/region_8-rock.png",
+      "sha256": "1a40c8ed4b2177bc471ee551839810359a023898ae354ee54d92c7a6aeee2b51"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-fallen.png",
+      "runtime": "img/materials/region_8-fallen.png",
+      "sha256": "48b63b757e74d11baaf07386b2b91bc594728158672f27f0a439e3786778b99e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-rockPillar.png",
+      "runtime": "img/materials/region_8-rockPillar.png",
+      "sha256": "2dc03fa42ff84a9c974e6a8d5d4f5008677f664d0730aa44525f1731fd2e9469"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-fountain.png",
+      "runtime": "img/materials/region_8-fountain.png",
+      "sha256": "d454a1c36a13c18a664b130bd1d452470dd8306c2fa3890f6648a002544b3746"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-fountainDry.png",
+      "runtime": "img/materials/region_8-fountainDry.png",
+      "sha256": "2dd9c6b3303a85841e4b3fc92270cc6140281ff608b197e2f5674f910a9a6640"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-torch0.png",
+      "runtime": "img/materials/region_8-torch0.png",
+      "sha256": "0e57659546e927a428440f8afa7c493720465d9297b8c476237c2b61947e6770"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-torch1.png",
+      "runtime": "img/materials/region_8-torch1.png",
+      "sha256": "6b2ed8fb887f3e397beef6d0596abefa8e5eb29543e024a4a9a59e79479df5b2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-torch2.png",
+      "runtime": "img/materials/region_8-torch2.png",
+      "sha256": "a7fe0be0f9a2dc8a7f779997a424d8d8e58accb9858f01700c97cece6d10262a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-decor0.png",
+      "runtime": "img/materials/region_8-decor0.png",
+      "sha256": "ff7f27ca33b52d182561a681dd172b49459f1fa97a76175094d6bdf1e5579170"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-decor1.png",
+      "runtime": "img/materials/region_8-decor1.png",
+      "sha256": "57288bbdc303c77937263c4a174e1be4c0d4937f3f3f1bce0d4ae1db4416bdcd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-decor2.png",
+      "runtime": "img/materials/region_8-decor2.png",
+      "sha256": "78b5952036fef44c5634d1f7b2b138f398f020cac9234a267d4d027497231f8a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-decor3.png",
+      "runtime": "img/materials/region_8-decor3.png",
+      "sha256": "66ae0d0e00ab2df8dddf432e375ecfc0ebaa941226a26a8427d6d17a88923798"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/8-decor4.png",
+      "runtime": "img/materials/region_8-decor4.png",
+      "sha256": "4f578d17d4fae761b3f4e885798ff1a7f655a2e04caacd5376a4c6be7242f666"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-door.png",
+      "runtime": "img/materials/region_9-door.png",
+      "sha256": "8a94d2f37731e8bdf88a384775f67ed354d81f5f092cb68aa6b0c8957a99c4e3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-cellDoor.png",
+      "runtime": "img/materials/region_9-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-pillar.png",
+      "runtime": "img/materials/region_9-pillar.png",
+      "sha256": "c3ec059bfb5c9348fa3866cc36ee8c1766ff2336d7a305b1b2b185f065a0e5dd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-stairsUp.png",
+      "runtime": "img/materials/region_9-stairsUp.png",
+      "sha256": "65b3ff8df2ed9550545ca2a4f37bbb4a3077018e2aa92df5d29a4da7c1050f02"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-stairsDown.png",
+      "runtime": "img/materials/region_9-stairsDown.png",
+      "sha256": "658d0abc6a13226be2cd6f298f6d8ac4f5ba8752a249bef3076f6bcfa09a1b38"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-stairsUpBack.png",
+      "runtime": "img/materials/region_9-stairsUpBack.png",
+      "sha256": "458d782169a545104a93c8ee27ba018e5975332ed2fd33968e10a0e2fa8f980a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-stairsDownBack.png",
+      "runtime": "img/materials/region_9-stairsDownBack.png",
+      "sha256": "095a86557f822b7ffdc91aa7fe9dda6c0d4d4122249cf1d7cc6a17aa6fa5c7ff"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-stairArch.png",
+      "runtime": "img/materials/region_9-stairArch.png",
+      "sha256": "fe4c325f52a1396821fd668b33ee2a839f48292c9c153c574f2290e4596d3803"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor1.png",
+      "runtime": "img/materials/region_9-floor1.png",
+      "sha256": "a85569a997ec3ea723e56a86fa9101a6f985fd195690058bc5395c0ea0b92294"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor2.png",
+      "runtime": "img/materials/region_9-floor2.png",
+      "sha256": "5f10fb421a3988ae25c24877811c8ff1b16a91fe3a7898385aaec15710ac3021"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor3.png",
+      "runtime": "img/materials/region_9-floor3.png",
+      "sha256": "a62207de7dd0d897b06f390caabf349e08b34c62c13f665236fb51face19fc4f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor4.png",
+      "runtime": "img/materials/region_9-floor4.png",
+      "sha256": "106fdc972bf843655ab72343d464fb1449cafbe8539300b47185978ebce7d4c3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor5.png",
+      "runtime": "img/materials/region_9-floor5.png",
+      "sha256": "18879ad25225dc78e8109d857c054e7dc7440fd2333becfd90380dee198f98b0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-floor6.png",
+      "runtime": "img/materials/region_9-floor6.png",
+      "sha256": "a94d34ed1b92743ffb623fbf85a2ea2b04680c9a4710c6102f0c5a7d31382340"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-ceil1.png",
+      "runtime": "img/materials/region_9-ceil1.png",
+      "sha256": "8194d4ff4c741c6b09113c4119a6b17eb91e04cafe7eda863df145570ade981d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-ceil2.png",
+      "runtime": "img/materials/region_9-ceil2.png",
+      "sha256": "ad6757d32a4c3903b4fa33be86c563aa34cf84df298cf0aa5525f4d53b61ed73"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-ceil3.png",
+      "runtime": "img/materials/region_9-ceil3.png",
+      "sha256": "3f1c0cb975035eb23ee789be59c4d9d8b4d8c3d2e9cacf502e6d5b1e2793653c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-wallB.png",
+      "runtime": "img/materials/region_9-wallB.png",
+      "sha256": "6a33e8d470febf28aaea24cf27e9d958d876070f9b11b535e37bb027cddabaca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-wallDamp.png",
+      "runtime": "img/materials/region_9-wallDamp.png",
+      "sha256": "a0b07016650ca4322828eb04d8c02fa324da23d2c408f5fd92c65ec179fd94fd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-wallCracked.png",
+      "runtime": "img/materials/region_9-wallCracked.png",
+      "sha256": "3ece6f894ccb231f1a7acb5d4b8073d66c5e788ff8c1b1568cdb4d74e3a98bf0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-rock.png",
+      "runtime": "img/materials/region_9-rock.png",
+      "sha256": "ae425333313259d78ac731b736def83845c4b56b706f859be65ea58e4d1e701e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-fallen.png",
+      "runtime": "img/materials/region_9-fallen.png",
+      "sha256": "7e5ab444bf81e4b596aaeae32e3f0f31d6b2dab199073f59b0c0ef53fe570ec0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-rockPillar.png",
+      "runtime": "img/materials/region_9-rockPillar.png",
+      "sha256": "210fa305299d91d0985dd351c417e9a86fe1c3d1fa0552325aa18879511cba21"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-fountain.png",
+      "runtime": "img/materials/region_9-fountain.png",
+      "sha256": "61c5b66c2467f531a8c36f6958d28aa73a7f986a7e5ec44d77816728bf8221d6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-fountainDry.png",
+      "runtime": "img/materials/region_9-fountainDry.png",
+      "sha256": "47c8dac171383892c41e970de6f21d3e1a1f6868ba4c968cc6e477ceeb9e23b8"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-torch0.png",
+      "runtime": "img/materials/region_9-torch0.png",
+      "sha256": "8f6e6d1398d67e1dd7b48b9c33eb2d310c0c336b5165ae4c2a8ffec1225ad3f3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-torch1.png",
+      "runtime": "img/materials/region_9-torch1.png",
+      "sha256": "25a0691f6e2c8a507d0b5f36375deff7d1cc61ce83f83f5e10cd3f399a8983da"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-torch2.png",
+      "runtime": "img/materials/region_9-torch2.png",
+      "sha256": "e8abd9b0d97190682ce4555056597175a237fb50c9d72586e453a953b6eca176"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-decor0.png",
+      "runtime": "img/materials/region_9-decor0.png",
+      "sha256": "9d0f926de4b501986bb8e3254213547713009e92c4e8af638c3a7d8bede2e0ad"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-decor1.png",
+      "runtime": "img/materials/region_9-decor1.png",
+      "sha256": "25bef4dc67b2c38bb448a2fc23338ce0eca4a5c135bbcd77eeb512ea2018bddb"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-decor2.png",
+      "runtime": "img/materials/region_9-decor2.png",
+      "sha256": "8ef23f061b426f9ee69dfb7d9863b9b72765bb3610f6dd73267ae33b48ead0e0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-decor3.png",
+      "runtime": "img/materials/region_9-decor3.png",
+      "sha256": "580dde05c34581c5a46a2e5c781656f8065d3f4a7328352051f7546fe061d476"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/9-decor4.png",
+      "runtime": "img/materials/region_9-decor4.png",
+      "sha256": "6804eabf56562aaa2dce69a1747427c2d2d731ff673e875da416fd929bc00d26"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-door.png",
+      "runtime": "img/materials/region_10-door.png",
+      "sha256": "9e0d8fce1142a4c0ad85b140dfac59bc37d97c19fe1d9eb885ef2b340300439e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-cellDoor.png",
+      "runtime": "img/materials/region_10-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-pillar.png",
+      "runtime": "img/materials/region_10-pillar.png",
+      "sha256": "ffae4b35afa56c51032d9205733ad58c8579d7b94d92033a274b0c2b3fb51dab"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-stairsUp.png",
+      "runtime": "img/materials/region_10-stairsUp.png",
+      "sha256": "fed48cdd98665c09d2340b725785dd07654b219c920582208e73b07d5e30a8f3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-stairsDown.png",
+      "runtime": "img/materials/region_10-stairsDown.png",
+      "sha256": "79ed61491554b77581265acdb12945ca8a08d8aafe78958afa83f57348db3809"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-stairsUpBack.png",
+      "runtime": "img/materials/region_10-stairsUpBack.png",
+      "sha256": "be483928fb6c032db0aa3a9bab32864edf65d7b31650b0439e37dba1296ef216"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-stairsDownBack.png",
+      "runtime": "img/materials/region_10-stairsDownBack.png",
+      "sha256": "bb2cf98ec14b4b7ccdb14af1c2520eb36d0fc07d4b2fb97f914bd0a57082a88c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-stairArch.png",
+      "runtime": "img/materials/region_10-stairArch.png",
+      "sha256": "bb4c6cc7b76f4d7a20136a4002292f5e443a2df786540ab4ceb119c75928dff7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor1.png",
+      "runtime": "img/materials/region_10-floor1.png",
+      "sha256": "c1ed873cb80811945da13dbcf5cba588abfa575ca123cc670268df82af267c02"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor2.png",
+      "runtime": "img/materials/region_10-floor2.png",
+      "sha256": "c967c3cd1eb6b1efb94469d8efd50d9c1063beaaa78075196a4a15674b8b36c6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor3.png",
+      "runtime": "img/materials/region_10-floor3.png",
+      "sha256": "56d465bb12837273496ad0a18e08c243bb8e89eb0606118c05bc8503bc371269"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor4.png",
+      "runtime": "img/materials/region_10-floor4.png",
+      "sha256": "c42ed0ba04bfbc80e5904d046f233d8e6adc53dac46b33b750fe99434b2129f6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor5.png",
+      "runtime": "img/materials/region_10-floor5.png",
+      "sha256": "4f95dc61752869f5c8090ea1264894820d3d3cb5ac84908690c4b920d84f515d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-floor6.png",
+      "runtime": "img/materials/region_10-floor6.png",
+      "sha256": "50dd4a3d6c9a969b2d8062324efb439406576b942407d994ee61ad992882ab9e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-ceil1.png",
+      "runtime": "img/materials/region_10-ceil1.png",
+      "sha256": "2e9674cdd1f2252f8a8a929f5b7af2d819c8795b8da22cefa9f8be21b49fcfce"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-ceil2.png",
+      "runtime": "img/materials/region_10-ceil2.png",
+      "sha256": "145493cbeffb39ba82a93084e71a08858f293afadbcb0d61268dbd4385ec380f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-ceil3.png",
+      "runtime": "img/materials/region_10-ceil3.png",
+      "sha256": "91edd6d1366d577ac82d524fedabfa5d7b726571363b1e3aa42f94cbf6430e51"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-wallB.png",
+      "runtime": "img/materials/region_10-wallB.png",
+      "sha256": "cea184d8c7846f39fd185b151dde912366a4fa3d74330210bfb65f717a287cca"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-wallDamp.png",
+      "runtime": "img/materials/region_10-wallDamp.png",
+      "sha256": "56c1b516f4db363d94cb5cf560456de6386d8ba3b9b185fcc11aa5bdf9e830e2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-wallCracked.png",
+      "runtime": "img/materials/region_10-wallCracked.png",
+      "sha256": "5e0f6426d39fbb88b8909e979496d772bc216d13bb4ce597cb7eda4e9a99cd05"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-rock.png",
+      "runtime": "img/materials/region_10-rock.png",
+      "sha256": "a77a8c6f8b3d1d683b7c8f29bd71f9a3b571a7a0684bde78421db980f06b0be7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-fallen.png",
+      "runtime": "img/materials/region_10-fallen.png",
+      "sha256": "0066e74a3ccb6a5eb7adfa162ccc4accb16e82032fd4b61e9ffd994690be7501"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-rockPillar.png",
+      "runtime": "img/materials/region_10-rockPillar.png",
+      "sha256": "fb96b5b8c14c4a84e6977acc33d29ea530a04db2dbe3f23665846bb75b77b5bd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-fountain.png",
+      "runtime": "img/materials/region_10-fountain.png",
+      "sha256": "b769b1e3ebb03e02444dc9022b2ca6d249b5a163c4fd3825979b2169d9f431ac"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-fountainDry.png",
+      "runtime": "img/materials/region_10-fountainDry.png",
+      "sha256": "722929dd1d9b7d742e94dffe68f2c3cb1e11798d5cc9093b451e3ecca5832731"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-torch0.png",
+      "runtime": "img/materials/region_10-torch0.png",
+      "sha256": "53462e2ed3330f629eae86de57f7e3a196ae6ad4604b6bd734496874d06b7fe9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-torch1.png",
+      "runtime": "img/materials/region_10-torch1.png",
+      "sha256": "36337e09dd07db5df5ea9f95449f8aa2c21578305661b3682e45d1c8edbed009"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-torch2.png",
+      "runtime": "img/materials/region_10-torch2.png",
+      "sha256": "30202808521ad25d317d369bd93aa9eed92703d11e666ea2210b4919565fe592"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-decor0.png",
+      "runtime": "img/materials/region_10-decor0.png",
+      "sha256": "a4e07d20465a840fc4585651d96be635bf7428d0d94a44065ada061cb7b5f63e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-decor1.png",
+      "runtime": "img/materials/region_10-decor1.png",
+      "sha256": "aec3cd83a6033c56b843d19578ae2de3569a2a6b6673c87e28ab16558f209dfc"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-decor2.png",
+      "runtime": "img/materials/region_10-decor2.png",
+      "sha256": "1d01b696f428dee152cf24789c8904dd8af5af1957ff8ec739b2ab303abf3ce9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/10-decor3.png",
+      "runtime": "img/materials/region_10-decor3.png",
+      "sha256": "38ae2d57cc19ed4021c28893b364d8aab4e80d10e3fff542a4a28f80067ea8c6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-door.png",
+      "runtime": "img/materials/region_11-door.png",
+      "sha256": "f9e24708c2682b7652ad9ebaa147e94c93b02caaab3b7db62278cfbf051ead16"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-cellDoor.png",
+      "runtime": "img/materials/region_11-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-pillar.png",
+      "runtime": "img/materials/region_11-pillar.png",
+      "sha256": "46351449cc1f91272b4e9cd137f0e057a5e8bc9f0148dc03e8dcf415a3547386"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-stairsUp.png",
+      "runtime": "img/materials/region_11-stairsUp.png",
+      "sha256": "3ee63c1ec89d2722314f44261034ac357a8723157c1ac5966e8da5872d8ed40c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-stairsDown.png",
+      "runtime": "img/materials/region_11-stairsDown.png",
+      "sha256": "4cbbab4157f6bedfae273f85f0d2fc9fdb5394cf2695df2223083f86cf53918c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-stairsUpBack.png",
+      "runtime": "img/materials/region_11-stairsUpBack.png",
+      "sha256": "90b5c6985bebae09a6601f5d08d117abde93ae4f9bb3abe10ed64e44c4df9ed2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-stairsDownBack.png",
+      "runtime": "img/materials/region_11-stairsDownBack.png",
+      "sha256": "859a49f2ce963dd175d0c797d604f1fe459dfb4b084bced2827c6ffcff09bbed"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-stairArch.png",
+      "runtime": "img/materials/region_11-stairArch.png",
+      "sha256": "fb53a391af87a718306d9717eb34d4bed410cd09b37c4e368fb7669cc591f3cd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor1.png",
+      "runtime": "img/materials/region_11-floor1.png",
+      "sha256": "d83251630b10909cb9ff8199d00ed3c2412ea66974d19ad961873aa6d07588e1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor2.png",
+      "runtime": "img/materials/region_11-floor2.png",
+      "sha256": "b389a049c88d488c07d3763b4b0e47b9209d9a44b1f2c42cb2b2850e19b478d6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor3.png",
+      "runtime": "img/materials/region_11-floor3.png",
+      "sha256": "01b826264ab97b6bf0663179c1bdf25892cd59422a2a60459bfcd714fcb049a2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor4.png",
+      "runtime": "img/materials/region_11-floor4.png",
+      "sha256": "b5a4b5a34ba578119e6c31116250424b68dbee86bf0e5c9d6b35acb2868f7ae4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor5.png",
+      "runtime": "img/materials/region_11-floor5.png",
+      "sha256": "f9c24564909ef5f8b38a0dccb0a578cb1b189dd4d2fe885fcefc2e7cd1ae5b12"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-floor6.png",
+      "runtime": "img/materials/region_11-floor6.png",
+      "sha256": "0332a5542a51231a4edbace088db5ab871005422c58ecbd95dd6f89c697d1d8b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-ceil1.png",
+      "runtime": "img/materials/region_11-ceil1.png",
+      "sha256": "793eabe38c2184c722fd53829baa50050d1527120beb4389f3a26a09fa554b9f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-ceil2.png",
+      "runtime": "img/materials/region_11-ceil2.png",
+      "sha256": "370edc676c1096eb74b1e72da71b4770f30fbae10feb384c38becfeb00857e3d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-ceil3.png",
+      "runtime": "img/materials/region_11-ceil3.png",
+      "sha256": "1c76d5cc57cb2bdef76cc86ffd46cbac785d54f8589ea045d3bd157ba7871a4e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-wallB.png",
+      "runtime": "img/materials/region_11-wallB.png",
+      "sha256": "eac7c7bc8cf4dec004d5200d48d51439d70d3ca7726e1aa7845932d0633c3a8e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-wallDamp.png",
+      "runtime": "img/materials/region_11-wallDamp.png",
+      "sha256": "980aba6be06d8c296b7d8882c2e6abc7716fd8cf8d19b0d2088e9af8ddcca300"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-wallCracked.png",
+      "runtime": "img/materials/region_11-wallCracked.png",
+      "sha256": "c3b5e45c5704f2a77f34f41ab831c68e34c2767921aec0818cc87eaa32cdb3e1"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-rock.png",
+      "runtime": "img/materials/region_11-rock.png",
+      "sha256": "752e8a52b76360e780f56636fa088d2a58afda60c64f6f10ec52fd67d7751cfe"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-fallen.png",
+      "runtime": "img/materials/region_11-fallen.png",
+      "sha256": "249ad4575d579881f93191157628cbd1a0fe55c45acdaf1acf1d2b96265e794a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-rockPillar.png",
+      "runtime": "img/materials/region_11-rockPillar.png",
+      "sha256": "6a91e3ace4849c6d04fda1b13fc596db5a0d333e207c76f6cb506cd76517cc5c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-fountain.png",
+      "runtime": "img/materials/region_11-fountain.png",
+      "sha256": "cd12356c5f048ca1522af842f5a808f4f527e391207619d418c2f5c3cacb3669"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-fountainDry.png",
+      "runtime": "img/materials/region_11-fountainDry.png",
+      "sha256": "01fe7201b39c808a8927d08547e6bc95f4208c997db7c481c09b283348e4cb47"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-torch0.png",
+      "runtime": "img/materials/region_11-torch0.png",
+      "sha256": "06aed7e004886e6f5e20966f553427a8a000592ef09085693ac19b2263c08f5a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-torch1.png",
+      "runtime": "img/materials/region_11-torch1.png",
+      "sha256": "32c2eb59cde55ea0fe9610fddb42fef4a55e6c6a54307545ae76c9ff32609f0c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-torch2.png",
+      "runtime": "img/materials/region_11-torch2.png",
+      "sha256": "8748f20f432d402dbec59ce53c026941e0c1d68132cbdaf71ab0095e13701575"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor0.png",
+      "runtime": "img/materials/region_11-decor0.png",
+      "sha256": "2f7412a824fd7e1031d4fc98e86d813c770924734654587a099aa74afc2ba60f"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor1.png",
+      "runtime": "img/materials/region_11-decor1.png",
+      "sha256": "be88f25e5a3e1aa1b40d7dfc5bfd102a18072264fcee3ef3825fdc99bf63d1f4"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor2.png",
+      "runtime": "img/materials/region_11-decor2.png",
+      "sha256": "1048c34981d28b4db684a0b2556fbac8966bfd3160491b8c82a2f1296bbe7fb3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor3.png",
+      "runtime": "img/materials/region_11-decor3.png",
+      "sha256": "35c30a10138bad96a0d98bca0b3cf31404c62f033a2cff743e36d89c44169dd0"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor4.png",
+      "runtime": "img/materials/region_11-decor4.png",
+      "sha256": "df4227aa50ed1c7cf75ffb904839158990c569e3600189989b029e26197c1c41"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/11-decor5.png",
+      "runtime": "img/materials/region_11-decor5.png",
+      "sha256": "8ed0410785411c1995b500025f8ac6c971523579c87ba77f6fcced64d6ce8d6d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-door.png",
+      "runtime": "img/materials/region_12-door.png",
+      "sha256": "925539f1046cf65c180df18a1045f85948ee78e14cbc86e0f57e4f1a53869ffe"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-cellDoor.png",
+      "runtime": "img/materials/region_12-cellDoor.png",
+      "sha256": "28aff01b35a58ee130266c3bc25d7a53eed0e68b824f27ce51717d81f435369d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-pillar.png",
+      "runtime": "img/materials/region_12-pillar.png",
+      "sha256": "3cccaa224bbe29044d484cead83ecff83684fc3e5c2f11a0b5448080aafb7fc2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-stairsUp.png",
+      "runtime": "img/materials/region_12-stairsUp.png",
+      "sha256": "a3b1090e439cc835af34920da8dd1dfd71156a7f68a1e88afe1e713b2fa47b1a"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-stairsDown.png",
+      "runtime": "img/materials/region_12-stairsDown.png",
+      "sha256": "f2df7743624df1ac4344b8a35bb42b0d09a994cd6f92f2b320295adfc5af4362"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-stairsUpBack.png",
+      "runtime": "img/materials/region_12-stairsUpBack.png",
+      "sha256": "55c30208ea4debeea01cfc5181fc6cf3ea37bed82a545302ed1e28ab88ce3711"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-stairsDownBack.png",
+      "runtime": "img/materials/region_12-stairsDownBack.png",
+      "sha256": "35a4698a477929c9ab3a966ab525acb57519991eb8a662e60f8bef7385935a27"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-stairArch.png",
+      "runtime": "img/materials/region_12-stairArch.png",
+      "sha256": "3830d8493cb6542ef75d6450e391872e489c50a2239139efcf4178d8a257e418"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor1.png",
+      "runtime": "img/materials/region_12-floor1.png",
+      "sha256": "d45aa0fc66459a58003add8ef47d5a38789dac3884878c9ce6c41d79a8cddde5"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor2.png",
+      "runtime": "img/materials/region_12-floor2.png",
+      "sha256": "bb889a7ef5a51b86d79c5bdc8911d2096b980430390686f6c968705b4aa636cd"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor3.png",
+      "runtime": "img/materials/region_12-floor3.png",
+      "sha256": "88f52d044cacac46948a2e28c180376a70f453ccac2529c71b13be7759054dd6"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor4.png",
+      "runtime": "img/materials/region_12-floor4.png",
+      "sha256": "36b41602c10264e3063ecdf5ef984de5adf0f8cd4832df1e95f4be7b756278c9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor5.png",
+      "runtime": "img/materials/region_12-floor5.png",
+      "sha256": "b939c90fa58684d6d78e67e3baedc39e97ce2c68d5c980e553ab9667178a9930"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-floor6.png",
+      "runtime": "img/materials/region_12-floor6.png",
+      "sha256": "d579c9990051795f79faf27bd842c649504841b77ffaf31dd0af98fa21c9b9b7"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-ceil1.png",
+      "runtime": "img/materials/region_12-ceil1.png",
+      "sha256": "e880d4241fd6628ace885dcac17931fe879bd7b5aa04bfa8588afcfb85a36447"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-ceil2.png",
+      "runtime": "img/materials/region_12-ceil2.png",
+      "sha256": "e9490c3216592ec169be4f8ee2023ebe4bfb4bd3f296fae7022ac9b7a152fc95"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-ceil3.png",
+      "runtime": "img/materials/region_12-ceil3.png",
+      "sha256": "4b61162e1e88b0f9586f43f0041c81125f4c5a4037980fd0ca2a33fdb032722d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-wallB.png",
+      "runtime": "img/materials/region_12-wallB.png",
+      "sha256": "98cf569b0b53b52648e2c6de7b368dba0344910ea12e8ea2462813a7c7f48766"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-wallDamp.png",
+      "runtime": "img/materials/region_12-wallDamp.png",
+      "sha256": "c6b209ccd753e8e96427eceba09bb4e031fe982df1fa1ceecf97b3e7357b254c"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-wallCracked.png",
+      "runtime": "img/materials/region_12-wallCracked.png",
+      "sha256": "8241fa92dd34a7b6afa99a6b9dc8ce26412e8076e010aa05244929adff622601"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-rock.png",
+      "runtime": "img/materials/region_12-rock.png",
+      "sha256": "3c47a9cfc764690fe79d3cc51ad4e5d4a766a0bfe3c0ee2930ef9e62527a8e9e"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-fallen.png",
+      "runtime": "img/materials/region_12-fallen.png",
+      "sha256": "c3c69a82aef1b2019f8062eaa94c00ae8ab2cc9251219cb9a0ce6db2b4a507c2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-rockPillar.png",
+      "runtime": "img/materials/region_12-rockPillar.png",
+      "sha256": "da4ac2b91a5be563feb89ada0703fc5844f51d65ae0edc11b976e40f3d97bfb9"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-fountain.png",
+      "runtime": "img/materials/region_12-fountain.png",
+      "sha256": "6ae714453dc12c99868fb65d7a3bf227167979ca874352a2da0f0ce3cebdf4d3"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-fountainDry.png",
+      "runtime": "img/materials/region_12-fountainDry.png",
+      "sha256": "243f57723e5145d94d48e521a4b41f0c632b60a379eec5eb361834161a8636fe"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-torch0.png",
+      "runtime": "img/materials/region_12-torch0.png",
+      "sha256": "7ebcc9c6c24d7b34ee764fa5b62372925a1d4db2475665e7465e0c0d92062812"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-torch1.png",
+      "runtime": "img/materials/region_12-torch1.png",
+      "sha256": "7e96a7cbc123b0dadbefd3d979b8e718855ad249deb170ab57ec2f06ce62a79d"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-torch2.png",
+      "runtime": "img/materials/region_12-torch2.png",
+      "sha256": "6d674093a286bda9839ae8e2157276edf3af06c563bdbb397bf802df99b80bce"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-decor0.png",
+      "runtime": "img/materials/region_12-decor0.png",
+      "sha256": "9b94e9df0801a460754495d2c48ac206871291feb4f4b2d01997e3dc0a534386"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-decor1.png",
+      "runtime": "img/materials/region_12-decor1.png",
+      "sha256": "a6ec4f80488c69d259986b8471b09800a499bc305f98f5367b3eabf9c63f831b"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-decor2.png",
+      "runtime": "img/materials/region_12-decor2.png",
+      "sha256": "6116740e969f4ec2801dc9a1e72e4828fecf7ea68bc52aa0487e1ca9c6207e90"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-decor3.png",
+      "runtime": "img/materials/region_12-decor3.png",
+      "sha256": "8126c262a0bd88ec5aa392692be3c041028aeb2b93c949028dbf4bc13d2c8ca2"
+    },
+    {
+      "source": "art/creatures/batch-ag-ah-preview/12-decor4.png",
+      "runtime": "img/materials/region_12-decor4.png",
+      "sha256": "2db640e7df7a2ba693b62a37cac9aeec1ce04f9e71e16d527f0cd2a97362e336"
     }
   ],
   "exclusions": {
-    "stairArch": "Original exact collision/occlusion alpha mask retained; painted source differs by26 pixels.",
+    "stairArch": "Painted surfaces are composed once within the original exact arch alpha; source candidates remain unchanged.",
     "amulet_tooth": "Reserve source; seeded amulet look must not reveal identity.",
     "reserve poses": "Unused poses are not new gameplay actions.",
-    "R/S regional variants": "Only approved Grey Halls baseline exists; preserve other regional details and coloured locks."
+    "regional architecture": "Native gate edges and coloured lock plates are retained in cached composition; all regional texture sources are demand-loaded."
   }
 }

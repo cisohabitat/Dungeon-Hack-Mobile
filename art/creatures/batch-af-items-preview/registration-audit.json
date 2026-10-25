@@ -1,0 +1,2027 @@
+{
+  "wayfarer_lantern": {
+    "source_rect": [
+      80,
+      52,
+      341,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      255,
+      369
+    ]
+  },
+  "ring_garnet": {
+    "source_rect": [
+      1365,
+      125,
+      1735,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      364,
+      296
+    ]
+  },
+  "ring_silver": {
+    "source_rect": [
+      477,
+      126,
+      846,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      363,
+      295
+    ]
+  },
+  "ring_gold": {
+    "source_rect": [
+      921,
+      126,
+      1292,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      365,
+      295
+    ]
+  },
+  "ring_forge": {
+    "source_rect": [
+      1363,
+      522,
+      1738,
+      827
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      369,
+      299
+    ]
+  },
+  "ring_copper": {
+    "source_rect": [
+      477,
+      523,
+      849,
+      828
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      366,
+      299
+    ]
+  },
+  "ring_onyx": {
+    "source_rect": [
+      33,
+      524,
+      407,
+      828
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      368,
+      298
+    ]
+  },
+  "ring_black": {
+    "source_rect": [
+      921,
+      524,
+      1295,
+      828
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      368,
+      298
+    ]
+  },
+  "amulet_amber": {
+    "source_rect": [
+      1396,
+      28,
+      1734,
+      423
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      332,
+      389
+    ]
+  },
+  "ring_iron": {
+    "source_rect": [
+      926,
+      150,
+      1293,
+      378
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      361,
+      222
+    ]
+  },
+  "ring_jade": {
+    "source_rect": [
+      35,
+      153,
+      403,
+      382
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      362,
+      223
+    ]
+  },
+  "ring_bone": {
+    "source_rect": [
+      478,
+      153,
+      846,
+      381
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      362,
+      222
+    ]
+  },
+  "amulet_silver": {
+    "source_rect": [
+      58,
+      459,
+      386,
+      852
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      322,
+      387
+    ]
+  },
+  "amulet_obsidian": {
+    "source_rect": [
+      502,
+      459,
+      829,
+      852
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      321,
+      387
+    ]
+  },
+  "amulet_spider": {
+    "source_rect": [
+      1389,
+      459,
+      1715,
+      863
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      320,
+      398
+    ]
+  },
+  "amulet_bone": {
+    "source_rect": [
+      940,
+      460,
+      1278,
+      852
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      332,
+      386
+    ]
+  },
+  "longsword": {
+    "source_rect": [
+      1376,
+      23,
+      1743,
+      407
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      361,
+      378
+    ]
+  },
+  "scimitar": {
+    "source_rect": [
+      41,
+      69,
+      452,
+      400
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      405,
+      325
+    ]
+  },
+  "shortsword": {
+    "source_rect": [
+      964,
+      97,
+      1262,
+      407
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      292,
+      304
+    ]
+  },
+  "dagger": {
+    "source_rect": [
+      565,
+      137,
+      805,
+      384
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      234,
+      241
+    ]
+  },
+  "greatsword": {
+    "source_rect": [
+      41,
+      447,
+      471,
+      861
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      424,
+      408
+    ]
+  },
+  "staff": {
+    "source_rect": [
+      1348,
+      465,
+      1743,
+      850
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      389,
+      379
+    ]
+  },
+  "club": {
+    "source_rect": [
+      952,
+      487,
+      1298,
+      835
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      340,
+      342
+    ]
+  },
+  "throwknife": {
+    "source_rect": [
+      524,
+      517,
+      885,
+      835
+    ],
+    "selected_components": 3,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      355,
+      312
+    ]
+  },
+  "spear": {
+    "source_rect": [
+      50,
+      30,
+      439,
+      415
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      383,
+      379
+    ]
+  },
+  "hammer": {
+    "source_rect": [
+      920,
+      34,
+      1292,
+      411
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      366,
+      371
+    ]
+  },
+  "mace": {
+    "source_rect": [
+      494,
+      47,
+      865,
+      411
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      365,
+      358
+    ]
+  },
+  "flail": {
+    "source_rect": [
+      1346,
+      138,
+      1754,
+      397
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      402,
+      253
+    ]
+  },
+  "longbow": {
+    "source_rect": [
+      1364,
+      430,
+      1746,
+      871
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      376,
+      435
+    ]
+  },
+  "shortbow": {
+    "source_rect": [
+      922,
+      453,
+      1282,
+      843
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      354,
+      384
+    ]
+  },
+  "battleaxe": {
+    "source_rect": [
+      48,
+      454,
+      410,
+      857
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      356,
+      397
+    ]
+  },
+  "sling": {
+    "source_rect": [
+      474,
+      487,
+      850,
+      817
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      370,
+      324
+    ]
+  },
+  "leather": {
+    "source_rect": [
+      20,
+      35,
+      422,
+      406
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      396,
+      365
+    ]
+  },
+  "studded": {
+    "source_rect": [
+      466,
+      35,
+      865,
+      404
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      393,
+      363
+    ]
+  },
+  "scale": {
+    "source_rect": [
+      908,
+      36,
+      1312,
+      398
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      398,
+      356
+    ]
+  },
+  "wyrmscale": {
+    "source_rect": [
+      1349,
+      36,
+      1756,
+      407
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      401,
+      365
+    ]
+  },
+  "robe_apprentice": {
+    "source_rect": [
+      1332,
+      446,
+      1767,
+      856
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      429,
+      404
+    ]
+  },
+  "plate": {
+    "source_rect": [
+      893,
+      453,
+      1324,
+      853
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      425,
+      394
+    ]
+  },
+  "chain": {
+    "source_rect": [
+      6,
+      455,
+      441,
+      845
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      429,
+      384
+    ]
+  },
+  "splint": {
+    "source_rect": [
+      469,
+      456,
+      863,
+      840
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      388,
+      378
+    ]
+  },
+  "robe_silk": {
+    "source_rect": [
+      33,
+      26,
+      427,
+      411
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      388,
+      379
+    ]
+  },
+  "robe_warded": {
+    "source_rect": [
+      473,
+      26,
+      867,
+      412
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      388,
+      380
+    ]
+  },
+  "robe_magi": {
+    "source_rect": [
+      909,
+      26,
+      1304,
+      410
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      389,
+      378
+    ]
+  },
+  "buckler": {
+    "source_rect": [
+      1381,
+      66,
+      1710,
+      399
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      323,
+      327
+    ]
+  },
+  "quillshield": {
+    "source_rect": [
+      452,
+      412,
+      896,
+      854
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      438,
+      436
+    ]
+  },
+  "towershield": {
+    "source_rect": [
+      950,
+      421,
+      1273,
+      861
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      317,
+      434
+    ]
+  },
+  "shield": {
+    "source_rect": [
+      68,
+      432,
+      392,
+      844
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      318,
+      406
+    ]
+  },
+  "cloak_protect": {
+    "source_rect": [
+      1343,
+      442,
+      1737,
+      851
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      388,
+      403
+    ]
+  },
+  "cloak_shadow": {
+    "source_rect": [
+      503,
+      51,
+      863,
+      439
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      354,
+      382
+    ]
+  },
+  "cloak_elven": {
+    "source_rect": [
+      64,
+      52,
+      425,
+      438
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      355,
+      380
+    ]
+  },
+  "cloak_warmth": {
+    "source_rect": [
+      940,
+      52,
+      1307,
+      440
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      361,
+      382
+    ]
+  },
+  "spellbook": {
+    "source_rect": [
+      1385,
+      61,
+      1733,
+      425
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      342,
+      358
+    ]
+  },
+  "silver_symbol": {
+    "source_rect": [
+      1379,
+      466,
+      1722,
+      855
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      337,
+      383
+    ]
+  },
+  "holy_symbol": {
+    "source_rect": [
+      952,
+      467,
+      1291,
+      853
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      333,
+      380
+    ]
+  },
+  "reliquary": {
+    "source_rect": [
+      71,
+      45,
+      379,
+      422
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      302,
+      371
+    ]
+  },
+  "potion_green": {
+    "source_rect": [
+      1510,
+      46,
+      1626,
+      434
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      110,
+      382
+    ]
+  },
+  "potion_pink": {
+    "source_rect": [
+      965,
+      62,
+      1277,
+      434
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      306,
+      366
+    ]
+  },
+  "potion_red": {
+    "source_rect": [
+      557,
+      86,
+      820,
+      434
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      257,
+      342
+    ]
+  },
+  "potion_orange": {
+    "source_rect": [
+      105,
+      451,
+      349,
+      842
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      238,
+      385
+    ]
+  },
+  "satchel": {
+    "source_rect": [
+      928,
+      460,
+      1302,
+      840
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      368,
+      374
+    ]
+  },
+  "quench": {
+    "source_rect": [
+      1413,
+      461,
+      1716,
+      844
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      297,
+      377
+    ]
+  },
+  "potion_blue": {
+    "source_rect": [
+      517,
+      528,
+      849,
+      838
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      326,
+      304
+    ]
+  },
+  "charm_fang": {
+    "source_rect": [
+      510,
+      35,
+      779,
+      447
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      263,
+      406
+    ]
+  },
+  "charm_whetstone": {
+    "source_rect": [
+      1402,
+      52,
+      1716,
+      458
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      308,
+      400
+    ]
+  },
+  "charm_rowan": {
+    "source_rect": [
+      999,
+      100,
+      1269,
+      453
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      264,
+      347
+    ]
+  },
+  "charm_collar": {
+    "source_rect": [
+      57,
+      155,
+      464,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      401,
+      266
+    ]
+  },
+  "oil_fire": {
+    "source_rect": [
+      52,
+      484,
+      408,
+      839
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      350,
+      349
+    ]
+  },
+  "lamp_oil": {
+    "source_rect": [
+      503,
+      484,
+      855,
+      839
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      346,
+      349
+    ]
+  },
+  "oil_silver": {
+    "source_rect": [
+      944,
+      484,
+      1298,
+      840
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      348,
+      350
+    ]
+  },
+  "oil_venom": {
+    "source_rect": [
+      1390,
+      484,
+      1740,
+      840
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      344,
+      350
+    ]
+  },
+  "page": {
+    "source_rect": [
+      972,
+      89,
+      1279,
+      461
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      301,
+      366
+    ]
+  },
+  "scroll": {
+    "source_rect": [
+      497,
+      93,
+      862,
+      476
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      359,
+      377
+    ]
+  },
+  "oil_frost": {
+    "source_rect": [
+      43,
+      113,
+      411,
+      461
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      362,
+      342
+    ]
+  },
+  "ration": {
+    "source_rect": [
+      1383,
+      133,
+      1743,
+      449
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      354,
+      310
+    ]
+  },
+  "meat": {
+    "source_rect": [
+      42,
+      492,
+      425,
+      835
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      377,
+      337
+    ]
+  },
+  "caps": {
+    "source_rect": [
+      504,
+      524,
+      861,
+      830
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      351,
+      300
+    ]
+  },
+  "bread": {
+    "source_rect": [
+      917,
+      562,
+      1313,
+      822
+    ],
+    "selected_components": 2,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      390,
+      254
+    ]
+  },
+  "gold": {
+    "source_rect": [
+      1377,
+      599,
+      1739,
+      832
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      356,
+      227
+    ]
+  },
+  "artifact": {
+    "source_rect": [
+      510,
+      74,
+      828,
+      432
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      312,
+      352
+    ]
+  },
+  "key": {
+    "source_rect": [
+      941,
+      82,
+      1294,
+      417
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      347,
+      329
+    ]
+  },
+  "key_brass": {
+    "source_rect": [
+      1385,
+      82,
+      1737,
+      417
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      346,
+      329
+    ]
+  },
+  "gem": {
+    "source_rect": [
+      74,
+      117,
+      404,
+      409
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      324,
+      286
+    ]
+  },
+  "key_silver": {
+    "source_rect": [
+      54,
+      488,
+      407,
+      824
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      347,
+      330
+    ]
+  },
+  "key_gold": {
+    "source_rect": [
+      498,
+      488,
+      850,
+      824
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      346,
+      330
+    ]
+  },
+  "key_iron": {
+    "source_rect": [
+      941,
+      488,
+      1294,
+      824
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      347,
+      330
+    ]
+  },
+  "key_bone": {
+    "source_rect": [
+      1385,
+      488,
+      1737,
+      824
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      346,
+      330
+    ]
+  },
+  "mythic_nightglass": {
+    "source_rect": [
+      1476,
+      43,
+      1708,
+      444
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      226,
+      395
+    ]
+  },
+  "mythic_mercys_oath": {
+    "source_rect": [
+      532,
+      46,
+      849,
+      440
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      311,
+      388
+    ]
+  },
+  "mythic_last_gate": {
+    "source_rect": [
+      77,
+      55,
+      403,
+      446
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      320,
+      385
+    ]
+  },
+  "mythic_bloodstar": {
+    "source_rect": [
+      972,
+      94,
+      1272,
+      459
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      294,
+      359
+    ]
+  },
+  "mythic_horizon": {
+    "source_rect": [
+      51,
+      449,
+      429,
+      848
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      372,
+      393
+    ]
+  },
+  "relic_whisper": {
+    "source_rect": [
+      1386,
+      463,
+      1744,
+      832
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      352,
+      363
+    ]
+  },
+  "mythic_elderseed": {
+    "source_rect": [
+      569,
+      473,
+      812,
+      835
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      237,
+      356
+    ]
+  },
+  "relic_grimtooth": {
+    "source_rect": [
+      932,
+      487,
+      1302,
+      844
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      364,
+      351
+    ]
+  },
+  "relic_ogres_toll": {
+    "source_rect": [
+      1362,
+      25,
+      1756,
+      437
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      388,
+      406
+    ]
+  },
+  "relic_dawnbringer": {
+    "source_rect": [
+      475,
+      52,
+      871,
+      437
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      390,
+      379
+    ]
+  },
+  "relic_thirst": {
+    "source_rect": [
+      35,
+      53,
+      417,
+      427
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      376,
+      368
+    ]
+  },
+  "relic_penitent": {
+    "source_rect": [
+      894,
+      162,
+      1326,
+      433
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      426,
+      265
+    ]
+  },
+  "relic_heartseeker": {
+    "source_rect": [
+      1387,
+      456,
+      1748,
+      848
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      355,
+      386
+    ]
+  },
+  "relic_emberwood": {
+    "source_rect": [
+      462,
+      462,
+      853,
+      843
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      385,
+      375
+    ]
+  },
+  "relic_ninth_circle": {
+    "source_rect": [
+      37,
+      477,
+      430,
+      845
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      387,
+      362
+    ]
+  },
+  "relic_vashti": {
+    "source_rect": [
+      957,
+      492,
+      1313,
+      831
+    ],
+    "selected_components": 3,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      350,
+      333
+    ]
+  },
+  "relic_kests_bulwark": {
+    "source_rect": [
+      1384,
+      46,
+      1712,
+      429
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      322,
+      377
+    ]
+  },
+  "relic_rustwarden": {
+    "source_rect": [
+      34,
+      62,
+      442,
+      403
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      402,
+      335
+    ]
+  },
+  "relic_shadowskin": {
+    "source_rect": [
+      462,
+      62,
+      858,
+      402
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      390,
+      334
+    ]
+  },
+  "relic_hearthwool": {
+    "source_rect": [
+      462,
+      449,
+      867,
+      847
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      399,
+      392
+    ]
+  },
+  "relic_midnight_folio": {
+    "source_rect": [
+      1380,
+      461,
+      1748,
+      844
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      362,
+      377
+    ]
+  },
+  "relic_sisters_buckler": {
+    "source_rect": [
+      49,
+      481,
+      392,
+      826
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      337,
+      339
+    ]
+  },
+  "relic_galewind": {
+    "source_rect": [
+      925,
+      13,
+      1335,
+      444
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      404,
+      425
+    ]
+  },
+  "relic_sextons_locket": {
+    "source_rect": [
+      1398,
+      13,
+      1738,
+      429
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      334,
+      410
+    ]
+  },
+  "relic_boarspear": {
+    "source_rect": [
+      435,
+      41,
+      827,
+      430
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      386,
+      383
+    ]
+  },
+  "relic_sparkglass": {
+    "source_rect": [
+      73,
+      83,
+      348,
+      435
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      269,
+      346
+    ]
+  },
+  "relic_spider_pendant": {
+    "source_rect": [
+      1396,
+      439,
+      1733,
+      868
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      331,
+      423
+    ]
+  },
+  "relic_oakheart": {
+    "source_rect": [
+      34,
+      454,
+      424,
+      851
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      384,
+      391
+    ]
+  },
+  "relic_mossmantle": {
+    "source_rect": [
+      474,
+      458,
+      860,
+      843
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      380,
+      379
+    ]
+  },
+  "relic_cinder_ring": {
+    "source_rect": [
+      951,
+      516,
+      1282,
+      845
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      325,
+      323
+    ]
+  },
+  "legend_bastion": {
+    "source_rect": [
+      1393,
+      29,
+      1729,
+      429
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      330,
+      394
+    ]
+  },
+  "relic_warchiefs_knuckle": {
+    "source_rect": [
+      941,
+      32,
+      1277,
+      421
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      330,
+      383
+    ]
+  },
+  "relic_hissra_tooth": {
+    "source_rect": [
+      485,
+      36,
+      855,
+      412
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      364,
+      370
+    ]
+  },
+  "relic_thane_ring": {
+    "source_rect": [
+      48,
+      51,
+      425,
+      404
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      371,
+      347
+    ]
+  },
+  "legend_lantern_mercy": {
+    "source_rect": [
+      928,
+      472,
+      1280,
+      836
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      346,
+      358
+    ]
+  },
+  "legend_cinderheart": {
+    "source_rect": [
+      1412,
+      481,
+      1707,
+      850
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      289,
+      363
+    ]
+  },
+  "legend_farstrider": {
+    "source_rect": [
+      1377,
+      18,
+      1762,
+      435
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      379,
+      411
+    ]
+  },
+  "legend_rimebound": {
+    "source_rect": [
+      54,
+      54,
+      418,
+      426
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      358,
+      366
+    ]
+  },
+  "legend_motley": {
+    "source_rect": [
+      901,
+      67,
+      1309,
+      417
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      402,
+      344
+    ]
+  },
+  "legend_last_word": {
+    "source_rect": [
+      495,
+      68,
+      845,
+      414
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      344,
+      340
+    ]
+  },
+  "legend_thornbinder": {
+    "source_rect": [
+      32,
+      451,
+      415,
+      846
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      377,
+      389
+    ]
+  },
+  "legend_moonbound": {
+    "source_rect": [
+      506,
+      508,
+      849,
+      824
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      337,
+      310
+    ]
+  },
+  "orb_storms": {
+    "source_rect": [
+      996,
+      95,
+      1601,
+      825
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      599,
+      724
+    ]
+  },
+  "crystal_orb": {
+    "source_rect": [
+      166,
+      96,
+      771,
+      825
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      599,
+      723
+    ]
+  },
+  "relic_archivist": {
+    "source_rect": [
+      931,
+      54,
+      1685,
+      810
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      748,
+      750
+    ]
+  },
+  "relic_briarcoat": {
+    "source_rect": [
+      105,
+      73,
+      883,
+      797
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      772,
+      718
+    ]
+  },
+  "legend_heartroot": {
+    "source_rect": [
+      146,
+      105,
+      1175,
+      1150
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      1023,
+      1039
+    ]
+  },
+  "legend_red_harvest": {
+    "source_rect": [
+      121,
+      97,
+      826,
+      781
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      699,
+      678
+    ]
+  },
+  "legend_sunhammer": {
+    "source_rect": [
+      1032,
+      137,
+      1689,
+      789
+    ],
+    "selected_components": 1,
+    "source_alpha32_bounds": [
+      6,
+      6,
+      651,
+      646
+    ]
+  }
+}

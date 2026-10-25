@@ -1,0 +1,353 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-ad-shields.md",
+  "status": "activated for 0.9.40; original source/review provenance retained",
+  "sheets": {
+    "ad1": {
+      "source": "held-ad1-shields.png",
+      "grid": [
+        3,
+        1
+      ],
+      "prompt": "Repaint FIRST reference as a horizontal strip of isolated first-person shield-carry sprites with equal square cells, true transparent RGBA. FIRST reference defines exact BACK view, object silhouette, left fist, anchored grip/strap, arm direction. SECOND reference defines mature gritty painted material quality and costume only, never substitute its shield shapes. All cells: BACK/rear of shield facing viewer, ONE closed LEFT fist curled around VERTICAL attached dark leather handle at shield centre, thumb opposing fingers, LEFT forearm runs diagonally DOWN-LEFT through snug connected dark leather forearm strap. Show handle mounts and forearm strap attached to shield, no floating fingers/straps or extra arms. Worn grain, scratched metal, matte stitched leather, rough cloth matching painted dark-fantasy monsters; no cartoon, toy shine or plastic. Entire shield including all tips and entire sleeve end INSIDE cell with at least8% clear transparent margins. No scene, lettering, border, black matte, backdrop, ground shadow, glow or front-facing heraldry. Exactly THREE cells. Each small ROUND wooden buckler has plain weathered riveted iron rim, brown rear planks and INSIDE of round central metal boss behind the fist. No point or tall shield shape. Same buckler construction and size across three cells. LEFT Fighter grey/steel armoured glove and grey cuff, coarse earth-brown sleeve. MIDDLE Cleric brown leather glove, restrained ochre-gold cuff, worn ivory/off-white sleeve. RIGHT Druid brown leather glove, muted leaf-green cuff and dark earth-brown cloth sleeve, no bark skin. Keep circle complete behind hand, not a front view.",
+      "references": [
+        "batch-ad-shields-preview/ad1-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "keys": [
+        "fighter-buckler",
+        "cleric-buckler",
+        "druid-buckler"
+      ],
+      "generated_original": "/workspace/generated_images/exec-b641db09-9732-4491-a875-6673c2194fbb.png",
+      "native_source_size": [
+        2172,
+        724
+      ]
+    },
+    "ad2": {
+      "source": "held-ad2-shields.png",
+      "grid": [
+        2,
+        1
+      ],
+      "prompt": "Repaint FIRST reference as a horizontal strip of isolated first-person shield-carry sprites with equal square cells, true transparent RGBA. FIRST reference defines exact BACK view, object silhouette, left fist, anchored grip/strap, arm direction. SECOND reference defines mature gritty painted material quality and costume only, never substitute its shield shapes. All cells: BACK/rear of shield facing viewer, ONE closed LEFT fist curled around VERTICAL attached dark leather handle at shield centre, thumb opposing fingers, LEFT forearm runs diagonally DOWN-LEFT through snug connected dark leather forearm strap. Show handle mounts and forearm strap attached to shield, no floating fingers/straps or extra arms. Worn grain, scratched metal, matte stitched leather, rough cloth matching painted dark-fantasy monsters; no cartoon, toy shine or plastic. Entire shield including all tips and entire sleeve end INSIDE cell with at least8% clear transparent margins. No scene, lettering, border, black matte, backdrop, ground shadow, glow or front-facing heraldry. Exactly TWO cells. Each is a TALL RECTANGULAR tower shield from behind: flat horizontal top with two CHAMFERED upper corners, long straight sides and FLAT bottom. Brown rear wood planks in plain weathered riveted iron rim; no pointed lower tip, crest, spikes, boss or front-facing metal face. Long body extends substantially below the hand. Identical tower shield proportions in both cells. LEFT Fighter grey/steel armoured glove and grey cuff, coarse earth-brown sleeve. RIGHT Cleric brown leather glove, restrained ochre-gold cuff, worn ivory/off-white sleeve.",
+      "references": [
+        "batch-ad-shields-preview/ad2-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "keys": [
+        "fighter-towershield",
+        "cleric-towershield"
+      ],
+      "generated_original": "/workspace/generated_images/exec-27e9c0da-fc24-445a-ac89-f42bcd37c404.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    },
+    "ad3": {
+      "source": "held-ad3-shields.png",
+      "grid": [
+        2,
+        1
+      ],
+      "prompt": "Repaint FIRST reference as a horizontal strip of isolated first-person shield-carry sprites with equal square cells, true transparent RGBA. FIRST reference defines exact BACK view, object silhouette, left fist, anchored grip/strap, arm direction. SECOND reference defines mature gritty painted material quality and costume only, never substitute its shield shapes. All cells: BACK/rear of shield facing viewer, ONE closed LEFT fist curled around VERTICAL attached dark leather handle at shield centre, thumb opposing fingers, LEFT forearm runs diagonally DOWN-LEFT through snug connected dark leather forearm strap. Show handle mounts and forearm strap attached to shield, no floating fingers/straps or extra arms. Worn grain, scratched metal, matte stitched leather, rough cloth matching painted dark-fantasy monsters; no cartoon, toy shine or plastic. Entire shield including all tips and entire sleeve end INSIDE cell with at least8% clear transparent margins. No scene, lettering, border, black matte, backdrop, ground shadow, glow or front-facing heraldry. Exactly TWO cells. Each is a ROUND brown wooden QUILL SHIELD from behind, dark brown wooden/leather rim, brown rear planks, and exactly THIRTY narrow pointed ivory/bone QUILLS projecting radially from the entire circular perimeter, evenly spaced and alternating slightly long/short. All thirty quill tips fit inside their own cell, no neighbouring overlap. Quills are slim natural ivory spikes, not broad silver sun rays, metal saw teeth or feathers. Identical ordinary Quill Shield construction in both cells. No silver/iron rim, named markings, gems, symbols or front boss. LEFT Fighter grey/steel armoured glove and grey cuff, coarse earth-brown sleeve. RIGHT Cleric brown leather glove, restrained ochre-gold cuff, worn ivory/off-white sleeve.",
+      "references": [
+        "batch-ad-shields-preview/ad3-reference.png",
+        "held-y1.png"
+      ],
+      "transparent_background": true,
+      "repairs": [],
+      "keys": [
+        "fighter-quillshield",
+        "cleric-quillshield"
+      ],
+      "generated_original": "/workspace/generated_images/exec-e0c0afec-247d-416d-9a5e-dd13099716e9.png",
+      "native_source_size": [
+        1774,
+        887
+      ]
+    }
+  },
+  "cells": {
+    "fighter-buckler": {
+      "sheet": "ad1",
+      "cls": "fighter",
+      "id": "buckler",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "buckler",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        85,
+        85,
+        747,
+        683
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        483.1861,
+        220.7437
+      ],
+      "source_object_bounds": [
+        232,
+        3,
+        659,
+        431
+      ],
+      "object_height_limit": 112,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          232,
+          3,
+          659,
+          431
+        ]
+      }
+    },
+    "cleric-buckler": {
+      "sheet": "ad1",
+      "cls": "cleric",
+      "id": "buckler",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "buckler",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        759,
+        83,
+        1416,
+        682
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        456.297,
+        241.8736
+      ],
+      "source_object_bounds": [
+        225,
+        3,
+        654,
+        433
+      ],
+      "object_height_limit": 112,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          225,
+          3,
+          654,
+          433
+        ]
+      }
+    },
+    "druid-buckler": {
+      "sheet": "ad1",
+      "cls": "druid",
+      "id": "buckler",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "buckler",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        1457,
+        85,
+        2111,
+        683
+      ],
+      "source_density": 2.828125,
+      "source_grip": [
+        442.9699,
+        234.9006
+      ],
+      "source_object_bounds": [
+        223,
+        3,
+        651,
+        432
+      ],
+      "object_height_limit": 112,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          223,
+          3,
+          651,
+          432
+        ]
+      }
+    },
+    "fighter-towershield": {
+      "sheet": "ad2",
+      "cls": "fighter",
+      "id": "towershield",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "towershield",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        76,
+        63,
+        830,
+        830
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        533.6089,
+        358.3995
+      ],
+      "source_object_bounds": [
+        280,
+        3,
+        751,
+        760
+      ],
+      "object_height_limit": 128,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          280,
+          3,
+          751,
+          760
+        ]
+      }
+    },
+    "cleric-towershield": {
+      "sheet": "ad2",
+      "cls": "cleric",
+      "id": "towershield",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "towershield",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        852,
+        60,
+        1559,
+        831
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        492.2364,
+        381.203
+      ],
+      "source_object_bounds": [
+        246,
+        3,
+        704,
+        764
+      ],
+      "object_height_limit": 128,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          246,
+          3,
+          704,
+          764
+        ]
+      }
+    },
+    "fighter-quillshield": {
+      "sheet": "ad3",
+      "cls": "fighter",
+      "id": "quillshield",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "quillshield",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        49,
+        61,
+        891,
+        834
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        561.9318,
+        337.7756
+      ],
+      "source_object_bounds": [
+        200,
+        3,
+        839,
+        642
+      ],
+      "object_height_limit": 112,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          200,
+          3,
+          839,
+          642
+        ]
+      }
+    },
+    "cleric-quillshield": {
+      "sheet": "ad3",
+      "cls": "cleric",
+      "id": "quillshield",
+      "kind": "carried",
+      "pose": "carried",
+      "base": "quillshield",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        930,
+        62,
+        1750,
+        835
+      ],
+      "source_density": 3.46484375,
+      "source_grip": [
+        544.362,
+        331.2774
+      ],
+      "source_object_bounds": [
+        178,
+        3,
+        817,
+        642
+      ],
+      "object_height_limit": 112,
+      "authored_landmarks": {
+        "source_object_bounds": [
+          178,
+          3,
+          817,
+          642
+        ]
+      }
+    }
+  },
+  "registration": "Native geometry measured by uniform silhouette alignment without rotation/pixel edits; landmarks and exports require visual review.",
+  "registration_notes": "Grip positions measured from native silhouette alignment; shield-only rectangles authored and visually reviewed to exclude diagonal sleeves. Analysis never masks or repaints pixels.",
+  "source_spacing_exception": "Complete first buckler crop crosses nominal724px column by23px; first Quill Shield crop crosses nominal887px column by4px. No figure overlap; registered alpha32 clearance>=17px. Requested8% source margins not uniform.",
+  "review": {
+    "report": "batch-ad-shields-preview/REVIEW.md",
+    "frames": 7,
+    "source_sheets": 3,
+    "captures": 112,
+    "galleries": 14,
+    "fitting_cases": 336,
+    "guards_per_width": 45,
+    "minimum_alpha32_clearance": 17,
+    "baseline_browser_tests": 12,
+    "baseline_result": "12 passed,48.5s, phone/small",
+    "runtime_activation": false,
+    "publication": false,
+    "export_check": "pass",
+    "repository_checks": "npm test passed, including751 rule checks"
+  },
+  "runtime_review": "batch-ac-ah-runtime/REVIEW.md"
+}

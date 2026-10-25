@@ -1,0 +1,633 @@
+{
+  "scope": "Native procedural source geometry/routing fixtures, not gameplay transitions or delivery. Existing held/world painted requests blocked.",
+  "rows": {
+    "spellblade-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#3c424b",
+        "#515c6a",
+        "#242a32"
+      ],
+      "reference_sha256": "62f330c6034051f9234ca3cbd66ec88e79761e137e548206a6533a6e12ee909c"
+    },
+    "spellblade-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#3c424b",
+        "#515c6a",
+        "#242a32"
+      ],
+      "reference_sha256": "00abe4351ef932694f9d41e177bf135f34de340238602a3374c34c8fa19af20e"
+    },
+    "spellblade-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "spellblade",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-spellblade",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#3c424b",
+        "#515c6a",
+        "#242a32"
+      ],
+      "reference_sha256": "1fd1b162c2f3eff5a5ffe33b9045493f75bb5fbcf1c4e26ba8b44f81091910c2"
+    },
+    "fighter-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "a004b92d96f9e3da849f984e1701eedb4ae10a9d9a9f04c61997d544c6234592"
+    },
+    "fighter-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "b7678d66f5dbfe923b99d8dceefdd522906409245de7cc50f858682e515e931e"
+    },
+    "fighter-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "fighter",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "1bc4bee88f763ef6568fa4f498bcbfc28d9d2d60e13162de4f33d8cd3db2cbd7"
+    },
+    "cleric-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "reference_sha256": "f8de10258e47f17acc33578d5ae98d9380541de20f103b6e38dc57fa8970e0fe"
+    },
+    "cleric-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "reference_sha256": "cdf3832185d1597da6948884d6bbfdcc87ec51a40e82d92371bd06d6a7f2721c"
+    },
+    "cleric-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "cleric",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-cleric",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6440",
+        "#c9a24a",
+        "#e8e0d0"
+      ],
+      "reference_sha256": "5277c027b3b9f35cd158db9c984a24d2c086a645b9f79b5b7a709c0a691b72a2"
+    },
+    "mage-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "reference_sha256": "a0725088b88ffbbdc571d326f3b62b6ebc115082ed4c7455096d6032615bb7eb"
+    },
+    "mage-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "reference_sha256": "195f9bf87125218af6fa76c46a9b59d72cf20cf95e5fa05d38d997380c73009b"
+    },
+    "mage-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "mage",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-mage",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#d8b090",
+        "#6a4aa0",
+        "#4a3a78"
+      ],
+      "reference_sha256": "d964648d903e7f5ad5bcb7424fed07f18355f764aa677b807f63fb10f76b049b"
+    },
+    "thief-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-thief",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#3a3438",
+        "#5a4a3a",
+        "#3e4a3a"
+      ],
+      "reference_sha256": "304a9f98d71785092b6daf838a26d31b9ba4c59f0b74ea5f148823b9a1f9f9c4"
+    },
+    "thief-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-thief",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#3a3438",
+        "#5a4a3a",
+        "#3e4a3a"
+      ],
+      "reference_sha256": "2e22c72af758cf2f18197bc963d35f3d4fe157dbeb99bae0c9cf37c26d4e208a"
+    },
+    "thief-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "thief",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-thief",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#3a3438",
+        "#5a4a3a",
+        "#3e4a3a"
+      ],
+      "reference_sha256": "1eec244faead10538ecc4325cf599fff1c72b2a9e3505630190e83b989da35df"
+    },
+    "ranger-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 0,
+      "registered_reuse": "fighter-empty-fist",
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "a004b92d96f9e3da849f984e1701eedb4ae10a9d9a9f04c61997d544c6234592"
+    },
+    "ranger-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 1,
+      "registered_reuse": "fighter-empty-punch",
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "b7678d66f5dbfe923b99d8dceefdd522906409245de7cc50f858682e515e931e"
+    },
+    "ranger-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "ranger",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-fighter",
+      "index": 2,
+      "registered_reuse": "fighter-empty-cast",
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#8a929e",
+        "#5a606a",
+        "#6a4a30"
+      ],
+      "reference_sha256": "1bc4bee88f763ef6568fa4f498bcbfc28d9d2d60e13162de4f33d8cd3db2cbd7"
+    },
+    "druid-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 0,
+      "native_size": [
+        79,
+        105
+      ],
+      "grip": [
+        74.57142857142858,
+        45.23809523809524
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6a44",
+        "#4e6a34",
+        "#5a4a2e"
+      ],
+      "reference_sha256": "674277e5a264800e26f26e459dd191e15e46445d5a9881571ffe15f3865001c9"
+    },
+    "druid-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 1,
+      "native_size": [
+        94,
+        93
+      ],
+      "grip": [
+        50.765957446808514,
+        47.25531914893617
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6a44",
+        "#4e6a34",
+        "#5a4a2e"
+      ],
+      "reference_sha256": "2032aea7e8daf9384c7b240c3b40227f1d958329d678e63445d21ff453986887"
+    },
+    "druid-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "druid",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-druid",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#8a6a44",
+        "#4e6a34",
+        "#5a4a2e"
+      ],
+      "reference_sha256": "b25ede479e0ea691422d5236529b2242e159b6cec3e92635d0ead0cf6a55073e"
+    },
+    "bear-empty-fist": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "fist",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 0,
+      "native_size": [
+        79,
+        110
+      ],
+      "grip": [
+        77,
+        54
+      ],
+      "marks": {},
+      "palette": [
+        "#5a3a22",
+        "#4a2e1a",
+        "#3e2614"
+      ],
+      "reference_sha256": "96c7fc70373971b87e0778f31c3c4b6e656a0d330a8d69f8e3abe49531fe91bb"
+    },
+    "bear-empty-punch": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "punch",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 1,
+      "native_size": [
+        94,
+        99
+      ],
+      "grip": [
+        54.66666666666667,
+        58
+      ],
+      "marks": {},
+      "palette": [
+        "#5a3a22",
+        "#4a2e1a",
+        "#3e2614"
+      ],
+      "reference_sha256": "4b2cc21cf57b96070e6f339c77214b4652ab9d5d7584ea5c48e1304fa4ee429b"
+    },
+    "bear-empty-cast": {
+      "kind": "held",
+      "id": null,
+      "cls": "bear",
+      "pose": "cast",
+      "two": false,
+      "lit": false,
+      "base": "empty",
+      "sheet": "ae-bear",
+      "index": 2,
+      "native_size": [
+        64,
+        125
+      ],
+      "grip": [
+        152.64,
+        58.48
+      ],
+      "marks": {},
+      "palette": [
+        "#5a3a22",
+        "#4a2e1a",
+        "#3e2614"
+      ],
+      "reference_sha256": "f0440f3a7142576fc199526d01945fd5ae6e6a30507581f105b2c1ed0181e410"
+    }
+  },
+  "ranger_reuse": "All3 native frame PNGs, grips and marks exactly equal Fighter."
+}

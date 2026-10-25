@@ -1,0 +1,35 @@
+{
+  "release": "0.9.40",
+  "native_captures": 1228,
+  "runtime_files": 1550,
+  "prior_files_unchanged": 973,
+  "focused_tests": "90 existing plus6 new equipment/composition/failure checks,2 rarity checks and2 all-export offline reload checks passed",
+  "full_chromium": {
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "cases": 867,
+    "parallel_passes": 842,
+    "isolated_rechecks": 28,
+    "result": "passed across full run and fresh isolated rechecks; all25 full-run failures resolved without relaxing assertions/timeouts. Icon tests now await native promoted frames; contention-sensitive cases rechecked alone. All-export decode uses bounded batches of8 rather than artificially serial frame waits."
+  },
+  "performance": {
+    "result": "passed",
+    "cpu_slowdown": 4,
+    "fps": {
+      "fight": 40.9,
+      "wide": 41.1,
+      "flooded": 38.8,
+      "painted": 35.0,
+      "rite": 50.7
+    },
+    "minimum_fps": 30,
+    "wide_minimum_fps": 27,
+    "startup_ms": 1884,
+    "startup_limit_ms": 6000
+  },
+  "npm_test": "passed: agent docs, art inventory,17 release fixtures,typecheck,192 generated levels,telemetry/security/narration/offline/voice and751 rule checks",
+  "ci": "Required GitHub Actions checks and release job on the published commit are authoritative.",
+  "exports": "AC,AD,AE/AF,AG/AH and all1550 runtime exports verified; syntax and git diff --check passed"
+}

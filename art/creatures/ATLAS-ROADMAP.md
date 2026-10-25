@@ -1,4 +1,4 @@
-# Dungeon artwork and atlas roadmap — Batches E–AG
+# Dungeon artwork and atlas roadmap — Batches E–AH
 
 Prepared 23 October 2026; extended and integrated 24 October 2026.
 
@@ -536,14 +536,21 @@ live strings/arrows, original geometry/masks, Calm and procedural failure fallba
 
 | Priority | Batch | Scope | Production gate |
 |---|---|---|---|
-| 1 — integrated for0.9.35 | Z | Starting weapons: Cleric mace, Thief shortsword, Ranger shortbow, Druid spear |23 reviewed source frames integrated for0.9.35; native evidence below |
-| 2 — three passes integrated through0.9.36 | AA | Wider held weapons: daggers, axes, hammers, flails, greatswords, slings, throwing knives, hand crossbows and remaining class/named variants | First36 frames integrated for0.9.35;81 further hammer/flail/dagger/plain-reflected frames integrated for0.9.36; remaining pairs/variants open |
-| 3 | AB | Caster equipment: spellbooks, orbs, holy/silver symbols, reliquaries and Wayfarer lantern | Preserve focus identity, connected hands/handle and existing light/reflection behaviour |
-| 4 | AC | Remaining shield backs: tower, Quill and other legal class/item pairs | Reuse P/Y; keep named construction and rear grips/straps distinct |
-| 5 | AD | Fists, casting and read/drink hands; Wild Shape bear claws | Exact supported class/action states; preserve hand counts and existing timing |
-| 6 | AE | Small floor/Pack item sprites: ordinary weapons, armour, potions, scrolls, food and jewellery | Small-size legibility and all seeded/unidentified families; large existing relic paintings are separate |
-| 7 | AF | Regional doors, stairs, pillars and arch materials beyond the Grey Halls baseline | Preserve original openings, occlusion, locks, perspective and collision/navigation cues |
-| 8 | AG | Regional secondary materials: water/mosaic/straw/rubble, rooted/beamed roofs, wall decorations, fountain/torch variants | Retain terrain meaning, light sources and animation; review repeats, native texel density and cached shading |
+| Complete | Z | Starting weapons | Activated for0.9.35 |
+| Complete | AA | Ordinary held weapons, legal class pairs and Penitent | Activated through0.9.38; historical source notes below |
+| Complete | AB | All remaining named weapon/shield candidates |397 states activated for0.9.39; all31 identities delivered including Penitent |
+| Activated 0.9.40 | AC | Ordinary caster equipment: spellbook, two orbs, two symbols, reliquary, Wayfarer lantern |7 reviewed frames; [review](batch-ac-casters-preview/REVIEW.md); activation/native/offline gates remain |
+| Activated 0.9.40 | AD | Seven missing ordinary shield backs: three bucklers, two tower shields, two Quill Shields | [Review](batch-ad-shields-preview/REVIEW.md); all12 legal ordinary pairs have source, five active and seven pending |
+| Activated 0.9.40 | AE | Fists, casting and read/drink hands; Wild Shape bear claws | Exact supported class/action states and current timing |
+| Activated 0.9.40 | AF | Small floor/Pack item sprites | Small-size legibility; preserve seeded/unidentified families and separate relic portraits |
+| Activated 0.9.40 | AG | Regional doors, stairs, pillars and arch materials beyond Grey Halls | Preserve openings, occlusion, locks, perspective and navigation cues |
+| Activated 0.9.40 | AH | Regional secondary materials and decorations, fountain/torch variants | Preserve terrain meaning, light sources, animation and cached shading |
+
+These labels supersede the earlier prospective AB–AG assignments: AB became the
+named-equipment pass, AC now covers ordinary caster equipment, and subsequent
+painting batches shift through AH. Earlier dated source reports retain their
+historical scope. Named caster equipment is already part of active AB; AC only
+adds the seven ordinary exact class/id pairs.
 
 Z corrects the earlier proposed follow-up order: the Thief starts with a
 shortsword, Ranger with a shortbow and Druid with a spear. Dagger and Druid staff
@@ -554,7 +561,7 @@ Z source review is complete with preserved originals/repairs and authored
 registration. See [Z review](batch-z-preview/REVIEW.md). Selected source-spacing
 exceptions are documented; all registered silhouettes have>=12px clearance.
 The source proxy does not establish runtime delivery, native transitions or offline
-readiness. AA has an integrated first tranche and two further passes integrated for0.9.36; AB–AG remain planned and unpainted.
+readiness. AA and AB are now activated through0.9.39. AC–AH have local source art; AG/AH regional joins, exact masks and gate edges remain delivery gates. The paragraphs below describe historical AA production stages.
 
 AA first tranche has36 frames: Thief/dagger9, Fighter/battleaxe9,
 Cleric/hammer9 and Fighter/greatsword9. See [AA review](batch-aa-preview/REVIEW.md)
@@ -840,3 +847,65 @@ All 30 remaining named weapon/shield candidates now bind to gameplay: 381 held w
 The common delivery now contains 973 files (786 held states and 21 carried states among them), with all 576 prior common exports unchanged. There are 1,141 shipped paintings plus three icons. The 16 worn/inventory named identities and the 47 relic portraits remain separate surfaces. This activation supersedes Batch AB's historical source-only status.
 
 See [native activation review](batch-ab-runtime/REVIEW.md), [source review](batch-ab-named-preview/REVIEW.md) and [delivery inventory](runtime-delivery.json).
+
+
+## Batch AC — ordinary caster source complete (25 October 2026)
+
+Seven exact carried frames cover Mage spellbook/crystal_orb/orb_storms, Cleric
+holy_symbol/silver_symbol/reliquary, and Spellblade wayfarer_lantern. Native
+canEquip/spriteFor references confirm seven legal pairs and reject all42 other
+public/hidden class combinations. Six foci use open palms; the lantern keeps its
+closed carry handle, blue flame and measured bottom-rim mark.
+
+See [review](batch-ac-casters-preview/REVIEW.md), [brief](REQUEST-batch-ac-casters.md)
+and [alpha comparison](batch-ac-casters-preview/alpha-review.png). Seven exports,
+98 source-preview captures,294 three-height fitting cases,70 exact identity/class
+guards per width and12 existing equipment tests pass. Full game and dice state
+stay unchanged during fitting. These are frozen source proxies, not native
+activation/action/offline evidence. Current public0.9.39 is unchanged.
+
+Delivery remains pending with native class/equip/action, independent failure,
+offline and release checks. AD shield backs and AE action hands subsequently
+completed their source passes below. No new named weapon/shield painting gap is implied.
+
+
+## Batch AD — remaining ordinary shield sources complete (25 October 2026)
+
+The35-pair actual canEquip/catalog audit finds12 legal ordinary shield pairs.
+Five already have active P/Y source/delivery; seven missing pairs now have new
+reviewed source: Fighter/Cleric/Druid bucklers, Fighter/Cleric tower shields and
+Fighter/Cleric Quill Shields. Named AB shields and local AC caster foci stay
+separate. See [brief](REQUEST-batch-ad-shields.md),
+[audit](batch-ad-shields-preview/ordinary-shield-audit.json) and
+[review](batch-ad-shields-preview/REVIEW.md).
+
+AD has112 frozen source-preview captures and336 three-height fitting checks,
+with exact class/id guards, shared item scale across classes and full Game/Dice/Odds
+neutrality. This is local source art, not runtime activation or native action /
+offline evidence. The five prior ordinary shield frames and all named art are
+unchanged; public0.9.39 is unchanged. AC and AD total14 pending carried frames.
+
+AE fists, casting/read/drink hands and Wild Shape bear claws are now source complete; see the AE/AF completion below. Next activation: AC+AD with native
+equip/actions, independent failure, offline and full release validation.
+
+## Batches AE and AF — source complete (25 October 2026)
+
+AE provides 24 exact empty-hand bindings (21 new paintings and three Ranger reuses). AF provides 142 small-item sources (135 new paintings and seven approved reuses): 140 live keys and two reserves. See [AE review](batch-ae-hands-preview/REVIEW.md) and [AF review](batch-af-items-preview/REVIEW.md) for repairs, coverage and integration limits. Both phone widths passed source fixtures and 28 existing browser regressions. AC/AD’s 14 carried sources remain pending activation alongside AE/AF; public v0.9.39 remains unchanged.
+
+AG and AH subsequently completed their source painting below. Next delivery: integrate pending sources with native-action, regional fitting, rarity-wrapper, independent failure, offline and release checks.
+
+## AG and AH — regional source painting complete (25 October 2026)
+
+[Combined source review](batch-ag-ah-preview/REVIEW.md): 25 atlases, 405 selections. AG covers 96 bindings for twelve regions (84 new selected paintings plus twelve shared approved R gate reuses). AH covers 240 regional secondary material cells and all 69 decoration slots across thirteen regions. Originals, rejected gate/arch repairs, selected painted arches, native guides, exact crops and diagnostics are preserved.
+
+240 AG and 618 AH frozen phone captures cover both widths; 864 AH shade levels are checked per width. All 13 contacts and 12 native repeat panels were visually reviewed, with representative phone galleries; the existing 8 regional/cache browser regressions passed. These are source previews, not activation.
+
+**Delivery gates remain:** retain exact native arch openings (painted candidates differ 15–17 native pixels); resolve shared grey gate masonry against regional edges/coloured locks; check adjoining wall/door/decoration courses, repeat joins and temporal torch registration. Preserve native terrain, animation, light/collision rules, fallback and lazy caches. No blanket promotion of generated candidates.
+
+The current painting roadmap through AH has source coverage. Next is coordinated AC–AH integration and native verification, followed by separately authorised publication. Public v0.9.39 remains unchanged.
+
+## AC–AH activated — 0.9.40 (25 October 2026)
+
+[Native runtime delivery review](batch-ac-ah-runtime/REVIEW.md). All pending AC–AH selections are integrated:14 carried frames,24 empty-hand frames,134 new live small-item files and 405 regional selections. Runtime delivery now has 1,550 files; all 973 previous files are unchanged. Rarity outlines, seeded appearances, separate large relic portraits, native openings/locks, gate edges and fixed torch brackets are preserved through cached composition and independent demand loading. The generic key and Tooth source remain intentional reserves.
+
+Source reports above preserve their historical production limits; the native delivery report supersedes their activation-pending status. Exact native mask/lock/gate-edge fitting is now verified in the runtime. Source repeat/region material appearance was reviewed in native scenes; no new topology or light source was added. Next work is ordinary visual quality follow-up from play, rather than an automatic next atlas batch.
