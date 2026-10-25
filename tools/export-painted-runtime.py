@@ -31,7 +31,7 @@ for b in 'rs':
  for key in d['cells']:
   if key=='stairArch':continue
   config['themes']['0'][key]=ship(Path(f'batch-{b}-preview/{key}.png'),f'materials/halls_{key}.png')
-for batch in ['t','z','aa','aa-melee2','aa-melee3','aa-reflected','aa-melee4','aa-melee5']:
+for batch in ['t','z','aa','aa-melee2','aa-melee3','aa-reflected','aa-melee4','aa-melee5','aa-ranged','aa-bows','aa-rare','aa-greatsword','aa-penitent']:
  d=json.loads((a/f'generation-batch-{batch}.json').read_text());m=json.loads((a/f'batch-{batch}-preview/measurements.json').read_text())['cells']
  for key,c in d['cells'].items():config['held'][key]={'path':ship(Path(f'batch-{batch}-preview/{key}.png'),f'held/{key}.png'),'id':c['id'],'cls':c['cls'],'pose':c['pose'],'two':c['two'],'lit':bool(c.get('lit',False)),'grip':m[key]['grip'],'bounds':m[key]['object_bounds'],**({'nocks':m[key]['nocks']} if 'nocks' in m[key] else {}),**({'tip':m[key]['tip']} if 'tip' in m[key] else {})}
 m=json.loads((a/'batch-p-preview/measurements.json').read_text());config['carried']={}

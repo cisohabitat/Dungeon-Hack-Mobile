@@ -1,0 +1,2407 @@
+{
+  "family_scale": {
+    "aa46": 0.4383561643835616,
+    "aa47": 0.40634920634920635,
+    "aa48": 0.4383561643835616,
+    "aa49": 0.4383561643835616,
+    "aa50": 0.4383561643835616,
+    "aa51": 0.3835616438356164,
+    "aa52": 0.3835616438356164
+  },
+  "cells": {
+    "fighter-scimitar-rest": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        111,
+        18,
+        334,
+        407
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        60,
+        31
+      ],
+      "grip": [
+        128.3835616438356,
+        128.31506849315068
+      ],
+      "object_bounds": [
+        102.95890410958904,
+        35.38356164383562,
+        145.47945205479454,
+        156.8082191780822
+      ],
+      "visible_bounds": [
+        109,
+        39,
+        206,
+        209
+      ],
+      "export_sha256": "a0825ae8634ab72b5f624eafbf204f01f42b9109ab54ddecf42bfaeedec1eda5"
+    },
+    "fighter-scimitar-drawback": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        139,
+        19,
+        331,
+        412
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        52,
+        31
+      ],
+      "grip": [
+        127.83561643835615,
+        127.87671232876711
+      ],
+      "object_bounds": [
+        105.47945205479452,
+        37.13698630136986,
+        171.23287671232876,
+        157.24657534246575
+      ],
+      "visible_bounds": [
+        113,
+        39,
+        197,
+        212
+      ],
+      "export_sha256": "3b542ed7c3c741a41e48c670fd71b6c54fb71e44c134a99081692f7ee047ebe0"
+    },
+    "fighter-scimitar-windup": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        163,
+        30,
+        341,
+        410
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        44,
+        36
+      ],
+      "grip": [
+        128.16438356164383,
+        128.05479452054794
+      ],
+      "object_bounds": [
+        98.35616438356163,
+        44.76712328767123,
+        193.91780821917808,
+        157.86301369863014
+      ],
+      "visible_bounds": [
+        115,
+        49,
+        194,
+        216
+      ],
+      "export_sha256": "b8543b7ce6e7a001234dd2b59eed20b2657b6de6dcf93e4047019fd0675476d4"
+    },
+    "fighter-scimitar-strike": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        108,
+        19,
+        341,
+        406
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        64,
+        34
+      ],
+      "grip": [
+        128.43835616438355,
+        127.80821917808218
+      ],
+      "object_bounds": [
+        103.45205479452055,
+        39.26027397260274,
+        149.47945205479454,
+        162.0
+      ],
+      "visible_bounds": [
+        111,
+        42,
+        214,
+        212
+      ],
+      "export_sha256": "e5c14cc3062ffdeb46d429e2e1c8332ef01b1c2d4c38750bff49417ace5995a8"
+    },
+    "fighter-scimitar-cut": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        3,
+        112,
+        415,
+        341
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        49,
+        28
+      ],
+      "grip": [
+        128.34246575342465,
+        127.5068493150685
+      ],
+      "object_bounds": [
+        49.87671232876713,
+        68.32876712328766,
+        161.65753424657532,
+        159.06849315068493
+      ],
+      "visible_bounds": [
+        50,
+        77,
+        231,
+        178
+      ],
+      "export_sha256": "d9eda407821959839991a35277d284b1f99f6e4e59bac83f28f1d16960e4fa88"
+    },
+    "fighter-scimitar-sweep": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        9,
+        124,
+        410,
+        319
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        37
+      ],
+      "grip": [
+        128.47945205479454,
+        128.17808219178082
+      ],
+      "object_bounds": [
+        43.87671232876713,
+        81.71232876712328,
+        152.15068493150685,
+        160.6164383561644
+      ],
+      "visible_bounds": [
+        47,
+        91,
+        223,
+        177
+      ],
+      "export_sha256": "53786e62e0a68127d118e9cc161c520f2becf81e45aa81ad28c3c0cf71c8b275"
+    },
+    "fighter-scimitar-through": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        17,
+        163,
+        440,
+        325
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        36,
+        39
+      ],
+      "grip": [
+        128.05479452054794,
+        127.54794520547945
+      ],
+      "object_bounds": [
+        39.50684931506849,
+        104.75342465753424,
+        155.23287671232876,
+        154.72602739726028
+      ],
+      "visible_bounds": [
+        43,
+        110,
+        229,
+        182
+      ],
+      "export_sha256": "a38d7e2dfca8730c17140a17e98c019ab1bf209412f8b8c886f0468c1a4129b7"
+    },
+    "fighter-scimitar-recover": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        51,
+        30,
+        364,
+        370
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        52,
+        50
+      ],
+      "grip": [
+        127.83561643835615,
+        128.46575342465752
+      ],
+      "object_bounds": [
+        54.19178082191781,
+        50.87671232876713,
+        161.58904109589042,
+        175.36986301369862
+      ],
+      "visible_bounds": [
+        74,
+        63,
+        212,
+        212
+      ],
+      "export_sha256": "aea2ced4d0e9eaeeeed07dbce3fdc943f15016b220c9c40ef6f341dbb480c440"
+    },
+    "fighter-scimitar-return": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        116,
+        2,
+        381,
+        378
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        38
+      ],
+      "grip": [
+        127.6027397260274,
+        128.3013698630137
+      ],
+      "object_bounds": [
+        74.56164383561644,
+        38.87671232876713,
+        156.97260273972603,
+        166.87671232876713
+      ],
+      "visible_bounds": [
+        94,
+        39,
+        210,
+        204
+      ],
+      "export_sha256": "5f7ea24b5a0431376a98a36f9c56051e81c13763c107f52f2823c0de3e164759"
+    },
+    "thief-scimitar-rest": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        109,
+        33,
+        326,
+        401
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        69,
+        43
+      ],
+      "grip": [
+        128.32698412698414,
+        128.33333333333331
+      ],
+      "object_bounds": [
+        108.82222222222222,
+        47.06349206349206,
+        148.23809523809524,
+        159.6222222222222
+      ],
+      "visible_bounds": [
+        113,
+        57,
+        202,
+        206
+      ],
+      "export_sha256": "9072fe1493ca4b06bc90b802fe280d943da353ef79c39d7c2181429951778cc4"
+    },
+    "thief-scimitar-drawback": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        150,
+        38,
+        322,
+        401
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        57,
+        42
+      ],
+      "grip": [
+        127.70476190476191,
+        128.14603174603175
+      ],
+      "object_bounds": [
+        106.57460317460317,
+        47.68888888888889,
+        167.52698412698413,
+        159.0285714285714
+      ],
+      "visible_bounds": [
+        118,
+        57,
+        188,
+        205
+      ],
+      "export_sha256": "e98df3c53203f950290560068e8135a6e2d55b9833792eb7d4cf72e94521f68f"
+    },
+    "thief-scimitar-windup": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        159,
+        56,
+        337,
+        396
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        49,
+        39
+      ],
+      "grip": [
+        128.23809523809524,
+        128.3968253968254
+      ],
+      "object_bounds": [
+        99.38730158730158,
+        47.12698412698413,
+        187.97142857142856,
+        151.96507936507936
+      ],
+      "visible_bounds": [
+        113,
+        62,
+        186,
+        200
+      ],
+      "export_sha256": "07a9e4705dd671db9a4242cb9a7d149424e6c48b2e380b318408740dc8aaf0d4"
+    },
+    "thief-scimitar-strike": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        0,
+        418,
+        390,
+        836
+      ],
+      "source_visible_bounds": [
+        106,
+        20,
+        322,
+        377
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        69,
+        44
+      ],
+      "grip": [
+        127.92063492063491,
+        128.1142857142857
+      ],
+      "object_bounds": [
+        105.57142857142857,
+        48.87619047619047,
+        148.23809523809524,
+        162.65396825396826
+      ],
+      "visible_bounds": [
+        112,
+        52,
+        200,
+        197
+      ],
+      "export_sha256": "339997a6aae28a188c5dfeb59252fafbc7c388dc229a01f27fbfcbd681686440"
+    },
+    "thief-scimitar-cut": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        390,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        28,
+        109,
+        402,
+        330
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        57,
+        37
+      ],
+      "grip": [
+        128.11111111111111,
+        128.02222222222224
+      ],
+      "object_bounds": [
+        64.31428571428572,
+        74.384126984127,
+        172.8095238095238,
+        158.4984126984127
+      ],
+      "visible_bounds": [
+        68,
+        81,
+        220,
+        171
+      ],
+      "export_sha256": "6efdf6d93cd69031bd7844a0898b7dc1640481267fccbf7be6a949b853fc6ed1"
+    },
+    "thief-scimitar-sweep": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        2,
+        157,
+        388,
+        330
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        54,
+        39
+      ],
+      "grip": [
+        128.36190476190478,
+        128.3968253968254
+      ],
+      "object_bounds": [
+        54.81269841269841,
+        80.44761904761904,
+        155.18095238095236,
+        153.59047619047618
+      ],
+      "visible_bounds": [
+        55,
+        102,
+        212,
+        173
+      ],
+      "export_sha256": "680ab693cbbb95c0ba7b5d94175c652b520986c2e7b5a90e2574aec8275a430c"
+    },
+    "thief-scimitar-through": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        33,
+        145,
+        428,
+        297
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        46,
+        52
+      ],
+      "grip": [
+        127.67619047619047,
+        127.58095238095238
+      ],
+      "object_bounds": [
+        49.25079365079365,
+        112.95238095238095,
+        156.52698412698413,
+        159.2761904761905
+      ],
+      "visible_bounds": [
+        59,
+        111,
+        220,
+        173
+      ],
+      "export_sha256": "b914b0f88e3a7bdebc892a2db48c902366b890f77d2179ff69e47af335807279"
+    },
+    "thief-scimitar-recover": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        31,
+        20,
+        349,
+        334
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        63,
+        64
+      ],
+      "grip": [
+        128.42222222222222,
+        127.7968253968254
+      ],
+      "object_bounds": [
+        65.03174603174602,
+        64.81269841269841,
+        164.58730158730157,
+        180.215873015873
+      ],
+      "visible_bounds": [
+        75,
+        72,
+        205,
+        200
+      ],
+      "export_sha256": "b51044dc908b1b212ddf8267966a8fe3466b199565acce6ce11d6dd065a1d45d"
+    },
+    "thief-scimitar-return": {
+      "source": "held-aa47.png",
+      "source_sha256": "f4798705bb2ba84b734edb9bf297ef9d038c2bbd04a841addd2a2dd150c76e39",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        87,
+        19,
+        343,
+        398
+      ],
+      "scale": 0.40634920634920635,
+      "offset": [
+        50,
+        38
+      ],
+      "grip": [
+        128.42539682539683,
+        128.20952380952383
+      ],
+      "object_bounds": [
+        79.25714285714285,
+        44.095238095238095,
+        155.65079365079364,
+        172.0952380952381
+      ],
+      "visible_bounds": [
+        85,
+        46,
+        190,
+        199
+      ],
+      "export_sha256": "5d8cffeb99a8911941fd323c48650b86589b41f9cb3e00d02ce310e8749b681b"
+    },
+    "ranger-scimitar-rest": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        111,
+        18,
+        334,
+        407
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        60,
+        31
+      ],
+      "grip": [
+        128.3835616438356,
+        128.31506849315068
+      ],
+      "object_bounds": [
+        102.95890410958904,
+        35.38356164383562,
+        145.47945205479454,
+        156.8082191780822
+      ],
+      "visible_bounds": [
+        109,
+        39,
+        206,
+        209
+      ],
+      "export_sha256": "a0825ae8634ab72b5f624eafbf204f01f42b9109ab54ddecf42bfaeedec1eda5"
+    },
+    "ranger-scimitar-drawback": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        139,
+        19,
+        331,
+        412
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        52,
+        31
+      ],
+      "grip": [
+        127.83561643835615,
+        127.87671232876711
+      ],
+      "object_bounds": [
+        105.47945205479452,
+        37.13698630136986,
+        171.23287671232876,
+        157.24657534246575
+      ],
+      "visible_bounds": [
+        113,
+        39,
+        197,
+        212
+      ],
+      "export_sha256": "3b542ed7c3c741a41e48c670fd71b6c54fb71e44c134a99081692f7ee047ebe0"
+    },
+    "ranger-scimitar-windup": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        163,
+        30,
+        341,
+        410
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        44,
+        36
+      ],
+      "grip": [
+        128.16438356164383,
+        128.05479452054794
+      ],
+      "object_bounds": [
+        98.35616438356163,
+        44.76712328767123,
+        193.91780821917808,
+        157.86301369863014
+      ],
+      "visible_bounds": [
+        115,
+        49,
+        194,
+        216
+      ],
+      "export_sha256": "b8543b7ce6e7a001234dd2b59eed20b2657b6de6dcf93e4047019fd0675476d4"
+    },
+    "ranger-scimitar-strike": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        108,
+        19,
+        341,
+        406
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        64,
+        34
+      ],
+      "grip": [
+        128.43835616438355,
+        127.80821917808218
+      ],
+      "object_bounds": [
+        103.45205479452055,
+        39.26027397260274,
+        149.47945205479454,
+        162.0
+      ],
+      "visible_bounds": [
+        111,
+        42,
+        214,
+        212
+      ],
+      "export_sha256": "e5c14cc3062ffdeb46d429e2e1c8332ef01b1c2d4c38750bff49417ace5995a8"
+    },
+    "ranger-scimitar-cut": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        3,
+        112,
+        415,
+        341
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        49,
+        28
+      ],
+      "grip": [
+        128.34246575342465,
+        127.5068493150685
+      ],
+      "object_bounds": [
+        49.87671232876713,
+        68.32876712328766,
+        161.65753424657532,
+        159.06849315068493
+      ],
+      "visible_bounds": [
+        50,
+        77,
+        231,
+        178
+      ],
+      "export_sha256": "d9eda407821959839991a35277d284b1f99f6e4e59bac83f28f1d16960e4fa88"
+    },
+    "ranger-scimitar-sweep": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        9,
+        124,
+        410,
+        319
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        37
+      ],
+      "grip": [
+        128.47945205479454,
+        128.17808219178082
+      ],
+      "object_bounds": [
+        43.87671232876713,
+        81.71232876712328,
+        152.15068493150685,
+        160.6164383561644
+      ],
+      "visible_bounds": [
+        47,
+        91,
+        223,
+        177
+      ],
+      "export_sha256": "53786e62e0a68127d118e9cc161c520f2becf81e45aa81ad28c3c0cf71c8b275"
+    },
+    "ranger-scimitar-through": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        17,
+        163,
+        440,
+        325
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        36,
+        39
+      ],
+      "grip": [
+        128.05479452054794,
+        127.54794520547945
+      ],
+      "object_bounds": [
+        39.50684931506849,
+        104.75342465753424,
+        155.23287671232876,
+        154.72602739726028
+      ],
+      "visible_bounds": [
+        43,
+        110,
+        229,
+        182
+      ],
+      "export_sha256": "a38d7e2dfca8730c17140a17e98c019ab1bf209412f8b8c886f0468c1a4129b7"
+    },
+    "ranger-scimitar-recover": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        51,
+        30,
+        364,
+        370
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        52,
+        50
+      ],
+      "grip": [
+        127.83561643835615,
+        128.46575342465752
+      ],
+      "object_bounds": [
+        54.19178082191781,
+        50.87671232876713,
+        161.58904109589042,
+        175.36986301369862
+      ],
+      "visible_bounds": [
+        74,
+        63,
+        212,
+        212
+      ],
+      "export_sha256": "aea2ced4d0e9eaeeeed07dbce3fdc943f15016b220c9c40ef6f341dbb480c440"
+    },
+    "ranger-scimitar-return": {
+      "source": "held-aa46-edges.png",
+      "source_sha256": "791a30b8d2e825050615d2149fa51ad5305c268cee88df3eae8f3acf6fc109ab",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        116,
+        2,
+        381,
+        378
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        38
+      ],
+      "grip": [
+        127.6027397260274,
+        128.3013698630137
+      ],
+      "object_bounds": [
+        74.56164383561644,
+        38.87671232876713,
+        156.97260273972603,
+        166.87671232876713
+      ],
+      "visible_bounds": [
+        94,
+        39,
+        210,
+        204
+      ],
+      "export_sha256": "5f7ea24b5a0431376a98a36f9c56051e81c13763c107f52f2823c0de3e164759"
+    },
+    "spellblade-scimitar-rest": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        113,
+        35,
+        311,
+        411
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        63,
+        31
+      ],
+      "grip": [
+        128.31506849315068,
+        128.31506849315068
+      ],
+      "object_bounds": [
+        105.95890410958904,
+        35.38356164383562,
+        148.47945205479454,
+        156.8082191780822
+      ],
+      "visible_bounds": [
+        112,
+        46,
+        199,
+        211
+      ],
+      "export_sha256": "535b4cb8520ca85f9c2299aa391f4220dbc887551c9526e0c6892e56afad7d5b"
+    },
+    "spellblade-scimitar-drawback": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        134,
+        52,
+        305,
+        412
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        56,
+        32
+      ],
+      "grip": [
+        127.89041095890411,
+        128.0
+      ],
+      "object_bounds": [
+        109.47945205479452,
+        38.13698630136986,
+        175.23287671232876,
+        158.24657534246575
+      ],
+      "visible_bounds": [
+        115,
+        55,
+        190,
+        213
+      ],
+      "export_sha256": "02c2050461cff13862c53bd2f08692d8298c92ccef33cd8605baec2c256eeb1e"
+    },
+    "spellblade-scimitar-windup": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        133,
+        63,
+        323,
+        411
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        55,
+        38
+      ],
+      "grip": [
+        127.76712328767123,
+        127.86301369863013
+      ],
+      "object_bounds": [
+        109.35616438356163,
+        46.76712328767123,
+        204.91780821917808,
+        159.86301369863014
+      ],
+      "visible_bounds": [
+        113,
+        65,
+        196,
+        218
+      ],
+      "export_sha256": "5a71780741cf3f71b17bea2e5670cce01ea7ba97c0e53ef2d993373f312fb5c8"
+    },
+    "spellblade-scimitar-strike": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        105,
+        19,
+        322,
+        397
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        67,
+        35
+      ],
+      "grip": [
+        127.93150684931507,
+        127.93150684931507
+      ],
+      "object_bounds": [
+        106.45205479452055,
+        40.26027397260274,
+        152.47945205479454,
+        163.0
+      ],
+      "visible_bounds": [
+        113,
+        43,
+        208,
+        209
+      ],
+      "export_sha256": "950f42ba157731dd0f7034b22941e086c860a43c3e8883efefc9d564f940bcad"
+    },
+    "spellblade-scimitar-cut": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        13,
+        96,
+        385,
+        330
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        58,
+        28
+      ],
+      "grip": [
+        128.13698630136986,
+        127.5068493150685
+      ],
+      "object_bounds": [
+        58.87671232876713,
+        68.32876712328766,
+        170.65753424657532,
+        159.06849315068493
+      ],
+      "visible_bounds": [
+        64,
+        70,
+        227,
+        173
+      ],
+      "export_sha256": "f81585fe5480109bd067bea2acdad677e20f7827dde0b71b81a25e224fec6f52"
+    },
+    "spellblade-scimitar-sweep": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        17,
+        138,
+        395,
+        321
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        50,
+        36
+      ],
+      "grip": [
+        128.02739726027397,
+        127.61643835616438
+      ],
+      "object_bounds": [
+        50.87671232876713,
+        80.71232876712328,
+        159.15068493150685,
+        159.6164383561644
+      ],
+      "visible_bounds": [
+        57,
+        96,
+        223,
+        177
+      ],
+      "export_sha256": "89a30df4ec88bb83a9f662f2104821d098eeb91d0f860ca451dc27caf1184237"
+    },
+    "spellblade-scimitar-through": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        12,
+        177,
+        403,
+        332
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        40,
+        40
+      ],
+      "grip": [
+        128.1095890410959,
+        127.67123287671232
+      ],
+      "object_bounds": [
+        43.50684931506849,
+        105.75342465753424,
+        159.23287671232876,
+        155.72602739726028
+      ],
+      "visible_bounds": [
+        45,
+        117,
+        217,
+        185
+      ],
+      "export_sha256": "5173c992b6e8395580b483e8bf63864145b20e181f187f0f151b12149abcb452"
+    },
+    "spellblade-scimitar-recover": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        17,
+        16,
+        349,
+        350
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        62,
+        56
+      ],
+      "grip": [
+        127.75342465753424,
+        127.89041095890411
+      ],
+      "object_bounds": [
+        64.1917808219178,
+        56.87671232876713,
+        171.58904109589042,
+        181.36986301369862
+      ],
+      "visible_bounds": [
+        69,
+        63,
+        215,
+        209
+      ],
+      "export_sha256": "4fc8c926e928b603f92cb2ca67c3576dbf2d25b31d004546084fd6ced9415168"
+    },
+    "spellblade-scimitar-return": {
+      "source": "held-aa49.png",
+      "source_sha256": "a0c2c935257fb7d496dcfde121370c3bf8b9389585f4701d37ca5e43272bd9bf",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        98,
+        9,
+        348,
+        382
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        42
+      ],
+      "grip": [
+        127.6027397260274,
+        127.91780821917808
+      ],
+      "object_bounds": [
+        74.56164383561644,
+        42.87671232876713,
+        156.97260273972603,
+        170.87671232876713
+      ],
+      "visible_bounds": [
+        86,
+        46,
+        196,
+        209
+      ],
+      "export_sha256": "88a7d1684659f1383b3323adf9510bdfbf3dcf2057421b573eca3421efac1d2e"
+    },
+    "spellblade-scimitar-rest-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        0,
+        0,
+        418,
+        430
+      ],
+      "source_visible_bounds": [
+        107,
+        40,
+        315,
+        421
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        62,
+        28
+      ],
+      "grip": [
+        127.75342465753424,
+        127.94520547945206
+      ],
+      "object_bounds": [
+        104.95890410958904,
+        32.38356164383562,
+        147.47945205479454,
+        153.8082191780822
+      ],
+      "visible_bounds": [
+        109,
+        45,
+        200,
+        212
+      ],
+      "export_sha256": "fc1e0090f4482496d06092dc3fbf1aac9f73281cb644c527efe5226f9dc238e7"
+    },
+    "spellblade-scimitar-drawback-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        418,
+        0,
+        836,
+        430
+      ],
+      "source_visible_bounds": [
+        151,
+        58,
+        327,
+        427
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        55,
+        27
+      ],
+      "grip": [
+        127.76712328767123,
+        128.26027397260273
+      ],
+      "object_bounds": [
+        108.47945205479452,
+        33.13698630136986,
+        174.23287671232876,
+        153.24657534246575
+      ],
+      "visible_bounds": [
+        121,
+        52,
+        198,
+        214
+      ],
+      "export_sha256": "19b5f1344146751b32c1e065cdfcfd2f71ef44a226477ac9995bec9e8de00a68"
+    },
+    "spellblade-scimitar-windup-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        430
+      ],
+      "source_visible_bounds": [
+        144,
+        70,
+        337,
+        423
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        49,
+        34
+      ],
+      "grip": [
+        127.9041095890411,
+        127.80821917808218
+      ],
+      "object_bounds": [
+        103.35616438356163,
+        42.76712328767123,
+        198.91780821917808,
+        155.86301369863014
+      ],
+      "visible_bounds": [
+        112,
+        65,
+        196,
+        219
+      ],
+      "export_sha256": "0df391c87e6413ee2de1a55d4d7369e4366be4aa41c42e7e22b4513ae6a80824"
+    },
+    "spellblade-scimitar-strike-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        0,
+        430,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        102,
+        12,
+        323,
+        390
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        67,
+        35
+      ],
+      "grip": [
+        128.36986301369862,
+        127.93150684931507
+      ],
+      "object_bounds": [
+        106.45205479452055,
+        35.87671232876713,
+        152.47945205479454,
+        157.73972602739724
+      ],
+      "visible_bounds": [
+        111,
+        40,
+        208,
+        206
+      ],
+      "export_sha256": "4f050f6404127ef048df829945f391785e31e1be67a71b0eac10edc441a4cb12"
+    },
+    "spellblade-scimitar-cut-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        418,
+        430,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        16,
+        83,
+        388,
+        329
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        58,
+        35
+      ],
+      "grip": [
+        127.6986301369863,
+        128.36986301369862
+      ],
+      "object_bounds": [
+        58.87671232876713,
+        70.06849315068493,
+        170.65753424657532,
+        160.8082191780822
+      ],
+      "visible_bounds": [
+        65,
+        72,
+        228,
+        179
+      ],
+      "export_sha256": "95ba7362b013d18624b3f8d5701e833d779ed9b8728d4b0718fbd538fe30ef58"
+    },
+    "spellblade-scimitar-sweep-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        836,
+        430,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        19,
+        124,
+        395,
+        310
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        48,
+        37
+      ],
+      "grip": [
+        127.78082191780821,
+        128.17808219178082
+      ],
+      "object_bounds": [
+        48.87671232876713,
+        76.45205479452055,
+        157.15068493150685,
+        155.35616438356163
+      ],
+      "visible_bounds": [
+        56,
+        91,
+        221,
+        173
+      ],
+      "export_sha256": "f8cef933054decef3dd3f60c8617a42ecbfb3dd5452504ed7bb0dbf0b25280fe"
+    },
+    "spellblade-scimitar-through-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        13,
+        183,
+        423,
+        345
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        39,
+        41
+      ],
+      "grip": [
+        127.54794520547945,
+        128.23287671232876
+      ],
+      "object_bounds": [
+        42.50684931506849,
+        106.75342465753424,
+        158.23287671232876,
+        156.72602739726028
+      ],
+      "visible_bounds": [
+        45,
+        121,
+        225,
+        192
+      ],
+      "export_sha256": "134e9b3a07c68ccc16e6c03525165f5e6dfc6dff14e99d4033969fd8c19e2de7"
+    },
+    "spellblade-scimitar-recover-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        21,
+        7,
+        360,
+        352
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        67,
+        57
+      ],
+      "grip": [
+        128.36986301369862,
+        128.013698630137
+      ],
+      "object_bounds": [
+        69.1917808219178,
+        57.87671232876713,
+        176.58904109589042,
+        182.36986301369862
+      ],
+      "visible_bounds": [
+        76,
+        60,
+        225,
+        211
+      ],
+      "export_sha256": "7c18c132bcf5c429a0962f82ffec8e6f7c2e9019f2d52840d4e85766e1079089"
+    },
+    "spellblade-scimitar-return-lit": {
+      "source": "held-aa50.png",
+      "source_sha256": "a6538014cf115b698d8b7263f3c28e9c4d07b2d1e1398a4fec07a2f3643bc2a3",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        105,
+        2,
+        363,
+        379
+      ],
+      "scale": 0.4383561643835616,
+      "offset": [
+        43,
+        31
+      ],
+      "grip": [
+        127.6027397260274,
+        128.31506849315068
+      ],
+      "object_bounds": [
+        74.56164383561644,
+        31.876712328767123,
+        156.97260273972603,
+        159.87671232876713
+      ],
+      "visible_bounds": [
+        89,
+        32,
+        202,
+        197
+      ],
+      "export_sha256": "051ac63052cb6bb63fdf0b6c3294d143809d9b95b1728399349025bd0207c7bf"
+    },
+    "fighter-dwarfhammer-rest": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        77,
+        34,
+        355,
+        407
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        58,
+        40
+      ],
+      "grip": [
+        128.1917808219178,
+        128.21917808219177
+      ],
+      "object_bounds": [
+        81.78082191780823,
+        45.75342465753425,
+        144.3013698630137,
+        149.31506849315068
+      ],
+      "visible_bounds": [
+        88,
+        53,
+        194,
+        196
+      ],
+      "export_sha256": "5f8d3a11ba9304c572c37e7491b5658dae5b67240f18d12da97d5ef6629f5be5"
+    },
+    "fighter-dwarfhammer-drawback": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        142,
+        31,
+        326,
+        412
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        52,
+        40
+      ],
+      "grip": [
+        128.32876712328766,
+        128.21917808219177
+      ],
+      "object_bounds": [
+        98.79452054794521,
+        45.75342465753425,
+        164.0,
+        149.31506849315068
+      ],
+      "visible_bounds": [
+        106,
+        52,
+        177,
+        198
+      ],
+      "export_sha256": "fc707d2716a6fbd5924bf3482e97b3fb7d632c9d77ad8948e902105af1adbe88"
+    },
+    "fighter-dwarfhammer-windup": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        183,
+        48,
+        350,
+        411
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        46,
+        44
+      ],
+      "grip": [
+        127.6986301369863,
+        128.3835616438356
+      ],
+      "object_bounds": [
+        116.57534246575342,
+        54.73972602739726,
+        181.78082191780823,
+        151.3972602739726
+      ],
+      "visible_bounds": [
+        116,
+        62,
+        180,
+        202
+      ],
+      "export_sha256": "ffca153c4451c27bc5fac130a783b60a4a0f41169fe6108402236deb726d8390"
+    },
+    "fighter-dwarfhammer-strike": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        59,
+        27,
+        355,
+        393
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        59,
+        46
+      ],
+      "grip": [
+        127.65753424657534,
+        128.46575342465752
+      ],
+      "object_bounds": [
+        72.42465753424658,
+        48.68493150684932,
+        141.46575342465752,
+        158.0
+      ],
+      "visible_bounds": [
+        81,
+        56,
+        195,
+        197
+      ],
+      "export_sha256": "4db7921001b8616e104792029eff886eddac983315e35abf3d2905f9a89d9d68"
+    },
+    "fighter-dwarfhammer-cut": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        14,
+        117,
+        404,
+        346
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        57,
+        41
+      ],
+      "grip": [
+        127.95890410958904,
+        128.06849315068493
+      ],
+      "object_bounds": [
+        57.76712328767123,
+        73.6027397260274,
+        155.5753424657534,
+        156.83561643835617
+      ],
+      "visible_bounds": [
+        62,
+        86,
+        212,
+        173
+      ],
+      "export_sha256": "b1cfeb3ae7ab30863e378d958db330aac5469144740a7c3e2e59d2e560b6cbd0"
+    },
+    "fighter-dwarfhammer-sweep": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        5,
+        159,
+        403,
+        327
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        54,
+        42
+      ],
+      "grip": [
+        128.41095890410958,
+        127.91780821917808
+      ],
+      "object_bounds": [
+        54.76712328767123,
+        88.79452054794521,
+        155.26027397260273,
+        159.75342465753425
+      ],
+      "visible_bounds": [
+        56,
+        103,
+        209,
+        167
+      ],
+      "export_sha256": "f1bc2bf3e2ac9ec117332e59f5aebecece4116faa8c1756ed58ab0394e003214"
+    },
+    "fighter-dwarfhammer-through": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        31,
+        182,
+        429,
+        327
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        49,
+        50
+      ],
+      "grip": [
+        127.63013698630137,
+        128.24657534246575
+      ],
+      "object_bounds": [
+        52.06849315068493,
+        105.23287671232876,
+        154.47945205479454,
+        174.27397260273972
+      ],
+      "visible_bounds": [
+        61,
+        119,
+        214,
+        175
+      ],
+      "export_sha256": "8a25d9244956309aa72bcc8b69fdb7a8ebe1734ac7ff949ea37c9b612d074440"
+    },
+    "fighter-dwarfhammer-recover": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        26,
+        53,
+        359,
+        358
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        60,
+        58
+      ],
+      "grip": [
+        128.27397260273972,
+        127.80821917808218
+      ],
+      "object_bounds": [
+        60.76712328767123,
+        58.76712328767123,
+        159.72602739726028,
+        170.7671232876712
+      ],
+      "visible_bounds": [
+        70,
+        78,
+        198,
+        195
+      ],
+      "export_sha256": "39fc46ac36ab0568d9b49d4acae6d11d9c12f66c57ce83039c5f31aedc0de14c"
+    },
+    "fighter-dwarfhammer-return": {
+      "source": "held-aa51.png",
+      "source_sha256": "a4ef957d8fc6a4c133b778e73afb332b7c81086903f012c851ca62cceda82784",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        87,
+        4,
+        367,
+        370
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        52,
+        54
+      ],
+      "grip": [
+        127.56164383561644,
+        128.41095890410958
+      ],
+      "object_bounds": [
+        65.04109589041096,
+        54.76712328767123,
+        153.26027397260273,
+        166.7671232876712
+      ],
+      "visible_bounds": [
+        85,
+        55,
+        193,
+        196
+      ],
+      "export_sha256": "ef16a6f7ead18fdde3b0c9a0f28378ec02e7af0b3243314238b70fd59c9349a6"
+    },
+    "cleric-dwarfhammer-rest": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        71,
+        24,
+        355,
+        393
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        57,
+        47
+      ],
+      "grip": [
+        127.95890410958904,
+        127.93150684931507
+      ],
+      "object_bounds": [
+        80.78082191780823,
+        52.75342465753425,
+        143.3013698630137,
+        156.31506849315068
+      ],
+      "visible_bounds": [
+        84,
+        56,
+        193,
+        197
+      ],
+      "export_sha256": "fd909b4e39f866ed50a5cd2f911ca1401946b7daba042474f15db42660d3cb0d"
+    },
+    "cleric-dwarfhammer-drawback": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        140,
+        21,
+        329,
+        397
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        51,
+        46
+      ],
+      "grip": [
+        127.71232876712328,
+        128.46575342465752
+      ],
+      "object_bounds": [
+        97.79452054794521,
+        51.75342465753425,
+        163.0,
+        155.31506849315068
+      ],
+      "visible_bounds": [
+        104,
+        54,
+        177,
+        198
+      ],
+      "export_sha256": "7af265b9cfaae405b0d04ac1844fea2028cb544a57b1f451f08e9810e9c904e4"
+    },
+    "cleric-dwarfhammer-windup": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        171,
+        33,
+        332,
+        396
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        48,
+        47
+      ],
+      "grip": [
+        128.16438356164383,
+        127.93150684931507
+      ],
+      "object_bounds": [
+        118.57534246575342,
+        57.73972602739726,
+        183.78082191780823,
+        154.3972602739726
+      ],
+      "visible_bounds": [
+        113,
+        59,
+        175,
+        199
+      ],
+      "export_sha256": "6b9cb6ea37d857a348ce306da40904038dfb60584f5be9c1feb711631bc90547"
+    },
+    "cleric-dwarfhammer-strike": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        53,
+        16,
+        344,
+        382
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        62,
+        49
+      ],
+      "grip": [
+        128.35616438356163,
+        127.63013698630137
+      ],
+      "object_bounds": [
+        75.42465753424658,
+        51.68493150684932,
+        144.46575342465752,
+        161.0
+      ],
+      "visible_bounds": [
+        82,
+        55,
+        194,
+        195
+      ],
+      "export_sha256": "8c2c91634fe80766c18ed9f771fe75fb2efd5e0f46b696c79c60ab088fdd3046"
+    },
+    "cleric-dwarfhammer-cut": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        12,
+        98,
+        393,
+        328
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        59,
+        44
+      ],
+      "grip": [
+        127.65753424657534,
+        128.3835616438356
+      ],
+      "object_bounds": [
+        59.76712328767123,
+        76.6027397260274,
+        157.5753424657534,
+        159.83561643835617
+      ],
+      "visible_bounds": [
+        64,
+        82,
+        210,
+        170
+      ],
+      "export_sha256": "1a0fc94fdfc57914e3ff8fbad1fc9c7408a34138219025da6c49120883a1bd2f"
+    },
+    "cleric-dwarfhammer-sweep": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        24,
+        136,
+        402,
+        307
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        52,
+        44
+      ],
+      "grip": [
+        128.32876712328766,
+        127.61643835616438
+      ],
+      "object_bounds": [
+        52.76712328767123,
+        90.79452054794521,
+        153.26027397260273,
+        161.75342465753425
+      ],
+      "visible_bounds": [
+        61,
+        96,
+        206,
+        162
+      ],
+      "export_sha256": "faed7a30b7acaef1984b865f5917652e3d1392a75f29b2eb99a7767279e651ef"
+    },
+    "cleric-dwarfhammer-through": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        20,
+        150,
+        413,
+        316
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        51,
+        55
+      ],
+      "grip": [
+        127.71232876712328,
+        127.87671232876711
+      ],
+      "object_bounds": [
+        54.06849315068493,
+        110.23287671232876,
+        156.47945205479454,
+        179.27397260273972
+      ],
+      "visible_bounds": [
+        58,
+        112,
+        210,
+        176
+      ],
+      "export_sha256": "3bb24444a9cebdba43471a9a9fb12bce7841e335970021932c2071b6dce537c9"
+    },
+    "cleric-dwarfhammer-recover": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        9,
+        50,
+        367,
+        348
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        64,
+        62
+      ],
+      "grip": [
+        128.05479452054794,
+        127.97260273972603
+      ],
+      "object_bounds": [
+        64.76712328767124,
+        62.76712328767123,
+        163.72602739726028,
+        174.7671232876712
+      ],
+      "visible_bounds": [
+        67,
+        81,
+        205,
+        195
+      ],
+      "export_sha256": "5884ef63449ccd0585fb213c9053740012cf05b487c56e0cab5090a55ef9ab05"
+    },
+    "cleric-dwarfhammer-return": {
+      "source": "held-aa52-edges.png",
+      "source_sha256": "737f2adb11cb9204172c0d22f5014905e97912b18cc972d22ef9a76ea46a5ee3",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        55,
+        12,
+        388,
+        371
+      ],
+      "scale": 0.3835616438356164,
+      "offset": [
+        54,
+        54
+      ],
+      "grip": [
+        127.64383561643835,
+        128.41095890410958
+      ],
+      "object_bounds": [
+        67.04109589041096,
+        54.76712328767123,
+        155.26027397260273,
+        166.7671232876712
+      ],
+      "visible_bounds": [
+        75,
+        58,
+        203,
+        196
+      ],
+      "export_sha256": "dc1a5cf3ac19e7eedbd9b3ac40590db5a4f0cc1183a874ed437a2a98e5678984"
+    }
+  }
+}

@@ -1,0 +1,1818 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-rare.md",
+  "status": "source complete and reviewed; activated for release 0.9.38; historical source-only evidence retained",
+  "groups": {
+    "aa46": [
+      "fighter-scimitar-rest",
+      "fighter-scimitar-drawback",
+      "fighter-scimitar-windup",
+      "fighter-scimitar-strike",
+      "fighter-scimitar-cut",
+      "fighter-scimitar-sweep",
+      "fighter-scimitar-through",
+      "fighter-scimitar-recover",
+      "fighter-scimitar-return"
+    ],
+    "aa47": [
+      "thief-scimitar-rest",
+      "thief-scimitar-drawback",
+      "thief-scimitar-windup",
+      "thief-scimitar-strike",
+      "thief-scimitar-cut",
+      "thief-scimitar-sweep",
+      "thief-scimitar-through",
+      "thief-scimitar-recover",
+      "thief-scimitar-return"
+    ],
+    "aa48": [
+      "ranger-scimitar-rest",
+      "ranger-scimitar-drawback",
+      "ranger-scimitar-windup",
+      "ranger-scimitar-strike",
+      "ranger-scimitar-cut",
+      "ranger-scimitar-sweep",
+      "ranger-scimitar-through",
+      "ranger-scimitar-recover",
+      "ranger-scimitar-return"
+    ],
+    "aa49": [
+      "spellblade-scimitar-rest",
+      "spellblade-scimitar-drawback",
+      "spellblade-scimitar-windup",
+      "spellblade-scimitar-strike",
+      "spellblade-scimitar-cut",
+      "spellblade-scimitar-sweep",
+      "spellblade-scimitar-through",
+      "spellblade-scimitar-recover",
+      "spellblade-scimitar-return"
+    ],
+    "aa50": [
+      "spellblade-scimitar-rest-lit",
+      "spellblade-scimitar-drawback-lit",
+      "spellblade-scimitar-windup-lit",
+      "spellblade-scimitar-strike-lit",
+      "spellblade-scimitar-cut-lit",
+      "spellblade-scimitar-sweep-lit",
+      "spellblade-scimitar-through-lit",
+      "spellblade-scimitar-recover-lit",
+      "spellblade-scimitar-return-lit"
+    ],
+    "aa51": [
+      "fighter-dwarfhammer-rest",
+      "fighter-dwarfhammer-drawback",
+      "fighter-dwarfhammer-windup",
+      "fighter-dwarfhammer-strike",
+      "fighter-dwarfhammer-cut",
+      "fighter-dwarfhammer-sweep",
+      "fighter-dwarfhammer-through",
+      "fighter-dwarfhammer-recover",
+      "fighter-dwarfhammer-return"
+    ],
+    "aa52": [
+      "cleric-dwarfhammer-rest",
+      "cleric-dwarfhammer-drawback",
+      "cleric-dwarfhammer-windup",
+      "cleric-dwarfhammer-strike",
+      "cleric-dwarfhammer-cut",
+      "cleric-dwarfhammer-sweep",
+      "cleric-dwarfhammer-through",
+      "cleric-dwarfhammer-recover",
+      "cleric-dwarfhammer-return"
+    ]
+  },
+  "sheets": {
+    "aa46": {
+      "source": "held-aa46.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "scimitar",
+      "lit": false,
+      "references": [
+        "batch-aa-rare-preview/aa46-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Transparent RGBA equipment sprite source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty hand-painted dungeon realism matching approved reference TWO: worn steel, matte leather, coarse cloth and restrained realistic shading, never cartoon/plastic/vector. Reference ONE defines exact nine pose orientations, native weapon construction and costume. Copy them cell by cell: row1 rest, drawback, windup; row2 strike, cut, sweep; row3 through, recover, return. Preserve distinct downward-left through and vertical return directions. Each cell contains ONE complete RIGHT hand gripping ONE weapon and connected full forearm, no second hand. Four curled fingers and an opposing thumb, realistic joined wrist. Same equipment and costume and scale across nine cells. All weapon ends, fingers and sleeve ends inside their own cell with clear transparent margins, ideally eight percent; no clipping or overlap, shadow, backdrop, labels, borders, motion lines or glow. Do not paint a character portrait or scene. Dark Elf SCIMITAR, the native broad gently CURVED silver steel blade widening towards its curved angled point, small silver crossguard with one tiny violet inset at centre, dark purple-black wrapped handle and small silver pommel. No straight longsword/dagger replacement, no exaggerated hook, serrations, huge jewel, runes or gold trim. Preserve curved cutting edge and convex blade shape at every orientation. COSTUME: grey armoured leather glove and steel cuff, coarse brown sleeve. Keep this palette exactly; no extra armour or jewellery. Plain unlit blade/metal, no emissive or coloured edge.",
+      "generated_image": "/workspace/generated_images/exec-8fa5445c-bb3e-46c8-bee5-aa17f97ea961.png",
+      "repairs": [
+        {
+          "source": "held-aa46-edges.png",
+          "references": [
+            "held-aa46.png"
+          ],
+          "reason": "Visible white/coloured alpha debris outside blade or ivory sleeve silhouettes",
+          "prompt": "Repair the transparent edges of this nine-cell painted equipment source. Preserve all nine distinct poses, exact layout, equipment shape, blade/hammer anatomy, joined hands, costume, sleeve lengths, colours, grip positions and scale. Remove the irregular white patches, coloured flecks and fuzzy exterior debris just outside the metal and cloth silhouettes. Leave clean natural antialiased transparent boundaries. Keep every entire prop and forearm complete and preserve the interior worn painted material detail. Do not add new highlights, change the metal, invent outlines, rotate, mirror or flatten poses. True transparent background, no shadows, background or lettering.",
+          "generated_image": "/workspace/generated_images/exec-0962dd62-5f65-48af-b5b1-49d45809fd9a.png"
+        }
+      ],
+      "selected_source": "held-aa46-edges.png"
+    },
+    "aa47": {
+      "source": "held-aa47.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "thief",
+      "id": "scimitar",
+      "lit": false,
+      "references": [
+        "batch-aa-rare-preview/aa47-reference-opaque.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Transparent RGBA equipment sprite source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty hand-painted dungeon realism matching approved reference TWO: worn steel, matte leather, coarse cloth and restrained realistic shading, never cartoon/plastic/vector. Reference ONE defines exact nine pose orientations, native weapon construction and costume. Copy them cell by cell: row1 rest, drawback, windup; row2 strike, cut, sweep; row3 through, recover, return. Preserve distinct downward-left through and vertical return directions. Each cell contains ONE complete RIGHT hand gripping ONE weapon and connected full forearm, no second hand. Four curled fingers and an opposing thumb, realistic joined wrist. Same equipment and costume and scale across nine cells. All weapon ends, fingers and sleeve ends inside their own cell with clear transparent margins, ideally eight percent; no clipping or overlap, shadow, backdrop, labels, borders, motion lines or glow. Do not paint a character portrait or scene. Dark Elf SCIMITAR, the native broad gently CURVED silver steel blade widening towards its curved angled point, small silver crossguard with one tiny violet inset at centre, dark purple-black wrapped handle and small silver pommel. No straight longsword/dagger replacement, no exaggerated hook, serrations, huge jewel, runes or gold trim. Preserve curved cutting edge and convex blade shape at every orientation. COSTUME: charcoal leather glove, worn brown cuff, muted olive cloth sleeve. Keep this palette exactly; no extra armour or jewellery. Plain unlit blade/metal, no emissive or coloured edge.",
+      "failed_requests": [
+        {
+          "outcome": "image tool rejected input as violence; static non-graphic equipment request, no output",
+          "request_id": "2277045e-3464-49bb-9dc9-bef7c0aa8a3e",
+          "prompt": "Same as sheet prompt/references above; identical retry succeeded."
+        }
+      ],
+      "generated_image": "/workspace/generated_images/exec-d7d622d0-b78f-43fc-bbb1-a8abc61dbe3c.png"
+    },
+    "aa49": {
+      "source": "held-aa49.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "scimitar",
+      "lit": false,
+      "references": [
+        "batch-aa-rare-preview/aa49-reference-opaque.png",
+        "held-aa20-edges.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Transparent RGBA equipment sprite source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty hand-painted dungeon realism matching approved reference TWO: worn steel, matte leather, coarse cloth and restrained realistic shading, never cartoon/plastic/vector. Reference ONE defines exact nine pose orientations, native weapon construction and costume. Copy them cell by cell: row1 rest, drawback, windup; row2 strike, cut, sweep; row3 through, recover, return. Preserve distinct downward-left through and vertical return directions. Each cell contains ONE complete RIGHT hand gripping ONE weapon and connected full forearm, no second hand. Four curled fingers and an opposing thumb, realistic joined wrist. Same equipment and costume and scale across nine cells. All weapon ends, fingers and sleeve ends inside their own cell with clear transparent margins, ideally eight percent; no clipping or overlap, shadow, backdrop, labels, borders, motion lines or glow. Do not paint a character portrait or scene. Dark Elf SCIMITAR, the native broad gently CURVED silver steel blade widening towards its curved angled point, small silver crossguard with one tiny violet inset at centre, dark purple-black wrapped handle and small silver pommel. No straight longsword/dagger replacement, no exaggerated hook, serrations, huge jewel, runes or gold trim. Preserve curved cutting edge and convex blade shape at every orientation. COSTUME: charcoal glove, slate cuff with subtle silver/cool blue seams, very dark slate cloth sleeve. Keep this palette exactly; no extra armour or jewellery. Plain unlit blade/metal, no emissive or coloured edge.",
+      "generated_image": "/workspace/generated_images/exec-1096e551-69b1-421b-86dd-79f1d7f74a20.png"
+    },
+    "aa51": {
+      "source": "held-aa51.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "lit": false,
+      "references": [
+        "batch-aa-rare-preview/aa51-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Transparent RGBA equipment sprite source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty hand-painted dungeon realism matching approved reference TWO: worn steel, matte leather, coarse cloth and restrained realistic shading, never cartoon/plastic/vector. Reference ONE defines exact nine pose orientations, native weapon construction and costume. Copy them cell by cell: row1 rest, drawback, windup; row2 strike, cut, sweep; row3 through, recover, return. Preserve distinct downward-left through and vertical return directions. Each cell contains ONE complete RIGHT hand gripping ONE weapon and connected full forearm, no second hand. Four curled fingers and an opposing thumb, realistic joined wrist. Same equipment and costume and scale across nine cells. All weapon ends, fingers and sleeve ends inside their own cell with clear transparent margins, ideally eight percent; no clipping or overlap, shadow, backdrop, labels, borders, motion lines or glow. Do not paint a character portrait or scene. DWARVEN HAMMER: native short brown wooden haft, dark leather grip, compact dense angular weathered steel hammer head with broad flat striking face on one end, a short tapered pick on the opposite end and a small top spike. Preserve native dwarven pale steel reinforcing bands/engraved facets on the hammer head, not an oversized maul, axe or mace. The short head/haft is same silhouette as referenceONE; refined dark iron/steel material and small honest forging marks distinguish dwarven craft without gold, runes or magic. COSTUME: grey armoured leather glove and steel cuff, coarse brown sleeve. Keep this palette exactly; no extra armour or jewellery. Plain unlit blade/metal, no emissive or coloured edge.",
+      "generated_image": "/workspace/generated_images/exec-18663c3d-7664-45a8-bade-ef9608b0b3a6.png"
+    },
+    "aa52": {
+      "source": "held-aa52.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "lit": false,
+      "references": [
+        "batch-aa-rare-preview/aa52-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Transparent RGBA equipment sprite source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty hand-painted dungeon realism matching approved reference TWO: worn steel, matte leather, coarse cloth and restrained realistic shading, never cartoon/plastic/vector. Reference ONE defines exact nine pose orientations, native weapon construction and costume. Copy them cell by cell: row1 rest, drawback, windup; row2 strike, cut, sweep; row3 through, recover, return. Preserve distinct downward-left through and vertical return directions. Each cell contains ONE complete RIGHT hand gripping ONE weapon and connected full forearm, no second hand. Four curled fingers and an opposing thumb, realistic joined wrist. Same equipment and costume and scale across nine cells. All weapon ends, fingers and sleeve ends inside their own cell with clear transparent margins, ideally eight percent; no clipping or overlap, shadow, backdrop, labels, borders, motion lines or glow. Do not paint a character portrait or scene. DWARVEN HAMMER: native short brown wooden haft, dark leather grip, compact dense angular weathered steel hammer head with broad flat striking face on one end, a short tapered pick on the opposite end and a small top spike. Preserve native dwarven pale steel reinforcing bands/engraved facets on the hammer head, not an oversized maul, axe or mace. The short head/haft is same silhouette as referenceONE; refined dark iron/steel material and small honest forging marks distinguish dwarven craft without gold, runes or magic. COSTUME: brown leather glove, muted gold cuff, ivory cloth sleeve. Keep this palette exactly; no extra armour or jewellery. Plain unlit blade/metal, no emissive or coloured edge.",
+      "generated_image": "/workspace/generated_images/exec-c2594297-bde4-47d7-ae41-9b5299b77cfd.png",
+      "repairs": [
+        {
+          "source": "held-aa52-edges.png",
+          "references": [
+            "held-aa52.png"
+          ],
+          "reason": "Visible white/coloured alpha debris outside blade or ivory sleeve silhouettes",
+          "prompt": "Repair the transparent edges of this nine-cell painted equipment source. Preserve all nine distinct poses, exact layout, equipment shape, blade/hammer anatomy, joined hands, costume, sleeve lengths, colours, grip positions and scale. Remove the irregular white patches, coloured flecks and fuzzy exterior debris just outside the metal and cloth silhouettes. Leave clean natural antialiased transparent boundaries. Keep every entire prop and forearm complete and preserve the interior worn painted material detail. Do not add new highlights, change the metal, invent outlines, rotate, mirror or flatten poses. True transparent background, no shadows, background or lettering.",
+          "generated_image": "/workspace/generated_images/exec-752a872d-094a-4bdb-97da-e1846ee00b5f.png"
+        }
+      ],
+      "selected_source": "held-aa52-edges.png"
+    },
+    "aa48": {
+      "source": "held-aa46.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "ranger",
+      "id": "scimitar",
+      "lit": false,
+      "reuse": "Fighter shared source only after9 exact native pixel/grip/bounds/dimension proofs",
+      "selected_source": "held-aa46-edges.png"
+    },
+    "aa50": {
+      "source": "held-aa50.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "scimitar",
+      "lit": true,
+      "references": [
+        "held-aa49.png",
+        "batch-aa-rare-preview/aa50-reference-opaque.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Edit the supplied NINE-cell transparent scimitar source into the matching lantern-reflected Spellblade variant. Preserve EXACT three by three layout, all nine distinct poses, weapon anatomy, broad curved steel blade, small silver guard/tiny violet inset, dark wrap, small silver pommel, charcoal glove, slate cuff, dark cloth forearm and their position, scale and margins. Add only a fine restrained cool blue/silver reflection along part of each blade edge and small cool knuckle/cuff seams, matching native reference TWO. This is faint reflected light cached into the weapon/hand, NOT an emitting blade, aura, glowing sword or changed dungeon lighting. Keep steel silver and violet guard detail unchanged. No new marks, mist, sparks, shadow, extra hand, labels or background. Clean transparent edges; retain all complete blade/guard/pommel and sleeve ends. Do not redesign, rotate, mirror or flatten any pose.",
+      "generated_image": "/workspace/generated_images/exec-f7109963-1b66-4887-9087-122613ab3f5c.png"
+    }
+  },
+  "cells": {
+    "fighter-scimitar-rest": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        156,
+        222
+      ],
+      "source_object_bounds": [
+        98,
+        10,
+        195,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-drawback": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        173,
+        221
+      ],
+      "source_object_bounds": [
+        122,
+        14,
+        272,
+        288
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-windup": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        192,
+        210
+      ],
+      "source_object_bounds": [
+        124,
+        20,
+        342,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-strike": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        147,
+        214
+      ],
+      "source_object_bounds": [
+        90,
+        12,
+        195,
+        292
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-cut": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        181,
+        227
+      ],
+      "source_object_bounds": [
+        2,
+        92,
+        257,
+        299
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-sweep": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        195,
+        208
+      ],
+      "source_object_bounds": [
+        2,
+        102,
+        249,
+        282
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-through": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        210,
+        202
+      ],
+      "source_object_bounds": [
+        8,
+        150,
+        272,
+        264
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-recover": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        173,
+        179
+      ],
+      "source_object_bounds": [
+        5,
+        2,
+        250,
+        286
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-scimitar-return": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        193,
+        206
+      ],
+      "source_object_bounds": [
+        72,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-rest": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        146,
+        210
+      ],
+      "source_object_bounds": [
+        98,
+        10,
+        195,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-drawback": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        174,
+        212
+      ],
+      "source_object_bounds": [
+        122,
+        14,
+        272,
+        288
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-windup": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        195,
+        220
+      ],
+      "source_object_bounds": [
+        124,
+        20,
+        342,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-strike": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        390,
+        836
+      ],
+      "source_grip": [
+        145,
+        207
+      ],
+      "source_object_bounds": [
+        90,
+        12,
+        195,
+        292
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-cut": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        390,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        175,
+        224
+      ],
+      "source_object_bounds": [
+        18,
+        92,
+        285,
+        299
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-sweep": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_grip": [
+        183,
+        220
+      ],
+      "source_object_bounds": [
+        2,
+        102,
+        249,
+        282
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-through": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        201,
+        186
+      ],
+      "source_object_bounds": [
+        8,
+        150,
+        272,
+        264
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-recover": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        161,
+        157
+      ],
+      "source_object_bounds": [
+        5,
+        2,
+        250,
+        286
+      ],
+      "object_height_limit": 128
+    },
+    "thief-scimitar-return": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        193,
+        222
+      ],
+      "source_object_bounds": [
+        72,
+        15,
+        260,
+        330
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-rest": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        156,
+        222
+      ],
+      "source_object_bounds": [
+        98,
+        10,
+        195,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-drawback": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        173,
+        221
+      ],
+      "source_object_bounds": [
+        122,
+        14,
+        272,
+        288
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-windup": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        192,
+        210
+      ],
+      "source_object_bounds": [
+        124,
+        20,
+        342,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-strike": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        147,
+        214
+      ],
+      "source_object_bounds": [
+        90,
+        12,
+        195,
+        292
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-cut": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        181,
+        227
+      ],
+      "source_object_bounds": [
+        2,
+        92,
+        257,
+        299
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-sweep": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        195,
+        208
+      ],
+      "source_object_bounds": [
+        2,
+        102,
+        249,
+        282
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-through": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        210,
+        202
+      ],
+      "source_object_bounds": [
+        8,
+        150,
+        272,
+        264
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-recover": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        173,
+        179
+      ],
+      "source_object_bounds": [
+        5,
+        2,
+        250,
+        286
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-scimitar-return": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        193,
+        206
+      ],
+      "source_object_bounds": [
+        72,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-rest": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        149,
+        222
+      ],
+      "source_object_bounds": [
+        98,
+        10,
+        195,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-drawback": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        164,
+        219
+      ],
+      "source_object_bounds": [
+        122,
+        14,
+        272,
+        288
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-windup": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        166,
+        205
+      ],
+      "source_object_bounds": [
+        124,
+        20,
+        342,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-strike": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        139,
+        212
+      ],
+      "source_object_bounds": [
+        90,
+        12,
+        195,
+        292
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-cut": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        160,
+        227
+      ],
+      "source_object_bounds": [
+        2,
+        92,
+        257,
+        299
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-sweep": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        178,
+        209
+      ],
+      "source_object_bounds": [
+        2,
+        102,
+        249,
+        282
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-through": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        201,
+        200
+      ],
+      "source_object_bounds": [
+        8,
+        150,
+        272,
+        264
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-recover": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        150,
+        164
+      ],
+      "source_object_bounds": [
+        5,
+        2,
+        250,
+        286
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-return": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        193,
+        196
+      ],
+      "source_object_bounds": [
+        72,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-rest-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        0,
+        0,
+        418,
+        430
+      ],
+      "source_grip": [
+        150,
+        228
+      ],
+      "source_object_bounds": [
+        98,
+        10,
+        195,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-drawback-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        418,
+        0,
+        836,
+        430
+      ],
+      "source_grip": [
+        166,
+        231
+      ],
+      "source_object_bounds": [
+        122,
+        14,
+        272,
+        288
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-windup-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        430
+      ],
+      "source_grip": [
+        180,
+        214
+      ],
+      "source_object_bounds": [
+        124,
+        20,
+        342,
+        278
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-strike-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        0,
+        430,
+        418,
+        836
+      ],
+      "source_grip": [
+        140,
+        212
+      ],
+      "source_object_bounds": [
+        90,
+        2,
+        195,
+        280
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-cut-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        418,
+        430,
+        836,
+        836
+      ],
+      "source_grip": [
+        159,
+        213
+      ],
+      "source_object_bounds": [
+        2,
+        80,
+        257,
+        287
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-sweep-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        836,
+        430,
+        1254,
+        836
+      ],
+      "source_grip": [
+        182,
+        208
+      ],
+      "source_object_bounds": [
+        2,
+        90,
+        249,
+        270
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-through-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        202,
+        199
+      ],
+      "source_object_bounds": [
+        8,
+        150,
+        272,
+        264
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-recover-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        140,
+        162
+      ],
+      "source_object_bounds": [
+        5,
+        2,
+        250,
+        286
+      ],
+      "object_height_limit": 128
+    },
+    "spellblade-scimitar-return-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        193,
+        222
+      ],
+      "source_object_bounds": [
+        72,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-dwarfhammer-rest": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        183,
+        230
+      ],
+      "source_object_bounds": [
+        62,
+        15,
+        225,
+        285
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-drawback": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        199,
+        230
+      ],
+      "source_object_bounds": [
+        122,
+        15,
+        292,
+        285
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-windup": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        213,
+        220
+      ],
+      "source_object_bounds": [
+        184,
+        28,
+        354,
+        280
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-strike": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        179,
+        215
+      ],
+      "source_object_bounds": [
+        35,
+        7,
+        215,
+        292
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-cut": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        185,
+        227
+      ],
+      "source_object_bounds": [
+        2,
+        85,
+        257,
+        302
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-sweep": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        194,
+        224
+      ],
+      "source_object_bounds": [
+        2,
+        122,
+        264,
+        307
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-through": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        205,
+        204
+      ],
+      "source_object_bounds": [
+        8,
+        144,
+        275,
+        324
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-recover": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        178,
+        182
+      ],
+      "source_object_bounds": [
+        2,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-dwarfhammer-return": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        197,
+        194
+      ],
+      "source_object_bounds": [
+        34,
+        2,
+        264,
+        294
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-rest": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        185,
+        211
+      ],
+      "source_object_bounds": [
+        62,
+        15,
+        225,
+        285
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-drawback": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        200,
+        215
+      ],
+      "source_object_bounds": [
+        122,
+        15,
+        292,
+        285
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-windup": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        209,
+        211
+      ],
+      "source_object_bounds": [
+        184,
+        28,
+        354,
+        280
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-strike": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        173,
+        205
+      ],
+      "source_object_bounds": [
+        35,
+        7,
+        215,
+        292
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-cut": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        179,
+        220
+      ],
+      "source_object_bounds": [
+        2,
+        85,
+        257,
+        302
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-sweep": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        199,
+        218
+      ],
+      "source_object_bounds": [
+        2,
+        122,
+        264,
+        307
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-through": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        200,
+        190
+      ],
+      "source_object_bounds": [
+        8,
+        144,
+        275,
+        324
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-recover": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        167,
+        172
+      ],
+      "source_object_bounds": [
+        2,
+        2,
+        260,
+        294
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-dwarfhammer-return": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        192,
+        194
+      ],
+      "source_object_bounds": [
+        34,
+        2,
+        264,
+        294
+      ],
+      "object_height_limit": 112
+    }
+  },
+  "native_reuse_evidence": "batch-aa-rare-preview/reference-inventory.json",
+  "review_notes": [
+    "63 class/state frames:54 unique painted states and9 native-audited Fighter/Ranger scimitar shared states.6 original sheets+2 edge repair sheets; one initial Thief request rejected without output, identical retry succeeded. Original outputs/repairs retained.",
+    "All native grids,8 outputs,63 registered frames/contact/registration/alpha diagnostics,14 phone galleries and selected full-size captures inspected. Opaque compositing resolves misleading strong fringe in transparent image display. Minor raw edge flecks remain; no scripted painting/masking/recolour/rotation.",
+    "Authored source crops cross nominal grid gaps: all through cells use0..450 and recover450..836 in last row; Thief strike/cut boundary390, sweep/return row boundary800, reflected Spellblade top/middle boundary430. Full tips/pommels/heads/sleeves retain source alpha margins despite original gutters narrower than8percent target. Registered alpha>32 clearance>=25px.",
+    "Plain/reflected Spellblade share family scale, exact lit keys and distinct painted poses with subtle foreshortening differences from image-tool edit. Cached cool reflections do not change dungeon light. All six legal class/item pairs have source coverage; pending activation remains separate.208 captures/624 fits/17 guards per width/full state and Dice/Odds neutrality/12 existing browser checks pass."
+  ],
+  "activation_review": "batch-aa-runtime116/REVIEW.md"
+}

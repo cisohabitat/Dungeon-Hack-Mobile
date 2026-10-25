@@ -682,5 +682,147 @@ separately, including exact-mask and unused-reserve exceptions.
 AA melee4/5 activation for0.9.37 supersedes their historical source-only statuses
 above:133 bindings are integrated, with native and release validation in the
 [combined native delivery review](batch-aa-melee45-runtime/REVIEW.md). Next painting
-work remains sling/throwing knives/hand crossbow, rare scimitar/dwarfhammer,
+work now continues with the remaining bow class pairs, rare scimitar/dwarfhammer,
 greatsword released-hand states and the named/legendary/Mythic library.
+
+
+### AA ranged source pass — complete locally, pending activation
+
+17 class/state frames cover all legal sling (5 classes, loaded/empty), throwing
+knife (4 classes, rest) and hand crossbow (3 classes, rest) pairs.13 unique new
+paintings plus4 native-audited Ranger reuse states;9 original image-tool sheets.
+292 frozen phone captures,876 fits and12 baseline browser checks pass.
+See [review](batch-aa-ranged-preview/REVIEW.md) and
+[coverage audit](batch-aa-ranged-preview/coverage-audit.json). No runtime bindings
+or publication; live0.9.37 remains unchanged. Activation must preserve live sling
+cord/stone and knife bare-hand release, exact family guards and offline delivery.
+
+Remaining source priority:
+
+1. Fighter/Thief shortbow and Fighter longbow class coverage; preserve procedural
+   strings, arrows, draw hands and registered nocks. Ranger bows are already painted.
+2. Rare scimitar and dwarfhammer class/state variants.
+3. Greatsword released-hand states where currently procedural.
+4. Named, legendary and Mythic equipment library, audited by actual identity.
+
+The three-weapon pass is complete; the whole AA library remains open.
+
+
+### AA remaining bow classes — complete locally, pending activation
+
+9 source frames finish Fighter/Thief shortbow and Fighter longbow: rest, half draw
+and full draw for each pair. Thief adds3 paintings;6 Fighter frames reuse approved
+Ranger registered bytes and measurements after exact native pixel/grip/bounds/
+dimension/nock audits. All ordinary shortbow/longbow legal class pairs now have
+source coverage.94 frozen captures,282 fixture cases and12 baseline checks pass.
+See [review](batch-aa-bows-preview/REVIEW.md) and
+[coverage audit](batch-aa-bows-preview/coverage-audit.json). These9 and the preceding
+17 ranged frames remain local/unactivated/unpublished; live0.9.37 unchanged.
+
+Current next source priorities supersede the bow gap listed above:
+
+1. Rare scimitar and dwarfhammer class/state variants.
+2. Greatsword released-hand states where procedural.
+3. Named, legendary and Mythic equipment by actual identity.
+
+Native activation must retain per-family fallback, strings/arrows/draw hands,
+Calm flex selection, action lowering and offline delivery. The AA library remains
+open beyond these completed ordinary bow class pairs.
+
+
+### AA rare scimitar and dwarfhammer — complete locally, pending activation
+
+63 source frames cover every legal class pair for these two tier99 weapons:
+Fighter/Thief/Ranger/Spellblade scimitar9 each, Spellblade reflected9, and
+Fighter/Cleric dwarfhammer9 each.54 unique painted states plus9 exact native-audited
+Ranger reuses.208 frozen captures,624 fits,17 fallback guards per width and12
+baseline checks pass. See [review](batch-aa-rare-preview/REVIEW.md) and
+[coverage audit](batch-aa-rare-preview/coverage-audit.json). All89 local frames
+across rare/ranged/bow passes await activation/publication; live0.9.37 unchanged.
+
+Current next source work supersedes the rare priority above:
+
+1. Fighter greatsword released-hand state during cast/read/drink; retain the
+   existing two-hand CUT family and real renderer selection.
+2. Named, legendary and Mythic equipment library, audited by actual identity.
+
+Activation must preserve explicit Spellblade plain/reflected keys and independent
+class/family fallback, then verify real actions, offline delivery and performance.
+Completing these two rare families does not complete the whole AA library.
+
+
+### AA Fighter greatsword released-hand pass — complete locally
+
+9 one-hand CUT states complete source coverage for Fighter greatsword hand
+release, including overlapping read/drink actions. Existing9 two-hand frames stay
+published and unchanged.130 frozen captures,390 fixture checks (270 new bounds,
+96 published two-hand draws,24 other fallbacks),22 guards per width and12 baseline
+checks pass. See [review](batch-aa-greatsword-preview/REVIEW.md),
+[comparison](batch-aa-greatsword-preview/hand-release-review.png) and
+[coverage audit](batch-aa-greatsword-preview/coverage-audit.json). These9 plus89
+prior ranged/bow/rare frames remain local/unactivated/unpublished:98 total.
+Live0.9.37 remains unchanged. Future activation must switch both hand variants as
+one18-state family and verify native actions, failures, offline and performance.
+
+Current next painting work: named, legendary and Mythic equipment by actual
+identity, preserving class/hand/reflection variants. This supersedes the
+greatsword gap above; the entire AA library is still open. Action hands, bow
+strings/arrows and moving projectiles intentionally remain procedural.
+
+
+### AA named held pass1 — Penitent source complete locally
+
+18 exact `relic_penitent` frames cover Fighter/Cleric9 CUT states each, with
+three pale-gold prayer beads and the small cross, compact linked chain/iron ball
+and class-specific hands. Actual base flail/u:penitent items route to the named
+sprite and pass canEquip.68 frozen captures/204 fixture checks,17 exact guards
+per width, state/dice neutrality and12 baseline browser checks pass. See
+[review](batch-aa-penitent-preview/REVIEW.md),
+[identity comparison](batch-aa-penitent-preview/identity-review.png) and
+[coverage](batch-aa-penitent-preview/coverage-audit.json). No activation/publication;
+these18 plus98 earlier frames total116 pending. Live0.9.37 stays unchanged.
+
+The [named identity/class inventory](batch-aa-penitent-preview/named-library-audit.json)
+records47 named identities,31 weapon/shield held candidates,1 with held source
+(Penitent),30 without held source and0 delivered named held/carried families.
+Inventory/portrait/worn art and carried source sheets are separate. Legal class
+sets use relicUsableBy, including Mythic ownership, not only the base item.
+Reconcile with `node art/creatures/audit-named-equipment.mjs`; verify using
+`node art/creatures/audit-named-equipment.mjs --check`. Do not strip named prefixes
+or count ordinary art as named coverage. Other identities require native pose
+audits before generation and separate runtime/offline/family-failure gates.
+
+Next source order:
+
+1. Dawnbringer — Fighter/Cleric temple mace with its named sunburst head.
+2. The Ogre's Toll — Fighter axe with its own construction and tally marks.
+3. Vashti's Needles and remaining named blade/staff/bow/spear/carried families,
+   preserving exact legal classes, hand counts, reflections and moving parts.
+
+This starts the named library; it does not finish all31 held candidates.
+
+
+### AA activation — release 0.9.38
+
+
+AA ranged, bows, rare weapons, released-hand greatsword and Penitent are activated
+for release 0.9.38 (build 53, offline cache deepdelve-v113). The 116 new held
+frames cover every legal sling/throwing-knife/hand-crossbow pair, missing bow
+classes, scimitar/dwarfhammer classes, Spellblade plain/reflected scimitars,
+Fighter greatsword hand release and exact Fighter/Cleric relic_penitent poses.
+The catalog now contains 405 held frames and 744 shipped paintings plus 3 icons;
+all 460 previous common delivery files retain identical bytes. New delivery adds
+2,027,593 compressed bytes across 116 PNGs, matching reviewed source exports.
+
+See [the activation review](batch-aa-runtime116/REVIEW.md) for native
+actions, family failures, offline delivery and release checks. Fifty sessions at
+390px/320px exercise 25 real equipment variants, 164 actions, Calm and 50 offline
+Continue reloads with all 405 held frames cached. The 742 captures and 50 galleries
+use native updates and loaders; setup supplies equipment/resources and a durable
+target, so they do not establish unassisted combat or quest completion. Earlier
+source-only notes describe historical stages, superseded by this activation.
+
+The named inventory now has one delivered held family (Penitent), with 30 of 31
+named weapon/shield candidates still awaiting held source. Next painting order:
+Dawnbringer for Fighter/Cleric, then The Ogre's Toll and remaining named families.
+Action hands, bow strings/arrows and moving projectiles remain procedural.

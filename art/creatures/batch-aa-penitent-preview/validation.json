@@ -1,0 +1,63 @@
+{
+  "scope": "Named Penitent held source only, not activation; live0.9.37 unchanged",
+  "identity": "relic_penitent",
+  "item": {
+    "t": "flail",
+    "u": "penitent"
+  },
+  "classes": [
+    "fighter",
+    "cleric"
+  ],
+  "frames": 18,
+  "new_painted_states": 18,
+  "selected_sheets": 2,
+  "outputs_including_repairs": 4,
+  "rejected_repair_outputs": 1,
+  "actual_named_sprite_and_eligibility": [
+    {
+      "group": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "reason": null,
+      "sprite": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent"
+    },
+    {
+      "group": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "reason": null,
+      "sprite": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent"
+    }
+  ],
+  "captures": 68,
+  "galleries": 4,
+  "fixture_checks": 204,
+  "new_prop_bounds_checks": 168,
+  "fallback_checks": 36,
+  "renderer_heights": [
+    160,
+    360,
+    464
+  ],
+  "viewport_widths": [
+    390,
+    320
+  ],
+  "viewport_height": 844,
+  "exact_fallback_guards_per_width": 17,
+  "full_state_and_Dice_Odds_neutral": true,
+  "recording_disabled_before_snapshot": true,
+  "atlas_cells_exact": true,
+  "minimum_prop_clearance_px": 3.5,
+  "minimum_alpha32_margin_px": 25,
+  "console_errors": [],
+  "baseline_checks": {
+    "passed": 12,
+    "seconds": 29.8
+  }
+}

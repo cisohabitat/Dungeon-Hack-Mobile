@@ -1523,3 +1523,76 @@ All327 earlier common delivery files remain byte-identical. See the
 native actions, offline reloads and release validation. The source-only notes
 above preserve the earlier review stages. Rare/named/ranged and unsupported
 hand-state conversions remain on the roadmap; no rules or balance changed.
+
+
+AA ranged source art is complete locally for sling, throwing knife and Dark Elf
+Hand Crossbow:17 class/state frames covering all12 legal class/item pairs.
+The [review](art/creatures/batch-aa-ranged-preview/REVIEW.md) records292 frozen
+phone captures,876 fits, release/fallback checks and12 passing browser checks.
+Run `python3 art/creatures/export-batch-aa-ranged.py --check` to verify exports.
+These assets await activation/publication; live0.9.37 stays unchanged. Remaining
+bow class gaps and rare/named conversions are listed in the
+[atlas roadmap](art/creatures/ATLAS-ROADMAP.md).
+
+
+AA bow class source coverage is complete: Fighter/Thief shortbow and Fighter
+longbow add9 class/state frames, including6 exact approved Ranger reuses.
+The [review](art/creatures/batch-aa-bows-preview/REVIEW.md) records94 frozen phone
+captures,282 fixture cases and12 passing equipment checks. Verify with
+`python3 art/creatures/export-batch-aa-bows.py --check`. These9 plus the preceding
+17 ranged frames remain pending activation/publication; live0.9.37 is unchanged.
+Next atlas work is rare scimitar/dwarfhammer, greatsword released-hand states and
+named/legendary/Mythic equipment; see the atlas roadmap.
+
+
+AA rare weapon source art is complete for all legal Dark Elf Scimitar and
+Dwarven Hammer class pairs:63 frames, including Spellblade plain/reflected and9
+audited Ranger reuses. The [review](art/creatures/batch-aa-rare-preview/REVIEW.md)
+records208 frozen captures,624 fits and12 passing equipment checks. Verify with
+`python3 art/creatures/export-batch-aa-rare.py --check`. These63 plus26 earlier
+ranged/bow frames remain pending activation/publication; live0.9.37 is unchanged.
+Next source work is Fighter greatsword released-hand art and named equipment.
+
+
+AA Fighter greatsword hand-release source art is complete:9 one-hand poses
+retain painted art during read/drink/cast stress fixtures and restore the existing
+two-hand family at action completion. The
+[review](art/creatures/batch-aa-greatsword-preview/REVIEW.md) records130 captures,
+390 fixture checks and12 passing equipment checks. Verify with
+`python3 art/creatures/export-batch-aa-greatsword.py --check`. These9 plus89 prior
+ranged/bow/rare frames await activation/publication (98 total); live0.9.37 stays
+unchanged. Next painting work is the named/legendary/Mythic equipment library.
+
+
+The first AA named held family is source-complete: the Penitent's Flail has18
+Fighter/Cleric frames with its three prayer beads and cross. The
+[review](art/creatures/batch-aa-penitent-preview/REVIEW.md) records68 captures,
+204 fixture checks and12 passing equipment tests. Verify with
+`python3 art/creatures/export-batch-aa-penitent.py --check` and check the named
+identity/class inventory with `node art/creatures/audit-named-equipment.mjs --check`.
+These18 plus98 prior frames await activation/publication (116 total); live0.9.37
+remains unchanged. Next source batch is Dawnbringer for Fighter/Cleric;30 named
+weapon/shield held candidates remain without held source in the inventory audit.
+
+
+AA ranged, bows, rare weapons, released-hand greatsword and Penitent are activated
+for release 0.9.38 (build 53, offline cache deepdelve-v113). The 116 new held
+frames cover every legal sling/throwing-knife/hand-crossbow pair, missing bow
+classes, scimitar/dwarfhammer classes, Spellblade plain/reflected scimitars,
+Fighter greatsword hand release and exact Fighter/Cleric relic_penitent poses.
+The catalog now contains 405 held frames and 744 shipped paintings plus 3 icons;
+all 460 previous common delivery files retain identical bytes. New delivery adds
+2,027,593 compressed bytes across 116 PNGs, matching reviewed source exports.
+
+See [the activation review](art/creatures/batch-aa-runtime116/REVIEW.md) for native
+actions, family failures, offline delivery and release checks. Fifty sessions at
+390px/320px exercise 25 real equipment variants, 164 actions, Calm and 50 offline
+Continue reloads with all 405 held frames cached. The 742 captures and 50 galleries
+use native updates and loaders; setup supplies equipment/resources and a durable
+target, so they do not establish unassisted combat or quest completion. Earlier
+source-only notes describe historical stages, superseded by this activation.
+
+The named inventory now has one delivered held family (Penitent), with 30 of 31
+named weapon/shield candidates still awaiting held source. Next painting order:
+Dawnbringer for Fighter/Cleric, then The Ogre's Toll and remaining named families.
+Action hands, bow strings/arrows and moving projectiles remain procedural.

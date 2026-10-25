@@ -1,0 +1,80 @@
+{
+  "scope": "Requested sling, throwing knife and hand crossbow source pairs, not all ranged or all AA completion",
+  "pairs": [
+    {
+      "cls": "fighter",
+      "id": "sling",
+      "allowed": true
+    },
+    {
+      "cls": "cleric",
+      "id": "sling",
+      "allowed": true
+    },
+    {
+      "cls": "thief",
+      "id": "sling",
+      "allowed": true
+    },
+    {
+      "cls": "druid",
+      "id": "sling",
+      "allowed": true
+    },
+    {
+      "cls": "ranger",
+      "id": "sling",
+      "allowed": true
+    },
+    {
+      "cls": "fighter",
+      "id": "throwknife",
+      "allowed": true
+    },
+    {
+      "cls": "mage",
+      "id": "throwknife",
+      "allowed": true
+    },
+    {
+      "cls": "thief",
+      "id": "throwknife",
+      "allowed": true
+    },
+    {
+      "cls": "ranger",
+      "id": "throwknife",
+      "allowed": true
+    },
+    {
+      "cls": "fighter",
+      "id": "handxbow",
+      "allowed": true
+    },
+    {
+      "cls": "thief",
+      "id": "handxbow",
+      "allowed": true
+    },
+    {
+      "cls": "ranger",
+      "id": "handxbow",
+      "allowed": true
+    }
+  ],
+  "native_reuse_evidence": "batch-aa-ranged-preview/reference-inventory.json",
+  "remaining_bow_pairs": {
+    "shortbow": [
+      "fighter",
+      "thief"
+    ],
+    "longbow": [
+      "fighter"
+    ]
+  },
+  "later": [
+    "rare scimitar/dwarfhammer",
+    "greatsword released-hand states",
+    "named/legendary/Mythic library"
+  ]
+}

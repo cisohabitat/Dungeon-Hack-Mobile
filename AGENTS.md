@@ -374,9 +374,104 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   evidence, not native class/actions/offline/performance. All basic melee pairs
   now have source coverage; rare/named/ranged/released-hand gaps stay separate.
   See batch-aa-melee5-preview/REVIEW.md;97 plus36 clubs remain local/unactivated.
+  AA ranged source tooling: reference-batch-aa-ranged.cjs,
+  export-batch-aa-ranged.py --check and preview-batch-aa-ranged.cjs.17 frames
+  cover sling loaded/empty for5 classes, knife rest for4 and handxbow rest for3.
+  Keep procedural sling whirl/stone through.62 (stone releases.55), knife bare
+  fist from.4, and crossbow's existing seated-bolt rest throughout recoil. Exact
+  class/pose/two/lit proxy guards and native equality proofs protect Ranger reuse.
+  Disable Game.recordRuns before fixture neutrality snapshots: renderState calls
+  otherwise append events. Compare full state and Dice/Odds without exclusions.
+  292 frozen captures/876 fits are source evidence; no native equip/offline/perf
+  claim. These17 frames remain local/unactivated. Remaining bow class gaps are
+  Fighter/Thief shortbow and Fighter longbow; do not call all AA complete.
+  AA remaining bow source tools are reference-batch-aa-bows.cjs,
+  export-batch-aa-bows.py --check and preview-batch-aa-bows.cjs.9 frames cover
+  Fighter/Thief shortbow and Fighter longbow;6 Fighter states copy approved
+  Ranger registered PNG bytes AND all measurements after native pixel/grip/
+  bounds/dimension/nock equality audits. Never re-register shared art differently.
+  Thief adds3 painted dark-glove/olive-sleeve bends. Keep source string/arrow/draw
+  hands absent and live renderer nocks exact (top is lower image endpoint).
+  Source checks distinguish198 fully visible weapon fits,54 intentional action
+  lowering cases and30 fallback controls: cast/read/drink deliberately move bows
+  below the viewport. Retain normal full bounds checks for non-action motion.
+  94 captures/282 fixtures are frozen source evidence;12 baseline checks pass.
+  These9 and17 earlier ranged frames remain local/unactivated. All ordinary bow
+  legal class pairs now have source coverage; rare/named/released-hand work stays open.
+  AA rare source tools: reference-batch-aa-rare.cjs,
+  export-batch-aa-rare.py --check and preview-batch-aa-rare.cjs.63 frames cover
+  all6 legal scimitar/dwarfhammer pairs, including9 explicit reflected Spellblade
+  states;54 unique paintings/9 exact native-audited Ranger scimitar reuses. Keep
+  shared Ranger crops/registration/bytes and shared plain/reflected family scale.
+  Preserve curved blade/violet guard inset and compact dwarven banded head/pick.
+  Authored crop boundaries cross nominal gaps: through/recover450, Thief middle
+  strike/cut390 and right sweep/return row800, reflected top/middle row430. Keep
+  complete source ends without masks; opaque diagnostics resolve transparent-view
+  fringe artifacts before claiming missing or defective parts. Original/repair
+  provenance and unsuccessful requests remain in the generation manifest.
+  208 frozen captures/624 fits/17 exact guards per width, full state/dice neutrality
+  and12 baseline checks pass; source review is not native actions/offline/perf.
+  These63 plus26 ranged/bow frames remain local/unactivated (89 total). Next source
+  gap is Fighter greatsword released-hand art, then named/legendary/Mythic equipment.
+  AA released greatsword tools: reference-batch-aa-greatsword.cjs,
+  export-batch-aa-greatsword.py --check and preview-batch-aa-greatsword.cjs.9
+  two=false/lit=false CUT frames cover Fighter read/drink overlaps and generic
+  cast stress fixtures; ordinary published two=true9 stay unchanged. Preserve
+  the exposed long grip/pommel and primary right forearm, especially windup; the
+  original image edit retained the wrong lower arm, selected repair fixes it.
+  Authored crop gaps: bottom through/recover450, recover/return900, right-column
+  rows430/800. Keep all source tips/forearms, no scripted masks/paint.
+  Await lazy published greatsword readiness BEFORE mapping protected image IDs;
+  otherwise provisional procedural frames swap during source decode. Cast0 uses
+  sin0=0 and retains both hands; read/drink0 already release. Count action-hand
+  requests and test reading precedence, active CUT poses and current two-hand
+  return. Fighter reflection is a direct metadata guard only (renderer requires
+  Spellblade lantern).130 captures/390 fixtures cover270 new bounds,96 protected
+  two-hand draws and24 other fallbacks;22 guards per width and full state/dice
+  neutrality pass. These9 plus89 prior frames remain local/unactivated (98 total);
+  native actions/offline/performance remain activation gates for one18-state
+  greatsword family. Next source work is named/legendary/Mythic equipment.
+  AA named held pass1 tools: reference-batch-aa-penitent.cjs,
+  export-batch-aa-penitent.py --check and preview-batch-aa-penitent.cjs.18 exact
+  relic_penitent one-hand CUT states cover Fighter/Cleric; verify canEquip AND
+  spriteFor from actual base flail/u:penitent items, never pass a named sprite ID
+  as ITEMS type or strip its prefix to an ordinary binding. Keep3 prayer studs
+  and gold cross, compact joined chain/one iron ball and class costume. Fighter
+  original/first bead repair showed only2; selected image-tool class edit from
+  the correct Cleric construction restores3 with grey/steel/brown costume. Keep
+  all4 outputs and failed selection reasons; no scripted palette changes.
+  Crop boundaries: bottom through/recover450, middle strike/cut400, lower middle/
+  right rows800; inspect complete spikes/forearms and>=25px alpha32 clearance.
+  audit-named-equipment.mjs [--check] reconciles47 named identities/31 held
+  weapon/shield candidates using relicUsableBy (Mythic restrictions included),
+  exact id/class/pose/two held source metadata and held/carried delivery separately.
+  Worn/inventory/portrait art and carried source sheets are separate; pose families
+  still require renderer audits.1 named family has source,30 remain,0 delivered.
+  68 frozen captures/204 fixtures,17 guards per width/state and dice neutrality/
+  12 baseline checks pass; no native actions/offline/performance claim. These18
+  plus98 earlier frames total116 local/unactivated. Next source: Dawnbringer for
+  Fighter/Cleric, then Ogre's Toll and remaining named held/carried equipment.
+  AA ranged/bow/rare/greatsword/Penitent source stages above are historical.
+  All116 are activated for0.9.38/build53/deepdelve-v113 through the existing
+  family loader. Current common delivery:576 files,405 held frames,744 shipped
+  paintings plus3 icons; all460 prior common files retain identical bytes.
+  preview-batch-aa-runtime116.cjs records50 native sessions/25 legal variants,
+  164 actual actions,742 captures/50 galleries and50 offline Continue reloads
+  with405 held frames cached. No frozen updates/asset routes/render proxies;
+  supplied equipment/resources and durable target are not unassisted gameplay.
+  Greatsword uses one18-state family (two-hand + released); read/drink overlaps
+  must release one hand during actual attack and restore current two-hand rest.
+  Spellblade scimitar shares one18-state plain/reflected family; remove the
+  actual lantern for plain native evidence. Penitent uses exact relic_penitent
+  from real flail/u:penitent, never ordinary flail fallback as named coverage.
+  Painted-world regressions cover7 new corrupt-family cases,375 three-height
+  new/protected bindings, state/Dice/Odds neutrality and native greatsword
+  attack/read/drink overlap. Prior642 fit checks remain. Named audit now has
+  1 source-complete/delivered held family and30 candidates without held source.
+  See batch-aa-runtime116/REVIEW.md for current activation/release evidence.
   AA fourth/fifth melee passes integrate133 class/state frames for0.9.37,
   including clubs and all remaining basic mace/sword/staff/spear class pairs.
-  Common delivery now has460 files,289 held frames and628 shipped paintings plus
+  That0.9.37 delivery had460 files,289 held frames and628 shipped paintings plus
   3 icons; prior327 common files retain identical bytes. The held loader must
   copy optional authored tip metadata, as well as nocks, into at for staff glints.
   Spellblade shortsword/longsword include both9-frame lit groups; staff families

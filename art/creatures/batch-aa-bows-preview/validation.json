@@ -1,0 +1,82 @@
+{
+  "scope": "Local source review; live0.9.37 unchanged; not native activation evidence",
+  "frames": 9,
+  "new_paintings": 3,
+  "exact_registered_reuses": 6,
+  "native_reuse_audits": [
+    {
+      "from": "audit-short",
+      "to": "aa43",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "ranger-shortbow-rest",
+          "to": "fighter-shortbow-rest",
+          "sha256": "2bdb9c8d2a645586181226a83476766f2bbe8dbb022094251768fa650c6ce194"
+        },
+        {
+          "from": "ranger-shortbow-bowdraw",
+          "to": "fighter-shortbow-bowdraw",
+          "sha256": "a45615bed0dcf2676c92ef35ad5c02086617d61ac304c5da7a53711123ff1a68"
+        },
+        {
+          "from": "ranger-shortbow-bowfull",
+          "to": "fighter-shortbow-bowfull",
+          "sha256": "c1c53c5b99b00dc3b67c412b0bd67054256e387945ac3bc8fcb784c5c7143c52"
+        }
+      ]
+    },
+    {
+      "from": "audit-long",
+      "to": "aa45",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "ranger-longbow-rest",
+          "to": "fighter-longbow-rest",
+          "sha256": "ce2abe679c15c623092b701d26464cfb5c3651b5f76ade72569d5b23822844f0"
+        },
+        {
+          "from": "ranger-longbow-bowdraw",
+          "to": "fighter-longbow-bowdraw",
+          "sha256": "5a541b78ae7b78f343d7e409be64233a37e22998da9eecb44c9c01752b85b114"
+        },
+        {
+          "from": "ranger-longbow-bowfull",
+          "to": "fighter-longbow-bowfull",
+          "sha256": "4a8f565e63f835d5c5b2e523a750d91f55ba105334678db793126d9900330bff"
+        }
+      ]
+    }
+  ],
+  "captures": 94,
+  "galleries": 6,
+  "fixture_cases": 282,
+  "fully_visible_weapon_fits": 198,
+  "intentional_action_lowering_cases": 54,
+  "visible_fallback_controls": 30,
+  "renderer_heights": [
+    160,
+    360,
+    464
+  ],
+  "viewport_widths": [
+    390,
+    320
+  ],
+  "viewport_height": 844,
+  "min_weapon_margin_px": 3.5287356321838956,
+  "minimum_alpha32_clearance_px": 47,
+  "string_nocks_and_arrow_release": true,
+  "no_duplicate_draw_hand": true,
+  "fallback_guards_per_width": 12,
+  "full_state_and_Dice_Odds_neutral": true,
+  "recording_disabled_before_snapshot": true,
+  "console_errors": [],
+  "reuse_pixels_and_metadata_exact": true,
+  "atlas_cell_pixels_exact": true,
+  "baseline_checks": {
+    "passed": 12,
+    "seconds": 31.1
+  }
+}

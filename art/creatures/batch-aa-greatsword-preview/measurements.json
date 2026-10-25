@@ -1,0 +1,349 @@
+{
+  "family_scale": {
+    "aa53": 0.39143730886850153
+  },
+  "cells": {
+    "fighter-greatsword-rest-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        122,
+        22,
+        345,
+        406
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        50,
+        32
+      ],
+      "grip": [
+        127.5045871559633,
+        127.90214067278288
+      ],
+      "object_bounds": [
+        96.97247706422019,
+        38.26299694189603,
+        151.3822629969419,
+        163.131498470948
+      ],
+      "visible_bounds": [
+        98,
+        41,
+        185,
+        192
+      ],
+      "export_sha256": "6894b453bcb59d911333c084f6cb89a380fed8c4687038a93d059c13cbf5bb94"
+    },
+    "fighter-greatsword-drawback-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        135,
+        36,
+        341,
+        410
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        52,
+        29
+      ],
+      "grip": [
+        127.5474006116208,
+        128.4250764525994
+      ],
+      "object_bounds": [
+        99.7553516819572,
+        39.17737003058104,
+        162.38532110091745,
+        163.65443425076452
+      ],
+      "visible_bounds": [
+        105,
+        43,
+        186,
+        190
+      ],
+      "export_sha256": "df0d74101fb76f595b296af37d6ceafde3f71f16d0d29e3311a8d1e42564ee50"
+    },
+    "fighter-greatsword-windup-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        430
+      ],
+      "source_visible_bounds": [
+        189,
+        36,
+        379,
+        417
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        36,
+        34
+      ],
+      "grip": [
+        127.59633027522936,
+        127.55351681957187
+      ],
+      "object_bounds": [
+        106.06727828746178,
+        41.82874617737003,
+        187.87767584097858,
+        158.86850152905197
+      ],
+      "visible_bounds": [
+        110,
+        48,
+        185,
+        197
+      ],
+      "export_sha256": "b14d505b1cde15160406c6efc26b0d84bbd521b161b02853ff30f2124c0e7cf0"
+    },
+    "fighter-greatsword-strike-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        125,
+        22,
+        347,
+        398
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        52,
+        36
+      ],
+      "grip": [
+        127.93883792048929,
+        127.59633027522936
+      ],
+      "object_bounds": [
+        97.79816513761469,
+        39.91437308868502,
+        156.90519877675843,
+        167.914373088685
+      ],
+      "visible_bounds": [
+        101,
+        44,
+        188,
+        193
+      ],
+      "export_sha256": "a44b679c2e4741a0992c14692e785e3f48033c632ad481ddf91b15ee430bc522"
+    },
+    "fighter-greatsword-cut-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        51,
+        111,
+        413,
+        344
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        32,
+        40
+      ],
+      "grip": [
+        127.90214067278288,
+        127.68195718654434
+      ],
+      "object_bounds": [
+        44.52599388379205,
+        74.83792048929664,
+        152.56269113149847,
+        151.16819571865443
+      ],
+      "visible_bounds": [
+        52,
+        83,
+        194,
+        175
+      ],
+      "export_sha256": "e7762ec006b1ca7b805170f5ec5161b620296766506d64f1858a70679fc84e2b"
+    },
+    "fighter-greatsword-sweep-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        836,
+        430,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        13,
+        139,
+        402,
+        332
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        32,
+        45
+      ],
+      "grip": [
+        127.51070336391437,
+        127.59327217125383
+      ],
+      "object_bounds": [
+        32.782874617737,
+        91.18960244648318,
+        154.91131498470946,
+        155.77675840978594
+      ],
+      "visible_bounds": [
+        37,
+        99,
+        190,
+        176
+      ],
+      "export_sha256": "f0af1684c172186117122bc308d78ae212ad060686e1f711c08bb7a08e96af05"
+    },
+    "fighter-greatsword-through-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        23,
+        156,
+        441,
+        353
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        30,
+        44
+      ],
+      "grip": [
+        128.25076452599387,
+        127.76758409785933
+      ],
+      "object_bounds": [
+        33.91437308868502,
+        98.01834862385321,
+        159.1743119266055,
+        162.99694189602445
+      ],
+      "visible_bounds": [
+        39,
+        105,
+        203,
+        183
+      ],
+      "export_sha256": "f79600f596f0e9fed62a27eb28309eb413f1c931aa423d60d8d29aefa05748f1"
+    },
+    "fighter-greatsword-recover-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        450,
+        836,
+        900,
+        1254
+      ],
+      "source_visible_bounds": [
+        47,
+        25,
+        406,
+        344
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        38,
+        59
+      ],
+      "grip": [
+        127.63914373088686,
+        128.28440366972478
+      ],
+      "object_bounds": [
+        49.74311926605505,
+        58.608562691131496,
+        153.47400611620793,
+        164.29663608562691
+      ],
+      "visible_bounds": [
+        56,
+        69,
+        197,
+        194
+      ],
+      "export_sha256": "e9fe59e1bda88debebd481b08db79ece802ea56541e3926a407303f1e4c48870"
+    },
+    "fighter-greatsword-return-released": {
+      "source": "held-aa53-windup.png",
+      "source_sha256": "9a93f10dd5b70c92d46d1154ae0779ad15444471ec93f0a609fb9503449438cd",
+      "source_rect": [
+        900,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        64,
+        28,
+        337,
+        390
+      ],
+      "scale": 0.39143730886850153,
+      "offset": [
+        60,
+        35
+      ],
+      "grip": [
+        127.71865443425077,
+        127.77064220183486
+      ],
+      "object_bounds": [
+        75.65749235474006,
+        35.782874617737,
+        148.85626911314984,
+        158.6941896024465
+      ],
+      "visible_bounds": [
+        85,
+        46,
+        192,
+        188
+      ],
+      "export_sha256": "8e493a49a1013a13d1169c017cd3c4cab90ad8bf8bdfc3021819e1dec101a21d"
+    }
+  }
+}

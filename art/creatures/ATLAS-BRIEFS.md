@@ -1197,3 +1197,101 @@ AA melee4/5 activate133 frames for0.9.37 through the existing exact
 family loader, including authored staff tips and reflected Spellblade swords.
 Historical source reviews remain separate from the
 [combined native delivery review](batch-aa-melee45-runtime/REVIEW.md).
+
+
+## AA ranged — sling, throwing knife and hand crossbow
+
+17 source frames across12 legal class/item pairs are complete locally: loaded/empty
+slings for5 classes, one held knife for4 and seated-bolt hand crossbow for3.13 new
+unique paintings/4 native-proven Ranger reuse states. Sling whirl/stone and knife
+bare-hand release stay procedural; hand crossbow has no invented unloaded pose.
+20 fallback guards per width,292 captures,876 fits and12 existing browser checks
+pass. See [brief](REQUEST-batch-aa-ranged.md),
+[review](batch-aa-ranged-preview/REVIEW.md) and
+[coverage audit](batch-aa-ranged-preview/coverage-audit.json). Reproduce with
+`python3 art/creatures/export-batch-aa-ranged.py --check` and
+`node art/creatures/preview-batch-aa-ranged.cjs`. Pending activation/publication;
+live0.9.37 unchanged. Next bow gaps: Fighter/Thief shortbow and Fighter longbow.
+
+
+## AA remaining bow classes
+
+Fighter/Thief shortbow and Fighter longbow have9 reviewed source frames: rest,
+bowdraw and bowfull. Fighter uses6 exact approved Ranger registrations after
+native pixel/grip/bounds/dimension/nock audits; Thief has3 newly painted dark-glove/
+olive-sleeve frames. Keep strings/arrows/draw hands procedural and top/bot nock
+semantics intact. Cast/read/drink intentionally lower the bow below the view.
+94 captures/282 fixture cases, full state/dice neutrality and12 baseline checks
+pass. See [brief](REQUEST-batch-aa-bows.md),
+[review](batch-aa-bows-preview/REVIEW.md) and
+[coverage audit](batch-aa-bows-preview/coverage-audit.json). Reproduce with
+`python3 art/creatures/export-batch-aa-bows.py --check` and
+`node art/creatures/preview-batch-aa-bows.cjs`. Local pending activation/publication,
+with17 prior ranged frames; live0.9.37 unchanged. All ordinary bow legal classes
+now have source coverage. Rare/named/released-hand AA work remains.
+
+
+## AA rare scimitar and Dwarven Hammer
+
+63 local source frames cover all6 legal class/item pairs:4 scimitar plain class
+families, Spellblade reflected, Fighter/Cleric dwarfhammer. All9-state one-hand
+CUT families;54 unique paintings/9 native-proven Ranger reuses. Retain the curved
+steel blade/violet guard inset and compact dwarven striking-face/pick/banded head.
+Spellblade plain/reflected have exact lit keys and shared scale, no emission.
+Authored crops cross nominal gaps to retain tips/forearms; see manifest and
+[review](batch-aa-rare-preview/REVIEW.md) for rows, residual edges and limits.
+208 frozen captures/624 fits/17 guards per width/full state/dice neutrality and12
+baseline checks pass. Reproduce with
+`python3 art/creatures/export-batch-aa-rare.py --check` and
+`node art/creatures/preview-batch-aa-rare.cjs`. See
+[brief](REQUEST-batch-aa-rare.md) and
+[coverage audit](batch-aa-rare-preview/coverage-audit.json). Pending activation/
+publication with26 earlier ranged/bow frames (89 total), live0.9.37 unchanged.
+Next source gap: Fighter greatsword released-hand state, then named equipment.
+
+
+## AA Fighter greatsword released hand
+
+9 new two=false/lit=false CUT states complement the published9 two-hand states.
+Read/drink may overlap current meleePose, so rest alone is insufficient. Preserve
+straight steel, brass guard/pommel, exposed long wrap and one primary right grey
+glove/cuff/brown forearm; free action hands remain procedural. Selected image-tool
+repair restores the native descending right forearm in windup. Cast phase0 keeps
+both hands (sin0=0); active read/drink release from phase0, and all actions restore
+the current two-hand pose at completion.130 captures/390 fixtures,22 guards per
+width, full state/dice neutrality and12 baseline checks pass. See
+[brief](REQUEST-batch-aa-greatsword.md),
+[review](batch-aa-greatsword-preview/REVIEW.md) and
+[coverage](batch-aa-greatsword-preview/coverage-audit.json). Reproduce with
+`python3 art/creatures/export-batch-aa-greatsword.py --check` and
+`node art/creatures/preview-batch-aa-greatsword.cjs`. Local pending activation/
+publication with89 preceding frames (98 total); live0.9.37 unchanged. Next source
+work is named/legendary/Mythic equipment by actual identity.
+
+
+## AA named held pass1 — the Penitent's Flail
+
+18 source frames: exact relic_penitent, Fighter/Cleric,9 one-hand CUT states each.
+Retain three pale-gold prayer beads/cross, short joined chain, single spiked iron
+ball and class materials. Fighter original/first repair had only2 beads; selected
+image-tool class edit preserves the Cleric three-bead construction with Fighter
+grey/steel/brown costume. All4 outputs/provenance retained; no scripted recolour.
+Actual {t:flail,u:penitent} canEquip/spriteFor audit protects identity.68 captures/
+204 fixture checks/17 guards per width, full state/dice neutrality and12 baseline
+checks pass. See [brief](REQUEST-batch-aa-penitent.md),
+[review](batch-aa-penitent-preview/REVIEW.md) and
+[named library audit](batch-aa-penitent-preview/named-library-audit.json).
+Reproduce with `python3 art/creatures/export-batch-aa-penitent.py --check` and
+`node art/creatures/preview-batch-aa-penitent.cjs`. Local pending activation/
+publication,116 total frames with prior passes; live0.9.37 unchanged. Named held
+library:31 candidates,1 with source,30 remaining,0 delivered. Next: Dawnbringer
+Fighter/Cleric, then Ogre's Toll and the remaining identity-specific library.
+
+
+### AA activation status — 0.9.38
+
+All 116 source frames from aa-ranged, aa-bows, aa-rare, aa-greatsword and
+aa-penitent are activated through the existing exact family loader and offline
+cache. See [runtime review](batch-aa-runtime116/REVIEW.md). Source-only reviews
+remain historical. Next source brief is Dawnbringer for Fighter/Cleric, then
+The Ogre's Toll; 30 named held candidates remain without held source.

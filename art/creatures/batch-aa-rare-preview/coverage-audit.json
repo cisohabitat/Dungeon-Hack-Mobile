@@ -1,0 +1,120 @@
+{
+  "scope": "Both requested tier99 families have source coverage for all legal classes; not whole-AA completion",
+  "scimitar": {
+    "legal": [
+      "fighter",
+      "thief",
+      "ranger",
+      "spellblade"
+    ],
+    "states_per_plain_class": 9,
+    "spellblade_reflected_states": 9,
+    "missing_source_pairs": []
+  },
+  "dwarfhammer": {
+    "legal": [
+      "fighter",
+      "cleric"
+    ],
+    "states_per_class": 9,
+    "missing_source_pairs": []
+  },
+  "legal_pair_audit": [
+    {
+      "cls": "fighter",
+      "id": "scimitar",
+      "allowed": true
+    },
+    {
+      "cls": "thief",
+      "id": "scimitar",
+      "allowed": true
+    },
+    {
+      "cls": "ranger",
+      "id": "scimitar",
+      "allowed": true
+    },
+    {
+      "cls": "spellblade",
+      "id": "scimitar",
+      "allowed": true
+    },
+    {
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "allowed": true
+    },
+    {
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "allowed": true
+    }
+  ],
+  "native_reuse_audits": [
+    {
+      "from": "aa46",
+      "to": "aa48",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-scimitar-rest",
+          "to": "ranger-scimitar-rest",
+          "sha256": "9c337d90ddfa90da3dc1db06e38e4a9a5630ccb41a32824942aa09d4e9742403"
+        },
+        {
+          "from": "fighter-scimitar-drawback",
+          "to": "ranger-scimitar-drawback",
+          "sha256": "4a7589cd1143d76d2bb078798ef85a2d97ffb4e7a3536713e373d4532fae4335"
+        },
+        {
+          "from": "fighter-scimitar-windup",
+          "to": "ranger-scimitar-windup",
+          "sha256": "d24e8fabb9794326e38ced0026ec99e100c32b021b3515f31acfa01f822e190f"
+        },
+        {
+          "from": "fighter-scimitar-strike",
+          "to": "ranger-scimitar-strike",
+          "sha256": "bd5ae480381173a2351e86d50ead2024006a457c126ffe9e8199ec744e1ea887"
+        },
+        {
+          "from": "fighter-scimitar-cut",
+          "to": "ranger-scimitar-cut",
+          "sha256": "f9868d99bbac7dbd00787637864712b181a7b10641c7b9caa77189eac477a7cd"
+        },
+        {
+          "from": "fighter-scimitar-sweep",
+          "to": "ranger-scimitar-sweep",
+          "sha256": "644198c0cfede5763dcd32f56ab1b55b25e1a13ff8beb02e1ee395c9963b1492"
+        },
+        {
+          "from": "fighter-scimitar-through",
+          "to": "ranger-scimitar-through",
+          "sha256": "6301dca53cd392c1ac9e72c3917d81bcd377625e1a21f0ea4d613d708c7a02b6"
+        },
+        {
+          "from": "fighter-scimitar-recover",
+          "to": "ranger-scimitar-recover",
+          "sha256": "a19ffa5ab14b8d77ed2c2e883b212590cfc0ba3b8c28bd9ba8f7c131e054b835"
+        },
+        {
+          "from": "fighter-scimitar-return",
+          "to": "ranger-scimitar-return",
+          "sha256": "b57d8910a565a8dd8b71978d84eecac5251f719a9b895f9695e8ff558bc2ab4a"
+        }
+      ]
+    }
+  ],
+  "total_pending_frames": 89,
+  "previous_pending_frames": 26,
+  "next": [
+    "Fighter greatsword released-hand state",
+    "named/legendary/Mythic equipment by actual identity"
+  ],
+  "activation_gates": [
+    "exact family bindings/failures",
+    "native equipment/actions and hand release",
+    "offline delivery",
+    "runtime regression and performance"
+  ]
+}

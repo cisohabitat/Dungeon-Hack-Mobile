@@ -1,0 +1,739 @@
+{
+  "groups": {
+    "aa43": {
+      "cls": "fighter",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa44": {
+      "cls": "thief",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa45": {
+      "cls": "fighter",
+      "id": "longbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-longbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-longbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-longbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-short": {
+      "cls": "ranger",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "audit-long": {
+      "cls": "ranger",
+      "id": "longbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-longbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-longbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-longbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "cells": {
+    "fighter-shortbow-rest": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "key": "fighter-shortbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        198.65040650406502,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        171.8211382113821,
+        15.13821138211383,
+        257.6747967479675,
+        242.65040650406507
+      ],
+      "native": [
+        113,
+        123
+      ],
+      "nocks": {
+        "top": [
+          222.96592934499438,
+          230.46996725483658
+        ],
+        "bot": [
+          208.59269299888774,
+          24.923111240324506
+        ]
+      }
+    },
+    "fighter-shortbow-bowdraw": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "key": "fighter-shortbow-bowdraw",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "grip": [
+        195.0731707317073,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        168.2439024390244,
+        15.13821138211383,
+        254.09756097560975,
+        242.65040650406507
+      ],
+      "native": [
+        117,
+        123
+      ],
+      "nocks": {
+        "top": [
+          225.81203282309016,
+          230.02080361902077
+        ],
+        "bot": [
+          211.43879647698353,
+          24.47394760450869
+        ]
+      }
+    },
+    "fighter-shortbow-bowfull": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "key": "fighter-shortbow-bowfull",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "grip": [
+        192.390243902439,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        165.5609756097561,
+        15.13821138211383,
+        251.41463414634146,
+        242.65040650406507
+      ],
+      "native": [
+        120,
+        123
+      ],
+      "nocks": {
+        "top": [
+          229.55244524427536,
+          229.57163998320496
+        ],
+        "bot": [
+          215.17920889816872,
+          24.02478396869285
+        ]
+      }
+    },
+    "thief-shortbow-rest": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "key": "thief-shortbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        198.65040650406502,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        171.8211382113821,
+        15.13821138211383,
+        257.6747967479675,
+        242.65040650406507
+      ],
+      "native": [
+        113,
+        123
+      ],
+      "nocks": {
+        "top": [
+          222.96592934499438,
+          230.46996725483658
+        ],
+        "bot": [
+          208.59269299888774,
+          24.923111240324506
+        ]
+      }
+    },
+    "thief-shortbow-bowdraw": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "key": "thief-shortbow-bowdraw",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "grip": [
+        195.0731707317073,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        168.2439024390244,
+        15.13821138211383,
+        254.09756097560975,
+        242.65040650406507
+      ],
+      "native": [
+        117,
+        123
+      ],
+      "nocks": {
+        "top": [
+          225.81203282309016,
+          230.02080361902077
+        ],
+        "bot": [
+          211.43879647698353,
+          24.47394760450869
+        ]
+      }
+    },
+    "thief-shortbow-bowfull": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "key": "thief-shortbow-bowfull",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "grip": [
+        192.390243902439,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        165.5609756097561,
+        15.13821138211383,
+        251.41463414634146,
+        242.65040650406507
+      ],
+      "native": [
+        120,
+        123
+      ],
+      "nocks": {
+        "top": [
+          229.55244524427536,
+          229.57163998320496
+        ],
+        "bot": [
+          215.17920889816872,
+          24.02478396869285
+        ]
+      }
+    },
+    "fighter-longbow-rest": {
+      "sheet": "aa45",
+      "cls": "fighter",
+      "id": "longbow",
+      "key": "fighter-longbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        180.54777070063693,
+        128.70063694267515
+      ],
+      "object_bounds": [
+        159.52866242038215,
+        14.356687898089175,
+        226.78980891719743,
+        243.04458598726117
+      ],
+      "native": [
+        117,
+        157
+      ],
+      "nocks": {
+        "top": [
+          204.7118392611352,
+          233.2059120588338
+        ],
+        "bot": [
+          189.9323530023799,
+          21.849411626714105
+        ]
+      }
+    },
+    "fighter-longbow-bowdraw": {
+      "sheet": "aa45",
+      "cls": "fighter",
+      "id": "longbow",
+      "key": "fighter-longbow-bowdraw",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "grip": [
+        178.126582278481,
+        129.39240506329114
+      ],
+      "object_bounds": [
+        157.24050632911394,
+        15.772151898734165,
+        224.0759493670886,
+        243.01265822784814
+      ],
+      "native": [
+        120,
+        158
+      ],
+      "nocks": {
+        "top": [
+          207.1381613405317,
+          232.88658902551617
+        ],
+        "bot": [
+          192.452216134047,
+          22.867787963220028
+        ]
+      }
+    },
+    "fighter-longbow-bowfull": {
+      "sheet": "aa45",
+      "cls": "fighter",
+      "id": "longbow",
+      "key": "fighter-longbow-bowfull",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "grip": [
+        175.34177215189874,
+        129.39240506329114
+      ],
+      "object_bounds": [
+        154.45569620253164,
+        15.772151898734165,
+        221.2911392405063,
+        243.01265822784814
+      ],
+      "native": [
+        124,
+        158
+      ],
+      "nocks": {
+        "top": [
+          209.3537988582898,
+          232.536923663457
+        ],
+        "bot": [
+          194.6678536518051,
+          22.518122601160872
+        ]
+      }
+    },
+    "ranger-shortbow-rest": {
+      "sheet": "audit-short",
+      "cls": "ranger",
+      "id": "shortbow",
+      "key": "ranger-shortbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        198.65040650406502,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        171.8211382113821,
+        15.13821138211383,
+        257.6747967479675,
+        242.65040650406507
+      ],
+      "native": [
+        113,
+        123
+      ],
+      "nocks": {
+        "top": [
+          222.96592934499438,
+          230.46996725483658
+        ],
+        "bot": [
+          208.59269299888774,
+          24.923111240324506
+        ]
+      }
+    },
+    "ranger-shortbow-bowdraw": {
+      "sheet": "audit-short",
+      "cls": "ranger",
+      "id": "shortbow",
+      "key": "ranger-shortbow-bowdraw",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "grip": [
+        195.0731707317073,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        168.2439024390244,
+        15.13821138211383,
+        254.09756097560975,
+        242.65040650406507
+      ],
+      "native": [
+        117,
+        123
+      ],
+      "nocks": {
+        "top": [
+          225.81203282309016,
+          230.02080361902077
+        ],
+        "bot": [
+          211.43879647698353,
+          24.47394760450869
+        ]
+      }
+    },
+    "ranger-shortbow-bowfull": {
+      "sheet": "audit-short",
+      "cls": "ranger",
+      "id": "shortbow",
+      "key": "ranger-shortbow-bowfull",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "grip": [
+        192.390243902439,
+        128.8943089430894
+      ],
+      "object_bounds": [
+        165.5609756097561,
+        15.13821138211383,
+        251.41463414634146,
+        242.65040650406507
+      ],
+      "native": [
+        120,
+        123
+      ],
+      "nocks": {
+        "top": [
+          229.55244524427536,
+          229.57163998320496
+        ],
+        "bot": [
+          215.17920889816872,
+          24.02478396869285
+        ]
+      }
+    },
+    "ranger-longbow-rest": {
+      "sheet": "audit-long",
+      "cls": "ranger",
+      "id": "longbow",
+      "key": "ranger-longbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        180.54777070063693,
+        128.70063694267515
+      ],
+      "object_bounds": [
+        159.52866242038215,
+        14.356687898089175,
+        226.78980891719743,
+        243.04458598726117
+      ],
+      "native": [
+        117,
+        157
+      ],
+      "nocks": {
+        "top": [
+          204.7118392611352,
+          233.2059120588338
+        ],
+        "bot": [
+          189.9323530023799,
+          21.849411626714105
+        ]
+      }
+    },
+    "ranger-longbow-bowdraw": {
+      "sheet": "audit-long",
+      "cls": "ranger",
+      "id": "longbow",
+      "key": "ranger-longbow-bowdraw",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "grip": [
+        178.126582278481,
+        129.39240506329114
+      ],
+      "object_bounds": [
+        157.24050632911394,
+        15.772151898734165,
+        224.0759493670886,
+        243.01265822784814
+      ],
+      "native": [
+        120,
+        158
+      ],
+      "nocks": {
+        "top": [
+          207.1381613405317,
+          232.88658902551617
+        ],
+        "bot": [
+          192.452216134047,
+          22.867787963220028
+        ]
+      }
+    },
+    "ranger-longbow-bowfull": {
+      "sheet": "audit-long",
+      "cls": "ranger",
+      "id": "longbow",
+      "key": "ranger-longbow-bowfull",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "grip": [
+        175.34177215189874,
+        129.39240506329114
+      ],
+      "object_bounds": [
+        154.45569620253164,
+        15.772151898734165,
+        221.2911392405063,
+        243.01265822784814
+      ],
+      "native": [
+        124,
+        158
+      ],
+      "nocks": {
+        "top": [
+          209.3537988582898,
+          232.536923663457
+        ],
+        "bot": [
+          194.6678536518051,
+          22.518122601160872
+        ]
+      }
+    }
+  },
+  "legal": [
+    {
+      "group": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "reason": null
+    },
+    {
+      "group": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "reason": null
+    },
+    {
+      "group": "aa45",
+      "cls": "fighter",
+      "id": "longbow",
+      "reason": null
+    },
+    {
+      "group": "audit-short",
+      "cls": "ranger",
+      "id": "shortbow",
+      "reason": null
+    },
+    {
+      "group": "audit-long",
+      "cls": "ranger",
+      "id": "longbow",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "ranger": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": [
+    {
+      "from": "audit-short",
+      "to": "aa43",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "ranger-shortbow-rest",
+          "to": "fighter-shortbow-rest",
+          "sha256": "2bdb9c8d2a645586181226a83476766f2bbe8dbb022094251768fa650c6ce194"
+        },
+        {
+          "from": "ranger-shortbow-bowdraw",
+          "to": "fighter-shortbow-bowdraw",
+          "sha256": "a45615bed0dcf2676c92ef35ad5c02086617d61ac304c5da7a53711123ff1a68"
+        },
+        {
+          "from": "ranger-shortbow-bowfull",
+          "to": "fighter-shortbow-bowfull",
+          "sha256": "c1c53c5b99b00dc3b67c412b0bd67054256e387945ac3bc8fcb784c5c7143c52"
+        }
+      ]
+    },
+    {
+      "from": "audit-long",
+      "to": "aa45",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "ranger-longbow-rest",
+          "to": "fighter-longbow-rest",
+          "sha256": "ce2abe679c15c623092b701d26464cfb5c3651b5f76ade72569d5b23822844f0"
+        },
+        {
+          "from": "ranger-longbow-bowdraw",
+          "to": "fighter-longbow-bowdraw",
+          "sha256": "5a541b78ae7b78f343d7e409be64233a37e22998da9eecb44c9c01752b85b114"
+        },
+        {
+          "from": "ranger-longbow-bowfull",
+          "to": "fighter-longbow-bowfull",
+          "sha256": "4a8f565e63f835d5c5b2e523a750d91f55ba105334678db793126d9900330bff"
+        }
+      ]
+    }
+  ]
+}

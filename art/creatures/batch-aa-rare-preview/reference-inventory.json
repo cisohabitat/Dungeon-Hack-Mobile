@@ -1,0 +1,2282 @@
+{
+  "groups": {
+    "aa46": {
+      "cls": "fighter",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa47": {
+      "cls": "thief",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "thief-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa48": {
+      "cls": "ranger",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "ranger-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa49": {
+      "cls": "spellblade",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "spellblade-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa50": {
+      "cls": "spellblade",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "spellblade-scimitar-rest-lit",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-drawback-lit",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-windup-lit",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-strike-lit",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-cut-lit",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-sweep-lit",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-through-lit",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-recover-lit",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-return-lit",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        }
+      ]
+    },
+    "aa51": {
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-dwarfhammer-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa52": {
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "cleric-dwarfhammer-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {},
+  "cells": {
+    "fighter-scimitar-rest": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        87.1025641025641,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.09938033399985,
+        14.25145054841467,
+        105.52229108153014,
+        140.87114002919625
+      ],
+      "tip": [
+        88.03645436859952,
+        18.4822197791839
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "fighter-scimitar-drawback": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.84146341463415,
+        103.85365853658537
+      ],
+      "object_bounds": [
+        84.33287056925677,
+        14.16273428367018,
+        144.94215781211858,
+        128.12146936638254
+      ],
+      "tip": [
+        135.67730003267974,
+        18.187124527572617
+      ],
+      "native": [
+        61,
+        164
+      ]
+    },
+    "fighter-scimitar-windup": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        102.24050632911393,
+        89.01265822784809
+      ],
+      "object_bounds": [
+        83.80356003356405,
+        14.407905857336495,
+        172.04863247447116,
+        112.0816748427868
+      ],
+      "tip": [
+        166.89451168727385,
+        18.585121047209913
+      ],
+      "native": [
+        59,
+        158
+      ]
+    },
+    "fighter-scimitar-strike": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.4840281707932,
+        14.538506804013917,
+        105.219585096936,
+        140.56757674572424
+      ],
+      "tip": [
+        81.00426106932936,
+        18.769276034783147
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "fighter-scimitar-cut": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        95.56410256410255,
+        128
+      ],
+      "object_bounds": [
+        15.608780016796132,
+        61.57369941044737,
+        119.91302924929607,
+        145.27842743248084
+      ],
+      "tip": [
+        19.839549247565365,
+        67.65237116166993
+      ],
+      "native": [
+        156,
+        90
+      ]
+    },
+    "fighter-scimitar-sweep": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        106.79518072289157,
+        110.7710843373494
+      ],
+      "object_bounds": [
+        14.74185219905193,
+        77.43510444852983,
+        131.408979747299,
+        130.01682136847592
+      ],
+      "tip": [
+        18.71775581350976,
+        87.90641657771963
+      ],
+      "native": [
+        166,
+        72
+      ]
+    },
+    "fighter-scimitar-through": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.21951219512195,
+        101.84146341463415
+      ],
+      "object_bounds": [
+        14.337826079479033,
+        87.35496024719038,
+        133.2484700788479,
+        129.49193646962675
+      ],
+      "tip": [
+        18.362216323381475,
+        116.96001743396494
+      ],
+      "native": [
+        164,
+        69
+      ]
+    },
+    "fighter-scimitar-recover": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.28571428571428,
+        109.14285714285715
+      ],
+      "object_bounds": [
+        14.590841098579183,
+        32.6999306759206,
+        128.11422651922408,
+        128.94285714285712
+      ],
+      "tip": [
+        19.3051268128649,
+        38.994542737319776
+      ],
+      "native": [
+        140,
+        118
+      ]
+    },
+    "fighter-scimitar-return": {
+      "sheet": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "key": "fighter-scimitar-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.56944444444446,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        39.781069755955734,
+        14.243458930105778,
+        111.05524097095616,
+        140.9262901694939
+      ],
+      "tip": [
+        50.515279183926296,
+        18.82679226343911
+      ],
+      "native": [
+        111,
+        144
+      ]
+    },
+    "thief-scimitar-rest": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        87.1025641025641,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.09938033399985,
+        14.25145054841467,
+        105.52229108153014,
+        140.87114002919625
+      ],
+      "tip": [
+        88.03645436859952,
+        18.4822197791839
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "thief-scimitar-drawback": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.84146341463415,
+        103.85365853658537
+      ],
+      "object_bounds": [
+        84.33287056925677,
+        14.16273428367018,
+        144.94215781211858,
+        128.12146936638254
+      ],
+      "tip": [
+        135.67730003267974,
+        18.187124527572617
+      ],
+      "native": [
+        61,
+        164
+      ]
+    },
+    "thief-scimitar-windup": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        102.24050632911393,
+        89.01265822784809
+      ],
+      "object_bounds": [
+        83.80356003356405,
+        14.407905857336495,
+        172.04863247447116,
+        112.0816748427868
+      ],
+      "tip": [
+        166.89451168727385,
+        18.585121047209913
+      ],
+      "native": [
+        59,
+        158
+      ]
+    },
+    "thief-scimitar-strike": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.4840281707932,
+        14.538506804013917,
+        105.219585096936,
+        140.56757674572424
+      ],
+      "tip": [
+        81.00426106932936,
+        18.769276034783147
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "thief-scimitar-cut": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        95.56410256410255,
+        128
+      ],
+      "object_bounds": [
+        15.608780016796132,
+        61.57369941044737,
+        119.91302924929607,
+        145.27842743248084
+      ],
+      "tip": [
+        19.839549247565365,
+        67.65237116166993
+      ],
+      "native": [
+        156,
+        90
+      ]
+    },
+    "thief-scimitar-sweep": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        106.79518072289157,
+        110.7710843373494
+      ],
+      "object_bounds": [
+        14.74185219905193,
+        77.43510444852983,
+        131.408979747299,
+        130.01682136847592
+      ],
+      "tip": [
+        18.71775581350976,
+        87.90641657771963
+      ],
+      "native": [
+        166,
+        72
+      ]
+    },
+    "thief-scimitar-through": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.21951219512195,
+        101.84146341463415
+      ],
+      "object_bounds": [
+        14.337826079479033,
+        87.35496024719038,
+        133.2484700788479,
+        129.49193646962675
+      ],
+      "tip": [
+        18.362216323381475,
+        116.96001743396494
+      ],
+      "native": [
+        164,
+        69
+      ]
+    },
+    "thief-scimitar-recover": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.28571428571428,
+        109.14285714285715
+      ],
+      "object_bounds": [
+        14.590841098579183,
+        32.6999306759206,
+        128.11422651922408,
+        128.94285714285712
+      ],
+      "tip": [
+        19.3051268128649,
+        38.994542737319776
+      ],
+      "native": [
+        140,
+        118
+      ]
+    },
+    "thief-scimitar-return": {
+      "sheet": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "key": "thief-scimitar-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.56944444444446,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        39.781069755955734,
+        14.243458930105778,
+        111.05524097095616,
+        140.9262901694939
+      ],
+      "tip": [
+        50.515279183926296,
+        18.82679226343911
+      ],
+      "native": [
+        111,
+        144
+      ]
+    },
+    "ranger-scimitar-rest": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        87.1025641025641,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.09938033399985,
+        14.25145054841467,
+        105.52229108153014,
+        140.87114002919625
+      ],
+      "tip": [
+        88.03645436859952,
+        18.4822197791839
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "ranger-scimitar-drawback": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.84146341463415,
+        103.85365853658537
+      ],
+      "object_bounds": [
+        84.33287056925677,
+        14.16273428367018,
+        144.94215781211858,
+        128.12146936638254
+      ],
+      "tip": [
+        135.67730003267974,
+        18.187124527572617
+      ],
+      "native": [
+        61,
+        164
+      ]
+    },
+    "ranger-scimitar-windup": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        102.24050632911393,
+        89.01265822784809
+      ],
+      "object_bounds": [
+        83.80356003356405,
+        14.407905857336495,
+        172.04863247447116,
+        112.0816748427868
+      ],
+      "tip": [
+        166.89451168727385,
+        18.585121047209913
+      ],
+      "native": [
+        59,
+        158
+      ]
+    },
+    "ranger-scimitar-strike": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.4840281707932,
+        14.538506804013917,
+        105.219585096936,
+        140.56757674572424
+      ],
+      "tip": [
+        81.00426106932936,
+        18.769276034783147
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "ranger-scimitar-cut": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        95.56410256410255,
+        128
+      ],
+      "object_bounds": [
+        15.608780016796132,
+        61.57369941044737,
+        119.91302924929607,
+        145.27842743248084
+      ],
+      "tip": [
+        19.839549247565365,
+        67.65237116166993
+      ],
+      "native": [
+        156,
+        90
+      ]
+    },
+    "ranger-scimitar-sweep": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        106.79518072289157,
+        110.7710843373494
+      ],
+      "object_bounds": [
+        14.74185219905193,
+        77.43510444852983,
+        131.408979747299,
+        130.01682136847592
+      ],
+      "tip": [
+        18.71775581350976,
+        87.90641657771963
+      ],
+      "native": [
+        166,
+        72
+      ]
+    },
+    "ranger-scimitar-through": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.21951219512195,
+        101.84146341463415
+      ],
+      "object_bounds": [
+        14.337826079479033,
+        87.35496024719038,
+        133.2484700788479,
+        129.49193646962675
+      ],
+      "tip": [
+        18.362216323381475,
+        116.96001743396494
+      ],
+      "native": [
+        164,
+        69
+      ]
+    },
+    "ranger-scimitar-recover": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.28571428571428,
+        109.14285714285715
+      ],
+      "object_bounds": [
+        14.590841098579183,
+        32.6999306759206,
+        128.11422651922408,
+        128.94285714285712
+      ],
+      "tip": [
+        19.3051268128649,
+        38.994542737319776
+      ],
+      "native": [
+        140,
+        118
+      ]
+    },
+    "ranger-scimitar-return": {
+      "sheet": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "key": "ranger-scimitar-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.56944444444446,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        39.781069755955734,
+        14.243458930105778,
+        111.05524097095616,
+        140.9262901694939
+      ],
+      "tip": [
+        50.515279183926296,
+        18.82679226343911
+      ],
+      "native": [
+        111,
+        144
+      ]
+    },
+    "spellblade-scimitar-rest": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        87.1025641025641,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.09938033399985,
+        14.25145054841467,
+        105.52229108153014,
+        140.87114002919625
+      ],
+      "tip": [
+        88.03645436859952,
+        18.4822197791839
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "spellblade-scimitar-drawback": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.84146341463415,
+        103.85365853658537
+      ],
+      "object_bounds": [
+        84.33287056925677,
+        14.16273428367018,
+        144.94215781211858,
+        128.12146936638254
+      ],
+      "tip": [
+        135.67730003267974,
+        18.187124527572617
+      ],
+      "native": [
+        61,
+        164
+      ]
+    },
+    "spellblade-scimitar-windup": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        102.24050632911393,
+        89.01265822784809
+      ],
+      "object_bounds": [
+        83.80356003356405,
+        14.407905857336495,
+        172.04863247447116,
+        112.0816748427868
+      ],
+      "tip": [
+        166.89451168727385,
+        18.585121047209913
+      ],
+      "native": [
+        59,
+        158
+      ]
+    },
+    "spellblade-scimitar-strike": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.4840281707932,
+        14.538506804013917,
+        105.219585096936,
+        140.56757674572424
+      ],
+      "tip": [
+        81.00426106932936,
+        18.769276034783147
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "spellblade-scimitar-cut": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        95.56410256410255,
+        128
+      ],
+      "object_bounds": [
+        15.608780016796132,
+        61.57369941044737,
+        119.91302924929607,
+        145.27842743248084
+      ],
+      "tip": [
+        19.839549247565365,
+        67.65237116166993
+      ],
+      "native": [
+        156,
+        90
+      ]
+    },
+    "spellblade-scimitar-sweep": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        106.79518072289157,
+        110.7710843373494
+      ],
+      "object_bounds": [
+        14.74185219905193,
+        77.43510444852983,
+        131.408979747299,
+        130.01682136847592
+      ],
+      "tip": [
+        18.71775581350976,
+        87.90641657771963
+      ],
+      "native": [
+        166,
+        72
+      ]
+    },
+    "spellblade-scimitar-through": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.21951219512195,
+        101.84146341463415
+      ],
+      "object_bounds": [
+        14.337826079479033,
+        87.35496024719038,
+        133.2484700788479,
+        129.49193646962675
+      ],
+      "tip": [
+        18.362216323381475,
+        116.96001743396494
+      ],
+      "native": [
+        164,
+        69
+      ]
+    },
+    "spellblade-scimitar-recover": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.28571428571428,
+        109.14285714285715
+      ],
+      "object_bounds": [
+        14.590841098579183,
+        32.6999306759206,
+        128.11422651922408,
+        128.94285714285712
+      ],
+      "tip": [
+        19.3051268128649,
+        38.994542737319776
+      ],
+      "native": [
+        140,
+        118
+      ]
+    },
+    "spellblade-scimitar-return": {
+      "sheet": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.56944444444446,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        39.781069755955734,
+        14.243458930105778,
+        111.05524097095616,
+        140.9262901694939
+      ],
+      "tip": [
+        50.515279183926296,
+        18.82679226343911
+      ],
+      "native": [
+        111,
+        144
+      ]
+    },
+    "spellblade-scimitar-rest-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-rest-lit",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "grip": [
+        87.1025641025641,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.09938033399985,
+        14.25145054841467,
+        105.52229108153014,
+        140.87114002919625
+      ],
+      "tip": [
+        88.03645436859952,
+        18.4822197791839
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "spellblade-scimitar-drawback-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-drawback-lit",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "grip": [
+        101.84146341463415,
+        103.85365853658537
+      ],
+      "object_bounds": [
+        84.33287056925677,
+        14.16273428367018,
+        144.94215781211858,
+        128.12146936638254
+      ],
+      "tip": [
+        135.67730003267974,
+        18.187124527572617
+      ],
+      "native": [
+        61,
+        164
+      ]
+    },
+    "spellblade-scimitar-windup-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-windup-lit",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "grip": [
+        102.24050632911393,
+        89.01265822784809
+      ],
+      "object_bounds": [
+        83.80356003356405,
+        14.407905857336495,
+        172.04863247447116,
+        112.0816748427868
+      ],
+      "tip": [
+        166.89451168727385,
+        18.585121047209913
+      ],
+      "native": [
+        59,
+        158
+      ]
+    },
+    "spellblade-scimitar-strike-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-strike-lit",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        63.4840281707932,
+        14.538506804013917,
+        105.219585096936,
+        140.56757674572424
+      ],
+      "tip": [
+        81.00426106932936,
+        18.769276034783147
+      ],
+      "native": [
+        88,
+        156
+      ]
+    },
+    "spellblade-scimitar-cut-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-cut-lit",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "grip": [
+        95.56410256410255,
+        128
+      ],
+      "object_bounds": [
+        15.608780016796132,
+        61.57369941044737,
+        119.91302924929607,
+        145.27842743248084
+      ],
+      "tip": [
+        19.839549247565365,
+        67.65237116166993
+      ],
+      "native": [
+        156,
+        90
+      ]
+    },
+    "spellblade-scimitar-sweep-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-sweep-lit",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "grip": [
+        106.79518072289157,
+        110.7710843373494
+      ],
+      "object_bounds": [
+        14.74185219905193,
+        77.43510444852983,
+        131.408979747299,
+        130.01682136847592
+      ],
+      "tip": [
+        18.71775581350976,
+        87.90641657771963
+      ],
+      "native": [
+        166,
+        72
+      ]
+    },
+    "spellblade-scimitar-through-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-through-lit",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "grip": [
+        109.21951219512195,
+        101.84146341463415
+      ],
+      "object_bounds": [
+        14.337826079479033,
+        87.35496024719038,
+        133.2484700788479,
+        129.49193646962675
+      ],
+      "tip": [
+        18.362216323381475,
+        116.96001743396494
+      ],
+      "native": [
+        164,
+        69
+      ]
+    },
+    "spellblade-scimitar-recover-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-recover-lit",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "grip": [
+        101.28571428571428,
+        109.14285714285715
+      ],
+      "object_bounds": [
+        14.590841098579183,
+        32.6999306759206,
+        128.11422651922408,
+        128.94285714285712
+      ],
+      "tip": [
+        19.3051268128649,
+        38.994542737319776
+      ],
+      "native": [
+        140,
+        118
+      ]
+    },
+    "spellblade-scimitar-return-lit": {
+      "sheet": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "key": "spellblade-scimitar-return-lit",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "grip": [
+        90.56944444444446,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        39.781069755955734,
+        14.243458930105778,
+        111.05524097095616,
+        140.9262901694939
+      ],
+      "tip": [
+        50.515279183926296,
+        18.82679226343911
+      ],
+      "native": [
+        111,
+        144
+      ]
+    },
+    "fighter-dwarfhammer-rest": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        105.1951219512195,
+        121.29268292682927
+      ],
+      "object_bounds": [
+        50.24211732115944,
+        12.571220367086283,
+        123.6146517758968,
+        143.23118277049866
+      ],
+      "tip": [
+        87.51477273974146,
+        21.022439879281407
+      ],
+      "native": [
+        112,
+        164
+      ]
+    },
+    "fighter-dwarfhammer-drawback": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.11299435028249,
+        113.70621468926554
+      ],
+      "object_bounds": [
+        83.12961786330521,
+        13.269995993168951,
+        151.0534225042087,
+        133.99546108159018
+      ],
+      "tip": [
+        126.11372093105956,
+        21.10050446774523
+      ],
+      "native": [
+        68,
+        177
+      ]
+    },
+    "fighter-dwarfhammer-windup": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        103.97701149425288,
+        102.71264367816092
+      ],
+      "object_bounds": [
+        88.8207500801119,
+        13.363752243563198,
+        168.67899108716364,
+        121.7303309142665
+      ],
+      "tip": [
+        154.83098778256354,
+        21.329269484942515
+      ],
+      "native": [
+        58,
+        174
+      ]
+    },
+    "fighter-dwarfhammer-strike": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.42944785276073,
+        120.57668711656441
+      ],
+      "object_bounds": [
+        47.313216218294045,
+        13.122518727761584,
+        121.09586394635903,
+        142.40512481670248
+      ],
+      "tip": [
+        81.9155802753258,
+        21.625586212424157
+      ],
+      "native": [
+        115,
+        163
+      ]
+    },
+    "fighter-dwarfhammer-cut": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.05847953216374,
+        128.6432748538012
+      ],
+      "object_bounds": [
+        13.734158447027147,
+        66.31943626030888,
+        127.84084980185995,
+        143.3188534538234
+      ],
+      "tip": [
+        21.839421604921878,
+        82.79978856491927
+      ],
+      "native": [
+        171,
+        91
+      ]
+    },
+    "fighter-dwarfhammer-sweep": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        114.94915254237287,
+        113.08474576271186
+      ],
+      "object_bounds": [
+        13.009466038200298,
+        78.34973999876362,
+        135.42856087089683,
+        147.20892889478966
+      ],
+      "tip": [
+        20.839974512776568,
+        106.5039909684779
+      ],
+      "native": [
+        177,
+        74
+      ]
+    },
+    "fighter-dwarfhammer-through": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        113.76470588235294,
+        102.76470588235293
+      ],
+      "object_bounds": [
+        13.31183893009943,
+        89.58619680762465,
+        134.3684165594108,
+        166.53414899783252
+      ],
+      "tip": [
+        21.464780106570014,
+        136.35913148971775
+      ],
+      "native": [
+        170,
+        69
+      ]
+    },
+    "fighter-dwarfhammer-recover": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        114.51612903225806,
+        110.96774193548387
+      ],
+      "object_bounds": [
+        12.278114887789954,
+        40.232016996876716,
+        136.10997195350149,
+        127.57419354838706
+      ],
+      "tip": [
+        21.220050371660918,
+        57.10322580645162
+      ],
+      "native": [
+        155,
+        118
+      ]
+    },
+    "fighter-dwarfhammer-return": {
+      "sheet": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "key": "fighter-dwarfhammer-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.91780821917808,
+        117.45205479452055
+      ],
+      "object_bounds": [
+        22.601109862285945,
+        12.040266140050075,
+        128.19368247912146,
+        139.98131670890916
+      ],
+      "tip": [
+        47.62751639259642,
+        21.53341682498158
+      ],
+      "native": [
+        136,
+        146
+      ]
+    },
+    "cleric-dwarfhammer-rest": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        105.1951219512195,
+        121.29268292682927
+      ],
+      "object_bounds": [
+        50.24211732115944,
+        12.571220367086283,
+        123.6146517758968,
+        143.23118277049866
+      ],
+      "tip": [
+        87.51477273974146,
+        21.022439879281407
+      ],
+      "native": [
+        112,
+        164
+      ]
+    },
+    "cleric-dwarfhammer-drawback": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.11299435028249,
+        113.70621468926554
+      ],
+      "object_bounds": [
+        83.12961786330521,
+        13.269995993168951,
+        151.0534225042087,
+        133.99546108159018
+      ],
+      "tip": [
+        126.11372093105956,
+        21.10050446774523
+      ],
+      "native": [
+        68,
+        177
+      ]
+    },
+    "cleric-dwarfhammer-windup": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        103.97701149425288,
+        102.71264367816092
+      ],
+      "object_bounds": [
+        88.8207500801119,
+        13.363752243563198,
+        168.67899108716364,
+        121.7303309142665
+      ],
+      "tip": [
+        154.83098778256354,
+        21.329269484942515
+      ],
+      "native": [
+        58,
+        174
+      ]
+    },
+    "cleric-dwarfhammer-strike": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.42944785276073,
+        120.57668711656441
+      ],
+      "object_bounds": [
+        47.313216218294045,
+        13.122518727761584,
+        121.09586394635903,
+        142.40512481670248
+      ],
+      "tip": [
+        81.9155802753258,
+        21.625586212424157
+      ],
+      "native": [
+        115,
+        163
+      ]
+    },
+    "cleric-dwarfhammer-cut": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        108.05847953216374,
+        128.6432748538012
+      ],
+      "object_bounds": [
+        13.734158447027147,
+        66.31943626030888,
+        127.84084980185995,
+        143.3188534538234
+      ],
+      "tip": [
+        21.839421604921878,
+        82.79978856491927
+      ],
+      "native": [
+        171,
+        91
+      ]
+    },
+    "cleric-dwarfhammer-sweep": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        114.94915254237287,
+        113.08474576271186
+      ],
+      "object_bounds": [
+        13.009466038200298,
+        78.34973999876362,
+        135.42856087089683,
+        147.20892889478966
+      ],
+      "tip": [
+        20.839974512776568,
+        106.5039909684779
+      ],
+      "native": [
+        177,
+        74
+      ]
+    },
+    "cleric-dwarfhammer-through": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        113.76470588235294,
+        102.76470588235293
+      ],
+      "object_bounds": [
+        13.31183893009943,
+        89.58619680762465,
+        134.3684165594108,
+        166.53414899783252
+      ],
+      "tip": [
+        21.464780106570014,
+        136.35913148971775
+      ],
+      "native": [
+        170,
+        69
+      ]
+    },
+    "cleric-dwarfhammer-recover": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        114.51612903225806,
+        110.96774193548387
+      ],
+      "object_bounds": [
+        12.278114887789954,
+        40.232016996876716,
+        136.10997195350149,
+        127.57419354838706
+      ],
+      "tip": [
+        21.220050371660918,
+        57.10322580645162
+      ],
+      "native": [
+        155,
+        118
+      ]
+    },
+    "cleric-dwarfhammer-return": {
+      "sheet": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "key": "cleric-dwarfhammer-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        109.91780821917808,
+        117.45205479452055
+      ],
+      "object_bounds": [
+        22.601109862285945,
+        12.040266140050075,
+        128.19368247912146,
+        139.98131670890916
+      ],
+      "tip": [
+        47.62751639259642,
+        21.53341682498158
+      ],
+      "native": [
+        136,
+        146
+      ]
+    }
+  },
+  "legal": [
+    {
+      "group": "aa46",
+      "cls": "fighter",
+      "id": "scimitar",
+      "reason": null
+    },
+    {
+      "group": "aa47",
+      "cls": "thief",
+      "id": "scimitar",
+      "reason": null
+    },
+    {
+      "group": "aa48",
+      "cls": "ranger",
+      "id": "scimitar",
+      "reason": null
+    },
+    {
+      "group": "aa49",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "reason": null
+    },
+    {
+      "group": "aa50",
+      "cls": "spellblade",
+      "id": "scimitar",
+      "reason": null
+    },
+    {
+      "group": "aa51",
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "reason": null
+    },
+    {
+      "group": "aa52",
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "ranger": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "spellblade": [
+      "#3c424b",
+      "#515c6a",
+      "#242a32"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": [
+    {
+      "from": "aa46",
+      "to": "aa48",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-scimitar-rest",
+          "to": "ranger-scimitar-rest",
+          "sha256": "9c337d90ddfa90da3dc1db06e38e4a9a5630ccb41a32824942aa09d4e9742403"
+        },
+        {
+          "from": "fighter-scimitar-drawback",
+          "to": "ranger-scimitar-drawback",
+          "sha256": "4a7589cd1143d76d2bb078798ef85a2d97ffb4e7a3536713e373d4532fae4335"
+        },
+        {
+          "from": "fighter-scimitar-windup",
+          "to": "ranger-scimitar-windup",
+          "sha256": "d24e8fabb9794326e38ced0026ec99e100c32b021b3515f31acfa01f822e190f"
+        },
+        {
+          "from": "fighter-scimitar-strike",
+          "to": "ranger-scimitar-strike",
+          "sha256": "bd5ae480381173a2351e86d50ead2024006a457c126ffe9e8199ec744e1ea887"
+        },
+        {
+          "from": "fighter-scimitar-cut",
+          "to": "ranger-scimitar-cut",
+          "sha256": "f9868d99bbac7dbd00787637864712b181a7b10641c7b9caa77189eac477a7cd"
+        },
+        {
+          "from": "fighter-scimitar-sweep",
+          "to": "ranger-scimitar-sweep",
+          "sha256": "644198c0cfede5763dcd32f56ab1b55b25e1a13ff8beb02e1ee395c9963b1492"
+        },
+        {
+          "from": "fighter-scimitar-through",
+          "to": "ranger-scimitar-through",
+          "sha256": "6301dca53cd392c1ac9e72c3917d81bcd377625e1a21f0ea4d613d708c7a02b6"
+        },
+        {
+          "from": "fighter-scimitar-recover",
+          "to": "ranger-scimitar-recover",
+          "sha256": "a19ffa5ab14b8d77ed2c2e883b212590cfc0ba3b8c28bd9ba8f7c131e054b835"
+        },
+        {
+          "from": "fighter-scimitar-return",
+          "to": "ranger-scimitar-return",
+          "sha256": "b57d8910a565a8dd8b71978d84eecac5251f719a9b895f9695e8ff558bc2ab4a"
+        }
+      ]
+    }
+  ]
+}

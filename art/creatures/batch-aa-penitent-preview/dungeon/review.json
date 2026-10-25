@@ -1,0 +1,6250 @@
+{
+  "mode": "frozen exact class/key/pose/two/lit source substitution; protected published art and uncovered procedural cases retained; no native equip/attack/offline/performance integration; exact relic_penitent identity/class/pose/two/lit matching; ordinary flails and other named items protected; both legal classes verified through actual relic item sprite routing; Cleric shield retained; prior98 local source frames retained; Fighter/Thief/Ranger casts are stress fixtures only",
+  "console_errors": [],
+  "audits": [
+    {
+      "width": 390,
+      "fallback_guards": 17,
+      "eligible": [
+        {
+          "cls": "fighter",
+          "id": "relic_penitent",
+          "allowed": true
+        },
+        {
+          "cls": "cleric",
+          "id": "relic_penitent",
+          "allowed": true
+        }
+      ],
+      "frames": 18,
+      "short_view_heights": [
+        160,
+        360,
+        464
+      ],
+      "fitting": [
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                240.27777777777777,
+                58.77777777777778,
+                316.1111111111111,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                225.11111111111111,
+                67,
+                316.5,
+                151
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                214.11111111111111,
+                57.666666666666664,
+                284.1111111111111,
+                154.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                154.44444444444446,
+                62.33333333333333,
+                230.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                123.77777777777777,
+                74.77777777777777,
+                217.88888888888889,
+                156.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                96.88888888888889,
+                87.55555555555556,
+                190.22222222222223,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                165.88888888888889,
+                46.888888888888886,
+                239.77777777777777,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                222.22222222222223,
+                43.888888888888886,
+                293.77777777777777,
+                155.88888888888889
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                156.44444444444446,
+                62.33333333333333,
+                232.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                240.27777777777777,
+                58.77777777777778,
+                316.1111111111111,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                225.11111111111111,
+                69,
+                316.5,
+                153
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                214.11111111111111,
+                59.666666666666664,
+                284.1111111111111,
+                156.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                155.44444444444446,
+                62.33333333333333,
+                231.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                122.77777777777777,
+                74.77777777777777,
+                216.88888888888889,
+                156.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                95.88888888888889,
+                87.55555555555556,
+                189.22222222222223,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                166.88888888888889,
+                46.888888888888886,
+                240.77777777777777,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                223.22222222222223,
+                43.888888888888886,
+                294.77777777777777,
+                155.88888888888889
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                157.44444444444446,
+                62.33333333333333,
+                233.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                183.7361111111111,
+                183.61111111111111,
+                316.44444444444446,
+                353.06944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                155.69444444444446,
+                176,
+                315.625,
+                323
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                193.19444444444446,
+                162.41666666666666,
+                315.69444444444446,
+                331.19444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                118.02777777777777,
+                185.58333333333331,
+                251.41666666666669,
+                348.9166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                80.8611111111111,
+                212.8611111111111,
+                245.55555555555554,
+                355.7777777777778
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                50.30555555555554,
+                237.22222222222223,
+                213.6388888888889,
+                356.31944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                131.55555555555554,
+                165.80555555555554,
+                260.8611111111111,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                191.1388888888889,
+                159.55555555555554,
+                316.3611111111111,
+                355.55555555555554
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                120.02777777777777,
+                183.58333333333331,
+                253.41666666666669,
+                346.9166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                182.9861111111111,
+                186.36111111111111,
+                315.69444444444446,
+                355.81944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                155.69444444444446,
+                178.75,
+                315.625,
+                325.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                193.44444444444446,
+                165.91666666666666,
+                315.94444444444446,
+                334.69444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                119.77777777777777,
+                188.08333333333331,
+                253.16666666666669,
+                351.4166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                79.1111111111111,
+                213.1111111111111,
+                243.80555555555554,
+                356.0277777777778
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                48.55555555555554,
+                236.47222222222223,
+                211.8888888888889,
+                355.56944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                132.30555555555554,
+                165.55555555555554,
+                261.6111111111111,
+                356.1111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                190.8888888888889,
+                159.55555555555554,
+                316.1111111111111,
+                355.55555555555554
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                120.77777777777777,
+                187.08333333333331,
+                254.16666666666669,
+                350.4166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                145.375,
+                236.5,
+                316,
+                454.375
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                110.75,
+                227,
+                316.375,
+                416
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                158.25,
+                210.25,
+                315.75,
+                427.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                93.75,
+                238.75,
+                265.25000000000006,
+                448.75000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                52.25,
+                276.25,
+                264,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                19.25,
+                307,
+                229.25,
+                460.125
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                108,
+                214.75,
+                274.25,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                154.75,
+                208,
+                315.75,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                95.75,
+                237.75,
+                267.25000000000006,
+                447.75000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                145.125,
+                240.75,
+                315.75,
+                458.625
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                110.75,
+                231.25,
+                316.375,
+                420.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                159,
+                214.75,
+                316.5,
+                431.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                96,
+                242.25,
+                267.50000000000006,
+                452.25000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                51,
+                276,
+                262.75,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                17,
+                306.75,
+                227,
+                459.875
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                109.25,
+                215,
+                275.5,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                155,
+                208,
+                316,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                97,
+                241.25,
+                268.50000000000006,
+                451.25000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "fallback_guards": 17,
+      "eligible": [
+        {
+          "cls": "fighter",
+          "id": "relic_penitent",
+          "allowed": true
+        },
+        {
+          "cls": "cleric",
+          "id": "relic_penitent",
+          "allowed": true
+        }
+      ],
+      "frames": 18,
+      "short_view_heights": [
+        160,
+        360,
+        464
+      ],
+      "fitting": [
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                240.27777777777777,
+                58.77777777777778,
+                316.1111111111111,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                225.11111111111111,
+                67,
+                316.5,
+                151
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                214.11111111111111,
+                57.666666666666664,
+                284.1111111111111,
+                154.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                154.44444444444446,
+                62.33333333333333,
+                230.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                123.77777777777777,
+                74.77777777777777,
+                217.88888888888889,
+                156.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                96.88888888888889,
+                87.55555555555556,
+                190.22222222222223,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                165.88888888888889,
+                46.888888888888886,
+                239.77777777777777,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                222.22222222222223,
+                43.888888888888886,
+                293.77777777777777,
+                155.88888888888889
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                156.44444444444446,
+                62.33333333333333,
+                232.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                240.27777777777777,
+                58.77777777777778,
+                316.1111111111111,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                225.11111111111111,
+                69,
+                316.5,
+                153
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                214.11111111111111,
+                59.666666666666664,
+                284.1111111111111,
+                156.11111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                155.44444444444446,
+                62.33333333333333,
+                231.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                122.77777777777777,
+                74.77777777777777,
+                216.88888888888889,
+                156.44444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                95.88888888888889,
+                87.55555555555556,
+                189.22222222222223,
+                155.61111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                166.88888888888889,
+                46.888888888888886,
+                240.77777777777777,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                223.22222222222223,
+                43.888888888888886,
+                294.77777777777777,
+                155.88888888888889
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                157.44444444444446,
+                62.33333333333333,
+                233.66666666666669,
+                155.66666666666669
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                250,
+                57.77777777777778,
+                316.1111111111111,
+                155.77777777777777
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 160,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                183.7361111111111,
+                183.61111111111111,
+                316.44444444444446,
+                353.06944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                155.69444444444446,
+                176,
+                315.625,
+                323
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                193.19444444444446,
+                162.41666666666666,
+                315.69444444444446,
+                331.19444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                118.02777777777777,
+                185.58333333333331,
+                251.41666666666669,
+                348.9166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                80.8611111111111,
+                212.8611111111111,
+                245.55555555555554,
+                355.7777777777778
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                50.30555555555554,
+                237.22222222222223,
+                213.6388888888889,
+                356.31944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                131.55555555555554,
+                165.80555555555554,
+                260.8611111111111,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                191.1388888888889,
+                159.55555555555554,
+                316.3611111111111,
+                355.55555555555554
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                120.02777777777777,
+                183.58333333333331,
+                253.41666666666669,
+                346.9166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.36111111111111,
+                315.94444444444446,
+                355.8611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                182.9861111111111,
+                186.36111111111111,
+                315.69444444444446,
+                355.81944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                155.69444444444446,
+                178.75,
+                315.625,
+                325.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                193.44444444444446,
+                165.91666666666666,
+                315.94444444444446,
+                334.69444444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                119.77777777777777,
+                188.08333333333331,
+                253.16666666666669,
+                351.4166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                79.1111111111111,
+                213.1111111111111,
+                243.80555555555554,
+                356.0277777777778
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                48.55555555555554,
+                236.47222222222223,
+                211.8888888888889,
+                355.56944444444446
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                132.30555555555554,
+                165.55555555555554,
+                261.6111111111111,
+                356.1111111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                190.8888888888889,
+                159.55555555555554,
+                316.1111111111111,
+                355.55555555555554
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                120.77777777777777,
+                187.08333333333331,
+                254.16666666666669,
+                350.4166666666667
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                200.25,
+                184.86111111111111,
+                315.94444444444446,
+                356.3611111111111
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 360,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-rest",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-drawback",
+          "used": [
+            "fighter-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-drawback",
+              "box": [
+                145.375,
+                236.5,
+                316,
+                454.375
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-windup",
+          "used": [
+            "fighter-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-windup",
+              "box": [
+                110.75,
+                227,
+                316.375,
+                416
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-strike",
+          "used": [
+            "fighter-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-strike",
+              "box": [
+                158.25,
+                210.25,
+                315.75,
+                427.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                93.75,
+                238.75,
+                265.25000000000006,
+                448.75000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-sweep",
+          "used": [
+            "fighter-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-sweep",
+              "box": [
+                52.25,
+                276.25,
+                264,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-through",
+          "used": [
+            "fighter-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-through",
+              "box": [
+                19.25,
+                307,
+                229.25,
+                460.125
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recover",
+          "used": [
+            "fighter-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-recover",
+              "box": [
+                108,
+                214.75,
+                274.25,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-return",
+          "used": [
+            "fighter-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-return",
+              "box": [
+                154.75,
+                208,
+                315.75,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-recovered",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-calm-cut",
+          "used": [
+            "fighter-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-cut",
+              "box": [
+                95.75,
+                237.75,
+                267.25000000000006,
+                447.75000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-cast",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-read",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa54-fighter-relic_penitent-use",
+          "used": [
+            "fighter-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "fighter-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.75,
+                316.5,
+                460.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "fighter-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-rest",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-drawback",
+          "used": [
+            "cleric-relic_penitent-drawback"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-drawback",
+              "box": [
+                145.125,
+                240.75,
+                315.75,
+                458.625
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-drawback",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-windup",
+          "used": [
+            "cleric-relic_penitent-windup"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-windup",
+              "box": [
+                110.75,
+                231.25,
+                316.375,
+                420.25
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-windup",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-strike",
+          "used": [
+            "cleric-relic_penitent-strike"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-strike",
+              "box": [
+                159,
+                214.75,
+                316.5,
+                431.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-strike",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                96,
+                242.25,
+                267.50000000000006,
+                452.25000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-sweep",
+          "used": [
+            "cleric-relic_penitent-sweep"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-sweep",
+              "box": [
+                51,
+                276,
+                262.75,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-sweep",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-through",
+          "used": [
+            "cleric-relic_penitent-through"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-through",
+              "box": [
+                17,
+                306.75,
+                227,
+                459.875
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-through",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recover",
+          "used": [
+            "cleric-relic_penitent-recover"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-recover",
+              "box": [
+                109.25,
+                215,
+                275.5,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-recover",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-return",
+          "used": [
+            "cleric-relic_penitent-return"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-return",
+              "box": [
+                155,
+                208,
+                316,
+                460
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-return",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-recovered",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-calm-cut",
+          "used": [
+            "cleric-relic_penitent-cut"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-cut",
+              "box": [
+                97,
+                241.25,
+                268.50000000000006,
+                451.25000000000006
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-cut",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-cast",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-read",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "aa55-cleric-relic_penitent-use",
+          "used": [
+            "cleric-relic_penitent-rest"
+          ],
+          "rows": [
+            {
+              "key": "cleric-relic_penitent-rest",
+              "box": [
+                167.75,
+                239.25,
+                316.5,
+                459.75
+              ]
+            }
+          ],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": "cleric-relic_penitent-rest",
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-fighter-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-ordinary-cleric-flail",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-dawnbringer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-other-name-sunhammer",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-illegal-thief-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        },
+        {
+          "name": "control-two-hand-penitent",
+          "used": [],
+          "rows": [],
+          "string": null,
+          "glint": null,
+          "fletch": 0,
+          "expected": null,
+          "height": 464,
+          "now": 10000
+        }
+      ]
+    }
+  ],
+  "captures": [
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-rest",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-rest.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-drawback",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.08,
+      "expected": "fighter-relic_penitent-drawback",
+      "used": [
+        "fighter-relic_penitent-drawback"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-drawback",
+          "box": [
+            164.55555555555554,
+            208.55555555555554,
+            316.22222222222223,
+            402.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-drawback.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-windup",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.16,
+      "expected": "fighter-relic_penitent-windup",
+      "used": [
+        "fighter-relic_penitent-windup"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-windup",
+          "box": [
+            133.22222222222223,
+            200,
+            316,
+            368
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-windup.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-strike",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.24,
+      "expected": "fighter-relic_penitent-strike",
+      "used": [
+        "fighter-relic_penitent-strike"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-strike",
+          "box": [
+            176.22222222222223,
+            185.33333333333331,
+            316.22222222222223,
+            378.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-strike.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-cut",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "expected": "fighter-relic_penitent-cut",
+      "used": [
+        "fighter-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-cut",
+          "box": [
+            105.88888888888889,
+            210.66666666666666,
+            258.33333333333337,
+            397.33333333333337
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-sweep",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.42,
+      "expected": "fighter-relic_penitent-sweep",
+      "used": [
+        "fighter-relic_penitent-sweep"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-sweep",
+          "box": [
+            66.55555555555554,
+            242.55555555555554,
+            254.77777777777777,
+            405.8888888888889
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-sweep.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-through",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.52,
+      "expected": "fighter-relic_penitent-through",
+      "used": [
+        "fighter-relic_penitent-through"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-through",
+          "box": [
+            34.77777777777777,
+            270.1111111111111,
+            221.44444444444446,
+            406.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-through.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-recover",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.68,
+      "expected": "fighter-relic_penitent-recover",
+      "used": [
+        "fighter-relic_penitent-recover"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-recover",
+          "box": [
+            119.77777777777777,
+            187.77777777777777,
+            267.55555555555554,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-recover.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-return",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.84,
+      "expected": "fighter-relic_penitent-return",
+      "used": [
+        "fighter-relic_penitent-return"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-return",
+          "box": [
+            172.44444444444446,
+            181.77777777777777,
+            315.55555555555554,
+            405.77777777777777
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-return.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-recovered",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 1,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-recovered.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-calm-cut",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "calm": true,
+      "expected": "fighter-relic_penitent-cut",
+      "used": [
+        "fighter-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-cut",
+          "box": [
+            107.88888888888889,
+            208.66666666666666,
+            260.33333333333337,
+            395.33333333333337
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-calm-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-cast",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "cast": 0.5,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-cast.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-read",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "read": true,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-read.png"
+    },
+    {
+      "width": 390,
+      "name": "aa54-fighter-relic_penitent-use",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "use": true,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa54-fighter-relic_penitent-use.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-rest",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-rest.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-drawback",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.08,
+      "expected": "cleric-relic_penitent-drawback",
+      "used": [
+        "cleric-relic_penitent-drawback"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-drawback",
+          "box": [
+            164.55555555555554,
+            211.55555555555554,
+            316.22222222222223,
+            405.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-drawback.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-windup",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.16,
+      "expected": "cleric-relic_penitent-windup",
+      "used": [
+        "cleric-relic_penitent-windup"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-windup",
+          "box": [
+            133.22222222222223,
+            203,
+            316,
+            371
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-windup.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-strike",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.24,
+      "expected": "cleric-relic_penitent-strike",
+      "used": [
+        "cleric-relic_penitent-strike"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-strike",
+          "box": [
+            176.22222222222223,
+            188.33333333333331,
+            316.22222222222223,
+            381.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-strike.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-cut",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "expected": "cleric-relic_penitent-cut",
+      "used": [
+        "cleric-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-cut",
+          "box": [
+            107.88888888888889,
+            213.66666666666666,
+            260.33333333333337,
+            400.33333333333337
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-sweep",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.42,
+      "expected": "cleric-relic_penitent-sweep",
+      "used": [
+        "cleric-relic_penitent-sweep"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-sweep",
+          "box": [
+            64.55555555555554,
+            242.55555555555554,
+            252.77777777777777,
+            405.8888888888889
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-sweep.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-through",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.52,
+      "expected": "cleric-relic_penitent-through",
+      "used": [
+        "cleric-relic_penitent-through"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-through",
+          "box": [
+            32.77777777777777,
+            270.1111111111111,
+            219.44444444444446,
+            406.22222222222223
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-through.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-recover",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.68,
+      "expected": "cleric-relic_penitent-recover",
+      "used": [
+        "cleric-relic_penitent-recover"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-recover",
+          "box": [
+            120.77777777777777,
+            187.77777777777777,
+            268.55555555555554,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-recover.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-return",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.84,
+      "expected": "cleric-relic_penitent-return",
+      "used": [
+        "cleric-relic_penitent-return"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-return",
+          "box": [
+            172.44444444444446,
+            181.77777777777777,
+            315.55555555555554,
+            405.77777777777777
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-return.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-recovered",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 1,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-recovered.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-calm-cut",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "calm": true,
+      "expected": "cleric-relic_penitent-cut",
+      "used": [
+        "cleric-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-cut",
+          "box": [
+            108.88888888888889,
+            212.66666666666666,
+            261.33333333333337,
+            399.33333333333337
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-calm-cut.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-cast",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "cast": 0.5,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-cast.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-read",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "read": true,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-read.png"
+    },
+    {
+      "width": 390,
+      "name": "aa55-cleric-relic_penitent-use",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "use": true,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            184,
+            209.55555555555554,
+            316.22222222222223,
+            405.55555555555554
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-aa55-cleric-relic_penitent-use.png"
+    },
+    {
+      "width": 390,
+      "name": "control-ordinary-fighter-flail",
+      "group": "aa54",
+      "id": "flail",
+      "cls": "fighter",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-ordinary-fighter-flail.png"
+    },
+    {
+      "width": 390,
+      "name": "control-ordinary-cleric-flail",
+      "group": "aa55",
+      "id": "flail",
+      "cls": "cleric",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-ordinary-cleric-flail.png"
+    },
+    {
+      "width": 390,
+      "name": "control-other-name-dawnbringer",
+      "group": "aa54",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-other-name-dawnbringer.png"
+    },
+    {
+      "width": 390,
+      "name": "control-other-name-sunhammer",
+      "group": "aa55",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-other-name-sunhammer.png"
+    },
+    {
+      "width": 390,
+      "name": "control-illegal-thief-penitent",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "thief",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-illegal-thief-penitent.png"
+    },
+    {
+      "width": 390,
+      "name": "control-two-hand-penitent",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": true,
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 410,
+      "now": 10000,
+      "file": "390-control-two-hand-penitent.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-rest",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.75,
+            316.5,
+            460.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-rest.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-drawback",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.08,
+      "expected": "fighter-relic_penitent-drawback",
+      "used": [
+        "fighter-relic_penitent-drawback"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-drawback",
+          "box": [
+            145.375,
+            236.5,
+            316,
+            454.375
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-drawback.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-windup",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.16,
+      "expected": "fighter-relic_penitent-windup",
+      "used": [
+        "fighter-relic_penitent-windup"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-windup",
+          "box": [
+            110.75,
+            227,
+            316.375,
+            416
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-windup.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-strike",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.24,
+      "expected": "fighter-relic_penitent-strike",
+      "used": [
+        "fighter-relic_penitent-strike"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-strike",
+          "box": [
+            158.25,
+            210.25,
+            315.75,
+            427.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-strike.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-cut",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "expected": "fighter-relic_penitent-cut",
+      "used": [
+        "fighter-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-cut",
+          "box": [
+            93.75,
+            238.75,
+            265.25000000000006,
+            448.75000000000006
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-sweep",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.42,
+      "expected": "fighter-relic_penitent-sweep",
+      "used": [
+        "fighter-relic_penitent-sweep"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-sweep",
+          "box": [
+            52.25,
+            276.25,
+            264,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-sweep.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-through",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.52,
+      "expected": "fighter-relic_penitent-through",
+      "used": [
+        "fighter-relic_penitent-through"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-through",
+          "box": [
+            19.25,
+            307,
+            229.25,
+            460.125
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-through.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-recover",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.68,
+      "expected": "fighter-relic_penitent-recover",
+      "used": [
+        "fighter-relic_penitent-recover"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-recover",
+          "box": [
+            108,
+            214.75,
+            274.25,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-recover.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-return",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.84,
+      "expected": "fighter-relic_penitent-return",
+      "used": [
+        "fighter-relic_penitent-return"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-return",
+          "box": [
+            154.75,
+            208,
+            315.75,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-return.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-recovered",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 1,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.75,
+            316.5,
+            460.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-recovered.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-calm-cut",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "calm": true,
+      "expected": "fighter-relic_penitent-cut",
+      "used": [
+        "fighter-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-cut",
+          "box": [
+            95.75,
+            237.75,
+            267.25000000000006,
+            447.75000000000006
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-calm-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-cast",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "cast": 0.5,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.75,
+            316.5,
+            460.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-cast.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-read",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "read": true,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.75,
+            316.5,
+            460.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-read.png"
+    },
+    {
+      "width": 320,
+      "name": "aa54-fighter-relic_penitent-use",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": false,
+      "lit": false,
+      "use": true,
+      "expected": "fighter-relic_penitent-rest",
+      "used": [
+        "fighter-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.75,
+            316.5,
+            460.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa54-fighter-relic_penitent-use.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-rest",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.25,
+            316.5,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-rest.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-drawback",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.08,
+      "expected": "cleric-relic_penitent-drawback",
+      "used": [
+        "cleric-relic_penitent-drawback"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-drawback",
+          "box": [
+            145.125,
+            240.75,
+            315.75,
+            458.625
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-drawback.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-windup",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.16,
+      "expected": "cleric-relic_penitent-windup",
+      "used": [
+        "cleric-relic_penitent-windup"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-windup",
+          "box": [
+            110.75,
+            231.25,
+            316.375,
+            420.25
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-windup.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-strike",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.24,
+      "expected": "cleric-relic_penitent-strike",
+      "used": [
+        "cleric-relic_penitent-strike"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-strike",
+          "box": [
+            159,
+            214.75,
+            316.5,
+            431.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-strike.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-cut",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "expected": "cleric-relic_penitent-cut",
+      "used": [
+        "cleric-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-cut",
+          "box": [
+            96,
+            242.25,
+            267.50000000000006,
+            452.25000000000006
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-sweep",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.42,
+      "expected": "cleric-relic_penitent-sweep",
+      "used": [
+        "cleric-relic_penitent-sweep"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-sweep",
+          "box": [
+            51,
+            276,
+            262.75,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-sweep.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-through",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.52,
+      "expected": "cleric-relic_penitent-through",
+      "used": [
+        "cleric-relic_penitent-through"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-through",
+          "box": [
+            17,
+            306.75,
+            227,
+            459.875
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-through.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-recover",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.68,
+      "expected": "cleric-relic_penitent-recover",
+      "used": [
+        "cleric-relic_penitent-recover"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-recover",
+          "box": [
+            109.25,
+            215,
+            275.5,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-recover.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-return",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.84,
+      "expected": "cleric-relic_penitent-return",
+      "used": [
+        "cleric-relic_penitent-return"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-return",
+          "box": [
+            155,
+            208,
+            316,
+            460
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-return.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-recovered",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 1,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.25,
+            316.5,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-recovered.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-calm-cut",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "u": 0.32,
+      "calm": true,
+      "expected": "cleric-relic_penitent-cut",
+      "used": [
+        "cleric-relic_penitent-cut"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-cut",
+          "box": [
+            97,
+            241.25,
+            268.50000000000006,
+            451.25000000000006
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-calm-cut.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-cast",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "cast": 0.5,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.25,
+            316.5,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-cast.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-read",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "read": true,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.25,
+            316.5,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-read.png"
+    },
+    {
+      "width": 320,
+      "name": "aa55-cleric-relic_penitent-use",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "cleric",
+      "two": false,
+      "lit": false,
+      "use": true,
+      "expected": "cleric-relic_penitent-rest",
+      "used": [
+        "cleric-relic_penitent-rest"
+      ],
+      "rows": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "box": [
+            167.75,
+            239.25,
+            316.5,
+            459.75
+          ]
+        }
+      ],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-aa55-cleric-relic_penitent-use.png"
+    },
+    {
+      "width": 320,
+      "name": "control-ordinary-fighter-flail",
+      "group": "aa54",
+      "id": "flail",
+      "cls": "fighter",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-ordinary-fighter-flail.png"
+    },
+    {
+      "width": 320,
+      "name": "control-ordinary-cleric-flail",
+      "group": "aa55",
+      "id": "flail",
+      "cls": "cleric",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-ordinary-cleric-flail.png"
+    },
+    {
+      "width": 320,
+      "name": "control-other-name-dawnbringer",
+      "group": "aa54",
+      "id": "relic_dawnbringer",
+      "cls": "fighter",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-other-name-dawnbringer.png"
+    },
+    {
+      "width": 320,
+      "name": "control-other-name-sunhammer",
+      "group": "aa55",
+      "id": "legend_sunhammer",
+      "cls": "cleric",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-other-name-sunhammer.png"
+    },
+    {
+      "width": 320,
+      "name": "control-illegal-thief-penitent",
+      "group": "aa54",
+      "id": "relic_penitent",
+      "cls": "thief",
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-illegal-thief-penitent.png"
+    },
+    {
+      "width": 320,
+      "name": "control-two-hand-penitent",
+      "group": "aa55",
+      "id": "relic_penitent",
+      "cls": "fighter",
+      "two": true,
+      "expected": null,
+      "used": [],
+      "rows": [],
+      "string": null,
+      "glint": null,
+      "fletch": 0,
+      "height": 464,
+      "now": 10000,
+      "file": "320-control-two-hand-penitent.png"
+    }
+  ]
+}

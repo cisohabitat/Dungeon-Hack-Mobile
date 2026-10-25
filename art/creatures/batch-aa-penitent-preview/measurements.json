@@ -1,0 +1,692 @@
+{
+  "family_scale": {
+    "aa54": 0.3888888888888889,
+    "aa55": 0.3888888888888889
+  },
+  "cells": {
+    "fighter-relic_penitent-rest": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        101,
+        32,
+        337,
+        399
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        72,
+        49
+      ],
+      "grip": [
+        127.61111111111111,
+        128.33333333333331
+      ],
+      "object_bounds": [
+        107.0,
+        56.77777777777778,
+        173.11111111111111,
+        154.77777777777777
+      ],
+      "visible_bounds": [
+        111,
+        61,
+        203,
+        205
+      ],
+      "export_sha256": "7a17590671c649fbbaaed37dd0c9e4b08df8703bb7ee53a92f9e2bfc5879191b"
+    },
+    "fighter-relic_penitent-drawback": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        144,
+        31,
+        339,
+        399
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        62,
+        52
+      ],
+      "grip": [
+        127.72222222222223,
+        128.22222222222223
+      ],
+      "object_bounds": [
+        115.27777777777777,
+        59.77777777777778,
+        191.11111111111111,
+        156.61111111111111
+      ],
+      "visible_bounds": [
+        118,
+        64,
+        194,
+        208
+      ],
+      "export_sha256": "d7ef29961667ad6d8c561ae643b08ced60e88ffac09867a2ec67921d135b09db"
+    },
+    "fighter-relic_penitent-windup": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        146,
+        24,
+        356,
+        395
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        58,
+        69
+      ],
+      "grip": [
+        127.61111111111111,
+        128.11111111111111
+      ],
+      "object_bounds": [
+        110.11111111111111,
+        76.0,
+        201.5,
+        160.0
+      ],
+      "visible_bounds": [
+        115,
+        78,
+        197,
+        223
+      ],
+      "export_sha256": "ddbf698210d7144559474878e01e59e2cae22aa65ff904d41612c497eead5a38"
+    },
+    "fighter-relic_penitent-strike": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        0,
+        418,
+        400,
+        836
+      ],
+      "source_visible_bounds": [
+        98,
+        28,
+        336,
+        393
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        73,
+        55
+      ],
+      "grip": [
+        128.22222222222223,
+        127.72222222222223
+      ],
+      "object_bounds": [
+        104.11111111111111,
+        59.666666666666664,
+        174.11111111111111,
+        156.11111111111111
+      ],
+      "visible_bounds": [
+        111,
+        66,
+        204,
+        208
+      ],
+      "export_sha256": "933b69dc87f613c4d3264d4001b3862656ca471ddee27cb03670ad7a9e8b1620"
+    },
+    "fighter-relic_penitent-cut": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        400,
+        418,
+        836,
+        800
+      ],
+      "source_visible_bounds": [
+        28,
+        53,
+        398,
+        366
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        74,
+        44
+      ],
+      "grip": [
+        128.05555555555554,
+        128.0
+      ],
+      "object_bounds": [
+        79.44444444444444,
+        60.33333333333333,
+        155.66666666666669,
+        153.66666666666669
+      ],
+      "visible_bounds": [
+        85,
+        64,
+        230,
+        187
+      ],
+      "export_sha256": "0362e3ac1e776db75401b75802192ec87dc795f0230ac659d5d44f4c0f4c9b5b"
+    },
+    "fighter-relic_penitent-sweep": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        17,
+        112,
+        401,
+        341
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        70,
+        39
+      ],
+      "grip": [
+        127.94444444444444,
+        128.05555555555554
+      ],
+      "object_bounds": [
+        70.77777777777777,
+        74.77777777777777,
+        164.88888888888889,
+        156.44444444444446
+      ],
+      "visible_bounds": [
+        76,
+        82,
+        227,
+        172
+      ],
+      "export_sha256": "5b585e29df034de87e3e703e71f536bedaf741eec129743427cb6c9f608c8386"
+    },
+    "fighter-relic_penitent-through": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        24,
+        113,
+        434,
+        356
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        62,
+        51
+      ],
+      "grip": [
+        127.72222222222223,
+        127.61111111111111
+      ],
+      "object_bounds": [
+        65.88888888888889,
+        87.55555555555556,
+        159.22222222222223,
+        155.61111111111111
+      ],
+      "visible_bounds": [
+        71,
+        95,
+        231,
+        190
+      ],
+      "export_sha256": "27f09d8bc39634811a04f5c5ef2b4ed7fe69d170fdfaf58e59d70413b02525e4"
+    },
+    "fighter-relic_penitent-recover": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        450,
+        800,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        26,
+        39,
+        353,
+        406
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        77,
+        48
+      ],
+      "grip": [
+        127.55555555555556,
+        128.11111111111111
+      ],
+      "object_bounds": [
+        80.88888888888889,
+        51.888888888888886,
+        154.77777777777777,
+        160.77777777777777
+      ],
+      "visible_bounds": [
+        87,
+        63,
+        214,
+        206
+      ],
+      "export_sha256": "0c4f0464866de1b615e9f5819d2c4980586724e27bc3804abdb17d80a95fdf08"
+    },
+    "fighter-relic_penitent-return": {
+      "source": "held-aa54-class.png",
+      "source_sha256": "050eeedf1187ec44763803ab2739280bd19234e376d4cd1cc405cdb6890d0c13",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        89,
+        29,
+        362,
+        404
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        66,
+        49
+      ],
+      "grip": [
+        128.22222222222223,
+        127.94444444444444
+      ],
+      "object_bounds": [
+        93.22222222222223,
+        52.888888888888886,
+        164.77777777777777,
+        164.88888888888889
+      ],
+      "visible_bounds": [
+        101,
+        60,
+        207,
+        207
+      ],
+      "export_sha256": "f8e25899867c607f83fa0edcd52faf2a86e9d6f2cf51726f760ce3e7b21d4afe"
+    },
+    "cleric-relic_penitent-rest": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        102,
+        34,
+        336,
+        395
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        72,
+        51
+      ],
+      "grip": [
+        128.0,
+        128.0
+      ],
+      "object_bounds": [
+        107.0,
+        58.77777777777778,
+        173.11111111111111,
+        156.77777777777777
+      ],
+      "visible_bounds": [
+        112,
+        64,
+        203,
+        205
+      ],
+      "export_sha256": "8a2a0c6be680a978ca41aca294d2a5d80cebede9a63c62dcf81e1e17c2387be1"
+    },
+    "cleric-relic_penitent-drawback": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        147,
+        32,
+        329,
+        402
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        61,
+        53
+      ],
+      "grip": [
+        127.88888888888889,
+        127.66666666666667
+      ],
+      "object_bounds": [
+        114.27777777777777,
+        60.77777777777778,
+        190.11111111111111,
+        157.61111111111111
+      ],
+      "visible_bounds": [
+        118,
+        65,
+        189,
+        210
+      ],
+      "export_sha256": "59bb216005a12573b2ba94b6ae014e34904a0c03498a0d35763e3bc8850e16ab"
+    },
+    "cleric-relic_penitent-windup": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        149,
+        25,
+        356,
+        398
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        58,
+        70
+      ],
+      "grip": [
+        127.61111111111111,
+        127.55555555555556
+      ],
+      "object_bounds": [
+        110.11111111111111,
+        77.0,
+        201.5,
+        161.0
+      ],
+      "visible_bounds": [
+        116,
+        80,
+        197,
+        225
+      ],
+      "export_sha256": "6edb649c7933c2ce8df82b265cb0a76aea1051bba80eb7f1763956c648965448"
+    },
+    "cleric-relic_penitent-strike": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        0,
+        418,
+        400,
+        836
+      ],
+      "source_visible_bounds": [
+        98,
+        28,
+        330,
+        394
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        72,
+        57
+      ],
+      "grip": [
+        127.61111111111111,
+        127.77777777777779
+      ],
+      "object_bounds": [
+        103.11111111111111,
+        61.666666666666664,
+        173.11111111111111,
+        158.11111111111111
+      ],
+      "visible_bounds": [
+        110,
+        68,
+        201,
+        211
+      ],
+      "export_sha256": "32e4df682f6bdfb36566de43a80ea26dff8929be4bdba081230cd5689c80c4dc"
+    },
+    "cleric-relic_penitent-cut": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        400,
+        418,
+        836,
+        800
+      ],
+      "source_visible_bounds": [
+        30,
+        54,
+        395,
+        360
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        75,
+        46
+      ],
+      "grip": [
+        128.27777777777777,
+        128.44444444444446
+      ],
+      "object_bounds": [
+        80.44444444444444,
+        62.33333333333333,
+        156.66666666666669,
+        155.66666666666669
+      ],
+      "visible_bounds": [
+        87,
+        67,
+        229,
+        187
+      ],
+      "export_sha256": "4fefccd2601b5f481be3afd1fab33892ac662a9e9aeffcec3109418d3cbebf41"
+    },
+    "cleric-relic_penitent-sweep": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        17,
+        114,
+        400,
+        334
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        69,
+        42
+      ],
+      "grip": [
+        127.72222222222223,
+        127.55555555555556
+      ],
+      "object_bounds": [
+        69.77777777777777,
+        77.77777777777777,
+        163.88888888888889,
+        159.44444444444446
+      ],
+      "visible_bounds": [
+        76,
+        86,
+        225,
+        172
+      ],
+      "export_sha256": "aca0edba6192255d819fca9498c9b6747643cdcfde9645938aa5024061f9bb9d"
+    },
+    "cleric-relic_penitent-through": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        24,
+        113,
+        429,
+        350
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        61,
+        54
+      ],
+      "grip": [
+        127.88888888888889,
+        128.27777777777777
+      ],
+      "object_bounds": [
+        64.88888888888889,
+        90.55555555555556,
+        158.22222222222223,
+        158.61111111111111
+      ],
+      "visible_bounds": [
+        70,
+        98,
+        228,
+        191
+      ],
+      "export_sha256": "06eb8e0e6085806aa653c486eda997d413c938fe4479e8da8a5659a6922be10f"
+    },
+    "cleric-relic_penitent-recover": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        450,
+        800,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        28,
+        40,
+        351,
+        404
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        78,
+        49
+      ],
+      "grip": [
+        127.77777777777777,
+        128.33333333333331
+      ],
+      "object_bounds": [
+        81.88888888888889,
+        52.888888888888886,
+        155.77777777777777,
+        161.77777777777777
+      ],
+      "visible_bounds": [
+        89,
+        64,
+        215,
+        207
+      ],
+      "export_sha256": "927afbc4211751c426c89bea38358b6caf617742c0d102536312b33dc83a6d18"
+    },
+    "cleric-relic_penitent-return": {
+      "source": "held-aa55.png",
+      "source_sha256": "b9076fb19ca7eb7d332ec2b2e766e3c765347c48c5b2211437c242b8cdb437aa",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        89,
+        30,
+        356,
+        401
+      ],
+      "scale": 0.3888888888888889,
+      "offset": [
+        67,
+        49
+      ],
+      "grip": [
+        128.44444444444446,
+        128.33333333333331
+      ],
+      "object_bounds": [
+        94.22222222222223,
+        52.888888888888886,
+        165.77777777777777,
+        164.88888888888889
+      ],
+      "visible_bounds": [
+        101,
+        60,
+        206,
+        206
+      ],
+      "export_sha256": "60c58c8de3117d2e359536c450a3103985e2728b6f07401466e1b11c5a1b483a"
+    }
+  }
+}

@@ -1,0 +1,838 @@
+{
+  "groups": {
+    "aa31": {
+      "cls": "fighter",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa32": {
+      "cls": "cleric",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "cleric-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa33": {
+      "cls": "thief",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa34": {
+      "cls": "druid",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "druid-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "druid-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa35": {
+      "cls": "ranger",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa36": {
+      "cls": "fighter",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa37": {
+      "cls": "mage",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "mage-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa38": {
+      "cls": "thief",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa39": {
+      "cls": "ranger",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa40": {
+      "cls": "fighter",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa41": {
+      "cls": "thief",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa42": {
+      "cls": "ranger",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {},
+  "cells": {
+    "fighter-sling-rest": {
+      "sheet": "aa31",
+      "cls": "fighter",
+      "id": "sling",
+      "key": "fighter-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "fighter-sling-loosed": {
+      "sheet": "aa31",
+      "cls": "fighter",
+      "id": "sling",
+      "key": "fighter-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "cleric-sling-rest": {
+      "sheet": "aa32",
+      "cls": "cleric",
+      "id": "sling",
+      "key": "cleric-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "cleric-sling-loosed": {
+      "sheet": "aa32",
+      "cls": "cleric",
+      "id": "sling",
+      "key": "cleric-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "thief-sling-rest": {
+      "sheet": "aa33",
+      "cls": "thief",
+      "id": "sling",
+      "key": "thief-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "thief-sling-loosed": {
+      "sheet": "aa33",
+      "cls": "thief",
+      "id": "sling",
+      "key": "thief-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "druid-sling-rest": {
+      "sheet": "aa34",
+      "cls": "druid",
+      "id": "sling",
+      "key": "druid-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "druid-sling-loosed": {
+      "sheet": "aa34",
+      "cls": "druid",
+      "id": "sling",
+      "key": "druid-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "ranger-sling-rest": {
+      "sheet": "aa35",
+      "cls": "ranger",
+      "id": "sling",
+      "key": "ranger-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "ranger-sling-loosed": {
+      "sheet": "aa35",
+      "cls": "ranger",
+      "id": "sling",
+      "key": "ranger-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "grip": [
+        58.297029702970285,
+        48.49504950495049
+      ],
+      "object_bounds": [
+        35.099009900990104,
+        25.936687113766315,
+        197.48514851485143,
+        171.3465346534653
+      ],
+      "tip": [
+        51.762376237623755,
+        35.42574257425741
+      ],
+      "native": [
+        82,
+        101
+      ]
+    },
+    "fighter-throwknife-rest": {
+      "sheet": "aa36",
+      "cls": "fighter",
+      "id": "throwknife",
+      "key": "fighter-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        76.7218045112782,
+        94.09022556390977
+      ],
+      "object_bounds": [
+        54.96231913625724,
+        13.379072832218895,
+        94.21350557236968,
+        127.68313924839629
+      ],
+      "tip": [
+        63.3652567102805,
+        18.34147884725649
+      ],
+      "native": [
+        84,
+        133
+      ]
+    },
+    "mage-throwknife-rest": {
+      "sheet": "aa37",
+      "cls": "mage",
+      "id": "throwknife",
+      "key": "mage-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        76.7218045112782,
+        94.09022556390977
+      ],
+      "object_bounds": [
+        54.96231913625724,
+        13.379072832218895,
+        94.21350557236968,
+        127.68313924839629
+      ],
+      "tip": [
+        63.3652567102805,
+        18.34147884725649
+      ],
+      "native": [
+        84,
+        133
+      ]
+    },
+    "thief-throwknife-rest": {
+      "sheet": "aa38",
+      "cls": "thief",
+      "id": "throwknife",
+      "key": "thief-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        76.7218045112782,
+        94.09022556390977
+      ],
+      "object_bounds": [
+        54.96231913625724,
+        13.379072832218895,
+        94.21350557236968,
+        127.68313924839629
+      ],
+      "tip": [
+        63.3652567102805,
+        18.34147884725649
+      ],
+      "native": [
+        84,
+        133
+      ]
+    },
+    "ranger-throwknife-rest": {
+      "sheet": "aa39",
+      "cls": "ranger",
+      "id": "throwknife",
+      "key": "ranger-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        76.7218045112782,
+        94.09022556390977
+      ],
+      "object_bounds": [
+        54.96231913625724,
+        13.379072832218895,
+        94.21350557236968,
+        127.68313924839629
+      ],
+      "tip": [
+        63.3652567102805,
+        18.34147884725649
+      ],
+      "native": [
+        84,
+        133
+      ]
+    },
+    "fighter-handxbow-rest": {
+      "sheet": "aa40",
+      "cls": "fighter",
+      "id": "handxbow",
+      "key": "fighter-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.71069182389938,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        49.34605812949161,
+        14.085734281639317,
+        134.61362409676815,
+        142.3075843362151
+      ],
+      "tip": [
+        84.77180354959694,
+        21.557432394846863
+      ],
+      "native": [
+        108,
+        159
+      ]
+    },
+    "thief-handxbow-rest": {
+      "sheet": "aa41",
+      "cls": "thief",
+      "id": "handxbow",
+      "key": "thief-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.71069182389938,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        49.34605812949161,
+        14.085734281639317,
+        134.61362409676815,
+        142.3075843362151
+      ],
+      "tip": [
+        84.77180354959694,
+        21.557432394846863
+      ],
+      "native": [
+        108,
+        159
+      ]
+    },
+    "ranger-handxbow-rest": {
+      "sheet": "aa42",
+      "cls": "ranger",
+      "id": "handxbow",
+      "key": "ranger-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        101.71069182389938,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        49.34605812949161,
+        14.085734281639317,
+        134.61362409676815,
+        142.3075843362151
+      ],
+      "tip": [
+        84.77180354959694,
+        21.557432394846863
+      ],
+      "native": [
+        108,
+        159
+      ]
+    }
+  },
+  "legal": [
+    {
+      "group": "aa31",
+      "cls": "fighter",
+      "id": "sling",
+      "reason": null
+    },
+    {
+      "group": "aa32",
+      "cls": "cleric",
+      "id": "sling",
+      "reason": null
+    },
+    {
+      "group": "aa33",
+      "cls": "thief",
+      "id": "sling",
+      "reason": null
+    },
+    {
+      "group": "aa34",
+      "cls": "druid",
+      "id": "sling",
+      "reason": null
+    },
+    {
+      "group": "aa35",
+      "cls": "ranger",
+      "id": "sling",
+      "reason": null
+    },
+    {
+      "group": "aa36",
+      "cls": "fighter",
+      "id": "throwknife",
+      "reason": null
+    },
+    {
+      "group": "aa37",
+      "cls": "mage",
+      "id": "throwknife",
+      "reason": null
+    },
+    {
+      "group": "aa38",
+      "cls": "thief",
+      "id": "throwknife",
+      "reason": null
+    },
+    {
+      "group": "aa39",
+      "cls": "ranger",
+      "id": "throwknife",
+      "reason": null
+    },
+    {
+      "group": "aa40",
+      "cls": "fighter",
+      "id": "handxbow",
+      "reason": null
+    },
+    {
+      "group": "aa41",
+      "cls": "thief",
+      "id": "handxbow",
+      "reason": null
+    },
+    {
+      "group": "aa42",
+      "cls": "ranger",
+      "id": "handxbow",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "druid": [
+      "#8a6a44",
+      "#4e6a34",
+      "#5a4a2e"
+    ],
+    "ranger": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "mage": [
+      "#d8b090",
+      "#6a4aa0",
+      "#4a3a78"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": [
+    {
+      "from": "aa31",
+      "to": "aa35",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-sling-rest",
+          "to": "ranger-sling-rest",
+          "sha256": "bc69ca0a2ad52145c370408166968229f92841ac3db28859368c77de71a3622b"
+        },
+        {
+          "from": "fighter-sling-loosed",
+          "to": "ranger-sling-loosed",
+          "sha256": "f13bfcb9f7ce9d9170d516d4ea6d5bc3c2f25119d28702baf675c9b4e4aa2da3"
+        }
+      ]
+    },
+    {
+      "from": "aa36",
+      "to": "aa39",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-throwknife-rest",
+          "to": "ranger-throwknife-rest",
+          "sha256": "f50ce11a325658fe85026975b907d41b6acfdf6a2ede8f8a68e0267b739a4cef"
+        }
+      ]
+    },
+    {
+      "from": "aa40",
+      "to": "aa42",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-handxbow-rest",
+          "to": "ranger-handxbow-rest",
+          "sha256": "36b504afef14a452a9a100f42904045d3e5b43fea63f9389a1fff4da99a4084a"
+        }
+      ]
+    }
+  ]
+}

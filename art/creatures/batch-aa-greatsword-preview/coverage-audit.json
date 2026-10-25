@@ -1,0 +1,22 @@
+{
+  "scope": "Fighter greatsword ordinary9 CUT states now have source for both hand counts; not whole-AA completion",
+  "legal_classes": [
+    "fighter"
+  ],
+  "published_two_hand_states": 9,
+  "new_released_hand_states": 9,
+  "source_two_hand_family_unchanged": true,
+  "previous_pending_frames": 89,
+  "total_pending_frames": 98,
+  "exact_eligibility": [
+    {
+      "cls": "fighter",
+      "id": "greatsword",
+      "allowed": true
+    }
+  ],
+  "remaining": [
+    "named/legendary/Mythic equipment by actual identity"
+  ],
+  "future_activation": "Load both hand variants as one18-state Fighter greatsword family and verify native actions, fallback, offline delivery and performance. Live action hands, arrows/strings/projectiles remain procedural."
+}

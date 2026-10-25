@@ -1,0 +1,28 @@
+{
+  "release": "0.9.38",
+  "build": 53,
+  "offline_cache": "deepdelve-v113",
+  "source_batches": {
+    "aa-ranged": 17,
+    "aa-bows": 9,
+    "aa-rare": 63,
+    "aa-greatsword": 9,
+    "aa-penitent": 18
+  },
+  "activated_frames": 116,
+  "held_frames": 405,
+  "common_delivery_files": 576,
+  "unchanged_previous_common_files": 460,
+  "new_shipped_bytes": 2027593,
+  "shipped_paintings": 744,
+  "icons": 3,
+  "all_new_files_match_reviewed_sources": true,
+  "status": "native, visual and local regression verification complete; publication requires all CI jobs",
+  "native_sessions": 50,
+  "native_actions": 164,
+  "native_captures": 742,
+  "native_galleries": 50,
+  "offline_continues": 50,
+  "cached_held_frames_each": 405,
+  "validation": "validation.json"
+}

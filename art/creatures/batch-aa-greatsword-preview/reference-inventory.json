@@ -1,0 +1,645 @@
+{
+  "groups": {
+    "aa53": {
+      "cls": "fighter",
+      "id": "greatsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-greatsword-rest-released",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-drawback-released",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-windup-released",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-strike-released",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-cut-released",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-sweep-released",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-through-released",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-recover-released",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-return-released",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-two": {
+      "cls": "fighter",
+      "id": "greatsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-greatsword-rest-two",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-drawback-two",
+          "pose": "drawback",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-windup-two",
+          "pose": "windup",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-strike-two",
+          "pose": "strike",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-cut-two",
+          "pose": "cut",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-sweep-two",
+          "pose": "sweep",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-through-two",
+          "pose": "through",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-recover-two",
+          "pose": "recover",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-return-two",
+          "pose": "return",
+          "two": true,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "cells": {
+    "fighter-greatsword-rest-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-rest-released",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        105.18085106382979,
+        136.1914893617021
+      ],
+      "object_bounds": [
+        62.791565617079705,
+        14.786791014400215,
+        144.27821041906424,
+        185.1154769333565
+      ],
+      "tip": [
+        84.39294741185142,
+        18.297429312272556
+      ],
+      "native": [
+        107,
+        188
+      ]
+    },
+    "fighter-greatsword-drawback-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-drawback-released",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        117.60199004975124,
+        128.54726368159203
+      ],
+      "object_bounds": [
+        81.28467258479675,
+        15.350739349884961,
+        157.30260731332265,
+        174.19422170952708
+      ],
+      "tip": [
+        138.96690174101755,
+        18.6343214394372
+      ],
+      "native": [
+        81,
+        201
+      ]
+    },
+    "fighter-greatsword-windup-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-windup-released",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        110.98969072164948,
+        116.65979381443299
+      ],
+      "object_bounds": [
+        80.2924509512666,
+        14.83339394561319,
+        176.81187856142765,
+        159.04580839898458
+      ],
+      "tip": [
+        172.46578845789952,
+        18.27747189640965
+      ],
+      "native": [
+        80,
+        194
+      ]
+    },
+    "fighter-greatsword-strike-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-strike-released",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        105.64705882352942,
+        135.64705882352942
+      ],
+      "object_bounds": [
+        62.852564335801326,
+        15.865632906621542,
+        143.5087668045977,
+        184.11293737854803
+      ],
+      "tip": [
+        74.49742551295545,
+        19.395044671327426
+      ],
+      "native": [
+        106,
+        187
+      ]
+    },
+    "fighter-greatsword-cut-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-cut-released",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        122.27083333333333,
+        130.29166666666669
+      ],
+      "object_bounds": [
+        15.335320182900986,
+        70.64643485859109,
+        166.39401271822098,
+        162.50251605385944
+      ],
+      "tip": [
+        18.772820182900986,
+        75.26079691635802
+      ],
+      "native": [
+        192,
+        94
+      ]
+    },
+    "fighter-greatsword-sweep-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-sweep-released",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        129.64179104477614,
+        119.79104477611939
+      ],
+      "object_bounds": [
+        14.660813357474616,
+        80.66650432168592,
+        175.8539131853335,
+        157.6787092483436
+      ],
+      "tip": [
+        17.944395447026853,
+        111.98040199957566
+      ],
+      "native": [
+        201,
+        83
+      ]
+    },
+    "fighter-greatsword-through-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-through-released",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        128.5699481865285,
+        113.75129533678756
+      ],
+      "object_bounds": [
+        15.571387961618367,
+        78.68708374652172,
+        174.56025389099457,
+        158.58824593479162
+      ],
+      "tip": [
+        18.991077080789353,
+        153.63474272376945
+      ],
+      "native": [
+        193,
+        83
+      ]
+    },
+    "fighter-greatsword-recover-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-recover-released",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        129.25,
+        116.125
+      ],
+      "object_bounds": [
+        14.75700149106488,
+        47.27572142074251,
+        176.69902885326977,
+        150.35215500982065
+      ],
+      "tip": [
+        18.50700149106488,
+        52.187500000000014
+      ],
+      "native": [
+        176,
+        123
+      ]
+    },
+    "fighter-greatsword-return-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-return-released",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        112.8502994011976,
+        132.61077844311376
+      ],
+      "object_bounds": [
+        34.36690177940086,
+        15.63401316060051,
+        149.13884456040182,
+        181.4493641216466
+      ],
+      "tip": [
+        39.451220826058666,
+        19.586108968983744
+      ],
+      "native": [
+        137,
+        167
+      ]
+    },
+    "fighter-greatsword-rest-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-rest-two",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "grip": [
+        116.94977168949771,
+        119.46118721461187
+      ],
+      "object_bounds": [
+        80.56079605484467,
+        15.241628816014797,
+        150.51280163828346,
+        161.4598614770366
+      ],
+      "tip": [
+        99.10444800652085,
+        18.255327446151785
+      ],
+      "native": [
+        124,
+        219
+      ]
+    },
+    "fighter-greatsword-drawback-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-drawback-two",
+      "pose": "drawback",
+      "two": true,
+      "lit": false,
+      "grip": [
+        144.71568627450978,
+        126.92156862745098
+      ],
+      "object_bounds": [
+        108.93244700756935,
+        15.389699065327816,
+        183.832470931264,
+        171.8972478608576
+      ],
+      "tip": [
+        165.76640808796338,
+        18.624993182974876
+      ],
+      "native": [
+        131,
+        204
+      ]
+    },
+    "fighter-greatsword-windup-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-windup-two",
+      "pose": "windup",
+      "two": true,
+      "lit": false,
+      "grip": [
+        155.78350515463916,
+        116.65979381443299
+      ],
+      "object_bounds": [
+        125.08626538425628,
+        14.83339394561319,
+        221.60569299441735,
+        159.04580839898458
+      ],
+      "tip": [
+        217.2596028908892,
+        18.27747189640965
+      ],
+      "native": [
+        159,
+        194
+      ]
+    },
+    "fighter-greatsword-strike-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-strike-two",
+      "pose": "strike",
+      "two": true,
+      "lit": false,
+      "grip": [
+        117.35483870967741,
+        119.38248847926268
+      ],
+      "object_bounds": [
+        80.47663378246473,
+        16.16070669833285,
+        149.98220918184228,
+        161.14801516031557
+      ],
+      "tip": [
+        90.51160631761597,
+        19.20218135271073
+      ],
+      "native": [
+        123,
+        217
+      ]
+    },
+    "fighter-greatsword-cut-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-cut-two",
+      "pose": "cut",
+      "two": true,
+      "lit": false,
+      "grip": [
+        122.27083333333333,
+        89.61458333333333
+      ],
+      "object_bounds": [
+        15.335320182900986,
+        29.969351525257753,
+        166.39401271822098,
+        121.82543272052611
+      ],
+      "tip": [
+        18.772820182900986,
+        34.583713583024675
+      ],
+      "native": [
+        192,
+        165
+      ]
+    },
+    "fighter-greatsword-sweep-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-sweep-two",
+      "pose": "sweep",
+      "two": true,
+      "lit": false,
+      "grip": [
+        129.64179104477614,
+        86.95522388059702
+      ],
+      "object_bounds": [
+        14.660813357474616,
+        47.830683426163546,
+        175.8539131853335,
+        124.84288835282123
+      ],
+      "tip": [
+        17.944395447026853,
+        79.14458110405329
+      ],
+      "native": [
+        201,
+        143
+      ]
+    },
+    "fighter-greatsword-through-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-through-two",
+      "pose": "through",
+      "two": true,
+      "lit": false,
+      "grip": [
+        128.5699481865285,
+        86.96373056994818
+      ],
+      "object_bounds": [
+        15.571387961618367,
+        51.89951897968234,
+        174.56025389099457,
+        131.80068116795223
+      ],
+      "tip": [
+        18.991077080789353,
+        126.84717795693007
+      ],
+      "native": [
+        193,
+        130
+      ]
+    },
+    "fighter-greatsword-recover-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-recover-two",
+      "pose": "recover",
+      "two": true,
+      "lit": false,
+      "grip": [
+        129.25,
+        88
+      ],
+      "object_bounds": [
+        14.75700149106488,
+        19.150721420742506,
+        176.69902885326977,
+        122.22715500982065
+      ],
+      "tip": [
+        18.50700149106488,
+        24.06250000000001
+      ],
+      "native": [
+        176,
+        168
+      ]
+    },
+    "fighter-greatsword-return-two": {
+      "sheet": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "key": "fighter-greatsword-return-two",
+      "pose": "return",
+      "two": true,
+      "lit": false,
+      "grip": [
+        115.71844660194175,
+        110.9126213592233
+      ],
+      "object_bounds": [
+        52.093556296892935,
+        16.081942707865462,
+        145.13683029896654,
+        150.50506703065525
+      ],
+      "tip": [
+        56.21531008714465,
+        19.285826203011094
+      ],
+      "native": [
+        137,
+        206
+      ]
+    }
+  },
+  "legal": [
+    {
+      "group": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "reason": null
+    },
+    {
+      "group": "audit-two",
+      "cls": "fighter",
+      "id": "greatsword",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": []
+}

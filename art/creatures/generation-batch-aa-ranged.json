@@ -1,0 +1,700 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-ranged.md",
+  "status": "source complete and reviewed; activated for release 0.9.38; historical source-only evidence retained",
+  "groups": {
+    "aa31": [
+      "fighter-sling-rest",
+      "fighter-sling-loosed"
+    ],
+    "aa32": [
+      "cleric-sling-rest",
+      "cleric-sling-loosed"
+    ],
+    "aa33": [
+      "thief-sling-rest",
+      "thief-sling-loosed"
+    ],
+    "aa34": [
+      "druid-sling-rest",
+      "druid-sling-loosed"
+    ],
+    "aa35": [
+      "ranger-sling-rest",
+      "ranger-sling-loosed"
+    ],
+    "aa36": [
+      "fighter-throwknife-rest"
+    ],
+    "aa37": [
+      "mage-throwknife-rest"
+    ],
+    "aa38": [
+      "thief-throwknife-rest"
+    ],
+    "aa39": [
+      "ranger-throwknife-rest"
+    ],
+    "aa40": [
+      "fighter-handxbow-rest"
+    ],
+    "aa41": [
+      "thief-handxbow-rest"
+    ],
+    "aa42": [
+      "ranger-handxbow-rest"
+    ]
+  },
+  "sheets": {
+    "aa31": {
+      "source": "held-aa31.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "fighter",
+      "id": "sling",
+      "references": [
+        "batch-aa-ranged-preview/aa31-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in two equal square cells side by side in a wide 2:1 sheet. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The small hanging sling of reference1: a retention cord held in the upper-left fist runs down-right to a compact stitched brown leather pouch. A SECOND cord rises from the pouch to a loose small knotted tail at upper-right, making the same open U/V silhouette seen in reference1. Do not move that free tail into the fist. The sleeve continues down-right BEHIND the cords. LEFT CELL loaded rest: ONE small rounded grey stone sits visibly in the pouch. RIGHT CELL loosed: the same pouch is visibly hollow and EMPTY with dark brown leather interior, NO stone, no pale pebble-like filling. Both cells use EXACTLY the same pose, hand, sleeve and cord/pouch dimensions. Complete thin twisted cords join pouch and hand naturally; no detached rope, extra hands or overhead whirl. Class finish: grey articulated metal gauntlet and cuff, weathered brown cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 2 complete isolated objects. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-19599dbb-4586-4263-9958-6209aa83abc9.png"
+    },
+    "aa32": {
+      "source": "held-aa32.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "cleric",
+      "id": "sling",
+      "references": [
+        "batch-aa-ranged-preview/aa32-reference-opaque.png",
+        "held-aa7-edges.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in two equal square cells side by side in a wide 2:1 sheet. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The small hanging sling of reference1: a retention cord held in the upper-left fist runs down-right to a compact stitched brown leather pouch. A SECOND cord rises from the pouch to a loose small knotted tail at upper-right, making the same open U/V silhouette seen in reference1. Do not move that free tail into the fist. The sleeve continues down-right BEHIND the cords. LEFT CELL loaded rest: ONE small rounded grey stone sits visibly in the pouch. RIGHT CELL loosed: the same pouch is visibly hollow and EMPTY with dark brown leather interior, NO stone, no pale pebble-like filling. Both cells use EXACTLY the same pose, hand, sleeve and cord/pouch dimensions. Complete thin twisted cords join pouch and hand naturally; no detached rope, extra hands or overhead whirl. Class finish: brown leather glove, muted gold cuff and ivory cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 2 complete isolated objects. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-4e2f45b5-8b97-446d-9c26-afe0d1abf0bd.png"
+    },
+    "aa33": {
+      "source": "held-aa33.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "thief",
+      "id": "sling",
+      "references": [
+        "batch-aa-ranged-preview/aa33-reference-opaque.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in two equal square cells side by side in a wide 2:1 sheet. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The small hanging sling of reference1: a retention cord held in the upper-left fist runs down-right to a compact stitched brown leather pouch. A SECOND cord rises from the pouch to a loose small knotted tail at upper-right, making the same open U/V silhouette seen in reference1. Do not move that free tail into the fist. The sleeve continues down-right BEHIND the cords. LEFT CELL loaded rest: ONE small rounded grey stone sits visibly in the pouch. RIGHT CELL loosed: the same pouch is visibly hollow and EMPTY with dark brown leather interior, NO stone, no pale pebble-like filling. Both cells use EXACTLY the same pose, hand, sleeve and cord/pouch dimensions. Complete thin twisted cords join pouch and hand naturally; no detached rope, extra hands or overhead whirl. Class finish: charcoal leather glove, brown cuff and muted olive cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 2 complete isolated objects. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-b1f93d23-c6d0-4948-805e-68636f81257a.png"
+    },
+    "aa34": {
+      "source": "held-aa34.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "druid",
+      "id": "sling",
+      "references": [
+        "batch-aa-ranged-preview/aa34-reference-opaque.png",
+        "held-aa11-compact.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in two equal square cells side by side in a wide 2:1 sheet. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The small hanging sling of reference1: a retention cord held in the upper-left fist runs down-right to a compact stitched brown leather pouch. A SECOND cord rises from the pouch to a loose small knotted tail at upper-right, making the same open U/V silhouette seen in reference1. Do not move that free tail into the fist. The sleeve continues down-right BEHIND the cords. LEFT CELL loaded rest: ONE small rounded grey stone sits visibly in the pouch. RIGHT CELL loosed: the same pouch is visibly hollow and EMPTY with dark brown leather interior, NO stone, no pale pebble-like filling. Both cells use EXACTLY the same pose, hand, sleeve and cord/pouch dimensions. Complete thin twisted cords join pouch and hand naturally; no detached rope, extra hands or overhead whirl. Class finish: brown leather glove, muted green cuff and brown cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 2 complete isolated objects. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-552e066f-28aa-47b5-b3ef-65b96ce0a30f.png"
+    },
+    "aa35": {
+      "source": "held-aa31.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "ranger",
+      "id": "sling",
+      "reuse_group": "aa31"
+    },
+    "aa36": {
+      "source": "held-aa36.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "fighter",
+      "id": "throwknife",
+      "references": [
+        "batch-aa-ranged-preview/aa36-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in one square source image. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The SINGLE small throwing knife of reference1: narrow plain straight steel blade above a dark cord-wrapped grip and small iron ring pommel below the fist. No crossguard, brass pommel, broad sword blade, fan of spare knives or invented ornaments. The compact blade points nearly upward, leaning slightly left; right fist below it, forearm diagonally down-right, exactly like reference1. Keep the blade-to-fist proportion and short length of reference1. Class finish: grey articulated metal gauntlet and cuff, weathered brown cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 1 complete isolated object. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-22341323-e34f-4840-9fa0-ba1419b1960f.png"
+    },
+    "aa37": {
+      "source": "held-aa37.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "mage",
+      "id": "throwknife",
+      "references": [
+        "batch-aa-ranged-preview/aa37-reference-opaque.png",
+        "held-aa8-compact.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in one square source image. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The SINGLE small throwing knife of reference1: narrow plain straight steel blade above a dark cord-wrapped grip and small iron ring pommel below the fist. No crossguard, brass pommel, broad sword blade, fan of spare knives or invented ornaments. The compact blade points nearly upward, leaning slightly left; right fist below it, forearm diagonally down-right, exactly like reference1. Keep the blade-to-fist proportion and short length of reference1. Class finish: BARE warm human skin hand, violet cuff and purple cloth sleeve; no glove. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 1 complete isolated object. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-f29d9f34-5f40-46fc-a649-e7558dcd09ee.png"
+    },
+    "aa38": {
+      "source": "held-aa38.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "thief",
+      "id": "throwknife",
+      "references": [
+        "batch-aa-ranged-preview/aa38-reference-opaque.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in one square source image. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The SINGLE small throwing knife of reference1: narrow plain straight steel blade above a dark cord-wrapped grip and small iron ring pommel below the fist. No crossguard, brass pommel, broad sword blade, fan of spare knives or invented ornaments. The compact blade points nearly upward, leaning slightly left; right fist below it, forearm diagonally down-right, exactly like reference1. Keep the blade-to-fist proportion and short length of reference1. Class finish: charcoal leather glove, brown cuff and muted olive cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 1 complete isolated object. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-09e5c370-b690-4151-88cd-ff344c3c72f3.png"
+    },
+    "aa39": {
+      "source": "held-aa36.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "ranger",
+      "id": "throwknife",
+      "reuse_group": "aa36"
+    },
+    "aa40": {
+      "source": "held-aa40.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "fighter",
+      "id": "handxbow",
+      "references": [
+        "batch-aa-ranged-preview/aa40-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in one square source image. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The compact dark-elf HAND CROSSBOW of reference1, held upright leaning slightly left: short black/dark-purple wood stock, small steel crosswise prod with two short angled limbs, taut drawn pale string forming a triangle back to its nut, small muted violet inset in the stock, and ONE slim brown bolt with steel point seated along the stock. Complete prod tips, string, bolt tip and stock. The right fist wraps the lower grip, forearm diagonally down-right. Copy the precise silhouette and screen-plane angle of reference1; do not turn it into a long rifle, horizontal aim-at-viewer view or full-size two-hand crossbow. No added glow, lights, runes, fancy metalwork or second hand. The bolt remains in the existing cached picture; do not invent an unloaded alternate. Class finish: grey articulated metal gauntlet and cuff, weathered brown cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 1 complete isolated object. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-92f45189-67bb-4466-b0a6-9bd9950e5e04.png"
+    },
+    "aa41": {
+      "source": "held-aa41.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "thief",
+      "id": "handxbow",
+      "references": [
+        "batch-aa-ranged-preview/aa41-reference-opaque.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Repaint reference1 as mature gritty first-person fantasy game equipment art in one square source image. Reference1 is authoritative for exact construction, pose, direction and proportions. Reference2 supplies painted hand/cloth/material finish only: do NOT copy its weapon. The compact dark-elf HAND CROSSBOW of reference1, held upright leaning slightly left: short black/dark-purple wood stock, small steel crosswise prod with two short angled limbs, taut drawn pale string forming a triangle back to its nut, small muted violet inset in the stock, and ONE slim brown bolt with steel point seated along the stock. Complete prod tips, string, bolt tip and stock. The right fist wraps the lower grip, forearm diagonally down-right. Copy the precise silhouette and screen-plane angle of reference1; do not turn it into a long rifle, horizontal aim-at-viewer view or full-size two-hand crossbow. No added glow, lights, runes, fancy metalwork or second hand. The bolt remains in the existing cached picture; do not invent an unloaded alternate. Class finish: charcoal leather glove, brown cuff and muted olive cloth sleeve. Realistic worn materials and grounded anatomy matching mature painted dungeon monsters, restrained highlights, textured leather/cloth/wood/steel. All fingers close naturally around the connected grip. Exactly 1 complete isolated object. Keep at least8percent transparent padding on every side of each square cell, including every cord tip, blade/prod tip, finger and complete sleeve end. Wide empty gutter between cells. No cartoon proportions, plastic shine, motion blur, speed lines, backdrop, cast shadow, text, labels, borders, detached paint debris or extra props. True transparent RGBA background.",
+      "generated_image": "/workspace/generated_images/exec-c3ce1d6b-4bda-4713-a62a-5703ffe38e2b.png"
+    },
+    "aa42": {
+      "source": "held-aa40.png",
+      "grid": [
+        1,
+        1
+      ],
+      "cls": "ranger",
+      "id": "handxbow",
+      "reuse_group": "aa40"
+    }
+  },
+  "cells": {
+    "fighter-sling-rest": {
+      "sheet": "aa31",
+      "group": "aa31",
+      "id": "sling",
+      "cls": "fighter",
+      "key": "fighter-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        201,
+        208
+      ],
+      "source_object_bounds": [
+        100,
+        60,
+        750,
+        650
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-sling-loosed": {
+      "sheet": "aa31",
+      "group": "aa31",
+      "id": "sling",
+      "cls": "fighter",
+      "key": "fighter-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        201,
+        208
+      ],
+      "source_object_bounds": [
+        100,
+        60,
+        750,
+        650
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-sling-rest": {
+      "sheet": "aa32",
+      "group": "aa32",
+      "id": "sling",
+      "cls": "cleric",
+      "key": "cleric-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        182,
+        190
+      ],
+      "source_object_bounds": [
+        70,
+        34,
+        740,
+        620
+      ],
+      "object_height_limit": 128
+    },
+    "cleric-sling-loosed": {
+      "sheet": "aa32",
+      "group": "aa32",
+      "id": "sling",
+      "cls": "cleric",
+      "key": "cleric-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        182,
+        190
+      ],
+      "source_object_bounds": [
+        70,
+        34,
+        740,
+        620
+      ],
+      "object_height_limit": 128
+    },
+    "thief-sling-rest": {
+      "sheet": "aa33",
+      "group": "aa33",
+      "id": "sling",
+      "cls": "thief",
+      "key": "thief-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        187,
+        206
+      ],
+      "source_object_bounds": [
+        78,
+        65,
+        758,
+        680
+      ],
+      "object_height_limit": 128
+    },
+    "thief-sling-loosed": {
+      "sheet": "aa33",
+      "group": "aa33",
+      "id": "sling",
+      "cls": "thief",
+      "key": "thief-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        187,
+        206
+      ],
+      "source_object_bounds": [
+        78,
+        65,
+        758,
+        680
+      ],
+      "object_height_limit": 128
+    },
+    "druid-sling-rest": {
+      "sheet": "aa34",
+      "group": "aa34",
+      "id": "sling",
+      "cls": "druid",
+      "key": "druid-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        183,
+        204
+      ],
+      "source_object_bounds": [
+        70,
+        68,
+        758,
+        675
+      ],
+      "object_height_limit": 128
+    },
+    "druid-sling-loosed": {
+      "sheet": "aa34",
+      "group": "aa34",
+      "id": "sling",
+      "cls": "druid",
+      "key": "druid-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        183,
+        204
+      ],
+      "source_object_bounds": [
+        70,
+        68,
+        758,
+        675
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-sling-rest": {
+      "sheet": "aa31",
+      "group": "aa35",
+      "id": "sling",
+      "cls": "ranger",
+      "key": "ranger-sling-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        887,
+        887
+      ],
+      "source_grip": [
+        201,
+        208
+      ],
+      "source_object_bounds": [
+        100,
+        60,
+        750,
+        650
+      ],
+      "object_height_limit": 128,
+      "reuse_native_group": "aa31"
+    },
+    "ranger-sling-loosed": {
+      "sheet": "aa31",
+      "group": "aa35",
+      "id": "sling",
+      "cls": "ranger",
+      "key": "ranger-sling-loosed",
+      "pose": "loosed",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        887,
+        0,
+        1774,
+        887
+      ],
+      "source_grip": [
+        201,
+        208
+      ],
+      "source_object_bounds": [
+        100,
+        60,
+        750,
+        650
+      ],
+      "object_height_limit": 128,
+      "reuse_native_group": "aa31"
+    },
+    "fighter-throwknife-rest": {
+      "sheet": "aa36",
+      "group": "aa36",
+      "id": "throwknife",
+      "cls": "fighter",
+      "key": "fighter-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        440,
+        490
+      ],
+      "source_object_bounds": [
+        295,
+        70,
+        555,
+        687
+      ],
+      "object_height_limit": 80
+    },
+    "mage-throwknife-rest": {
+      "sheet": "aa37",
+      "group": "aa37",
+      "id": "throwknife",
+      "cls": "mage",
+      "key": "mage-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        439,
+        470
+      ],
+      "source_object_bounds": [
+        290,
+        92,
+        585,
+        640
+      ],
+      "object_height_limit": 80
+    },
+    "thief-throwknife-rest": {
+      "sheet": "aa38",
+      "group": "aa38",
+      "id": "throwknife",
+      "cls": "thief",
+      "key": "thief-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        413,
+        465
+      ],
+      "source_object_bounds": [
+        274,
+        85,
+        540,
+        640
+      ],
+      "object_height_limit": 80
+    },
+    "ranger-throwknife-rest": {
+      "sheet": "aa36",
+      "group": "aa39",
+      "id": "throwknife",
+      "cls": "ranger",
+      "key": "ranger-throwknife-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        440,
+        490
+      ],
+      "source_object_bounds": [
+        295,
+        70,
+        555,
+        687
+      ],
+      "object_height_limit": 80,
+      "reuse_native_group": "aa36"
+    },
+    "fighter-handxbow-rest": {
+      "sheet": "aa40",
+      "group": "aa40",
+      "id": "handxbow",
+      "cls": "fighter",
+      "key": "fighter-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        541,
+        616
+      ],
+      "source_object_bounds": [
+        230,
+        64,
+        700,
+        739
+      ],
+      "object_height_limit": 128
+    },
+    "thief-handxbow-rest": {
+      "sheet": "aa41",
+      "group": "aa41",
+      "id": "handxbow",
+      "cls": "thief",
+      "key": "thief-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        538,
+        611
+      ],
+      "source_object_bounds": [
+        228,
+        64,
+        690,
+        750
+      ],
+      "object_height_limit": 128
+    },
+    "ranger-handxbow-rest": {
+      "sheet": "aa40",
+      "group": "aa42",
+      "id": "handxbow",
+      "cls": "ranger",
+      "key": "ranger-handxbow-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        541,
+        616
+      ],
+      "source_object_bounds": [
+        230,
+        64,
+        700,
+        739
+      ],
+      "object_height_limit": 128,
+      "reuse_native_group": "aa40"
+    }
+  },
+  "native_reuse_evidence": "batch-aa-ranged-preview/reference-inventory.json",
+  "review_notes": [
+    "Nine original image-tool requests; no scripted painting, recolouring, mirroring, rotation or alpha masking. Crop/uniform family scale/translation/layout only.",
+    "Three exact native Ranger/Fighter equality audits support four reused class/state frames, retaining separate class keys.",
+    "Minor coloured/grey raw edge flecks remain; review registered alpha backgrounds. Requested8percent source gutters are not met on every side; export enforces>=12px at alpha>32.",
+    "Sling empty pouches have dark leather interiors and no seated stones. Native whirl and stone stay procedural. Throwing-knife release uses original bare fist at.4; crossbow seated bolt remains part of its single cached source.",
+    "Final review: all9 originals,17 registered cells/contact/registration/alpha diagnostics and24 phone galleries visually inspected.292 source captures and876 fitting/release cases passed, with20 exact fallback guards per width.12 existing held-equipment browser checks passed. No native equip/attack/offline/performance integration claim. Minor edge flecks remain in original tool output; no scripted masking or painting."
+  ],
+  "activation_review": "batch-aa-runtime116/REVIEW.md"
+}

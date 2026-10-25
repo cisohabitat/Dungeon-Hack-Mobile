@@ -1,0 +1,146 @@
+{
+  "groups": {
+    "aa43": {
+      "cls": "fighter",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa44": {
+      "cls": "thief",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa45": {
+      "cls": "fighter",
+      "id": "longbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-longbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-longbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-longbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-short": {
+      "cls": "ranger",
+      "id": "shortbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-shortbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-shortbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-shortbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "audit-long": {
+      "cls": "ranger",
+      "id": "longbow",
+      "grid": [
+        3,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-longbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-longbow-bowdraw",
+          "pose": "bowdraw",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-longbow-bowfull",
+          "pose": "bowfull",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  }
+}

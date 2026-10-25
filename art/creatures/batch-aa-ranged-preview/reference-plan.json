@@ -1,0 +1,227 @@
+{
+  "groups": {
+    "aa31": {
+      "cls": "fighter",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa32": {
+      "cls": "cleric",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "cleric-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa33": {
+      "cls": "thief",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa34": {
+      "cls": "druid",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "druid-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "druid-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa35": {
+      "cls": "ranger",
+      "id": "sling",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-sling-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-sling-loosed",
+          "pose": "loosed",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa36": {
+      "cls": "fighter",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa37": {
+      "cls": "mage",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "mage-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa38": {
+      "cls": "thief",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa39": {
+      "cls": "ranger",
+      "id": "throwknife",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-throwknife-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa40": {
+      "cls": "fighter",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "fighter-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa41": {
+      "cls": "thief",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "thief-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa42": {
+      "cls": "ranger",
+      "id": "handxbow",
+      "grid": [
+        1,
+        1
+      ],
+      "states": [
+        {
+          "key": "ranger-handxbow-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {}
+}

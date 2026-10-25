@@ -1,0 +1,659 @@
+{
+  "groups": {
+    "aa54": {
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-relic_penitent-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-relic_penitent-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa55": {
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "cleric-relic_penitent-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-relic_penitent-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {},
+  "cells": {
+    "fighter-relic_penitent-rest": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        83.10204081632654,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        60.33348255517965,
+        12.717832520341464,
+        141.06304401485434,
+        130.29204152495885
+      ],
+      "tip": [
+        106.52627822409816,
+        21.248444765239427
+      ],
+      "native": [
+        86,
+        147
+      ]
+    },
+    "fighter-relic_penitent-drawback": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        99.58940397350995,
+        92.30463576158941
+      ],
+      "object_bounds": [
+        81.28887169172235,
+        13.513469443250829,
+        176.660164241203,
+        114.16869037613375
+      ],
+      "tip": [
+        151.07274688600637,
+        21.818105204840226
+      ],
+      "native": [
+        61,
+        151
+      ]
+    },
+    "fighter-relic_penitent-windup": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.06896551724138,
+        75.65517241379311
+      ],
+      "object_bounds": [
+        72.64592098328151,
+        14.817605894292306,
+        185.19037789980555,
+        96.84310712416847
+      ],
+      "tip": [
+        166.42701485275938,
+        26.34079552515483
+      ],
+      "native": [
+        70,
+        145
+      ]
+    },
+    "fighter-relic_penitent-strike": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        85.18120805369128,
+        109.54362416107384
+      ],
+      "object_bounds": [
+        61.40271385982086,
+        14.05251947417242,
+        136.3025561439593,
+        131.52032696585266
+      ],
+      "tip": [
+        100.7612267775684,
+        22.46862685672275
+      ],
+      "native": [
+        86,
+        149
+      ]
+    },
+    "fighter-relic_penitent-cut": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        80.41134751773049,
+        138.1418439716312
+      ],
+      "object_bounds": [
+        13.733455882947876,
+        43.058890162353364,
+        102.62509269039658,
+        155.32349788468508
+      ],
+      "tip": [
+        24.343942679001486,
+        63.34647553458441
+      ],
+      "native": [
+        141,
+        103
+      ]
+    },
+    "fighter-relic_penitent-sweep": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        96.57142857142857,
+        125.85714285714286
+      ],
+      "object_bounds": [
+        13.678300309101445,
+        56.151354209603724,
+        118.18714227432375,
+        145.25118548768677
+      ],
+      "tip": [
+        21.821157451958584,
+        84.17580227779726
+      ],
+      "native": [
+        154,
+        95
+      ]
+    },
+    "fighter-relic_penitent-through": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        104.32911392405063,
+        109.20253164556962
+      ],
+      "object_bounds": [
+        13.30930838941405,
+        67.01602928356368,
+        124.76906669157356,
+        136.28370979476082
+      ],
+      "tip": [
+        21.246017250173548,
+        101.7226882808308
+      ],
+      "native": [
+        158,
+        81
+      ]
+    },
+    "fighter-relic_penitent-recover": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        86.53846153846153,
+        117.84615384615384
+      ],
+      "object_bounds": [
+        16.41304279733653,
+        13.175570290356656,
+        110.40845840687768,
+        136.8846153846154
+      ],
+      "tip": [
+        28.595130445530966,
+        34.6490720346176
+      ],
+      "native": [
+        125,
+        130
+      ]
+    },
+    "fighter-relic_penitent-return": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "key": "fighter-relic_penitent-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        86.75,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        44.591752599493766,
+        13.20273196731107,
+        117.84555368377777,
+        137.00110204579408
+      ],
+      "tip": [
+        74.24002661453366,
+        25.107413968711484
+      ],
+      "native": [
+        106,
+        144
+      ]
+    },
+    "cleric-relic_penitent-rest": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-rest",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "grip": [
+        83.10204081632654,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        60.33348255517965,
+        12.717832520341464,
+        141.06304401485434,
+        130.29204152495885
+      ],
+      "tip": [
+        106.52627822409816,
+        21.248444765239427
+      ],
+      "native": [
+        86,
+        147
+      ]
+    },
+    "cleric-relic_penitent-drawback": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-drawback",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "grip": [
+        99.58940397350995,
+        92.30463576158941
+      ],
+      "object_bounds": [
+        81.28887169172235,
+        13.513469443250829,
+        176.660164241203,
+        114.16869037613375
+      ],
+      "tip": [
+        151.07274688600637,
+        21.818105204840226
+      ],
+      "native": [
+        61,
+        151
+      ]
+    },
+    "cleric-relic_penitent-windup": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-windup",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "grip": [
+        90.06896551724138,
+        75.65517241379311
+      ],
+      "object_bounds": [
+        72.64592098328151,
+        14.817605894292306,
+        185.19037789980555,
+        96.84310712416847
+      ],
+      "tip": [
+        166.42701485275938,
+        26.34079552515483
+      ],
+      "native": [
+        70,
+        145
+      ]
+    },
+    "cleric-relic_penitent-strike": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-strike",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "grip": [
+        85.18120805369128,
+        109.54362416107384
+      ],
+      "object_bounds": [
+        61.40271385982086,
+        14.05251947417242,
+        136.3025561439593,
+        131.52032696585266
+      ],
+      "tip": [
+        100.7612267775684,
+        22.46862685672275
+      ],
+      "native": [
+        86,
+        149
+      ]
+    },
+    "cleric-relic_penitent-cut": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-cut",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "grip": [
+        80.41134751773049,
+        138.1418439716312
+      ],
+      "object_bounds": [
+        13.733455882947876,
+        43.058890162353364,
+        102.62509269039658,
+        155.32349788468508
+      ],
+      "tip": [
+        24.343942679001486,
+        63.34647553458441
+      ],
+      "native": [
+        141,
+        103
+      ]
+    },
+    "cleric-relic_penitent-sweep": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-sweep",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "grip": [
+        96.57142857142857,
+        125.85714285714286
+      ],
+      "object_bounds": [
+        13.678300309101445,
+        56.151354209603724,
+        118.18714227432375,
+        145.25118548768677
+      ],
+      "tip": [
+        21.821157451958584,
+        84.17580227779726
+      ],
+      "native": [
+        154,
+        95
+      ]
+    },
+    "cleric-relic_penitent-through": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-through",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "grip": [
+        104.32911392405063,
+        109.20253164556962
+      ],
+      "object_bounds": [
+        13.30930838941405,
+        67.01602928356368,
+        124.76906669157356,
+        136.28370979476082
+      ],
+      "tip": [
+        21.246017250173548,
+        101.7226882808308
+      ],
+      "native": [
+        158,
+        81
+      ]
+    },
+    "cleric-relic_penitent-recover": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-recover",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "grip": [
+        86.53846153846153,
+        117.84615384615384
+      ],
+      "object_bounds": [
+        16.41304279733653,
+        13.175570290356656,
+        110.40845840687768,
+        136.8846153846154
+      ],
+      "tip": [
+        28.595130445530966,
+        34.6490720346176
+      ],
+      "native": [
+        125,
+        130
+      ]
+    },
+    "cleric-relic_penitent-return": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "key": "cleric-relic_penitent-return",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "grip": [
+        86.75,
+        115.77777777777777
+      ],
+      "object_bounds": [
+        44.591752599493766,
+        13.20273196731107,
+        117.84555368377777,
+        137.00110204579408
+      ],
+      "tip": [
+        74.24002661453366,
+        25.107413968711484
+      ],
+      "native": [
+        106,
+        144
+      ]
+    }
+  },
+  "legal": [
+    {
+      "group": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "reason": null,
+      "sprite": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent"
+    },
+    {
+      "group": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "reason": null,
+      "sprite": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent"
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": []
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "Local frozen source review only; live 0.9.37 unchanged",
+  "frames": 17,
+  "new_unique_paintings": 13,
+  "audited_reuse_states": 4,
+  "legal_class_item_pairs": 12,
+  "original_image_tool_sheets": 9,
+  "captures": 292,
+  "galleries": 24,
+  "fitting_cases": 876,
+  "heights": [
+    160,
+    360,
+    464
+  ],
+  "viewport_widths": [
+    390,
+    320
+  ],
+  "viewport_height": 844,
+  "fallback_guards_per_width": 20,
+  "state_and_dice_neutral": true,
+  "recording": "Disabled in fixture before snapshot: renderState calls are otherwise recorded. Full Game.state and Dice/Odds comparison retained.",
+  "console_errors": [],
+  "minimum_prop_margin_px": 3.547445255474429,
+  "minimum_alpha32_margin_px": 15,
+  "atlas_cells_exact": true,
+  "baseline_browser_checks": {
+    "passed": 12,
+    "seconds": 31.5
+  },
+  "live_activation": false
+}

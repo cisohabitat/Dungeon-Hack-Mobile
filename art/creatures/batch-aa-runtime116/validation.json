@@ -1,0 +1,86 @@
+{
+  "release": "0.9.38",
+  "build": 53,
+  "offline_cache": "deepdelve-v113",
+  "base_commit": "f28c4daf1aaca70e241d59103b7cdcb3f0d928e1",
+  "native": {
+    "sessions": 50,
+    "equipment_variants": 25,
+    "widths": [
+      390,
+      320
+    ],
+    "actions": 164,
+    "captures": 742,
+    "galleries": 50,
+    "offline_continues": 50,
+    "cached_held_frames_each": 405,
+    "page_console_errors": 0
+  },
+  "focused_browser": {
+    "passed": 56,
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "full_chromium": {
+    "cases": 837,
+    "phone": 558,
+    "small": 279,
+    "first_run_passed": 834,
+    "first_run_timing_failures": 3,
+    "unchanged_isolated_reruns_passed": 3,
+    "rerun_workers": 1,
+    "failures": [
+      "phone art background preparation exceeded 25-second deadline under four-worker load",
+      "phone initial offline ready status exceeded 10-second deadline under four-worker load",
+      "small initial offline ready status exceeded 10-second deadline under four-worker load"
+    ],
+    "assertions_and_deadlines_unchanged": true
+  },
+  "isolated_performance": {
+    "cpu_slowdown": 4,
+    "passed": true,
+    "scenes": {
+      "fight": {
+        "fps": 43.2,
+        "scriptMs": 12
+      },
+      "wide": {
+        "fps": 40.9,
+        "scriptMs": 11.6
+      },
+      "flooded": {
+        "fps": 44.6,
+        "scriptMs": 11.9
+      },
+      "painted": {
+        "fps": 39.3,
+        "scriptMs": 15.9
+      },
+      "rite": {
+        "fps": 58.6,
+        "scriptMs": 10.2
+      }
+    },
+    "start": {
+      "ms": 1795
+    }
+  },
+  "npm_test": {
+    "passed": true,
+    "rule_failures": 0
+  },
+  "source_exporters": [
+    "aa-ranged",
+    "aa-bows",
+    "aa-rare",
+    "aa-greatsword",
+    "aa-penitent"
+  ],
+  "common_exporter_files": 576,
+  "all_previous_common_files_byte_identical": 460,
+  "changed_gameplay_rules": false,
+  "ci_webkit_and_public_verification": "Required after push; recorded by the workflow and deployment for the published commit."
+}

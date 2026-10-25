@@ -1,0 +1,595 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-penitent.md",
+  "status": "source complete and reviewed; activated for release 0.9.38; historical source-only evidence retained",
+  "groups": {
+    "aa54": [
+      "fighter-relic_penitent-rest",
+      "fighter-relic_penitent-drawback",
+      "fighter-relic_penitent-windup",
+      "fighter-relic_penitent-strike",
+      "fighter-relic_penitent-cut",
+      "fighter-relic_penitent-sweep",
+      "fighter-relic_penitent-through",
+      "fighter-relic_penitent-recover",
+      "fighter-relic_penitent-return"
+    ],
+    "aa55": [
+      "cleric-relic_penitent-rest",
+      "cleric-relic_penitent-drawback",
+      "cleric-relic_penitent-windup",
+      "cleric-relic_penitent-strike",
+      "cleric-relic_penitent-cut",
+      "cleric-relic_penitent-sweep",
+      "cleric-relic_penitent-through",
+      "cleric-relic_penitent-recover",
+      "cleric-relic_penitent-return"
+    ]
+  },
+  "sheets": {
+    "aa54": {
+      "source": "held-aa54.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "two": false,
+      "lit": false,
+      "prompt": "Transparent RGBA painted equipment source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty dungeon hand-painted realism matching approved reference TWO material detail and reference ONE native pose/identity. NINE DISTINCT orientations, row1 rest/drawback/raised windup, row2 strike/diagonal-left cut/horizontal-left sweep, row3 downward-left through/diagonal recover/upright return. Copy reference ONE pose by pose. THE PENITENT'S FLAIL, a specific named relic: short plain wooden haft with dark cord grip; a compact SHORT linked dark iron chain attached at its upper ferrule, bending over to ONE round spiked IRON ball. All chain links physically joined from haft ferrule to iron ball; no floating head, long dangling loops, double chain, extra balls, mace or hammer. Preserve the native THREE small pale-gold prayer beads/studs along the upper haft/attachment axis and a small pale-gold CROSS inlay with vertical stem near the lower grip, as visible in native reference ONE. These named prayer marks distinguish this item from the ordinary flail in style reference TWO: do NOT omit them. Native gold contour is a rarity accent, NOT an emitting aura; keep restrained worn pale gold prayer details, weathered dark iron and wood, no gold weapon body, flames or magic particles. Same compact head size/short chain/haft proportions and markings across all nine poses, no giant ornate holy mace or new runes. Exactly ONE complete RIGHT hand grips lower haft in each cell, four closed fingers and one opposing thumb with joined wrist and full forearm. COSTUME: grey armoured leather glove, steel cuff and coarse BROWN cloth forearm. Retain class palette exactly. One forearm/one hand per cell, no shield, face, left hand, extra fingers, character body or scenery. All complete spikes, chain, haft butt, fingers and sleeve ends INSIDE their own cells, with clear transparent gutters ideally eight percent; no overlap/clipping, shadows, text, borders, motion lines or glow. Same mature materials and scale across sheet, never cartoon, glossy plastic or vector. Clean natural transparent edges without white/coloured outside flecks.",
+      "references": [
+        "batch-aa-penitent-preview/aa54-reference-opaque.png",
+        "held-aa6.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-d1573df3-526f-4aea-bf38-f7ff406a1515.png",
+      "repairs": [
+        {
+          "source": "held-aa54-beads.png",
+          "references": [
+            "held-aa54.png",
+            "held-aa55.png"
+          ],
+          "reason": "Fighter original consistently shows only two prayer beads instead of the native three",
+          "prompt": "Correct the named prayer beads in this NINE-cell transparent painted equipment source. In EVERY one of the nine Fighter panels, show EXACTLY THREE small pale-gold round prayer studs in a straight row along the exposed wooden haft, between the upper iron ferrule and the closed glove. The Fighter source currently shows only two; add the missing third and adjust spacing gently so all three are visible above the glove. Reference TWO has the correct three-stud identity detail, but keep the Fighter grey glove/steel cuff/BROWN sleeve from reference ONE, not Cleric costume. Preserve all nine exact poses, existing short joined chain, single spiked iron ball, wooden haft, small pale gold cross on the lower grip, closed right hand, full connected right forearm, materials, proportions, cell positions and scale. Do not lengthen haft or chain, enlarge studs into gems, add extra beads elsewhere, rotate/mirror/flatten poses, introduce runes/glow/extra hands or change costume. Exactly three beads in each panel, clean transparent edges and complete objects. Three by three equal-square layout, no labels/background/shadows.",
+          "generated_image": "/workspace/generated_images/exec-cecd62ff-e9f5-4369-b3f5-9326b163e010.png",
+          "outcome": "Rejected: still shows only two beads; retained for provenance."
+        },
+        {
+          "source": "held-aa54-class.png",
+          "references": [
+            "held-aa55.png",
+            "held-aa6.png"
+          ],
+          "reason": "Use correct three-bead Cleric construction as design source and paint Fighter hand/costume with image tool",
+          "prompt": "Make the FIGHTER class version of this nine-cell transparent painted equipment source. Reference ONE has the correct Penitent flail construction and all THREE gold prayer studs plus small cross. Preserve the exact flail geometry, short joined chain, single spiked iron ball, three small gold studs on exposed wood and lower cross in EVERY panel. Change ONLY the class glove/cuff/sleeve: replace brown Cleric gloves with worn GREY armoured leather gauntlets, replace gold Cleric cuffs with plain weathered STEEL cuffs, and replace IVORY sleeves with coarse BROWN cloth, matching Fighter reference TWO. Keep the same complete right hand/wrist/forearm anatomy, all nine poses, source cell layout, grip points and proportions. The chain/ball/haft/prayer studs/cross must retain reference ONE design: count THREE small studs in a line in each panel, never two. No palette transfer to the weapon: keep its iron, brown wood, dark grip and pale gold details unchanged. Same mature gritty painted materials. Exactly three by three equal square panels, clean transparent edges, complete spikes/butt/sleeves with margins, no extra hands, scenery, labels, glow, shadows, added jewellery or pose flattening.",
+          "generated_image": "/workspace/generated_images/exec-2cf87b43-7d1b-4237-8f55-1af214121690.png",
+          "outcome": "Selected: three prayer beads in every pose, Fighter class materials retained"
+        }
+      ],
+      "selected_source": "held-aa54-class.png",
+      "original_outcome": "Retained/rejected for selection: only two visible prayer beads; selected class edit has three."
+    },
+    "aa55": {
+      "source": "held-aa55.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "two": false,
+      "lit": false,
+      "prompt": "Transparent RGBA painted equipment source, exactly NINE equal square cells in a THREE by THREE grid. Mature gritty dungeon hand-painted realism matching approved reference TWO material detail and reference ONE native pose/identity. NINE DISTINCT orientations, row1 rest/drawback/raised windup, row2 strike/diagonal-left cut/horizontal-left sweep, row3 downward-left through/diagonal recover/upright return. Copy reference ONE pose by pose. THE PENITENT'S FLAIL, a specific named relic: short plain wooden haft with dark cord grip; a compact SHORT linked dark iron chain attached at its upper ferrule, bending over to ONE round spiked IRON ball. All chain links physically joined from haft ferrule to iron ball; no floating head, long dangling loops, double chain, extra balls, mace or hammer. Preserve the native THREE small pale-gold prayer beads/studs along the upper haft/attachment axis and a small pale-gold CROSS inlay with vertical stem near the lower grip, as visible in native reference ONE. These named prayer marks distinguish this item from the ordinary flail in style reference TWO: do NOT omit them. Native gold contour is a rarity accent, NOT an emitting aura; keep restrained worn pale gold prayer details, weathered dark iron and wood, no gold weapon body, flames or magic particles. Same compact head size/short chain/haft proportions and markings across all nine poses, no giant ornate holy mace or new runes. Exactly ONE complete RIGHT hand grips lower haft in each cell, four closed fingers and one opposing thumb with joined wrist and full forearm. COSTUME: brown leather glove, muted GOLD cuff and IVORY cloth forearm. Retain class palette exactly. One forearm/one hand per cell, no shield, face, left hand, extra fingers, character body or scenery. All complete spikes, chain, haft butt, fingers and sleeve ends INSIDE their own cells, with clear transparent gutters ideally eight percent; no overlap/clipping, shadows, text, borders, motion lines or glow. Same mature materials and scale across sheet, never cartoon, glossy plastic or vector. Clean natural transparent edges without white/coloured outside flecks.",
+      "references": [
+        "batch-aa-penitent-preview/aa55-reference-opaque.png",
+        "held-aa7-edges.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-19013404-7420-46fb-ae5c-601a37c07a8d.png"
+    }
+  },
+  "cells": {
+    "fighter-relic_penitent-rest": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        143,
+        204
+      ],
+      "source_object_bounds": [
+        90,
+        20,
+        260,
+        272
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-drawback": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        169,
+        196
+      ],
+      "source_object_bounds": [
+        137,
+        20,
+        332,
+        269
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-windup": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        179,
+        152
+      ],
+      "source_object_bounds": [
+        134,
+        18,
+        369,
+        234
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-strike": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        400,
+        836
+      ],
+      "source_grip": [
+        142,
+        187
+      ],
+      "source_object_bounds": [
+        80,
+        12,
+        260,
+        260
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-cut": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        400,
+        418,
+        836,
+        800
+      ],
+      "source_grip": [
+        139,
+        216
+      ],
+      "source_object_bounds": [
+        14,
+        42,
+        210,
+        282
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-sweep": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_grip": [
+        149,
+        229
+      ],
+      "source_object_bounds": [
+        2,
+        92,
+        244,
+        302
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-through": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        169,
+        197
+      ],
+      "source_object_bounds": [
+        10,
+        94,
+        250,
+        269
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-recover": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        800,
+        836,
+        1254
+      ],
+      "source_grip": [
+        130,
+        206
+      ],
+      "source_object_bounds": [
+        10,
+        10,
+        200,
+        290
+      ],
+      "object_height_limit": 112
+    },
+    "fighter-relic_penitent-return": {
+      "sheet": "aa54",
+      "cls": "fighter",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        160,
+        203
+      ],
+      "source_object_bounds": [
+        70,
+        10,
+        254,
+        298
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-rest": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        144,
+        198
+      ],
+      "source_object_bounds": [
+        90,
+        20,
+        260,
+        272
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-drawback": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        172,
+        192
+      ],
+      "source_object_bounds": [
+        137,
+        20,
+        332,
+        269
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-windup": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        179,
+        148
+      ],
+      "source_object_bounds": [
+        134,
+        18,
+        369,
+        234
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-strike": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        400,
+        836
+      ],
+      "source_grip": [
+        143,
+        182
+      ],
+      "source_object_bounds": [
+        80,
+        12,
+        260,
+        260
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-cut": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        400,
+        418,
+        836,
+        800
+      ],
+      "source_grip": [
+        137,
+        212
+      ],
+      "source_object_bounds": [
+        14,
+        42,
+        210,
+        282
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-sweep": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_grip": [
+        151,
+        220
+      ],
+      "source_object_bounds": [
+        2,
+        92,
+        244,
+        302
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-through": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        172,
+        191
+      ],
+      "source_object_bounds": [
+        10,
+        94,
+        250,
+        269
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-recover": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        800,
+        836,
+        1254
+      ],
+      "source_grip": [
+        128,
+        204
+      ],
+      "source_object_bounds": [
+        10,
+        10,
+        200,
+        290
+      ],
+      "object_height_limit": 112
+    },
+    "cleric-relic_penitent-return": {
+      "sheet": "aa55",
+      "cls": "cleric",
+      "id": "relic_penitent",
+      "item_t": "flail",
+      "relic": "penitent",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        158,
+        204
+      ],
+      "source_object_bounds": [
+        70,
+        10,
+        254,
+        298
+      ],
+      "object_height_limit": 112
+    }
+  },
+  "review_notes": [
+    "18 distinct class/state frames for exact relic_penitent,9 each Fighter/Cleric; all named sprite/canEquip checks pass with actual base flail/u:penitent item. No ordinary/name-prefix normalization.",
+    "Four image-tool outputs retained: Fighter/Cleric originals, unsuccessful Fighter bead repair (still2 beads) and selected Fighter class edit based on correct Cleric weapon geometry plus approved Fighter style. Selected Fighter has3 visible beads and cross in all9 poses; class painting happened in image tool, not scripted recolour.",
+    "All4 outputs, native opaque grids,18 registered frames/contact/registration/alpha/ordinary-vs-named comparison,4 phone galleries and selected full-size captures visually inspected. Connected short chain/one spiked ball, full haft/head/fingers/sleeves and named marks retained. Native vector rarity contour is not an emitted glow; selected source uses restrained material/gold prayer details. Minor raw edge flecks remain.",
+    "Authored crops cross nominal gaps: bottom through/recover450; middle strike/cut400; lower-middle/right row starts800 to retain raised head spikes, middle cut/sweep end800. Original gutters narrower than8percent target; registered alpha>32 clearance>=25px. No scripted paint/masks/recolour/mirror/rotate.",
+    "68 captures/204 fixture checks comprise168 new prop fits and36 fallback controls.17 exact guards per width, full state/Dice/Odds neutrality and12 existing browser checks pass. No native equipment/actions/offline/performance claim; generic Fighter cast is stress only. All116 current local frames await activation/publication."
+  ],
+  "activation_review": "batch-aa-runtime116/REVIEW.md"
+}

@@ -1,0 +1,134 @@
+{
+  "groups": {
+    "aa53": {
+      "cls": "fighter",
+      "id": "greatsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-greatsword-rest-released",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-drawback-released",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-windup-released",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-strike-released",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-cut-released",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-sweep-released",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-through-released",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-recover-released",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-return-released",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-two": {
+      "cls": "fighter",
+      "id": "greatsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-greatsword-rest-two",
+          "pose": "rest",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-drawback-two",
+          "pose": "drawback",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-windup-two",
+          "pose": "windup",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-strike-two",
+          "pose": "strike",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-cut-two",
+          "pose": "cut",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-sweep-two",
+          "pose": "sweep",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-through-two",
+          "pose": "through",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-recover-two",
+          "pose": "recover",
+          "two": true,
+          "lit": false
+        },
+        {
+          "key": "fighter-greatsword-return-two",
+          "pose": "return",
+          "two": true,
+          "lit": false
+        }
+      ]
+    }
+  }
+}

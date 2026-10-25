@@ -1,0 +1,52 @@
+{
+  "scope": "All ordinary shortbow/longbow legal class pairs now have source coverage; activation remains separate",
+  "shortbow": {
+    "legal": [
+      "fighter",
+      "thief",
+      "ranger"
+    ],
+    "active": [
+      "ranger"
+    ],
+    "pending_source": [
+      "fighter",
+      "thief"
+    ]
+  },
+  "longbow": {
+    "legal": [
+      "fighter",
+      "ranger"
+    ],
+    "active": [
+      "ranger"
+    ],
+    "pending_source": [
+      "fighter"
+    ]
+  },
+  "new_legal_pairs": [
+    {
+      "cls": "fighter",
+      "id": "shortbow",
+      "allowed": true
+    },
+    {
+      "cls": "thief",
+      "id": "shortbow",
+      "allowed": true
+    },
+    {
+      "cls": "fighter",
+      "id": "longbow",
+      "allowed": true
+    }
+  ],
+  "earlier_pending": "17 sling/throwknife/handxbow frames remain intact and unactivated",
+  "next": [
+    "rare scimitar/dwarfhammer",
+    "greatsword released-hand states",
+    "named/legendary/Mythic equipment"
+  ]
+}

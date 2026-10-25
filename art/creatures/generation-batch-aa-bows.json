@@ -1,0 +1,425 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-bows.md",
+  "status": "source complete and reviewed; activated for release 0.9.38; historical source-only evidence retained",
+  "groups": {
+    "aa43": [
+      "fighter-shortbow-rest",
+      "fighter-shortbow-bowdraw",
+      "fighter-shortbow-bowfull"
+    ],
+    "aa44": [
+      "thief-shortbow-rest",
+      "thief-shortbow-bowdraw",
+      "thief-shortbow-bowfull"
+    ],
+    "aa45": [
+      "fighter-longbow-rest",
+      "fighter-longbow-bowdraw",
+      "fighter-longbow-bowfull"
+    ]
+  },
+  "sheets": {
+    "aa44": {
+      "source": "held-aa44.png",
+      "grid": [
+        3,
+        1
+      ],
+      "cls": "thief",
+      "id": "shortbow",
+      "prompt": "Transparent RGBA equipment source sheet, THREE equal SQUARE cells in ONE horizontal row. Mature gritty hand-painted dungeon realism, weathered wood, matte stitched leather, coarse cloth, restrained realistic shading matching reference TWO. Reference ONE defines native pose, left hand, glove and olive sleeve; reference TWO defines approved shortbow design, brushwork and the three progressive bends. Paint the same short plain curved brown wooden bow with small dark nock ends and dark wrapped central grip in all three panels. LEFT REST gentle bend, MIDDLE HALF DRAW stronger bend, RIGHT FULL DRAW strongest bend. Keep the same bow length, materials, left-hand grip centre and arm proportions. A single complete LEFT hand with charcoal leather glove, worn muted brown leather cuff and muted OLIVE GREEN cloth sleeve extending diagonally DOWN LEFT, complete joined forearm in ALL THREE panels. Exactly four curled fingers and one opposing thumb connected around bow grip. DO NOT use the silver gauntlet or brown sleeve from reference two: use thief costume from reference one. CRITICAL NO BOWSTRING, NO ARROW, NO right drawing hand or spare fingers: game draws these live. Do not connect bow tips with any line. No quiver, ornaments, fantasy horns, runes, lettering, borders, glow, scenery or shadows. No cartoon, vector or glossy plastic. Complete nock tips, fingers and sleeve ends inside each equal square panel, with generous transparent gutters of at least eight percent on every side. Full connected forearm per panel, no detached hand. Coherent lighting and same costume through the strip.",
+      "references": [
+        "batch-aa-bows-preview/aa44-reference-opaque.png",
+        "held-z3-arms.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-b756659f-a0c7-4c4d-abcb-b574708325bf.png"
+    },
+    "aa43": {
+      "source": "held-z3-arms.png",
+      "grid": [
+        3,
+        1
+      ],
+      "cls": "fighter",
+      "id": "shortbow",
+      "reuse": "Approved Ranger registered pixels after exact native audit; no new generation"
+    },
+    "aa45": {
+      "source": "held-t3-bend.png",
+      "grid": [
+        3,
+        1
+      ],
+      "cls": "fighter",
+      "id": "longbow",
+      "reuse": "Approved Ranger registered pixels after exact native audit; no new generation"
+    }
+  },
+  "cells": {
+    "fighter-shortbow-rest": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "pose": "rest",
+      "two": false,
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_grip": [
+        480,
+        335
+      ],
+      "source_object_bounds": [
+        408,
+        28,
+        574,
+        639
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          546,
+          610
+        ],
+        "bot": [
+          526,
+          44
+        ]
+      },
+      "key": "fighter-shortbow-rest",
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-z-preview",
+        "key": "ranger-shortbow-rest"
+      }
+    },
+    "fighter-shortbow-bowdraw": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "pose": "bowdraw",
+      "two": false,
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_grip": [
+        411,
+        335
+      ],
+      "source_object_bounds": [
+        337,
+        29,
+        566,
+        640
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          539,
+          612
+        ],
+        "bot": [
+          514,
+          44
+        ]
+      },
+      "key": "fighter-shortbow-bowdraw",
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-z-preview",
+        "key": "ranger-shortbow-bowdraw"
+      }
+    },
+    "fighter-shortbow-bowfull": {
+      "sheet": "aa43",
+      "cls": "fighter",
+      "id": "shortbow",
+      "pose": "bowfull",
+      "two": false,
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_grip": [
+        352,
+        335
+      ],
+      "source_object_bounds": [
+        280,
+        29,
+        600,
+        646
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          575,
+          617
+        ],
+        "bot": [
+          558,
+          44
+        ]
+      },
+      "key": "fighter-shortbow-bowfull",
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-z-preview",
+        "key": "ranger-shortbow-bowfull"
+      }
+    },
+    "thief-shortbow-rest": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        724,
+        724
+      ],
+      "source_grip": [
+        480,
+        340
+      ],
+      "source_object_bounds": [
+        434,
+        15,
+        578,
+        650
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          553,
+          620
+        ],
+        "bot": [
+          520,
+          35
+        ]
+      }
+    },
+    "thief-shortbow-bowdraw": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "pose": "bowdraw",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        724,
+        0,
+        1448,
+        724
+      ],
+      "source_grip": [
+        420,
+        340
+      ],
+      "source_object_bounds": [
+        386,
+        20,
+        581,
+        644
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          555,
+          616
+        ],
+        "bot": [
+          534,
+          37
+        ]
+      }
+    },
+    "thief-shortbow-bowfull": {
+      "sheet": "aa44",
+      "cls": "thief",
+      "id": "shortbow",
+      "pose": "bowfull",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        1448,
+        0,
+        2172,
+        724
+      ],
+      "source_grip": [
+        392,
+        340
+      ],
+      "source_object_bounds": [
+        345,
+        22,
+        622,
+        641
+      ],
+      "object_height_limit": 110,
+      "source_nocks": {
+        "top": [
+          592,
+          614
+        ],
+        "bot": [
+          592,
+          39
+        ]
+      }
+    },
+    "fighter-longbow-rest": {
+      "key": "fighter-longbow-rest",
+      "id": "longbow",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "sheet": "aa45",
+      "source_rect": [
+        0,
+        0,
+        723,
+        725
+      ],
+      "source_grip": [
+        520,
+        355
+      ],
+      "source_object_bounds": [
+        475,
+        8,
+        650,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          604.5,
+          689
+        ],
+        "bot": [
+          561,
+          17
+        ]
+      },
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-t-preview",
+        "key": "ranger-longbow-rest"
+      }
+    },
+    "fighter-longbow-bowdraw": {
+      "key": "fighter-longbow-bowdraw",
+      "id": "longbow",
+      "cls": "fighter",
+      "pose": "bowdraw",
+      "two": false,
+      "sheet": "aa45",
+      "source_rect": [
+        723,
+        0,
+        1446,
+        725
+      ],
+      "source_grip": [
+        459,
+        355
+      ],
+      "source_object_bounds": [
+        420,
+        8,
+        610,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          575.5,
+          687
+        ],
+        "bot": [
+          526,
+          17
+        ]
+      },
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-t-preview",
+        "key": "ranger-longbow-bowdraw"
+      }
+    },
+    "fighter-longbow-bowfull": {
+      "key": "fighter-longbow-bowfull",
+      "id": "longbow",
+      "cls": "fighter",
+      "pose": "bowfull",
+      "two": false,
+      "sheet": "aa45",
+      "source_rect": [
+        1446,
+        0,
+        2169,
+        725
+      ],
+      "source_grip": [
+        510,
+        355
+      ],
+      "source_object_bounds": [
+        475,
+        8,
+        660,
+        704
+      ],
+      "target_grip": [
+        128,
+        128
+      ],
+      "source_nocks": {
+        "top": [
+          630.5,
+          687
+        ],
+        "bot": [
+          614.5,
+          17
+        ]
+      },
+      "lit": false,
+      "registered_reuse": {
+        "folder": "batch-t-preview",
+        "key": "ranger-longbow-bowfull"
+      }
+    }
+  },
+  "native_reuse_evidence": "batch-aa-bows-preview/reference-inventory.json",
+  "review_notes": [
+    "One successful new image-tool sheet; no repair attempts. Thief dark glove/brown cuff/olive sleeve retained; three increasing bow bends and complete source forearms. Original upper gutters narrower than requested8%; all parts have clear alpha margins, minimum registered alpha>32 clearance47px. Minor edge flecks retained; no scripted masking or paint.",
+    "Fighter copies approved Ranger registered PNG bytes and all measurements exactly after native per-pose pixel/grip/bounds/dimension/nock equality audits. Earlier generation provenance remains in Z/T manifests.",
+    "All originals/reused sources, native grids,9 registered cells/contact/registration/alpha diagnostics,6 phone galleries and selected full-size captures visually inspected.94 captures/282 fixture cases;12 baseline checks pass. Actions intentionally lower bows below viewport;198 full visibility fits,54 action lowering cases and30 fallback controls."
+  ],
+  "activation_review": "batch-aa-runtime116/REVIEW.md"
+}

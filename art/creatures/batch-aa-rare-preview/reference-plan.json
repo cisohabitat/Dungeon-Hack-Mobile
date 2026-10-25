@@ -1,0 +1,453 @@
+{
+  "groups": {
+    "aa46": {
+      "cls": "fighter",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa47": {
+      "cls": "thief",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "thief-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "thief-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa48": {
+      "cls": "ranger",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "ranger-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "ranger-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa49": {
+      "cls": "spellblade",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "spellblade-scimitar-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "spellblade-scimitar-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa50": {
+      "cls": "spellblade",
+      "id": "scimitar",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "spellblade-scimitar-rest-lit",
+          "pose": "rest",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-drawback-lit",
+          "pose": "drawback",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-windup-lit",
+          "pose": "windup",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-strike-lit",
+          "pose": "strike",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-cut-lit",
+          "pose": "cut",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-sweep-lit",
+          "pose": "sweep",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-through-lit",
+          "pose": "through",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-recover-lit",
+          "pose": "recover",
+          "two": false,
+          "lit": true
+        },
+        {
+          "key": "spellblade-scimitar-return-lit",
+          "pose": "return",
+          "two": false,
+          "lit": true
+        }
+      ]
+    },
+    "aa51": {
+      "cls": "fighter",
+      "id": "dwarfhammer",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "fighter-dwarfhammer-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "fighter-dwarfhammer-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    },
+    "aa52": {
+      "cls": "cleric",
+      "id": "dwarfhammer",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "key": "cleric-dwarfhammer-rest",
+          "pose": "rest",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-drawback",
+          "pose": "drawback",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-windup",
+          "pose": "windup",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-strike",
+          "pose": "strike",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-cut",
+          "pose": "cut",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-sweep",
+          "pose": "sweep",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-through",
+          "pose": "through",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-recover",
+          "pose": "recover",
+          "two": false,
+          "lit": false
+        },
+        {
+          "key": "cleric-dwarfhammer-return",
+          "pose": "return",
+          "two": false,
+          "lit": false
+        }
+      ]
+    }
+  },
+  "audit_groups": {}
+}

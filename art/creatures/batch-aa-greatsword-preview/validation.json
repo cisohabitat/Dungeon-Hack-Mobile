@@ -1,0 +1,44 @@
+{
+  "scope": "Local source review, not activation; live0.9.37 unchanged",
+  "new_frames": 9,
+  "class_item_pair": "fighter/greatsword",
+  "two": false,
+  "lit": false,
+  "source_sheets": 1,
+  "repair_sheets": 1,
+  "captures": 130,
+  "galleries": 12,
+  "fixture_checks": 390,
+  "new_weapon_bounds_checks": 270,
+  "published_two_hand_checks": 96,
+  "other_fallback_checks": 24,
+  "source_draw_captures": 90,
+  "published_two_hand_captures": 32,
+  "other_fallback_captures": 8,
+  "renderer_heights": [
+    160,
+    360,
+    464
+  ],
+  "viewport_widths": [
+    390,
+    320
+  ],
+  "viewport_height": 844,
+  "exact_guards_per_width": 22,
+  "single_action_hand_calls": true,
+  "read_precedes_drink": true,
+  "return_to_published_two_hand": true,
+  "published_family_ready_before_mapping": true,
+  "full_state_and_Dice_Odds_neutral": true,
+  "recording_disabled_before_snapshot": true,
+  "minimum_prop_margin_px": 3.63302752293572,
+  "minimum_alpha32_margin_px": 37,
+  "atlas_cells_exact": true,
+  "console_errors": [],
+  "baseline_checks": {
+    "passed": 12,
+    "seconds": 29.4
+  },
+  "published_current_pose_exact": true
+}

@@ -1,0 +1,39 @@
+{
+  "scope": "Local rare source review; live0.9.37 unchanged, not native activation evidence",
+  "class_state_frames": 63,
+  "unique_new_painted_states": 54,
+  "native_audited_Ranger_reuses": 9,
+  "legal_class_item_pairs": 6,
+  "atlas_groups": 7,
+  "original_sheets": 6,
+  "repair_sheets": 2,
+  "image_attempts": 9,
+  "failed_no_output_attempts": 1,
+  "captures": 208,
+  "galleries": 14,
+  "fitting_cases": 624,
+  "renderer_heights": [
+    160,
+    360,
+    464
+  ],
+  "viewport_widths": [
+    390,
+    320
+  ],
+  "viewport_height": 844,
+  "fallback_guards_per_width": 17,
+  "full_state_and_Dice_Odds_neutral": true,
+  "recording_disabled_before_snapshot": true,
+  "exact_plain_reflected_selection": true,
+  "shared_plain_reflected_family_scale": true,
+  "atlas_cells_exact": true,
+  "Ranger_pixels_and_registration_exact": true,
+  "min_prop_margin_px": 3.501587301587307,
+  "minimum_alpha32_margin_px": 25,
+  "console_errors": [],
+  "baseline_checks": {
+    "passed": 12,
+    "seconds": 31.2
+  }
+}

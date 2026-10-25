@@ -1,0 +1,287 @@
+{
+  "date": "2026-10-25",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-greatsword.md",
+  "status": "source complete and reviewed; activated for release 0.9.38; historical source-only evidence retained",
+  "groups": {
+    "aa53": [
+      "fighter-greatsword-rest-released",
+      "fighter-greatsword-drawback-released",
+      "fighter-greatsword-windup-released",
+      "fighter-greatsword-strike-released",
+      "fighter-greatsword-cut-released",
+      "fighter-greatsword-sweep-released",
+      "fighter-greatsword-through-released",
+      "fighter-greatsword-recover-released",
+      "fighter-greatsword-return-released"
+    ]
+  },
+  "sheets": {
+    "aa53": {
+      "source": "held-aa53.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "greatsword",
+      "two": false,
+      "lit": false,
+      "references": [
+        "held-aa4.png",
+        "batch-aa-greatsword-preview/aa53-reference-opaque.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Edit this NINE-cell transparent painted equipment source into its matching released-lower-hand variant. EXACTLY THREE by THREE equal square panels, same row-major nine distinct orientations and proportions. Reference ONE is the approved source: KEEP its broad straight double-edged silver greatsword, angular point, long dark brown wrapped grip, plain brass crossguard, round brass pommel, primary RIGHT grey gauntlet/steel cuff and connected brown cloth RIGHT forearm in each cell. Reference TWO defines the native ONE-HAND pose anatomy. REMOVE ONLY the second LOWER LEFT glove and its entire LEFT forearm from all nine source panels; reveal the lower wrapped grip and pommel previously hidden by that hand. Exactly ONE connected RIGHT hand/forearm grips below the guard in each panel. Keep main right hand closed with four fingers and opposing thumb, wrist joined, no ghost fingers, floating gauntlet or leftover lower sleeve. Do not add the now-free action hand: the game draws it separately. Preserve the nine source angles: row1 rest, drawback, raised windup; row2 strike, angled-left cut, horizontal-left sweep; row3 downward-left through, diagonal-left recovery, upright-left return. Preserve distinct motions and same greatsword geometry/length/materials across all nine. Retain mature gritty hand-painted dungeon realism matching reference ONE and monster art, matte leather, weathered steel/brass and coarse brown cloth. Plain unlit metal, no coloured reflection or aura. Each COMPLETE blade tip, guard, pommel, glove and sleeve end inside its own equal square panel with clear transparent gutters, ideally eight percent. Do not shorten blade into a shortsword, enlarge guard, add spikes/runes/ornaments, repaint as cartoon, rotate/mirror the sheet, flatten poses or change costume. Clean transparent RGBA edges, no outside white/coloured flecks, background, shadow, labels, frame or motion lines.",
+      "generated_image": "/workspace/generated_images/exec-99afcda1-9930-4d9a-a7ec-d1a7621fadb6.png",
+      "repairs": [
+        {
+          "source": "held-aa53-windup.png",
+          "references": [
+            "held-aa53.png",
+            "batch-aa-greatsword-preview/aa53-reference-opaque.png"
+          ],
+          "reason": "Top-right windup keeps the former lower-left arm instead of native right forearm",
+          "prompt": "Correct ONLY the TOP RIGHT cell of this nine-cell transparent painted equipment sheet. In that raised windup pose, the brown forearm currently extends diagonally down-left from the glove; that is the removed secondary arm. Replace it with the primary RIGHT forearm from native reference TWO top-right: keep the same raised grey RIGHT gauntlet gripping just below the brass guard and let its steel cuff and complete brown cloth sleeve descend ALMOST STRAIGHT DOWN, very slightly to the RIGHT of the grip, ending below the raised hand. One right glove/one connected right forearm only. Keep the sword blade, brass guard, long dark wrap and exposed brass pommel at the exact same orientation/position/scale in that cell, pointed diagonally upper-right. Keep ALL OTHER EIGHT CELLS intact, unchanged poses, costume, sword geometry, material detail and clean transparency. Maintain three by three equal-square layout and full transparent margins. No lower left hand or left sleeve, no floating hand, no extra fingers, new marks, glow, labels or scenery. Mature gritty painted steel/leather/coarse brown cloth unchanged.",
+          "generated_image": "/workspace/generated_images/exec-0faadf2a-04b4-4656-bfbd-e1a6a41c9928.png"
+        }
+      ],
+      "selected_source": "held-aa53-windup.png"
+    }
+  },
+  "cells": {
+    "fighter-greatsword-rest-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        198,
+        245
+      ],
+      "source_object_bounds": [
+        120,
+        16,
+        259,
+        335
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-drawback-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        193,
+        254
+      ],
+      "source_object_bounds": [
+        122,
+        26,
+        282,
+        344
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-windup-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        430
+      ],
+      "source_grip": [
+        234,
+        239
+      ],
+      "source_object_bounds": [
+        179,
+        20,
+        388,
+        319
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-strike-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        194,
+        234
+      ],
+      "source_object_bounds": [
+        117,
+        10,
+        268,
+        337
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-cut-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_grip": [
+        245,
+        224
+      ],
+      "source_object_bounds": [
+        32,
+        89,
+        308,
+        284
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-sweep-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        836,
+        430,
+        1254,
+        800
+      ],
+      "source_grip": [
+        244,
+        211
+      ],
+      "source_object_bounds": [
+        2,
+        118,
+        314,
+        283
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-through-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        0,
+        836,
+        450,
+        1254
+      ],
+      "source_grip": [
+        251,
+        214
+      ],
+      "source_object_bounds": [
+        10,
+        138,
+        330,
+        304
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-recover-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        450,
+        836,
+        900,
+        1254
+      ],
+      "source_grip": [
+        229,
+        177
+      ],
+      "source_object_bounds": [
+        30,
+        -1,
+        295,
+        269
+      ],
+      "object_height_limit": 128
+    },
+    "fighter-greatsword-return-released": {
+      "sheet": "aa53",
+      "cls": "fighter",
+      "id": "greatsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "source_rect": [
+        900,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        173,
+        237
+      ],
+      "source_object_bounds": [
+        40,
+        2,
+        227,
+        316
+      ],
+      "object_height_limit": 128
+    }
+  },
+  "review_notes": [
+    "9 new one-hand CUT states from1 original+1 selected windup repair. Original retains wrong secondary forearm in top-right; selected repair restores native primary right forearm downwards. Both outputs retained with exact prompts/reference/output paths. Other poses show minor image-tool shading/foreshortening differences from published two-hand source; no pixel-identical source match is claimed.",
+    "Authored crop exceptions preserve complete forearms and return blade: bottom-row through/recover boundary450; recover/return900; right-column top/middle row430 and middle/bottom row800. Original gutters narrower than8percent target; registered alpha>32 clearance>=37px. Minor raw edge flecks retained; no scripted paint/masks/recolour/rotation.",
+    "Both outputs, native one-/two-hand grids,9 registered frames/contact/registration/alpha/hand-release comparison,12 phone galleries and selected full-size captures inspected.130 captures/390 fixtures comprise270 new-weapon fits,96 protected published two-hand checks and24 fallback checks.22 exact guards per width, action-hand call counts, reading precedence, full state/Dice/Odds neutrality and12 baseline checks pass.",
+    "Published lazy greatsword family is explicitly awaited before image mapping; otherwise setup maps temporary procedural frames and later swaps invalidate protected-frame assertions. Fighter reflection is guarded directly; the visible reflected-class control uses ineligible Spellblade because renderer never requests reflected Fighter art. Cast is a generic Fighter stress fixture, not a new power."
+  ],
+  "activation_review": "batch-aa-runtime116/REVIEW.md"
+}

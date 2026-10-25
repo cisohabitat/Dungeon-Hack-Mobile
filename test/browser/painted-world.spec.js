@@ -84,7 +84,7 @@ test('painted starter and wider weapons retain exact grips and survive native of
  for(const[cls,id]of pairs){await page.evaluate(({cls,id})=>{const p=Game.player(),it={t:id,q:1,e:0};p.cls=cls;p.inv.push(it);if(Game.canEquip(it))throw Error('Illegal test weapon');Game.equip(it);},{cls,id});
   await expect.poll(()=>page.evaluate(()=>{const p=Game.player(),v=Game.renderState(performance.now()).fx.view;return v.weapon===p.eq.weapon.t&&Assets.held(v.weapon,'rest',v.cls,v.drawn?false:v.two,v.cls==='spellblade'&&v.shield==='wayfarer_lantern')?.img.width;})).toBe(256);
  }
- const guards=await page.evaluate(async()=>{const{paintedHeld}=await import('/js/paintedworld.js');return [['dagger','rest','cleric',false,false],['dagger','rest','fighter',false,true],['dagger','rest','spellblade',true,true],['dagger','left','spellblade',false,true],['dagger','left','thief',false,false],['hammer','rest','cleric',false,true],['dwarfhammer','rest','cleric',false,false],['battleaxe','rest','fighter',true,false],['greatsword','rest','fighter',false,false],['spear','drive','druid',true,false],['spear','channel','druid',false,false],['shortbow','rest','fighter',false,false],['mythic_horizon','rest','ranger',false,false]].every(a=>paintedHeld(...a)===null);});expect(guards).toBe(true);
+ const guards=await page.evaluate(async()=>{const{paintedHeld}=await import('/js/paintedworld.js');return [['dagger','rest','cleric',false,false],['dagger','rest','fighter',false,true],['dagger','rest','spellblade',true,true],['dagger','left','spellblade',false,true],['dagger','left','thief',false,false],['hammer','rest','cleric',false,true],['dwarfhammer','rest','thief',false,false],['battleaxe','rest','fighter',true,false],['greatsword','rest','fighter',false,true],['spear','drive','druid',true,false],['spear','channel','druid',false,false],['shortbow','rest','mage',false,false],['mythic_horizon','rest','ranger',false,false]].every(a=>paintedHeld(...a)===null);});expect(guards).toBe(true);
  await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
  await expect.poll(()=>page.evaluate(async()=>{const{PAINTED}=await import('/js/paintedcatalog.js');return(await Promise.all(Object.values(PAINTED.held).map(m=>caches.match('./'+m.path)))).every(Boolean);}),{timeout:30000}).toBe(true);
  connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>typeof Assets!=='undefined');
@@ -140,4 +140,48 @@ test('painted staff tips survive delivery and casting glints respect Calm @mobil
  try{ctx.drawImage=function(img,x,y,w,h,...args){if(img===current.img)tip=[x+current.at.tip[0]*w/256,y+current.at.tip[1]*h/256];return old.draw.call(this,img,x,y,w,h,...args);};ctx.beginPath=function(){path=[];return old.begin.call(this);};ctx.moveTo=function(x,y){path.push([x,y]);return old.move.call(this,x,y);};ctx.lineTo=function(x,y){path.push([x,y]);return old.line.call(this,x,y);};ctx.stroke=function(){if(this.strokeStyle==='#9bcef1'&&path.length===4)glint=path.slice();return old.stroke.call(this);};
  for(const cls of ['fighter','cleric','druid'])for(const quiet of [false,true]){current=Assets.held('staff','channel',cls,false);const meta=Object.values(PAINTED.held).find(m=>m.id==='staff'&&m.cls===cls&&m.pose==='channel');if(JSON.stringify(current.at.tip)!==JSON.stringify(meta.tip))throw Error('Staff tip metadata lost');tip=glint=null;Renderer.setCalm(quiet);Renderer.render(rs.level,rs.cam,rs.sprites,{...rs.fx,swingAt:-1e9,offAt:-1e9,castAt:9740,readAt:-1e9,useAt:-1e9,throwAt:-1e9,bashAt:-1e9,arriveAt:-1e9,view:{weapon:'staff',cls,two:true,drawn:false,shield:null,offhand:null,lantern:false,walk:0,steps:0}},10000);checks.push(!!tip&&(quiet?!glint:!!glint&&Math.hypot((glint[0][0]+glint[1][0])/2-tip[0],(glint[2][1]+glint[3][1])/2-tip[1])<=1));}
  return checks;}finally{ctx.drawImage=old.draw;ctx.beginPath=old.begin;ctx.moveTo=old.move;ctx.lineTo=old.line;ctx.stroke=old.stroke;Renderer.setCalm(calm);}});expect(result).toEqual([true,true,true,true,true,true]);expect(errors).toEqual([]);
+});
+
+// New exact class/identity families must fail independently, including both greatsword hands.
+for(const [cls,id,file,count,otherCls,otherId]of [
+ ['fighter','sling','fighter-sling-loosed',2,'cleric','sling'],
+ ['thief','throwknife','thief-throwknife-rest',1,'mage','throwknife'],
+ ['fighter','shortbow','fighter-shortbow-bowfull',3,'thief','shortbow'],
+ ['fighter','handxbow','fighter-handxbow-rest',1,'ranger','handxbow'],
+ ['spellblade','scimitar','spellblade-scimitar-windup-lit',18,'fighter','scimitar'],
+ ['fighter','greatsword','fighter-greatsword-rest-released',18,'fighter','longsword'],
+ ['cleric','relic_penitent','cleric-relic_penitent-cut',9,'cleric','flail'],
+])test(`a corrupt new ${cls} ${id} preserves independent family fallback @mobile`,async({page})=>{
+ await page.route(`**/img/held/${file}.png`,r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));
+ await startGame(page,{seed:'new-held-family-fallback'});
+ await page.evaluate(async({cls,id,otherCls,otherId})=>{const{PAINTED}=await import('/js/paintedcatalog.js');for(const m of Object.values(PAINTED.held))if(m.cls===cls&&m.id===id||m.cls===otherCls&&m.id===otherId)Assets.held(m.id,m.pose,m.cls,m.two,m.lit);},{cls,id,otherCls,otherId});
+ await expect.poll(()=>page.evaluate(({otherCls,otherId})=>Assets.held(otherId,'rest',otherCls,false,false)?.img.width,{otherCls,otherId}),{timeout:30000}).toBe(256);
+ await expect.poll(()=>page.evaluate(async({cls,id,count})=>{const{PAINTED}=await import('/js/paintedcatalog.js'),{paintedHeld}=await import('/js/paintedworld.js');const f=Object.values(PAINTED.held).filter(m=>m.cls===cls&&m.id===id);return f.length===count&&f.every(m=>paintedHeld(m.id,m.pose,m.cls,m.two,m.lit)===null&&!!Assets.held(m.id,m.pose,m.cls,m.two,m.lit)?.img);},{cls,id,count})).toBe(true);
+});
+
+test('new ranged, rare, named and released-hand bindings fit exact poses without changing run or dice @mobile',async({page})=>{
+ test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'new-held-fit'});
+ const count=await page.evaluate(async()=>{const{PAINTED}=await import('/js/paintedcatalog.js');const ids=new Set(['sling','throwknife','handxbow','scimitar','dwarfhammer','greatsword','relic_penitent']);window.__newHeldFit=Object.entries(PAINTED.held).filter(([,m])=>ids.has(m.id)||m.id==='shortbow'&&m.cls!=='ranger'||m.id==='longbow'&&m.cls==='fighter');for(const[,m]of window.__newHeldFit)Assets.held(m.id,m.pose,m.cls,m.two,m.lit);return window.__newHeldFit.length;});expect(count).toBe(125);
+ await expect.poll(()=>page.evaluate(()=>window.__newHeldFit.every(([,m])=>Assets.held(m.id,m.pose,m.cls,m.two,m.lit)?.img.width===256)),{timeout:30000}).toBe(true);
+ const result=await page.evaluate(async()=>{const{Dice,Odds}=await import('/js/rng.js');Game.recordRuns(false);const update=Game.update,height=Renderer.H,calm=Renderer.calm,ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;Game.update=()=>{};const rs=Game.renderState(10000),before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],bad=[];let current=null,seen=false,checked=0;
+ try{Renderer.setCalm(false);ctx.drawImage=function(img,x,y,w,h,...a){if(current&&img===current.fr.img){seen=true;const b=current.fr.at,box=[x+b.min[0]*w/256,y+b.min[1]*h/256,x+b.max[0]*w/256,y+b.max[1]*h/256];if(box[0]<1||box[1]<1||box[2]>Renderer.W-1||box[3]>Renderer.H-1)bad.push({key:current.key,height:Renderer.H,box});}return draw.call(this,img,x,y,w,h,...a);};
+ const times={rest:undefined,drawback:.08,windup:.16,strike:.24,cut:.32,sweep:.42,through:.52,recover:.68,return:.84,bowdraw:.3,bowfull:.5,loosed:.8};
+ for(const h of [160,360,464]){Renderer.setHeight(h);for(const[key,m]of window.__newHeldFit){current={key,fr:Assets.held(m.id,m.pose,m.cls,m.two,m.lit)};seen=false;const u=times[m.pose],released=m.id==='greatsword'&&!m.two,bow=m.id==='shortbow'||m.id==='longbow';const fx={...rs.fx,swingAt:u===undefined?-1e9:10000-u*800,swingMs:800,offAt:-1e9,castAt:-1e9,readAt:released?9700:-1e9,readKind:'map',readColor:'#8af',useAt:-1e9,throwAt:-1e9,bashAt:-1e9,arriveAt:-1e9,damageUntil:0,view:{weapon:m.id,cls:m.cls,two:bow||m.id==='greatsword',drawn:bow,shield:m.lit?'wayfarer_lantern':null,offhand:null,lantern:false,walk:0,steps:0}};Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000);if(!seen)throw Error('Exact new binding not drawn '+key);checked++;}}
+ return{bad,checked,state:JSON.stringify(Game.state())===before,dice:Dice.s===dice[0]&&Odds.s===dice[1]};
+ }finally{ctx.drawImage=draw;Game.update=update;Renderer.setHeight(height);Renderer.setCalm(calm);}
+ });expect(result).toEqual({bad:[],checked:375,state:true,dice:true});expect(errors).toEqual([]);
+});
+
+test('native greatsword read and drink overlaps release one hand and restore both @mobile',async({page})=>{
+ test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'native-greatsword-hand-release',cls:'fighter'});
+ await page.evaluate(()=>{const p=Game.player(),L=Game.level();L.monsters=[];L.npcs=[];p.hp=p.maxHp=999;const it={t:'greatsword',q:1,e:0};p.inv.push(it);if(Game.canEquip(it)||!Game.equip(it))throw Error('Cannot equip native greatsword');});await faceOpenGround(page,3);
+ await expect.poll(()=>page.evaluate(()=>Assets.held('greatsword','rest','fighter',true,false)?.img.width),{timeout:30000}).toBe(256);
+ await page.evaluate(async()=>{const{PAINTED}=await import('/js/paintedcatalog.js'),map=new Map();for(const[key,m]of Object.entries(PAINTED.held))if(m.cls==='fighter'&&m.id==='greatsword')map.set(Assets.held(m.id,m.pose,m.cls,m.two,m.lit).img,key);window.__greatNative=[];const ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;ctx.drawImage=function(img,...a){if(map.has(img))window.__greatNative.push({at:performance.now(),key:map.get(img)});return draw.call(this,img,...a);};});
+ for(const t of ['scroll_map','potion_heal']){
+  await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});
+  const born=await page.evaluate(async t=>{const p=Game.player(),G=Game.state();p.nextAttack=0;G.blowGate=0;p.hp=700;window.__greatNative=[];Game.input('attack');const fx=Game.renderState(performance.now()).fx;if(fx.swingAt<0)throw Error('Native attack did not start');await new Promise(r=>setTimeout(r,fx.swingMs*.12));const it={t,q:1,e:0};p.inv.push(it);Game.useItem(it);if(p.inv.includes(it))throw Error('Native consumable was not used');return Game.renderState(performance.now()).fx[t==='scroll_map'?'readAt':'useAt'];},t);
+  await expect.poll(()=>page.evaluate(b=>window.__greatNative.some(f=>f.at>=b&&f.key.endsWith('-released')&&!f.key.endsWith('-rest-released')),born),{timeout:5000}).toBe(true);
+  await expect.poll(()=>page.evaluate(b=>window.__greatNative.some(f=>f.at>b+1100&&f.key==='fighter-greatsword-rest'),born),{timeout:5000}).toBe(true);
+ }
+ expect(errors).toEqual([]);
 });
