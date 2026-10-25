@@ -1,0 +1,1026 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-melee4.md",
+  "status": "Source/review complete and activated for0.9.37; historical source-only findings retained; wider AA library open",
+  "groups": {
+    "aa13": [
+      "fighter-club-rest",
+      "fighter-club-drawback",
+      "fighter-club-windup",
+      "fighter-club-strike",
+      "fighter-club-cut",
+      "fighter-club-sweep",
+      "fighter-club-through",
+      "fighter-club-recover",
+      "fighter-club-return"
+    ],
+    "aa14": [
+      "cleric-club-rest",
+      "cleric-club-drawback",
+      "cleric-club-windup",
+      "cleric-club-strike",
+      "cleric-club-cut",
+      "cleric-club-sweep",
+      "cleric-club-through",
+      "cleric-club-recover",
+      "cleric-club-return"
+    ],
+    "aa15": [
+      "thief-club-rest",
+      "thief-club-drawback",
+      "thief-club-windup",
+      "thief-club-strike",
+      "thief-club-cut",
+      "thief-club-sweep",
+      "thief-club-through",
+      "thief-club-recover",
+      "thief-club-return"
+    ],
+    "aa16": [
+      "druid-club-rest",
+      "druid-club-drawback",
+      "druid-club-windup",
+      "druid-club-strike",
+      "druid-club-cut",
+      "druid-club-sweep",
+      "druid-club-through",
+      "druid-club-recover",
+      "druid-club-return"
+    ]
+  },
+  "sheets": {
+    "aa13": {
+      "source": "held-aa13.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a fantasy videogame inventory prop reference sheet: nine separate static views of the same small knotted wooden cudgel, each held by one Fighter right hand with a complete forearm. Match the nine positions, directions and foreshortening of reference1 exactly, arranged in the same3x3 equal square cell grid. Reference2 supplies the mature painted hand, cuff, sleeve and material finish only; replace its held metal prop with the plain wooden cudgel from reference1. Keep a compact rounded thicker wooden head tapering into a narrower dark cord-wrapped grip, natural dark knots and grain, and three small flush iron nail heads as visible in reference1. No long spikes, metal ball or separate head. The wooden prop above the fist should be around the length of the visible forearm, never a huge log. grey articulated metal gauntlet, grey cuff and brown cloth sleeve. All fingers close naturally round the same connected grip. Nine existing directions: top row rest leaning slightly left, near-vertical drawback, windup leaning right; middle row strike leaning left, diagonal left cut, horizontal left sweep; bottom row horizontal-left through with tip slightly down, diagonal-left recover, upper-left return. Keep these directional differences and wrist orientations, not nine duplicated upright views. Gritty realistic hand-painted materials matching mature dungeon monster artwork: worn wood, restrained highlights, textured cloth and grounded anatomy. No cartoon proportions, no plastic shine, no glowing effect or invented decoration. Exactly nine complete objects, each isolated with at least8percent transparent padding on every side of its own cell. Every wood tip, nail, finger and sleeve end stays inside its cell; wide gaps between rows/columns. True transparent RGBA background, no shadow backdrop, text, labels, borders, extra hands or other props.",
+      "references": [
+        "batch-aa-melee4-preview/aa13-reference.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-cba376a3-4ac0-4479-a861-115215f80579.png"
+    },
+    "aa14": {
+      "source": "held-aa14.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a fantasy videogame inventory prop reference sheet: nine separate static views of the same small knotted wooden cudgel, each held by one Cleric right hand with a complete forearm. Match the nine positions, directions and foreshortening of reference1 exactly, arranged in the same3x3 equal square cell grid. Reference2 supplies the mature painted hand, cuff, sleeve and material finish only; replace its held metal prop with the plain wooden cudgel from reference1. Keep a compact rounded thicker wooden head tapering into a narrower dark cord-wrapped grip, natural dark knots and grain, and three small flush iron nail heads as visible in reference1. No long spikes, metal ball or separate head. The wooden prop above the fist should be around the length of the visible forearm, never a huge log. brown leather glove, muted gold cuff and ivory cloth sleeve. All fingers close naturally round the same connected grip. Nine existing directions: top row rest leaning slightly left, near-vertical drawback, windup leaning right; middle row strike leaning left, diagonal left cut, horizontal left sweep; bottom row horizontal-left through with tip slightly down, diagonal-left recover, upper-left return. Keep these directional differences and wrist orientations, not nine duplicated upright views. Gritty realistic hand-painted materials matching mature dungeon monster artwork: worn wood, restrained highlights, textured cloth and grounded anatomy. No cartoon proportions, no plastic shine, no glowing effect or invented decoration. Exactly nine complete objects, each isolated with at least8percent transparent padding on every side of its own cell. Every wood tip, nail, finger and sleeve end stays inside its cell; wide gaps between rows/columns. True transparent RGBA background, no shadow backdrop, text, labels, borders, extra hands or other props.",
+      "references": [
+        "batch-aa-melee4-preview/aa14-reference.png",
+        "held-aa7-edges.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-6a072bfd-8037-40cc-8466-460dcea1ef98.png",
+      "repairs": [
+        {
+          "source": "held-aa14-edges.png",
+          "references": [
+            "held-aa14.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this fantasy videogame inventory reference sheet only to clean the transparent edges of all nine existing objects. Preserve all nine wood props, tiny iron heads, closed hands, cuffs and complete sleeves, their exact poses, directions, scale, colour and positions in the3x3 grid. Remove detached white brush debris and red/yellow paint flecks around the silhouettes, particularly beside the sleeves and wood tips; transparent pixels must be clean. Keep the mature natural painted material texture inside each object unchanged. Do not add glow, outlines, new objects or text; no background, true transparent RGBA. Every fingertip, wood tip and complete sleeve end remains intact. Retain brown leather hands, muted gold cuffs and ivory cloth.",
+          "generated_image": "/workspace/generated_images/exec-2fcfccbf-66ce-45dd-b288-d0e9ebc504b3.png"
+        }
+      ],
+      "selected_source": "held-aa14-edges.png"
+    },
+    "aa15": {
+      "source": "held-aa15.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a fantasy videogame inventory prop reference sheet: nine separate static views of the same small knotted wooden cudgel, each held by one Thief right hand with a complete forearm. Match the nine positions, directions and foreshortening of reference1 exactly, arranged in the same3x3 equal square cell grid. Reference2 supplies the mature painted hand, cuff, sleeve and material finish only; replace its held metal prop with the plain wooden cudgel from reference1. Keep a compact rounded thicker wooden head tapering into a narrower dark cord-wrapped grip, natural dark knots and grain, and three small flush iron nail heads as visible in reference1. No long spikes, metal ball or separate head. The wooden prop above the fist should be around the length of the visible forearm, never a huge log. charcoal leather glove, brown cuff and muted dark green cloth sleeve. All fingers close naturally round the same connected grip. Nine existing directions: top row rest leaning slightly left, near-vertical drawback, windup leaning right; middle row strike leaning left, diagonal left cut, horizontal left sweep; bottom row horizontal-left through with tip slightly down, diagonal-left recover, upper-left return. Keep these directional differences and wrist orientations, not nine duplicated upright views. Gritty realistic hand-painted materials matching mature dungeon monster artwork: worn wood, restrained highlights, textured cloth and grounded anatomy. No cartoon proportions, no plastic shine, no glowing effect or invented decoration. Exactly nine complete objects, each isolated with at least8percent transparent padding on every side of its own cell. Every wood tip, nail, finger and sleeve end stays inside its cell; wide gaps between rows/columns. True transparent RGBA background, no shadow backdrop, text, labels, borders, extra hands or other props.",
+      "references": [
+        "batch-aa-melee4-preview/aa15-reference.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-6ffc3ab8-7930-4870-bc57-9228d300d510.png"
+    },
+    "aa16": {
+      "source": "held-aa16.png",
+      "grid": [
+        3,
+        3
+      ],
+      "prompt": "Create a fantasy videogame inventory prop reference sheet: nine separate static views of the same small knotted wooden cudgel, each held by one Druid right hand with a complete forearm. Match the nine positions, directions and foreshortening of reference1 exactly, arranged in the same3x3 equal square cell grid. Reference2 supplies the mature painted hand, cuff, sleeve and material finish only; replace its held metal prop with the plain wooden cudgel from reference1. Keep a compact rounded thicker wooden head tapering into a narrower dark cord-wrapped grip, natural dark knots and grain, and three small flush iron nail heads as visible in reference1. No long spikes, metal ball or separate head. The wooden prop above the fist should be around the length of the visible forearm, never a huge log. brown leather glove, muted green cuff and brown cloth sleeve. All fingers close naturally round the same connected grip. Nine existing directions: top row rest leaning slightly left, near-vertical drawback, windup leaning right; middle row strike leaning left, diagonal left cut, horizontal left sweep; bottom row horizontal-left through with tip slightly down, diagonal-left recover, upper-left return. Keep these directional differences and wrist orientations, not nine duplicated upright views. Gritty realistic hand-painted materials matching mature dungeon monster artwork: worn wood, restrained highlights, textured cloth and grounded anatomy. No cartoon proportions, no plastic shine, no glowing effect or invented decoration. Exactly nine complete objects, each isolated with at least8percent transparent padding on every side of its own cell. Every wood tip, nail, finger and sleeve end stays inside its cell; wide gaps between rows/columns. True transparent RGBA background, no shadow backdrop, text, labels, borders, extra hands or other props.",
+      "references": [
+        "batch-aa-melee4-preview/aa16-reference.png",
+        "held-aa11-compact.png"
+      ],
+      "transparent_background": true,
+      "generated_image": "/workspace/generated_images/exec-6e8c3f06-5eed-45e5-a0c7-e1b796b1d982.png",
+      "repairs": [
+        {
+          "source": "held-aa16-edges.png",
+          "references": [
+            "held-aa16.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this fantasy videogame inventory reference sheet only to clean the transparent edges of all nine existing objects. Preserve all nine wood props, tiny iron heads, closed hands, cuffs and complete sleeves, their exact poses, directions, scale, colour and positions in the3x3 grid. Remove detached white brush debris and red/yellow paint flecks around the silhouettes, particularly beside the sleeves and wood tips; transparent pixels must be clean. Keep the mature natural painted material texture inside each object unchanged. Do not add glow, outlines, new objects or text; no background, true transparent RGBA. Every fingertip, wood tip and complete sleeve end remains intact. Retain brown leather hands, muted green cuffs and brown cloth.",
+          "generated_image": "/workspace/generated_images/exec-e1a3d1f1-d7a3-4855-84f8-fd8e236c0a18.png"
+        }
+      ],
+      "selected_source": "held-aa16-edges.png"
+    }
+  },
+  "cells": {
+    "fighter-club-rest": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        194,
+        211
+      ],
+      "source_object_bounds": [
+        113,
+        47,
+        223,
+        254
+      ]
+    },
+    "fighter-club-drawback": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        196,
+        211
+      ],
+      "source_object_bounds": [
+        165,
+        36,
+        231,
+        253
+      ]
+    },
+    "fighter-club-windup": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        211,
+        212
+      ],
+      "source_object_bounds": [
+        179,
+        52,
+        314,
+        250
+      ]
+    },
+    "fighter-club-strike": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_grip": [
+        188,
+        187
+      ],
+      "source_object_bounds": [
+        90,
+        28,
+        223,
+        230
+      ]
+    },
+    "fighter-club-cut": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        418,
+        822,
+        836
+      ],
+      "source_grip": [
+        178,
+        197
+      ],
+      "source_object_bounds": [
+        25,
+        92,
+        220,
+        244
+      ]
+    },
+    "fighter-club-sweep": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        822,
+        418,
+        1254,
+        836
+      ],
+      "source_grip": [
+        209,
+        191
+      ],
+      "source_object_bounds": [
+        17,
+        155,
+        245,
+        234
+      ]
+    },
+    "fighter-club-through": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        836,
+        466,
+        1254
+      ],
+      "source_grip": [
+        227,
+        179
+      ],
+      "source_object_bounds": [
+        53,
+        142,
+        270,
+        259
+      ]
+    },
+    "fighter-club-recover": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        466,
+        836,
+        836,
+        1254
+      ],
+      "source_grip": [
+        154,
+        158
+      ],
+      "source_object_bounds": [
+        18,
+        40,
+        195,
+        201
+      ]
+    },
+    "fighter-club-return": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        210,
+        169
+      ],
+      "source_object_bounds": [
+        92,
+        22,
+        246,
+        214
+      ]
+    },
+    "cleric-club-rest": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        179,
+        204
+      ],
+      "source_object_bounds": [
+        87,
+        50,
+        220,
+        249
+      ]
+    },
+    "cleric-club-drawback": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        190,
+        210
+      ],
+      "source_object_bounds": [
+        152,
+        43,
+        229,
+        251
+      ]
+    },
+    "cleric-club-windup": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        208,
+        204
+      ],
+      "source_object_bounds": [
+        180,
+        48,
+        301,
+        249
+      ]
+    },
+    "cleric-club-strike": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        418,
+        418,
+        818
+      ],
+      "source_grip": [
+        178,
+        186
+      ],
+      "source_object_bounds": [
+        93,
+        30,
+        219,
+        233
+      ]
+    },
+    "cleric-club-cut": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        418,
+        836,
+        818
+      ],
+      "source_grip": [
+        188,
+        188
+      ],
+      "source_object_bounds": [
+        40,
+        93,
+        232,
+        236
+      ]
+    },
+    "cleric-club-sweep": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        818
+      ],
+      "source_grip": [
+        192,
+        172
+      ],
+      "source_object_bounds": [
+        29,
+        134,
+        234,
+        215
+      ]
+    },
+    "cleric-club-through": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        818,
+        450,
+        1254
+      ],
+      "source_grip": [
+        196,
+        173
+      ],
+      "source_object_bounds": [
+        32,
+        138,
+        243,
+        245
+      ]
+    },
+    "cleric-club-recover": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        450,
+        818,
+        836,
+        1254
+      ],
+      "source_grip": [
+        172,
+        172
+      ],
+      "source_object_bounds": [
+        34,
+        57,
+        214,
+        223
+      ]
+    },
+    "cleric-club-return": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        818,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        206,
+        166
+      ],
+      "source_object_bounds": [
+        98,
+        30,
+        254,
+        218
+      ]
+    },
+    "thief-club-rest": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_grip": [
+        177,
+        207
+      ],
+      "source_object_bounds": [
+        85,
+        52,
+        214,
+        251
+      ]
+    },
+    "thief-club-drawback": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_grip": [
+        179,
+        207
+      ],
+      "source_object_bounds": [
+        143,
+        40,
+        218,
+        251
+      ]
+    },
+    "thief-club-windup": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_grip": [
+        206,
+        206
+      ],
+      "source_object_bounds": [
+        174,
+        42,
+        309,
+        252
+      ]
+    },
+    "thief-club-strike": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        418,
+        418,
+        800
+      ],
+      "source_grip": [
+        165,
+        185
+      ],
+      "source_object_bounds": [
+        73,
+        37,
+        204,
+        230
+      ]
+    },
+    "thief-club-cut": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        418,
+        836,
+        800
+      ],
+      "source_grip": [
+        165,
+        187
+      ],
+      "source_object_bounds": [
+        29,
+        100,
+        207,
+        233
+      ]
+    },
+    "thief-club-sweep": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_grip": [
+        183,
+        166
+      ],
+      "source_object_bounds": [
+        28,
+        137,
+        226,
+        209
+      ]
+    },
+    "thief-club-through": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        800,
+        440,
+        1254
+      ],
+      "source_grip": [
+        187,
+        205
+      ],
+      "source_object_bounds": [
+        31,
+        163,
+        232,
+        281
+      ]
+    },
+    "thief-club-recover": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        440,
+        800,
+        836,
+        1254
+      ],
+      "source_grip": [
+        155,
+        191
+      ],
+      "source_object_bounds": [
+        24,
+        90,
+        194,
+        234
+      ]
+    },
+    "thief-club-return": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        191,
+        188
+      ],
+      "source_object_bounds": [
+        82,
+        39,
+        233,
+        231
+      ]
+    },
+    "druid-club-rest": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        0,
+        418,
+        404
+      ],
+      "source_grip": [
+        169,
+        204
+      ],
+      "source_object_bounds": [
+        83,
+        26,
+        214,
+        249
+      ]
+    },
+    "druid-club-drawback": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        0,
+        836,
+        404
+      ],
+      "source_grip": [
+        182,
+        201
+      ],
+      "source_object_bounds": [
+        146,
+        23,
+        225,
+        247
+      ]
+    },
+    "druid-club-windup": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        0,
+        1254,
+        404
+      ],
+      "source_grip": [
+        221,
+        204
+      ],
+      "source_object_bounds": [
+        186,
+        25,
+        319,
+        249
+      ]
+    },
+    "druid-club-strike": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        404,
+        418,
+        800
+      ],
+      "source_grip": [
+        171,
+        189
+      ],
+      "source_object_bounds": [
+        83,
+        16,
+        215,
+        236
+      ]
+    },
+    "druid-club-cut": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        418,
+        404,
+        836,
+        800
+      ],
+      "source_grip": [
+        173,
+        199
+      ],
+      "source_object_bounds": [
+        27,
+        99,
+        213,
+        244
+      ]
+    },
+    "druid-club-sweep": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        404,
+        1254,
+        800
+      ],
+      "source_grip": [
+        199,
+        176
+      ],
+      "source_object_bounds": [
+        20,
+        137,
+        239,
+        223
+      ]
+    },
+    "druid-club-through": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        0,
+        800,
+        444,
+        1254
+      ],
+      "source_grip": [
+        190,
+        187
+      ],
+      "source_object_bounds": [
+        26,
+        151,
+        234,
+        253
+      ]
+    },
+    "druid-club-recover": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        444,
+        800,
+        836,
+        1254
+      ],
+      "source_grip": [
+        163,
+        187
+      ],
+      "source_object_bounds": [
+        25,
+        69,
+        204,
+        234
+      ]
+    },
+    "druid-club-return": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "object_height_limit": 112,
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_grip": [
+        201,
+        177
+      ],
+      "source_object_bounds": [
+        74,
+        19,
+        246,
+        224
+      ]
+    }
+  },
+  "source_spacing_notes": [
+    "Nominal418px grids use authored crop gaps: lower first-column boundaries Fighter466/Cleric450/Thief440/Druid444, retaining complete sleeve ends. Fighter middle second/third-column boundary822 lies between extended sweep/cut silhouettes.",
+    "Cleric row boundaries418/818, Thief418/800, Druid404/800 preserve complete sleeve ends and upper-left return tips. Other rows use418/836. Some source cells miss requested8percent gutters.",
+    "Image-tool edits reduce Cleric white/red debris and Druid red edge flecks. Small residual pale/coloured fringe remains, especially on ivory cloth. No scripted mask repair, pixel recolour, rotation or mirroring. Registered alpha>32 clearance is checked at>=12px."
+  ],
+  "review": {
+    "report": "batch-aa-melee4-preview/REVIEW.md",
+    "frames": 36,
+    "source_and_repair_sheets": 6,
+    "captures": 120,
+    "galleries": 8,
+    "fitting_cases": 360,
+    "painted_fitting_cases": 336,
+    "protected_or_procedural_control_cases": 24,
+    "direct_identity_guards_per_width": 10,
+    "baseline_browser_tests": 12,
+    "baseline_browser_result": "pass:phone/small,29.4s",
+    "console_errors": [],
+    "scope": "Frozen exact class/id/pose/two/lit=false source substitution; not native action/offline/failure/performance activation evidence."
+  },
+  "runtime_activation": {
+    "release": "0.9.37",
+    "status": "integrated for0.9.37; native actions/offline and complete Chromium validation recorded in combined runtime review",
+    "evidence": "batch-aa-melee45-runtime/REVIEW.md"
+  }
+}

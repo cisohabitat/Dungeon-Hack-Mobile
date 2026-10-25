@@ -1,0 +1,3904 @@
+{
+  "groups": {
+    "aa17": {
+      "cls": "fighter",
+      "id": "mace",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-return"
+        }
+      ]
+    },
+    "aa18": {
+      "cls": "fighter",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-return"
+        }
+      ]
+    },
+    "aa19": {
+      "cls": "ranger",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-return"
+        }
+      ]
+    },
+    "aa20": {
+      "cls": "spellblade",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-return"
+        }
+      ]
+    },
+    "aa21": {
+      "cls": "spellblade",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-rest-reflected"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-drawback-reflected"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-windup-reflected"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-strike-reflected"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-cut-reflected"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-sweep-reflected"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-through-reflected"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-recover-reflected"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-return-reflected"
+        }
+      ]
+    },
+    "aa22": {
+      "cls": "thief",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-return"
+        }
+      ]
+    },
+    "aa23": {
+      "cls": "ranger",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-return"
+        }
+      ]
+    },
+    "aa24": {
+      "cls": "spellblade",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-return"
+        }
+      ]
+    },
+    "aa25": {
+      "cls": "spellblade",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-rest-reflected"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-drawback-reflected"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-windup-reflected"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-strike-reflected"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-cut-reflected"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-sweep-reflected"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-through-reflected"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-recover-reflected"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-return-reflected"
+        }
+      ]
+    },
+    "aa26": {
+      "cls": "fighter",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "fighter-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "fighter-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "fighter-staff-channel-one"
+        }
+      ]
+    },
+    "aa27": {
+      "cls": "cleric",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "cleric-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "cleric-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "cleric-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "cleric-staff-channel-one"
+        }
+      ]
+    },
+    "aa28": {
+      "cls": "druid",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "druid-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "druid-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "druid-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "druid-staff-channel-one"
+        }
+      ]
+    },
+    "aa29": {
+      "cls": "fighter",
+      "id": "spear",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-spear-rest"
+        },
+        {
+          "pose": "drive",
+          "two": false,
+          "lit": false,
+          "key": "fighter-spear-drive"
+        }
+      ]
+    },
+    "aa30": {
+      "cls": "ranger",
+      "id": "spear",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-spear-rest"
+        },
+        {
+          "pose": "drive",
+          "two": false,
+          "lit": false,
+          "key": "ranger-spear-drive"
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-fighter-longsword": {
+      "cls": "fighter",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-return"
+        }
+      ]
+    }
+  },
+  "cells": {
+    "fighter-mace-rest": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-rest",
+      "grip": [
+        96.28220858895706,
+        120.57668711656441
+      ],
+      "object_bounds": [
+        55.44965100503922,
+        11.86329054060652,
+        108.56828415592358,
+        143.4411405488233
+      ],
+      "tip": [
+        79.47753249206677,
+        21.176173976189347
+      ],
+      "native": [
+        99,
+        163
+      ]
+    },
+    "fighter-mace-drawback": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-drawback",
+      "grip": [
+        102.375,
+        113
+      ],
+      "object_bounds": [
+        90.69936208231705,
+        12.853620368969596,
+        142.0381154219763,
+        134.13385678275057
+      ],
+      "tip": [
+        120.83608493312563,
+        21.478620368969594
+      ],
+      "native": [
+        59,
+        176
+      ]
+    },
+    "fighter-mace-windup": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-windup",
+      "grip": [
+        103.34482758620689,
+        102.71264367816092
+      ],
+      "object_bounds": [
+        87.96486494035227,
+        12.981285584300498,
+        170.27441791795388,
+        122.31604081678935
+      ],
+      "tip": [
+        153.95315896435645,
+        22.97988209356118
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "fighter-mace-strike": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-strike",
+      "grip": [
+        100.83950617283949,
+        119.85185185185185
+      ],
+      "object_bounds": [
+        52.16012872056224,
+        12.321633675045026,
+        113.7878137238057,
+        142.58820159708483
+      ],
+      "tip": [
+        75.27863623673831,
+        21.692004045415405
+      ],
+      "native": [
+        104,
+        162
+      ]
+    },
+    "fighter-mace-cut": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-cut",
+      "grip": [
+        107.29411764705883,
+        128
+      ],
+      "object_bounds": [
+        13.282523325251177,
+        64.21197925301888,
+        127.83299376178896,
+        142.95602318002233
+      ],
+      "tip": [
+        22.27076243334019,
+        82.01980836386316
+      ],
+      "native": [
+        170,
+        90
+      ]
+    },
+    "fighter-mace-sweep": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-sweep",
+      "grip": [
+        114.25,
+        109.875
+      ],
+      "object_bounds": [
+        12.535966554969608,
+        80.15810325245172,
+        135.5930281596602,
+        128.97147362000516
+      ],
+      "tip": [
+        21.160966554969605,
+        102.7051716376695
+      ],
+      "native": [
+        176,
+        69
+      ]
+    },
+    "fighter-mace-through": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-through",
+      "grip": [
+        113.02958579881657,
+        102.61538461538461
+      ],
+      "object_bounds": [
+        12.446840106481602,
+        89.16362992482952,
+        134.46562102967724,
+        156.27187356869385
+      ],
+      "tip": [
+        21.42908862719166,
+        135.22511954738962
+      ],
+      "native": [
+        169,
+        69
+      ]
+    },
+    "fighter-mace-recover": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-recover",
+      "grip": [
+        114.51612903225806,
+        110.96774193548387
+      ],
+      "object_bounds": [
+        12.539885621791225,
+        38.38203179322436,
+        136.7904431144649,
+        127.78709677419356
+      ],
+      "tip": [
+        23.08149112760996,
+        57.314147170252646
+      ],
+      "native": [
+        155,
+        118
+      ]
+    },
+    "fighter-mace-return": {
+      "sheet": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-return",
+      "grip": [
+        105.3972602739726,
+        117.45205479452055
+      ],
+      "object_bounds": [
+        24.227606436326838,
+        11.938418605379042,
+        123.95969980058025,
+        140.6666370681776
+      ],
+      "tip": [
+        44.76610496931118,
+        22.630104175606753
+      ],
+      "native": [
+        130,
+        146
+      ]
+    },
+    "fighter-shortsword-rest": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-rest",
+      "grip": [
+        85.98611111111111,
+        105.08333333333333
+      ],
+      "object_bounds": [
+        54.658044177078054,
+        13.836917734925672,
+        112.69803065549829,
+        132.56182792470145
+      ],
+      "tip": [
+        70.70507147642124,
+        18.420251068259006
+      ],
+      "native": [
+        91,
+        144
+      ]
+    },
+    "fighter-shortsword-drawback": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-drawback",
+      "grip": [
+        103.47770700636943,
+        97.87261146496814
+      ],
+      "object_bounds": [
+        79.24697886822383,
+        14.438346059561779,
+        132.36077166872784,
+        123.02768272529713
+      ],
+      "tip": [
+        118.87854515548776,
+        18.642167715612736
+      ],
+      "native": [
+        65,
+        157
+      ]
+    },
+    "fighter-shortsword-windup": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-windup",
+      "grip": [
+        113.8974358974359,
+        87.10256410256409
+      ],
+      "object_bounds": [
+        95.46097325757631,
+        13.931944891354188,
+        162.34793843876682,
+        110.38437356710045
+      ],
+      "tip": [
+        156.9431853613024,
+        18.21496490708825
+      ],
+      "native": [
+        42,
+        156
+      ]
+    },
+    "fighter-shortsword-strike": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-strike",
+      "grip": [
+        87.23076923076923,
+        104.15384615384616
+      ],
+      "object_bounds": [
+        54.93580869647023,
+        13.942572931922559,
+        112.59734301924689,
+        131.51076757526454
+      ],
+      "tip": [
+        64.29542000322277,
+        18.557957547307176
+      ],
+      "native": [
+        91,
+        143
+      ]
+    },
+    "fighter-shortsword-cut": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-cut",
+      "grip": [
+        91.81578947368422,
+        115.69736842105263
+      ],
+      "object_bounds": [
+        13.863737521655771,
+        70.72959764003907,
+        116.25581237258427,
+        135.28806433959747
+      ],
+      "tip": [
+        18.205842784813665,
+        76.5582655024815
+      ],
+      "native": [
+        152,
+        73
+      ]
+    },
+    "fighter-shortsword-sweep": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-sweep",
+      "grip": [
+        98.38461538461537,
+        106.14102564102564
+      ],
+      "object_bounds": [
+        13.120950994278887,
+        78.25462102552606,
+        123.94366784241886,
+        132.31571370849628
+      ],
+      "tip": [
+        17.35172022504812,
+        100.47465361996436
+      ],
+      "native": [
+        156,
+        67
+      ]
+    },
+    "fighter-shortsword-through": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-through",
+      "grip": [
+        98.13245033112584,
+        99.58940397350995
+      ],
+      "object_bounds": [
+        14.902086817224976,
+        77.13734748735882,
+        123.62721633766438,
+        134.62321441026592
+      ],
+      "tip": [
+        19.272947744377294,
+        128.291915604125
+      ],
+      "native": [
+        151,
+        69
+      ]
+    },
+    "fighter-shortsword-recover": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-recover",
+      "grip": [
+        99.30434782608695,
+        95.31884057971014
+      ],
+      "object_bounds": [
+        14.99801509596806,
+        43.14149978297594,
+        125.93243738689733,
+        116.10938731333177
+      ],
+      "tip": [
+        19.780623791620233,
+        49.40579710144926
+      ],
+      "native": [
+        138,
+        101
+      ]
+    },
+    "fighter-shortsword-return": {
+      "sheet": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-return",
+      "grip": [
+        87.06976744186046,
+        101.56589147286822
+      ],
+      "object_bounds": [
+        26.986456337191637,
+        14.06485707748518,
+        109.6361422263233,
+        129.5479168173514
+      ],
+      "tip": [
+        33.56848176968663,
+        19.181136147252623
+      ],
+      "native": [
+        112,
+        129
+      ]
+    },
+    "ranger-shortsword-rest": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-rest",
+      "grip": [
+        85.98611111111111,
+        105.08333333333333
+      ],
+      "object_bounds": [
+        54.658044177078054,
+        13.836917734925672,
+        112.69803065549829,
+        132.56182792470145
+      ],
+      "tip": [
+        70.70507147642124,
+        18.420251068259006
+      ],
+      "native": [
+        91,
+        144
+      ]
+    },
+    "ranger-shortsword-drawback": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-drawback",
+      "grip": [
+        103.47770700636943,
+        97.87261146496814
+      ],
+      "object_bounds": [
+        79.24697886822383,
+        14.438346059561779,
+        132.36077166872784,
+        123.02768272529713
+      ],
+      "tip": [
+        118.87854515548776,
+        18.642167715612736
+      ],
+      "native": [
+        65,
+        157
+      ]
+    },
+    "ranger-shortsword-windup": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-windup",
+      "grip": [
+        113.8974358974359,
+        87.10256410256409
+      ],
+      "object_bounds": [
+        95.46097325757631,
+        13.931944891354188,
+        162.34793843876682,
+        110.38437356710045
+      ],
+      "tip": [
+        156.9431853613024,
+        18.21496490708825
+      ],
+      "native": [
+        42,
+        156
+      ]
+    },
+    "ranger-shortsword-strike": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-strike",
+      "grip": [
+        87.23076923076923,
+        104.15384615384616
+      ],
+      "object_bounds": [
+        54.93580869647023,
+        13.942572931922559,
+        112.59734301924689,
+        131.51076757526454
+      ],
+      "tip": [
+        64.29542000322277,
+        18.557957547307176
+      ],
+      "native": [
+        91,
+        143
+      ]
+    },
+    "ranger-shortsword-cut": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-cut",
+      "grip": [
+        91.81578947368422,
+        115.69736842105263
+      ],
+      "object_bounds": [
+        13.863737521655771,
+        70.72959764003907,
+        116.25581237258427,
+        135.28806433959747
+      ],
+      "tip": [
+        18.205842784813665,
+        76.5582655024815
+      ],
+      "native": [
+        152,
+        73
+      ]
+    },
+    "ranger-shortsword-sweep": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-sweep",
+      "grip": [
+        98.38461538461537,
+        106.14102564102564
+      ],
+      "object_bounds": [
+        13.120950994278887,
+        78.25462102552606,
+        123.94366784241886,
+        132.31571370849628
+      ],
+      "tip": [
+        17.35172022504812,
+        100.47465361996436
+      ],
+      "native": [
+        156,
+        67
+      ]
+    },
+    "ranger-shortsword-through": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-through",
+      "grip": [
+        98.13245033112584,
+        99.58940397350995
+      ],
+      "object_bounds": [
+        14.902086817224976,
+        77.13734748735882,
+        123.62721633766438,
+        134.62321441026592
+      ],
+      "tip": [
+        19.272947744377294,
+        128.291915604125
+      ],
+      "native": [
+        151,
+        69
+      ]
+    },
+    "ranger-shortsword-recover": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-recover",
+      "grip": [
+        99.30434782608695,
+        95.31884057971014
+      ],
+      "object_bounds": [
+        14.99801509596806,
+        43.14149978297594,
+        125.93243738689733,
+        116.10938731333177
+      ],
+      "tip": [
+        19.780623791620233,
+        49.40579710144926
+      ],
+      "native": [
+        138,
+        101
+      ]
+    },
+    "ranger-shortsword-return": {
+      "sheet": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-return",
+      "grip": [
+        87.06976744186046,
+        101.56589147286822
+      ],
+      "object_bounds": [
+        26.986456337191637,
+        14.06485707748518,
+        109.6361422263233,
+        129.5479168173514
+      ],
+      "tip": [
+        33.56848176968663,
+        19.181136147252623
+      ],
+      "native": [
+        112,
+        129
+      ]
+    },
+    "spellblade-shortsword-rest": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-rest",
+      "grip": [
+        85.98611111111111,
+        105.08333333333333
+      ],
+      "object_bounds": [
+        54.658044177078054,
+        13.836917734925672,
+        112.69803065549829,
+        132.56182792470145
+      ],
+      "tip": [
+        70.70507147642124,
+        18.420251068259006
+      ],
+      "native": [
+        91,
+        144
+      ]
+    },
+    "spellblade-shortsword-drawback": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-drawback",
+      "grip": [
+        103.47770700636943,
+        97.87261146496814
+      ],
+      "object_bounds": [
+        79.24697886822383,
+        14.438346059561779,
+        132.36077166872784,
+        123.02768272529713
+      ],
+      "tip": [
+        118.87854515548776,
+        18.642167715612736
+      ],
+      "native": [
+        65,
+        157
+      ]
+    },
+    "spellblade-shortsword-windup": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-windup",
+      "grip": [
+        113.8974358974359,
+        87.10256410256409
+      ],
+      "object_bounds": [
+        95.46097325757631,
+        13.931944891354188,
+        162.34793843876682,
+        110.38437356710045
+      ],
+      "tip": [
+        156.9431853613024,
+        18.21496490708825
+      ],
+      "native": [
+        42,
+        156
+      ]
+    },
+    "spellblade-shortsword-strike": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-strike",
+      "grip": [
+        87.23076923076923,
+        104.15384615384616
+      ],
+      "object_bounds": [
+        54.93580869647023,
+        13.942572931922559,
+        112.59734301924689,
+        131.51076757526454
+      ],
+      "tip": [
+        64.29542000322277,
+        18.557957547307176
+      ],
+      "native": [
+        91,
+        143
+      ]
+    },
+    "spellblade-shortsword-cut": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-cut",
+      "grip": [
+        91.81578947368422,
+        115.69736842105263
+      ],
+      "object_bounds": [
+        13.863737521655771,
+        70.72959764003907,
+        116.25581237258427,
+        135.28806433959747
+      ],
+      "tip": [
+        18.205842784813665,
+        76.5582655024815
+      ],
+      "native": [
+        152,
+        73
+      ]
+    },
+    "spellblade-shortsword-sweep": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-sweep",
+      "grip": [
+        98.38461538461537,
+        106.14102564102564
+      ],
+      "object_bounds": [
+        13.120950994278887,
+        78.25462102552606,
+        123.94366784241886,
+        132.31571370849628
+      ],
+      "tip": [
+        17.35172022504812,
+        100.47465361996436
+      ],
+      "native": [
+        156,
+        67
+      ]
+    },
+    "spellblade-shortsword-through": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-through",
+      "grip": [
+        98.13245033112584,
+        99.58940397350995
+      ],
+      "object_bounds": [
+        14.902086817224976,
+        77.13734748735882,
+        123.62721633766438,
+        134.62321441026592
+      ],
+      "tip": [
+        19.272947744377294,
+        128.291915604125
+      ],
+      "native": [
+        151,
+        69
+      ]
+    },
+    "spellblade-shortsword-recover": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-recover",
+      "grip": [
+        99.30434782608695,
+        95.31884057971014
+      ],
+      "object_bounds": [
+        14.99801509596806,
+        43.14149978297594,
+        125.93243738689733,
+        116.10938731333177
+      ],
+      "tip": [
+        19.780623791620233,
+        49.40579710144926
+      ],
+      "native": [
+        138,
+        101
+      ]
+    },
+    "spellblade-shortsword-return": {
+      "sheet": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-return",
+      "grip": [
+        87.06976744186046,
+        101.56589147286822
+      ],
+      "object_bounds": [
+        26.986456337191637,
+        14.06485707748518,
+        109.6361422263233,
+        129.5479168173514
+      ],
+      "tip": [
+        33.56848176968663,
+        19.181136147252623
+      ],
+      "native": [
+        112,
+        129
+      ]
+    },
+    "spellblade-shortsword-rest-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-rest-reflected",
+      "grip": [
+        85.98611111111111,
+        105.08333333333333
+      ],
+      "object_bounds": [
+        54.658044177078054,
+        13.836917734925672,
+        112.69803065549829,
+        132.56182792470145
+      ],
+      "tip": [
+        70.70507147642124,
+        18.420251068259006
+      ],
+      "native": [
+        91,
+        144
+      ]
+    },
+    "spellblade-shortsword-drawback-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-drawback-reflected",
+      "grip": [
+        103.47770700636943,
+        97.87261146496814
+      ],
+      "object_bounds": [
+        79.24697886822383,
+        14.438346059561779,
+        132.36077166872784,
+        123.02768272529713
+      ],
+      "tip": [
+        118.87854515548776,
+        18.642167715612736
+      ],
+      "native": [
+        65,
+        157
+      ]
+    },
+    "spellblade-shortsword-windup-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-windup-reflected",
+      "grip": [
+        113.8974358974359,
+        87.10256410256409
+      ],
+      "object_bounds": [
+        95.46097325757631,
+        13.931944891354188,
+        162.34793843876682,
+        110.38437356710045
+      ],
+      "tip": [
+        156.9431853613024,
+        18.21496490708825
+      ],
+      "native": [
+        42,
+        156
+      ]
+    },
+    "spellblade-shortsword-strike-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-strike-reflected",
+      "grip": [
+        87.23076923076923,
+        104.15384615384616
+      ],
+      "object_bounds": [
+        54.93580869647023,
+        13.942572931922559,
+        112.59734301924689,
+        131.51076757526454
+      ],
+      "tip": [
+        64.29542000322277,
+        18.557957547307176
+      ],
+      "native": [
+        91,
+        143
+      ]
+    },
+    "spellblade-shortsword-cut-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-cut-reflected",
+      "grip": [
+        91.81578947368422,
+        115.69736842105263
+      ],
+      "object_bounds": [
+        13.863737521655771,
+        70.72959764003907,
+        116.25581237258427,
+        135.28806433959747
+      ],
+      "tip": [
+        18.205842784813665,
+        76.5582655024815
+      ],
+      "native": [
+        152,
+        73
+      ]
+    },
+    "spellblade-shortsword-sweep-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-sweep-reflected",
+      "grip": [
+        98.38461538461537,
+        106.14102564102564
+      ],
+      "object_bounds": [
+        13.120950994278887,
+        78.25462102552606,
+        123.94366784241886,
+        132.31571370849628
+      ],
+      "tip": [
+        17.35172022504812,
+        100.47465361996436
+      ],
+      "native": [
+        156,
+        67
+      ]
+    },
+    "spellblade-shortsword-through-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-through-reflected",
+      "grip": [
+        98.13245033112584,
+        99.58940397350995
+      ],
+      "object_bounds": [
+        14.902086817224976,
+        77.13734748735882,
+        123.62721633766438,
+        134.62321441026592
+      ],
+      "tip": [
+        19.272947744377294,
+        128.291915604125
+      ],
+      "native": [
+        151,
+        69
+      ]
+    },
+    "spellblade-shortsword-recover-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-recover-reflected",
+      "grip": [
+        99.30434782608695,
+        95.31884057971014
+      ],
+      "object_bounds": [
+        14.99801509596806,
+        43.14149978297594,
+        125.93243738689733,
+        116.10938731333177
+      ],
+      "tip": [
+        19.780623791620233,
+        49.40579710144926
+      ],
+      "native": [
+        138,
+        101
+      ]
+    },
+    "spellblade-shortsword-return-reflected": {
+      "sheet": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-return-reflected",
+      "grip": [
+        87.06976744186046,
+        101.56589147286822
+      ],
+      "object_bounds": [
+        26.986456337191637,
+        14.06485707748518,
+        109.6361422263233,
+        129.5479168173514
+      ],
+      "tip": [
+        33.56848176968663,
+        19.181136147252623
+      ],
+      "native": [
+        112,
+        129
+      ]
+    },
+    "thief-longsword-rest": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-rest",
+      "grip": [
+        92.71698113207547,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        60.308907351658966,
+        15.362548379161142,
+        118.97123478613841,
+        146.39546557513373
+      ],
+      "tip": [
+        75.41769097959636,
+        19.513491775387557
+      ],
+      "native": [
+        95,
+        159
+      ]
+    },
+    "thief-longsword-drawback": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-drawback",
+      "grip": [
+        106.7719298245614,
+        109.34502923976608
+      ],
+      "object_bounds": [
+        82.34101178240087,
+        14.555704176543859,
+        136.74542476897082,
+        136.0434662856115
+      ],
+      "tip": [
+        124.44686834365184,
+        18.415353299350876
+      ],
+      "native": [
+        67,
+        171
+      ]
+    },
+    "thief-longsword-windup": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-windup",
+      "grip": [
+        111.07692307692308,
+        98.71005917159763
+      ],
+      "object_bounds": [
+        92.00082713152297,
+        15.270810854601738,
+        165.73409837596697,
+        123.37693991470168
+      ],
+      "tip": [
+        160.74509553523058,
+        19.22436779220244
+      ],
+      "native": [
+        52,
+        169
+      ]
+    },
+    "thief-longsword-strike": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-strike",
+      "grip": [
+        93.6687898089172,
+        116.08917197452229
+      ],
+      "object_bounds": [
+        59.9083986512813,
+        14.431432557841756,
+        118.40462586807965,
+        144.8713356947677
+      ],
+      "tip": [
+        67.55609124570744,
+        18.63525421389271
+      ],
+      "native": [
+        95,
+        157
+      ]
+    },
+    "thief-longsword-cut": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-cut",
+      "grip": [
+        103.33333333333333,
+        121.33333333333334
+      ],
+      "object_bounds": [
+        14.570364418876352,
+        70.89462382048627,
+        129.22639000479398,
+        139.7838214634794
+      ],
+      "tip": [
+        18.570364418876352,
+        76.2640633058878
+      ],
+      "native": [
+        165,
+        80
+      ]
+    },
+    "thief-longsword-sweep": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-sweep",
+      "grip": [
+        110.63157894736841,
+        109.34502923976609
+      ],
+      "object_bounds": [
+        14.365996747861887,
+        80.91440854682247,
+        137.6068142062671,
+        136.0266318877138
+      ],
+      "tip": [
+        18.225645870668906,
+        102.88337693504708
+      ],
+      "native": [
+        171,
+        69
+      ]
+    },
+    "thief-longsword-through": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-through",
+      "grip": [
+        110,
+        102
+      ],
+      "object_bounds": [
+        15.789508404552777,
+        80.3508387325494,
+        136.91446717414635,
+        140.62803145458102
+      ],
+      "tip": [
+        19.789508404552777,
+        134.83393375926417
+      ],
+      "native": [
+        165,
+        69
+      ]
+    },
+    "thief-longsword-recover": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-recover",
+      "grip": [
+        110.4,
+        103.06666666666668
+      ],
+      "object_bounds": [
+        14.54771736036327,
+        44.503513133671206,
+        138.5473029949319,
+        123.96666666666667
+      ],
+      "tip": [
+        18.94771736036327,
+        50.26666666666668
+      ],
+      "native": [
+        150,
+        108
+      ]
+    },
+    "thief-longsword-return": {
+      "sheet": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-return",
+      "grip": [
+        96.79432624113474,
+        113.177304964539
+      ],
+      "object_bounds": [
+        29.587492230993742,
+        14.279845416627534,
+        119.96863782974914,
+        142.54504671487882
+      ],
+      "tip": [
+        35.60934528625511,
+        18.960696480457322
+      ],
+      "native": [
+        120,
+        141
+      ]
+    },
+    "ranger-longsword-rest": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-rest",
+      "grip": [
+        92.71698113207547,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        60.308907351658966,
+        15.362548379161142,
+        118.97123478613841,
+        146.39546557513373
+      ],
+      "tip": [
+        75.41769097959636,
+        19.513491775387557
+      ],
+      "native": [
+        95,
+        159
+      ]
+    },
+    "ranger-longsword-drawback": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-drawback",
+      "grip": [
+        106.7719298245614,
+        109.34502923976608
+      ],
+      "object_bounds": [
+        82.34101178240087,
+        14.555704176543859,
+        136.74542476897082,
+        136.0434662856115
+      ],
+      "tip": [
+        124.44686834365184,
+        18.415353299350876
+      ],
+      "native": [
+        67,
+        171
+      ]
+    },
+    "ranger-longsword-windup": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-windup",
+      "grip": [
+        111.07692307692308,
+        98.71005917159763
+      ],
+      "object_bounds": [
+        92.00082713152297,
+        15.270810854601738,
+        165.73409837596697,
+        123.37693991470168
+      ],
+      "tip": [
+        160.74509553523058,
+        19.22436779220244
+      ],
+      "native": [
+        52,
+        169
+      ]
+    },
+    "ranger-longsword-strike": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-strike",
+      "grip": [
+        93.6687898089172,
+        116.08917197452229
+      ],
+      "object_bounds": [
+        59.9083986512813,
+        14.431432557841756,
+        118.40462586807965,
+        144.8713356947677
+      ],
+      "tip": [
+        67.55609124570744,
+        18.63525421389271
+      ],
+      "native": [
+        95,
+        157
+      ]
+    },
+    "ranger-longsword-cut": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-cut",
+      "grip": [
+        103.33333333333333,
+        121.33333333333334
+      ],
+      "object_bounds": [
+        14.570364418876352,
+        70.89462382048627,
+        129.22639000479398,
+        139.7838214634794
+      ],
+      "tip": [
+        18.570364418876352,
+        76.2640633058878
+      ],
+      "native": [
+        165,
+        80
+      ]
+    },
+    "ranger-longsword-sweep": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-sweep",
+      "grip": [
+        110.63157894736841,
+        109.34502923976609
+      ],
+      "object_bounds": [
+        14.365996747861887,
+        80.91440854682247,
+        137.6068142062671,
+        136.0266318877138
+      ],
+      "tip": [
+        18.225645870668906,
+        102.88337693504708
+      ],
+      "native": [
+        171,
+        69
+      ]
+    },
+    "ranger-longsword-through": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-through",
+      "grip": [
+        110,
+        102
+      ],
+      "object_bounds": [
+        15.789508404552777,
+        80.3508387325494,
+        136.91446717414635,
+        140.62803145458102
+      ],
+      "tip": [
+        19.789508404552777,
+        134.83393375926417
+      ],
+      "native": [
+        165,
+        69
+      ]
+    },
+    "ranger-longsword-recover": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-recover",
+      "grip": [
+        110.4,
+        103.06666666666668
+      ],
+      "object_bounds": [
+        14.54771736036327,
+        44.503513133671206,
+        138.5473029949319,
+        123.96666666666667
+      ],
+      "tip": [
+        18.94771736036327,
+        50.26666666666668
+      ],
+      "native": [
+        150,
+        108
+      ]
+    },
+    "ranger-longsword-return": {
+      "sheet": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-return",
+      "grip": [
+        96.79432624113474,
+        113.177304964539
+      ],
+      "object_bounds": [
+        29.587492230993742,
+        14.279845416627534,
+        119.96863782974914,
+        142.54504671487882
+      ],
+      "tip": [
+        35.60934528625511,
+        18.960696480457322
+      ],
+      "native": [
+        120,
+        141
+      ]
+    },
+    "spellblade-longsword-rest": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-rest",
+      "grip": [
+        92.71698113207547,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        60.308907351658966,
+        15.362548379161142,
+        118.97123478613841,
+        146.39546557513373
+      ],
+      "tip": [
+        75.41769097959636,
+        19.513491775387557
+      ],
+      "native": [
+        95,
+        159
+      ]
+    },
+    "spellblade-longsword-drawback": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-drawback",
+      "grip": [
+        106.7719298245614,
+        109.34502923976608
+      ],
+      "object_bounds": [
+        82.34101178240087,
+        14.555704176543859,
+        136.74542476897082,
+        136.0434662856115
+      ],
+      "tip": [
+        124.44686834365184,
+        18.415353299350876
+      ],
+      "native": [
+        67,
+        171
+      ]
+    },
+    "spellblade-longsword-windup": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-windup",
+      "grip": [
+        111.07692307692308,
+        98.71005917159763
+      ],
+      "object_bounds": [
+        92.00082713152297,
+        15.270810854601738,
+        165.73409837596697,
+        123.37693991470168
+      ],
+      "tip": [
+        160.74509553523058,
+        19.22436779220244
+      ],
+      "native": [
+        52,
+        169
+      ]
+    },
+    "spellblade-longsword-strike": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-strike",
+      "grip": [
+        93.6687898089172,
+        116.08917197452229
+      ],
+      "object_bounds": [
+        59.9083986512813,
+        14.431432557841756,
+        118.40462586807965,
+        144.8713356947677
+      ],
+      "tip": [
+        67.55609124570744,
+        18.63525421389271
+      ],
+      "native": [
+        95,
+        157
+      ]
+    },
+    "spellblade-longsword-cut": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-cut",
+      "grip": [
+        103.33333333333333,
+        121.33333333333334
+      ],
+      "object_bounds": [
+        14.570364418876352,
+        70.89462382048627,
+        129.22639000479398,
+        139.7838214634794
+      ],
+      "tip": [
+        18.570364418876352,
+        76.2640633058878
+      ],
+      "native": [
+        165,
+        80
+      ]
+    },
+    "spellblade-longsword-sweep": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-sweep",
+      "grip": [
+        110.63157894736841,
+        109.34502923976609
+      ],
+      "object_bounds": [
+        14.365996747861887,
+        80.91440854682247,
+        137.6068142062671,
+        136.0266318877138
+      ],
+      "tip": [
+        18.225645870668906,
+        102.88337693504708
+      ],
+      "native": [
+        171,
+        69
+      ]
+    },
+    "spellblade-longsword-through": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-through",
+      "grip": [
+        110,
+        102
+      ],
+      "object_bounds": [
+        15.789508404552777,
+        80.3508387325494,
+        136.91446717414635,
+        140.62803145458102
+      ],
+      "tip": [
+        19.789508404552777,
+        134.83393375926417
+      ],
+      "native": [
+        165,
+        69
+      ]
+    },
+    "spellblade-longsword-recover": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-recover",
+      "grip": [
+        110.4,
+        103.06666666666668
+      ],
+      "object_bounds": [
+        14.54771736036327,
+        44.503513133671206,
+        138.5473029949319,
+        123.96666666666667
+      ],
+      "tip": [
+        18.94771736036327,
+        50.26666666666668
+      ],
+      "native": [
+        150,
+        108
+      ]
+    },
+    "spellblade-longsword-return": {
+      "sheet": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-return",
+      "grip": [
+        96.79432624113474,
+        113.177304964539
+      ],
+      "object_bounds": [
+        29.587492230993742,
+        14.279845416627534,
+        119.96863782974914,
+        142.54504671487882
+      ],
+      "tip": [
+        35.60934528625511,
+        18.960696480457322
+      ],
+      "native": [
+        120,
+        141
+      ]
+    },
+    "spellblade-longsword-rest-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-rest-reflected",
+      "grip": [
+        92.71698113207547,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        60.308907351658966,
+        15.362548379161142,
+        118.97123478613841,
+        146.39546557513373
+      ],
+      "tip": [
+        75.41769097959636,
+        19.513491775387557
+      ],
+      "native": [
+        95,
+        159
+      ]
+    },
+    "spellblade-longsword-drawback-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-drawback-reflected",
+      "grip": [
+        106.7719298245614,
+        109.34502923976608
+      ],
+      "object_bounds": [
+        82.34101178240087,
+        14.555704176543859,
+        136.74542476897082,
+        136.0434662856115
+      ],
+      "tip": [
+        124.44686834365184,
+        18.415353299350876
+      ],
+      "native": [
+        67,
+        171
+      ]
+    },
+    "spellblade-longsword-windup-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-windup-reflected",
+      "grip": [
+        111.07692307692308,
+        98.71005917159763
+      ],
+      "object_bounds": [
+        92.00082713152297,
+        15.270810854601738,
+        165.73409837596697,
+        123.37693991470168
+      ],
+      "tip": [
+        160.74509553523058,
+        19.22436779220244
+      ],
+      "native": [
+        52,
+        169
+      ]
+    },
+    "spellblade-longsword-strike-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-strike-reflected",
+      "grip": [
+        93.6687898089172,
+        116.08917197452229
+      ],
+      "object_bounds": [
+        59.9083986512813,
+        14.431432557841756,
+        118.40462586807965,
+        144.8713356947677
+      ],
+      "tip": [
+        67.55609124570744,
+        18.63525421389271
+      ],
+      "native": [
+        95,
+        157
+      ]
+    },
+    "spellblade-longsword-cut-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-cut-reflected",
+      "grip": [
+        103.33333333333333,
+        121.33333333333334
+      ],
+      "object_bounds": [
+        14.570364418876352,
+        70.89462382048627,
+        129.22639000479398,
+        139.7838214634794
+      ],
+      "tip": [
+        18.570364418876352,
+        76.2640633058878
+      ],
+      "native": [
+        165,
+        80
+      ]
+    },
+    "spellblade-longsword-sweep-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-sweep-reflected",
+      "grip": [
+        110.63157894736841,
+        109.34502923976609
+      ],
+      "object_bounds": [
+        14.365996747861887,
+        80.91440854682247,
+        137.6068142062671,
+        136.0266318877138
+      ],
+      "tip": [
+        18.225645870668906,
+        102.88337693504708
+      ],
+      "native": [
+        171,
+        69
+      ]
+    },
+    "spellblade-longsword-through-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-through-reflected",
+      "grip": [
+        110,
+        102
+      ],
+      "object_bounds": [
+        15.789508404552777,
+        80.3508387325494,
+        136.91446717414635,
+        140.62803145458102
+      ],
+      "tip": [
+        19.789508404552777,
+        134.83393375926417
+      ],
+      "native": [
+        165,
+        69
+      ]
+    },
+    "spellblade-longsword-recover-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-recover-reflected",
+      "grip": [
+        110.4,
+        103.06666666666668
+      ],
+      "object_bounds": [
+        14.54771736036327,
+        44.503513133671206,
+        138.5473029949319,
+        123.96666666666667
+      ],
+      "tip": [
+        18.94771736036327,
+        50.26666666666668
+      ],
+      "native": [
+        150,
+        108
+      ]
+    },
+    "spellblade-longsword-return-reflected": {
+      "sheet": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-return-reflected",
+      "grip": [
+        96.79432624113474,
+        113.177304964539
+      ],
+      "object_bounds": [
+        29.587492230993742,
+        14.279845416627534,
+        119.96863782974914,
+        142.54504671487882
+      ],
+      "tip": [
+        35.60934528625511,
+        18.960696480457322
+      ],
+      "native": [
+        120,
+        141
+      ]
+    },
+    "fighter-staff-rest-two": {
+      "sheet": "aa26",
+      "cls": "fighter",
+      "id": "staff",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "fighter-staff-rest-two",
+      "grip": [
+        111.72781065088756,
+        96.10650887573965
+      ],
+      "object_bounds": [
+        85.80096773933109,
+        14.742428714254396,
+        129.3389568258007,
+        155.84995536059864
+      ],
+      "tip": [
+        100.90153828403999,
+        23.46273078103215
+      ],
+      "native": [
+        121,
+        169
+      ]
+    },
+    "fighter-staff-drive-two": {
+      "sheet": "aa26",
+      "cls": "fighter",
+      "id": "staff",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "fighter-staff-drive-two",
+      "grip": [
+        106.64705882352942,
+        96.94117647058825
+      ],
+      "object_bounds": [
+        87.93125134267855,
+        15.189030702935456,
+        118.79013133250547,
+        156.99186607753379
+      ],
+      "tip": [
+        103.49210476687429,
+        23.995327223767887
+      ],
+      "native": [
+        123,
+        170
+      ]
+    },
+    "fighter-staff-rest-one": {
+      "sheet": "aa26",
+      "cls": "fighter",
+      "id": "staff",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-staff-rest-one",
+      "grip": [
+        86.84353741496598,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        57.036486720727574,
+        14.254901038836673,
+        107.0903653303423,
+        176.48056092476986
+      ],
+      "tip": [
+        74.39700659865821,
+        24.28028232649273
+      ],
+      "native": [
+        91,
+        147
+      ]
+    },
+    "fighter-staff-channel-one": {
+      "sheet": "aa26",
+      "cls": "fighter",
+      "id": "staff",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "fighter-staff-channel-one",
+      "grip": [
+        100.68456375838926,
+        102.16107382550337
+      ],
+      "object_bounds": [
+        55.699958698296726,
+        14.342459595661776,
+        132.49863541614013,
+        166.52899245226354
+      ],
+      "tip": [
+        71.54263128122415,
+        24.120017159114447
+      ],
+      "native": [
+        93,
+        149
+      ]
+    },
+    "cleric-staff-rest-two": {
+      "sheet": "aa27",
+      "cls": "cleric",
+      "id": "staff",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "cleric-staff-rest-two",
+      "grip": [
+        111.72781065088756,
+        96.10650887573965
+      ],
+      "object_bounds": [
+        85.80096773933109,
+        14.742428714254396,
+        129.3389568258007,
+        155.84995536059864
+      ],
+      "tip": [
+        100.90153828403999,
+        23.46273078103215
+      ],
+      "native": [
+        121,
+        169
+      ]
+    },
+    "cleric-staff-drive-two": {
+      "sheet": "aa27",
+      "cls": "cleric",
+      "id": "staff",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "cleric-staff-drive-two",
+      "grip": [
+        106.64705882352942,
+        96.94117647058825
+      ],
+      "object_bounds": [
+        87.93125134267855,
+        15.189030702935456,
+        118.79013133250547,
+        156.99186607753379
+      ],
+      "tip": [
+        103.49210476687429,
+        23.995327223767887
+      ],
+      "native": [
+        123,
+        170
+      ]
+    },
+    "cleric-staff-rest-one": {
+      "sheet": "aa27",
+      "cls": "cleric",
+      "id": "staff",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "cleric-staff-rest-one",
+      "grip": [
+        86.84353741496598,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        57.036486720727574,
+        14.254901038836673,
+        107.0903653303423,
+        176.48056092476986
+      ],
+      "tip": [
+        74.39700659865821,
+        24.28028232649273
+      ],
+      "native": [
+        91,
+        147
+      ]
+    },
+    "cleric-staff-channel-one": {
+      "sheet": "aa27",
+      "cls": "cleric",
+      "id": "staff",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "cleric-staff-channel-one",
+      "grip": [
+        100.68456375838926,
+        102.16107382550337
+      ],
+      "object_bounds": [
+        55.699958698296726,
+        14.342459595661776,
+        132.49863541614013,
+        166.52899245226354
+      ],
+      "tip": [
+        71.54263128122415,
+        24.120017159114447
+      ],
+      "native": [
+        93,
+        149
+      ]
+    },
+    "druid-staff-rest-two": {
+      "sheet": "aa28",
+      "cls": "druid",
+      "id": "staff",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "druid-staff-rest-two",
+      "grip": [
+        111.72781065088756,
+        96.10650887573965
+      ],
+      "object_bounds": [
+        85.80096773933109,
+        14.742428714254396,
+        129.3389568258007,
+        155.84995536059864
+      ],
+      "tip": [
+        100.90153828403999,
+        23.46273078103215
+      ],
+      "native": [
+        121,
+        169
+      ]
+    },
+    "druid-staff-drive-two": {
+      "sheet": "aa28",
+      "cls": "druid",
+      "id": "staff",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "druid-staff-drive-two",
+      "grip": [
+        106.64705882352942,
+        96.94117647058825
+      ],
+      "object_bounds": [
+        87.93125134267855,
+        15.189030702935456,
+        118.79013133250547,
+        156.99186607753379
+      ],
+      "tip": [
+        103.49210476687429,
+        23.995327223767887
+      ],
+      "native": [
+        123,
+        170
+      ]
+    },
+    "druid-staff-rest-one": {
+      "sheet": "aa28",
+      "cls": "druid",
+      "id": "staff",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "druid-staff-rest-one",
+      "grip": [
+        86.84353741496598,
+        107.79591836734693
+      ],
+      "object_bounds": [
+        57.036486720727574,
+        14.254901038836673,
+        107.0903653303423,
+        176.48056092476986
+      ],
+      "tip": [
+        74.39700659865821,
+        24.28028232649273
+      ],
+      "native": [
+        91,
+        147
+      ]
+    },
+    "druid-staff-channel-one": {
+      "sheet": "aa28",
+      "cls": "druid",
+      "id": "staff",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "druid-staff-channel-one",
+      "grip": [
+        100.68456375838926,
+        102.16107382550337
+      ],
+      "object_bounds": [
+        55.699958698296726,
+        14.342459595661776,
+        132.49863541614013,
+        166.52899245226354
+      ],
+      "tip": [
+        71.54263128122415,
+        24.120017159114447
+      ],
+      "native": [
+        93,
+        149
+      ]
+    },
+    "fighter-spear-rest": {
+      "sheet": "aa29",
+      "cls": "fighter",
+      "id": "spear",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-spear-rest",
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        61.65132496530618,
+        13.164306094747758,
+        104.15635727431795,
+        162.52405561724441
+      ],
+      "tip": [
+        71.24818438708918,
+        17.395075325516988
+      ],
+      "native": [
+        90,
+        156
+      ]
+    },
+    "fighter-spear-drive": {
+      "sheet": "aa29",
+      "cls": "fighter",
+      "id": "spear",
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "key": "fighter-spear-drive",
+      "grip": [
+        79.83006535947713,
+        118.65359477124183
+      ],
+      "object_bounds": [
+        60.41246152856011,
+        13.214258695883181,
+        98.70601046883752,
+        167.30201904037682
+      ],
+      "tip": [
+        72.75867380541578,
+        17.52798418607926
+      ],
+      "native": [
+        89,
+        153
+      ]
+    },
+    "ranger-spear-rest": {
+      "sheet": "aa30",
+      "cls": "ranger",
+      "id": "spear",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-spear-rest",
+      "grip": [
+        88.51282051282051,
+        115.3076923076923
+      ],
+      "object_bounds": [
+        61.65132496530618,
+        13.164306094747758,
+        104.15635727431795,
+        162.52405561724441
+      ],
+      "tip": [
+        71.24818438708918,
+        17.395075325516988
+      ],
+      "native": [
+        90,
+        156
+      ]
+    },
+    "ranger-spear-drive": {
+      "sheet": "aa30",
+      "cls": "ranger",
+      "id": "spear",
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "key": "ranger-spear-drive",
+      "grip": [
+        79.83006535947713,
+        118.65359477124183
+      ],
+      "object_bounds": [
+        60.41246152856011,
+        13.214258695883181,
+        98.70601046883752,
+        167.30201904037682
+      ],
+      "tip": [
+        72.75867380541578,
+        17.52798418607926
+      ],
+      "native": [
+        89,
+        153
+      ]
+    },
+    "audit-fighter-longsword-rest": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-rest",
+      "grip": [
+        92.71698113207547,
+        117.62264150943396
+      ],
+      "object_bounds": [
+        60.308907351658966,
+        15.362548379161142,
+        118.97123478613841,
+        146.39546557513373
+      ],
+      "tip": [
+        75.41769097959636,
+        19.513491775387557
+      ],
+      "native": [
+        95,
+        159
+      ]
+    },
+    "audit-fighter-longsword-drawback": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-drawback",
+      "grip": [
+        106.7719298245614,
+        109.34502923976608
+      ],
+      "object_bounds": [
+        82.34101178240087,
+        14.555704176543859,
+        136.74542476897082,
+        136.0434662856115
+      ],
+      "tip": [
+        124.44686834365184,
+        18.415353299350876
+      ],
+      "native": [
+        67,
+        171
+      ]
+    },
+    "audit-fighter-longsword-windup": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-windup",
+      "grip": [
+        111.07692307692308,
+        98.71005917159763
+      ],
+      "object_bounds": [
+        92.00082713152297,
+        15.270810854601738,
+        165.73409837596697,
+        123.37693991470168
+      ],
+      "tip": [
+        160.74509553523058,
+        19.22436779220244
+      ],
+      "native": [
+        52,
+        169
+      ]
+    },
+    "audit-fighter-longsword-strike": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-strike",
+      "grip": [
+        93.6687898089172,
+        116.08917197452229
+      ],
+      "object_bounds": [
+        59.9083986512813,
+        14.431432557841756,
+        118.40462586807965,
+        144.8713356947677
+      ],
+      "tip": [
+        67.55609124570744,
+        18.63525421389271
+      ],
+      "native": [
+        95,
+        157
+      ]
+    },
+    "audit-fighter-longsword-cut": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-cut",
+      "grip": [
+        103.33333333333333,
+        121.33333333333334
+      ],
+      "object_bounds": [
+        14.570364418876352,
+        70.89462382048627,
+        129.22639000479398,
+        139.7838214634794
+      ],
+      "tip": [
+        18.570364418876352,
+        76.2640633058878
+      ],
+      "native": [
+        165,
+        80
+      ]
+    },
+    "audit-fighter-longsword-sweep": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-sweep",
+      "grip": [
+        110.63157894736841,
+        109.34502923976609
+      ],
+      "object_bounds": [
+        14.365996747861887,
+        80.91440854682247,
+        137.6068142062671,
+        136.0266318877138
+      ],
+      "tip": [
+        18.225645870668906,
+        102.88337693504708
+      ],
+      "native": [
+        171,
+        69
+      ]
+    },
+    "audit-fighter-longsword-through": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-through",
+      "grip": [
+        110,
+        102
+      ],
+      "object_bounds": [
+        15.789508404552777,
+        80.3508387325494,
+        136.91446717414635,
+        140.62803145458102
+      ],
+      "tip": [
+        19.789508404552777,
+        134.83393375926417
+      ],
+      "native": [
+        165,
+        69
+      ]
+    },
+    "audit-fighter-longsword-recover": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-recover",
+      "grip": [
+        110.4,
+        103.06666666666668
+      ],
+      "object_bounds": [
+        14.54771736036327,
+        44.503513133671206,
+        138.5473029949319,
+        123.96666666666667
+      ],
+      "tip": [
+        18.94771736036327,
+        50.26666666666668
+      ],
+      "native": [
+        150,
+        108
+      ]
+    },
+    "audit-fighter-longsword-return": {
+      "sheet": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "audit-fighter-longsword-return",
+      "grip": [
+        96.79432624113474,
+        113.177304964539
+      ],
+      "object_bounds": [
+        29.587492230993742,
+        14.279845416627534,
+        119.96863782974914,
+        142.54504671487882
+      ],
+      "tip": [
+        35.60934528625511,
+        18.960696480457322
+      ],
+      "native": [
+        120,
+        141
+      ]
+    }
+  },
+  "legal": [
+    {
+      "group": "aa17",
+      "cls": "fighter",
+      "id": "mace",
+      "reason": null
+    },
+    {
+      "group": "aa18",
+      "cls": "fighter",
+      "id": "shortsword",
+      "reason": null
+    },
+    {
+      "group": "aa19",
+      "cls": "ranger",
+      "id": "shortsword",
+      "reason": null
+    },
+    {
+      "group": "aa20",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "reason": null
+    },
+    {
+      "group": "aa21",
+      "cls": "spellblade",
+      "id": "shortsword",
+      "reason": null
+    },
+    {
+      "group": "aa22",
+      "cls": "thief",
+      "id": "longsword",
+      "reason": null
+    },
+    {
+      "group": "aa23",
+      "cls": "ranger",
+      "id": "longsword",
+      "reason": null
+    },
+    {
+      "group": "aa24",
+      "cls": "spellblade",
+      "id": "longsword",
+      "reason": null
+    },
+    {
+      "group": "aa25",
+      "cls": "spellblade",
+      "id": "longsword",
+      "reason": null
+    },
+    {
+      "group": "aa26",
+      "cls": "fighter",
+      "id": "staff",
+      "reason": null
+    },
+    {
+      "group": "aa27",
+      "cls": "cleric",
+      "id": "staff",
+      "reason": null
+    },
+    {
+      "group": "aa28",
+      "cls": "druid",
+      "id": "staff",
+      "reason": null
+    },
+    {
+      "group": "aa29",
+      "cls": "fighter",
+      "id": "spear",
+      "reason": null
+    },
+    {
+      "group": "aa30",
+      "cls": "ranger",
+      "id": "spear",
+      "reason": null
+    },
+    {
+      "group": "audit-fighter-longsword",
+      "cls": "fighter",
+      "id": "longsword",
+      "reason": null
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "ranger": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "spellblade": [
+      "#3c424b",
+      "#515c6a",
+      "#242a32"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "druid": [
+      "#8a6a44",
+      "#4e6a34",
+      "#5a4a2e"
+    ]
+  },
+  "mode": "native procedural references; fresh browser per family, painted held delivery/service workers blocked; not activation evidence",
+  "reuse_audits": [
+    {
+      "from": "aa18",
+      "to": "aa19",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-shortsword-rest",
+          "to": "ranger-shortsword-rest",
+          "sha256": "28f85b1063d715b7fd48b1bd37e7a7b0f12b0ed1d77cfdb0fb229e826ee4a4b9"
+        },
+        {
+          "from": "fighter-shortsword-drawback",
+          "to": "ranger-shortsword-drawback",
+          "sha256": "560246cd79fd0772753a06b01840de79090704cfb143c634cac66b0263811acd"
+        },
+        {
+          "from": "fighter-shortsword-windup",
+          "to": "ranger-shortsword-windup",
+          "sha256": "834ae974cd56ffebfdd6d42903c964c0528dae7ede21c0d41df7f3b120edaefb"
+        },
+        {
+          "from": "fighter-shortsword-strike",
+          "to": "ranger-shortsword-strike",
+          "sha256": "a54193090804e12be22f32c2c683a18043909d33301f43d46554c4f334533ed5"
+        },
+        {
+          "from": "fighter-shortsword-cut",
+          "to": "ranger-shortsword-cut",
+          "sha256": "36e1920a5fe61b378d30467cf32cb10c96d2e9a78d590b5f0b076fab54ec7f42"
+        },
+        {
+          "from": "fighter-shortsword-sweep",
+          "to": "ranger-shortsword-sweep",
+          "sha256": "d2b44c8417d0c49f89ea3c83f8c6d5404368ca7c72daa7b9d4f15863138f5e7b"
+        },
+        {
+          "from": "fighter-shortsword-through",
+          "to": "ranger-shortsword-through",
+          "sha256": "54f9502f60a294960826d22662f2a685c51ee7eeeab79ddcc1e135e44b5dabca"
+        },
+        {
+          "from": "fighter-shortsword-recover",
+          "to": "ranger-shortsword-recover",
+          "sha256": "8efea01ce31245d5fa3d999cea680f3ef48f9920578d18790242cd74c29078f0"
+        },
+        {
+          "from": "fighter-shortsword-return",
+          "to": "ranger-shortsword-return",
+          "sha256": "87aba16d666d9e3ed068d14aeff418aed7302545063a7339f2f57334330eeeb3"
+        }
+      ]
+    },
+    {
+      "from": "aa29",
+      "to": "aa30",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "fighter-spear-rest",
+          "to": "ranger-spear-rest",
+          "sha256": "ec22bc2773fd66f3d59cc7d7f3c8ef5245d1cef11f492b9c48c92a476db5c9b9"
+        },
+        {
+          "from": "fighter-spear-drive",
+          "to": "ranger-spear-drive",
+          "sha256": "18944b659fa25469dd519b1c66e3f29037d6ccc13b8eb62b562ee1c271716a3b"
+        }
+      ]
+    },
+    {
+      "from": "audit-fighter-longsword",
+      "to": "aa23",
+      "exact_native_pixels_grips_bounds": true,
+      "poses": [
+        {
+          "from": "audit-fighter-longsword-rest",
+          "to": "ranger-longsword-rest",
+          "sha256": "733a869f062ef3153a017947b9a8b324aaf3018ddea8003e23047e354c6c4f61"
+        },
+        {
+          "from": "audit-fighter-longsword-drawback",
+          "to": "ranger-longsword-drawback",
+          "sha256": "626794559cb7953af382671ee7a69727070455840ef9b6dcdd0355ae96f7d4e5"
+        },
+        {
+          "from": "audit-fighter-longsword-windup",
+          "to": "ranger-longsword-windup",
+          "sha256": "48d3afeb1a4b10bf59226b738e863f7321187368c0bcde955b786b5173aafbde"
+        },
+        {
+          "from": "audit-fighter-longsword-strike",
+          "to": "ranger-longsword-strike",
+          "sha256": "d09a63a6151500dd59dcb29c7b6a1e814f4ec7b18739d08090bcf5a70f3589cc"
+        },
+        {
+          "from": "audit-fighter-longsword-cut",
+          "to": "ranger-longsword-cut",
+          "sha256": "766cb1f6820876ec049abcada13c895d40538bad8312c1c51ad3825b1207c435"
+        },
+        {
+          "from": "audit-fighter-longsword-sweep",
+          "to": "ranger-longsword-sweep",
+          "sha256": "74afca28e0715a439067fad50b7da2702045543078d51d740519ce6945bb2773"
+        },
+        {
+          "from": "audit-fighter-longsword-through",
+          "to": "ranger-longsword-through",
+          "sha256": "368de288d17506e5882e09a85945e42459b51e150b48de97cb7dc9cd9eeeab0d"
+        },
+        {
+          "from": "audit-fighter-longsword-recover",
+          "to": "ranger-longsword-recover",
+          "sha256": "e37b1389fd975db95c91cc815413134eb8fcd0a63c6722ad90545460094e0d50"
+        },
+        {
+          "from": "audit-fighter-longsword-return",
+          "to": "ranger-longsword-return",
+          "sha256": "ebc7ef0ed099dfd709652799f5cd56bb296ea53ce8b0b268feeeb4a7fd534553"
+        }
+      ]
+    }
+  ]
+}

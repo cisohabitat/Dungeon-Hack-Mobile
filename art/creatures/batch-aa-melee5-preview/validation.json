@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-24",
+  "mode": "reviewed source-only; no activation, real class actions, offline or performance claim",
+  "counts": {
+    "source_frames": 97,
+    "new_unique_painted_poses": 77,
+    "native_identical_reuse_states": 20,
+    "class_item_pairs": 12,
+    "atlas_groups": 14,
+    "phone_captures": 368,
+    "phone_galleries": 28,
+    "fitting_cases": 1104,
+    "new_frame_fitting_cases": 1062,
+    "protected_control_fitting_cases": 42,
+    "fallback_guards_per_width": 13,
+    "baseline_equipment_tests": 12,
+    "baseline_test_seconds": 31.7,
+    "minimum_alpha32_registered_clearance": 28,
+    "runtime_changes": false
+  },
+  "checks": {
+    "all_atlas_cells_identical_to_registered_pngs": true,
+    "all97_frames_exercised": true,
+    "unique_capture_names": true,
+    "native_reuse_audits": 3,
+    "console_errors": [],
+    "export_reproduction": true
+  },
+  "new_reviewed_rasters": 679,
+  "new_raster_categories": {
+    "source_originals_and_repairs": 19,
+    "native_reference_cells_and_grids": 136,
+    "registered_cells_atlases_contacts_and_registration": 128,
+    "phone_captures_and_galleries": 396
+  }
+}

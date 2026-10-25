@@ -53,7 +53,7 @@ export function paintWorld(fallback, key) {
   return fallback;
 }
 function heldFrame(meta) {
-  const entry = picture(meta.path, 256, image => ({ img: canvas(image), ax: meta.grip[0], ay: meta.grip[1], at: { min: meta.bounds.slice(0, 2), max: meta.bounds.slice(2), ...(meta.nocks || {}) } }));
+  const entry = picture(meta.path, 256, image => ({ img: canvas(image), ax: meta.grip[0], ay: meta.grip[1], at: { min: meta.bounds.slice(0, 2), max: meta.bounds.slice(2), ...(meta.nocks || {}), ...(meta.tip ? { tip: meta.tip.slice() } : {}) } }));
   return entry.value;
 }
 const heldFamilies = new Map();

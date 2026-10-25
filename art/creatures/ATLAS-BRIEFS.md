@@ -1166,3 +1166,34 @@ The native Spellblade lantern also needs9 reflected dagger frames. Those are
 painted in the image tool and matched by explicit lit metadata; the total release
 addition is81 frames. Other lit requests retain their own procedural fallbacks.
 A failed reflection keeps the whole18-frame Spellblade dagger family procedural.
+
+## AA ordinary melee — fourth source pass: clubs
+
+36 local source frames cover Fighter, Cleric, Thief and Druid, all four classes
+allowed to equip a club. Preserve rounded knotted wood, cord grip, small iron
+heads and each class hand/cuff/cloth palette. Mage/Ranger/Spellblade are ineligible.
+120 source-proxy captures and360 fitting cases reviewed;12 baseline checks pass.
+See [review](batch-aa-melee4-preview/REVIEW.md) and [brief](REQUEST-batch-aa-melee4.md).
+Reproduce with `python3 art/creatures/export-batch-aa-melee4.py --check` and
+`node art/creatures/preview-batch-aa-melee4.cjs`. Local/unpublished/unactivated;
+existing0.9.36 bindings and offline inventory remain unchanged.
+
+
+## AA ordinary melee — fifth source pass: remaining basic class pairs
+
+All five requested groups are source-complete locally:97 class/state frames,
+77 new unique paintings and20 audited Ranger reuse states. Nine-state CUT families
+cover mace and swords; staffs have two-hand rest/drive plus one-hand rest/channel;
+spears have one-hand rest/drive. Spellblade swords include plain/reflected9 each.
+See [brief](REQUEST-batch-aa-melee5.md), [review](batch-aa-melee5-preview/REVIEW.md)
+and [coverage audit](batch-aa-melee5-preview/coverage-audit.json). Reproduce with
+`python3 art/creatures/export-batch-aa-melee5.py --check` and
+`node art/creatures/preview-batch-aa-melee5.cjs`.368 captures/1,104 fits are source
+fixtures, separate from native integration. Keep shared Ranger registration,
+explicit lit flags, authored staff tips/glint and released-hand matching. Local,
+unpublished/unactivated with the preceding36 clubs; remaining AA library open.
+
+AA melee4/5 activate133 frames for0.9.37 through the existing exact
+family loader, including authored staff tips and reflected Spellblade swords.
+Historical source reviews remain separate from the
+[combined native delivery review](batch-aa-melee45-runtime/REVIEW.md).

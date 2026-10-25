@@ -1,0 +1,1378 @@
+{
+  "family_scale": {
+    "aa13": 0.463519313304721,
+    "aa14": 0.48,
+    "aa15": 0.47577092511013214,
+    "aa16": 0.47577092511013214
+  },
+  "cells": {
+    "fighter-club-rest": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        115,
+        49,
+        343,
+        381
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        38,
+        30
+      ],
+      "grip": [
+        127.92274678111588,
+        127.80257510729614
+      ],
+      "object_bounds": [
+        90.37768240343348,
+        51.78540772532189,
+        141.3648068669528,
+        147.73390557939913
+      ],
+      "visible_bounds": [
+        91,
+        52,
+        197,
+        207
+      ],
+      "export_sha256": "a4b08439be4cc017f39b7ba826c9611b8de14861ec693e8ae54666f516941f02"
+    },
+    "fighter-club-drawback": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        168,
+        38,
+        316,
+        384
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        37,
+        30
+      ],
+      "grip": [
+        127.84978540772532,
+        127.80257510729614
+      ],
+      "object_bounds": [
+        113.48068669527896,
+        46.68669527896996,
+        144.07296137339057,
+        147.27038626609442
+      ],
+      "visible_bounds": [
+        115,
+        47,
+        184,
+        208
+      ],
+      "export_sha256": "f5d968b991b8ee11f3fb0658d692bf11d583f6c7d322238a9bc18724a7a4738b"
+    },
+    "fighter-club-windup": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        181,
+        54,
+        312,
+        385
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        30,
+        30
+      ],
+      "grip": [
+        127.80257510729614,
+        128.26609442060084
+      ],
+      "object_bounds": [
+        112.96995708154506,
+        54.103004291845494,
+        175.5450643776824,
+        145.87982832618025
+      ],
+      "visible_bounds": [
+        114,
+        55,
+        175,
+        209
+      ],
+      "export_sha256": "27246df1371704dfd3da23bc30b8ac0eda790e3e39570d8e67189e344b6164dc"
+    },
+    "fighter-club-strike": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        92,
+        30,
+        351,
+        356
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        41,
+        41
+      ],
+      "grip": [
+        128.14163090128756,
+        127.67811158798283
+      ],
+      "object_bounds": [
+        82.71673819742489,
+        53.978540772532185,
+        144.3648068669528,
+        147.60944206008583
+      ],
+      "visible_bounds": [
+        84,
+        55,
+        204,
+        207
+      ],
+      "export_sha256": "c3a03ad05c053808049e55d386168dc94c1aa421c9c4b4dabef92cd4b5b2c235"
+    },
+    "fighter-club-cut": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        418,
+        418,
+        822,
+        836
+      ],
+      "source_visible_bounds": [
+        27,
+        94,
+        384,
+        323
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        45,
+        37
+      ],
+      "grip": [
+        127.50643776824035,
+        128.31330472103002
+      ],
+      "object_bounds": [
+        56.587982832618025,
+        79.64377682403433,
+        146.97424892703862,
+        150.09871244635193
+      ],
+      "visible_bounds": [
+        57,
+        80,
+        223,
+        187
+      ],
+      "export_sha256": "323a428e56bbc0f95453d2eee0bd4fdeb487af270b0efe1504f99c0c668b5920"
+    },
+    "fighter-club-sweep": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        822,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        19,
+        157,
+        410,
+        289
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        31,
+        39
+      ],
+      "grip": [
+        127.87553648068669,
+        127.53218884120172
+      ],
+      "object_bounds": [
+        38.87982832618026,
+        110.84549356223175,
+        144.56223175965664,
+        147.46351931330472
+      ],
+      "visible_bounds": [
+        40,
+        112,
+        221,
+        173
+      ],
+      "export_sha256": "f5c043a3ceeab00fabc53ba42e52149a7042ef3aad09441574f99be7764fa16f"
+    },
+    "fighter-club-through": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        0,
+        836,
+        466,
+        1254
+      ],
+      "source_visible_bounds": [
+        55,
+        144,
+        446,
+        280
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        23,
+        45
+      ],
+      "grip": [
+        128.21888412017165,
+        127.96995708154506
+      ],
+      "object_bounds": [
+        47.56652360515021,
+        110.81974248927038,
+        148.15021459227466,
+        165.05150214592274
+      ],
+      "visible_bounds": [
+        48,
+        112,
+        230,
+        175
+      ],
+      "export_sha256": "ce80c83b9fc2cc0bbb0d53c3566d94bcb66eb5919e44d43f880c3ced4c5e49fa"
+    },
+    "fighter-club-recover": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        466,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        20,
+        42,
+        345,
+        324
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        57,
+        55
+      ],
+      "grip": [
+        128.38197424892704,
+        128.23605150214593
+      ],
+      "object_bounds": [
+        65.34334763948497,
+        73.54077253218884,
+        147.3862660944206,
+        148.16738197424894
+      ],
+      "visible_bounds": [
+        66,
+        74,
+        217,
+        206
+      ],
+      "export_sha256": "de42a84acc56a6b7af8dac818086ca7460624a446e648f0f3679f9f55b897511"
+    },
+    "fighter-club-return": {
+      "source": "held-aa13.png",
+      "source_sha256": "c4d569a86c817b201d828841ea22cc3028e40575f78def953f58dd1de7e9ccc1",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        94,
+        24,
+        378,
+        355
+      ],
+      "scale": 0.463519313304721,
+      "offset": [
+        31,
+        50
+      ],
+      "grip": [
+        128.3390557939914,
+        128.33476394849785
+      ],
+      "object_bounds": [
+        73.64377682403433,
+        60.197424892703864,
+        145.02575107296138,
+        149.1931330472103
+      ],
+      "visible_bounds": [
+        74,
+        61,
+        206,
+        215
+      ],
+      "export_sha256": "79940bf2e166e750a40cd156c37f6f3db862f2edb8ea50b5fc0a7e3e3adc0710"
+    },
+    "cleric-club-rest": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        89,
+        52,
+        346,
+        387
+      ],
+      "scale": 0.48,
+      "offset": [
+        42,
+        30
+      ],
+      "grip": [
+        127.92,
+        127.92
+      ],
+      "object_bounds": [
+        83.75999999999999,
+        54.0,
+        147.6,
+        149.51999999999998
+      ],
+      "visible_bounds": [
+        85,
+        55,
+        208,
+        216
+      ],
+      "export_sha256": "fc34a34e95f7c19dc0e6cc4e08c03e40f90ab010ebba02455293b0552ca57a8d"
+    },
+    "cleric-club-drawback": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        154,
+        45,
+        320,
+        388
+      ],
+      "scale": 0.48,
+      "offset": [
+        37,
+        27
+      ],
+      "grip": [
+        128.2,
+        127.8
+      ],
+      "object_bounds": [
+        109.96,
+        47.64,
+        146.92000000000002,
+        147.48
+      ],
+      "visible_bounds": [
+        111,
+        48,
+        191,
+        214
+      ],
+      "export_sha256": "efbdff7756e2badd58f699f5d766333f4dec753ad5e0fa80c9da16662d4e6584"
+    },
+    "cleric-club-windup": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        182,
+        50,
+        331,
+        389
+      ],
+      "scale": 0.48,
+      "offset": [
+        28,
+        30
+      ],
+      "grip": [
+        127.84,
+        127.92
+      ],
+      "object_bounds": [
+        114.39999999999999,
+        53.04,
+        172.48,
+        149.51999999999998
+      ],
+      "visible_bounds": [
+        115,
+        54,
+        187,
+        217
+      ],
+      "export_sha256": "ff129945d7339117223b6c90ede2ac73bf5b0e71188b71ceb610e938715f99e1"
+    },
+    "cleric-club-strike": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        0,
+        418,
+        418,
+        818
+      ],
+      "source_visible_bounds": [
+        95,
+        32,
+        351,
+        368
+      ],
+      "scale": 0.48,
+      "offset": [
+        43,
+        39
+      ],
+      "grip": [
+        128.44,
+        128.28
+      ],
+      "object_bounds": [
+        87.64,
+        53.4,
+        148.12,
+        150.83999999999997
+      ],
+      "visible_bounds": [
+        88,
+        54,
+        212,
+        216
+      ],
+      "export_sha256": "666e4c451b894402989d0691f0a7dc89b82ea56b4deeded4d53b16674eedf1ca"
+    },
+    "cleric-club-cut": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        418,
+        418,
+        836,
+        818
+      ],
+      "source_visible_bounds": [
+        42,
+        95,
+        393,
+        306
+      ],
+      "scale": 0.48,
+      "offset": [
+        38,
+        38
+      ],
+      "grip": [
+        128.24,
+        128.24
+      ],
+      "object_bounds": [
+        57.2,
+        82.64,
+        149.36,
+        151.28
+      ],
+      "visible_bounds": [
+        58,
+        84,
+        227,
+        185
+      ],
+      "export_sha256": "5c3334ac57a7e5e1d25b0ad9a14104c30407760a03d033034eb8922bcaf36861"
+    },
+    "cleric-club-sweep": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        818
+      ],
+      "source_visible_bounds": [
+        31,
+        136,
+        403,
+        301
+      ],
+      "scale": 0.48,
+      "offset": [
+        36,
+        45
+      ],
+      "grip": [
+        128.16,
+        127.56
+      ],
+      "object_bounds": [
+        49.92,
+        109.32,
+        148.32,
+        148.2
+      ],
+      "visible_bounds": [
+        50,
+        110,
+        230,
+        190
+      ],
+      "export_sha256": "93d9114f63150fb14830b9cb9fcb73a28c84ddc407346febd4e2eb83869a04a2"
+    },
+    "cleric-club-through": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        0,
+        818,
+        450,
+        1254
+      ],
+      "source_visible_bounds": [
+        34,
+        140,
+        414,
+        300
+      ],
+      "scale": 0.48,
+      "offset": [
+        34,
+        45
+      ],
+      "grip": [
+        128.07999999999998,
+        128.04
+      ],
+      "object_bounds": [
+        49.36,
+        111.24,
+        150.64,
+        162.6
+      ],
+      "visible_bounds": [
+        50,
+        112,
+        233,
+        189
+      ],
+      "export_sha256": "811390d95ab2cfe7878919a8dee67384d51e5b412872c2ce79979769953a4132"
+    },
+    "cleric-club-recover": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        450,
+        818,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        36,
+        59,
+        370,
+        342
+      ],
+      "scale": 0.48,
+      "offset": [
+        45,
+        45
+      ],
+      "grip": [
+        127.56,
+        127.56
+      ],
+      "object_bounds": [
+        61.32,
+        72.36,
+        147.72,
+        152.04
+      ],
+      "visible_bounds": [
+        62,
+        73,
+        222,
+        209
+      ],
+      "export_sha256": "e37612ce77ed01938f5a93a301a28b475fc5d8e0f2dd50014ac40b10f1694d5b"
+    },
+    "cleric-club-return": {
+      "source": "held-aa14-edges.png",
+      "source_sha256": "69308e82fa1c06a0a73762ddcaaaa5ca331d30945a191414bb702f77f3469c77",
+      "source_rect": [
+        836,
+        818,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        100,
+        32,
+        388,
+        356
+      ],
+      "scale": 0.48,
+      "offset": [
+        29,
+        48
+      ],
+      "grip": [
+        127.88,
+        127.67999999999999
+      ],
+      "object_bounds": [
+        76.03999999999999,
+        62.4,
+        150.92000000000002,
+        152.64
+      ],
+      "visible_bounds": [
+        77,
+        63,
+        216,
+        219
+      ],
+      "export_sha256": "a55e84fd84775852a4e5734bfb18a8ec405a03ee1229cab357454b59200ec635"
+    },
+    "thief-club-rest": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        87,
+        54,
+        344,
+        387
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        44,
+        30
+      ],
+      "grip": [
+        128.21145374449338,
+        128.48458149779736
+      ],
+      "object_bounds": [
+        84.44052863436123,
+        54.74008810572687,
+        145.81497797356826,
+        149.41850220264317
+      ],
+      "visible_bounds": [
+        85,
+        56,
+        208,
+        214
+      ],
+      "export_sha256": "7bb621cb38728c3a3096f0721679a615a9d31441718275a43a20134406527caf"
+    },
+    "thief-club-drawback": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        145,
+        42,
+        304,
+        392
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        43,
+        30
+      ],
+      "grip": [
+        128.16299559471366,
+        128.48458149779736
+      ],
+      "object_bounds": [
+        111.0352422907489,
+        49.030837004405285,
+        146.71806167400882,
+        149.41850220264317
+      ],
+      "visible_bounds": [
+        112,
+        50,
+        188,
+        217
+      ],
+      "export_sha256": "39308cb726e637cef59232b6820083b704f02ec01ba8149a0b4a025b58e578cd"
+    },
+    "thief-club-windup": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        176,
+        44,
+        307,
+        387
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        30,
+        30
+      ],
+      "grip": [
+        128.00881057268722,
+        128.00881057268722
+      ],
+      "object_bounds": [
+        112.78414096916299,
+        49.98237885462555,
+        177.01321585903082,
+        149.8942731277533
+      ],
+      "visible_bounds": [
+        114,
+        51,
+        176,
+        215
+      ],
+      "export_sha256": "2b2581a0a9b07625cfe60bc40c157934f4a73749b9b4cc179118f04041657566"
+    },
+    "thief-club-strike": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        0,
+        418,
+        418,
+        800
+      ],
+      "source_visible_bounds": [
+        75,
+        39,
+        325,
+        362
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        49,
+        40
+      ],
+      "grip": [
+        127.5022026431718,
+        128.01762114537445
+      ],
+      "object_bounds": [
+        83.73127753303964,
+        57.60352422907489,
+        146.05726872246697,
+        149.4273127753304
+      ],
+      "visible_bounds": [
+        84,
+        58,
+        204,
+        213
+      ],
+      "export_sha256": "ac1eb2753759e48afac49bfdb447fa9c304d472e3903cd16c1af655a73a31a9a"
+    },
+    "thief-club-cut": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        418,
+        418,
+        836,
+        800
+      ],
+      "source_visible_bounds": [
+        31,
+        102,
+        377,
+        305
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        49,
+        39
+      ],
+      "grip": [
+        127.5022026431718,
+        127.96916299559471
+      ],
+      "object_bounds": [
+        62.797356828193834,
+        86.5770925110132,
+        147.48458149779736,
+        149.85462555066078
+      ],
+      "visible_bounds": [
+        64,
+        87,
+        229,
+        184
+      ],
+      "export_sha256": "e9abb39a0f40d5ce561d8743f8560038e7f73c4fa838568f039af3940953bde7"
+    },
+    "thief-club-sweep": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        30,
+        139,
+        385,
+        289
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        41,
+        49
+      ],
+      "grip": [
+        128.06607929515417,
+        127.97797356828194
+      ],
+      "object_bounds": [
+        54.3215859030837,
+        114.1806167400881,
+        148.52422907488986,
+        148.43612334801762
+      ],
+      "visible_bounds": [
+        55,
+        115,
+        225,
+        187
+      ],
+      "export_sha256": "bfa46f46751c34edad116a56823d6a21ad673405afa1fb736f52241b400d0ef2"
+    },
+    "thief-club-through": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        0,
+        800,
+        440,
+        1254
+      ],
+      "source_visible_bounds": [
+        33,
+        165,
+        414,
+        322
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        39,
+        30
+      ],
+      "grip": [
+        127.96916299559471,
+        127.53303964757708
+      ],
+      "object_bounds": [
+        53.74889867841409,
+        107.55066079295153,
+        149.37885462555067,
+        163.69162995594712
+      ],
+      "visible_bounds": [
+        54,
+        108,
+        236,
+        184
+      ],
+      "export_sha256": "9400ded6d3574f56606ba1fca5cb6cd1dabb3fb1e6d0d0fa081ce856845ab005"
+    },
+    "thief-club-recover": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        440,
+        800,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        26,
+        92,
+        349,
+        352
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        54,
+        37
+      ],
+      "grip": [
+        127.74449339207048,
+        127.87224669603523
+      ],
+      "object_bounds": [
+        65.41850220264317,
+        79.81938325991189,
+        146.29955947136563,
+        148.33039647577093
+      ],
+      "visible_bounds": [
+        66,
+        81,
+        220,
+        205
+      ],
+      "export_sha256": "7c9846523a8d8fc444b05ce443d7e891f0e4b525a10868b9b64388ee8984cff7"
+    },
+    "thief-club-return": {
+      "source": "held-aa15.png",
+      "source_sha256": "1d6911c193cd2ea7996412add631778a74619e2c42ff522ca9773057d46deda4",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        84,
+        41,
+        363,
+        371
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        37,
+        39
+      ],
+      "grip": [
+        127.87224669603523,
+        128.44493392070484
+      ],
+      "object_bounds": [
+        76.01321585903084,
+        57.55506607929515,
+        147.85462555066078,
+        148.9030837004405
+      ],
+      "visible_bounds": [
+        77,
+        58,
+        210,
+        216
+      ],
+      "export_sha256": "f6ce5f1807d8576c087bf3ba9ea167568527b3c5c68ead1ac044560c18a38198"
+    },
+    "druid-club-rest": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        0,
+        0,
+        418,
+        404
+      ],
+      "source_visible_bounds": [
+        85,
+        28,
+        330,
+        386
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        48,
+        31
+      ],
+      "grip": [
+        128.40528634361232,
+        128.05726872246697
+      ],
+      "object_bounds": [
+        87.48898678414096,
+        43.370044052863435,
+        149.81497797356826,
+        149.46696035242292
+      ],
+      "visible_bounds": [
+        88,
+        44,
+        205,
+        214
+      ],
+      "export_sha256": "124e8d3680bc4eeeb8e69a1df81f4c5e1f14c9f39a3d3d1f383a403aa907e930"
+    },
+    "druid-club-drawback": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        418,
+        0,
+        836,
+        404
+      ],
+      "source_visible_bounds": [
+        148,
+        25,
+        283,
+        385
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        41,
+        32
+      ],
+      "grip": [
+        127.59030837004404,
+        127.62995594713657
+      ],
+      "object_bounds": [
+        110.46255506607929,
+        42.94273127753304,
+        148.04845814977972,
+        149.51541850220264
+      ],
+      "visible_bounds": [
+        111,
+        44,
+        176,
+        215
+      ],
+      "export_sha256": "f51c8107eec0b321abf59d2a7aa589e1647371211396423fc02bc867305e9232"
+    },
+    "druid-club-windup": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        404
+      ],
+      "source_visible_bounds": [
+        188,
+        27,
+        317,
+        385
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        23,
+        31
+      ],
+      "grip": [
+        128.14537444933922,
+        128.05726872246697
+      ],
+      "object_bounds": [
+        111.49339207048457,
+        42.8942731277533,
+        174.77092511013214,
+        149.46696035242292
+      ],
+      "visible_bounds": [
+        112,
+        44,
+        174,
+        214
+      ],
+      "export_sha256": "ea817db7535cfd5dd89f26436649c976c95094d91aaaa444128f99538183d5c0"
+    },
+    "druid-club-strike": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        0,
+        404,
+        418,
+        800
+      ],
+      "source_visible_bounds": [
+        85,
+        18,
+        338,
+        372
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        47,
+        38
+      ],
+      "grip": [
+        128.3568281938326,
+        127.92070484581497
+      ],
+      "object_bounds": [
+        86.48898678414096,
+        45.61233480176212,
+        149.29074889867843,
+        150.28193832599118
+      ],
+      "visible_bounds": [
+        87,
+        46,
+        208,
+        215
+      ],
+      "export_sha256": "9028d122525f5c7f500f16ecd209f8c9820ac1a256184672b6846ffe492d0136"
+    },
+    "druid-club-cut": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        418,
+        404,
+        836,
+        800
+      ],
+      "source_visible_bounds": [
+        29,
+        101,
+        388,
+        320
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        46,
+        33
+      ],
+      "grip": [
+        128.30837004405288,
+        127.6784140969163
+      ],
+      "object_bounds": [
+        58.84581497797357,
+        80.10132158590308,
+        147.33920704845815,
+        149.08810572687224
+      ],
+      "visible_bounds": [
+        59,
+        81,
+        231,
+        185
+      ],
+      "export_sha256": "79b0da0fb8857fb17da8ecfffa17c96f1ba5e6de321ae452ef45b2e535d46cf8"
+    },
+    "druid-club-sweep": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        836,
+        404,
+        1254,
+        800
+      ],
+      "source_visible_bounds": [
+        22,
+        139,
+        394,
+        309
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        33,
+        44
+      ],
+      "grip": [
+        127.6784140969163,
+        127.73568281938326
+      ],
+      "object_bounds": [
+        42.51541850220264,
+        109.1806167400881,
+        146.70925110132157,
+        150.09691629955947
+      ],
+      "visible_bounds": [
+        43,
+        110,
+        221,
+        191
+      ],
+      "export_sha256": "8002fda1b7836084f3b48f1b2d264215c4b8d7ac3dbf976a36278145367a4796"
+    },
+    "druid-club-through": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        0,
+        800,
+        444,
+        1254
+      ],
+      "source_visible_bounds": [
+        28,
+        153,
+        418,
+        322
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        38,
+        39
+      ],
+      "grip": [
+        128.39647577092512,
+        127.96916299559471
+      ],
+      "object_bounds": [
+        50.370044052863435,
+        110.84140969162995,
+        149.33039647577093,
+        159.37004405286342
+      ],
+      "visible_bounds": [
+        51,
+        112,
+        237,
+        192
+      ],
+      "export_sha256": "28a7c9bc499a8a3db1353b44c228e75f5572b4417505f8755fb89e13b0a16351"
+    },
+    "druid-club-recover": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        444,
+        800,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        27,
+        71,
+        373,
+        354
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        50,
+        39
+      ],
+      "grip": [
+        127.55066079295153,
+        127.96916299559471
+      ],
+      "object_bounds": [
+        61.8942731277533,
+        71.82819383259911,
+        147.05726872246697,
+        150.33039647577093
+      ],
+      "visible_bounds": [
+        63,
+        73,
+        228,
+        207
+      ],
+      "export_sha256": "c5bedcdeede5c1ab372283f796293a5346517081f869f1563864ad8878c1f122"
+    },
+    "druid-club-return": {
+      "source": "held-aa16-edges.png",
+      "source_sha256": "101e4e4e0d47162ca991eb9001f54cbd6655a19b18231722c2ff18875eca4a3c",
+      "source_rect": [
+        836,
+        800,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        76,
+        21,
+        384,
+        370
+      ],
+      "scale": 0.47577092511013214,
+      "offset": [
+        32,
+        44
+      ],
+      "grip": [
+        127.62995594713657,
+        128.21145374449338
+      ],
+      "object_bounds": [
+        67.20704845814979,
+        53.03964757709251,
+        149.03964757709252,
+        150.5726872246696
+      ],
+      "visible_bounds": [
+        68,
+        54,
+        215,
+        220
+      ],
+      "export_sha256": "d8f3195b90c88617ddf09bfe1c88e3b5b9facb6093447859cbeae0c85fd2ecb6"
+    }
+  }
+}

@@ -1,0 +1,3108 @@
+{
+  "date": "2026-10-24",
+  "tool": "image_gen.imagegen",
+  "model": "not disclosed",
+  "brief": "REQUEST-batch-aa-melee5.md",
+  "status": "Source/review complete and activated for0.9.37; historical source-only findings retained; wider AA library open",
+  "groups": {
+    "aa17": [
+      "fighter-mace-rest",
+      "fighter-mace-drawback",
+      "fighter-mace-windup",
+      "fighter-mace-strike",
+      "fighter-mace-cut",
+      "fighter-mace-sweep",
+      "fighter-mace-through",
+      "fighter-mace-recover",
+      "fighter-mace-return"
+    ],
+    "aa18": [
+      "fighter-shortsword-rest",
+      "fighter-shortsword-drawback",
+      "fighter-shortsword-windup",
+      "fighter-shortsword-strike",
+      "fighter-shortsword-cut",
+      "fighter-shortsword-sweep",
+      "fighter-shortsword-through",
+      "fighter-shortsword-recover",
+      "fighter-shortsword-return"
+    ],
+    "aa19": [
+      "ranger-shortsword-rest",
+      "ranger-shortsword-drawback",
+      "ranger-shortsword-windup",
+      "ranger-shortsword-strike",
+      "ranger-shortsword-cut",
+      "ranger-shortsword-sweep",
+      "ranger-shortsword-through",
+      "ranger-shortsword-recover",
+      "ranger-shortsword-return"
+    ],
+    "aa20": [
+      "spellblade-shortsword-rest",
+      "spellblade-shortsword-drawback",
+      "spellblade-shortsword-windup",
+      "spellblade-shortsword-strike",
+      "spellblade-shortsword-cut",
+      "spellblade-shortsword-sweep",
+      "spellblade-shortsword-through",
+      "spellblade-shortsword-recover",
+      "spellblade-shortsword-return"
+    ],
+    "aa21": [
+      "spellblade-shortsword-rest-reflected",
+      "spellblade-shortsword-drawback-reflected",
+      "spellblade-shortsword-windup-reflected",
+      "spellblade-shortsword-strike-reflected",
+      "spellblade-shortsword-cut-reflected",
+      "spellblade-shortsword-sweep-reflected",
+      "spellblade-shortsword-through-reflected",
+      "spellblade-shortsword-recover-reflected",
+      "spellblade-shortsword-return-reflected"
+    ],
+    "aa22": [
+      "thief-longsword-rest",
+      "thief-longsword-drawback",
+      "thief-longsword-windup",
+      "thief-longsword-strike",
+      "thief-longsword-cut",
+      "thief-longsword-sweep",
+      "thief-longsword-through",
+      "thief-longsword-recover",
+      "thief-longsword-return"
+    ],
+    "aa23": [
+      "ranger-longsword-rest",
+      "ranger-longsword-drawback",
+      "ranger-longsword-windup",
+      "ranger-longsword-strike",
+      "ranger-longsword-cut",
+      "ranger-longsword-sweep",
+      "ranger-longsword-through",
+      "ranger-longsword-recover",
+      "ranger-longsword-return"
+    ],
+    "aa24": [
+      "spellblade-longsword-rest",
+      "spellblade-longsword-drawback",
+      "spellblade-longsword-windup",
+      "spellblade-longsword-strike",
+      "spellblade-longsword-cut",
+      "spellblade-longsword-sweep",
+      "spellblade-longsword-through",
+      "spellblade-longsword-recover",
+      "spellblade-longsword-return"
+    ],
+    "aa25": [
+      "spellblade-longsword-rest-reflected",
+      "spellblade-longsword-drawback-reflected",
+      "spellblade-longsword-windup-reflected",
+      "spellblade-longsword-strike-reflected",
+      "spellblade-longsword-cut-reflected",
+      "spellblade-longsword-sweep-reflected",
+      "spellblade-longsword-through-reflected",
+      "spellblade-longsword-recover-reflected",
+      "spellblade-longsword-return-reflected"
+    ],
+    "aa26": [
+      "fighter-staff-rest-two",
+      "fighter-staff-drive-two",
+      "fighter-staff-rest-one",
+      "fighter-staff-channel-one"
+    ],
+    "aa27": [
+      "cleric-staff-rest-two",
+      "cleric-staff-drive-two",
+      "cleric-staff-rest-one",
+      "cleric-staff-channel-one"
+    ],
+    "aa28": [
+      "druid-staff-rest-two",
+      "druid-staff-drive-two",
+      "druid-staff-rest-one",
+      "druid-staff-channel-one"
+    ],
+    "aa29": [
+      "fighter-spear-rest",
+      "fighter-spear-drive"
+    ],
+    "aa30": [
+      "ranger-spear-rest",
+      "ranger-spear-drive"
+    ]
+  },
+  "sheets": {
+    "aa17": {
+      "source": "held-aa17.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "mace",
+      "references": [
+        "batch-aa-melee5-preview/aa17-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 9 separate static first-person views in 3x3 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. A compact rounded dark iron mace head with short BLUNT knobs on a plain brown wood shaft, exactly the construction and proportions in reference1. Not a flail, hammer or giant spiked ball. grey articulated metal gauntlet, grey cuff and weathered brown cloth sleeve. Nine existing directions row-major: rest leaning slightly left, near-vertical drawback, windup leaning right; strike leaning left, diagonal-left cut, horizontal-left sweep; through pointing down-left, diagonal-left recover, upper-left return. Match every wrist and blade/shaft direction, do not duplicate upright poses. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 9 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-0d116af0-b51f-43ca-904e-5f62e4f572f4.png"
+    },
+    "aa18": {
+      "source": "held-aa18.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "fighter",
+      "id": "shortsword",
+      "references": [
+        "batch-aa-melee5-preview/aa18-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 9 separate static first-person views in 3x3 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. A plain straight steel shortsword, medium length between a dagger and longsword, simple dark straight crossguard, brown grip and small round pommel. Match blade length and proportions of reference1; not a tiny dagger or huge greatsword. grey articulated metal gauntlet, grey cuff and weathered brown cloth sleeve. Nine existing directions row-major: rest leaning slightly left, near-vertical drawback, windup leaning right; strike leaning left, diagonal-left cut, horizontal-left sweep; through pointing down-left, diagonal-left recover, upper-left return. Match every wrist and blade/shaft direction, do not duplicate upright poses. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 9 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-e94aaf95-8d7a-44cd-9eb7-9d2e7dfde995.png",
+      "repairs": [
+        {
+          "source": "held-aa18-edges.png",
+          "references": [
+            "held-aa18.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this existing nine-view fantasy equipment sheet only to clean its transparent silhouette edges. Preserve all nine complete steel swords, closed hands, cuffs and full sleeves in their EXACT existing poses, size, positions, proportions, class colours and 3x3 layout. Remove detached white brush debris and red/yellow paint flecks outside the silhouettes, especially beside steel blade edges. Steel remains natural silver with restrained reflections. Keep all blade tips, guards, fingers and sleeve ends intact. No new outlines, glow, decoration, backdrop, labels or extra objects. True transparent RGBA and clean empty gutters.",
+          "generated_image": "/workspace/generated_images/exec-929392da-e63d-4b3d-8812-8302cdddd5c5.png"
+        }
+      ],
+      "selected_source": "held-aa18-edges.png"
+    },
+    "aa19": {
+      "source": "held-aa18.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "ranger",
+      "id": "shortsword",
+      "reuse_group": "aa18",
+      "selected_source": "held-aa18-edges.png"
+    },
+    "aa20": {
+      "source": "held-aa20.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "shortsword",
+      "references": [
+        "batch-aa-melee5-preview/aa20-reference-opaque.png",
+        "held-aa12-compact.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 9 separate static first-person views in 3x3 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. A plain straight steel shortsword, medium length between a dagger and longsword, simple dark straight crossguard, brown grip and small round pommel. Match blade length and proportions of reference1; not a tiny dagger or huge greatsword. charcoal leather glove, slate cuff with fine silver crossed seams and a muted blue diamond, dark blue-grey cloth sleeve. Nine existing directions row-major: rest leaning slightly left, near-vertical drawback, windup leaning right; strike leaning left, diagonal-left cut, horizontal-left sweep; through pointing down-left, diagonal-left recover, upper-left return. Match every wrist and blade/shaft direction, do not duplicate upright poses. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 9 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-df27ea72-0850-494a-a0c3-6d3e743b8e01.png",
+      "repairs": [
+        {
+          "source": "held-aa20-edges.png",
+          "references": [
+            "held-aa20.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this existing nine-view fantasy equipment sheet only to clean its transparent silhouette edges. Preserve all nine complete steel swords, closed hands, cuffs and full sleeves in their EXACT existing poses, size, positions, proportions, class colours and 3x3 layout. Remove detached white brush debris and red/yellow paint flecks outside the silhouettes, especially beside steel blade edges. Steel remains natural silver with restrained reflections. Keep all blade tips, guards, fingers and sleeve ends intact. No new outlines, glow, decoration, backdrop, labels or extra objects. True transparent RGBA and clean empty gutters.",
+          "generated_image": "/workspace/generated_images/exec-71bcaeba-4b9e-4273-a42e-52de8ef0db60.png"
+        }
+      ],
+      "selected_source": "held-aa20-edges.png"
+    },
+    "aa21": {
+      "source": "held-aa21.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "shortsword",
+      "references": [
+        "held-aa20-edges.png",
+        "held-aa12-reflected.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Edit reference1 only: preserve all nine existing complete sword, hand, cuff and sleeve poses, their exact positions, sizes, steel/brown metal materials and transparent 3x3 layout. Add the very thin muted cool-blue lantern reflection seen on reference2 along the LEFT-facing sword edges and left finger seams. Keep natural silver steel, dark guard, blue-grey sleeve and fine silver cuff seams; restrained blue edge highlights only. No glow, aura, new light source, extra markings, text or background. Keep every blade tip and sleeve intact, true transparent RGBA.",
+      "generated_image": "/workspace/generated_images/exec-694bef7a-a165-46ef-8811-85591e24a46e.png",
+      "repairs": [
+        {
+          "source": "held-aa21-edges.png",
+          "references": [
+            "held-aa21.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Clean this nine-view sword sheet. Remove the thick detached cobalt BLUE brush splashes alongside blades, leaving ONLY a very thin restrained blue edge reflection on the actual steel and finger seams. Remove all white/yellow/red fringe debris too. Keep exact existing nine complete sword/hand/sleeve objects, poses, scale, positions, natural silver steel, slate cuffs and dark blue-grey cloth. Do not remove the blue edge reflection itself; it should be a narrow line touching steel, never a blue patch floating in transparent space. Preserve every tip and sleeve end in the transparent 3x3 sheet; no glow, background, text or extra props.",
+          "generated_image": "/workspace/generated_images/exec-5525b53a-fefc-438c-97fd-ab7bce34f367.png"
+        }
+      ],
+      "selected_source": "held-aa21-edges.png"
+    },
+    "aa22": {
+      "source": "held-aa22.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "thief",
+      "id": "longsword",
+      "references": [
+        "batch-aa-melee5-preview/aa22-reference-opaque.png",
+        "held-aa1-refined.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 9 separate static first-person views in 3x3 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. A plain straight steel longsword, simple dark straight crossguard, brown grip and small round pommel. Match the blade length and proportions in reference1. charcoal leather glove, brown cuff and muted olive cloth sleeve. Nine existing directions row-major: rest leaning slightly left, near-vertical drawback, windup leaning right; strike leaning left, diagonal-left cut, horizontal-left sweep; through pointing down-left, diagonal-left recover, upper-left return. Match every wrist and blade/shaft direction, do not duplicate upright poses. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 9 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-541eebd9-4828-4947-b9a3-257822a10e39.png",
+      "repairs": [
+        {
+          "source": "held-aa22-edges.png",
+          "references": [
+            "held-aa22.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this existing nine-view fantasy equipment sheet only to clean its transparent silhouette edges. Preserve all nine complete steel swords, closed hands, cuffs and full sleeves in their EXACT existing poses, size, positions, proportions, class colours and 3x3 layout. Remove detached white brush debris and red/yellow paint flecks outside the silhouettes, especially beside steel blade edges. Steel remains natural silver with restrained reflections. Keep all blade tips, guards, fingers and sleeve ends intact. No new outlines, glow, decoration, backdrop, labels or extra objects. True transparent RGBA and clean empty gutters.",
+          "generated_image": "/workspace/generated_images/exec-47e911d0-694a-4a2a-b795-74192bbf2515.png"
+        }
+      ],
+      "selected_source": "held-aa22-edges.png"
+    },
+    "aa23": {
+      "source": "held-t1.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "ranger",
+      "id": "longsword",
+      "reuse_registered_batch": "t"
+    },
+    "aa24": {
+      "source": "held-aa24.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "longsword",
+      "references": [
+        "batch-aa-melee5-preview/aa24-reference-opaque.png",
+        "held-aa12-compact.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 9 separate static first-person views in 3x3 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. A plain straight steel longsword, simple dark straight crossguard, brown grip and small round pommel. Match the blade length and proportions in reference1. charcoal leather glove, slate cuff with fine silver crossed seams and a muted blue diamond, dark blue-grey cloth sleeve. Nine existing directions row-major: rest leaning slightly left, near-vertical drawback, windup leaning right; strike leaning left, diagonal-left cut, horizontal-left sweep; through pointing down-left, diagonal-left recover, upper-left return. Match every wrist and blade/shaft direction, do not duplicate upright poses. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 9 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-e224ab27-3755-436c-89bd-7cccc8a5ba91.png",
+      "repairs": [
+        {
+          "source": "held-aa24-edges.png",
+          "references": [
+            "held-aa24.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Edit this existing nine-view fantasy equipment sheet only to clean its transparent silhouette edges. Preserve all nine complete steel swords, closed hands, cuffs and full sleeves in their EXACT existing poses, size, positions, proportions, class colours and 3x3 layout. Remove detached white brush debris and red/yellow paint flecks outside the silhouettes, especially beside steel blade edges. Steel remains natural silver with restrained reflections. Keep all blade tips, guards, fingers and sleeve ends intact. No new outlines, glow, decoration, backdrop, labels or extra objects. True transparent RGBA and clean empty gutters.",
+          "generated_image": "/workspace/generated_images/exec-fdeacf02-bab7-4383-9004-b5981afc9e62.png"
+        }
+      ],
+      "selected_source": "held-aa24-edges.png"
+    },
+    "aa25": {
+      "source": "held-aa25.png",
+      "grid": [
+        3,
+        3
+      ],
+      "cls": "spellblade",
+      "id": "longsword",
+      "references": [
+        "held-aa24-edges.png",
+        "held-aa12-reflected.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Edit reference1 only: preserve all nine existing complete sword, hand, cuff and sleeve poses, their exact positions, sizes, steel/brown metal materials and transparent 3x3 layout. Add the very thin muted cool-blue lantern reflection seen on reference2 along the LEFT-facing sword edges and left finger seams. Keep natural silver steel, dark guard, blue-grey sleeve and fine silver cuff seams; restrained blue edge highlights only. No glow, aura, new light source, extra markings, text or background. Keep every blade tip and sleeve intact, true transparent RGBA.",
+      "generated_image": "/workspace/generated_images/exec-a2fa4528-40b9-4b71-8bac-e92af6019fdc.png",
+      "repairs": [
+        {
+          "source": "held-aa25-edges.png",
+          "references": [
+            "held-aa25.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Clean this nine-view sword sheet. Remove the thick detached cobalt BLUE brush splashes alongside blades, leaving ONLY a very thin restrained blue edge reflection on the actual steel and finger seams. Remove all white/yellow/red fringe debris too. Keep exact existing nine complete sword/hand/sleeve objects, poses, scale, positions, natural silver steel, slate cuffs and dark blue-grey cloth. Do not remove the blue edge reflection itself; it should be a narrow line touching steel, never a blue patch floating in transparent space. Preserve every tip and sleeve end in the transparent 3x3 sheet; no glow, background, text or extra props.",
+          "generated_image": "/workspace/generated_images/exec-942f3bb5-6f32-4c15-b50f-2bc8b150ade9.png"
+        }
+      ],
+      "selected_source": "held-aa25-edges.png"
+    },
+    "aa26": {
+      "source": "held-aa26.png",
+      "grid": [
+        2,
+        2
+      ],
+      "cls": "fighter",
+      "id": "staff",
+      "references": [
+        "batch-aa-melee5-preview/aa26-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 4 separate static first-person views in 2x2 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. The ordinary brown wood quarterstaff from reference1: small blue orb/cap mounted on a modest brass ferrule at top, simple dark capped butt below. No leaves, antlers, new ornaments or extra gems. grey articulated metal gauntlet, grey cuff and weathered brown cloth sleeve. Four views row-major: rest held by TWO hands, drive held by TWO hands; rest held by ONLY the right hand, channel tilted slightly left held by ONLY the right hand. In top row right fist is upper and left fist lower, forearms extend down-right and down-left. Bottom row lower left hand and its forearm must be entirely absent. Preserve complete connected wood shaft from blue cap to dark butt in every view. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 4 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-a1d7339b-961f-43b0-bd6a-76e534dfeb55.png"
+    },
+    "aa27": {
+      "source": "held-aa27.png",
+      "grid": [
+        2,
+        2
+      ],
+      "cls": "cleric",
+      "id": "staff",
+      "references": [
+        "batch-aa-melee5-preview/aa27-reference-opaque.png",
+        "held-aa7-edges.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 4 separate static first-person views in 2x2 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. The ordinary brown wood quarterstaff from reference1: small blue orb/cap mounted on a modest brass ferrule at top, simple dark capped butt below. No leaves, antlers, new ornaments or extra gems. brown leather glove, muted gold cuff and ivory cloth sleeve. Four views row-major: rest held by TWO hands, drive held by TWO hands; rest held by ONLY the right hand, channel tilted slightly left held by ONLY the right hand. In top row right fist is upper and left fist lower, forearms extend down-right and down-left. Bottom row lower left hand and its forearm must be entirely absent. Preserve complete connected wood shaft from blue cap to dark butt in every view. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 4 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-1640ac04-0ec5-473e-8b3b-3e0249d44078.png",
+      "repairs": [
+        {
+          "source": "held-aa27-edges.png",
+          "references": [
+            "held-aa27.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Clean the transparent edges of this existing four-view staff sheet. Remove detached WHITE brush scraps and red/yellow specks around sleeves and blue caps, especially outside the lower left sleeve ends of the top row. Preserve the complete connected staff shafts, all blue caps, dark butts, brown hands, muted gold cuffs and ivory sleeves. Keep exact existing positions, proportions and 2x2 layout: top row two hands and two sleeves per staff; bottom row one right hand and sleeve only. No new ornaments or light, no text/background; true clean transparent RGBA. Keep every staff tip and sleeve end intact.",
+          "generated_image": "/workspace/generated_images/exec-f1bbdbbc-f305-45dd-8e3c-618e6ff28aa1.png"
+        },
+        {
+          "source": "held-aa27-clean.png",
+          "references": [
+            "held-aa27-edges.png"
+          ],
+          "transparent_background": true,
+          "prompt": "Repair only the two TOP ROW lower-left ivory sleeve silhouettes in this four-view staff sheet: replace their flat diagonal cutoff and white scraps below it with a complete naturally rounded cloth sleeve end, matching the complete rounded other sleeves. All white/yellow/red brush debris outside the sleeve must become transparent. Preserve all four staff shafts, blue caps, brown leather closed hands, gold cuffs and other sleeves, their exact scale, positions and 2x2 layout. Top row two hands/two forearms; bottom row one right hand/forearm each. True transparent RGBA, no background, labels, glow or new ornaments.",
+          "generated_image": "/workspace/generated_images/exec-d551b4d2-66a9-4544-995c-e411ae51dce1.png"
+        }
+      ],
+      "selected_source": "held-aa27-clean.png"
+    },
+    "aa28": {
+      "source": "held-aa28.png",
+      "grid": [
+        2,
+        2
+      ],
+      "cls": "druid",
+      "id": "staff",
+      "references": [
+        "batch-aa-melee5-preview/aa28-reference-opaque.png",
+        "held-aa11-compact.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 4 separate static first-person views in 2x2 equal square cells. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. The ordinary brown wood quarterstaff from reference1: small blue orb/cap mounted on a modest brass ferrule at top, simple dark capped butt below. No leaves, antlers, new ornaments or extra gems. brown leather glove, muted green cuff and brown cloth sleeve. Four views row-major: rest held by TWO hands, drive held by TWO hands; rest held by ONLY the right hand, channel tilted slightly left held by ONLY the right hand. In top row right fist is upper and left fist lower, forearms extend down-right and down-left. Bottom row lower left hand and its forearm must be entirely absent. Preserve complete connected wood shaft from blue cap to dark butt in every view. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 4 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-c5612417-feab-407b-81de-6b7ffe1b460a.png"
+    },
+    "aa29": {
+      "source": "held-aa29.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "fighter",
+      "id": "spear",
+      "references": [
+        "batch-aa-melee5-preview/aa29-reference-opaque.png",
+        "held-aa5.png"
+      ],
+      "transparent_background": true,
+      "prompt": "Paint a fantasy videogame held-equipment source sheet of 2 separate static first-person views in 2x1 equal square cells in a wide 2:1 image. Reference1 is the exact pose and proportion guide; reference2 supplies mature painted materials and class hand finish only. The ordinary brown wood spear from reference1: narrow steel leaf-shaped point, small RED binding below the point, simple dark capped butt below the fist. No invented ornaments. grey articulated metal gauntlet, grey cuff and weathered brown cloth sleeve. Two views left to right: rest, and subtle upright thrust/drive. Match exact native wrist and shaft angle. One right hand and complete forearm per view. All fingers close naturally round the connected grip. Gritty realistic hand-painted materials matching mature dungeon monster artwork, restrained highlights, worn steel/wood/leather, textured cloth and grounded anatomy. No cartoon proportions, plastic shine, glow or invented decoration. Exactly 2 complete isolated objects. Leave at least 8 percent transparent padding on EVERY side of EACH cell, including blade tips and sleeves; no part crosses a cell boundary. True transparent RGBA background; no backdrop, cast shadows, labels, text, borders, detached brush debris or extra props.",
+      "generated_image": "/workspace/generated_images/exec-ca3a1788-cc64-4a7b-8e08-3e933ce2bff5.png"
+    },
+    "aa30": {
+      "source": "held-aa29.png",
+      "grid": [
+        2,
+        1
+      ],
+      "cls": "ranger",
+      "id": "spear",
+      "reuse_group": "aa29"
+    }
+  },
+  "cells": {
+    "fighter-mace-rest": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-rest",
+      "source_rect": [
+        78,
+        29,
+        360,
+        402
+      ],
+      "source_grip": [
+        115,
+        202
+      ],
+      "source_object_bounds": [
+        -3,
+        -4,
+        157,
+        248
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-drawback": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-drawback",
+      "source_rect": [
+        563,
+        26,
+        736,
+        410
+      ],
+      "source_grip": [
+        45,
+        205
+      ],
+      "source_object_bounds": [
+        -6,
+        0,
+        88,
+        254
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-windup": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-windup",
+      "source_rect": [
+        1012,
+        29,
+        1187,
+        410
+      ],
+      "source_grip": [
+        42,
+        199
+      ],
+      "source_object_bounds": [
+        -4,
+        -4,
+        177,
+        249
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-strike": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-strike",
+      "source_rect": [
+        66,
+        444,
+        360,
+        796
+      ],
+      "source_grip": [
+        121,
+        186
+      ],
+      "source_object_bounds": [
+        -2,
+        -1,
+        164,
+        238
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-cut": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-cut",
+      "source_rect": [
+        437,
+        518,
+        818,
+        756
+      ],
+      "source_grip": [
+        174,
+        107
+      ],
+      "source_object_bounds": [
+        -4,
+        -7,
+        223,
+        156
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-sweep": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-sweep",
+      "source_rect": [
+        845,
+        568,
+        1230,
+        736
+      ],
+      "source_grip": [
+        185,
+        61
+      ],
+      "source_object_bounds": [
+        -10,
+        -5,
+        237,
+        107
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-through": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-through",
+      "source_rect": [
+        32,
+        982,
+        417,
+        1136
+      ],
+      "source_grip": [
+        179,
+        29
+      ],
+      "source_object_bounds": [
+        -5,
+        -13,
+        231,
+        153
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-recover": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-recover",
+      "source_rect": [
+        464,
+        873,
+        817,
+        1184
+      ],
+      "source_grip": [
+        154,
+        134
+      ],
+      "source_object_bounds": [
+        -9,
+        -1,
+        208,
+        187
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-mace-return": {
+      "sheet": "aa17",
+      "group": "aa17",
+      "id": "mace",
+      "cls": "fighter",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "fighter-mace-return",
+      "source_rect": [
+        886,
+        842,
+        1216,
+        1211
+      ],
+      "source_grip": [
+        169,
+        190
+      ],
+      "source_object_bounds": [
+        -19,
+        -11,
+        220,
+        234
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-rest": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-rest",
+      "source_rect": [
+        107,
+        26,
+        379,
+        409
+      ],
+      "source_grip": [
+        83,
+        203
+      ],
+      "source_object_bounds": [
+        -6,
+        -6,
+        125,
+        272
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-drawback": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-drawback",
+      "source_rect": [
+        557,
+        22,
+        767,
+        422
+      ],
+      "source_grip": [
+        55,
+        213
+      ],
+      "source_object_bounds": [
+        -3,
+        -3,
+        104,
+        284
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-windup": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-windup",
+      "source_rect": [
+        999,
+        35,
+        1180,
+        422
+      ],
+      "source_grip": [
+        43,
+        201
+      ],
+      "source_object_bounds": [
+        -7,
+        -6,
+        143,
+        262
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-strike": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-strike",
+      "source_rect": [
+        88,
+        424,
+        373,
+        800
+      ],
+      "source_grip": [
+        92,
+        207
+      ],
+      "source_object_bounds": [
+        -9,
+        -3,
+        136,
+        276
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-cut": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-cut",
+      "source_rect": [
+        443,
+        528,
+        832,
+        761
+      ],
+      "source_grip": [
+        163,
+        94
+      ],
+      "source_object_bounds": [
+        -4,
+        -7,
+        212,
+        150
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-sweep": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-sweep",
+      "source_rect": [
+        847,
+        568,
+        1240,
+        731
+      ],
+      "source_grip": [
+        192,
+        56
+      ],
+      "source_object_bounds": [
+        -13,
+        -12,
+        243,
+        107
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-through": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-through",
+      "source_rect": [
+        24,
+        946,
+        418,
+        1127
+      ],
+      "source_grip": [
+        173,
+        43
+      ],
+      "source_object_bounds": [
+        -4,
+        -12,
+        228,
+        127
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-recover": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-recover",
+      "source_rect": [
+        456,
+        864,
+        816,
+        1169
+      ],
+      "source_grip": [
+        154,
+        126
+      ],
+      "source_object_bounds": [
+        -5,
+        -9,
+        207,
+        180
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-shortsword-return": {
+      "sheet": "aa18",
+      "group": "aa18",
+      "id": "shortsword",
+      "cls": "fighter",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "fighter-shortsword-return",
+      "source_rect": [
+        880,
+        817,
+        1212,
+        1175
+      ],
+      "source_grip": [
+        158,
+        212
+      ],
+      "source_object_bounds": [
+        -10,
+        -12,
+        211,
+        264
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "ranger-shortsword-rest": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-rest",
+      "source_rect": [
+        107,
+        26,
+        379,
+        409
+      ],
+      "source_grip": [
+        83,
+        203
+      ],
+      "source_object_bounds": [
+        -6,
+        -6,
+        125,
+        272
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-drawback": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-drawback",
+      "source_rect": [
+        557,
+        22,
+        767,
+        422
+      ],
+      "source_grip": [
+        55,
+        213
+      ],
+      "source_object_bounds": [
+        -3,
+        -3,
+        104,
+        284
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-windup": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-windup",
+      "source_rect": [
+        999,
+        35,
+        1180,
+        422
+      ],
+      "source_grip": [
+        43,
+        201
+      ],
+      "source_object_bounds": [
+        -7,
+        -6,
+        143,
+        262
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-strike": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-strike",
+      "source_rect": [
+        88,
+        424,
+        373,
+        800
+      ],
+      "source_grip": [
+        92,
+        207
+      ],
+      "source_object_bounds": [
+        -9,
+        -3,
+        136,
+        276
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-cut": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-cut",
+      "source_rect": [
+        443,
+        528,
+        832,
+        761
+      ],
+      "source_grip": [
+        163,
+        94
+      ],
+      "source_object_bounds": [
+        -4,
+        -7,
+        212,
+        150
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-sweep": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-sweep",
+      "source_rect": [
+        847,
+        568,
+        1240,
+        731
+      ],
+      "source_grip": [
+        192,
+        56
+      ],
+      "source_object_bounds": [
+        -13,
+        -12,
+        243,
+        107
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-through": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-through",
+      "source_rect": [
+        24,
+        946,
+        418,
+        1127
+      ],
+      "source_grip": [
+        173,
+        43
+      ],
+      "source_object_bounds": [
+        -4,
+        -12,
+        228,
+        127
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-recover": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-recover",
+      "source_rect": [
+        456,
+        864,
+        816,
+        1169
+      ],
+      "source_grip": [
+        154,
+        126
+      ],
+      "source_object_bounds": [
+        -5,
+        -9,
+        207,
+        180
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "ranger-shortsword-return": {
+      "sheet": "aa18",
+      "group": "aa19",
+      "id": "shortsword",
+      "cls": "ranger",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "ranger-shortsword-return",
+      "source_rect": [
+        880,
+        817,
+        1212,
+        1175
+      ],
+      "source_grip": [
+        158,
+        212
+      ],
+      "source_object_bounds": [
+        -10,
+        -12,
+        211,
+        264
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa18"
+    },
+    "spellblade-shortsword-rest": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-rest",
+      "source_rect": [
+        100,
+        24,
+        359,
+        402
+      ],
+      "source_grip": [
+        76,
+        190
+      ],
+      "source_object_bounds": [
+        -7,
+        -4,
+        121,
+        255
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-drawback": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-drawback",
+      "source_rect": [
+        559,
+        28,
+        749,
+        407
+      ],
+      "source_grip": [
+        50,
+        193
+      ],
+      "source_object_bounds": [
+        -6,
+        -6,
+        104,
+        263
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-windup": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-windup",
+      "source_rect": [
+        992,
+        33,
+        1185,
+        396
+      ],
+      "source_grip": [
+        48,
+        179
+      ],
+      "source_object_bounds": [
+        -6,
+        -8,
+        150,
+        245
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-strike": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-strike",
+      "source_rect": [
+        64,
+        454,
+        344,
+        813
+      ],
+      "source_grip": [
+        102,
+        180
+      ],
+      "source_object_bounds": [
+        -10,
+        -8,
+        151,
+        242
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-cut": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-cut",
+      "source_rect": [
+        415,
+        532,
+        822,
+        745
+      ],
+      "source_grip": [
+        187,
+        86
+      ],
+      "source_object_bounds": [
+        -12,
+        -10,
+        239,
+        143
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-sweep": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-sweep",
+      "source_rect": [
+        855,
+        572,
+        1246,
+        742
+      ],
+      "source_grip": [
+        185,
+        48
+      ],
+      "source_object_bounds": [
+        -19,
+        -10,
+        240,
+        106
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-through": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-through",
+      "source_rect": [
+        13,
+        979,
+        415,
+        1147
+      ],
+      "source_grip": [
+        181,
+        38
+      ],
+      "source_object_bounds": [
+        -5,
+        -17,
+        238,
+        141
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-recover": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-recover",
+      "source_rect": [
+        453,
+        875,
+        832,
+        1187
+      ],
+      "source_grip": [
+        154,
+        133
+      ],
+      "source_object_bounds": [
+        -11,
+        -11,
+        207,
+        195
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-return": {
+      "sheet": "aa20",
+      "group": "aa20",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-shortsword-return",
+      "source_rect": [
+        892,
+        825,
+        1210,
+        1209
+      ],
+      "source_grip": [
+        142,
+        204
+      ],
+      "source_object_bounds": [
+        -8,
+        -8,
+        199,
+        264
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-rest-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-rest-reflected",
+      "source_rect": [
+        97,
+        23,
+        361,
+        405
+      ],
+      "source_grip": [
+        80,
+        193
+      ],
+      "source_object_bounds": [
+        -7,
+        -5,
+        127,
+        259
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-drawback-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-drawback-reflected",
+      "source_rect": [
+        567,
+        24,
+        765,
+        412
+      ],
+      "source_grip": [
+        41,
+        196
+      ],
+      "source_object_bounds": [
+        -15,
+        -4,
+        96,
+        267
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-windup-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-windup-reflected",
+      "source_rect": [
+        1003,
+        34,
+        1205,
+        403
+      ],
+      "source_grip": [
+        38,
+        178
+      ],
+      "source_object_bounds": [
+        -20,
+        -12,
+        143,
+        246
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-strike-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-strike-reflected",
+      "source_rect": [
+        65,
+        451,
+        351,
+        820
+      ],
+      "source_grip": [
+        101,
+        182
+      ],
+      "source_object_bounds": [
+        -16,
+        -9,
+        154,
+        249
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-cut-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-cut-reflected",
+      "source_rect": [
+        416,
+        529,
+        828,
+        754
+      ],
+      "source_grip": [
+        189,
+        91
+      ],
+      "source_object_bounds": [
+        -18,
+        -12,
+        244,
+        151
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-sweep-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-sweep-reflected",
+      "source_rect": [
+        858,
+        573,
+        1254,
+        751
+      ],
+      "source_grip": [
+        182,
+        48
+      ],
+      "source_object_bounds": [
+        -23,
+        -14,
+        240,
+        108
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-through-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-through-reflected",
+      "source_rect": [
+        14,
+        976,
+        424,
+        1154
+      ],
+      "source_grip": [
+        179,
+        39
+      ],
+      "source_object_bounds": [
+        -7,
+        -18,
+        239,
+        146
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-recover-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-recover-reflected",
+      "source_rect": [
+        462,
+        875,
+        841,
+        1196
+      ],
+      "source_grip": [
+        148,
+        133
+      ],
+      "source_object_bounds": [
+        -22,
+        -17,
+        200,
+        200
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-shortsword-return-reflected": {
+      "sheet": "aa21",
+      "group": "aa21",
+      "id": "shortsword",
+      "cls": "spellblade",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-shortsword-return-reflected",
+      "source_rect": [
+        891,
+        822,
+        1215,
+        1216
+      ],
+      "source_grip": [
+        147,
+        209
+      ],
+      "source_object_bounds": [
+        -13,
+        -12,
+        207,
+        271
+      ],
+      "object_height_limit": 112,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-rest": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-rest",
+      "source_rect": [
+        110,
+        50,
+        340,
+        416
+      ],
+      "source_grip": [
+        67,
+        193
+      ],
+      "source_object_bounds": [
+        -5,
+        -8,
+        114,
+        251
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-drawback": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-drawback",
+      "source_rect": [
+        563,
+        42,
+        724,
+        417
+      ],
+      "source_grip": [
+        46,
+        199
+      ],
+      "source_object_bounds": [
+        -7,
+        -6,
+        107,
+        264
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-windup": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-windup",
+      "source_rect": [
+        1009,
+        61,
+        1163,
+        418
+      ],
+      "source_grip": [
+        42,
+        180
+      ],
+      "source_object_bounds": [
+        -14,
+        -15,
+        156,
+        238
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-strike": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-strike",
+      "source_rect": [
+        90,
+        443,
+        336,
+        808
+      ],
+      "source_grip": [
+        83,
+        191
+      ],
+      "source_object_bounds": [
+        -7,
+        -3,
+        133,
+        245
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-cut": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-cut",
+      "source_rect": [
+        424,
+        531,
+        814,
+        739
+      ],
+      "source_grip": [
+        178,
+        90
+      ],
+      "source_object_bounds": [
+        -7,
+        -11,
+        231,
+        147
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-sweep": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-sweep",
+      "source_rect": [
+        847,
+        563,
+        1233,
+        724
+      ],
+      "source_grip": [
+        197,
+        51
+      ],
+      "source_object_bounds": [
+        -14,
+        -3,
+        247,
+        110
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-through": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-through",
+      "source_rect": [
+        30,
+        961,
+        407,
+        1135
+      ],
+      "source_grip": [
+        164,
+        38
+      ],
+      "source_object_bounds": [
+        -7,
+        -16,
+        217,
+        119
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-recover": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-recover",
+      "source_rect": [
+        471,
+        878,
+        815,
+        1173
+      ],
+      "source_grip": [
+        145,
+        140
+      ],
+      "source_object_bounds": [
+        -10,
+        -11,
+        199,
+        200
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "thief-longsword-return": {
+      "sheet": "aa22",
+      "group": "aa22",
+      "id": "longsword",
+      "cls": "thief",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "thief-longsword-return",
+      "source_rect": [
+        921,
+        846,
+        1207,
+        1207
+      ],
+      "source_grip": [
+        109,
+        178
+      ],
+      "source_object_bounds": [
+        -10,
+        -15,
+        164,
+        234
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "ranger-longsword-rest": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-rest",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-rest"
+      }
+    },
+    "ranger-longsword-drawback": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-drawback",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-drawback"
+      }
+    },
+    "ranger-longsword-windup": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-windup",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-windup"
+      }
+    },
+    "ranger-longsword-strike": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-strike",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-strike"
+      }
+    },
+    "ranger-longsword-cut": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-cut",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-cut"
+      }
+    },
+    "ranger-longsword-sweep": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-sweep",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-sweep"
+      }
+    },
+    "ranger-longsword-through": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-through",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-through"
+      }
+    },
+    "ranger-longsword-recover": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-recover",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-recover"
+      }
+    },
+    "ranger-longsword-return": {
+      "sheet": "aa23",
+      "id": "longsword",
+      "cls": "ranger",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "ranger-longsword-return",
+      "reuse_registered": {
+        "batch": "t",
+        "key": "fighter-longsword-return"
+      }
+    },
+    "spellblade-longsword-rest": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-rest",
+      "source_rect": [
+        105,
+        35,
+        356,
+        421
+      ],
+      "source_grip": [
+        70,
+        212
+      ],
+      "source_object_bounds": [
+        -9,
+        -9,
+        119,
+        273
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-drawback": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "drawback",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-drawback",
+      "source_rect": [
+        554,
+        30,
+        735,
+        421
+      ],
+      "source_grip": [
+        50,
+        215
+      ],
+      "source_object_bounds": [
+        -6,
+        -6,
+        108,
+        283
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-windup": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "windup",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-windup",
+      "source_rect": [
+        987,
+        35,
+        1160,
+        417
+      ],
+      "source_grip": [
+        59,
+        207
+      ],
+      "source_object_bounds": [
+        -7,
+        -9,
+        161,
+        274
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-strike": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "strike",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-strike",
+      "source_rect": [
+        93,
+        433,
+        348,
+        793
+      ],
+      "source_grip": [
+        78,
+        195
+      ],
+      "source_object_bounds": [
+        -12,
+        -7,
+        130,
+        255
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-cut": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "cut",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-cut",
+      "source_rect": [
+        432,
+        504,
+        816,
+        734
+      ],
+      "source_grip": [
+        168,
+        111
+      ],
+      "source_object_bounds": [
+        -23,
+        -11,
+        224,
+        167
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-sweep": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "sweep",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-sweep",
+      "source_rect": [
+        848,
+        544,
+        1240,
+        715
+      ],
+      "source_grip": [
+        191,
+        64
+      ],
+      "source_object_bounds": [
+        -15,
+        -8,
+        245,
+        119
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-through": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "through",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-through",
+      "source_rect": [
+        32,
+        975,
+        426,
+        1149
+      ],
+      "source_grip": [
+        167,
+        42
+      ],
+      "source_object_bounds": [
+        -8,
+        -22,
+        219,
+        129
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-recover": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "recover",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-recover",
+      "source_rect": [
+        446,
+        858,
+        809,
+        1161
+      ],
+      "source_grip": [
+        161,
+        155
+      ],
+      "source_object_bounds": [
+        -14,
+        -11,
+        217,
+        220
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-return": {
+      "sheet": "aa24",
+      "group": "aa24",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "return",
+      "two": false,
+      "lit": false,
+      "key": "spellblade-longsword-return",
+      "source_rect": [
+        902,
+        801,
+        1206,
+        1193
+      ],
+      "source_grip": [
+        123,
+        229
+      ],
+      "source_object_bounds": [
+        -24,
+        -17,
+        180,
+        288
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-rest-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "rest",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-rest-reflected",
+      "source_rect": [
+        95,
+        30,
+        356,
+        425
+      ],
+      "source_grip": [
+        78,
+        217
+      ],
+      "source_object_bounds": [
+        -7,
+        -8,
+        130,
+        281
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-drawback-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "drawback",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-drawback-reflected",
+      "source_rect": [
+        550,
+        27,
+        740,
+        425
+      ],
+      "source_grip": [
+        55,
+        218
+      ],
+      "source_object_bounds": [
+        -10,
+        -7,
+        115,
+        289
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-windup-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "windup",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-windup-reflected",
+      "source_rect": [
+        989,
+        33,
+        1172,
+        424
+      ],
+      "source_grip": [
+        56,
+        209
+      ],
+      "source_object_bounds": [
+        -17,
+        -11,
+        164,
+        279
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-strike-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "strike",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-strike-reflected",
+      "source_rect": [
+        87,
+        426,
+        351,
+        798
+      ],
+      "source_grip": [
+        83,
+        202
+      ],
+      "source_object_bounds": [
+        -13,
+        -9,
+        141,
+        269
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-cut-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "cut",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-cut-reflected",
+      "source_rect": [
+        422,
+        501,
+        823,
+        739
+      ],
+      "source_grip": [
+        178,
+        114
+      ],
+      "source_object_bounds": [
+        -21,
+        -16,
+        239,
+        176
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-sweep-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "sweep",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-sweep-reflected",
+      "source_rect": [
+        847,
+        543,
+        1246,
+        720
+      ],
+      "source_grip": [
+        191,
+        67
+      ],
+      "source_object_bounds": [
+        -22,
+        -15,
+        251,
+        127
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-through-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "through",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-through-reflected",
+      "source_rect": [
+        23,
+        974,
+        428,
+        1154
+      ],
+      "source_grip": [
+        177,
+        42
+      ],
+      "source_object_bounds": [
+        -7,
+        -28,
+        234,
+        137
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-recover-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "recover",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-recover-reflected",
+      "source_rect": [
+        439,
+        856,
+        811,
+        1169
+      ],
+      "source_grip": [
+        169,
+        158
+      ],
+      "source_object_bounds": [
+        -14,
+        -17,
+        231,
+        230
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "spellblade-longsword-return-reflected": {
+      "sheet": "aa25",
+      "group": "aa25",
+      "id": "longsword",
+      "cls": "spellblade",
+      "pose": "return",
+      "two": false,
+      "lit": true,
+      "key": "spellblade-longsword-return-reflected",
+      "source_rect": [
+        898,
+        801,
+        1213,
+        1198
+      ],
+      "source_grip": [
+        130,
+        229
+      ],
+      "source_object_bounds": [
+        -27,
+        -26,
+        192,
+        297
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-staff-rest-two": {
+      "sheet": "aa26",
+      "group": "aa26",
+      "id": "staff",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "fighter-staff-rest-two",
+      "source_rect": [
+        100,
+        32,
+        548,
+        586
+      ],
+      "source_grip": [
+        180,
+        196
+      ],
+      "source_object_bounds": [
+        110,
+        -8,
+        249,
+        551
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        147,
+        30
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-staff-drive-two": {
+      "sheet": "aa26",
+      "group": "aa26",
+      "id": "staff",
+      "cls": "fighter",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "fighter-staff-drive-two",
+      "source_rect": [
+        741,
+        32,
+        1169,
+        586
+      ],
+      "source_grip": [
+        166,
+        196
+      ],
+      "source_object_bounds": [
+        94,
+        -8,
+        229,
+        551
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        133,
+        30
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-staff-rest-one": {
+      "sheet": "aa26",
+      "group": "aa26",
+      "id": "staff",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-staff-rest-one",
+      "source_rect": [
+        204,
+        666,
+        550,
+        1202
+      ],
+      "source_grip": [
+        84,
+        195
+      ],
+      "source_object_bounds": [
+        -7,
+        -18,
+        200,
+        542
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        32,
+        33
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-staff-channel-one": {
+      "sheet": "aa26",
+      "group": "aa26",
+      "id": "staff",
+      "cls": "fighter",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "fighter-staff-channel-one",
+      "source_rect": [
+        767,
+        663,
+        1155,
+        1193
+      ],
+      "source_grip": [
+        96,
+        195
+      ],
+      "source_object_bounds": [
+        -23,
+        -19,
+        255,
+        545
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        34,
+        29
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "cleric-staff-rest-two": {
+      "sheet": "aa27",
+      "group": "aa27",
+      "id": "staff",
+      "cls": "cleric",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "cleric-staff-rest-two",
+      "source_rect": [
+        162,
+        35,
+        564,
+        578
+      ],
+      "source_grip": [
+        140,
+        208
+      ],
+      "source_object_bounds": [
+        56,
+        -11,
+        235,
+        548
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        99,
+        34
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "cleric-staff-drive-two": {
+      "sheet": "aa27",
+      "group": "aa27",
+      "id": "staff",
+      "cls": "cleric",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "cleric-staff-drive-two",
+      "source_rect": [
+        791,
+        37,
+        1210,
+        578
+      ],
+      "source_grip": [
+        139,
+        204
+      ],
+      "source_object_bounds": [
+        59,
+        -13,
+        191,
+        546
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        124,
+        32
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "cleric-staff-rest-one": {
+      "sheet": "aa27",
+      "group": "aa27",
+      "id": "staff",
+      "cls": "cleric",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "cleric-staff-rest-one",
+      "source_rect": [
+        173,
+        664,
+        537,
+        1187
+      ],
+      "source_grip": [
+        113,
+        214
+      ],
+      "source_object_bounds": [
+        -8,
+        -16,
+        229,
+        544
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        33,
+        38
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "cleric-staff-channel-one": {
+      "sheet": "aa27",
+      "group": "aa27",
+      "id": "staff",
+      "cls": "cleric",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "cleric-staff-channel-one",
+      "source_rect": [
+        753,
+        662,
+        1153,
+        1205
+      ],
+      "source_grip": [
+        109,
+        214
+      ],
+      "source_object_bounds": [
+        -22,
+        -14,
+        267,
+        554
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        32,
+        42
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "druid-staff-rest-two": {
+      "sheet": "aa28",
+      "group": "aa28",
+      "id": "staff",
+      "cls": "druid",
+      "pose": "rest",
+      "two": true,
+      "lit": false,
+      "key": "druid-staff-rest-two",
+      "source_rect": [
+        86,
+        28,
+        550,
+        588
+      ],
+      "source_grip": [
+        190,
+        220
+      ],
+      "source_object_bounds": [
+        114,
+        -6,
+        274,
+        560
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        145,
+        32
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "druid-staff-drive-two": {
+      "sheet": "aa28",
+      "group": "aa28",
+      "id": "staff",
+      "cls": "druid",
+      "pose": "drive",
+      "two": true,
+      "lit": false,
+      "key": "druid-staff-drive-two",
+      "source_rect": [
+        741,
+        33,
+        1172,
+        588
+      ],
+      "source_grip": [
+        159,
+        212
+      ],
+      "source_object_bounds": [
+        76,
+        -11,
+        229,
+        555
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        114,
+        27
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "druid-staff-rest-one": {
+      "sheet": "aa28",
+      "group": "aa28",
+      "id": "staff",
+      "cls": "druid",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "druid-staff-rest-one",
+      "source_rect": [
+        159,
+        666,
+        546,
+        1209
+      ],
+      "source_grip": [
+        100,
+        212
+      ],
+      "source_object_bounds": [
+        -15,
+        -21,
+        226,
+        547
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        29,
+        33
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "druid-staff-channel-one": {
+      "sheet": "aa28",
+      "group": "aa28",
+      "id": "staff",
+      "cls": "druid",
+      "pose": "channel",
+      "two": false,
+      "lit": false,
+      "key": "druid-staff-channel-one",
+      "source_rect": [
+        751,
+        675,
+        1169,
+        1204
+      ],
+      "source_grip": [
+        87,
+        200
+      ],
+      "source_object_bounds": [
+        -23,
+        -30,
+        301,
+        538
+      ],
+      "object_height_limit": 128,
+      "source_tip": [
+        22,
+        25
+      ],
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-spear-rest": {
+      "sheet": "aa29",
+      "group": "aa29",
+      "id": "spear",
+      "cls": "fighter",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "fighter-spear-rest",
+      "source_rect": [
+        219,
+        54,
+        745,
+        839
+      ],
+      "source_grip": [
+        120,
+        394
+      ],
+      "source_object_bounds": [
+        -8,
+        -13,
+        197,
+        553
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "fighter-spear-drive": {
+      "sheet": "aa29",
+      "group": "aa29",
+      "id": "spear",
+      "cls": "fighter",
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "key": "fighter-spear-drive",
+      "source_rect": [
+        1094,
+        51,
+        1567,
+        841
+      ],
+      "source_grip": [
+        121,
+        397
+      ],
+      "source_object_bounds": [
+        -9,
+        -10,
+        201,
+        555
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained."
+    },
+    "ranger-spear-rest": {
+      "sheet": "aa29",
+      "group": "aa30",
+      "id": "spear",
+      "cls": "ranger",
+      "pose": "rest",
+      "two": false,
+      "lit": false,
+      "key": "ranger-spear-rest",
+      "source_rect": [
+        219,
+        54,
+        745,
+        839
+      ],
+      "source_grip": [
+        120,
+        394
+      ],
+      "source_object_bounds": [
+        -8,
+        -13,
+        197,
+        553
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa29"
+    },
+    "ranger-spear-drive": {
+      "sheet": "aa29",
+      "group": "aa30",
+      "id": "spear",
+      "cls": "ranger",
+      "pose": "drive",
+      "two": false,
+      "lit": false,
+      "key": "ranger-spear-drive",
+      "source_rect": [
+        1094,
+        51,
+        1567,
+        841
+      ],
+      "source_grip": [
+        121,
+        397
+      ],
+      "source_object_bounds": [
+        -9,
+        -10,
+        201,
+        555
+      ],
+      "object_height_limit": 128,
+      "source_crop_note": "Authored complete-object rectangle from inspected component extents with 3px padding; no pixel masking. Unequal source gutters retained.",
+      "reuse_native_group": "aa29"
+    }
+  },
+  "native_reuse_evidence": "batch-aa-melee5-preview/reference-inventory.json",
+  "review_notes": [
+    "Only crop, uniform family resize and translation are scripted. Original and image-tool repair provenance retained.",
+    "Requested 8 percent raw source gutters not met by every pose; exporter enforces at least 12 registered pixels at alpha>32.",
+    "Minor coloured/grey fringe remains in raw source edges after image-tool repairs; inspect registered alpha review. Reflected shortsword retains stronger narrow blue edges than longsword.",
+    "Ranger reuse requires native identical PNG/grip/bounds proof. Ranger longsword copies approved registered T Fighter frames byte for byte; no repaint or resize.",
+    "Staff authored tip markers are new source metadata. Future common exporter/loader activation must preserve tip for existing staff glint; no runtime changes in this source pass."
+  ],
+  "validation": {
+    "source_frames": 97,
+    "new_unique_painted_poses": 77,
+    "native_identical_reuse_states": 20,
+    "class_item_pairs": 12,
+    "atlas_groups": 14,
+    "phone_captures": 368,
+    "phone_galleries": 28,
+    "fitting_cases": 1104,
+    "new_frame_fitting_cases": 1062,
+    "protected_control_fitting_cases": 42,
+    "fallback_guards_per_width": 13,
+    "baseline_equipment_tests": 12,
+    "baseline_test_seconds": 31.7,
+    "minimum_alpha32_registered_clearance": 28,
+    "runtime_changes": false
+  },
+  "runtime_activation": {
+    "release": "0.9.37",
+    "status": "integrated for0.9.37; native actions/offline and complete Chromium validation recorded in combined runtime review",
+    "evidence": "batch-aa-melee45-runtime/REVIEW.md"
+  }
+}

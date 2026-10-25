@@ -1,0 +1,792 @@
+{
+  "groups": {
+    "aa17": {
+      "cls": "fighter",
+      "id": "mace",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "fighter-mace-return"
+        }
+      ]
+    },
+    "aa18": {
+      "cls": "fighter",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "fighter-shortsword-return"
+        }
+      ]
+    },
+    "aa19": {
+      "cls": "ranger",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "ranger-shortsword-return"
+        }
+      ]
+    },
+    "aa20": {
+      "cls": "spellblade",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-shortsword-return"
+        }
+      ]
+    },
+    "aa21": {
+      "cls": "spellblade",
+      "id": "shortsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-rest-reflected"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-drawback-reflected"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-windup-reflected"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-strike-reflected"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-cut-reflected"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-sweep-reflected"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-through-reflected"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-recover-reflected"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-shortsword-return-reflected"
+        }
+      ]
+    },
+    "aa22": {
+      "cls": "thief",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "thief-longsword-return"
+        }
+      ]
+    },
+    "aa23": {
+      "cls": "ranger",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "ranger-longsword-return"
+        }
+      ]
+    },
+    "aa24": {
+      "cls": "spellblade",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "spellblade-longsword-return"
+        }
+      ]
+    },
+    "aa25": {
+      "cls": "spellblade",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-rest-reflected"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-drawback-reflected"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-windup-reflected"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-strike-reflected"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-cut-reflected"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-sweep-reflected"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-through-reflected"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-recover-reflected"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": true,
+          "key": "spellblade-longsword-return-reflected"
+        }
+      ]
+    },
+    "aa26": {
+      "cls": "fighter",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "fighter-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "fighter-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "fighter-staff-channel-one"
+        }
+      ]
+    },
+    "aa27": {
+      "cls": "cleric",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "cleric-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "cleric-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "cleric-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "cleric-staff-channel-one"
+        }
+      ]
+    },
+    "aa28": {
+      "cls": "druid",
+      "id": "staff",
+      "grid": [
+        2,
+        2
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": true,
+          "lit": false,
+          "key": "druid-staff-rest-two"
+        },
+        {
+          "pose": "drive",
+          "two": true,
+          "lit": false,
+          "key": "druid-staff-drive-two"
+        },
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "druid-staff-rest-one"
+        },
+        {
+          "pose": "channel",
+          "two": false,
+          "lit": false,
+          "key": "druid-staff-channel-one"
+        }
+      ]
+    },
+    "aa29": {
+      "cls": "fighter",
+      "id": "spear",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "fighter-spear-rest"
+        },
+        {
+          "pose": "drive",
+          "two": false,
+          "lit": false,
+          "key": "fighter-spear-drive"
+        }
+      ]
+    },
+    "aa30": {
+      "cls": "ranger",
+      "id": "spear",
+      "grid": [
+        2,
+        1
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "ranger-spear-rest"
+        },
+        {
+          "pose": "drive",
+          "two": false,
+          "lit": false,
+          "key": "ranger-spear-drive"
+        }
+      ]
+    }
+  },
+  "audit_groups": {
+    "audit-fighter-longsword": {
+      "cls": "fighter",
+      "id": "longsword",
+      "grid": [
+        3,
+        3
+      ],
+      "states": [
+        {
+          "pose": "rest",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-rest"
+        },
+        {
+          "pose": "drawback",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-drawback"
+        },
+        {
+          "pose": "windup",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-windup"
+        },
+        {
+          "pose": "strike",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-strike"
+        },
+        {
+          "pose": "cut",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-cut"
+        },
+        {
+          "pose": "sweep",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-sweep"
+        },
+        {
+          "pose": "through",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-through"
+        },
+        {
+          "pose": "recover",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-recover"
+        },
+        {
+          "pose": "return",
+          "two": false,
+          "lit": false,
+          "key": "audit-fighter-longsword-return"
+        }
+      ]
+    }
+  }
+}

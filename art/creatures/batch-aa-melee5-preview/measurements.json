@@ -1,0 +1,3769 @@
+{
+  "family_scale": {
+    "aa17": 0.4409448818897638,
+    "aa18": 0.3902439024390244,
+    "aa20": 0.3957597173144876,
+    "aa21": 0.3957597173144876,
+    "aa22": 0.4740740740740741,
+    "aa24": 0.39628482972136225,
+    "aa25": 0.39628482972136225,
+    "aa26": 0.22695035460992907,
+    "aa27": 0.22535211267605634,
+    "aa28": 0.22535211267605634,
+    "aa29": 0.22614840989399293
+  },
+  "cells": {
+    "fighter-mace-rest": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        78,
+        29,
+        360,
+        402
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        279,
+        370
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        77,
+        39
+      ],
+      "grip": [
+        127.70866141732284,
+        128.07086614173227
+      ],
+      "object_bounds": [
+        75.67716535433071,
+        37.23622047244095,
+        146.22834645669292,
+        148.35433070866142
+      ],
+      "visible_bounds": [
+        78,
+        40,
+        200,
+        202
+      ],
+      "export_sha256": "ea41cda045a3ed9d4a2ae23d8165221fee49cfb584e4e9f37541f6cbc1d7730b"
+    },
+    "fighter-mace-drawback": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        563,
+        26,
+        736,
+        410
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        170,
+        381
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        108,
+        38
+      ],
+      "grip": [
+        127.84251968503938,
+        128.39370078740157
+      ],
+      "object_bounds": [
+        105.35433070866142,
+        38.0,
+        146.8031496062992,
+        150.0
+      ],
+      "visible_bounds": [
+        109,
+        39,
+        183,
+        206
+      ],
+      "export_sha256": "9224b1751b2b04d863e66e303c766578ebce74ce01e81463f9983c0ce7a4a4a9"
+    },
+    "fighter-mace-windup": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        1012,
+        29,
+        1187,
+        410
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        172,
+        378
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        109,
+        40
+      ],
+      "grip": [
+        127.51968503937007,
+        127.74803149606299
+      ],
+      "object_bounds": [
+        107.23622047244095,
+        38.23622047244095,
+        187.04724409448818,
+        149.79527559055117
+      ],
+      "visible_bounds": [
+        110,
+        41,
+        185,
+        207
+      ],
+      "export_sha256": "c68cfdbebed665ad0a8e74d62ad301ab86192b07747a80d9abc7b99befa424c6"
+    },
+    "fighter-mace-strike": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        66,
+        444,
+        360,
+        796
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        291,
+        349
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        75,
+        46
+      ],
+      "grip": [
+        128.35433070866142,
+        128.01574803149606
+      ],
+      "object_bounds": [
+        74.11811023622047,
+        45.55905511811024,
+        147.31496062992125,
+        150.9448818897638
+      ],
+      "visible_bounds": [
+        76,
+        47,
+        204,
+        200
+      ],
+      "export_sha256": "229d37df055d30c936ff6cd535f81f77cfdd155da12c9964bbfa1de72560534c"
+    },
+    "fighter-mace-cut": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        437,
+        518,
+        818,
+        756
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        378,
+        235
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        51,
+        81
+      ],
+      "grip": [
+        127.7244094488189,
+        128.18110236220474
+      ],
+      "object_bounds": [
+        49.23622047244095,
+        77.91338582677166,
+        149.3307086614173,
+        149.78740157480314
+      ],
+      "visible_bounds": [
+        52,
+        82,
+        218,
+        185
+      ],
+      "export_sha256": "5407bbd1598ee6c2e36b7dfb451a98f539f100d291cb491071052e06b11d96d6"
+    },
+    "fighter-mace-sweep": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        845,
+        568,
+        1230,
+        736
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        382,
+        165
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        46,
+        101
+      ],
+      "grip": [
+        127.5748031496063,
+        127.89763779527559
+      ],
+      "object_bounds": [
+        41.59055118110236,
+        98.79527559055119,
+        150.50393700787401,
+        148.18110236220474
+      ],
+      "visible_bounds": [
+        47,
+        102,
+        215,
+        174
+      ],
+      "export_sha256": "ccbb57c272ee21f5d6d8e4f91d54854a6c2d03c9d14bfe26c3f09d86c606648e"
+    },
+    "fighter-mace-through": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        32,
+        982,
+        417,
+        1136
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        382,
+        151
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        49,
+        115
+      ],
+      "grip": [
+        127.92913385826772,
+        127.78740157480316
+      ],
+      "object_bounds": [
+        46.79527559055118,
+        109.26771653543307,
+        150.85826771653544,
+        182.46456692913387
+      ],
+      "visible_bounds": [
+        50,
+        116,
+        218,
+        182
+      ],
+      "export_sha256": "af643564dc6a98b11a47e31ab51b24601eef2734a746e12cdb6f5e6b7a0e3a20"
+    },
+    "fighter-mace-recover": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        464,
+        873,
+        817,
+        1184
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        350,
+        308
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        60,
+        69
+      ],
+      "grip": [
+        127.90551181102362,
+        128.08661417322836
+      ],
+      "object_bounds": [
+        56.031496062992126,
+        68.55905511811024,
+        151.71653543307087,
+        151.45669291338584
+      ],
+      "visible_bounds": [
+        61,
+        70,
+        215,
+        205
+      ],
+      "export_sha256": "5061abfabf49529ee13cf5ec17a3242a9f9ca4161d0876b03aa23ccebdefd12f"
+    },
+    "fighter-mace-return": {
+      "source": "held-aa17.png",
+      "source_sha256": "9e4518a94e276eb4f4a62ba0fd48556f575639c707768123d5223fc70ceef9e6",
+      "source_rect": [
+        886,
+        842,
+        1216,
+        1211
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        327,
+        366
+      ],
+      "scale": 0.4409448818897638,
+      "offset": [
+        53,
+        44
+      ],
+      "grip": [
+        127.51968503937007,
+        127.77952755905511
+      ],
+      "object_bounds": [
+        44.62204724409449,
+        39.1496062992126,
+        150.00787401574803,
+        147.18110236220474
+      ],
+      "visible_bounds": [
+        54,
+        45,
+        198,
+        206
+      ],
+      "export_sha256": "7b17a5fff906b274fbd89dcc5d3d93633564243839d6531cd5a979134bd6c799"
+    },
+    "fighter-shortsword-rest": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        107,
+        26,
+        379,
+        409
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        269,
+        380
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        96,
+        49
+      ],
+      "grip": [
+        128.390243902439,
+        128.21951219512195
+      ],
+      "object_bounds": [
+        93.65853658536585,
+        46.65853658536585,
+        144.78048780487805,
+        155.14634146341464
+      ],
+      "visible_bounds": [
+        97,
+        50,
+        201,
+        197
+      ],
+      "export_sha256": "d3da60bc826ed9af86ded85a99b82f3414dcc0e153c2ff78f8786c978517a934"
+    },
+    "fighter-shortsword-drawback": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        557,
+        22,
+        767,
+        422
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        207,
+        397
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        107,
+        45
+      ],
+      "grip": [
+        128.46341463414635,
+        128.1219512195122
+      ],
+      "object_bounds": [
+        105.82926829268293,
+        43.829268292682926,
+        147.58536585365854,
+        155.8292682926829
+      ],
+      "visible_bounds": [
+        108,
+        46,
+        188,
+        200
+      ],
+      "export_sha256": "58c53620b5506e2cf56ebe1424b2df7ca3c5458fd887ad46618036ce688b4d1c"
+    },
+    "fighter-shortsword-windup": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        999,
+        35,
+        1180,
+        422
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        178,
+        384
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        111,
+        50
+      ],
+      "grip": [
+        127.78048780487805,
+        128.4390243902439
+      ],
+      "object_bounds": [
+        108.26829268292683,
+        47.65853658536585,
+        166.8048780487805,
+        152.2439024390244
+      ],
+      "visible_bounds": [
+        112,
+        51,
+        181,
+        200
+      ],
+      "export_sha256": "13cd04ae93e3aa237f29c9f2751f6df0c1ee716a3d2eb5e45819330b08f9896c"
+    },
+    "fighter-shortsword-strike": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        88,
+        424,
+        373,
+        800
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        282,
+        373
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        92,
+        47
+      ],
+      "grip": [
+        127.90243902439025,
+        127.78048780487805
+      ],
+      "object_bounds": [
+        88.48780487804878,
+        45.829268292682926,
+        145.0731707317073,
+        154.70731707317074
+      ],
+      "visible_bounds": [
+        93,
+        48,
+        202,
+        193
+      ],
+      "export_sha256": "7ead5575c1e57a9fb97aba5948279e6ee7915cb252f87e6a2402efedafef9bc6"
+    },
+    "fighter-shortsword-cut": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        443,
+        528,
+        832,
+        761
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        386,
+        230
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        64,
+        91
+      ],
+      "grip": [
+        127.60975609756098,
+        127.6829268292683
+      ],
+      "object_bounds": [
+        62.4390243902439,
+        88.26829268292683,
+        146.7317073170732,
+        149.53658536585365
+      ],
+      "visible_bounds": [
+        65,
+        92,
+        215,
+        181
+      ],
+      "export_sha256": "938454d9ec45887425ad839eb896210d0ae41bbde9829f2a64b791f77b615f1e"
+    },
+    "fighter-shortsword-sweep": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        847,
+        568,
+        1240,
+        731
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        390,
+        160
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        53,
+        106
+      ],
+      "grip": [
+        127.92682926829269,
+        127.85365853658537
+      ],
+      "object_bounds": [
+        47.926829268292686,
+        101.3170731707317,
+        147.8292682926829,
+        147.7560975609756
+      ],
+      "visible_bounds": [
+        54,
+        107,
+        205,
+        169
+      ],
+      "export_sha256": "5aee581e376a132a3e023e41f0682726591317aace0fccdcbc3761dabe2be8a9"
+    },
+    "fighter-shortsword-through": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        24,
+        946,
+        418,
+        1127
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        391,
+        178
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        60,
+        111
+      ],
+      "grip": [
+        127.51219512195122,
+        127.78048780487805
+      ],
+      "object_bounds": [
+        58.4390243902439,
+        106.3170731707317,
+        148.97560975609758,
+        160.5609756097561
+      ],
+      "visible_bounds": [
+        61,
+        112,
+        213,
+        181
+      ],
+      "export_sha256": "7217c547bbd08632bb0b3807237fe225ec8c3dc96cdf6cf6489db7163ecc4cd6"
+    },
+    "fighter-shortsword-recover": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        456,
+        864,
+        816,
+        1169
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        357,
+        302
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        68,
+        79
+      ],
+      "grip": [
+        128.09756097560975,
+        128.1707317073171
+      ],
+      "object_bounds": [
+        66.04878048780488,
+        75.48780487804878,
+        148.78048780487805,
+        149.2439024390244
+      ],
+      "visible_bounds": [
+        69,
+        80,
+        207,
+        197
+      ],
+      "export_sha256": "70e4736f26bf888ff46212ad9ef1a79090ebbbdb55abb1194fec17cd8fe7a1e5"
+    },
+    "fighter-shortsword-return": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        880,
+        817,
+        1212,
+        1175
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        329,
+        355
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        66,
+        45
+      ],
+      "grip": [
+        127.65853658536585,
+        127.73170731707317
+      ],
+      "object_bounds": [
+        62.09756097560975,
+        40.3170731707317,
+        148.34146341463415,
+        148.02439024390245
+      ],
+      "visible_bounds": [
+        67,
+        46,
+        195,
+        184
+      ],
+      "export_sha256": "75e809558d4e6196c7d926337910e940ef9ee020afcc332940b5818562a93614"
+    },
+    "ranger-shortsword-rest": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        107,
+        26,
+        379,
+        409
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        269,
+        380
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        96,
+        49
+      ],
+      "grip": [
+        128.390243902439,
+        128.21951219512195
+      ],
+      "object_bounds": [
+        93.65853658536585,
+        46.65853658536585,
+        144.78048780487805,
+        155.14634146341464
+      ],
+      "visible_bounds": [
+        97,
+        50,
+        201,
+        197
+      ],
+      "export_sha256": "d3da60bc826ed9af86ded85a99b82f3414dcc0e153c2ff78f8786c978517a934"
+    },
+    "ranger-shortsword-drawback": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        557,
+        22,
+        767,
+        422
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        207,
+        397
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        107,
+        45
+      ],
+      "grip": [
+        128.46341463414635,
+        128.1219512195122
+      ],
+      "object_bounds": [
+        105.82926829268293,
+        43.829268292682926,
+        147.58536585365854,
+        155.8292682926829
+      ],
+      "visible_bounds": [
+        108,
+        46,
+        188,
+        200
+      ],
+      "export_sha256": "58c53620b5506e2cf56ebe1424b2df7ca3c5458fd887ad46618036ce688b4d1c"
+    },
+    "ranger-shortsword-windup": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        999,
+        35,
+        1180,
+        422
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        178,
+        384
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        111,
+        50
+      ],
+      "grip": [
+        127.78048780487805,
+        128.4390243902439
+      ],
+      "object_bounds": [
+        108.26829268292683,
+        47.65853658536585,
+        166.8048780487805,
+        152.2439024390244
+      ],
+      "visible_bounds": [
+        112,
+        51,
+        181,
+        200
+      ],
+      "export_sha256": "13cd04ae93e3aa237f29c9f2751f6df0c1ee716a3d2eb5e45819330b08f9896c"
+    },
+    "ranger-shortsword-strike": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        88,
+        424,
+        373,
+        800
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        282,
+        373
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        92,
+        47
+      ],
+      "grip": [
+        127.90243902439025,
+        127.78048780487805
+      ],
+      "object_bounds": [
+        88.48780487804878,
+        45.829268292682926,
+        145.0731707317073,
+        154.70731707317074
+      ],
+      "visible_bounds": [
+        93,
+        48,
+        202,
+        193
+      ],
+      "export_sha256": "7ead5575c1e57a9fb97aba5948279e6ee7915cb252f87e6a2402efedafef9bc6"
+    },
+    "ranger-shortsword-cut": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        443,
+        528,
+        832,
+        761
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        386,
+        230
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        64,
+        91
+      ],
+      "grip": [
+        127.60975609756098,
+        127.6829268292683
+      ],
+      "object_bounds": [
+        62.4390243902439,
+        88.26829268292683,
+        146.7317073170732,
+        149.53658536585365
+      ],
+      "visible_bounds": [
+        65,
+        92,
+        215,
+        181
+      ],
+      "export_sha256": "938454d9ec45887425ad839eb896210d0ae41bbde9829f2a64b791f77b615f1e"
+    },
+    "ranger-shortsword-sweep": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        847,
+        568,
+        1240,
+        731
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        390,
+        160
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        53,
+        106
+      ],
+      "grip": [
+        127.92682926829269,
+        127.85365853658537
+      ],
+      "object_bounds": [
+        47.926829268292686,
+        101.3170731707317,
+        147.8292682926829,
+        147.7560975609756
+      ],
+      "visible_bounds": [
+        54,
+        107,
+        205,
+        169
+      ],
+      "export_sha256": "5aee581e376a132a3e023e41f0682726591317aace0fccdcbc3761dabe2be8a9"
+    },
+    "ranger-shortsword-through": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        24,
+        946,
+        418,
+        1127
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        391,
+        178
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        60,
+        111
+      ],
+      "grip": [
+        127.51219512195122,
+        127.78048780487805
+      ],
+      "object_bounds": [
+        58.4390243902439,
+        106.3170731707317,
+        148.97560975609758,
+        160.5609756097561
+      ],
+      "visible_bounds": [
+        61,
+        112,
+        213,
+        181
+      ],
+      "export_sha256": "7217c547bbd08632bb0b3807237fe225ec8c3dc96cdf6cf6489db7163ecc4cd6"
+    },
+    "ranger-shortsword-recover": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        456,
+        864,
+        816,
+        1169
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        357,
+        302
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        68,
+        79
+      ],
+      "grip": [
+        128.09756097560975,
+        128.1707317073171
+      ],
+      "object_bounds": [
+        66.04878048780488,
+        75.48780487804878,
+        148.78048780487805,
+        149.2439024390244
+      ],
+      "visible_bounds": [
+        69,
+        80,
+        207,
+        197
+      ],
+      "export_sha256": "70e4736f26bf888ff46212ad9ef1a79090ebbbdb55abb1194fec17cd8fe7a1e5"
+    },
+    "ranger-shortsword-return": {
+      "source": "held-aa18-edges.png",
+      "source_sha256": "65fa1ff601dfb6dcea618648ba4386f5c5c6570bd1137336bcc8cf0cc2296399",
+      "source_rect": [
+        880,
+        817,
+        1212,
+        1175
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        329,
+        355
+      ],
+      "scale": 0.3902439024390244,
+      "offset": [
+        66,
+        45
+      ],
+      "grip": [
+        127.65853658536585,
+        127.73170731707317
+      ],
+      "object_bounds": [
+        62.09756097560975,
+        40.3170731707317,
+        148.34146341463415,
+        148.02439024390245
+      ],
+      "visible_bounds": [
+        67,
+        46,
+        195,
+        184
+      ],
+      "export_sha256": "75e809558d4e6196c7d926337910e940ef9ee020afcc332940b5818562a93614"
+    },
+    "spellblade-shortsword-rest": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        100,
+        24,
+        359,
+        402
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        256,
+        375
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        98,
+        53
+      ],
+      "grip": [
+        128.07773851590105,
+        128.19434628975264
+      ],
+      "object_bounds": [
+        95.22968197879858,
+        51.41696113074205,
+        145.886925795053,
+        153.91872791519432
+      ],
+      "visible_bounds": [
+        99,
+        54,
+        200,
+        202
+      ],
+      "export_sha256": "bc595b107cf64e83520c0e3b59e66063875aa6f7fe26211860e9c6bb376c9641"
+    },
+    "spellblade-shortsword-drawback": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        559,
+        28,
+        749,
+        407
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        187,
+        376
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        108,
+        52
+      ],
+      "grip": [
+        127.78798586572438,
+        128.38162544169612
+      ],
+      "object_bounds": [
+        105.62544169611307,
+        49.62544169611307,
+        149.15901060070672,
+        156.08480565371025
+      ],
+      "visible_bounds": [
+        109,
+        53,
+        182,
+        201
+      ],
+      "export_sha256": "fa954d13ab97bf0f66a778b63163bb79d5caf63878e9026876a5b3096c5c3747"
+    },
+    "spellblade-shortsword-windup": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        992,
+        33,
+        1185,
+        396
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        190,
+        360
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        109,
+        57
+      ],
+      "grip": [
+        127.9964664310954,
+        127.84098939929328
+      ],
+      "object_bounds": [
+        106.62544169611307,
+        53.8339222614841,
+        168.36395759717314,
+        153.96113074204948
+      ],
+      "visible_bounds": [
+        110,
+        58,
+        184,
+        200
+      ],
+      "export_sha256": "c70ecaa256c409c9e42f481a1f463d9ed6d9ab2343aa6bc11dc530c3496938f9"
+    },
+    "spellblade-shortsword-strike": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        64,
+        454,
+        344,
+        813
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        277,
+        356
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        88,
+        57
+      ],
+      "grip": [
+        128.36749116607774,
+        128.23674911660777
+      ],
+      "object_bounds": [
+        84.04240282685512,
+        53.8339222614841,
+        147.75971731448763,
+        152.773851590106
+      ],
+      "visible_bounds": [
+        89,
+        58,
+        198,
+        198
+      ],
+      "export_sha256": "4a0ee1e0760858676b6ab860b4818ee46bf011a67a7775778863bfc2b35b6df5"
+    },
+    "spellblade-shortsword-cut": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        415,
+        532,
+        822,
+        745
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        404,
+        210
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        54,
+        94
+      ],
+      "grip": [
+        128.0070671378092,
+        128.03533568904595
+      ],
+      "object_bounds": [
+        49.25088339222615,
+        90.04240282685512,
+        148.58657243816253,
+        150.59363957597174
+      ],
+      "visible_bounds": [
+        55,
+        95,
+        214,
+        177
+      ],
+      "export_sha256": "58fdbdd307bdaa17dfa0b3e495731c9c95b783ab46c9d51bdbd9e7a12b2aa7ef"
+    },
+    "spellblade-shortsword-sweep": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        855,
+        572,
+        1246,
+        742
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        388,
+        167
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        55,
+        109
+      ],
+      "grip": [
+        128.21554770318022,
+        127.9964664310954
+      ],
+      "object_bounds": [
+        47.48056537102474,
+        105.04240282685512,
+        149.98233215547702,
+        150.9505300353357
+      ],
+      "visible_bounds": [
+        56,
+        110,
+        209,
+        175
+      ],
+      "export_sha256": "c1c12a377efdcca89a483cc56dc3bf8f1cbd389827f8e25554d155d07b35b78b"
+    },
+    "spellblade-shortsword-through": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        13,
+        979,
+        415,
+        1147
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        399,
+        165
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        56,
+        113
+      ],
+      "grip": [
+        127.63250883392226,
+        128.03886925795052
+      ],
+      "object_bounds": [
+        54.02120141342756,
+        106.2720848056537,
+        150.19081272084804,
+        168.80212014134275
+      ],
+      "visible_bounds": [
+        57,
+        114,
+        214,
+        178
+      ],
+      "export_sha256": "7930dacdc0dae7638bd3d36e0cb039bdf88c99ca5bd410942baddd6896262e2d"
+    },
+    "spellblade-shortsword-recover": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        453,
+        875,
+        832,
+        1187
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        376,
+        309
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        67,
+        75
+      ],
+      "grip": [
+        127.9469964664311,
+        127.63604240282686
+      ],
+      "object_bounds": [
+        62.64664310954063,
+        70.64664310954063,
+        148.92226148409895,
+        152.17314487632507
+      ],
+      "visible_bounds": [
+        68,
+        76,
+        216,
+        197
+      ],
+      "export_sha256": "fe9556fa7e4c8e63693dbc7deba2800fcf5ccfb4baa60bf81f3e27dcbf8b0273"
+    },
+    "spellblade-shortsword-return": {
+      "source": "held-aa20-edges.png",
+      "source_sha256": "789cde6c1b6ae37f18baa7ab974564ed5e4bc2f66b7c0473bd4691a4243a8927",
+      "source_rect": [
+        892,
+        825,
+        1210,
+        1209
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        315,
+        381
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        72,
+        47
+      ],
+      "grip": [
+        128.19787985865725,
+        127.73498233215547
+      ],
+      "object_bounds": [
+        68.8339222614841,
+        43.8339222614841,
+        150.75618374558303,
+        151.48056537102474
+      ],
+      "visible_bounds": [
+        73,
+        48,
+        197,
+        198
+      ],
+      "export_sha256": "5704a893fbca7bae0472076fddfca0996e6d05a0c90460305ab57bc2a1dd5b2c"
+    },
+    "spellblade-shortsword-rest-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        97,
+        23,
+        361,
+        405
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        261,
+        379
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        96,
+        52
+      ],
+      "grip": [
+        127.66077738515901,
+        128.38162544169612
+      ],
+      "object_bounds": [
+        93.22968197879858,
+        50.02120141342756,
+        146.26148409893992,
+        154.5017667844523
+      ],
+      "visible_bounds": [
+        97,
+        53,
+        199,
+        202
+      ],
+      "export_sha256": "f1b04f2a6e3574c3ebe06f2688ff02a0aba489c07bd4e4604602a9160231eaa7"
+    },
+    "spellblade-shortsword-drawback-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        567,
+        24,
+        765,
+        412
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        195,
+        385
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        112,
+        50
+      ],
+      "grip": [
+        128.226148409894,
+        127.56890459363957
+      ],
+      "object_bounds": [
+        106.06360424028269,
+        48.41696113074205,
+        149.9929328621908,
+        155.6678445229682
+      ],
+      "visible_bounds": [
+        113,
+        51,
+        189,
+        203
+      ],
+      "export_sha256": "0750cbbac837ca94c042c5478db75e574e96fc884c769e4dd9300f6e9e245e10"
+    },
+    "spellblade-shortsword-windup-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        1003,
+        34,
+        1205,
+        403
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        199,
+        366
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        113,
+        58
+      ],
+      "grip": [
+        128.03886925795052,
+        128.4452296819788
+      ],
+      "object_bounds": [
+        105.08480565371025,
+        53.25088339222615,
+        169.59363957597174,
+        155.35689045936397
+      ],
+      "visible_bounds": [
+        114,
+        59,
+        192,
+        203
+      ],
+      "export_sha256": "ec8cb75e4a419045559766a284fb693bf67b154cbabd8655640b4781ebe52dee"
+    },
+    "spellblade-shortsword-strike-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        65,
+        451,
+        351,
+        820
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        283,
+        366
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        88,
+        56
+      ],
+      "grip": [
+        127.97173144876325,
+        128.02826855123675
+      ],
+      "object_bounds": [
+        81.6678445229682,
+        52.438162544169614,
+        148.9469964664311,
+        154.5441696113074
+      ],
+      "visible_bounds": [
+        89,
+        57,
+        200,
+        201
+      ],
+      "export_sha256": "31368f5f36cafe77d806a03a9bd72552ba0656c145751318ff1da35c5d0ba1d1"
+    },
+    "spellblade-shortsword-cut-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        416,
+        529,
+        828,
+        754
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        409,
+        222
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        53,
+        92
+      ],
+      "grip": [
+        127.79858657243815,
+        128.01413427561837
+      ],
+      "object_bounds": [
+        45.87632508833922,
+        87.25088339222614,
+        149.565371024735,
+        151.75971731448763
+      ],
+      "visible_bounds": [
+        54,
+        93,
+        215,
+        180
+      ],
+      "export_sha256": "e62e2aebcd1bf82c4aaf2a4abf945c4bfe190173a27263e208b02ebcee43af79"
+    },
+    "spellblade-shortsword-sweep-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        858,
+        573,
+        1254,
+        751
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        393,
+        175
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        56,
+        109
+      ],
+      "grip": [
+        128.02826855123675,
+        127.9964664310954
+      ],
+      "object_bounds": [
+        46.897526501766784,
+        103.45936395759718,
+        150.98233215547702,
+        151.74204946996466
+      ],
+      "visible_bounds": [
+        57,
+        110,
+        212,
+        178
+      ],
+      "export_sha256": "02df4ea587ca05b0453d1d6f833e1e6e421d07506b5290caab0547ff342b8923"
+    },
+    "spellblade-shortsword-through-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        14,
+        976,
+        424,
+        1154
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        407,
+        175
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        57,
+        113
+      ],
+      "grip": [
+        127.84098939929328,
+        128.434628975265
+      ],
+      "object_bounds": [
+        54.22968197879859,
+        105.87632508833923,
+        151.58657243816253,
+        170.7809187279152
+      ],
+      "visible_bounds": [
+        58,
+        114,
+        218,
+        182
+      ],
+      "export_sha256": "89765ceec868cd2cd2c05ee52bba82ce2ad3dbaf7962a981bc34c787234e509d"
+    },
+    "spellblade-shortsword-recover-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        462,
+        875,
+        841,
+        1196
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        376,
+        318
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        69,
+        75
+      ],
+      "grip": [
+        127.57243816254416,
+        127.63604240282686
+      ],
+      "object_bounds": [
+        60.293286219081274,
+        68.2720848056537,
+        148.15194346289752,
+        154.15194346289752
+      ],
+      "visible_bounds": [
+        70,
+        76,
+        218,
+        201
+      ],
+      "export_sha256": "0fad619ed634f01665e3cf4a0bf78ec53e8cfe15fee46b226a9aabb300091b20"
+    },
+    "spellblade-shortsword-return-reflected": {
+      "source": "held-aa21-edges.png",
+      "source_sha256": "5bb0834c2adba1d72e95d7f3472f1b2e0cc31074a102843f64b3546ee0f71c45",
+      "source_rect": [
+        891,
+        822,
+        1215,
+        1216
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        321,
+        391
+      ],
+      "scale": 0.3957597173144876,
+      "offset": [
+        70,
+        45
+      ],
+      "grip": [
+        128.17667844522967,
+        127.7137809187279
+      ],
+      "object_bounds": [
+        64.85512367491167,
+        40.25088339222615,
+        151.92226148409895,
+        152.25088339222614
+      ],
+      "visible_bounds": [
+        71,
+        46,
+        197,
+        200
+      ],
+      "export_sha256": "b39eb9862e6d922b29e83da2afb109e8323b9ba82c052d7125afba16d118cfb2"
+    },
+    "thief-longsword-rest": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        110,
+        50,
+        340,
+        416
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        227,
+        363
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        96,
+        37
+      ],
+      "grip": [
+        127.76296296296296,
+        128.4962962962963
+      ],
+      "object_bounds": [
+        93.62962962962963,
+        33.20740740740741,
+        150.04444444444445,
+        155.9925925925926
+      ],
+      "visible_bounds": [
+        97,
+        38,
+        204,
+        210
+      ],
+      "export_sha256": "4182f56cf556a09df77535a641d8ab9e85e69539053a5afbf8e14029b83b24a9"
+    },
+    "thief-longsword-drawback": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        563,
+        42,
+        724,
+        417
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        158,
+        372
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        106,
+        34
+      ],
+      "grip": [
+        127.80740740740741,
+        128.34074074074073
+      ],
+      "object_bounds": [
+        102.68148148148148,
+        31.155555555555555,
+        156.72592592592594,
+        159.15555555555557
+      ],
+      "visible_bounds": [
+        107,
+        35,
+        181,
+        211
+      ],
+      "export_sha256": "06d5f5c27518650353c3a3d61af7e3f4309809cf786579a1f354025c0e4fa430"
+    },
+    "thief-longsword-windup": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        1009,
+        61,
+        1163,
+        418
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        151,
+        354
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        108,
+        43
+      ],
+      "grip": [
+        127.91111111111111,
+        128.33333333333334
+      ],
+      "object_bounds": [
+        101.36296296296297,
+        35.888888888888886,
+        181.95555555555558,
+        155.82962962962964
+      ],
+      "visible_bounds": [
+        109,
+        44,
+        180,
+        211
+      ],
+      "export_sha256": "9b3f54316222d8c3086780c7844588959bab0a0c29da6c97c72a4ec039009a80"
+    },
+    "thief-longsword-strike": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        90,
+        443,
+        336,
+        808
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        243,
+        362
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        89,
+        37
+      ],
+      "grip": [
+        128.34814814814814,
+        127.54814814814816
+      ],
+      "object_bounds": [
+        85.68148148148148,
+        35.577777777777776,
+        152.05185185185186,
+        153.14814814814815
+      ],
+      "visible_bounds": [
+        90,
+        38,
+        205,
+        209
+      ],
+      "export_sha256": "79ae33944c7e21b4e42e64c875d8e41316d9fc6bf7677a598e291d635438fd60"
+    },
+    "thief-longsword-cut": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        424,
+        531,
+        814,
+        739
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        387,
+        205
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        44,
+        85
+      ],
+      "grip": [
+        128.3851851851852,
+        127.66666666666667
+      ],
+      "object_bounds": [
+        40.681481481481484,
+        79.78518518518518,
+        153.51111111111112,
+        154.6888888888889
+      ],
+      "visible_bounds": [
+        45,
+        86,
+        228,
+        183
+      ],
+      "export_sha256": "c10ea2ebf478a47a05339ee9498ab3b940bc6a490624a6f38c3ab575b6f216fa"
+    },
+    "thief-longsword-sweep": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        847,
+        563,
+        1233,
+        724
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        383,
+        158
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        35,
+        104
+      ],
+      "grip": [
+        128.3925925925926,
+        128.17777777777778
+      ],
+      "object_bounds": [
+        28.36296296296296,
+        102.57777777777778,
+        152.09629629629632,
+        156.14814814814815
+      ],
+      "visible_bounds": [
+        36,
+        105,
+        217,
+        179
+      ],
+      "export_sha256": "8502deea3a0c425f84933256a378544a9024ce1cd11684247868765a60f07baa"
+    },
+    "thief-longsword-through": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        30,
+        961,
+        407,
+        1135
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        374,
+        171
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        50,
+        110
+      ],
+      "grip": [
+        127.74814814814815,
+        128.01481481481483
+      ],
+      "object_bounds": [
+        46.681481481481484,
+        102.41481481481482,
+        152.8740740740741,
+        166.4148148148148
+      ],
+      "visible_bounds": [
+        52,
+        111,
+        228,
+        191
+      ],
+      "export_sha256": "6a4a7acdf68fc0ff70e1472d9f9257366ca3cdfba810c273e67438e355750282"
+    },
+    "thief-longsword-recover": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        471,
+        878,
+        815,
+        1173
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        341,
+        292
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        59,
+        62
+      ],
+      "grip": [
+        127.74074074074075,
+        128.37037037037038
+      ],
+      "object_bounds": [
+        54.25925925925926,
+        56.785185185185185,
+        153.34074074074073,
+        156.81481481481484
+      ],
+      "visible_bounds": [
+        60,
+        63,
+        221,
+        201
+      ],
+      "export_sha256": "dd5e540e2590cabb773400173b069efb0a97354f22c21b2489d836dc473ab3ee"
+    },
+    "thief-longsword-return": {
+      "source": "held-aa22-edges.png",
+      "source_sha256": "77a8aeea2987a71ec49630c28f60c69293824c300e17c2ca079fd71ac4b0ea51",
+      "source_rect": [
+        921,
+        846,
+        1207,
+        1207
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        283,
+        358
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        76,
+        44
+      ],
+      "grip": [
+        127.67407407407407,
+        128.3851851851852
+      ],
+      "object_bounds": [
+        71.25925925925927,
+        36.888888888888886,
+        153.74814814814815,
+        154.93333333333334
+      ],
+      "visible_bounds": [
+        77,
+        45,
+        211,
+        214
+      ],
+      "export_sha256": "7e75369cce298c62e34e6261a4dd4a8b59ac0b80452f4019bf122be2284e3b96"
+    },
+    "ranger-longsword-rest": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        0,
+        0,
+        418,
+        418
+      ],
+      "source_visible_bounds": [
+        111,
+        42,
+        341,
+        397
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        47,
+        14
+      ],
+      "grip": [
+        128.06666666666666,
+        127.77777777777779
+      ],
+      "object_bounds": [
+        96.77777777777777,
+        32.01481481481481,
+        152.24444444444447,
+        152.42962962962963
+      ],
+      "visible_bounds": [
+        99,
+        34,
+        209,
+        202
+      ],
+      "export_sha256": "b5b77c61d2a9ee9b0a1dc5a0e0f071ea3cddab278f0038dc3127061219c2ec3b",
+      "reused_registered": "batch-t-preview/fighter-longsword-rest.png",
+      "reused_key": "fighter-longsword-rest"
+    },
+    "ranger-longsword-drawback": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        418,
+        0,
+        836,
+        418
+      ],
+      "source_visible_bounds": [
+        146,
+        41,
+        330,
+        403
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        36,
+        14
+      ],
+      "grip": [
+        127.97037037037038,
+        127.77777777777779
+      ],
+      "object_bounds": [
+        103.7925925925926,
+        32.01481481481481,
+        157.36296296296297,
+        153.3777777777778
+      ],
+      "visible_bounds": [
+        105,
+        34,
+        193,
+        205
+      ],
+      "export_sha256": "9f1ef0ed1f5bdcf4406e863ab66ae1ea04c3c31de3a68fbbd63e26ba1b82f721",
+      "reused_registered": "batch-t-preview/fighter-longsword-drawback.png",
+      "reused_key": "fighter-longsword-drawback"
+    },
+    "ranger-longsword-windup": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        836,
+        0,
+        1254,
+        418
+      ],
+      "source_visible_bounds": [
+        149,
+        57,
+        336,
+        402
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        36,
+        12
+      ],
+      "grip": [
+        127.97037037037038,
+        128.14814814814815
+      ],
+      "object_bounds": [
+        105.21481481481482,
+        34.75555555555556,
+        188.65185185185186,
+        153.2740740740741
+      ],
+      "visible_bounds": [
+        107,
+        39,
+        196,
+        203
+      ],
+      "export_sha256": "ef6aabe4da81a4af537c9a445a0050e1658f5e126784b5c8c4ac67b29aab7340",
+      "reused_registered": "batch-t-preview/fighter-longsword-windup.png",
+      "reused_key": "fighter-longsword-windup"
+    },
+    "ranger-longsword-strike": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        0,
+        418,
+        418,
+        836
+      ],
+      "source_visible_bounds": [
+        92,
+        26,
+        338,
+        391
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        50,
+        21
+      ],
+      "grip": [
+        127.74814814814815,
+        128.14074074074074
+      ],
+      "object_bounds": [
+        89.82222222222222,
+        28.585185185185185,
+        153.34814814814814,
+        156.5851851851852
+      ],
+      "visible_bounds": [
+        94,
+        33,
+        210,
+        207
+      ],
+      "export_sha256": "b3e5dbb3c71173a9e4cda13f85af0fd627b6e8dbd23d057ddaea7cb67f7b4ae1",
+      "reused_registered": "batch-t-preview/fighter-longsword-strike.png",
+      "reused_key": "fighter-longsword-strike"
+    },
+    "ranger-longsword-cut": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        418,
+        418,
+        836,
+        836
+      ],
+      "source_visible_bounds": [
+        30,
+        129,
+        402,
+        339
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        31,
+        17
+      ],
+      "grip": [
+        128.1851851851852,
+        128.4074074074074
+      ],
+      "object_bounds": [
+        43.32592592592593,
+        72.94074074074075,
+        150.46666666666667,
+        145.94814814814816
+      ],
+      "visible_bounds": [
+        45,
+        78,
+        222,
+        178
+      ],
+      "export_sha256": "c96b3a7934a4f8c7629a4ebc7eb9ba27060ad1fbec1d3079f043fbe0a0bc7937",
+      "reused_registered": "batch-t-preview/fighter-longsword-cut.png",
+      "reused_key": "fighter-longsword-cut"
+    },
+    "ranger-longsword-sweep": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        836,
+        418,
+        1254,
+        836
+      ],
+      "source_visible_bounds": [
+        28,
+        164,
+        396,
+        342
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        30,
+        18
+      ],
+      "grip": [
+        128.13333333333333,
+        127.51111111111112
+      ],
+      "object_bounds": [
+        39.48148148148148,
+        96.22222222222223,
+        148.51851851851853,
+        148.37037037037038
+      ],
+      "visible_bounds": [
+        43,
+        96,
+        218,
+        180
+      ],
+      "export_sha256": "e2ec0eaa0e0b733db26e0d352b62909d027a51e6f480a8ef6cbb2d10c07490f9",
+      "reused_registered": "batch-t-preview/fighter-longsword-sweep.png",
+      "reused_key": "fighter-longsword-sweep"
+    },
+    "ranger-longsword-through": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        0,
+        836,
+        418,
+        1254
+      ],
+      "source_visible_bounds": [
+        39,
+        147,
+        415,
+        315
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        22,
+        32
+      ],
+      "grip": [
+        128.1925925925926,
+        127.76296296296297
+      ],
+      "object_bounds": [
+        35.27407407407408,
+        98.37037037037037,
+        153.7925925925926,
+        167.11111111111111
+      ],
+      "visible_bounds": [
+        41,
+        101,
+        219,
+        181
+      ],
+      "export_sha256": "c3428f723b0e1764c70b41885fda908ae54266b4955c6e2a488b963ffa9458e8",
+      "reused_registered": "batch-t-preview/fighter-longsword-through.png",
+      "reused_key": "fighter-longsword-through"
+    },
+    "ranger-longsword-recover": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        418,
+        836,
+        836,
+        1254
+      ],
+      "source_visible_bounds": [
+        33,
+        71,
+        391,
+        352
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        28,
+        40
+      ],
+      "grip": [
+        128.02962962962965,
+        128.17777777777778
+      ],
+      "object_bounds": [
+        38.42962962962963,
+        66.07407407407408,
+        148.8888888888889,
+        155.2
+      ],
+      "visible_bounds": [
+        44,
+        73,
+        214,
+        207
+      ],
+      "export_sha256": "36028a891b07c970f524feba1c973e13477da9c31cc73bdb509faca809e27df9",
+      "reused_registered": "batch-t-preview/fighter-longsword-recover.png",
+      "reused_key": "fighter-longsword-recover"
+    },
+    "ranger-longsword-return": {
+      "source": "held-t1.png",
+      "source_sha256": "007c961a0c698d1630cfab65725c1f53e721fd78da6640dc1df6c920906f5f51",
+      "source_rect": [
+        836,
+        836,
+        1254,
+        1254
+      ],
+      "source_visible_bounds": [
+        83,
+        14,
+        346,
+        372
+      ],
+      "scale": 0.4740740740740741,
+      "offset": [
+        39,
+        28
+      ],
+      "grip": [
+        128.1259259259259,
+        127.55555555555556
+      ],
+      "object_bounds": [
+        72.18518518518519,
+        33.68888888888889,
+        149.93333333333334,
+        156.0
+      ],
+      "visible_bounds": [
+        78,
+        35,
+        203,
+        205
+      ],
+      "export_sha256": "439a2cc6e87956866bd6c9046e4650f7096703b931c2d6af24dc8d3fb8d18556",
+      "reused_registered": "batch-t-preview/fighter-longsword-return.png",
+      "reused_key": "fighter-longsword-return"
+    },
+    "spellblade-longsword-rest": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        105,
+        35,
+        356,
+        421
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        248,
+        383
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        100,
+        44
+      ],
+      "grip": [
+        127.73993808049536,
+        128.0123839009288
+      ],
+      "object_bounds": [
+        96.43343653250774,
+        40.43343653250774,
+        147.1578947368421,
+        152.1857585139319
+      ],
+      "visible_bounds": [
+        101,
+        45,
+        198,
+        196
+      ],
+      "export_sha256": "1335dd07c56951b618ced8721286a7e2bc979f94882b12fed7cbc81fc9e0916f"
+    },
+    "spellblade-longsword-drawback": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        554,
+        30,
+        735,
+        421
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        178,
+        388
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        108,
+        43
+      ],
+      "grip": [
+        127.81424148606811,
+        128.2012383900929
+      ],
+      "object_bounds": [
+        105.62229102167183,
+        40.62229102167183,
+        150.79876160990713,
+        155.1486068111455
+      ],
+      "visible_bounds": [
+        109,
+        44,
+        179,
+        197
+      ],
+      "export_sha256": "712cd5331a53e7516d75e027de90b8ee6d7d397efeffc20a3fa46b77fd111acf"
+    },
+    "spellblade-longsword-windup": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        987,
+        35,
+        1160,
+        417
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        170,
+        379
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        105,
+        46
+      ],
+      "grip": [
+        128.38080495356036,
+        128.030959752322
+      ],
+      "object_bounds": [
+        102.22600619195046,
+        42.43343653250774,
+        168.80185758513932,
+        154.58204334365325
+      ],
+      "visible_bounds": [
+        106,
+        47,
+        173,
+        196
+      ],
+      "export_sha256": "8f1a840a116cae27bdef710490344084a9b51c50d8010566ba7d664a7ab103e1"
+    },
+    "spellblade-longsword-strike": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        93,
+        433,
+        348,
+        793
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        252,
+        357
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        97,
+        51
+      ],
+      "grip": [
+        127.91021671826626,
+        128.27554179566565
+      ],
+      "object_bounds": [
+        92.24458204334366,
+        48.22600619195046,
+        148.5170278637771,
+        152.05263157894737
+      ],
+      "visible_bounds": [
+        98,
+        52,
+        197,
+        193
+      ],
+      "export_sha256": "da9c57c680f9a6bf9d0107d93ad673c7629f2141bbe4b7cbb5e17fdd5ff5f0c6"
+    },
+    "spellblade-longsword-cut": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        432,
+        504,
+        816,
+        734
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        381,
+        227
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        61,
+        84
+      ],
+      "grip": [
+        127.57585139318886,
+        127.9876160990712
+      ],
+      "object_bounds": [
+        51.88544891640867,
+        79.64086687306502,
+        149.76780185758514,
+        150.17956656346752
+      ],
+      "visible_bounds": [
+        62,
+        85,
+        212,
+        174
+      ],
+      "export_sha256": "16b6f17bfd078386e8496b01d176a80237521d0ec0064fc453208eb897163ec3"
+    },
+    "spellblade-longsword-sweep": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        848,
+        544,
+        1240,
+        715
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        389,
+        168
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        52,
+        103
+      ],
+      "grip": [
+        127.69040247678019,
+        128.3622291021672
+      ],
+      "object_bounds": [
+        46.05572755417957,
+        99.82972136222911,
+        149.08978328173376,
+        150.1578947368421
+      ],
+      "visible_bounds": [
+        53,
+        104,
+        206,
+        170
+      ],
+      "export_sha256": "d7624aaddbd9a7502a0f33b1dc30df511f426250fad77e567f684e9f9400a0ec"
+    },
+    "spellblade-longsword-through": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        32,
+        975,
+        426,
+        1149
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        391,
+        171
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        62,
+        111
+      ],
+      "grip": [
+        128.17956656346752,
+        127.6439628482972
+      ],
+      "object_bounds": [
+        58.8297213622291,
+        102.28173374613003,
+        148.78637770897834,
+        162.12074303405572
+      ],
+      "visible_bounds": [
+        63,
+        112,
+        217,
+        179
+      ],
+      "export_sha256": "f736c1ad10d762b4224dfec9f005c175f1b399e7c76d06d13c3e60ae2747efc4"
+    },
+    "spellblade-longsword-recover": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        446,
+        858,
+        809,
+        1161
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        360,
+        300
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        64,
+        67
+      ],
+      "grip": [
+        127.80185758513932,
+        128.42414860681114
+      ],
+      "object_bounds": [
+        58.45201238390093,
+        62.640866873065015,
+        149.9938080495356,
+        154.1826625386997
+      ],
+      "visible_bounds": [
+        65,
+        68,
+        207,
+        186
+      ],
+      "export_sha256": "bca2f51ea71c3eee4023d6fa4579d0b0a5009db51bc51f4916f17791c4eb3bac"
+    },
+    "spellblade-longsword-return": {
+      "source": "held-aa24-edges.png",
+      "source_sha256": "f496417ad9e177f6ad25cad0ef8e517a5d2393f5051f11589dbbd8d2552fc88c",
+      "source_rect": [
+        902,
+        801,
+        1206,
+        1193
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        301,
+        389
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        79,
+        37
+      ],
+      "grip": [
+        127.74303405572755,
+        127.74922600619196
+      ],
+      "object_bounds": [
+        69.48916408668731,
+        30.263157894736842,
+        150.3312693498452,
+        151.13003095975233
+      ],
+      "visible_bounds": [
+        80,
+        38,
+        198,
+        191
+      ],
+      "export_sha256": "f9de1784f38f8c5653ce915287bd9f18726a966fe5d1eed70aca3951942575f0"
+    },
+    "spellblade-longsword-rest-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        95,
+        30,
+        356,
+        425
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        258,
+        392
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        97,
+        42
+      ],
+      "grip": [
+        127.91021671826626,
+        127.9938080495356
+      ],
+      "object_bounds": [
+        94.22600619195046,
+        38.8297213622291,
+        148.5170278637771,
+        153.3560371517028
+      ],
+      "visible_bounds": [
+        98,
+        43,
+        199,
+        198
+      ],
+      "export_sha256": "b0ce53af424f567e2520b3b926f3ca96e219f2622b6b9cbe942c7102c73b16a6"
+    },
+    "spellblade-longsword-drawback-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        550,
+        27,
+        740,
+        425
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        187,
+        395
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        106,
+        42
+      ],
+      "grip": [
+        127.79566563467492,
+        128.39009287925697
+      ],
+      "object_bounds": [
+        102.03715170278637,
+        39.22600619195046,
+        151.57275541795667,
+        156.5263157894737
+      ],
+      "visible_bounds": [
+        107,
+        43,
+        180,
+        199
+      ],
+      "export_sha256": "4ba816d014a6b9950020bbbf25ac5f7132dcc8474d843d2c1958c4693d1842e4"
+    },
+    "spellblade-longsword-windup-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        989,
+        33,
+        1172,
+        424
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        180,
+        388
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        106,
+        45
+      ],
+      "grip": [
+        128.19195046439629,
+        127.82352941176471
+      ],
+      "object_bounds": [
+        99.26315789473684,
+        40.640866873065015,
+        170.99071207430342,
+        155.5634674922601
+      ],
+      "visible_bounds": [
+        107,
+        46,
+        178,
+        199
+      ],
+      "export_sha256": "b3095a9c09d32d8ad6ff4ecfc519fc9ad7f98b79a6a1011ce47143695d951dac"
+    },
+    "spellblade-longsword-strike-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        87,
+        426,
+        351,
+        798
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        261,
+        369
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        95,
+        48
+      ],
+      "grip": [
+        127.89164086687308,
+        128.04953560371519
+      ],
+      "object_bounds": [
+        89.84829721362229,
+        44.43343653250774,
+        150.8761609907121,
+        154.60061919504645
+      ],
+      "visible_bounds": [
+        96,
+        49,
+        199,
+        194
+      ],
+      "export_sha256": "833d1b0363caeb61d1d52c49fd8fd1c4379593307de0c330b3daef788aaf64f0"
+    },
+    "spellblade-longsword-cut-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        422,
+        501,
+        823,
+        739
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        398,
+        235
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        57,
+        83
+      ],
+      "grip": [
+        127.53869969040248,
+        128.1764705882353
+      ],
+      "object_bounds": [
+        48.6780185758514,
+        76.6594427244582,
+        151.7120743034056,
+        152.74613003095976
+      ],
+      "visible_bounds": [
+        58,
+        84,
+        215,
+        176
+      ],
+      "export_sha256": "d9067b6bcbc935d86ec6e834ea1d9598767f616577e6458752d6a25de49b36a4"
+    },
+    "spellblade-longsword-sweep-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        847,
+        543,
+        1246,
+        720
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        396,
+        174
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        52,
+        101
+      ],
+      "grip": [
+        127.69040247678019,
+        127.55108359133126
+      ],
+      "object_bounds": [
+        43.28173374613003,
+        95.05572755417957,
+        151.46749226006193,
+        151.32817337461302
+      ],
+      "visible_bounds": [
+        53,
+        102,
+        209,
+        170
+      ],
+      "export_sha256": "133f28b44695062fbf428d89e416b265c6b72dd2711be5f67c31ec2289af0479"
+    },
+    "spellblade-longsword-through-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        23,
+        974,
+        428,
+        1154
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        402,
+        177
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        58,
+        111
+      ],
+      "grip": [
+        128.14241486068113,
+        127.6439628482972
+      ],
+      "object_bounds": [
+        55.22600619195046,
+        99.90402476780186,
+        150.73065015479875,
+        165.29102167182663
+      ],
+      "visible_bounds": [
+        59,
+        112,
+        217,
+        181
+      ],
+      "export_sha256": "583d487def54afa2cbcf8159f7bad378c4604bb2a366017909687eda013592af"
+    },
+    "spellblade-longsword-recover-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        439,
+        856,
+        811,
+        1169
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        369,
+        310
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        61,
+        65
+      ],
+      "grip": [
+        127.97213622291022,
+        127.61300309597524
+      ],
+      "object_bounds": [
+        55.45201238390093,
+        58.26315789473684,
+        152.54179566563468,
+        156.1455108359133
+      ],
+      "visible_bounds": [
+        62,
+        66,
+        207,
+        188
+      ],
+      "export_sha256": "77348b7c97e85b0329cbb10ae69e8375ff10b64abff2e00305c24b19b8b3c8d8"
+    },
+    "spellblade-longsword-return-reflected": {
+      "source": "held-aa25-edges.png",
+      "source_sha256": "c6f12b59829bc9089f9eff823f81130adb0ac11ca6670b5933ec01f230f023ec",
+      "source_rect": [
+        898,
+        801,
+        1213,
+        1198
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        312,
+        394
+      ],
+      "scale": 0.39628482972136225,
+      "offset": [
+        76,
+        37
+      ],
+      "grip": [
+        127.51702786377709,
+        127.74922600619196
+      ],
+      "object_bounds": [
+        65.30030959752322,
+        26.696594427244584,
+        152.08668730650155,
+        154.69659442724458
+      ],
+      "visible_bounds": [
+        77,
+        38,
+        200,
+        193
+      ],
+      "export_sha256": "6ca3feaeea3d02250cacf7e127eaa11cb068baaa62d112f89dec4c60cfe876dd"
+    },
+    "fighter-staff-rest-two": {
+      "source": "held-aa26.png",
+      "source_sha256": "7bc7be1170aa0087d1337d3c6f879f0d461bd393f3f1855f30157654e4d8f733",
+      "source_rect": [
+        100,
+        32,
+        548,
+        586
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        445,
+        551
+      ],
+      "scale": 0.22695035460992907,
+      "offset": [
+        87,
+        84
+      ],
+      "grip": [
+        127.85106382978724,
+        128.4822695035461
+      ],
+      "object_bounds": [
+        111.9645390070922,
+        82.18439716312056,
+        143.51063829787233,
+        209.0496453900709
+      ],
+      "visible_bounds": [
+        87,
+        84,
+        189,
+        210
+      ],
+      "export_sha256": "0b87651a5fcac33cb448a368f33d2500097f8164bb887cbd72ebe2b00f1c178b",
+      "tip": [
+        120.36170212765958,
+        90.80851063829788
+      ]
+    },
+    "fighter-staff-drive-two": {
+      "source": "held-aa26.png",
+      "source_sha256": "7bc7be1170aa0087d1337d3c6f879f0d461bd393f3f1855f30157654e4d8f733",
+      "source_rect": [
+        741,
+        32,
+        1169,
+        586
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        425,
+        551
+      ],
+      "scale": 0.22695035460992907,
+      "offset": [
+        90,
+        84
+      ],
+      "grip": [
+        127.67375886524823,
+        128.4822695035461
+      ],
+      "object_bounds": [
+        111.33333333333333,
+        82.18439716312056,
+        141.97163120567376,
+        209.0496453900709
+      ],
+      "visible_bounds": [
+        91,
+        84,
+        187,
+        210
+      ],
+      "export_sha256": "4abad29051d900433f7c17b6140a5bc521a9cc5e3dc3efe4d8feb9b51b074414",
+      "tip": [
+        120.18439716312056,
+        90.80851063829788
+      ]
+    },
+    "fighter-staff-rest-one": {
+      "source": "held-aa26.png",
+      "source_sha256": "7bc7be1170aa0087d1337d3c6f879f0d461bd393f3f1855f30157654e4d8f733",
+      "source_rect": [
+        204,
+        666,
+        550,
+        1202
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        343,
+        533
+      ],
+      "scale": 0.22695035460992907,
+      "offset": [
+        109,
+        84
+      ],
+      "grip": [
+        128.06382978723406,
+        128.25531914893617
+      ],
+      "object_bounds": [
+        107.41134751773049,
+        79.91489361702128,
+        154.39007092198582,
+        207.00709219858157
+      ],
+      "visible_bounds": [
+        109,
+        84,
+        188,
+        206
+      ],
+      "export_sha256": "b3e5b1a4d68a3e6476c8472def52245899073a32abc042e5eb90085b6b426683",
+      "tip": [
+        116.26241134751773,
+        91.48936170212767
+      ]
+    },
+    "fighter-staff-channel-one": {
+      "source": "held-aa26.png",
+      "source_sha256": "7bc7be1170aa0087d1337d3c6f879f0d461bd393f3f1855f30157654e4d8f733",
+      "source_rect": [
+        767,
+        663,
+        1155,
+        1193
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        385,
+        527
+      ],
+      "scale": 0.22695035460992907,
+      "offset": [
+        106,
+        84
+      ],
+      "grip": [
+        127.7872340425532,
+        128.25531914893617
+      ],
+      "object_bounds": [
+        100.78014184397163,
+        79.68794326241135,
+        163.87234042553192,
+        207.68794326241135
+      ],
+      "visible_bounds": [
+        106,
+        84,
+        194,
+        204
+      ],
+      "export_sha256": "2a04b96cc0d9973a7a01322c8fd614903fdd6b0e682e8129d10c3ec67955b240",
+      "tip": [
+        113.71631205673759,
+        90.58156028368795
+      ]
+    },
+    "cleric-staff-rest-two": {
+      "source": "held-aa27-clean.png",
+      "source_sha256": "decd208567c0bc957df90c2fafdae2d8862bdcbd9667e8f825e673f77743ac1e",
+      "source_rect": [
+        162,
+        35,
+        564,
+        578
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        399,
+        540
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        96,
+        81
+      ],
+      "grip": [
+        127.54929577464789,
+        127.87323943661971
+      ],
+      "object_bounds": [
+        108.61971830985915,
+        78.52112676056338,
+        148.95774647887325,
+        204.49295774647888
+      ],
+      "visible_bounds": [
+        96,
+        81,
+        187,
+        203
+      ],
+      "export_sha256": "f5f7f02169037e45b5a2aed4ebfbffcce49fba1579202445f6c85090fe623007",
+      "tip": [
+        118.30985915492958,
+        88.66197183098592
+      ]
+    },
+    "cleric-staff-drive-two": {
+      "source": "held-aa27-clean.png",
+      "source_sha256": "decd208567c0bc957df90c2fafdae2d8862bdcbd9667e8f825e673f77743ac1e",
+      "source_rect": [
+        791,
+        37,
+        1210,
+        578
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        416,
+        538
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        97,
+        82
+      ],
+      "grip": [
+        128.32394366197184,
+        127.97183098591549
+      ],
+      "object_bounds": [
+        110.29577464788733,
+        79.07042253521126,
+        140.04225352112675,
+        205.04225352112678
+      ],
+      "visible_bounds": [
+        97,
+        82,
+        191,
+        204
+      ],
+      "export_sha256": "3e17971d290802156ae7250e09b18cc2829cef0e3af7aa68a06ac099c15163fb",
+      "tip": [
+        124.94366197183099,
+        89.21126760563381
+      ]
+    },
+    "cleric-staff-rest-one": {
+      "source": "held-aa27-clean.png",
+      "source_sha256": "decd208567c0bc957df90c2fafdae2d8862bdcbd9667e8f825e673f77743ac1e",
+      "source_rect": [
+        173,
+        664,
+        537,
+        1187
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        361,
+        520
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        103,
+        80
+      ],
+      "grip": [
+        128.46478873239437,
+        128.22535211267606
+      ],
+      "object_bounds": [
+        101.19718309859155,
+        76.3943661971831,
+        154.6056338028169,
+        202.59154929577466
+      ],
+      "visible_bounds": [
+        103,
+        80,
+        185,
+        198
+      ],
+      "export_sha256": "5a7bc5a4258001cfd08e02d3f4882429aa73f314cf41d0c7099f852cd7e2b3c9",
+      "tip": [
+        110.43661971830986,
+        88.56338028169014
+      ]
+    },
+    "cleric-staff-channel-one": {
+      "source": "held-aa27-clean.png",
+      "source_sha256": "decd208567c0bc957df90c2fafdae2d8862bdcbd9667e8f825e673f77743ac1e",
+      "source_rect": [
+        753,
+        662,
+        1153,
+        1205
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        397,
+        540
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        103,
+        80
+      ],
+      "grip": [
+        127.56338028169014,
+        128.22535211267606
+      ],
+      "object_bounds": [
+        98.04225352112675,
+        76.84507042253522,
+        163.16901408450704,
+        204.84507042253523
+      ],
+      "visible_bounds": [
+        103,
+        80,
+        193,
+        202
+      ],
+      "export_sha256": "4f8bfc120be05b385883ffe2d8d737896061465924667c0ee9475ed0c5b55192",
+      "tip": [
+        110.21126760563381,
+        89.46478873239437
+      ]
+    },
+    "druid-staff-rest-two": {
+      "source": "held-aa28.png",
+      "source_sha256": "cec61361758013bb10351a13f1bf8b1816b951422e6c7c1c27d82a9ef23a659c",
+      "source_rect": [
+        86,
+        28,
+        550,
+        588
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        461,
+        557
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        85,
+        78
+      ],
+      "grip": [
+        127.8169014084507,
+        127.57746478873239
+      ],
+      "object_bounds": [
+        110.69014084507043,
+        76.64788732394366,
+        146.74647887323943,
+        204.19718309859155
+      ],
+      "visible_bounds": [
+        85,
+        78,
+        190,
+        204
+      ],
+      "export_sha256": "ffc910b4a563608cce3d3f6cc8b865317111cac9bba278c3975e1f61ea81efe4",
+      "tip": [
+        117.67605633802816,
+        85.21126760563381
+      ]
+    },
+    "druid-staff-drive-two": {
+      "source": "held-aa28.png",
+      "source_sha256": "cec61361758013bb10351a13f1bf8b1816b951422e6c7c1c27d82a9ef23a659c",
+      "source_rect": [
+        741,
+        33,
+        1172,
+        588
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        428,
+        552
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        92,
+        80
+      ],
+      "grip": [
+        127.83098591549296,
+        127.77464788732394
+      ],
+      "object_bounds": [
+        109.12676056338029,
+        77.52112676056338,
+        143.6056338028169,
+        205.07042253521126
+      ],
+      "visible_bounds": [
+        92,
+        80,
+        189,
+        205
+      ],
+      "export_sha256": "7be3b28a1917375bd3b26711b0a03b8845710de03e82a199e5e79d5d66ce5fd6",
+      "tip": [
+        117.69014084507043,
+        86.08450704225352
+      ]
+    },
+    "druid-staff-rest-one": {
+      "source": "held-aa28.png",
+      "source_sha256": "cec61361758013bb10351a13f1bf8b1816b951422e6c7c1c27d82a9ef23a659c",
+      "source_rect": [
+        159,
+        666,
+        546,
+        1209
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        384,
+        540
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        105,
+        80
+      ],
+      "grip": [
+        127.53521126760563,
+        127.77464788732394
+      ],
+      "object_bounds": [
+        101.61971830985915,
+        75.26760563380282,
+        155.92957746478874,
+        203.26760563380282
+      ],
+      "visible_bounds": [
+        105,
+        80,
+        192,
+        202
+      ],
+      "export_sha256": "ae54ba95f96f482ef421b7ba8a07f9fd9755501113ebe98ef3afac80e05013da",
+      "tip": [
+        111.53521126760563,
+        87.43661971830986
+      ]
+    },
+    "druid-staff-channel-one": {
+      "source": "held-aa28.png",
+      "source_sha256": "cec61361758013bb10351a13f1bf8b1816b951422e6c7c1c27d82a9ef23a659c",
+      "source_rect": [
+        751,
+        675,
+        1169,
+        1204
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        415,
+        526
+      ],
+      "scale": 0.22535211267605634,
+      "offset": [
+        108,
+        83
+      ],
+      "grip": [
+        127.6056338028169,
+        128.07042253521126
+      ],
+      "object_bounds": [
+        102.8169014084507,
+        76.2394366197183,
+        175.83098591549296,
+        204.23943661971833
+      ],
+      "visible_bounds": [
+        108,
+        83,
+        202,
+        202
+      ],
+      "export_sha256": "7ae3313ae00d9ec753b378b9df33e0d5de222d19618f47dae0dff6476dc5d332",
+      "tip": [
+        112.95774647887325,
+        88.63380281690141
+      ]
+    },
+    "fighter-spear-rest": {
+      "source": "held-aa29.png",
+      "source_sha256": "2f5a4975b1f85aa6dfb204c5761e0a35db677c2f0c68a09f48c82e7a80f1ebe4",
+      "source_rect": [
+        219,
+        54,
+        745,
+        839
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        523,
+        782
+      ],
+      "scale": 0.22614840989399293,
+      "offset": [
+        101,
+        39
+      ],
+      "grip": [
+        128.13780918727915,
+        128.10247349823322
+      ],
+      "object_bounds": [
+        99.19081272084806,
+        36.06007067137809,
+        145.5512367491166,
+        164.06007067137807
+      ],
+      "visible_bounds": [
+        101,
+        39,
+        220,
+        217
+      ],
+      "export_sha256": "c698f83c646d2a27fe4589c88d66ad54d2833e20818b55fd44aff82ccd17fc72"
+    },
+    "fighter-spear-drive": {
+      "source": "held-aa29.png",
+      "source_sha256": "2f5a4975b1f85aa6dfb204c5761e0a35db677c2f0c68a09f48c82e7a80f1ebe4",
+      "source_rect": [
+        1094,
+        51,
+        1567,
+        841
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        470,
+        787
+      ],
+      "scale": 0.22614840989399293,
+      "offset": [
+        101,
+        38
+      ],
+      "grip": [
+        128.36395759717314,
+        127.78091872791519
+      ],
+      "object_bounds": [
+        98.96466431095406,
+        35.73851590106007,
+        146.45583038869256,
+        163.51236749116606
+      ],
+      "visible_bounds": [
+        101,
+        39,
+        208,
+        217
+      ],
+      "export_sha256": "23c025bda1cce6f856860d432666368a6aac7fee7af6a40849999f8f90c65076"
+    },
+    "ranger-spear-rest": {
+      "source": "held-aa29.png",
+      "source_sha256": "2f5a4975b1f85aa6dfb204c5761e0a35db677c2f0c68a09f48c82e7a80f1ebe4",
+      "source_rect": [
+        219,
+        54,
+        745,
+        839
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        523,
+        782
+      ],
+      "scale": 0.22614840989399293,
+      "offset": [
+        101,
+        39
+      ],
+      "grip": [
+        128.13780918727915,
+        128.10247349823322
+      ],
+      "object_bounds": [
+        99.19081272084806,
+        36.06007067137809,
+        145.5512367491166,
+        164.06007067137807
+      ],
+      "visible_bounds": [
+        101,
+        39,
+        220,
+        217
+      ],
+      "export_sha256": "c698f83c646d2a27fe4589c88d66ad54d2833e20818b55fd44aff82ccd17fc72"
+    },
+    "ranger-spear-drive": {
+      "source": "held-aa29.png",
+      "source_sha256": "2f5a4975b1f85aa6dfb204c5761e0a35db677c2f0c68a09f48c82e7a80f1ebe4",
+      "source_rect": [
+        1094,
+        51,
+        1567,
+        841
+      ],
+      "source_visible_bounds": [
+        3,
+        3,
+        470,
+        787
+      ],
+      "scale": 0.22614840989399293,
+      "offset": [
+        101,
+        38
+      ],
+      "grip": [
+        128.36395759717314,
+        127.78091872791519
+      ],
+      "object_bounds": [
+        98.96466431095406,
+        35.73851590106007,
+        146.45583038869256,
+        163.51236749116606
+      ],
+      "visible_bounds": [
+        101,
+        39,
+        208,
+        217
+      ],
+      "export_sha256": "23c025bda1cce6f856860d432666368a6aac7fee7af6a40849999f8f90c65076"
+    }
+  }
+}

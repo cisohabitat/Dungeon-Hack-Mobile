@@ -1488,3 +1488,38 @@ request. Other weapons retain their procedural reflected variants. The painted
 reflection preserves silver steel, brass, class hands and muted cool edges without
 changing dungeon light or visibility. Reproduce with
 `python3 art/creatures/export-batch-aa-reflected.py --check`.
+
+AA's fourth ordinary-melee source pass adds36 club frames for Fighter, Cleric,
+Thief and Druid—all four legal club classes. See the
+[review](art/creatures/batch-aa-melee4-preview/REVIEW.md) for120 phone captures,
+360 fits and12 passing baseline equipment checks. Reproduce with
+`python3 art/creatures/export-batch-aa-melee4.py --check` and
+`node art/creatures/preview-batch-aa-melee4.cjs`. The
+[roadmap](art/creatures/ATLAS-ROADMAP.md) tracks completed basic melee sources
+and their remaining activation work. This batch is local, unpublished and unactivated; live0.9.36 and its
+495 shipped paintings remain unchanged.
+
+
+AA's fifth ordinary-melee source pass covers all five remaining basic melee groups:
+Fighter mace; missing shortsword/longsword class pairs; Fighter/Cleric/Druid staff;
+and Fighter/Ranger spear.97 class/state frames include18 reflected Spellblade
+sword frames and20 audited Ranger reuses. See the
+[review](art/creatures/batch-aa-melee5-preview/REVIEW.md) for368 phone captures,
+1,104 fitting cases and staff released-hand/glint checks. Reproduce with
+`python3 art/creatures/export-batch-aa-melee5.py --check` and
+`node art/creatures/preview-batch-aa-melee5.cjs`. All basic melee class pairs now
+have source coverage; named/rare/ranged and unsupported hand states remain open.
+These97 frames and36 clubs remain local/unactivated/unpublished; live0.9.36 is
+unchanged. Future staff activation must preserve authored tip metadata.
+
+
+AA melee4/5 are activated for0.9.37:133 newly activated class/state
+frames cover clubs plus the remaining basic mace, shortsword, longsword,
+quarterstaff and spear class pairs. Spellblade swords retain plain/reflected
+states; staffs retain released-hand reading/drinking/casting and authored glint
+tips. The catalog has289 held frames and628 shipped paintings plus3 icons.
+All327 earlier common delivery files remain byte-identical. See the
+[combined runtime review](art/creatures/batch-aa-melee45-runtime/REVIEW.md) for
+native actions, offline reloads and release validation. The source-only notes
+above preserve the earlier review stages. Rare/named/ranged and unsupported
+hand-state conversions remain on the roadmap; no rules or balance changed.

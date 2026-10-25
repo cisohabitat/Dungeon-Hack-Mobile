@@ -1,0 +1,39 @@
+{
+  "contexts": 36,
+  "captures": 552,
+  "galleries": 36,
+  "actions": 124,
+  "offline_reloads": 36,
+  "cached_held_frames_per_context": 289,
+  "all_actions_draw_painted_frames": true,
+  "staff_hand_states_and_spellblade_lit_states": true,
+  "console_errors": [],
+  "local_browser": {
+    "total_cases": 819,
+    "phone": 549,
+    "small": 270,
+    "initial_passed": 816,
+    "initial_failed": 3,
+    "initial_minutes": 48.4,
+    "unchanged_isolated_reruns_passed": 3,
+    "isolated_rerun_seconds": 42.0
+  },
+  "isolated_performance": {
+    "cpu_throttle": 4,
+    "fight_fps": 42.4,
+    "wide_fps": 45.5,
+    "flooded_fps": 49.3,
+    "painted_fps": 38.7,
+    "rite_fps": 60,
+    "startup_ms": 1626,
+    "passed": true
+  },
+  "npm_test": {
+    "passed": true,
+    "rule_checks": 751,
+    "rule_files": 74,
+    "generated_levels": 192,
+    "rule_processes": 4,
+    "rule_elapsed": "1m11s"
+  }
+}

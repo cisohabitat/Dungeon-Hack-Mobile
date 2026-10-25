@@ -346,6 +346,46 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   not native class actions/offline/performance. Preserve class-qualified names,
   compact-prop repair provenance and crop-gap/fringe notes. See
   batch-aa-melee3-preview/REVIEW.md for historical source-only findings.
+  AA fourth melee source tooling is reference-batch-aa-melee4.cjs,
+  export-batch-aa-melee4.py --check and preview-batch-aa-melee4.cjs:36 club CUT
+  frames for Fighter/Cleric/Thief/Druid, the full legal club class set. Native
+  canEquip rejects Mage/Ranger/Spellblade. Keep knotted wood/cord/flush iron heads
+  and class costume; no mace head, giant spikes or scripted palette changes.
+  Object bounds must include downward through tips and right-leaning windup heads.
+  Authored crop gaps/rows and minor residual fringe remain recorded; registered
+  alpha>32 clearance is>=19px under112px object-height cap.120 frozen source
+  captures/360 fits are not native class/action/offline evidence; Fighter/Thief
+  casts are stress fixtures only. Class-qualified names and protected published
+  controls remain. See batch-aa-melee4-preview/REVIEW.md and coverage-audit.json
+  for actual remaining class gaps; clubs remain local/unactivated after0.9.36.
+  AA fifth melee source tooling is reference-batch-aa-melee5.cjs,
+  export-batch-aa-melee5.py --check and preview-batch-aa-melee5.cjs:97 class/state
+  frames across12 missing basic melee pairs,77 new unique poses/20 native-audited
+  Ranger reuses. Staff rest/drive two-hand and rest/channel one-hand stay distinct;
+  casting uses sin(progress*pi), so early .08 requests rest while .2 is channel.
+  Keep authored tip metadata for existing glint in future common export/loader;
+  older Mage T source lacks it. Spellblade swords have explicit reflected groups
+  and shared plain/reflected scale. Native equality proofs permit Ranger short/
+  spear reuse; Ranger longsword copies T registered pixels/grips/bounds exactly.
+  Authored crops cross nominal grid gaps; inspect complete down-left sword tips
+  and staff butts, no scripted masks.368 captures/1,104 fits are frozen source
+  evidence, not native class/actions/offline/performance. All basic melee pairs
+  now have source coverage; rare/named/ranged/released-hand gaps stay separate.
+  See batch-aa-melee5-preview/REVIEW.md;97 plus36 clubs remain local/unactivated.
+  AA fourth/fifth melee passes integrate133 class/state frames for0.9.37,
+  including clubs and all remaining basic mace/sword/staff/spear class pairs.
+  Common delivery now has460 files,289 held frames and628 shipped paintings plus
+  3 icons; prior327 common files retain identical bytes. The held loader must
+  copy optional authored tip metadata, as well as nocks, into at for staff glints.
+  Spellblade shortsword/longsword include both9-frame lit groups; staff families
+  switch all4 hand/pose states together, including released-hand channel/rest.
+  preview-batch-aa-melee45-runtime.cjs covers real legal class creation/equip,
+  actions/Calm/offline at both widths, including actual lantern removal for plain
+  Spellblade swords. No frozen source proxy substitutes for native evidence.
+  Painted-world tests cover corrupt club/Ranger shortsword/reflected longsword/
+  released-hand staff families,642 three-height bindings, staff tip glints/Calm,
+  exact metadata guards and run/dice neutrality. Earlier source reports remain
+  historical; see batch-aa-melee45-runtime/REVIEW.md for current release gates.
   AA second/third melee passes are integrated for release0.9.36 through the
   same exact family loader. tools/export-painted-runtime.py --check now covers
   327 files,156 held frames and495 shipped paintings plus3 icons. Include the

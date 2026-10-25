@@ -574,7 +574,7 @@ poses) for Fighter/Ranger/Druid/Spellblade daggers. Ranger reuses Fighter only
 after all9 native PNGs, grips and object bounds match; exact class keys remain.
 See [third-pass review](batch-aa-melee3-preview/REVIEW.md) and
 [brief](REQUEST-batch-aa-melee3.md). All six legal dagger classes now have source
-coverage, including active Thief and pending Mage. Cleric dagger is ineligible.
+coverage; all six are active after0.9.36. Cleric dagger is ineligible.
 The second and third passes are integrated for release0.9.36:72 class frames,
 63 unique painted poses, plus9 matching Spellblade lantern-reflected frames
 needed for native play. See [native activation evidence](batch-aa-melee-runtime/REVIEW.md). The wider AA library stays open.
@@ -585,9 +585,30 @@ AA remaining production passes stay open:
 |---|---|---|
 | Second pass — integrated for0.9.36 | Fighter hammer, Fighter/Cleric flails and Mage dagger:36 frames |120 source captures/360 fits; native activation/offline evidence for0.9.36; [review](batch-aa-melee-runtime/REVIEW.md) |
 | Third pass — integrated for0.9.36 | Remaining dagger classes: Fighter/Ranger/Druid/Spellblade,36 class frames/27 unique painted poses |120 source captures/360 fits; exact Ranger reuse; native activation/offline evidence for0.9.36; [review](batch-aa-melee-runtime/REVIEW.md) |
-| Next | Further ordinary melee/class pairs: club, mace, sword, axe, hammer, spear and staff gaps | Audit legal raw ids, supported motions and class hands; reuse only after exact native comparison; no blanket recolours |
+| Fourth pass — source review complete locally | Clubs for Fighter/Cleric/Thief/Druid:36 frames; all four legal club classes covered |120 captures,360 fits,12 baseline checks; activated for0.9.37; [runtime review](batch-aa-melee45-runtime/REVIEW.md) |
+| Fifth pass — source review complete locally | Fighter mace; missing shortsword/longsword, spear and staff class pairs:97 states, including18 Spellblade reflections |368 captures,1,104 fits; activated for0.9.37; [runtime review](batch-aa-melee45-runtime/REVIEW.md) |
+| Activation — integrated locally for0.9.37 | Fourth/fifth passes:133 class/state bindings | Staff tip/glint, hand counts, reflected keys and audited Ranger reuse retained; [native/release review](batch-aa-melee45-runtime/REVIEW.md) |
 | Following | Sling, throwing knives and hand crossbow | Keep stone/knife/bolt release, live hands and existing projectiles; paint only actual cached prop states |
 | Later | Remaining ordinary/class and named/legendary/Mythic held variants | Preserve each named construction and unidentified appearance; reuse only when exact identities match |
+
+The [fourth-pass coverage audit](batch-aa-melee4-preview/coverage-audit.json)
+compares current ITEMS eligibility with active held catalog pairs. Clubs and all five fifth-pass groups now have complete basic class-pair source
+coverage and are activated for0.9.37. The [fifth-pass audit](batch-aa-melee5-preview/coverage-audit.json)
+updates the historical fourth-pass gaps:
+
+| Weapon | Fifth-pass coverage, activated for0.9.37 |
+|---|---|
+| Mace | Fighter9 |
+| Shortsword | Fighter9, Ranger9, Spellblade9 plain+9 reflected |
+| Longsword | Thief9, Ranger9, Spellblade9 plain+9 reflected |
+| Quarterstaff | Fighter4, Cleric4, Druid4 |
+| Spear | Fighter2, Ranger2 |
+| Rare melee, later | Scimitar: Fighter/Thief/Ranger/Spellblade; dwarfhammer: Fighter/Cleric |
+
+Ordinary dagger, hammer and flail class pairs, plus Fighter battleaxe and the
+normal two-hand greatsword, already bind active art. Pair coverage is not every
+hand state: retain greatsword freed-hand fallback, and retain the newly activated plain/reflected
+Spellblade swords for its actual lantern request. Named variants remain separate.
 
 Warning glyphs, map/UI symbols, lightning paths, triggered traps, poison/status
 and Calm effects remain procedural under the X audit. They are not blanket
@@ -655,3 +676,11 @@ separately, including exact-mask and unused-reserve exceptions.
 | AA |117 held frames integrated through0.9.36 across three passes and Spellblade reflection correction; wider library open | [Wider held weapons and native activation](batch-aa-melee-runtime/REVIEW.md) |
 | AA melee2 |36 ordinary-melee frames integrated for0.9.36; wider library open | [Second melee pass](batch-aa-melee2-preview/REVIEW.md) |
 | AA melee3 |36 dagger class frames/27 unique painted poses integrated for0.9.36; all six legal dagger classes have source coverage | [Third melee pass](batch-aa-melee3-preview/REVIEW.md) |
+| AA melee4 |36 club frames activated for0.9.37; all four legal classes | [Fourth melee pass](batch-aa-melee4-preview/REVIEW.md) |
+| AA melee5 |97 remaining basic melee class/state frames activated for0.9.37 | [Fifth melee pass](batch-aa-melee5-preview/REVIEW.md) |
+
+AA melee4/5 activation for0.9.37 supersedes their historical source-only statuses
+above:133 bindings are integrated, with native and release validation in the
+[combined native delivery review](batch-aa-melee45-runtime/REVIEW.md). Next painting
+work remains sling/throwing knives/hand crossbow, rare scimitar/dwarfhammer,
+greatsword released-hand states and the named/legendary/Mythic library.

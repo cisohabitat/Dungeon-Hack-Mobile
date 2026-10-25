@@ -1,0 +1,904 @@
+{
+  "groups": {
+    "aa13": {
+      "cls": "fighter",
+      "id": "club",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa14": {
+      "cls": "cleric",
+      "id": "club",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa15": {
+      "cls": "thief",
+      "id": "club",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    },
+    "aa16": {
+      "cls": "druid",
+      "id": "club",
+      "poses": [
+        "rest",
+        "drawback",
+        "windup",
+        "strike",
+        "cut",
+        "sweep",
+        "through",
+        "recover",
+        "return"
+      ],
+      "grid": [
+        3,
+        3
+      ],
+      "two": false
+    }
+  },
+  "cells": {
+    "fighter-club-rest": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        93.1552795031056,
+        119.11801242236024
+      ],
+      "object_bounds": [
+        59.88442943249863,
+        14.68680308357497,
+        113.04335573215187,
+        147.65173977744686
+      ],
+      "native": [
+        95,
+        161
+      ]
+    },
+    "fighter-club-drawback": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        102.08045977011494,
+        111.5632183908046
+      ],
+      "object_bounds": [
+        83.50903312605661,
+        15.192515293018342,
+        134.25854167068,
+        137.93374854480572
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "fighter-club-windup": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        105.74566473988439,
+        101.9306358381503
+      ],
+      "object_bounds": [
+        83.70322856980243,
+        15.908489536916985,
+        165.7952583123109,
+        127.12861579771345
+      ],
+      "native": [
+        55,
+        173
+      ]
+    },
+    "fighter-club-strike": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        97.75,
+        118.375
+      ],
+      "object_bounds": [
+        56.752748793574945,
+        14.957897684332487,
+        118.67583425872454,
+        146.88455448695026
+      ],
+      "native": [
+        100,
+        160
+      ]
+    },
+    "fighter-club-cut": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        106.52071005917159,
+        125.39644970414201
+      ],
+      "object_bounds": [
+        15.54584732816874,
+        68.97741803084068,
+        132.66945603163265,
+        147.34682367893842
+      ],
+      "native": [
+        169,
+        86
+      ]
+    },
+    "fighter-club-sweep": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        112.82758620689656,
+        107.13793103448276
+      ],
+      "object_bounds": [
+        15.163249161668043,
+        84.78597451056305,
+        139.35528684049342,
+        124.51552936175241
+      ],
+      "native": [
+        174,
+        65
+      ]
+    },
+    "fighter-club-through": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        112.28571428571429,
+        102.46428571428571
+      ],
+      "object_bounds": [
+        15.99869895249897,
+        81.6850799646021,
+        139.16971748374178,
+        148.50412204959372
+      ],
+      "native": [
+        168,
+        69
+      ]
+    },
+    "fighter-club-recover": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        113.71428571428572,
+        108
+      ],
+      "object_bounds": [
+        15.43024153862717,
+        43.285714285714285,
+        142.22142592788373,
+        132.42857142857142
+      ],
+      "native": [
+        154,
+        114
+      ]
+    },
+    "fighter-club-return": {
+      "sheet": "aa13",
+      "cls": "fighter",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        102.20689655172414,
+        116.62068965517241
+      ],
+      "object_bounds": [
+        29.127712203087974,
+        14.90080619544021,
+        128.68000402817785,
+        146.57350823858167
+      ],
+      "native": [
+        126,
+        145
+      ]
+    },
+    "cleric-club-rest": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        93.1552795031056,
+        119.11801242236024
+      ],
+      "object_bounds": [
+        59.88442943249863,
+        14.68680308357497,
+        113.04335573215187,
+        147.65173977744686
+      ],
+      "native": [
+        95,
+        161
+      ]
+    },
+    "cleric-club-drawback": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        102.08045977011494,
+        111.5632183908046
+      ],
+      "object_bounds": [
+        83.50903312605661,
+        15.192515293018342,
+        134.25854167068,
+        137.93374854480572
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "cleric-club-windup": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        105.74566473988439,
+        101.9306358381503
+      ],
+      "object_bounds": [
+        83.70322856980243,
+        15.908489536916985,
+        165.7952583123109,
+        127.12861579771345
+      ],
+      "native": [
+        55,
+        173
+      ]
+    },
+    "cleric-club-strike": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        97.75,
+        118.375
+      ],
+      "object_bounds": [
+        56.752748793574945,
+        14.957897684332487,
+        118.67583425872454,
+        146.88455448695026
+      ],
+      "native": [
+        100,
+        160
+      ]
+    },
+    "cleric-club-cut": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        106.52071005917159,
+        125.39644970414201
+      ],
+      "object_bounds": [
+        15.54584732816874,
+        68.97741803084068,
+        132.66945603163265,
+        147.34682367893842
+      ],
+      "native": [
+        169,
+        86
+      ]
+    },
+    "cleric-club-sweep": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        112.82758620689656,
+        107.13793103448276
+      ],
+      "object_bounds": [
+        15.163249161668043,
+        84.78597451056305,
+        139.35528684049342,
+        124.51552936175241
+      ],
+      "native": [
+        174,
+        65
+      ]
+    },
+    "cleric-club-through": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        112.28571428571429,
+        102.46428571428571
+      ],
+      "object_bounds": [
+        15.99869895249897,
+        81.6850799646021,
+        139.16971748374178,
+        148.50412204959372
+      ],
+      "native": [
+        168,
+        69
+      ]
+    },
+    "cleric-club-recover": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        113.71428571428572,
+        108
+      ],
+      "object_bounds": [
+        15.43024153862717,
+        43.285714285714285,
+        142.22142592788373,
+        132.42857142857142
+      ],
+      "native": [
+        154,
+        114
+      ]
+    },
+    "cleric-club-return": {
+      "sheet": "aa14",
+      "cls": "cleric",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        102.20689655172414,
+        116.62068965517241
+      ],
+      "object_bounds": [
+        29.127712203087974,
+        14.90080619544021,
+        128.68000402817785,
+        146.57350823858167
+      ],
+      "native": [
+        126,
+        145
+      ]
+    },
+    "thief-club-rest": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        93.1552795031056,
+        119.11801242236024
+      ],
+      "object_bounds": [
+        59.88442943249863,
+        14.68680308357497,
+        113.04335573215187,
+        147.65173977744686
+      ],
+      "native": [
+        95,
+        161
+      ]
+    },
+    "thief-club-drawback": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        102.08045977011494,
+        111.5632183908046
+      ],
+      "object_bounds": [
+        83.50903312605661,
+        15.192515293018342,
+        134.25854167068,
+        137.93374854480572
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "thief-club-windup": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        105.74566473988439,
+        101.9306358381503
+      ],
+      "object_bounds": [
+        83.70322856980243,
+        15.908489536916985,
+        165.7952583123109,
+        127.12861579771345
+      ],
+      "native": [
+        55,
+        173
+      ]
+    },
+    "thief-club-strike": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        97.75,
+        118.375
+      ],
+      "object_bounds": [
+        56.752748793574945,
+        14.957897684332487,
+        118.67583425872454,
+        146.88455448695026
+      ],
+      "native": [
+        100,
+        160
+      ]
+    },
+    "thief-club-cut": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        106.52071005917159,
+        125.39644970414201
+      ],
+      "object_bounds": [
+        15.54584732816874,
+        68.97741803084068,
+        132.66945603163265,
+        147.34682367893842
+      ],
+      "native": [
+        169,
+        86
+      ]
+    },
+    "thief-club-sweep": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        112.82758620689656,
+        107.13793103448276
+      ],
+      "object_bounds": [
+        15.163249161668043,
+        84.78597451056305,
+        139.35528684049342,
+        124.51552936175241
+      ],
+      "native": [
+        174,
+        65
+      ]
+    },
+    "thief-club-through": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        112.28571428571429,
+        102.46428571428571
+      ],
+      "object_bounds": [
+        15.99869895249897,
+        81.6850799646021,
+        139.16971748374178,
+        148.50412204959372
+      ],
+      "native": [
+        168,
+        69
+      ]
+    },
+    "thief-club-recover": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        113.71428571428572,
+        108
+      ],
+      "object_bounds": [
+        15.43024153862717,
+        43.285714285714285,
+        142.22142592788373,
+        132.42857142857142
+      ],
+      "native": [
+        154,
+        114
+      ]
+    },
+    "thief-club-return": {
+      "sheet": "aa15",
+      "cls": "thief",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        102.20689655172414,
+        116.62068965517241
+      ],
+      "object_bounds": [
+        29.127712203087974,
+        14.90080619544021,
+        128.68000402817785,
+        146.57350823858167
+      ],
+      "native": [
+        126,
+        145
+      ]
+    },
+    "druid-club-rest": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "rest",
+      "two": false,
+      "grip": [
+        93.1552795031056,
+        119.11801242236024
+      ],
+      "object_bounds": [
+        59.88442943249863,
+        14.68680308357497,
+        113.04335573215187,
+        147.65173977744686
+      ],
+      "native": [
+        95,
+        161
+      ]
+    },
+    "druid-club-drawback": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "drawback",
+      "two": false,
+      "grip": [
+        102.08045977011494,
+        111.5632183908046
+      ],
+      "object_bounds": [
+        83.50903312605661,
+        15.192515293018342,
+        134.25854167068,
+        137.93374854480572
+      ],
+      "native": [
+        59,
+        174
+      ]
+    },
+    "druid-club-windup": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "windup",
+      "two": false,
+      "grip": [
+        105.74566473988439,
+        101.9306358381503
+      ],
+      "object_bounds": [
+        83.70322856980243,
+        15.908489536916985,
+        165.7952583123109,
+        127.12861579771345
+      ],
+      "native": [
+        55,
+        173
+      ]
+    },
+    "druid-club-strike": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "strike",
+      "two": false,
+      "grip": [
+        97.75,
+        118.375
+      ],
+      "object_bounds": [
+        56.752748793574945,
+        14.957897684332487,
+        118.67583425872454,
+        146.88455448695026
+      ],
+      "native": [
+        100,
+        160
+      ]
+    },
+    "druid-club-cut": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "cut",
+      "two": false,
+      "grip": [
+        106.52071005917159,
+        125.39644970414201
+      ],
+      "object_bounds": [
+        15.54584732816874,
+        68.97741803084068,
+        132.66945603163265,
+        147.34682367893842
+      ],
+      "native": [
+        169,
+        86
+      ]
+    },
+    "druid-club-sweep": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "sweep",
+      "two": false,
+      "grip": [
+        112.82758620689656,
+        107.13793103448276
+      ],
+      "object_bounds": [
+        15.163249161668043,
+        84.78597451056305,
+        139.35528684049342,
+        124.51552936175241
+      ],
+      "native": [
+        174,
+        65
+      ]
+    },
+    "druid-club-through": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "through",
+      "two": false,
+      "grip": [
+        112.28571428571429,
+        102.46428571428571
+      ],
+      "object_bounds": [
+        15.99869895249897,
+        81.6850799646021,
+        139.16971748374178,
+        148.50412204959372
+      ],
+      "native": [
+        168,
+        69
+      ]
+    },
+    "druid-club-recover": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "recover",
+      "two": false,
+      "grip": [
+        113.71428571428572,
+        108
+      ],
+      "object_bounds": [
+        15.43024153862717,
+        43.285714285714285,
+        142.22142592788373,
+        132.42857142857142
+      ],
+      "native": [
+        154,
+        114
+      ]
+    },
+    "druid-club-return": {
+      "sheet": "aa16",
+      "cls": "druid",
+      "id": "club",
+      "pose": "return",
+      "two": false,
+      "grip": [
+        102.20689655172414,
+        116.62068965517241
+      ],
+      "object_bounds": [
+        29.127712203087974,
+        14.90080619544021,
+        128.68000402817785,
+        146.57350823858167
+      ],
+      "native": [
+        126,
+        145
+      ]
+    }
+  },
+  "legal": [
+    {
+      "cls": "fighter",
+      "id": "club",
+      "reason": null
+    },
+    {
+      "cls": "cleric",
+      "id": "club",
+      "reason": null
+    },
+    {
+      "cls": "thief",
+      "id": "club",
+      "reason": null
+    },
+    {
+      "cls": "druid",
+      "id": "club",
+      "reason": null
+    }
+  ],
+  "mode": "fresh browser per family; native procedural geometry; painted held requests blocked to preserve source references after activation",
+  "exclusions": [
+    {
+      "cls": "mage",
+      "id": "club",
+      "reason": "Mages cannot wield a club."
+    },
+    {
+      "cls": "ranger",
+      "id": "club",
+      "reason": "Rangers cannot wield a club."
+    },
+    {
+      "cls": "spellblade",
+      "id": "club",
+      "reason": "Spellblades cannot wield a club."
+    }
+  ],
+  "palettes": {
+    "fighter": [
+      "#8a929e",
+      "#5a606a",
+      "#6a4a30"
+    ],
+    "cleric": [
+      "#8a6440",
+      "#c9a24a",
+      "#e8e0d0"
+    ],
+    "thief": [
+      "#3a3438",
+      "#5a4a3a",
+      "#3e4a3a"
+    ],
+    "druid": [
+      "#8a6a44",
+      "#4e6a34",
+      "#5a4a2e"
+    ]
+  }
+}

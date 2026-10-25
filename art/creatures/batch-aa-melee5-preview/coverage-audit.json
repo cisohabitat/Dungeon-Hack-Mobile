@@ -1,0 +1,237 @@
+{
+  "release": "0.9.36",
+  "scope": "Current basic ordinary melee class-pair source coverage after AA melee4+5. Source coverage is separate from activation; no runtime change. Rare tier99, named variants and unsupported released-hand states remain separate.",
+  "melee": [
+    {
+      "id": "dagger",
+      "tier": 1,
+      "two": false,
+      "classes": [
+        "fighter",
+        "mage",
+        "thief",
+        "ranger",
+        "druid",
+        "spellblade"
+      ],
+      "active_pairs": [
+        "fighter",
+        "mage",
+        "thief",
+        "ranger",
+        "druid",
+        "spellblade"
+      ],
+      "current_source_pairs": [],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "club",
+      "tier": 1,
+      "two": false,
+      "classes": [
+        "fighter",
+        "cleric",
+        "thief",
+        "druid"
+      ],
+      "active_pairs": [],
+      "current_source_pairs": [
+        "cleric",
+        "druid",
+        "fighter",
+        "thief"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "staff",
+      "tier": 1,
+      "two": true,
+      "classes": [
+        "fighter",
+        "mage",
+        "cleric",
+        "druid"
+      ],
+      "active_pairs": [
+        "mage"
+      ],
+      "current_source_pairs": [
+        "cleric",
+        "druid",
+        "fighter"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "shortsword",
+      "tier": 1,
+      "two": false,
+      "classes": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "active_pairs": [
+        "thief"
+      ],
+      "current_source_pairs": [
+        "fighter",
+        "ranger",
+        "spellblade"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "mace",
+      "tier": 1,
+      "two": false,
+      "classes": [
+        "fighter",
+        "cleric"
+      ],
+      "active_pairs": [
+        "cleric"
+      ],
+      "current_source_pairs": [
+        "fighter"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "hammer",
+      "tier": 2,
+      "two": false,
+      "classes": [
+        "fighter",
+        "cleric"
+      ],
+      "active_pairs": [
+        "fighter",
+        "cleric"
+      ],
+      "current_source_pairs": [],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "spear",
+      "tier": 2,
+      "two": false,
+      "classes": [
+        "fighter",
+        "ranger",
+        "druid"
+      ],
+      "active_pairs": [
+        "druid"
+      ],
+      "current_source_pairs": [
+        "fighter",
+        "ranger"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "longsword",
+      "tier": 2,
+      "two": false,
+      "classes": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "active_pairs": [
+        "fighter"
+      ],
+      "current_source_pairs": [
+        "ranger",
+        "spellblade",
+        "thief"
+      ],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "flail",
+      "tier": 3,
+      "two": false,
+      "classes": [
+        "fighter",
+        "cleric"
+      ],
+      "active_pairs": [
+        "fighter",
+        "cleric"
+      ],
+      "current_source_pairs": [],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "battleaxe",
+      "tier": 3,
+      "two": false,
+      "classes": [
+        "fighter"
+      ],
+      "active_pairs": [
+        "fighter"
+      ],
+      "current_source_pairs": [],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "greatsword",
+      "tier": 4,
+      "two": true,
+      "classes": [
+        "fighter"
+      ],
+      "active_pairs": [
+        "fighter"
+      ],
+      "current_source_pairs": [],
+      "missing_source_pairs": []
+    },
+    {
+      "id": "scimitar",
+      "tier": 99,
+      "two": false,
+      "classes": [
+        "fighter",
+        "thief",
+        "ranger",
+        "spellblade"
+      ],
+      "active_pairs": [],
+      "current_source_pairs": [],
+      "missing_source_pairs": [
+        "fighter",
+        "ranger",
+        "spellblade",
+        "thief"
+      ]
+    },
+    {
+      "id": "dwarfhammer",
+      "tier": 99,
+      "two": false,
+      "classes": [
+        "fighter",
+        "cleric"
+      ],
+      "active_pairs": [],
+      "current_source_pairs": [],
+      "missing_source_pairs": [
+        "cleric",
+        "fighter"
+      ]
+    }
+  ],
+  "source_pass": "aa-melee5",
+  "class_state_frames": 97,
+  "new_unique_painted_poses": 77,
+  "native_identical_reused_states": 20,
+  "pending_local_with_clubs": 133
+}
