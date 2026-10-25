@@ -31,7 +31,7 @@ test('core play is ready offline while all recordings are delayed, then voices r
     });
     await page.goto(root);
     // Measure installation after the unrelated deferred raster queue settles.
-    await artReady(page);
+    if(browserName!=='webkit')await artReady(page);
     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
     const status=page.locator('#offline-status');
     await expect(status).toHaveAttribute('data-core','true');

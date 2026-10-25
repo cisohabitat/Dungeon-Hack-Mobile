@@ -1112,6 +1112,10 @@ a pushed change as verified.
   These checks await the existing deferred art queue before starting their
   unchanged installation deadline. Voice resume discovers missing recordings
   from one cache-key snapshot; avoid per-clip scans of the painted catalog.
+  WebKit keeps its native offline setup without draining the entire unrelated
+  raster queue first; that queue can consume the whole test budget in this engine.
+  Held animation capture waits for every referenced painted pose before storing
+  image identities, since a completed rest pose does not imply a decoded drive.
   to `main`.
   `tools/install-browser.sh` retries the same browser/dependency install up to
   three times for transient package-mirror failures. Exhaustion fails the job;
