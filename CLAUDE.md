@@ -1105,6 +1105,10 @@ a pushed change as verified.
   axe cannot: text at twice its size on three phone shapes, the reader's log, the palette, Calm view, one-handed reach.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
   three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
+  Full-cache offline installation checks run in a separate serial step in each
+  Chromium job; competing workers exceed the unchanged ten-second installation
+  deadline with the full painted catalog. Both steps retain the same shard filter,
+  so every test runs once; an empty offline shard is expected.
   to `main`.
   `tools/install-browser.sh` retries the same browser/dependency install up to
   three times for transient package-mirror failures. Exhaustion fails the job;

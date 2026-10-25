@@ -1637,3 +1637,5 @@ AE/AF source art is complete locally: 24 empty-hand bindings and 142 small-item 
 AG/AH add 25 local regional source atlases: architecture for twelve regions, secondary materials and all thirteen regions’ decoration slots. See the [source review](art/creatures/batch-ag-ah-preview/REVIEW.md) for coverage and the remaining arch/gate/material fitting gates. Runtime activation and publication remain pending.
 
 AC–AH are activated for **0.9.40**: painted carried foci/shields, empty hands, small floor/Pack items and regional architecture/materials/decorations. Native openings, coloured locks, item identity, rarity edges and separate relic portraits remain intact. [Runtime review](art/creatures/batch-ac-ah-runtime/REVIEW.md) records 1,228 native captures, independent fallback and all 1,550 catalogued art files decoding offline. Earlier source-only notes above are historical.
+
+CI runs full-cache offline installation checks separately on one worker, retaining the same install deadlines and native offline reload assertions. Other browser checks remain parallel.
