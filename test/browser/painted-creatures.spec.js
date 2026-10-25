@@ -344,6 +344,7 @@ test('painted creature survives an installed offline native reload @mobile',asyn
   try{
     await page.addInitScript(()=>{for(const [k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});
     await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await artReady(page);
     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
     await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');
     // As in offline.spec.js, disconnect the actual origin. WebKit's browser

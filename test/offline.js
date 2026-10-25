@@ -10,7 +10,7 @@ const absolute = value => new URL(typeof value === 'string' ? value : value.url,
 const clips = { prologue: {}, 'line-00000001': {}, 'line-00000002': {} };
 const voices = Object.keys(clips).flatMap(id => ['ogg', 'm4a'].map(ext => absolute(`sound/narration/${id}.${ext}`)));
 function harness(storage = new Map()) {
-  const handlers = {}, messages = [], requested = [];
+  const handlers = {}, messages = [], requested = [], matched = [];
   let held = null, failing = '', skipped = 0, claimed = 0;
   const response = url => new Response(url.endsWith('/catalog.json') ? JSON.stringify({clips}) : url.endsWith('/js/release.js') ? `export const BUILD_NUMBER = ${build};` : url.endsWith('/prologue.m4a') ? '0123456789' : url);
   const fetcher = async input => {
@@ -25,19 +25,20 @@ function harness(storage = new Map()) {
       if (!storage.has(name)) storage.set(name, new Map());
       const map = storage.get(name);
       return {
-        match: async input => map.get(absolute(input))?.clone(),
+        match: async input => {matched.push(absolute(input));return map.get(absolute(input))?.clone();},
+        keys: async () => [...map.keys()].map(url => ({url})),
         put: async (input, res) => {map.set(absolute(input), res.clone());},
         addAll: async paths => {for (const p of paths) map.set(absolute(p), await fetcher(p));},
       };
     },
   };
   vm.runInNewContext(source, {URL, Response, Headers, AbortController, setTimeout, clearTimeout, fetch: fetcher, caches,
-    self: { location: {origin: new URL(origin).origin}, addEventListener: (name, fn) => {handlers[name] = fn;},
+    self: { location: {origin: new URL(origin).origin, href: origin+'sw.js'}, addEventListener: (name, fn) => {handlers[name] = fn;},
       skipWaiting: async () => {skipped++;}, clients: {claim: async () => {claimed++;}, matchAll: async () => [{postMessage: s => messages.push(s)}]} },
   });
   const event = async name => {let job; handlers[name]({waitUntil: promise => {job = promise;}}); await job;};
   const prepare = () => {let job; handlers.message({data:{type:'offline-prepare'},source:{id:'own-client'},waitUntil:p=>{job=p;}}); return job;};
-  return {storage,caches,messages,requested,event,prepare,handlers,
+  return {storage,caches,messages,requested,matched,event,prepare,handlers,
     hold() {let release; held=new Promise(resolve=>{release=resolve;});return()=>{held=null;release();};},
     fail(url) {failing=url;}, get skipped(){return skipped;},get claimed(){return claimed;},
   };
@@ -50,6 +51,7 @@ async function main() {
   const job = h.prepare();
   await new Promise(resolve=>setTimeout(resolve,20));
   assert.equal(h.messages.at(-1).voice,'downloading');assert.equal(h.messages.at(-1).build,build);
+  assert.equal(h.matched.some(url=>voices.includes(url)),false,'voice discovery reads one index rather than scanning the painted cache per clip');
   assert.equal(await (await h.caches.open(current)).match('./sound/narration/offline-ready'),undefined);
   release();await job;
   assert.equal(h.messages.at(-1).voice,'ready');assert.equal(h.messages.at(-1).done,voices.length);

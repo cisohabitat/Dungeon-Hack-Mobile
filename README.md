@@ -1639,3 +1639,4 @@ AG/AH add 25 local regional source atlases: architecture for twelve regions, sec
 AC–AH are activated for **0.9.40**: painted carried foci/shields, empty hands, small floor/Pack items and regional architecture/materials/decorations. Native openings, coloured locks, item identity, rarity edges and separate relic portraits remain intact. [Runtime review](art/creatures/batch-ac-ah-runtime/REVIEW.md) records 1,228 native captures, independent fallback and all 1,550 catalogued art files decoding offline. Earlier source-only notes above are historical.
 
 CI runs full-cache offline installation checks separately on one worker, retaining the same install deadlines and native offline reload assertions. Other browser checks remain parallel.
+Voice download resumption reads the offline cache index once, avoiding repeated scans of the full painted catalog.

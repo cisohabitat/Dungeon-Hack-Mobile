@@ -1109,6 +1109,9 @@ a pushed change as verified.
   Chromium job; competing workers exceed the unchanged ten-second installation
   deadline with the full painted catalog. Both steps retain the same shard filter,
   so every test runs once; an empty offline shard is expected.
+  These checks await the existing deferred art queue before starting their
+  unchanged installation deadline. Voice resume discovers missing recordings
+  from one cache-key snapshot; avoid per-clip scans of the painted catalog.
   to `main`.
   `tools/install-browser.sh` retries the same browser/dependency install up to
   three times for transient package-mirror failures. Exhaustion fails the job;

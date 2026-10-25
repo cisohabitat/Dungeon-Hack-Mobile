@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v115';
+const CACHE = 'deepdelve-v116';
 const ASSETS = [
   './img/held/mage-spellbook.png',
   './img/held/mage-crystal_orb.png',
@@ -1712,8 +1712,10 @@ async function cacheVoices() {
     offlineState.total = paths.length;
     if (!paths.length) throw new Error('No recordings listed');
     if (!(await c.match(VOICE_READY))) {
-      const missing = [];
-      for (const path of paths) if (!(await c.match(path))) missing.push(path);
+      // Read the cache index once: matching each recording separately scans
+      // the complete painted catalog hundreds of times before readiness.
+      const present = new Set((await c.keys()).map(request => request.url));
+      const missing = paths.filter(path => !present.has(new URL(path, self.location.href).href));
       offlineState.done = paths.length - missing.length;
       offlineState.voice = 'downloading'; await announce();
       // Resume only missing files, including after a tab or worker was closed.

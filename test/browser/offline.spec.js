@@ -2,7 +2,7 @@
 const {test,expect}=require('@playwright/test');
 const http=require('http');
 const {serve}=require('../server');
-const {watchForErrors}=require('./helpers');
+const {watchForErrors,artReady}=require('./helpers');
 const AxeBuilder=require('@axe-core/playwright').default;
 
 test('core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile', async({page,context,browserName})=>{
@@ -30,6 +30,8 @@ test('core play is ready offline while all recordings are delayed, then voices r
       for(const [k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);
     });
     await page.goto(root);
+    // Measure installation after the unrelated deferred raster queue settles.
+    await artReady(page);
     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
     const status=page.locator('#offline-status');
     await expect(status).toHaveAttribute('data-core','true');
