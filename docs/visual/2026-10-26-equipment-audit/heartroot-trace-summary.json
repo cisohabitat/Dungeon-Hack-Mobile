@@ -1,0 +1,170 @@
+[
+  {
+    "width": 320,
+    "cls": "fighter",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "fighter",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "cleric",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "cleric",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "mage",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "mage",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "druid",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 320,
+    "cls": "druid",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "fighter",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "fighter",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "cleric",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "cleric",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "mage",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "mage",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "druid",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 390,
+    "cls": "druid",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "fighter",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "fighter",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "cleric",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "cleric",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "mage",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "mage",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "druid",
+    "action": "read",
+    "released": true,
+    "restored": true
+  },
+  {
+    "width": 740,
+    "cls": "druid",
+    "action": "drink",
+    "released": true,
+    "restored": true
+  }
+]

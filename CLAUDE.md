@@ -1319,3 +1319,6 @@ The approved molten core and matching two-step dais live in `art/creatures/heart
 
 ### Keeper/victory review fixtures
 `docs/visual/2026-10-26-boss-audit/` records keeper intros, controlled phase/tell/spell frames and native ending flows. `combat.cjs` freezes simulation after the actual intro and supplies the spell midpoint; these are fitting views, not native phase-transition or balance evidence. `endings.cjs` reaches generated final floors and uses real Heart choices/downloads with enemy defeat/resources supplied. Preserve these scope labels and keep capture manifests separate.
+
+### Rare equipment motion audit
+`docs/visual/2026-10-26-equipment-audit/capture.cjs` runs native actions for28 named carried/bow/Heartroot class pairs at320/390/740px, with exact draw-key/timestamp traces. It does not freeze updates, substitute Assets or reload offline. Its inherited null offline-cache fields mean not checked. The accompanying report separates native action coverage from the broader deterministic fitting matrix and historical Safari evidence.

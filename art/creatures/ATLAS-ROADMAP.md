@@ -970,3 +970,11 @@ focused browser checks passed. No confirmed defect requiring runtime/art changes
 in this bounded sample. Controlled combat frames and native ending sessions are
 explicitly distinguished in the [review](../../docs/visual/2026-10-26-boss-audit/README.md).
 This review-only publication leaves the verified v0.9.45 game bytes unchanged.
+
+### Rare equipment motion audit — 26 October 2026
+84 native sessions cover28 Heartroot/named-carried/bow class pairs at320/390/740px:
+306 actions,1,254 captures and24 successful released-drive/restoration overlaps.
+All30 focused browser cases passed, including6 unchanged Heartroot repeats and
+4,746 named renderer/action fitting fixtures. No new confirmed runtime/art defect.
+The [review](../../docs/visual/2026-10-26-equipment-audit/README.md) distinguishes
+fresh Chromium evidence from historical Safari results and records coverage limits.

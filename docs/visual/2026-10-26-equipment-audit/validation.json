@@ -1,0 +1,40 @@
+{
+  "base_commit": "e7285ee69b40f66cb562dcc7399f6952fa694a2e",
+  "version": "0.9.45",
+  "runtime_changed": false,
+  "native": {
+    "sessions": 84,
+    "class_item_pairs": 28,
+    "actions": 306,
+    "captures": 1254,
+    "galleries": 84,
+    "review_sheets": 12,
+    "heartroot_overlaps": 24,
+    "released_and_restored": 24,
+    "page_errors": []
+  },
+  "checks": {
+    "focused": {
+      "passed": 24,
+      "failed": 0,
+      "duration": "1.4m"
+    },
+    "unchanged_heartroot_repeats": {
+      "passed": 6,
+      "failed": 0,
+      "duration": "48.6s",
+      "workers": 1
+    },
+    "named_renderer_action_fixtures": 4746
+  },
+  "fresh_webkit": false,
+  "fresh_offline": false,
+  "findings": [],
+  "source_sha256": {
+    "js/renderer.js": "c1c70bdc1852b7d019252fdaabb6b18b062cae153232f42eda8f765a39e06de0",
+    "js/heldview.js": "995dc1d0fa173c415bdacd712519b62532bc103404f340baae5608c665a245e7",
+    "js/heldart.js": "a0aa1744ada4eb126a0354886351242745dd0f120d20c30f97c7fa298e4a9cc6",
+    "js/paintedworld.js": "cb810cf52a6353978a01b3abeec0ee4ff9252ca9ff14793cd20be3cd518f8bac",
+    "test/browser/painted-world.spec.js": "6d0aef2b3667e5e93e262328bf79d7509c1112b9fde57d22fbe9a5de931de40d"
+  }
+}
