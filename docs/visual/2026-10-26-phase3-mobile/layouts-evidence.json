@@ -1,0 +1,114 @@
+{
+  "mode": "Native UI; enlarged text and seeded content fixtures. No image substitution, renderer override or modified rules.",
+  "captures": [
+    {
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "name": "title",
+      "file": "after-320-title.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "name": "title-dismissed",
+      "file": "after-320-title-dismissed.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "name": "shop",
+      "file": "after-320-shop.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "name": "journal",
+      "file": "after-320-journal.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "title",
+      "file": "after-390-title.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "title-dismissed",
+      "file": "after-390-title-dismissed.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "shop",
+      "file": "after-390-shop.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "name": "journal",
+      "file": "after-390-journal.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "name": "title",
+      "file": "after-740-title.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "name": "title-dismissed",
+      "file": "after-740-title-dismissed.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "name": "shop",
+      "file": "after-740-shop.png",
+      "font": "32px"
+    },
+    {
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "name": "journal",
+      "file": "after-740-journal.png",
+      "font": "32px"
+    }
+  ],
+  "console_errors": []
+}

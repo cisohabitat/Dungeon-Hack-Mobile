@@ -956,3 +956,10 @@ Phases2/3 cover regional consistency and small-phone clarity next.
 Reviewed all13 palette selections at320/390px and60 representative structure
 views; all4 regional mask/lock/torch/failure regression checks passed. No new
 confirmed rendering/art defect in this bounded sample. [Review](../../docs/visual/2026-10-26-phase2-regions/README.md).
+
+### Visual audit phase 3 — small-phone clarity
+Reviewed enlarged native title/trader/Journal at320/390/740px and settled item
+portraits/movement at320/390px. All19 access/layout cases passed. No additional
+confirmed runtime/art defect in these samples. [Review](../../docs/visual/2026-10-26-phase3-mobile/README.md).
+The three-phase audit found and fixed aligned crowd receipt overlap in phase1;
+phases2/3 add bounded evidence without a new atlas or gameplay change.
