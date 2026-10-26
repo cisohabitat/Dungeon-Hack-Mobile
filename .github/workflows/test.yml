@@ -42,8 +42,8 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline'
-      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline' --pass-with-no-tests
+      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
+      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
@@ -115,8 +115,8 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: npx playwright test --project=small --grep-invert 'core play is ready offline|painted creature survives an installed offline'
-      - run: npx playwright test --project=small --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline' --pass-with-no-tests
+      - run: npx playwright test --project=small --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
+      - run: npx playwright test --project=small --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

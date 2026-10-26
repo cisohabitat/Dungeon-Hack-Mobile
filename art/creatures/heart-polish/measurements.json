@@ -1,0 +1,48 @@
+{
+  "artifact": {
+    "source_crop": [
+      155,
+      8,
+      1107,
+      1243
+    ],
+    "scale": 0.1797570850202429,
+    "registered_size": [
+      171,
+      222
+    ],
+    "paste": [
+      42,
+      16
+    ],
+    "visible_bounds": [
+      42,
+      16,
+      213,
+      238
+    ]
+  },
+  "heart_dais": {
+    "source_crop": [
+      159,
+      42,
+      1109,
+      1230
+    ],
+    "scale": 0.18686868686868688,
+    "registered_size": [
+      178,
+      222
+    ],
+    "paste": [
+      39,
+      16
+    ],
+    "visible_bounds": [
+      39,
+      16,
+      217,
+      237
+    ]
+  }
+}

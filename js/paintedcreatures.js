@@ -80,6 +80,15 @@ function paintedCreature(sprite, variant = '') {
 
 export { bindPaintedCreature, paintedCreature };
 
+// End-card exports wait only for their own pictures, never the world's queue.
+// Failed or unbound art is settled too: its existing fallback remains usable.
+export function paintedCreatureSettled(sprite) {
+  const link = links.get(sprite);
+  if (!link) return true;
+  const atlas = atlases.get(link.kind);
+  return !!atlas && (atlas.state === 'failed' || (atlas.state === 'ready' && !!atlas.palettes.get(link.tint)));
+}
+
 // Keep a shot's weapon through its existing lunge without adding saved game state.
 const shotCycles = new WeakMap();
 function monsterPaintKind(m, now) {

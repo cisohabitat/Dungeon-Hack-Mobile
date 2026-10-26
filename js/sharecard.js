@@ -1,5 +1,5 @@
 // A run as a picture to share: what it came to, drawn in the game's own
-// colours. A win shows the Heart that was lifted; a death, the thing that
+// colours. A win shows its chosen ending's symbol; a death, the thing that
 // did it. Everything it says comes in `info`, so this knows nothing of rules.
 
 const W = 800, H = 420, SERIF = "Georgia, 'Times New Roman', serif";
@@ -15,7 +15,7 @@ function fitText(g, text, x, y, maxW, size, weight, colour) {
 }
 
 /**
- * @param {{ won: boolean, hero: string, outcome: string, killer?: string, stats: string, mode: string,
+ * @param {{ won: boolean, ending?: string, hero: string, outcome: string, killer?: string, stats: string, mode: string,
  *   seed: string, date: string, art?: HTMLCanvasElement | HTMLImageElement | null,
  *   hound?: { name: string, word?: string, art: HTMLCanvasElement | HTMLImageElement | null } | null,
  *   face?: HTMLCanvasElement | HTMLImageElement | null, frame?: string }} info
@@ -30,16 +30,16 @@ function drawShareCard(info) {
   bg.addColorStop(0, '#1e1a26'); bg.addColorStop(1, '#0b0a10');
   g.fillStyle = bg; g.fillRect(0, 0, W, H);
   const glow = g.createRadialGradient(205, 235, 10, 205, 235, 220);
-  glow.addColorStop(0, info.won ? 'rgba(255, 196, 90, 0.42)' : 'rgba(190, 60, 48, 0.32)');
+  glow.addColorStop(0, info.won ? info.ending === 'quench' ? 'rgba(124, 165, 190, 0.32)' : 'rgba(255, 196, 90, 0.42)' : 'rgba(190, 60, 48, 0.32)');
   glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
   g.fillStyle = glow; g.fillRect(0, 0, W, H);
   g.strokeStyle = '#c9a24a'; g.lineWidth = 3; g.strokeRect(10, 10, W - 20, H - 20);
   g.strokeStyle = 'rgba(201, 162, 74, 0.35)'; g.lineWidth = 1; g.strokeRect(19, 19, W - 38, H - 38);
-  // the picture, pixels kept sharp, standing on a shadow
+  // The selected painted cutout, smoothly scaled, standing on a shadow.
   g.fillStyle = 'rgba(0, 0, 0, 0.45)';
   g.beginPath(); g.ellipse(205, 360, 120, 16, 0, 0, Math.PI * 2); g.fill();
   if (info.art && info.art.width) {
-    g.imageSmoothingEnabled = false;
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
     const s = Math.min(300 / info.art.width, 300 / info.art.height), w = info.art.width * s, h = info.art.height * s;
     g.drawImage(info.art, 205 - w / 2, 368 - h, w, h);
   }
@@ -48,7 +48,7 @@ function drawShareCard(info) {
     g.fillStyle = 'rgba(0, 0, 0, 0.45)';
     g.beginPath(); g.ellipse(92, 372, 46, 8, 0, 0, Math.PI * 2); g.fill();
     const s = Math.min(120 / info.hound.art.width, 120 / info.hound.art.height), w = info.hound.art.width * s, h = info.hound.art.height * s;
-    g.imageSmoothingEnabled = false;
+    g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
     g.drawImage(info.hound.art, 92 - w / 2, 378 - h, w, h);
   }
   // the hero's own face, in a frame in the corner
@@ -65,7 +65,7 @@ function drawShareCard(info) {
   fitText(g, 'DEEPDELVE', x, 78, maxW, 40, 'normal', '#e8c76a');
   g.fillStyle = 'rgba(201, 162, 74, 0.5)'; g.fillRect(x, 92, maxW, 1);
   fitText(g, info.hero, x, 140, maxW, 30, 'normal', '#f2ead8');
-  fitText(g, info.outcome, x, 196, maxW, 38, 'bold', info.won ? '#ffd76a' : '#f08a80');
+  fitText(g, info.outcome, x, 196, maxW, 38, 'bold', info.won ? info.ending === 'quench' ? '#b8d6e3' : '#ffd76a' : '#f08a80');
   if (info.killer) fitText(g, info.killer, x, 234, maxW, 24, 'italic', '#d8c8b0');
   fitText(g, info.stats, x, 284, maxW, 22, 'normal', '#e0d6c2');
   fitText(g, info.mode, x, 318, maxW, 20, 'normal', '#b8ad98');

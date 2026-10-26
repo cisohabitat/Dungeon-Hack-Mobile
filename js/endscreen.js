@@ -7,6 +7,10 @@ import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
 import { fallenPortrait } from './portraits.js';
+import { paintedCreature, paintedCreatureSettled } from './paintedcreatures.js';
+import { paintedWorldState } from './paintedworld.js';
+import { PAINTED } from './paintedcatalog.js';
+import { COMPANIONS } from './companionbook.js';
 import { RELICS } from './relics.js';
 import { $, diffName, diffLabel, escapeHtml, upFirst } from './uikit.js';
 
@@ -118,33 +122,70 @@ export function makeEndScreen(K) {
     const cls = CLASSES[p.cls] ? CLASSES[p.cls].name : p.cls;
     // (where to play it is added by the share button, to every line alike)
     const secs = Math.round(G.t / 1000), took = ` in ${Math.floor(secs / 60)}m ${String(secs % 60).padStart(2, '0')}s`;
-    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? 'claimed the Heart' : `fell on floor ${G.depth}`}${took}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
+    const ending = ENDINGS[Object.hasOwn(ENDINGS, G.ending) ? G.ending : 'take'];
+    return `Deepdelve seed ${G.seed} (${ways.join(', ')}): ${cls}, ${won ? ending.hall.charAt(0).toLowerCase() + ending.hall.slice(1) : `fell on floor ${G.depth}`}${took}, ${p.kills} kill${p.kills === 1 ? '' : 's'}, score ${Game.score(p, G.depth, won)}`;
   }
   /** What the share card says of this run, and the picture it shows. */
   function cardInfo(won) {
     const G = Game.state(), p = G.player, o = G.opts;
-    const k = Game.lastAttacker(), mb = k && k.id ? MONSTERS[k.id] : null;
+    const k = Game.lastAttacker(), mb = k && Object.hasOwn(MONSTERS, k.id) ? MONSTERS[k.id] : null;
     const pic = s => (s && s.levels ? s.levels[0] : s) || null;
-    let art = null, killer = '';
-    if (won) { art = pic(Assets.sprites.artifact); killer = 'and brought down the Dread Lich'; }
+    const sources = [];
+    const world = key => {
+      const source = { read: () => pic(Assets.sprites[key]), settled: () => !PAINTED.static[key] || ['ready', 'failed'].includes(paintedWorldState()[PAINTED.static[key]]) };
+      sources.push(source); return source.read;
+    };
+    const creature = spriteOf => {
+      const source = {
+        read: () => { const sprite = spriteOf(); return pic(sprite ? paintedCreature(sprite) : Assets.sprites.bone_heap); },
+        settled: () => { const sprite = spriteOf(); return !!sprite && paintedCreatureSettled(sprite); },
+      };
+      sources.push(source); return source.read;
+    };
+    let picture, killer = '';
+    const endingId = Object.hasOwn(ENDINGS, G.ending) ? G.ending : 'take';
+    if (won) {
+      picture = world({ take: 'artifact', quench: 'quench', keep: 'heart_dais' }[endingId]);
+      killer = `and brought down the ${MONSTERS[Dungeon.keeperOf(o.levels || 8, G.route)].name}`;
+    }
     else if (mb) {
-      const s = Assets.sprites[mb.sprite];
-      art = pic(mb.named && s && s.elite && s.elite[k.id] ? s.elite[k.id] : s);
+      // A class Shade is known from this floor's bones. Older/unknown Shades
+      // use remains rather than inventing a Fighter's equipment for a caster.
+      const shadeClass = mb.shade && Game.level().bones?.cls;
+      picture = mb.shade && !Object.hasOwn(CLASSES, shadeClass) ? world('bone_heap') : creature(() => {
+        const s = Assets.sprites[mb.sprite];
+        if (mb.shade) return s?.elite?.['shade_' + shadeClass] || (shadeClass === 'fighter' ? s : null);
+        return mb.named && s?.elite?.[k.id] || s;
+      });
       killer = `to ${mb.named || /^the /i.test(k.name) ? k.name : `${/^[aeiou]/i.test(k.name) ? 'an' : 'a'} ${k.name.toLowerCase()}`}`;
     } else {
-      art = pic(Assets.sprites.bone_heap);
+      picture = world('bone_heap');
       if (k) killer = `to ${k.name.replace(/^[A-Z](?=[a-z])/, c => (k.encounter ? c : c.toLowerCase()))}`;
     }
     // a hound still at the hero's side at the end stands in the picture with them
     // (not one told to stay floors above). Beside a killer it read as the killer's
     // dog, so on a death it is named, not drawn
-    const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender', renegade: 'renegade' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
+    const c = G.companion, companion = c && Object.hasOwn(COMPANIONS, c.kind || 'hound') ? COMPANIONS[c.kind || 'hound'] : null;
+    const companionPicture = won && companion && !c.fallen && c.depth === G.depth ? creature(() => Assets.sprites[companion.sprite]) : null;
+    const hound = companion && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), get art() { return companionPicture ? companionPicture() : null; } } : null;
     const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name), ...(o.relic && RELICS[o.relic] ? [`begun with ${RELICS[o.relic].name}`] : [])];
+    const heroPortrait = won ? Assets.sprites['portrait_' + p.cls] : fallenPortrait(p.cls);
     return {
-      won, art, killer, hound, face: pic(won ? Assets.sprites['portrait_' + p.cls] : fallenPortrait(p.cls)),
-      faceReady: won ? Promise.resolve() : fallenPortrait(p.cls).ready, frame: Progress.frameOf(p.cls),
+      won, ending: won ? endingId : '', get art() { return picture(); }, killer, hound, face: pic(heroPortrait),
+      faceReady: heroPortrait.ready || Promise.resolve(), frame: Progress.frameOf(p.cls),
+      async prepareArt() {
+        // Start just these images and allow a short, bounded wait. Re-read at
+        // draw time so a newly decoded painting replaces its fallback canvas.
+        const deadline = performance.now() + 1500;
+        do {
+          for (const source of sources) source.read();
+          if (sources.every(source => source.settled())) break;
+          await new Promise(resolve => setTimeout(resolve, 25));
+        } while (performance.now() < deadline);
+        await heroPortrait.ready;
+      },
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
-      outcome: won ? (ENDINGS[G.ending || 'take'] || ENDINGS.take).hall : `Fell on floor ${G.depth}`,
+      outcome: won ? ENDINGS[endingId].hall : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level}${p.renown ? ` \u2605${p.renown}` : ''} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
       mode: mode.join(' \u00b7 '),
       seed: String(G.seed),
@@ -159,7 +200,7 @@ export function makeEndScreen(K) {
     const G = Game.state(), p = G.player;
     clearOverlays();
     // each ending its own card: carried up, put out, or kept (ENDINGS)
-    const ending = ENDINGS[G.ending || 'take'] || ENDINGS.take;
+    const ending = ENDINGS[Object.hasOwn(ENDINGS, G.ending) ? G.ending : 'take'];
     $('#end-title').textContent = won ? ending.title : 'YOU HAVE DIED';
     // The fallen hero keeps their class gear around a skull; victories keep
     // the living portrait. The mastery frame belongs to the same class in both.

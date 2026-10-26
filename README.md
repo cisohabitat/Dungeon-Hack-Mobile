@@ -9,6 +9,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **The mountain’s first fire.** The Heart is a molten volcanic core bound in
+  ancient rune-cut iron, with matching collectible, dais and ending-card art.
+
+- **Outcome-aware shared pictures.** Cards name the actual keeper, show the Heart,
+  smiths’ quench or kept Heart dais for the chosen ending, and reuse the painted
+  killer and companion cutouts. The shared line names that ending too.
+
 - **Fallen hero portraits.** Death screens and shared pictures show a painted skull
   in each class’s existing gear, including the Wayfarer. Victories retain the
   living portrait; installed games include all seven death portraits offline.

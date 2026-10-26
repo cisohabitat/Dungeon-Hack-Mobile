@@ -1,0 +1,10 @@
+{
+  "world/artifact.png": {
+    "source": "heart-polish/artifact.png",
+    "reason": "Approved epic Heart replaces the red heart-shaped jewel; original AF source review remains intact."
+  },
+  "world/heart_dais.webp": {
+    "source": "heart-polish/heart_dais.webp",
+    "reason": "Matching approved core on the stone dais; original K source review remains intact."
+  }
+}

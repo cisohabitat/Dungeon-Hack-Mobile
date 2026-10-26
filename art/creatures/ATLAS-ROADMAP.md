@@ -926,3 +926,22 @@ Victories keep living portraits. Sources and selected anatomical repairs are in
 `art/portraits/fallen/`; [review and validation](../../docs/visual/2026-10-26-fallen-portraits/README.md).
 Prepared for release0.9.43; publication follows the required CI checks. The separate keeper-caption
 and outcome-symbol share-card follow-ups remain open.
+
+
+### Share-card polish — 26 October 2026
+Completed locally for 0.9.44: cards derive the actual keeper caption and chosen ending,
+uses the existing Heart/quench/dais paintings, and selects canonical painted
+killer and companion cutouts with bounded loading and independent fallbacks.
+This addresses W’s code-audit findings without commissioning new art.
+The final combined release passed all 925 distinct Chromium cases without failure,
+751 rule checks and the paired isolated performance budget. Earlier variable
+performance samples are retained in the final validation record. Publication is
+authorized; CI and the release publisher remain required. [Review and recorded rechecks](../../docs/visual/2026-10-26-share-cards/README.md).
+
+
+### Epic Heart refresh — 26 October 2026
+The approved volcanic core replaces the collectible’s red jewel and the dais’s
+round orb. Both paintings keep native surfaces, with matching loading/failure
+silhouettes. Historical AF/K source reviews remain unchanged; explicit delivery
+overrides select the replacements. This joins the share-card polish in0.9.44.
+[Native captures and release validation](../../docs/visual/2026-10-26-epic-heart/README.md).

@@ -1,0 +1,194 @@
+{
+  "status": "local-validation-complete-awaiting-publication-ci",
+  "version": "0.9.44",
+  "build": 59,
+  "cache": "deepdelve-v119",
+  "base_commit": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+  "recorded_before_publication": true,
+  "publication_authorized": "2026-10-26",
+  "focused_chromium": {
+    "passed": 34,
+    "failed": 0,
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "duration": "3.3m"
+  },
+  "native_capture": {
+    "sessions": 4,
+    "screenshots": 20,
+    "widths": [
+      390,
+      320
+    ],
+    "recording_disabled_for_snapshot_audits": true,
+    "state_and_dice_read_audits_passed": true
+  },
+  "delivery": {
+    "files": 1550,
+    "changed": 2,
+    "unchanged": 1548,
+    "shipped_paintings": 1725,
+    "historical_AF_K_exports_preserved": true,
+    "heart_export_reproduction_passed": true,
+    "common_export_reproduction_passed": true
+  },
+  "source_sha256": {
+    "js/itemart.js": "34d6636e2fe709ebdd7a9b470808776ceb75b5932048c6aaa3b1cd566ff2f67b",
+    "js/props.js": "27a195901a1fe6ddc4f8319a0e28404c40bb90636cd80bc5f3e17bf53bdd5f33",
+    "js/endscreen.js": "546563b7fb07c0d0bbafea0274575e812e104996edf6cb79a3af990a7e8efb51",
+    "js/paintedcreatures.js": "6fa8003509bfadacfaaefaf0bda1f8c87b1775264d64a515fe9017c713412e34",
+    "js/sharecard.js": "057e18d5c49b70af8061000772e2d0ab83b90d5f527b7286482cf9dbf943b32e",
+    "js/ui.js": "5220c3b822e7e909b0d8ca82222877945749efbb8136b9ddc13421bd78f91116",
+    "js/titlemenu.js": "f75c3dcdc41649a144770a7ad7f244861b4816297942592cb2fe9000b4abfabd",
+    "js/release.js": "2371601b5dc5c84ad83426e5883ab925e81258f8ddfc9ed6eba73fd7683ef8e6",
+    "sw.js": "7df711bc03b31aba15d7bfaad8f1d3528bb807bf46c70a21b28c732ebf55e900",
+    "test/browser/sharecard.spec.js": "b832efa9fb767403379c4a76bfde800e853e06ccafaa58b4e05bed0ee6e65420",
+    "tools/export-painted-runtime.py": "fffdefacd5ec7906101aecca7e763c59cd48b91159aa95b8a7c31c3e60a4b466",
+    "art/creatures/runtime-overrides.json": "00c272e977b9edb657d2ff2e70a57cb9b9aea0ea330b9fd09ec30afcad2e6486",
+    "art/creatures/runtime-delivery.json": "91f7b9364a455768744a602539ef10cbdcd002b10c3d40569f863b19d2e742d0",
+    "img/world/artifact.png": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97",
+    "img/world/heart_dais.webp": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb"
+  },
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "performance": {
+    "cpu_throttle": 4,
+    "thresholds_unchanged": true,
+    "initial_release": {
+      "passed": false,
+      "scenes": {
+        "fight": {
+          "fps": 35.2,
+          "scriptMs": 14.5
+        },
+        "wide": {
+          "fps": 37.9,
+          "scriptMs": 12.8
+        },
+        "flooded": {
+          "fps": 33.5,
+          "scriptMs": 15.3
+        },
+        "painted": {
+          "fps": 29.7,
+          "scriptMs": 21.7
+        },
+        "rite": {
+          "fps": 44.4,
+          "scriptMs": 14.9
+        }
+      },
+      "startup": {
+        "ms": 2096
+      }
+    },
+    "unchanged_release_recheck": {
+      "passed": false,
+      "scenes": {
+        "fight": {
+          "fps": 33.2,
+          "scriptMs": 15.5
+        },
+        "wide": {
+          "fps": 35.5,
+          "scriptMs": 12.9
+        },
+        "flooded": {
+          "fps": 31.9,
+          "scriptMs": 16
+        },
+        "painted": {
+          "fps": 29.6,
+          "scriptMs": 21.9
+        },
+        "rite": {
+          "fps": 44.6,
+          "scriptMs": 14.4
+        }
+      },
+      "startup": {
+        "ms": 2463
+      }
+    },
+    "unchanged_main_baseline": {
+      "commit": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+      "passed": false,
+      "setup": "Git-archived main code/tests; copied runtime assets inside the server root, with original main Heart files. Initial symlink setup was interrupted and discarded because the server correctly rejects external symlinks.",
+      "scenes": {
+        "fight": {
+          "fps": 27.4,
+          "scriptMs": 18.4
+        },
+        "wide": {
+          "fps": 31.3,
+          "scriptMs": 15.1
+        },
+        "flooded": {
+          "fps": 38,
+          "scriptMs": 11.7
+        },
+        "painted": {
+          "fps": 30,
+          "scriptMs": 21.8
+        },
+        "rite": {
+          "fps": 43.2,
+          "scriptMs": 14.9
+        }
+      },
+      "startup": {
+        "ms": 2459
+      }
+    },
+    "paired_release_sample": {
+      "passed": true,
+      "scenes": {
+        "fight": {
+          "fps": 33,
+          "scriptMs": 15.9
+        },
+        "wide": {
+          "fps": 30.9,
+          "scriptMs": 14.7
+        },
+        "flooded": {
+          "fps": 34.7,
+          "scriptMs": 15
+        },
+        "painted": {
+          "fps": 41.6,
+          "scriptMs": 11.6
+        },
+        "rite": {
+          "fps": 52.1,
+          "scriptMs": 10.5
+        }
+      },
+      "startup": {
+        "ms": 2392
+      }
+    },
+    "ci_budget_must_pass_before_verified_publication": true
+  },
+  "full_chromium": {
+    "passed": 925,
+    "failed": 0,
+    "parallel": {
+      "passed": 919,
+      "duration": "1.2h"
+    },
+    "serial_full_cache": {
+      "passed": 6,
+      "duration": "3.0m"
+    },
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "unchanged_companion_assertion_passed": true
+  }
+}

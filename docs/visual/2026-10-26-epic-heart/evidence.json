@@ -1,0 +1,66 @@
+[
+  {
+    "width": 390,
+    "ending": "take",
+    "generated_depth": 4,
+    "fixture": "Supplied defeated keeper, floor item position, inventory and ending knowledge; recording off for snapshot neutrality; native controls, updates and renderer.",
+    "scale": 0.4,
+    "onFloor": true,
+    "state_read_unchanged": true,
+    "dice_read_unchanged": true,
+    "pack": {
+      "slot": "img/world/artifact.png",
+      "detail": "img/world/artifact.png",
+      "name": "The Heart of the Mountain"
+    },
+    "console_errors": []
+  },
+  {
+    "width": 390,
+    "ending": "keep",
+    "generated_depth": 4,
+    "fixture": "Supplied defeated keeper, floor item position, inventory and ending knowledge; recording off for snapshot neutrality; native controls, updates and renderer.",
+    "scale": 0.4,
+    "onFloor": true,
+    "state_read_unchanged": true,
+    "dice_read_unchanged": true,
+    "pack": {
+      "slot": "img/world/artifact.png",
+      "detail": "img/world/artifact.png",
+      "name": "The Heart of the Mountain"
+    },
+    "console_errors": []
+  },
+  {
+    "width": 320,
+    "ending": "take",
+    "generated_depth": 4,
+    "fixture": "Supplied defeated keeper, floor item position, inventory and ending knowledge; recording off for snapshot neutrality; native controls, updates and renderer.",
+    "scale": 0.4,
+    "onFloor": true,
+    "state_read_unchanged": true,
+    "dice_read_unchanged": true,
+    "pack": {
+      "slot": "img/world/artifact.png",
+      "detail": "img/world/artifact.png",
+      "name": "The Heart of the Mountain"
+    },
+    "console_errors": []
+  },
+  {
+    "width": 320,
+    "ending": "keep",
+    "generated_depth": 4,
+    "fixture": "Supplied defeated keeper, floor item position, inventory and ending knowledge; recording off for snapshot neutrality; native controls, updates and renderer.",
+    "scale": 0.4,
+    "onFloor": true,
+    "state_read_unchanged": true,
+    "dice_read_unchanged": true,
+    "pack": {
+      "slot": "img/world/artifact.png",
+      "detail": "img/world/artifact.png",
+      "name": "The Heart of the Mountain"
+    },
+    "console_errors": []
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-26",
+  "tool": "image_gen.imagegen",
+  "model": "Tool did not expose an underlying model identifier.",
+  "terms": "https://openai.com/policies/terms-of-use/",
+  "sources": {
+    "core": {
+      "source": "source-core.png",
+      "generatedFile": "exec-9da3691e-83c5-4b70-8488-93537abe77f6.png",
+      "references": [
+        "img/world/artifact.png at main17a2331f (identical to batch-af-items-preview/artifact.png)",
+        "img/bosses/heartforged.webp"
+      ],
+      "prompt": "Redesign the Heart of the Mountain relic for the dark fantasy dungeon crawler Deepdelve, as ONE spectacular but grounded painted game item. Reference1 is its OLD red heart-shaped gemstone: replace that corny symmetrical jewelry design completely. Reference2 is the game's approved Heartforged monster painting: match its weathered black forged metal, ancient dwarven angular engravings, rich visible painterly brush texture, searing forge-gold interior and deep charcoal shadows. The artifact is the primordial first fire of the old mountain smiths, immensely powerful and ancient, something dangerous that could keep a whole mountain alive. Design a heavy fist-sized irregular elongated core of cracked volcanic black stone, with a dense almost-white golden molten center visible through a few deep orange-gold fissures, restrained rusty dark iron ribs forged around it and a small number of worn geometric rune cuts. Its silhouette subtly suggests a rugged organic heart or a broken mountain seed, NEVER a Valentine heart, NEVER a polished faceted ruby, NEVER a smooth glowing ball. Keep most of the shell matte, dark and substantial so the contained fire feels intensely luminous. The metallic cage should be sparse, physically connected, asymmetrical and purposeful, not ornamental jewelry or sci-fi machinery. Slight three-quarter view, upright, complete artifact comfortably inside the frame with 12 percent transparent margin. Large distinctive silhouette readable at 80px, no tiny busy particles. Quiet contained menace, epic ancient relic worthy of a final dungeon victory. SINGLE isolated object on a truly transparent background, softly painted edges but strong coherent form, no environment, no floor, no pedestal, no floating shards or flames detached from the object, no excessive bloom, no text, no labels, no borders, no hands. Mature hand-painted monster-art aesthetic, NOT cartoon, NOT glossy 3D render. Square image, highest detail."
+    },
+    "dais": {
+      "source": "source-dais.png",
+      "generatedFile": "exec-fcf4deb1-97e2-4ae7-89ab-a0204f64a7e3.png",
+      "references": [
+        "source-core.png",
+        "img/world/heart_dais.webp at main17a2331f (identical to batch-k-preview/heart_dais.webp)"
+      ],
+      "prompt": "Create ONE production transparent painted dungeon prop for Deepdelve. Reference1 is the APPROVED new Heart of the Mountain core. Preserve its recognizable cracked black volcanic stone shape, dense white-gold molten interior, asymmetric sparse dark rune-engraved iron ribs and angular ancient dwarven metalwork. Reference2 is the existing heart_dais prop: preserve that broad low two-step worn grey/brown stone pedestal, its shallow three-quarter angle, chipped mossy step edges and complete silhouette. REPLACE THE OLD ROUND RED ORB AND FLOATING SHARDS entirely with the approved core from reference1, floating quietly a small gap above the pedestal. This must unmistakably depict the SAME artifact in the new approved core reference, not a red glowing ball, not jewelry, not a Valentine heart. Keep the relic upright, small contained fire shining subtly on the top stone, no large halo, no extra runes floating in the air, no particles, no environment. Unified gritty hand-painted monster-art style, weathered tactile materials, warm forge-light and subdued cool shadows; no glossy plastic or cartoon. The pedestal is broad and low, core takes about 55% of overall prop width and about 65% of total height; total prop centered with generous transparent margins and both bottom corners fully visible. Full complete object only on a truly transparent background, no floor plane or detached shadow, no border, no text. Square image, highest detail."
+    }
+  },
+  "exports": {
+    "artifact": "artifact.png",
+    "heart_dais": "heart_dais.webp"
+  },
+  "registration": "Uniform Lanczos scaling and visible-alpha crop with a four-source-pixel fringe; no repaint or shape distortion. Measured in measurements.json.",
+  "activation": "Explicit runtime-overrides.json selects these two paintings while preserving historical AF/K sources.",
+  "authorization": "User approved applying the preview and matching dais, then publishing with share-card polish."
+}

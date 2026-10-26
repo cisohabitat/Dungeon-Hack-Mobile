@@ -1653,7 +1653,7 @@ const UI = (() => {
       if (!G) return;
       const won = G.status === 'won';
       const info = cardInfo(won);
-      await info.faceReady;
+      await info.prepareArt();
       if (Game.state() !== G) return;
       const blob = await new Promise(r => drawShareCard(info).toBlob(r, 'image/png'));
       if (!blob) { b.textContent = 'Could not draw the picture'; return; }

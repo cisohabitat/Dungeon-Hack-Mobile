@@ -1,0 +1,86 @@
+{
+  "status": "required-local-checks-complete-with-recorded-rechecks",
+  "local_version": "0.9.44",
+  "published": false,
+  "base_commit": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+  "focused": {
+    "passed": 32,
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "initial_fixture_failures": 6,
+    "fixture_correction": "Reach each actual final floor through native stairs and the divided-stair route selection before testing the keeper.",
+    "subsequent_changes": "Own-property guards for invalid ending IDs and News text are included in the full required run.",
+    "new_paintings": 0
+  },
+  "source_sha256": {
+    "js/endscreen.js": "546563b7fb07c0d0bbafea0274575e812e104996edf6cb79a3af990a7e8efb51",
+    "js/paintedcreatures.js": "6fa8003509bfadacfaaefaf0bda1f8c87b1775264d64a515fe9017c713412e34",
+    "js/sharecard.js": "057e18d5c49b70af8061000772e2d0ab83b90d5f527b7286482cf9dbf943b32e",
+    "js/ui.js": "5220c3b822e7e909b0d8ca82222877945749efbb8136b9ddc13421bd78f91116",
+    "js/titlemenu.js": "cb8c96c832c4c6d33600bcfcae68c4c230f3540b056c05cf6c6a78fe40b4c626",
+    "sw.js": "7df711bc03b31aba15d7bfaad8f1d3528bb807bf46c70a21b28c732ebf55e900",
+    "playwright.config.js": "e9694831d642dac0e52c61feab307c7e20e181924d73c2cd02ee88734dce9229",
+    ".github/workflows/test.yml": "0019d721eebaca24bc7c530adb73056c29dd4d49e87518a9ab0c07288d06b903",
+    "test/browser/sharecard.spec.js": "60c063107c087000dcf6b43435c6a139f2d99e5fef1da6ebba9a7ec21602e72a"
+  },
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "performance": {
+    "cpu_throttle": 4,
+    "thresholds_unchanged": true,
+    "first_run": {
+      "fight": 34.9,
+      "wide": 38.8,
+      "flooded": 34.7,
+      "painted": 29.4,
+      "rite": 48.4,
+      "startup_ms": 2039,
+      "passed": false
+    },
+    "unchanged_recheck": {
+      "fight": 35.5,
+      "wide": 33.6,
+      "flooded": 34.3,
+      "painted": 33.8,
+      "rite": 47.4,
+      "startup_ms": 2127,
+      "passed": true
+    }
+  },
+  "full_run_initial_failure": {
+    "test": "features.spec.js: a goblin let out of its cage follows, and the Use button picks a locked door there is no key for",
+    "assertion": "Immediate renderState sprite identity: rest or windup only.",
+    "observed": "Goblin recruited and lock opened successfully; final sprite identity assertion returned false.",
+    "audit": "Neither companion.js nor this test changed. The existing renderer also selects walking and blinking poses.",
+    "follow_up": "The exact unchanged test passed all three isolated rechecks; no runtime/test/assertion/deadline change was made for it."
+  },
+  "full_chromium": {
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "distinct_cases_verified": 923,
+    "parallel_passed": 916,
+    "parallel_initial_failed": 1,
+    "parallel_duration": "1.1h",
+    "unchanged_failed_case_rechecks_passed": 3,
+    "unchanged_recheck_duration": "21.7s",
+    "serial_full_cache_passed": 6,
+    "serial_duration": "2.9m",
+    "assertions_or_deadlines_relaxed": false
+  },
+  "limitations": [
+    "Native final-floor fixtures supply defeated keepers, extra resources and companions; not unassisted play.",
+    "Static killer cutouts use canonical idle identity, not a reconstructed final-blow pose or phase.",
+    "Initial frame-budget run: painted29.4fps; unchanged isolated recheck:33.8fps.",
+    "Initial parallel browser run included one pose-sensitive existing companion assertion failure; three unchanged isolated rechecks passed.",
+    "Local WebKit and physical iOS checks not performed.",
+    "Implementation is local and unpublished."
+  ],
+  "recorded_before_heart_refresh": true,
+  "final_combined_verification": "../2026-10-26-epic-heart/validation.json"
+}

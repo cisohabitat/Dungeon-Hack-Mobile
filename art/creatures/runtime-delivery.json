@@ -226,9 +226,9 @@
       "sha256": "df7987f4aa61046a6aa4f6ad64165c1bd8e3995f4b8da530fdead161f3409d04"
     },
     {
-      "source": "art/creatures/batch-k-preview/heart_dais.webp",
+      "source": "art/creatures/heart-polish/heart_dais.webp",
       "runtime": "img/world/heart_dais.webp",
-      "sha256": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+      "sha256": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb"
     },
     {
       "source": "art/creatures/batch-k-preview/strongbox.webp",
@@ -5461,9 +5461,9 @@
       "sha256": "bc292b00459707cec34e613c2b835f242414a47264d82ef1319e0832fa86677f"
     },
     {
-      "source": "art/creatures/batch-af-items-preview/artifact.png",
+      "source": "art/creatures/heart-polish/artifact.png",
       "runtime": "img/world/artifact.png",
-      "sha256": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+      "sha256": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97"
     },
     {
       "source": "art/creatures/batch-af-items-preview/key_brass.png",
