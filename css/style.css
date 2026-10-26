@@ -1179,7 +1179,7 @@ body.big-text #screen-title .title-inner { align-items: flex-start; }
 .stage-line { display: block; margin-top: var(--s-4); }
 .sheet-face { display: block; width: 72px; height: 72px; margin: 0 auto var(--s-8); image-rendering: pixelated; border-radius: 8px; border: 1px solid var(--card-edge); background: var(--card-bg); }
 .end-face { display: block; width: 88px; height: 88px; margin: var(--s-6) auto var(--s-4); image-rendering: pixelated; border-radius: 8px; border: 2px solid #c9a24a; background: var(--card-bg); }
-.end-face.fallen { filter: grayscale(0.85) brightness(0.75); border-color: #6a5a4a; }
+.end-face.fallen:not(.frame-bronze, .frame-silver, .frame-gold) { border-color: #6a5a4a; }
 
 /* The two largest text sizes (Menu > Text size: Larger, Double). Everything is
    sized from the root, so it all grows; here the dungeon's own bars are laid

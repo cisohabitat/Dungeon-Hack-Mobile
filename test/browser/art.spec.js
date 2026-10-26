@@ -154,7 +154,7 @@ test.describe('art', () => {
     await expect(sheet).toBeVisible();
     expect(await sheet.evaluate(e => /** @type {HTMLImageElement} */ (e).naturalWidth)).toBeGreaterThan(0);
     await page.keyboard.press('Escape');
-    // and a hero who falls is shown at the end, gone grey
+    // and a hero who falls is shown as a class-specific skull at the end
     await faceOpenGround(page, 2);
     await placeMonster(page, 'ogre', 1, { hp: 400, maxHp: 400, nextAct: 0 });
     await page.evaluate(() => { const p = Game.player(); p.hp = 1; p.eq.armor = null; p.eq.shield = null; });
@@ -163,7 +163,7 @@ test.describe('art', () => {
     const end = page.locator('#end-face');
     await expect(end).toBeVisible();
     await expect(end).toHaveClass(/fallen/);
-    expect(await end.evaluate(e => /** @type {HTMLImageElement} */ (e).src.endsWith(`/img/portraits/${Game.player().cls}.webp`))).toBe(true);
+    await expect(end).toHaveAttribute('src', `img/portraits/fallen/${await page.evaluate(() => Game.player().cls)}.webp`);
     expect(errors).toEqual([]);
   });
 

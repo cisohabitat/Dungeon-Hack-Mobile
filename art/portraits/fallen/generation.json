@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-26",
+  "tool": "image_gen.imagegen",
+  "model": "Tool did not expose an underlying model identifier.",
+  "terms": "https://openai.com/policies/terms-of-use/",
+  "portraits": {
+    "fighter": {
+      "source": "fighter.png",
+      "generatedFile": "exec-dbf7aef8-f5d7-4385-8133-0ae62a35a429.png",
+      "reference": "img/portraits/fighter.webp",
+      "prompt": "Edit this existing fighter hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain nasal helmet, chainmail, red cloth and shoulder plates. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "thief": {
+      "source": "thief.png",
+      "generatedFile": "exec-67f196cb-8687-4f2b-9f1a-315599b84e42.png",
+      "reference": "img/portraits/thief.webp",
+      "prompt": "Edit this existing thief hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain charcoal-brown hood and leather armor. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "cleric": {
+      "source": "cleric.png",
+      "generatedFile": "exec-b93aa006-8101-49b6-b605-27bb661d5d60.png",
+      "reference": "img/portraits/cleric.webp",
+      "prompt": "Edit this existing cleric hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain cream/gold vestments and sun medallion; no hood. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "mage": {
+      "source": "mage.png",
+      "generatedFile": "exec-bc5b10bc-5223-4c82-aea0-88f71171950e.png",
+      "reference": "img/portraits/mage.webp",
+      "prompt": "Edit this existing mage hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain indigo robes, gold trim and round brass fastening; no hood or wizard hat. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "ranger": {
+      "source": "ranger.png",
+      "generatedFile": "exec-7db03aa0-eaf5-4b66-93ec-0913c89a9663.png",
+      "reference": "img/portraits/ranger.webp",
+      "prompt": "Edit this existing ranger hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain hood-down moss cloak, auburn long hair, bow and arrows. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "druid": {
+      "source": "druid.png",
+      "generatedFile": "exec-ead718da-8d78-49b3-9833-94c3b81ae048.png",
+      "reference": "img/portraits/druid.webp",
+      "prompt": "Edit this existing druid hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain dark curly silver-streaked hair, oak-leaf mantle and spiral pendant; no antlers. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    },
+    "spellblade": {
+      "source": "spellblade.png",
+      "generatedFile": "exec-4dae4f0e-a657-4c47-b090-01741dd8b90a.png",
+      "reference": "img/portraits/spellblade.webp",
+      "prompt": "Edit this existing spellblade hero portrait into its DEATH STATE for the same game. Preserve the exact existing framing, head orientation and scale, class clothing, worn materials, palette, shoulder equipment, background and hand-painted brush style of the attached reference. Replace ONLY the living face and exposed neck with an anatomically grounded aged ivory human skull and a little skeletal neck; no flesh, no gore, no glowing eyes. Deep empty eye sockets, clear nasal cavity and natural teeth, dignified stillness, not an aggressive undead monster. Keep head silhouette recognizable through existing headgear and hair where appropriate; no invented hats or hoods. Keep skull large and readable at 88px. This is the fallen SAME character wearing the SAME class gear, not a new monster. Specifically retain embroidered dark hood, sword, silver-blue lantern and cloak; no glowing eyes. Keep restrained amber upper-left light and cool shadows. Mature painterly dark fantasy, match reference, no cartoon, no photoreal CGI. Single square opaque full-bleed portrait, NO frame, NO text, NO labels."
+    }
+  },
+  "repairs": "repairs.json"
+}

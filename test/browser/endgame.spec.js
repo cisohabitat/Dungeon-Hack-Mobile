@@ -253,6 +253,12 @@ test.describe('the endgame', () => {
     expect(lit, 'the middle of the view should be flooded with light').toBeGreaterThan(150);
     await expect(page.locator('#screen-end')).toBeVisible({ timeout: 5000 });
     await expect(page.locator('#end-title')).toHaveText(/VICTORY/i);
+    await expect(page.locator('#end-face')).toHaveAttribute('src', 'img/portraits/fighter.webp');
+    await expect(page.locator('#end-face')).not.toHaveClass(/fallen/);
+    expect(await page.evaluate(async () => {
+      const { makeEndScreen } = await import('/js/endscreen.js');
+      return makeEndScreen({}).cardInfo(true).face === Assets.sprites.portrait_fighter.levels[0];
+    })).toBe(true);
     await expect(page.locator('#end-text')).toContainText(/Dread Lich/);
     await expect(page.locator('#end-epilogue p').first()).toContainText(/Heart of the Mountain/i);
     const hall = await page.evaluate(() => Game.hall()[0]);

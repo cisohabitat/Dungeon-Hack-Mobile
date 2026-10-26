@@ -917,3 +917,12 @@ The [local follow-up review](../../docs/visual/2026-10-25-art-polish/README.md) 
 ## Mobile layout follow-up — 0.9.42
 
 The V/W enlarged-text title overlap, crowded shop header/controls and split Journal labels are addressed in the0.9.42 CSS pass, with [native before/after evidence](../../docs/visual/2026-10-25-mobile-layouts/README.md) and regression checks. This does not commission more art. Normal-size styling, gameplay rules and source paintings are unchanged. Release publication follows the required CI checks; ending/share-card keeper captions and outcome symbols remain the next presentation follow-up.
+
+
+### Fallen hero portraits — 26 October 2026
+Seven class-specific death portraits now replace the living face on death screens
+and death share cards, retaining each hero’s existing gear and mastery frame.
+Victories keep living portraits. Sources and selected anatomical repairs are in
+`art/portraits/fallen/`; [review and validation](../../docs/visual/2026-10-26-fallen-portraits/README.md).
+Prepared for release0.9.43; publication follows the required CI checks. The separate keeper-caption
+and outcome-symbol share-card follow-ups remain open.

@@ -11,6 +11,13 @@ const root = fileURLToPath(new URL('../', import.meta.url));
 const review = JSON.parse(readFileSync(resolve(root, 'art/review.json'), 'utf8'));
 const identity = JSON.parse(readFileSync(resolve(root, 'art/identity.json'), 'utf8'));
 const relics = JSON.parse(readFileSync(resolve(root, 'art/relics/generation.json'), 'utf8')).portraits;
+const fallen = JSON.parse(readFileSync(resolve(root, 'art/portraits/fallen/generation.json'), 'utf8')).portraits;
+if (JSON.stringify(Object.keys(fallen).sort()) !== JSON.stringify(Object.keys(CLASSES).sort())) {
+  throw new Error('Fallen hero portrait coverage is incomplete.');
+}
+for (const id of Object.keys(CLASSES)) {
+  if (!review.sha256[`img/portraits/fallen/${id}.webp`]) throw new Error(`${id}: missing reviewed fallen portrait.`);
+}
 if (JSON.stringify(Object.keys(relics).sort()) !== JSON.stringify(Object.keys(RELICS).sort())) {
   throw new Error('Relic portrait coverage is incomplete.');
 }

@@ -6,6 +6,7 @@ import { BACKGROUNDS, BESTIARY, BOONS, CLASSES, ENDINGS, FEATS, ITEMS, MONSTERS,
 import { Dungeon } from './dungeon.js';
 import { Game } from './game.js';
 import { Progress } from './progress.js';
+import { fallenPortrait } from './portraits.js';
 import { RELICS } from './relics.js';
 import { $, diffName, diffLabel, escapeHtml, upFirst } from './uikit.js';
 
@@ -140,7 +141,8 @@ export function makeEndScreen(K) {
     const c = G.companion, hound = c && !c.fallen && c.depth === G.depth ? { name: c.name, word: Game.companionWord(), art: won ? pic(Assets.sprites[{ goblin: 'scrag', wolf: 'wolf', sellsword: 'sellsword', mender: 'mender', renegade: 'renegade' }[c.kind] || 'dog'] || Assets.sprites.dog) : null } : null;
     const mode = [diffLabel(o), `${o.levels || 8} floors`, ...(o.vows || []).filter(v => VOWS[v]).map(v => VOWS[v].name), ...(o.relic && RELICS[o.relic] ? [`begun with ${RELICS[o.relic].name}`] : [])];
     return {
-      won, art, killer, hound, face: pic(Assets.sprites['portrait_' + p.cls]), frame: Progress.frameOf(p.cls),
+      won, art, killer, hound, face: pic(won ? Assets.sprites['portrait_' + p.cls] : fallenPortrait(p.cls)),
+      faceReady: won ? Promise.resolve() : fallenPortrait(p.cls).ready, frame: Progress.frameOf(p.cls),
       hero: `${p.name} the ${(Game.pathOf(p) || CLASSES[p.cls]).name}`,
       outcome: won ? (ENDINGS[G.ending || 'take'] || ENDINGS.take).hall : `Fell on floor ${G.depth}`,
       stats: `Level ${p.level}${p.renown ? ` \u2605${p.renown}` : ''} \u00b7 ${p.kills} kill${p.kills === 1 ? '' : 's'} \u00b7 score ${Game.score(p, G.depth, won)}`,
@@ -159,9 +161,12 @@ export function makeEndScreen(K) {
     // each ending its own card: carried up, put out, or kept (ENDINGS)
     const ending = ENDINGS[G.ending || 'take'] || ENDINGS.take;
     $('#end-title').textContent = won ? ending.title : 'YOU HAVE DIED';
-    // the hero's face under it, gone grey if they fell
+    // The fallen hero keeps their class gear around a skull; victories keep
+    // the living portrait. The mastery frame belongs to the same class in both.
     const face = /** @type {HTMLImageElement} */ ($('#end-face'));
-    face.src = faceOf(p.cls); face.alt = `${p.name}, the ${CLASSES[p.cls].name}`; face.classList.toggle('fallen', !won);
+    face.src = won ? faceOf(p.cls) : fallenPortrait(p.cls).url;
+    face.alt = `${p.name}, the ${CLASSES[p.cls].name}${won ? '' : ', fallen (skull portrait)'}`;
+    face.classList.toggle('fallen', !won);
     // (in the frame the class's mastery has earned, as it stands now the run is told)
     for (const f of ['bronze', 'silver', 'gold']) face.classList.toggle('frame-' + f, Progress.frameOf(p.cls) === f);
     $('#end-text').textContent = won

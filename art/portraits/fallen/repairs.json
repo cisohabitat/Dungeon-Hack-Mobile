@@ -1,0 +1,14 @@
+{
+  "cleric": {
+    "generatedFile": "exec-f8333494-a29c-4af8-84d4-6653307e5611.png",
+    "reference": "initial-cleric.png",
+    "prompt": "Correct this death-state skull portrait: remove the visible external fleshy ear entirely. A bare human skull has NO ear pinna and NO skin; that small area should show the natural temporal bone, a subtle ear canal opening and dark hair/background behind it. Keep ALL clothing, hair, skull face, teeth, framing, lighting, painted style and background as close as possible to the attached portrait. No other redesign, no hood added, no text or frame. Anatomically plausible bare skull with zero fleshy external ears. Single square full-bleed image.",
+    "reason": "Remove external fleshy ear retained in the first skull conversion."
+  },
+  "mage": {
+    "generatedFile": "exec-a8094f92-041f-422f-9a9b-e71658ff4a34.png",
+    "reference": "initial-mage.png",
+    "prompt": "Correct this death-state skull portrait: remove the visible external fleshy ear entirely. A bare human skull has NO ear pinna and NO skin; that small area should show the natural temporal bone, a subtle ear canal opening and dark hair/background behind it. Keep ALL clothing, hair, skull face, teeth, framing, lighting, painted style and background as close as possible to the attached portrait. No other redesign, no hood added, no text or frame. Anatomically plausible bare skull with zero fleshy external ears. Single square full-bleed image.",
+    "reason": "Remove external fleshy ear retained in the first skull conversion."
+  }
+}

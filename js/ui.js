@@ -1652,7 +1652,10 @@ const UI = (() => {
       const b = $('#end-card'), G = Game.state();
       if (!G) return;
       const won = G.status === 'won';
-      const blob = await new Promise(r => drawShareCard(cardInfo(won)).toBlob(r, 'image/png'));
+      const info = cardInfo(won);
+      await info.faceReady;
+      if (Game.state() !== G) return;
+      const blob = await new Promise(r => drawShareCard(info).toBlob(r, 'image/png'));
       if (!blob) { b.textContent = 'Could not draw the picture'; return; }
       const file = new File([blob], `deepdelve-${String(G.seed).toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`, { type: 'image/png' });
       try {

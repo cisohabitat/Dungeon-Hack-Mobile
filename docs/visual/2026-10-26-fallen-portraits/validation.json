@@ -1,0 +1,78 @@
+{
+  "status": "required-local-checks-complete",
+  "local_version": "0.9.43",
+  "published": false,
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "native_death_export_restore": {
+    "passed": 14,
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "pixel_comparison": "Exact channels after matching reference canvas geometry; no tolerance."
+  },
+  "performance": {
+    "cpu_throttle": 4,
+    "first_run": {
+      "fight": 39,
+      "wide": 35.6,
+      "flooded": 43.1,
+      "painted": 28.8,
+      "rite": 52.1,
+      "startup_ms": 2092,
+      "passed": false
+    },
+    "unchanged_recheck": {
+      "fight": 40.8,
+      "wide": 41.9,
+      "flooded": 42.3,
+      "painted": 36.8,
+      "rite": 47.2,
+      "startup_ms": 2151,
+      "passed": true
+    },
+    "thresholds_unchanged": true
+  },
+  "source_sha256": {
+    "js/portraits.js": "2a6a5fd12ddbd173dbd2ddf5d1f7c07fb24f5277cc8869897b01bce410899303",
+    "js/endscreen.js": "526bd26a4a6d4253cc6a4223f3f31402232e0e766928b0c21212926a39c8b1de",
+    "js/ui.js": "555a043230b15bb9182de5ff3fc89d2b01c93300815674aeb80515c80ff5b4ca",
+    "css/style.css": "961fcd498d9d06e0dee4e4f83adf36bfe4145e5c2ae3d2ccb80f669daa555909",
+    "js/titlemenu.js": "2779cc27fd197d3f5e948061f2eae5e5377f4b4da6ae78ab16bee198025a614e",
+    "sw.js": "662c9ea091095c7d99386a76af0c7871e0ce093d76d2bb36500acaa167a5ff25",
+    "test/browser/portraits.spec.js": "542996b7494880d2e4ac1ab1975ee41f2857aec2bf21c83456863039a0f7ec62",
+    "test/browser/endgame.spec.js": "7a820f31d6ce04466156c13e686d8e80f12af17fbf99669ced9a6e551f2e63f9",
+    "test/browser/art.spec.js": "7906d3bec5d02797adb4914a0bbdc9f926704170d149ab68f2442c1a0700b99e"
+  },
+  "full_chromium": {
+    "parallel_passed": 887,
+    "serial_full_cache_passed": 4,
+    "distinct_cases": 891,
+    "failures": 0,
+    "parallel_duration": "1.0h",
+    "serial_duration": "2.2m",
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "painted_exports": {
+    "new_class_portraits": 7,
+    "new_runtime_bytes": 426314,
+    "reproducible_export_check": true,
+    "reviewed_hash_and_offline_inventory_check": true,
+    "shipped_paintings": 1725,
+    "app_icons": 3
+  },
+  "limitations": [
+    "Local WebKit not installed per repository guidance.",
+    "Physical iOS checks not performed.",
+    "Recorded before publication; GitHub CI and production checks are verified separately for the published commit.",
+    "Initial performance painted scene:28.8fps, unchanged isolated recheck:36.8fps; full results retained above."
+  ],
+  "recorded_before_publication": true,
+  "publication_authorized": "2026-10-26"
+}

@@ -1,6 +1,13 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v117';
+const CACHE = 'deepdelve-v118';
 const ASSETS = [
+  './img/portraits/fallen/fighter.webp',
+  './img/portraits/fallen/thief.webp',
+  './img/portraits/fallen/cleric.webp',
+  './img/portraits/fallen/mage.webp',
+  './img/portraits/fallen/ranger.webp',
+  './img/portraits/fallen/druid.webp',
+  './img/portraits/fallen/spellblade.webp',
   './img/held/mage-spellbook.png',
   './img/held/mage-crystal_orb.png',
   './img/held/mage-orb_storms.png',

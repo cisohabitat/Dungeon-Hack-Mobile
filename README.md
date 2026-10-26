@@ -9,6 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Fallen hero portraits.** Death screens and shared pictures show a painted skull
+  in each class’s existing gear, including the Wayfarer. Victories retain the
+  living portrait; installed games include all seven death portraits offline.
+
 - **The Wayfarer, a hidden Spellblade.** Tap the release label at the bottom of
   the title five times, then choose **Spellblade** in New Game. The unlock stays
   on this device, supports keyboard/controller activation, and never replaces a
