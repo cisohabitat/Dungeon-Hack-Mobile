@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v116';
+const CACHE = 'deepdelve-v117';
 const ASSETS = [
   './img/held/mage-spellbook.png',
   './img/held/mage-crystal_orb.png',

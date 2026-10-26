@@ -1640,3 +1640,7 @@ AC–AH are activated for **0.9.40**: painted carried foci/shields, empty hands,
 
 CI runs full-cache offline installation checks separately on one worker, retaining the same install deadlines and native offline reload assertions. Other browser checks remain parallel.
 Voice download resumption reads the offline cache index once, avoiding repeated scans of the full painted catalog.
+
+Visual polish follow-up: [review and settled phone captures](docs/visual/2026-10-25-art-polish/README.md). Reproduce the native running-game/portrait samples with `node docs/visual/2026-10-25-art-polish/capture.cjs` (system Chromium and project Playwright required).
+
+Release0.9.42 improves enlarged-text menus: title greetings take their own space, Journal labels reflow, and trader balances and actions remain clear of Close and item descriptions. [Before/after review](docs/visual/2026-10-25-mobile-layouts/README.md).

@@ -1,0 +1,63 @@
+{
+  "release_prepared": "0.9.42",
+  "base_commit": "ef105dbcde0df592d15e909f57529cf0bb1f0f3a",
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "chromium": {
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "parallel_cases": 869,
+    "parallel_workers": 2,
+    "parallel_failures": 0,
+    "serial_full_cache_cases": 4,
+    "unique_cases_total": 873,
+    "strengthened_layout_rechecks": 6,
+    "serial_run_total": 10,
+    "serial_failures": 0
+  },
+  "performance": {
+    "cpu_throttle": 4,
+    "scenes": {
+      "fight": {
+        "fps": 37.8,
+        "scriptMs": 13.9
+      },
+      "wide": {
+        "fps": 40.4,
+        "scriptMs": 11.7
+      },
+      "flooded": {
+        "fps": 40.2,
+        "scriptMs": 12.8
+      },
+      "painted": {
+        "fps": 34.7,
+        "scriptMs": 17.6
+      },
+      "rite": {
+        "fps": 52.2,
+        "scriptMs": 12.4
+      }
+    },
+    "startup": {
+      "ms": 2089
+    },
+    "passed": true
+  },
+  "limits": [
+    "No local WebKit installation or physical-device verification.",
+    "CI and publication are verified separately on the release commit."
+  ],
+  "source_sha256": {
+    "css/style.css": "635b7c214af7854c98b1866d4e0b3874775de23fcebf637f966d3270ff267fb0",
+    "js/titlemenu.js": "1a81be30fb0daf3ac626e9716e1f570e9b9d009e3d48204d5bfb1220e4540ba3",
+    "test/browser/access.spec.js": "05dc59c85e939a677ef9f34d679988cf64e9955b07600b5aef97b7dfcc6438ff"
+  },
+  "recorded_before_publication": true,
+  "publication_authorized": "2026-10-26",
+  "publication_verification": "GitHub Actions run for the release commit is authoritative"
+}

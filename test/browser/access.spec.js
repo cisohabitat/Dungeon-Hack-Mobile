@@ -4,7 +4,69 @@
 // colour-blind player can tell apart, Calm view stilling every animation, and a
 // one-handed layout with the fight's controls under one thumb.
 const { test } = require('@playwright/test');
-const { watchForErrors, startGame, clearBoons, expect } = require('./helpers');
+const { watchForErrors, startGame, clearBoons, selectJournalTab, expect } = require('./helpers');
+
+for (const vp of [{width:320,height:667},{width:390,height:844},{width:740,height:360}]) {
+  test(`@mobile enlarged title greetings leave the logo and New Game clear at ${vp.width}px`, async ({page}) => {
+    const errors=watchForErrors(page);
+    await page.setViewportSize(vp);
+    await page.addInitScript(()=>{for(const[k,v]of Object.entries({textSize:'4',firstSeen:'1',calm:'1',sound:'off',samples:'off'}))localStorage.setItem('deepdelve.'+k,v);});
+    await page.goto('/');
+    await expect(page.locator('#game-fact')).toBeVisible();
+    // A real longest greeting makes this independent of the title's random pick.
+    await page.evaluate(async()=>{const{FUN_FACTS}=await import('/js/data.js');document.querySelector('#game-fact-text').textContent=[...FUN_FACTS].sort((a,b)=>b.length-a.length)[0];});
+    const positions=await page.evaluate(()=>{
+      const fact=document.querySelector('#game-fact').getBoundingClientRect(),logo=document.querySelector('.logo-block').getBoundingClientRect(),button=document.querySelector('#btn-new').getBoundingClientRect();
+      return {greetingBeforeLogo:fact.bottom<=logo.top,logoClearOfNew:logo.bottom<=button.top||logo.right<=button.left||logo.left>=button.right||logo.top>=button.bottom,logoOnScreen:document.querySelector('.logo').getBoundingClientRect().bottom<=innerHeight,noSidewaysScroll:document.querySelector('#screen-title').scrollWidth<=innerWidth+1};
+    });
+    expect(positions).toEqual({greetingBeforeLogo:true,logoClearOfNew:true,logoOnScreen:true,noSidewaysScroll:true});
+    await page.locator('#game-fact-close').click();
+    await expect(page.locator('#game-fact')).toBeHidden();
+    await page.evaluate(()=>{localStorage.setItem('deepdelve.progress','{}');localStorage.removeItem('deepdelve.news');});
+    await page.reload();
+    await expect(page.locator('#news')).toBeVisible();
+    expect(await page.evaluate(()=>document.querySelector('#news').getBoundingClientRect().bottom<=document.querySelector('.logo-block').getBoundingClientRect().top)).toBe(true);
+    await page.locator('#news-close').click();
+    await expect(page.locator('#news')).toBeHidden();
+    await page.locator('#btn-new').click();
+    await expect(page.locator('#screen-create')).toBeVisible();
+    expect(errors).toEqual([]);
+  });
+
+  test(`@mobile enlarged shop and journal headers keep their text and Close clear at ${vp.width}px`, async ({page}) => {
+    const errors=watchForErrors(page);
+    await page.setViewportSize(vp);
+    await page.addInitScript(()=>{for(const[k,v]of Object.entries({textSize:'4',calm:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});
+    await startGame(page,{seed:'large-overlay-headers'});
+    await page.evaluate(()=>{const p=Game.player(),L=Game.level(),[dx,dy]=Dungeon.DIRS[p.dir];L.monsters=[];L.npcs=[];p.gold=123456789;L.tiles[(p.y+dy)*L.w+p.x+dx]=Dungeon.T.FLOOR;L.npcs.push({id:'merchant',x:p.x+dx,y:p.y+dy,markup:2,stock:[{t:'potion_heal',q:1}],greeted:false});Game.input('forward');});
+    await expect(page.locator('#ov-shop')).toHaveClass(/open/);
+    const header=async id=>page.evaluate(id=>{
+      const h=document.querySelector(id+' > .ov-head'),close=h.querySelector('[data-close]'),r=close.getBoundingClientRect();
+      const nodes=[h.querySelector('h2'),h.querySelector('.shop-gold')];
+      const textClear=nodes.every(n=>{const range=document.createRange();range.selectNodeContents(n);return [...range.getClientRects()].every(t=>t.right<=r.left||t.left>=r.right||t.bottom<=r.top||t.top>=r.bottom)&&n.scrollWidth<=n.clientWidth+1;});
+      return {textClear,closeVisible:r.left>=0&&r.right<=innerWidth&&r.top>=0&&r.bottom<=innerHeight,headerFits:h.scrollWidth<=h.clientWidth+1};
+    },id);
+    expect(await header('#ov-shop')).toEqual({textClear:true,closeVisible:true,headerFits:true});
+    const row=page.locator('#shop-stock .shop-row').first();
+    expect(await row.locator('.what b').evaluate(n=>{const text=n.firstChild,range=document.createRange();return [...text.textContent.matchAll(/\S+/g)].every(word=>{range.setStart(text,word.index);range.setEnd(text,word.index+word[0].length);return range.getClientRects().length===1;});})).toBe(true);
+    const goods=()=>page.evaluate(()=>JSON.stringify({gold:Game.player().gold,inv:Game.player().inv,stock:Game.currentShop().stock}));
+    const beforeInspect=await goods();
+    await row.locator('.shop-inspect').click();
+    await expect(page.locator('#shop-stock .shop-item-inspection').first()).toBeVisible();
+    expect(await page.locator('#shop-stock button.armed').count()).toBe(0);
+    expect(await goods()).toBe(beforeInspect);
+    await page.locator('#ov-shop [data-close]').click();
+    await expect(page.locator('#ov-shop')).not.toHaveClass(/open/);
+    await page.locator('[data-open="journal"]').click();
+    await selectJournalTab(page,'relics');
+    expect(await header('#ov-journal')).toEqual({textClear:true,closeVisible:true,headerFits:true});
+    const splitLabels=await page.locator('#ov-journal .tabs button').evaluateAll(buttons=>buttons.filter(b=>b.getClientRects().length).filter(b=>{const range=document.createRange();range.selectNodeContents(b);return range.getClientRects().length>1;}).map(b=>b.textContent));
+    expect(splitLabels).toEqual([]);
+    await page.locator('#ov-journal [data-close]').click();
+    await expect(page.locator('#ov-journal')).not.toHaveClass(/open/);
+    expect(errors).toEqual([]);
+  });
+}
 
 /** Whatever sticks out of the screen sideways, or is cut off it, on the page as it stands. */
 async function offScreen(page, selector) {

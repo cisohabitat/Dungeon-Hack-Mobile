@@ -1,0 +1,52 @@
+{
+  "commit": "ef105dbcde0df592d15e909f57529cf0bb1f0f3a",
+  "notes": "Native running game and UI, no source substitution or frozen renderer. Inventory supplied for inspection; movement uses actual control. Not a full playthrough or physical-device check.",
+  "evidence": [
+    {
+      "width": 320,
+      "before": {
+        "x": 14,
+        "y": 7,
+        "t": 2833.2000000000003
+      },
+      "after": {
+        "x": 14,
+        "y": 6,
+        "t": 3449.7999999999997
+      },
+      "early": {
+        "opacity": "0.807661",
+        "src": "img/relics/sparkglass.webp"
+      },
+      "settled": {
+        "opacity": "1",
+        "src": "img/relics/sparkglass.webp",
+        "width": 512
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "before": {
+        "x": 14,
+        "y": 7,
+        "t": 2866.4999999999995
+      },
+      "after": {
+        "x": 14,
+        "y": 6,
+        "t": 3433.1
+      },
+      "early": {
+        "opacity": "0.742548",
+        "src": "img/relics/sparkglass.webp"
+      },
+      "settled": {
+        "opacity": "1",
+        "src": "img/relics/sparkglass.webp",
+        "width": 512
+      },
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "mode": "Complete corrected item capture tool, with output directory redirected to /tmp to preserve historical captures",
+  "review_tool_sha256": "0720f44ad63df49844d961188abce5efebf1d78e9a1d7a709c57b089ce56e716",
+  "captures": 602,
+  "widths": [
+    {
+      "width": 390,
+      "floor_checks": 280,
+      "pack_checks": 140,
+      "console_errors": []
+    },
+    {
+      "width": 320,
+      "floor_checks": 280,
+      "pack_checks": 140,
+      "console_errors": []
+    }
+  ],
+  "console_errors": []
+}

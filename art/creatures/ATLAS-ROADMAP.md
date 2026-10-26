@@ -909,3 +909,11 @@ The current painting roadmap through AH has source coverage. Next is coordinated
 [Native runtime delivery review](batch-ac-ah-runtime/REVIEW.md). All pending AC–AH selections are integrated:14 carried frames,24 empty-hand frames,134 new live small-item files and 405 regional selections. Runtime delivery now has 1,550 files; all 973 previous files are unchanged. Rarity outlines, seeded appearances, separate large relic portraits, native openings/locks, gate edges and fixed torch brackets are preserved through cached composition and independent demand loading. The generic key and Tooth source remain intentional reserves.
 
 Source reports above preserve their historical production limits; the native delivery report supersedes their activation-pending status. Exact native mask/lock/gate-edge fitting is now verified in the runtime. Source repeat/region material appearance was reviewed in native scenes; no new topology or light source was added. Next work is ordinary visual quality follow-up from play, rather than an automatic next atlas batch.
+
+## First visual polish follow-up — 25 October 2026
+
+The [local follow-up review](../../docs/visual/2026-10-25-art-polish/README.md) checks existing regional/equipment/item galleries and fresh running-game/settled-portrait views at both phone widths. No new atlas or repaint is justified by the sampled views. The item capture tool now uses the valid Calm preference and waits for portrait decode/animation completion; historical dim mid-fade captures remain unchanged. This is a bounded first review, not a sign-off of every gameplay state. Mobile layout and ending/share-card follow-ups remain open. The review/tool correction is included in release0.9.42; its release commit and CI publication are authoritative.
+
+## Mobile layout follow-up — 0.9.42
+
+The V/W enlarged-text title overlap, crowded shop header/controls and split Journal labels are addressed in the0.9.42 CSS pass, with [native before/after evidence](../../docs/visual/2026-10-25-mobile-layouts/README.md) and regression checks. This does not commission more art. Normal-size styling, gameplay rules and source paintings are unchanged. Release publication follows the required CI checks; ending/share-card keeper captions and outcome symbols remain the next presentation follow-up.
