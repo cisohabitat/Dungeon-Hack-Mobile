@@ -158,3 +158,16 @@ test('crowded combat keeps conditions bounded, touch targets reachable and the v
   const audit = await new AxeBuilder({ page }).include('#screen-game').analyze();
   expect(audit.violations.filter(v => ['serious','critical'].includes(v.impact))).toEqual([]); expect(errors).toEqual([]);
 });
+
+test('aligned crowd damage receipts stay apart at different depths @mobile', async ({page}) => {
+  await setup(page);
+  for (const big of [false,true]) {
+    const boxes=await page.evaluate(big=>{
+      const m=Game.level().monsters[0],at=performance.now(),rs=Game.renderState(at),D=Dungeon.DIRS[Game.player().dir];
+      rs.fx.texts=[0,1,2].map((depth,i)=>({x:m.rx+.5+D[0]*depth,y:m.ry+.5+D[1]*depth,text:String(18+i),outcome:'damage',color:'#fff',born:at-80,until:at+670,lift:0}));
+      Renderer.setBigNumbers(big);Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,at);return Renderer.numbers;
+    },big);
+    expect(boxes).toHaveLength(3);
+    for(let i=0;i<boxes.length;i++)for(let j=0;j<i;j++)expect(Math.abs(boxes[i].y-boxes[j].y)).toBeGreaterThanOrEqual(big?26:19);
+  }
+});

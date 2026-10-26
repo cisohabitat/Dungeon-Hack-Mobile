@@ -1672,6 +1672,15 @@ const Renderer = (() => {
           }
         }
       }
+      // Different depths can project onto the same line. Keep every receipt
+      // below earlier receipts, without moving it across an incoming-blow mark.
+      for (let tries = 0; tries <= numbers.length; tries++) {
+        const collisions = numbers.filter(n => Math.abs(x - n.x) < half + n.half + 2 && Math.abs(y - n.y) < textPx + 3);
+        if (!collisions.length) break;
+        y = Math.max(...collisions.map(n => n.y + textPx + 3));
+      }
+      if (y > H - 4) continue;
+      if (marked && shown.some(m => m.markSize && y > m.markY - m.markSize - 2 && y - textPx < m.markY + 2 && Math.abs(x - m.markX) < m.markSize * 0.62 + 3 + half)) continue;
       ctx.globalAlpha = Math.max(0, Math.min(1, 1.6 - age * 1.6));
       // a full dark outline, so pale words like "miss" read on a pale ceiling
       ctx.lineWidth = bigNumbers ? 5 : 4;

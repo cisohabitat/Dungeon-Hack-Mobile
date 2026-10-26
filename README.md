@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Readable crowd damage.** Floating damage and save labels stay apart when
+  enemies at different depths line up in the view.
+
 - **The mountain’s first fire.** The Heart is a molten volcanic core bound in
   ancient rune-cut iron, with matching collectible, dais and ending-card art.
 

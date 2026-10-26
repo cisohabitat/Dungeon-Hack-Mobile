@@ -1,0 +1,122 @@
+[
+  {
+    "width": 320,
+    "cls": "fighter",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 989
+      },
+      {
+        "id": "skeleton",
+        "hp": 999
+      },
+      {
+        "id": "goblin",
+        "hp": 999
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  },
+  {
+    "width": 320,
+    "cls": "mage",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 954
+      },
+      {
+        "id": "skeleton",
+        "hp": 977
+      },
+      {
+        "id": "goblin",
+        "hp": 983
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  },
+  {
+    "width": 320,
+    "cls": "ranger",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 985
+      },
+      {
+        "id": "skeleton",
+        "hp": 999
+      },
+      {
+        "id": "goblin",
+        "hp": 999
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  },
+  {
+    "width": 390,
+    "cls": "fighter",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 992
+      },
+      {
+        "id": "skeleton",
+        "hp": 999
+      },
+      {
+        "id": "goblin",
+        "hp": 999
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  },
+  {
+    "width": 390,
+    "cls": "mage",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 976
+      },
+      {
+        "id": "skeleton",
+        "hp": 974
+      },
+      {
+        "id": "goblin",
+        "hp": 984
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  },
+  {
+    "width": 390,
+    "cls": "ranger",
+    "errors": [],
+    "monsters": [
+      {
+        "id": "ogre",
+        "hp": 999
+      },
+      {
+        "id": "skeleton",
+        "hp": 999
+      },
+      {
+        "id": "goblin",
+        "hp": 999
+      }
+    ],
+    "fixture": "Supplied crowd, high health and delayed enemy actions. Native running renderer/updates and attack button. Not an unassisted fight."
+  }
+]

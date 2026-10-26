@@ -945,3 +945,9 @@ round orb. Both paintings keep native surfaces, with matching loading/failure
 silhouettes. Historical AF/K source reviews remain unchanged; explicit delivery
 overrides select the replacements. This joins the share-card polish in0.9.44.
 [Native captures and release validation](../../docs/visual/2026-10-26-epic-heart/README.md).
+
+### Visual audit phase 1 — combat readability
+Native crowd/attack/spell captures identified overlapping receipts from aligned
+enemies at different depths. Their text layout is corrected for release0.9.45;
+no repaint is justified by this sample. [Review](../../docs/visual/2026-10-26-phase1-combat/README.md).
+Phases2/3 cover regional consistency and small-phone clarity next.

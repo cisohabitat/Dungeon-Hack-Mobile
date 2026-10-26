@@ -1,0 +1,113 @@
+{
+  "base_commit": "22d88b1fd5df6ed75723a46e5e4ea658dbf883e7",
+  "focused_browser": {
+    "passed": 28,
+    "failed": 0,
+    "duration": "2.7m",
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "performance": {
+    "thresholds_unchanged": true,
+    "cpu_throttle": 4,
+    "samples": {
+      "initial_release": {
+        "passed": false,
+        "scenes": {
+          "fight": {
+            "fps": 31.6,
+            "scriptMs": 16.7
+          },
+          "wide": {
+            "fps": 30,
+            "scriptMs": 15
+          },
+          "flooded": {
+            "fps": 27.2,
+            "scriptMs": 17.6
+          },
+          "painted": {
+            "fps": 23,
+            "scriptMs": 26.9
+          },
+          "rite": {
+            "fps": 34,
+            "scriptMs": 19.1
+          }
+        },
+        "startup": {
+          "ms": 2696
+        }
+      },
+      "unchanged_main": {
+        "passed": false,
+        "scenes": {
+          "fight": {
+            "fps": 34.4,
+            "scriptMs": 15.1
+          },
+          "wide": {
+            "fps": 35.6,
+            "scriptMs": 13.2
+          },
+          "flooded": {
+            "fps": 30.6,
+            "scriptMs": 16.7
+          },
+          "painted": {
+            "fps": 22.2,
+            "scriptMs": 30
+          },
+          "rite": {
+            "fps": 45.4,
+            "scriptMs": 14.4
+          }
+        },
+        "startup": {
+          "ms": 2254
+        }
+      },
+      "paired_release": {
+        "passed": false,
+        "scenes": {
+          "fight": {
+            "fps": 35.7,
+            "scriptMs": 14.6
+          },
+          "wide": {
+            "fps": 37.1,
+            "scriptMs": 12.5
+          },
+          "flooded": {
+            "fps": 36,
+            "scriptMs": 14.1
+          },
+          "painted": {
+            "fps": 26.1,
+            "scriptMs": 24.3
+          },
+          "rite": {
+            "fps": 47.5,
+            "scriptMs": 14.3
+          }
+        },
+        "startup": {
+          "ms": 2706
+        }
+      }
+    },
+    "note": "Unchanged main also fails locally. CI performance must pass before verified release publication."
+  },
+  "source_sha256": {
+    "js/renderer.js": "c1c70bdc1852b7d019252fdaabb6b18b062cae153232f42eda8f765a39e06de0",
+    "test/browser/combat-clarity.spec.js": "0a62f3ead6425c26b9f493382336d9637d0fee40a146deb9e9c9ac71008ead21"
+  },
+  "publication_authorized": true,
+  "ci_required_before_verified_release": true
+}
