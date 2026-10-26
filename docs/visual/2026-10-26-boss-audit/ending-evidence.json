@@ -1,0 +1,146 @@
+[
+  {
+    "width": 320,
+    "keeper": "lich",
+    "ending": "take",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "lich",
+    "ending": "quench",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "lich",
+    "ending": "keep",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "warlord",
+    "ending": "take",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "warlord",
+    "ending": "quench",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "warlord",
+    "ending": "keep",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "heartforged",
+    "ending": "take",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "heartforged",
+    "ending": "quench",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 320,
+    "keeper": "heartforged",
+    "ending": "keep",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "lich",
+    "ending": "take",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "lich",
+    "ending": "quench",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "lich",
+    "ending": "keep",
+    "depth": 4,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "warlord",
+    "ending": "take",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "warlord",
+    "ending": "quench",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "warlord",
+    "ending": "keep",
+    "depth": 8,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "heartforged",
+    "ending": "take",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "heartforged",
+    "ending": "quench",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  },
+  {
+    "width": 390,
+    "keeper": "heartforged",
+    "ending": "keep",
+    "depth": 12,
+    "errors": [],
+    "fixture": "Generated final floor, supplied keeper defeat and quench/knowledge, native Heart choice and real downloaded export. Not an unassisted boss victory."
+  }
+]

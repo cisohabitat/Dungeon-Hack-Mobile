@@ -1,0 +1,272 @@
+[
+  {
+    "width": 320,
+    "id": "lich",
+    "phase": 0,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "lich",
+    "phase": 1,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "lich",
+    "phase": 2,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": true,
+      "riteDone": 0.49999999999999994
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "warlord",
+    "phase": 0,
+    "boss": {
+      "name": "Goblin Warlord",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "warlord",
+    "phase": 1,
+    "boss": {
+      "name": "Goblin Warlord, on his throne",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "warlord",
+    "phase": 2,
+    "boss": {
+      "name": "Goblin Warlord",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "heartforged",
+    "phase": 0,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "heartforged",
+    "phase": 1,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 320,
+    "id": "heartforged",
+    "phase": 2,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "lich",
+    "phase": 0,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "lich",
+    "phase": 1,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "lich",
+    "phase": 2,
+    "boss": {
+      "name": "Dread Lich",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": true,
+      "riteDone": 0.5
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "warlord",
+    "phase": 0,
+    "boss": {
+      "name": "Goblin Warlord",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "warlord",
+    "phase": 1,
+    "boss": {
+      "name": "Goblin Warlord, on his throne",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "warlord",
+    "phase": 2,
+    "boss": {
+      "name": "Goblin Warlord",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "heartforged",
+    "phase": 0,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 0,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "heartforged",
+    "phase": 1,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 1,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  },
+  {
+    "width": 390,
+    "id": "heartforged",
+    "phase": 2,
+    "boss": {
+      "name": "Heartforged",
+      "hp": 999,
+      "maxHp": 999,
+      "phase": 2,
+      "rite": false,
+      "riteDone": 0
+    },
+    "errors": [],
+    "fixture": "Supplied phase, health and persistent tell on frozen simulation clock after the native introduction; native renderer and scroll command. Not an unassisted phase transition."
+  }
+]

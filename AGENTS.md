@@ -1318,3 +1318,6 @@ The approved molten core and matching two-step dais live in `art/creatures/heart
 
 ### Crowd damage receipts
 `renderer.js` separates intersecting projected floating labels vertically across enemies, after existing warning avoidance. Keep horizontal target registration, font sizes and warning protection; preserve costs, impact timing and seeded outcomes. `combat-clarity.spec.js` covers aligned depths in ordinary/large numbers. Native running captures and bounded review are in `docs/visual/2026-10-26-phase1-combat/`.
+
+### Keeper/victory review fixtures
+`docs/visual/2026-10-26-boss-audit/` records keeper intros, controlled phase/tell/spell frames and native ending flows. `combat.cjs` freezes simulation after the actual intro and supplies the spell midpoint; these are fitting views, not native phase-transition or balance evidence. `endings.cjs` reaches generated final floors and uses real Heart choices/downloads with enemy defeat/resources supplied. Preserve these scope labels and keep capture manifests separate.

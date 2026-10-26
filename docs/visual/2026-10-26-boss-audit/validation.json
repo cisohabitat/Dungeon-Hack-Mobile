@@ -1,0 +1,57 @@
+{
+  "base_commit": "852254110ba9428684eb6f5164cc641c4424f443",
+  "version": "0.9.45",
+  "scope": "Review only; no shipped runtime/art changes",
+  "capture_sessions": {
+    "combat": 6,
+    "endings": 18
+  },
+  "captures": {
+    "introductions": 6,
+    "controlled_phases": 18,
+    "controlled_spell_midpoints": 6,
+    "native_ending_choice_victory_exports": 54,
+    "total": 84
+  },
+  "focused_checks": {
+    "boss_portraits_sharecards": {
+      "passed": 44,
+      "failed": 0,
+      "projects": [
+        "phone",
+        "small"
+      ],
+      "duration": "3.6m"
+    },
+    "offline_ending_exports": {
+      "passed": 2,
+      "failed": 0,
+      "projects": [
+        "phone",
+        "small"
+      ],
+      "workers": 1,
+      "duration": "39.4s"
+    },
+    "native_endgame": {
+      "passed": 13,
+      "failed": 0,
+      "projects": [
+        "phone"
+      ],
+      "duration": "1.0m"
+    },
+    "total_passed": 59
+  },
+  "page_errors": [],
+  "confirmed_runtime_defects": [],
+  "publication_authorized": true,
+  "recorded_before_publication": true,
+  "source_sha256": {
+    "js/overlay.js": "617eac40f2f06fac12ef81f36c145df9cbc8d85099d5b6d182da3dcfaf730952",
+    "js/renderer.js": "c1c70bdc1852b7d019252fdaabb6b18b062cae153232f42eda8f765a39e06de0",
+    "js/bosses.js": "03a344e38745f678eb7044a00077e9c60f2155399c2db953dd120958c9f47c9a",
+    "js/endscreen.js": "546563b7fb07c0d0bbafea0274575e812e104996edf6cb79a3af990a7e8efb51",
+    "js/sharecard.js": "057e18d5c49b70af8061000772e2d0ab83b90d5f527b7286482cf9dbf943b32e"
+  }
+}
