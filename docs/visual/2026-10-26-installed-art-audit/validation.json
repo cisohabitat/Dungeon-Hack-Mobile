@@ -1,0 +1,52 @@
+{
+  "base_commit": "55fc7403402e2fa2e919c002e2f38edb4a9f6e6a",
+  "version": "0.9.45",
+  "completed": "2026-10-27",
+  "review_only": true,
+  "native_upgrade_profiles": {
+    "passed": 8,
+    "failed": 0,
+    "viewports": [
+      320,
+      390
+    ],
+    "baselines": [
+      "0.9.43",
+      "0.9.44"
+    ],
+    "current_image_hash_decode_checks": 48,
+    "changed_art_upgrade_profiles": 4,
+    "page_errors": []
+  },
+  "focused_browser": {
+    "serial_full_cache": {
+      "passed": 12,
+      "failed": 0,
+      "duration": "4.1m"
+    },
+    "fallback_and_late_cache": {
+      "passed": 20,
+      "failed": 0,
+      "duration": "1.0m"
+    },
+    "sharing_fallback": {
+      "passed": 4,
+      "failed": 0,
+      "duration": "20.5s"
+    },
+    "total_passed": 36,
+    "painted_catalog_urls_decoded_per_project": 1550
+  },
+  "node_offline_lifecycle": "passed",
+  "fresh_webkit": false,
+  "physical_device": false,
+  "confirmed_defects": [],
+  "source_sha256": {
+    "sw.js": "5b7efbab34dc2ab2a6f0b471fd7cb03e52b68cd2f7bfa4dbfb3bb36cf79025d8",
+    "js/offline.js": "dcebca29376ef1bfb6a9e4b3e40b1e513c0add2326cc632cad23d2cb1fbaffb0",
+    "js/paintedworld.js": "cb810cf52a6353978a01b3abeec0ee4ff9252ca9ff14793cd20be3cd518f8bac",
+    "js/paintedcreatures.js": "6fa8003509bfadacfaaefaf0bda1f8c87b1775264d64a515fe9017c713412e34",
+    "js/portraits.js": "2a6a5fd12ddbd173dbd2ddf5d1f7c07fb24f5277cc8869897b01bce410899303",
+    "js/release.js": "0284d856d8fd6c4007dafda1dcf4107aaf9c3b0495dad1029275aed313f5f3d7"
+  }
+}

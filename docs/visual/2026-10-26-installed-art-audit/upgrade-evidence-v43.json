@@ -1,0 +1,342 @@
+[
+  {
+    "width": 320,
+    "interrupted": false,
+    "baseline": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+    "from_cache": "deepdelve-v118",
+    "priorArt": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f"
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd"
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326"
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c"
+      }
+    ],
+    "changedArt": [
+      "img/world/artifact.png",
+      "img/world/heart_dais.webp"
+    ],
+    "to_cache": "deepdelve-v120",
+    "version": {
+      "version": "0.9.45",
+      "build": 60
+    },
+    "hero_preserved": true,
+    "old_cache_retired_after_voice_ready": true,
+    "unrelated_cache_preserved": true,
+    "blocked_core_requests": 0,
+    "rejected_origin_requests": 0,
+    "paintings": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326",
+        "width": 64,
+        "height": 64
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 320,
+    "interrupted": true,
+    "baseline": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+    "from_cache": "deepdelve-v118",
+    "priorArt": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f"
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd"
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326"
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c"
+      }
+    ],
+    "changedArt": [
+      "img/world/artifact.png",
+      "img/world/heart_dais.webp"
+    ],
+    "to_cache": "deepdelve-v120",
+    "version": {
+      "version": "0.9.45",
+      "build": 60
+    },
+    "hero_preserved": true,
+    "old_cache_retired_after_voice_ready": true,
+    "unrelated_cache_preserved": true,
+    "blocked_core_requests": 1,
+    "rejected_origin_requests": 1,
+    "paintings": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326",
+        "width": 64,
+        "height": 64
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "interrupted": false,
+    "baseline": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+    "from_cache": "deepdelve-v118",
+    "priorArt": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f"
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd"
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326"
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c"
+      }
+    ],
+    "changedArt": [
+      "img/world/artifact.png",
+      "img/world/heart_dais.webp"
+    ],
+    "to_cache": "deepdelve-v120",
+    "version": {
+      "version": "0.9.45",
+      "build": 60
+    },
+    "hero_preserved": true,
+    "old_cache_retired_after_voice_ready": true,
+    "unrelated_cache_preserved": true,
+    "blocked_core_requests": 0,
+    "rejected_origin_requests": 0,
+    "paintings": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326",
+        "width": 64,
+        "height": 64
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "errors": []
+  },
+  {
+    "width": 390,
+    "interrupted": true,
+    "baseline": "17a2331fd2a98bcea8d3d7bf4b7841d374dc46d9",
+    "from_cache": "deepdelve-v118",
+    "priorArt": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "806a98c7daf03280f05bd15a9d18163f8259c47a9f09c6265f8d5a2b22f2e8e9"
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "86619aea35f5472f105f00da137be25d8ebfe7bef299a939d8b1d8984886f34f"
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f"
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd"
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326"
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c"
+      }
+    ],
+    "changedArt": [
+      "img/world/artifact.png",
+      "img/world/heart_dais.webp"
+    ],
+    "to_cache": "deepdelve-v120",
+    "version": {
+      "version": "0.9.45",
+      "build": 60
+    },
+    "hero_preserved": true,
+    "old_cache_retired_after_voice_ready": true,
+    "unrelated_cache_preserved": true,
+    "blocked_core_requests": 1,
+    "rejected_origin_requests": 1,
+    "paintings": [
+      {
+        "url": "img/world/artifact.png",
+        "hash": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/world/heart_dais.webp",
+        "hash": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/portraits/fallen/mage.webp",
+        "hash": "51e2e16d3b58745a096ee86102cdeabf8d22373a61613f36af7c3d2c2f3a9b1f",
+        "width": 512,
+        "height": 512
+      },
+      {
+        "url": "img/held/mage-legend_heartroot-drive-one.png",
+        "hash": "d3ddd6b68cfd6926562df244b3c11711c8dde52bc526ef091de2471366ae73cd",
+        "width": 256,
+        "height": 256
+      },
+      {
+        "url": "img/materials/grey_halls_floor.png",
+        "hash": "da8333fb1044110ecf80031cb68b3faf8ee0494dedecb03627efa7504de9f326",
+        "width": 64,
+        "height": 64
+      },
+      {
+        "url": "img/relics/heartroot.webp",
+        "hash": "8a18e0a18998dfde392ef6ab34b6c89ec826fdd3332ea79745793cdb170b454c",
+        "width": 512,
+        "height": 512
+      }
+    ],
+    "errors": []
+  }
+]

@@ -978,3 +978,10 @@ All30 focused browser cases passed, including6 unchanged Heartroot repeats and
 4,746 named renderer/action fitting fixtures. No new confirmed runtime/art defect.
 The [review](../../docs/visual/2026-10-26-equipment-audit/README.md) distinguishes
 fresh Chromium evidence from historical Safari results and records coverage limits.
+
+### Installed-game / slow-loading art audit — 27 October 2026
+Eight real same-origin upgrade profiles from v0.9.43/v0.9.44 to v0.9.45 passed,
+including interrupted core installation and retry at320/390px. All four v43
+profiles replaced the old Heart/dais bytes with the current paintings offline.
+All36 focused browser cases passed; each project decoded all1,550 painted catalog
+files offline. No new confirmed defect. [Review and limits](../../docs/visual/2026-10-26-installed-art-audit/README.md).

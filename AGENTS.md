@@ -1324,3 +1324,6 @@ The approved molten core and matching two-step dais live in `art/creatures/heart
 
 ### Rare equipment motion audit
 `docs/visual/2026-10-26-equipment-audit/capture.cjs` runs native actions for28 named carried/bow/Heartroot class pairs at320/390/740px, with exact draw-key/timestamp traces. It does not freeze updates, substitute Assets or reload offline. Its inherited null offline-cache fields mean not checked. The accompanying report separates native action coverage from the broader deterministic fitting matrix and historical Safari evidence.
+
+### Installed-art upgrade audit
+`docs/visual/2026-10-26-installed-art-audit/upgrade.cjs` serves a historical checkout and current source on one origin, then runs real worker update, failed-core install/retry and offline Continue checks. Create its separate baseline worktree at the exact documented commit; remove it after the audit. Default v0.9.43 checks actual changed Heart bytes; v0.9.44 has the same paintings as current and cannot alone prove changed-art replacement. Preserve these baseline/scope distinctions and run full-cache profiles serially before other browser workers.
