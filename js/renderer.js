@@ -147,6 +147,11 @@ const Renderer = (() => {
       let o = y * W, oc = (H - 1 - y) * W;
       // the hero's own light: a faint warm pool on the floor at their feet
       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
+      // The hero's light is constant across this row. Most near pixels use
+      // it unchanged, so reuse its shade and warmth instead of rounding again.
+      const ownLevel = own > 0.45 ? Math.max(0, level - 1) : level;
+      const ownWarm = (own * (WARM_STEPS - 1) + 0.5) | 0;
+      const ownCeilWarm = (own * 0.7 * (WARM_STEPS - 1) + 0.5) | 0;
       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
       let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], caveDark = 0;
       let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0;
@@ -174,7 +179,7 @@ const Renderer = (() => {
           boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
         }
         // (a shade brighter right at the hero's feet, where their own light falls)
-        let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;
+        let lv = ownLevel, glow = own;
         // rounded to a shade level, with a pattern fixed to the texture
         // deciding the texels of a tile that sits between two
         if (boost > 0) {
@@ -191,7 +196,11 @@ const Renderer = (() => {
         if (clv > 7) clv = 7;
         if (flv >= 7 && clv >= 7) { fb32[o + x] = fogPx; fb32[oc + x] = fogPx; fx += stepX; fy += stepY; continue; }
         const src = floorT[flv], csrc = ceilT[clv];
-        if (glow > 0.05) { fb32[o + x] = flv >= 7 ? fogPx : warmQ(src[ti], (glow * (WARM_STEPS - 1) + 0.5) | 0); fb32[oc + x] = clv >= 7 ? fogPx : warmQ(csrc[ti], (glow * 0.7 * (WARM_STEPS - 1) + 0.5) | 0); }
+        if (glow > 0.05) {
+          const q = glow === own ? ownWarm : (glow * (WARM_STEPS - 1) + 0.5) | 0;
+          const cq = glow === own ? ownCeilWarm : (glow * 0.7 * (WARM_STEPS - 1) + 0.5) | 0;
+          fb32[o + x] = flv >= 7 ? fogPx : warmQ(src[ti], q); fb32[oc + x] = clv >= 7 ? fogPx : warmQ(csrc[ti], cq);
+        }
         else { fb32[o + x] = flv >= 7 ? fogPx : src[ti]; fb32[oc + x] = clv >= 7 ? fogPx : csrc[ti]; }
         fx += stepX; fy += stepY;
       }

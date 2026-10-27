@@ -39,5 +39,14 @@
     "ruleChecks": 751,
     "ruleDuration": "1m28s",
     "requiredCI": "Pending after push; all jobs retained."
+  },
+  "ci": {
+    "run": 40515439249,
+    "allRequiredChecksAndPublisher": "success",
+    "correctedStaffCases": "first-try pass,28.3s each inWebKit",
+    "otherExistingCasesAutoRetried": [
+      "delve-guide double-text accessibility",
+      "starter weapon offline reload"
+    ]
   }
 }

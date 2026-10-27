@@ -1,0 +1,27 @@
+diff --git a/js/renderer.js b/js/renderer.js
+index c7830e23..7e8c2269 100644
+--- a/js/renderer.js
++++ b/js/renderer.js
+@@ -52,17 +52,18 @@ const Renderer = (() => {
+   // looked up, for the warmth in WARM_STEPS steps, finer than the eye can tell
+   // apart under the shade levels' own dither.
+   const WARM_STEPS = 32;
+-  const WARM_R = new Uint32Array(WARM_STEPS * 256), WARM_G = new Uint32Array(WARM_STEPS * 256), WARM_B = new Uint32Array(WARM_STEPS * 256);
++  // Byte channels keep this hot lookup in24KiB instead of96KiB.
++  const WARM_R = new Uint8Array(WARM_STEPS * 256), WARM_G = new Uint8Array(WARM_STEPS * 256), WARM_B = new Uint8Array(WARM_STEPS * 256);
+   for (let q = 0; q < WARM_STEPS; q++) {
+     const k = q / (WARM_STEPS - 1);
+     for (let c = 0; c < 256; c++) {
+       WARM_R[q * 256 + c] = Math.min(255, c * (1 + 0.62 * k) + 6 * k) | 0;
+-      WARM_G[q * 256 + c] = (Math.min(255, c * (1 + 0.24 * k) + 2 * k) | 0) << 8;
+-      WARM_B[q * 256 + c] = ((c * (1 - 0.18 * k)) | 0) << 16;
++      WARM_G[q * 256 + c] = Math.min(255, c * (1 + 0.24 * k) + 2 * k) | 0;
++      WARM_B[q * 256 + c] = (c * (1 - 0.18 * k)) | 0;
+     }
+   }
+   /** A texel warmed by k, given as a step: (k * (WARM_STEPS - 1) + 0.5) | 0. */
+-  const warmQ = (v, q) => { const o = q << 8; return 0xff000000 | WARM_B[o + ((v >> 16) & 255)] | WARM_G[o + ((v >> 8) & 255)] | WARM_R[o + (v & 255)]; };
++  const warmQ = (v, q) => { const o = q << 8; return 0xff000000 | (WARM_B[o + ((v >> 16) & 255)] << 16) | (WARM_G[o + ((v >> 8) & 255)] << 8) | WARM_R[o + (v & 255)]; };
+   // how near a creature is (in tiles) before its finer painting is asked for,
+   // and how many of the view's pixels one of its usual ones must cover to use it
+   const NEAR_ASK = 3.5, NEAR_BLOCK = 2.3;

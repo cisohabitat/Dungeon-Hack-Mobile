@@ -1,0 +1,4259 @@
+{
+  "base": "372a6485aa96b160bff76ac40ce9a8a7aa3aa9b9",
+  "scope": "Frozen native assets/materials/geometry/time and Calm view. Module comparison, not native gameplay or frame-rate budget. 4xCPU, alternating8rounds perrenderer with10renders perbatch; exact full-frame RGBA comparison.",
+  "pixels": [
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 160,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 320,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 0,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 1,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 2,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 3,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 4,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 5,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 6,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 7,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 8,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 9,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 10,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 11,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "normal",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "unlit",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "dark",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "flooded",
+      "angle": 0.9,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.27,
+      "changed": 0
+    },
+    {
+      "height": 464,
+      "region": 12,
+      "kind": "overgrown",
+      "angle": 0.9,
+      "changed": 0
+    }
+  ],
+  "benchmarks": [
+    {
+      "region": 0,
+      "kind": "normal",
+      "samples": [
+        [
+          11.9,
+          13.569999998807907,
+          14.480000001192092,
+          13.65,
+          15.130000001192093,
+          13.959999999403953,
+          13.240000000596046,
+          13.1
+        ],
+        [
+          10.82000000178814,
+          11.9,
+          13.990000000596046,
+          12.169999998807906,
+          12.909999999403954,
+          13.25,
+          13.65,
+          13.22000000178814
+        ]
+      ],
+      "medianMs": [
+        13.65,
+        13.22000000178814
+      ],
+      "gainPercent": 3.1501831370832254
+    },
+    {
+      "region": 0,
+      "kind": "unlit",
+      "samples": [
+        [
+          10.660000002384185,
+          11.009999999403954,
+          12.609999999403954,
+          9.709999999403953,
+          9.490000000596046,
+          9.039999997615814,
+          8.860000002384187,
+          9.45
+        ],
+        [
+          9.229999998211861,
+          8.3,
+          9.360000002384187,
+          8.209999999403953,
+          10.25,
+          10.72000000178814,
+          9.55,
+          8.919999998807906
+        ]
+      ],
+      "medianMs": [
+        9.709999999403953,
+        9.360000002384187
+      ],
+      "gainPercent": 3.6045313804454313
+    },
+    {
+      "region": 6,
+      "kind": "flooded",
+      "samples": [
+        [
+          15.9,
+          14.590000000596046,
+          14.759999999403954,
+          15.019999998807908,
+          15.709999999403953,
+          15.440000000596047,
+          14.209999999403953,
+          13.869999998807907
+        ],
+        [
+          15.489999997615815,
+          13.8,
+          14.810000002384186,
+          13.459999999403953,
+          15.390000000596046,
+          13.940000000596047,
+          12.919999998807906,
+          14.680000001192093
+        ]
+      ],
+      "medianMs": [
+        15.019999998807908,
+        14.680000001192093
+      ],
+      "gainPercent": 2.2636484530146426
+    },
+    {
+      "region": 10,
+      "kind": "dark",
+      "samples": [
+        [
+          7.6099999994039536,
+          6.909999999403953,
+          7.1200000017881395,
+          7.6400000005960464,
+          7.8,
+          7.6299999982118605,
+          7.059999999403954,
+          7.839999997615815
+        ],
+        [
+          9.479999998211861,
+          6.990000000596046,
+          7.159999999403953,
+          6.740000000596046,
+          7.559999999403954,
+          7.590000000596047,
+          7.220000001788139,
+          6.990000000596046
+        ]
+      ],
+      "medianMs": [
+        7.6299999982118605,
+        7.220000001788139
+      ],
+      "gainPercent": 5.373525511399835
+    },
+    {
+      "region": 11,
+      "kind": "overgrown",
+      "samples": [
+        [
+          13.190000000596047,
+          14.9,
+          13.760000002384185,
+          15.35,
+          16.109999999403954,
+          13.75,
+          14.02999999821186,
+          16.630000001192094
+        ],
+        [
+          14.030000001192093,
+          13.439999997615814,
+          16.439999997615814,
+          15.640000000596046,
+          15.930000001192093,
+          14.690000000596047,
+          15.42000000178814,
+          15.309999999403953
+        ]
+      ],
+      "medianMs": [
+        14.9,
+        15.42000000178814
+      ],
+      "gainPercent": -3.489932897906973
+    }
+  ],
+  "errors": []
+}

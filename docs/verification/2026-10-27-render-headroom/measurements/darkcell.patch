@@ -1,0 +1,29 @@
+diff --git a/js/renderer.js b/js/renderer.js
+index c7830e23..2cb80f60 100644
+--- a/js/renderer.js
++++ b/js/renderer.js
+@@ -149,7 +149,7 @@ const Renderer = (() => {
+       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
+       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
+       let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], caveDark = 0;
+-      let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0;
++      let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0, lightOn = false;
+       for (let x = 0; x < W; x++) {
+         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
+         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
+@@ -169,9 +169,13 @@ const Renderer = (() => {
+             l10 = lx + 1 < lw && ly >= 0 ? lm[a + 1] : 0;
+             l01 = lx >= 0 && ly + 1 < lh ? lm[b] : 0;
+             l11 = lx + 1 < lw && ly + 1 < lh ? lm[b + 1] : 0;
++            lightOn = l00 > 0 || l10 > 0 || l01 > 0 || l11 > 0;
+           }
+-          const ux = gx - lx, uy = gy - ly;
+-          boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
++          // An entirely dark light cell cannot brighten any of its texels.
++          if (lightOn) {
++            const ux = gx - lx, uy = gy - ly;
++            boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
++          } else boost = 0;
+         }
+         // (a shade brighter right at the hero's feet, where their own light falls)
+         let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;

@@ -1,0 +1,72 @@
+{
+  "baseline": "372a6485aa96b160bff76ac40ce9a8a7aa3aa9b9",
+  "version": "0.9.50",
+  "build": 65,
+  "offlineCache": 125,
+  "implementation": "Hoist hero floor-light shade and warmth constants per row; original torch interpolation retained. Interval/unlit experiments rejected.",
+  "rendererSHA256": "ba2d7439881ce6c56dd50b91a88149cbcd61bbaf91dcbed336d0fcc338e9276b",
+  "pixelComparison": {
+    "views": 2340,
+    "changedPixels": 0,
+    "source": "measurements/final-row.json"
+  },
+  "localNativeBudget": {
+    "candidatePassed": false,
+    "candidatePaintedFPS": 28.7,
+    "sameCheckoutOriginalPassed": false,
+    "sameCheckoutOriginalPaintedFPS": 28.6,
+    "thresholdFPS": 30,
+    "note": "All failures and controls retained. No reliable whole-game FPS gain claimed. CI budget remains mandatory."
+  },
+  "nativeSessions": 18,
+  "nativeMovementActions": 90,
+  "nativeFrames": 1080,
+  "offlineSessions": 4,
+  "offlineMovementActions": 20,
+  "offlineFrames": 240,
+  "rules": 751,
+  "browserRegular": 937,
+  "browserOffline": 6,
+  "steps": [
+    {
+      "name": "long-timings",
+      "exitCode": 0,
+      "seconds": 36.6,
+      "log": "/tmp/headroom-final-timings.log"
+    },
+    {
+      "name": "native",
+      "exitCode": 0,
+      "seconds": 270.7,
+      "log": "/tmp/headroom-final-native.log"
+    },
+    {
+      "name": "offline-captures",
+      "exitCode": 0,
+      "seconds": 112.2,
+      "log": "/tmp/headroom-final-offline.log"
+    },
+    {
+      "name": "rules",
+      "exitCode": 0,
+      "seconds": 206.2,
+      "log": "/tmp/headroom-npm.log"
+    },
+    {
+      "name": "browser-full",
+      "exitCode": 0,
+      "seconds": 4148.4,
+      "log": "/tmp/headroom-browser-full.log"
+    },
+    {
+      "name": "browser-offline",
+      "exitCode": 0,
+      "seconds": 173.5,
+      "log": "/tmp/headroom-browser-offline.log"
+    }
+  ],
+  "publication": {
+    "status": "Pending at commit creation",
+    "required": "Fresh committed release specs, exact-commit pre-push npm test, all seven CI jobs and publisher, live commit/runtime-byte match, bounded public native smoke."
+  }
+}

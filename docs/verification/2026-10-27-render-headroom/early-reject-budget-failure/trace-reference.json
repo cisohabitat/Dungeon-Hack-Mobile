@@ -1,0 +1,6 @@
+{
+  "archivePath": "/workspace/headroom-budget-failure-artifacts/early-reject-budget-failure-trace.zip",
+  "sha256": "780d438e4005f7d2f153127fed5f9655d8ba9277d2a051dc9dad0f9e0adf4bb7",
+  "bytes": 45566992,
+  "scope": "Original Playwright trace retained in workspace outside Git. Committed log, screenshot, and error-context preserve failed observation; repeat unchanged command to produce a new trace."
+}

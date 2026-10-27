@@ -667,6 +667,12 @@ not changed. Art, audio, presentation-only UI and documentation changes need rel
 regression checks; changes to controls, targeting, timing or visibility also require
 balance testing when they affect gameplay. The full rule lives in [AGENTS.md](AGENTS.md).
 
+The hero's own floor lighting is calculated once per projected row; torch
+interpolation, texture and shadow rules keep their original per-pixel results.
+The [rendering review](docs/verification/2026-10-27-render-headroom/README.md)
+separates frozen pixel/timing comparisons from native-play performance and
+retains rejected experiments.
+
 The named-staff overlap fixture waits for art preparation and starts native
 attack/consumable actions on a fresh frame. It retains the released-drive and
 hand-restoration assertions and their five-second windows; a guessed timer can

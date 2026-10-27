@@ -47,3 +47,8 @@ needed. Full repository checks and required CI remain publication gates.
 
 `npm test` passed, including all751 rule checks (1m28s). Required CI and
 publication remain gates after this test-only commit is pushed.
+
+The published fixture phase is commit372a6485. CI40515439249 passed all seven
+checks and publisher. Both corrected staff cases passed first try in WebKit
+(28.3s each). Two unrelated existing guide-accessibility/weapon-offline cases
+used the configured automatic retry; no manual workflow retry was needed.

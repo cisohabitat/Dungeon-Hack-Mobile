@@ -1023,3 +1023,10 @@ the [combat effects review](../../docs/visual/2026-10-27-combat-effects/README.m
 All seven existing death styles retain their approved creature paintings and
 native motion. No new painting or atlas is commissioned. Publication remains
 subject to the full browser, rules, isolated performance, CI and release gates.
+
+### Rendering headroom — 27 October 2026
+The v0.9.50 candidate reuses the hero's constant floor lighting across each
+projected row. Torch interpolation, shadows and painting bytes stay intact.
+No new painting or atlas is commissioned. Native movement, elemental/offline
+verification, exact pixel comparison and the full release gates are tracked in
+the [rendering review](../../docs/verification/2026-10-27-render-headroom/README.md).

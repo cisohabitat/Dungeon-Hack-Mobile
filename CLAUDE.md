@@ -1361,3 +1361,13 @@ A guessed timer can resume after the entire 330ms swing while raster work runs;
 waiting longer for the missed frame cannot recover it. Keep native actions,
 released `drive-one`, restored `rest-two`, both 5s polls and the 120s test limit.
 The diagnostic comparison lives in `docs/verification/2026-10-27-staff-timing/`.
+
+### Floor row lighting constants
+The hero's own floor light is constant across each projected row. Compute its
+shade and floor/ceiling warmth steps once per row, retaining original torch
+interpolation and exact per-pixel rounding wherever torch light dominates.
+Preserve foot shadows, cave roofs, fog, source levels and texture sampling.
+The verification record is `docs/verification/2026-10-27-render-headroom/`.
+It retains controls and rejected interval-cache variants: favorable frozen
+render timings did not carry through to the unchanged native FPS budget.
+Never weaken that budget or publish a diagnostic gain as universal speedup.
