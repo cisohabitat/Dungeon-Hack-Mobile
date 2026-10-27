@@ -1,0 +1,17 @@
+{
+  "creaturePoseRoutes": 569,
+  "worldBindings": 266,
+  "heldStates": 810,
+  "carriedStates": 35,
+  "loadedImages": 1590,
+  "failed": [],
+  "galleries": [
+    "creatures-0.png",
+    "creatures-64.png",
+    "world-0.png",
+    "world-64.png",
+    "world-128.png"
+  ],
+  "scope": "Cold Chromium native loader objects on the title screen; complete declared creature pose and world/equipment request inventory. Contact sheets compose current native cached pictures; not game scenes, animation transitions, physical Safari or offline evidence.",
+  "errors": []
+}

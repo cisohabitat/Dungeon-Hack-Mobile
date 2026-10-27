@@ -472,17 +472,41 @@ Detailed inventory and acceptance gates: [atlas roadmap](art/creatures/ATLAS-ROA
 
 - [x] Batch E source/review art: six class-specific Shades, starting with Spellblade;
   repaired Mage/Ranger faces, reproducible exports and 390px/320px review captures.
-- [ ] Batch E runtime integration, real-loader/offline/performance validation and publication.
+- [x] Batch E runtime integration, real-loader/offline/performance validation and publication.
 - [x] Batch F source/review art: six companion atlases, custom rest cells and
   separate Mender healing frame; 86 live-pose review captures at both phone widths.
-- [ ] Batch F runtime integration, real-loader/offline/performance validation and publication.
+- [x] Batch F runtime integration, real-loader/offline/performance validation and publication.
 - [x] Batch G source/review art: revealed barrel/default Mimic, opposite rocking
   poses, reproducible export, 14 phone captures and 12 variant checks.
-- [ ] Batch G runtime integration, real-loader/offline/performance validation and publication.
-- [ ] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.
-- [ ] Batch I: static figures for Merchant, Wick and Pedlar.
-- [ ] Batch J: encounter figures and creature scenes, reusing companion rest art where possible.
-- [ ] Optional Batch K: remaining encounter objects and scenery sheets.
+- [x] Batch G runtime integration, real-loader/offline/performance validation and publication.
+- [x] Batch H: boss furnace/throne/spear variants and later-phase reuse audits.
+- [x] Batch I: static figures for Merchant, Wick and Pedlar.
+- [x] Batch J: encounter figures and creature scenes, reusing companion rest art where possible.
+- [x] Batch K: remaining encounter objects and scenery sheets.
 
-These batches are planned; generation, visual approval, integration, validation
-and publication remain separate completion stages.
+These early batches shipped with the later L–AH work. The current common
+delivery contains 1,550 files, including 810 held frames and 35 carried frames;
+the original creature atlases and separate portraits are additional surfaces.
+Historical source-review notes in the atlas roadmap retain their original scope.
+
+## Art coverage audit and remaining conversions (27 October 2026)
+
+- [x] Reconcile current source keys, runtime bindings, delivery hashes and offline
+  declarations; correct the obsolete E–K pending status above.
+- [x] Request every declared creature pose and common world/equipment binding
+  through the native loaders. See [inventory and limits](docs/visual/2026-10-27-art-coverage/README.md).
+- [ ] Optional Batch AI: paint the ordinary amber dark-floor lantern's cage and
+  handle, retaining its existing flame, glow, wrist placement and Calm behavior.
+- [ ] Optional Batch AJ: paint the open scroll used during reading, retaining
+  native writing, burn clipping, embers, spell colors and existing duration.
+
+AI/AJ are confirmed procedural object surfaces, not unactivated approved art
+or demonstrated gameplay defects. Native fitting and visual comparison precede
+generation. Each requires source review, exact runtime routing, independent
+failure fallback, offline delivery and the existing release gates before it
+can be marked complete. See the [current atlas plan](art/creatures/ATLAS-ROADMAP.md#remaining-procedural-object-conversions--27-october-2026).
+Dynamic strings/projectiles, spell paths, terrain patches, warnings, damage
+receipts, map symbols and the decorative Pack mannequin remain procedural by
+design. No extra monster, class portrait or regional atlas is currently missing
+from the declared inventory. Exhaustive loader coverage is not exhaustive
+gameplay or physical-device visual approval.

@@ -1,0 +1,1217 @@
+{
+  "revision": "ee6e7af0ea7f26d0b3d1b34172f30e756bdb9abf",
+  "scope": "Declared source-to-runtime coverage, file hashes and offline declarations; native selection, decode and visual review are separate evidence.",
+  "catalog": {
+    "static": 266,
+    "themes": 13,
+    "held": 810,
+    "atlases": 18,
+    "effects": 8,
+    "carried": 35
+  },
+  "deliveryFiles": 1550,
+  "staticCoverage": {
+    "items": {
+      "total": 95,
+      "painted": 93,
+      "exceptions": [
+        "key",
+        "amulet_tooth"
+      ]
+    },
+    "encounters": {
+      "total": 42,
+      "painted": 42,
+      "exceptions": []
+    },
+    "dressing": {
+      "total": 23,
+      "painted": 23,
+      "exceptions": []
+    },
+    "namedItems": {
+      "total": 47,
+      "painted": 47,
+      "exceptions": []
+    }
+  },
+  "traders": [
+    "merchant",
+    "wick",
+    "pedlar"
+  ],
+  "creatureRoutes": [
+    {
+      "id": "goblin",
+      "base": "goblin",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "warlord",
+      "base": "warlord",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "skeleton",
+      "base": "skeleton",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB"
+      ]
+    },
+    {
+      "id": "spider",
+      "base": "spider",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "rat",
+      "base": "rat",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "bat",
+      "base": "bat",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "slime",
+      "base": "slime",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "drowned",
+      "base": "drowned",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "kobold",
+      "base": "kobold",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "heartforged",
+      "base": "heartforged",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "emberling",
+      "base": "emberling",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "mimic",
+      "base": "mimic",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB"
+      ]
+    },
+    {
+      "id": "eyeless",
+      "base": "eyeless",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB"
+      ]
+    },
+    {
+      "id": "puffcap",
+      "base": "puffcap",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "archer",
+      "base": "archer",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "zombie",
+      "base": "zombie",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "orc",
+      "base": "orc",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "ghoul",
+      "base": "ghoul",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "drow_warrior",
+      "base": "drow_warrior",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "drow_mage",
+      "base": "drow_mage",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "acolyte",
+      "base": "acolyte",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "wraith",
+      "base": "wraith",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade",
+      "base": "shade",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "ogre",
+      "base": "ogre",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "troll",
+      "base": "troll",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "minotaur",
+      "base": "minotaur",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "lich",
+      "base": "lich",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "basilisk",
+      "base": "basilisk",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "rustmaw",
+      "base": "rustmaw",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "dog",
+      "base": "dog",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "wolf",
+      "base": "wolf",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "renegade",
+      "base": "renegade",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "grey_dwarf",
+      "base": "grey_dwarf",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "dwarf_arbalest",
+      "base": "dwarf_arbalest",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "lizardfolk",
+      "base": "lizardfolk",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "lizard_shaman",
+      "base": "lizard_shaman",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "sellsword",
+      "base": "sellsword",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "mender",
+      "base": "mender",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "heal",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "scrag",
+      "base": "scrag",
+      "poses": [
+        "idle",
+        "windup",
+        "sit",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "hound",
+      "base": "hound",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "quillback",
+      "base": "quillback",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "wyrm",
+      "base": "wyrm",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "cutpurse",
+      "base": "cutpurse",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "lookout",
+      "base": "lookout",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "hexer",
+      "base": "hexer",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "moth",
+      "base": "moth",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "thornhog",
+      "base": "thornhog",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "imp",
+      "base": "imp",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "pikeman",
+      "base": "pikeman",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "vaelith",
+      "base": "drow_mage",
+      "elite": "vaelith",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "durgrim",
+      "base": "grey_dwarf",
+      "elite": "durgrim",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "hissra",
+      "base": "lizardfolk",
+      "elite": "hissra",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "grisk",
+      "base": "goblin",
+      "elite": "grisk",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "vessra",
+      "base": "spider",
+      "elite": "vessra",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "ushgar",
+      "base": "orc",
+      "elite": "ushgar",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "morrow",
+      "base": "ghoul",
+      "elite": "morrow",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "orla",
+      "base": "wraith",
+      "elite": "orla",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "gorrum",
+      "base": "troll",
+      "elite": "gorrum",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "skarrow",
+      "base": "wyrm",
+      "elite": "skarrow",
+      "poses": [
+        "idle",
+        "windup",
+        "special",
+        "strike",
+        "recover",
+        "hurt",
+        "stepA",
+        "stepB",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_spellblade",
+      "base": "shade",
+      "elite": "shade_spellblade",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_thief",
+      "base": "shade",
+      "elite": "shade_thief",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_mage",
+      "base": "shade",
+      "elite": "shade_mage",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_cleric",
+      "base": "shade",
+      "elite": "shade_cleric",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_ranger",
+      "base": "shade",
+      "elite": "shade_ranger",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    },
+    {
+      "id": "shade_druid",
+      "base": "shade",
+      "elite": "shade_druid",
+      "poses": [
+        "idle",
+        "windup",
+        "strike",
+        "recover",
+        "hurt",
+        "blink"
+      ]
+    }
+  ],
+  "variants": [
+    "mimic_barrel",
+    "heartforged_open",
+    "heartforged_whitehot",
+    "warlord_throne",
+    "warlord_spear"
+  ],
+  "themes": [
+    {
+      "index": 0,
+      "name": "Grey Halls",
+      "painted": 38,
+      "missing": [],
+      "arch": "native exact-alpha arch retained"
+    },
+    {
+      "index": 1,
+      "name": "Brown Catacombs",
+      "painted": 38,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 2,
+      "name": "Mossy Depths",
+      "painted": 37,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 3,
+      "name": "Blue Vaults",
+      "painted": 37,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 4,
+      "name": "Crimson Crypts",
+      "painted": 37,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 5,
+      "name": "Obsidian Sanctum",
+      "painted": 34,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 6,
+      "name": "The Ossuary",
+      "painted": 35,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 7,
+      "name": "The Warrens",
+      "painted": 35,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 8,
+      "name": "The Dark Elf Halls",
+      "painted": 36,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 9,
+      "name": "The Grey Hold",
+      "painted": 36,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 10,
+      "name": "The Sunless Marsh",
+      "painted": 35,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 11,
+      "name": "The Drowned Halls",
+      "painted": 37,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    },
+    {
+      "index": 12,
+      "name": "The Old Forges",
+      "painted": 36,
+      "missing": [],
+      "arch": "painted surface composed within native alpha"
+    }
+  ],
+  "portraits": {
+    "living": [
+      "img/portraits/spellblade.webp",
+      "img/portraits/fighter.webp",
+      "img/portraits/cleric.webp",
+      "img/portraits/mage.webp",
+      "img/portraits/thief.webp",
+      "img/portraits/ranger.webp",
+      "img/portraits/druid.webp"
+    ],
+    "fallen": [
+      "img/portraits/fallen/spellblade.webp",
+      "img/portraits/fallen/fighter.webp",
+      "img/portraits/fallen/cleric.webp",
+      "img/portraits/fallen/mage.webp",
+      "img/portraits/fallen/thief.webp",
+      "img/portraits/fallen/ranger.webp",
+      "img/portraits/fallen/druid.webp"
+    ],
+    "bestiary": [
+      "img/bestiary/rat.webp",
+      "img/bestiary/bat.webp",
+      "img/bestiary/slime.webp",
+      "img/bestiary/spider.webp",
+      "img/bestiary/goblin.webp",
+      "img/bestiary/skeleton.webp",
+      "img/bestiary/zombie.webp",
+      "img/bestiary/orc.webp",
+      "img/bestiary/ghoul.webp",
+      "img/bestiary/wraith.webp",
+      "img/bestiary/ogre.webp",
+      "img/bestiary/troll.webp",
+      "img/bestiary/minotaur.webp",
+      "img/bestiary/kobold.webp",
+      "img/bestiary/archer.webp",
+      "img/bestiary/basilisk.webp",
+      "img/bestiary/rustmaw.webp",
+      "img/bestiary/acolyte.webp",
+      "img/bestiary/moth.webp",
+      "img/bestiary/thornhog.webp",
+      "img/bestiary/imp.webp",
+      "img/bestiary/cutpurse.webp",
+      "img/bestiary/lookout.webp",
+      "img/bestiary/hexer.webp",
+      "img/bestiary/pikeman.webp",
+      "img/bestiary/hound.webp",
+      "img/bestiary/quillback.webp",
+      "img/bestiary/wyrm.webp",
+      "img/bestiary/drowned.webp",
+      "img/bestiary/eyeless.webp",
+      "img/bestiary/drow_warrior.webp",
+      "img/bestiary/drow_mage.webp",
+      "img/bestiary/grey_dwarf.webp",
+      "img/bestiary/dwarf_arbalest.webp",
+      "img/bestiary/lizardfolk.webp",
+      "img/bestiary/lizard_shaman.webp",
+      "img/bestiary/emberling.webp",
+      "img/bestiary/mimic.webp",
+      "img/bestiary/puffcap.webp",
+      "img/bosses/lich.webp",
+      "img/bosses/heartforged.webp",
+      "img/bosses/warlord.webp",
+      "img/bestiary/shade.webp",
+      "img/bestiary/grisk.webp",
+      "img/bestiary/vessra.webp",
+      "img/bestiary/ushgar.webp",
+      "img/bestiary/morrow.webp",
+      "img/bestiary/orla.webp",
+      "img/bestiary/gorrum.webp",
+      "img/bestiary/skarrow.webp",
+      "img/bestiary/vaelith.webp",
+      "img/bestiary/hissra.webp",
+      "img/bestiary/durgrim.webp"
+    ],
+    "companions": [
+      "img/companions/hound.webp",
+      "img/companions/wolf.webp",
+      "img/companions/goblin.webp",
+      "img/companions/sellsword.webp",
+      "img/companions/mender.webp",
+      "img/companions/renegade.webp"
+    ],
+    "relics": [
+      "img/relics/last_gate.webp",
+      "img/relics/mercys_oath.webp",
+      "img/relics/bloodstar.webp",
+      "img/relics/nightglass.webp",
+      "img/relics/horizon.webp",
+      "img/relics/elderseed.webp",
+      "img/relics/grimtooth.webp",
+      "img/relics/whisper.webp",
+      "img/relics/thirst.webp",
+      "img/relics/dawnbringer.webp",
+      "img/relics/penitent.webp",
+      "img/relics/ogres_toll.webp",
+      "img/relics/ninth_circle.webp",
+      "img/relics/emberwood.webp",
+      "img/relics/vashti.webp",
+      "img/relics/heartseeker.webp",
+      "img/relics/rustwarden.webp",
+      "img/relics/shadowskin.webp",
+      "img/relics/briarcoat.webp",
+      "img/relics/kests_bulwark.webp",
+      "img/relics/sisters_buckler.webp",
+      "img/relics/hearthwool.webp",
+      "img/relics/archivist.webp",
+      "img/relics/midnight_folio.webp",
+      "img/relics/sparkglass.webp",
+      "img/relics/boarspear.webp",
+      "img/relics/galewind.webp",
+      "img/relics/sextons_locket.webp",
+      "img/relics/oakheart.webp",
+      "img/relics/mossmantle.webp",
+      "img/relics/cinder_ring.webp",
+      "img/relics/spider_pendant.webp",
+      "img/relics/thane_ring.webp",
+      "img/relics/hissra_tooth.webp",
+      "img/relics/warchiefs_knuckle.webp",
+      "img/relics/bastion.webp",
+      "img/relics/red_harvest.webp",
+      "img/relics/sunhammer.webp",
+      "img/relics/lantern_mercy.webp",
+      "img/relics/cinderheart.webp",
+      "img/relics/rimebound.webp",
+      "img/relics/last_word.webp",
+      "img/relics/motley.webp",
+      "img/relics/farstrider.webp",
+      "img/relics/thornbinder.webp",
+      "img/relics/moonbound.webp",
+      "img/relics/heartroot.webp"
+    ]
+  },
+  "legacyOnly": [
+    "fountain_hint"
+  ],
+  "issues": []
+}

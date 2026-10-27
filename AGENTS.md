@@ -1395,3 +1395,14 @@ checks that a visible low-contrast label still fails. The original exact-
 background-color negative control did not produce an axe violation; use visible
 low-contrast text for this guard. The diagnostic comparison is in
 `docs/verification/2026-10-27-ci-refactor/phase1/`.
+
+### Painted-art coverage inventory
+`docs/visual/2026-10-27-art-coverage/inventory.mjs` reconciles current source
+keys, supported creature poses, portrait paths, common delivery hashes and
+offline declarations. `loaders.cjs` requests the native cached pictures and
+composes labelled contact sheets without substituting Assets or rendering.
+These are review tools, not gameplay-transition or physical-device sign-off;
+keep native-action/offline regression evidence separate. Generic key/Tooth
+sources are reserves, not missing active item routes. Optional amber lantern
+and open reading-scroll conversions live in the atlas roadmap; preserve their
+existing live geometry, timing and independent fallback if later painted.

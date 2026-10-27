@@ -2,6 +2,20 @@
 
 Prepared 23 October 2026; extended and integrated 24 October 2026.
 
+## Current delivery — 27 October 2026
+
+All approved playable batches through AH are activated; the game is v0.9.50.
+The common catalog delivers 1,550 files, including 810 held and 35 carried frames,
+plus the original creature atlases and separate portrait libraries. The older
+release/source-stage sections below are historical records, superseded by their
+later activation reports. They do not describe today's remaining work.
+
+The [coverage audit](../../docs/visual/2026-10-27-art-coverage/README.md) reconciles
+all current encounter/dressing keys, item reserves, creature poses, thirteen
+regional selections, source hashes and offline declarations. Its native loader
+sweep covers 569 creature pose routes and all common world/equipment bindings.
+Remaining optional object conversions are [AI/AJ](#remaining-procedural-object-conversions--27-october-2026).
+
 ## Runtime delivery — release 0.9.34
 
 Batch Y's three ordinary shield rear frames are now integrated through exact
@@ -1030,3 +1044,38 @@ projected row. Torch interpolation, shadows and painting bytes stay intact.
 No new painting or atlas is commissioned. Native movement, elemental/offline
 verification, exact pixel comparison and the full release gates are tracked in
 the [rendering review](../../docs/verification/2026-10-27-render-headroom/README.md).
+
+## Remaining procedural object conversions — 27 October 2026
+
+These are additional authored surfaces, not missing bindings for approved art.
+Do not regenerate completed creature, class, item or region libraries.
+
+| Order | Batch | Current caller | Proposed work and acceptance gates |
+|---|---|---|---|
+| 1 | AI — ordinary amber lantern | `renderer.js: drawLantern`; `motion.js` selects it on a dark floor | Review the native cage/handle at 320/390px and short landscape, with free hand, shield and two-hand kits. Paint a transparent body if the comparison supports it. Keep amber flame/glow live, attachment/sway/Calm placement unchanged, and the blue Spellblade lantern separate. One independent demand-loaded body may suffice; audit before choosing an atlas. |
+| 2 | AJ — reading scroll | `spellfx.js: drawReading` | Review actual reads across existing scroll kinds. The small Pack scroll is already painted; this proposal is its larger open reading surface. Reuse that art only if its construction fits; otherwise author an open sheet. Keep existing painted class hands, colored writing, burn clipping/embers, spell release and duration. Do not add new read poses or reveal unidentified scroll effects. |
+
+For each: capture native references, review source/registration, then integrate
+through independent loading/failure fallback and offline entries; verify native
+actions, Calm, short views and installed reloads; run unchanged release checks
+and publish the completed phase. Neither batch has generated source or runtime
+activation yet. No runtime defect was confirmed by the coverage inventory alone.
+
+Keep the following procedural unless a specific reviewed defect justifies work:
+
+- Bow strings/arrows, sling whirl/stone, thrown missiles and travel paths: moving
+  geometry follows actual grips, endpoints and existing release times.
+- Lightning, force/holy/root/ward/heal/swarm shapes, trap cues and status effects:
+  Q's fire/frost contact paintings are integrated; these other families are
+  intentional dynamic drawings, previously reviewed in X and the combat pass.
+- Blood/ash/oil/ice/water patches, corpse/debris motion, door cracks/char/fire,
+  lighting, exact arch edges and colored locks: native geometry/composition
+  preserves gameplay cues and already painted base surfaces.
+- Damage text, incoming warnings, map symbols, interface icons and the Pack
+  mannequin: functional text/vector layers do not need painted atlases.
+
+`key` and `amulet_tooth` stay reserves: playable keys route to five painted
+color-specific keys, and seeded jewel appearances remain painted through
+identification. The legacy `fountain_hint` sprite has no current caller outside
+its data declaration; regional fountains already have painted surfaces. These
+are not a new production backlog.
