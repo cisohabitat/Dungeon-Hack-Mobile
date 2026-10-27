@@ -1,6 +1,6 @@
 {
   "name": "deepdelve",
-  "version": "0.9.45",
+  "version": "0.9.46",
   "description": "A first-person, seed-generated dungeon crawler for mobile browsers.",
   "private": true,
   "scripts": {

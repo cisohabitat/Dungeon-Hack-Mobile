@@ -1,0 +1,136 @@
+{
+  "version": "0.9.46",
+  "build": 61,
+  "cache": "deepdelve-v121",
+  "base_commit": "8982177f54a2525eb5adbdea7ba515f4c2edb2fc",
+  "focused_browser": {
+    "passed": 17,
+    "failed": 0,
+    "panel_matrix_routes": 208
+  },
+  "initial_new_fixture": {
+    "passed": 7,
+    "failed": 1,
+    "reason": "Live render-state bookkeeping included in a material-only state comparison; fixture isolated before final successful run"
+  },
+  "native_animations": {
+    "passed": 3,
+    "widths": [
+      320,
+      390,
+      740
+    ],
+    "sampled_frames": 36
+  },
+  "installed_upgrades": {
+    "passed": 4,
+    "failed": 0,
+    "from": "0.9.43",
+    "to": "0.9.46"
+  },
+  "npm_test": {
+    "passed": true,
+    "rules": 751
+  },
+  "performance": {
+    "cpu_throttle": 4,
+    "thresholds_unchanged": true,
+    "samples": {
+      "initial_fix": {
+        "passed": false,
+        "scenes": {
+          "fight": {
+            "fps": 40.2,
+            "scriptMs": 13.6
+          },
+          "wide": {
+            "fps": 40.9,
+            "scriptMs": 11.6
+          },
+          "flooded": {
+            "fps": 37,
+            "scriptMs": 14.3
+          },
+          "painted": {
+            "fps": 29.3,
+            "scriptMs": 21.3
+          },
+          "rite": {
+            "fps": 45.4,
+            "scriptMs": 14.4
+          }
+        },
+        "startup": {
+          "ms": 2075
+        }
+      },
+      "unchanged_main": {
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 44.8,
+            "scriptMs": 9.9
+          },
+          "wide": {
+            "fps": 34.7,
+            "scriptMs": 14
+          },
+          "flooded": {
+            "fps": 37.5,
+            "scriptMs": 14
+          },
+          "painted": {
+            "fps": 30.7,
+            "scriptMs": 19.9
+          },
+          "rite": {
+            "fps": 50.9,
+            "scriptMs": 13.2
+          }
+        },
+        "startup": {
+          "ms": 1958
+        }
+      },
+      "paired_fix": {
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 42.1,
+            "scriptMs": 13.5
+          },
+          "wide": {
+            "fps": 38.5,
+            "scriptMs": 12.6
+          },
+          "flooded": {
+            "fps": 38.4,
+            "scriptMs": 13.8
+          },
+          "painted": {
+            "fps": 32.5,
+            "scriptMs": 17.9
+          },
+          "rite": {
+            "fps": 47,
+            "scriptMs": 13.5
+          }
+        },
+        "startup": {
+          "ms": 2027
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "js/assets.js": "8dc8edfba96952b2a6f191ff2045caad7199e2ee6da83b7f62ffb0cdb5871e88",
+    "js/renderer.js": "1f5e73944dd3594ab15a75784a520aaff7473f1e59679470b6571450a8001b0c",
+    "js/titlemenu.js": "cc3a63f037ef0e6a3a8e21a60543fa646a52ee63394d6b7215170428e86293f1",
+    "js/release.js": "d59b08aab154e11019ea06a38db08ab2e4bb43ede153eba046d1f73c439e029d",
+    "sw.js": "4a8a4f2579824de42bb0602b1d1c667f4a2c9a5f72fdfb6a090c9d8371d1bde9",
+    "test/browser/painted-world.spec.js": "1698972692c4730da6c8c0da195431cfb0f56ddb3a3c7b80f3b662bbe3c816f7"
+  },
+  "recorded_before_publication": true,
+  "publication_authorized": true,
+  "ci_required_before_verified_publication": true
+}

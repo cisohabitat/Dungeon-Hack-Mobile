@@ -985,3 +985,12 @@ including interrupted core installation and retry at320/390px. All four v43
 profiles replaced the old Heart/dais bytes with the current paintings offline.
 All36 focused browser cases passed; each project decoded all1,550 painted catalog
 files offline. No new confirmed defect. [Review and limits](../../docs/visual/2026-10-26-installed-art-audit/README.md).
+
+### Sliding door surround correction — 27 October 2026
+A reported defect translated the full framed painting with the moving slab.
+The renderer now uses cached leaf-only art for closed/sliding doors and gates;
+fixed world jambs supply the masonry. No source repaint or opening-rule change.
+All17 focused browser checks, three native animations and four real installed
+upgrade/retry profiles passed; paired performance and751 rules passed. Earlier
+performance/fixture failures are retained in the [review](../../docs/visual/2026-10-27-door-panels/README.md).
+Prepared for v0.9.46, subject to required CI and release publication.

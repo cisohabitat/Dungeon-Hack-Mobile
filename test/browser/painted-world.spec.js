@@ -315,3 +315,35 @@ test('all activated art files decode after a native offline reload @mobile',asyn
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });
+
+test('door leaves exclude surround pixels and cache each decoded source independently @mobile',async({page})=>{
+ await page.goto('/');await page.waitForFunction(()=>window.Assets?.themes.length);
+ const result=await page.evaluate(()=>{
+  const source=document.createElement('canvas');source.width=source.height=64;const c=source.getContext('2d');
+  c.fillStyle='#ff00ff';c.fillRect(0,0,64,64);c.fillStyle='#00ff00';c.fillRect(8,4,48,60);c.fillStyle='#0000ff';c.fillRect(38,27,14,16);
+  const before=Array.from(c.getImageData(0,0,64,64).data),leaf=Assets.doorLeaf(source),pixels=leaf.getContext('2d').getImageData(0,0,64,64).data;let surround=0,lock=0;
+  for(let i=0;i<pixels.length;i+=4){if(pixels[i]===255&&pixels[i+2]===255)surround++;if(pixels[i+2]===255&&pixels[i]===0)lock++;}
+  const newer=document.createElement('canvas');newer.width=newer.height=64;newer.getContext('2d').fillStyle='#ffff00';newer.getContext('2d').fillRect(0,0,64,64);
+  const replacement=Assets.doorLeaf(newer);
+  return{surround,lockVisible:lock>0,cached:leaf===Assets.doorLeaf(source),replacement:replacement!==leaf&&replacement.getContext('2d').getImageData(0,0,1,1).data[0]===255,sourceUnchanged:JSON.stringify(before)===JSON.stringify(Array.from(c.getImageData(0,0,64,64).data))};
+ });expect(result).toEqual({surround:0,lockVisible:true,cached:true,replacement:true,sourceUnchanged:true});
+});
+
+test('closed and sliding doors draw only leaves in every region without changing run or dice @mobile',async({page})=>{
+ await startGame(page,{seed:'door-leaf-fit'});
+ await page.evaluate(async()=>{for(const t of Assets.themes){void t.door;void t.cellDoor;}window.__doorPaintState=(await import('/js/paintedworld.js')).paintedWorldState;const{PAINTED}=await import('/js/paintedcatalog.js');window.__doorPaintUrls=Object.values(PAINTED.themes).flatMap(t=>[t.door,t.cellDoor]).filter(Boolean);});
+ await page.waitForFunction(()=>window.__doorPaintUrls.every(p=>window.__doorPaintState()[p]==='ready'));
+ const rows=await page.evaluate(async()=>{
+  Game.recordRuns(false);Game.update=()=>{};Game.level().monsters=[];Game.level().npcs=[];const{Dice,Odds}=await import('/js/rng.js');const initial=Game.renderState(10000),before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],rows=[],T=Dungeon.T;
+  const ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;
+  try{for(let region=0;region<13;region++)for(const cell of[false,true])for(const shut of[null,.75,.25,0]){
+   const w=9,h=13,tiles=new Uint8Array(w*h).fill(T.FLOOR);for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!x||!y||x===w-1||y===h-1||y===4)tiles[y*w+x]=T.WALL;tiles[4*w+4]=shut===null?T.DOOR:T.DOOR_OPEN;
+   const level={...Game.level(),w,h,tiles,theme:region,roomId:new Int16Array(w*h),rooms:[{x:1,y:1,w:7,h:11,shape:'box'}],piece:cell?{kind:'cells',room:0}:null,pieces:[],caved:[],lights:[],dressing:[],remains:[],monsters:[],npcs:[],items:{},explored:new Uint8Array(w*h).fill(1),seen:new Uint8Array(w*h).fill(1),locks:{},doors:{},doorBlows:{},pools:[],twist:null,stairsUp:null,stairsDown:null};
+   const raw=cell?Assets.themes[region].cellDoor:Assets.themes[region].door,leaf=Assets.doorLeaf(raw);let rawDraws=0,leafDraws=0;
+   ctx.drawImage=function(image,...args){if(image===raw)rawDraws++;if(image===leaf)leafDraws++;return draw.call(this,image,...args);};
+   const fx={...initial.fx,arriveAt:-1e9,doorShut:shut===null?{}:{[4*w+4]:{shut,lock:null}},doorFire:{}};
+   Renderer.render(level,{x:4.5,y:6.5,angle:-Math.PI/2},[],fx,10000);rows.push({region,cell,shut,rawDraws,leafDraws});
+  }}finally{ctx.drawImage=draw;}
+  if(JSON.stringify(Game.state())!==before||Dice.s!==dice[0]||Odds.s!==dice[1])throw Error('Door surface rendering changed state/dice '+JSON.stringify({keys:Object.keys(Game.state()).filter(k=>JSON.stringify(Game.state()[k])!==JSON.stringify(JSON.parse(before)[k])),beforeDice:dice,afterDice:[Dice.s,Odds.s]}));return rows;
+ });expect(rows).toHaveLength(104);for(const r of rows){expect(r.rawDraws,JSON.stringify(r)).toBe(0);if(r.shut===0)expect(r.leafDraws).toBe(0);else expect(r.leafDraws,JSON.stringify(r)).toBeGreaterThan(0);}
+});

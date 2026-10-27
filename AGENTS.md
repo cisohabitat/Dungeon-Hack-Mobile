@@ -1327,3 +1327,6 @@ The approved molten core and matching two-step dais live in `art/creatures/heart
 
 ### Installed-art upgrade audit
 `docs/visual/2026-10-26-installed-art-audit/upgrade.cjs` serves a historical checkout and current source on one origin, then runs real worker update, failed-core install/retry and offline Continue checks. Create its separate baseline worktree at the exact documented commit; remove it after the audit. Default v0.9.43 checks actual changed Heart bytes; v0.9.44 has the same paintings as current and cannot alone prove changed-art replacement. Preserve these baseline/scope distinctions and run full-cache profiles serially before other browser workers.
+
+### Sliding door surfaces
+`Assets.doorLeaf` caches the inner48×60 leaf (x8,y4) of each64px door/gate source in a WeakMap. The renderer uses that leaf for both closed and moving slabs, before crack/fire effects. Masonry comes from the fixed world walls/jambs; never translate the complete framed painting. Source textures/lock patches remain unchanged; a late painted source has a new cache identity. Preserve door ray intersections, texture scrolling, collision and timing. The painted-world regressions check surround exclusion, independent cache identity and104 region/cell/opening-state routes per project with unchanged run/dice.

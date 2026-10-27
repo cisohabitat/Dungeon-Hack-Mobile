@@ -1347,6 +1347,7 @@ const Renderer = (() => {
         if (tile === T.FOUNTAIN) { const f = level.features && level.features[mapX + ',' + mapY]; img = (f && f.used) ? tex.fountainDry : tex.fountain; }
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
       }
+      if (shutAt && img) img = Assets.doorLeaf(img);
       if (tile === T.DOOR || tile === T.DOOR_LOCKED) {
         const blows = level.doorBlows && level.doorBlows[mapX + ',' + mapY];
         if (blows) img = Assets.crackedDoor(img, blows);

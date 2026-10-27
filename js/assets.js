@@ -1215,6 +1215,19 @@ const Assets = (() => {
     }
     return (set[k] = c);
   }
+  // Door paintings include their masonry surround. Only the inner leaf is
+  // part of the moving slab; the raycast doorway supplies the fixed jambs.
+  // Keep the same leaf for closed and sliding states, including fallbacks.
+  const doorLeaves = new WeakMap();
+  function doorLeaf(door) {
+    if (!doorLeaves.has(door)) {
+      const c = canvas(TEX, TEX), ctx = c.getContext('2d');
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(door, 8, 4, 48, 60, 0, 0, TEX, TEX);
+      doorLeaves.set(door, c);
+    }
+    return doorLeaves.get(door);
+  }
   function crackedDoor(door, n) {
     let set = cracked.get(door);
     if (!set) cracked.set(door, set = []);
@@ -1737,7 +1750,7 @@ const Assets = (() => {
     get TEX() { return TEX; }, get adjust() { return adjust; }, get canvas() { return canvas; }, get hexToRgb() { return hexToRgb; },
   });
 
-  return { init, painting, paintFirst, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, crackedDoor, burningDoor };
+  return { init, painting, paintFirst, sprites, themes, SHADES, FLOOR_LEVELS, TEX, STAIR_OPEN, held, carried, doorLeaf, crackedDoor, burningDoor };
 })();
 
 export { Assets };

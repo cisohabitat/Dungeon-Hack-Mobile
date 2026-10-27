@@ -85,3 +85,8 @@ exercise, production TLS/CDN test, storage-quota/eviction test or OS-kill recove
 test. The 1,550-file catalog is distinct from individual paintings packed into
 atlases; portrait/relic surfaces have separate offline checks. No balance or
 performance rerun is needed because this audit changes no shipped game/art bytes.
+
+The reproduction tool reads the current version/build/cache from the checkout.
+Recorded evidence above remains the historical v0.9.45 result; a later rerun
+checks that later checkout. `AUDIT_OUTPUT_DIR` selects a separate output directory
+so historical evidence can be preserved.

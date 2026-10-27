@@ -1,0 +1,167 @@
+[
+  {
+    "width": 320,
+    "frames": [
+      {
+        "index": 0,
+        "columns": 276
+      },
+      {
+        "index": 1,
+        "columns": 274
+      },
+      {
+        "index": 2,
+        "columns": 270
+      },
+      {
+        "index": 3,
+        "columns": 265
+      },
+      {
+        "index": 4,
+        "columns": 258
+      },
+      {
+        "index": 5,
+        "columns": 250
+      },
+      {
+        "index": 6,
+        "columns": 241
+      },
+      {
+        "index": 7,
+        "columns": 232
+      },
+      {
+        "index": 8,
+        "columns": 221
+      },
+      {
+        "index": 9,
+        "columns": 210
+      },
+      {
+        "index": 10,
+        "columns": 198
+      },
+      {
+        "index": 11,
+        "columns": 186
+      }
+    ],
+    "errors": [],
+    "fixture": "Supplied ordinary doorway and no enemies; native use command, game updates and renderer. No asset substitution or frozen animation."
+  },
+  {
+    "width": 390,
+    "frames": [
+      {
+        "index": 0,
+        "columns": 276
+      },
+      {
+        "index": 1,
+        "columns": 274
+      },
+      {
+        "index": 2,
+        "columns": 270
+      },
+      {
+        "index": 3,
+        "columns": 258
+      },
+      {
+        "index": 4,
+        "columns": 250
+      },
+      {
+        "index": 5,
+        "columns": 242
+      },
+      {
+        "index": 6,
+        "columns": 221
+      },
+      {
+        "index": 7,
+        "columns": 210
+      },
+      {
+        "index": 8,
+        "columns": 198
+      },
+      {
+        "index": 9,
+        "columns": 186
+      },
+      {
+        "index": 10,
+        "columns": 173
+      },
+      {
+        "index": 11,
+        "columns": 160
+      }
+    ],
+    "errors": [],
+    "fixture": "Supplied ordinary doorway and no enemies; native use command, game updates and renderer. No asset substitution or frozen animation."
+  },
+  {
+    "width": 740,
+    "frames": [
+      {
+        "index": 0,
+        "columns": 276
+      },
+      {
+        "index": 1,
+        "columns": 274
+      },
+      {
+        "index": 2,
+        "columns": 265
+      },
+      {
+        "index": 3,
+        "columns": 258
+      },
+      {
+        "index": 4,
+        "columns": 250
+      },
+      {
+        "index": 5,
+        "columns": 241
+      },
+      {
+        "index": 6,
+        "columns": 232
+      },
+      {
+        "index": 7,
+        "columns": 221
+      },
+      {
+        "index": 8,
+        "columns": 210
+      },
+      {
+        "index": 9,
+        "columns": 198
+      },
+      {
+        "index": 10,
+        "columns": 186
+      },
+      {
+        "index": 11,
+        "columns": 173
+      }
+    ],
+    "errors": [],
+    "fixture": "Supplied ordinary doorway and no enemies; native use command, game updates and renderer. No asset substitution or frozen animation."
+  }
+]
