@@ -1,0 +1,44 @@
+
+Running 1 test using 1 worker
+
+(node:610774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:610774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [phone] › test/browser/region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile (3.7s)
+
+
+  1) [phone] › test/browser/region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile
+
+    Error: [172,172,172,172,172,172,172,172,172,172,172,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334,150.33333333333334]
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m5[39m
+    Received:    [31m21.666666666666657[39m
+
+      87 |   expect(result.unchanged).toBe(true);
+      88 |   expect(result.samples.every(v => v > 100)).toBe(true);
+    > 89 |   expect(result.maxStep, JSON.stringify(result.samples)).toBeLessThanOrEqual(5);
+         |                                                          ^
+      90 | });
+      91 |
+      92 | test('regional stone and wood are stable across a full page reload', async ({ page }) => {
+        at /workspace/Dungeon-Hack-Mobile/test/browser/region-art.spec.js:89:58
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/region-art-torchlight-cros-e9086-ut-a-brightness-step-mobile-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/region-art-torchlight-cros-e9086-ut-a-brightness-step-mobile-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/region-art-torchlight-cros-e9086-ut-a-brightness-step-mobile-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/region-art-torchlight-cros-e9086-ut-a-brightness-step-mobile-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [phone] › test/browser/region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile

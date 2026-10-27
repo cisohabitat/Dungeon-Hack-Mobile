@@ -1,0 +1,7 @@
+{
+  "case": "a crowded level still renders inside a 60fps budget",
+  "project": "phone",
+  "workers": 3,
+  "maximumRenderMs": 8,
+  "error": "Error: one frame must fit well inside 16.7ms\n\nexpect(received).toBeLessThan(expected)\n\nExpected: < 8\nReceived:   10.327499999850989"
+}

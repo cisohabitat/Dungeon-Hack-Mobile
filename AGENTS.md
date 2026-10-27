@@ -1055,6 +1055,13 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   frame, and original near textures and light/shade levels remain unchanged.
   Soft wall canvases use `willReadFrequently: true`, matching the CPU-backed
   source textures so column draws do not repeatedly read GPU textures back.
+- Floor and ceiling torchlight interpolate the same square-centred field as
+  wall faces. Cache the four light samples per scanline cell and skip this work
+  entirely when there are no lights. Preserve source shade/texture caches, wall
+  foot shadows, warm colours, Calm flicker, fog and visibility distances. Weak
+  torches must never dim the hero's brighter foot light. The
+  synthetic uniform-material regression in `region-art.spec.js` isolates tile
+  boundary brightness without substituting diagnostic materials into art reviews.
 - The first-time title card takes priority over a random greeting for that
   visit. Hero biographies are native disclosures below the selected portrait;
   class changes reset both the portrait zoom and biography.

@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Continuous torchlight.** Light blends across floor and ceiling tiles as you
+  walk and turn, preserving the existing fog, materials and torch flicker.
+
 - **Sliding door panels.** Door leaves slide into the wall while the surrounding
   masonry stays in the doorway. Damage, lock colours and burned wood stay visible
   through opening. Painted and fallback doors share the same fit.

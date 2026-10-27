@@ -125,7 +125,7 @@ const Renderer = (() => {
     return m;
   });
   let floorKinds = 0;   // which floors (looks.js FLOOR) the last frame showed, as bits, for the tests
-  function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm) {
+  function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lit) {
     const TX = Assets.TEX;
     const look = looksOf(level, tex), fk = look.floor, ck = look.ceil, edge = look.edge, floors = look.floors, ceils = look.ceils;
     const lw = level.w, lh = level.h;
@@ -149,20 +149,37 @@ const Renderer = (() => {
       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
       let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], caveDark = 0;
+      let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0;
       for (let x = 0; x < W; x++) {
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
         if (i !== lastI) {
           lastI = i;
-          if (i >= 0) { boost = lm[i]; f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
+          if (i >= 0) { f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
           else { boost = 0; c = 0; footMap = FOOT[0]; caveDark = 0; floorT = floorSet[0]; ceilT = ceilSet[0]; }
+        }
+        // Blend the same square-centred light field as the walls. Fetch its
+        // four corners only on entering a new light cell, not for every texel.
+        if (lit && i >= 0) {
+          const gx = fx - 0.5, gy = fy - 0.5, lx = gx < 0 ? -1 : gx | 0, ly = gy < 0 ? -1 : gy | 0;
+          if (lx !== lightX || ly !== lightY) {
+            lightX = lx; lightY = ly;
+            const a = ly * lw + lx, b = a + lw;
+            l00 = lx >= 0 && ly >= 0 ? lm[a] : 0;
+            l10 = lx + 1 < lw && ly >= 0 ? lm[a + 1] : 0;
+            l01 = lx >= 0 && ly + 1 < lh ? lm[b] : 0;
+            l11 = lx + 1 < lw && ly + 1 < lh ? lm[b + 1] : 0;
+          }
+          const ux = gx - lx, uy = gy - ly;
+          boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
         }
         // (a shade brighter right at the hero's feet, where their own light falls)
         let lv = own > 0.45 ? Math.max(0, level - 1) : level, glow = own;
         // rounded to a shade level, with a pattern fixed to the texture
         // deciding the texels of a tile that sits between two
         if (boost > 0) {
-          lv = Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0));
+          // A weak torch must not cancel the hero's brighter pool at their feet.
+          lv = Math.min(lv, Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0)));
           glow = Math.max(glow, Math.min(1, boost / LIGHT_MAX));
         }
         const ti = ty * TX + tx;
@@ -1217,7 +1234,7 @@ const Renderer = (() => {
     setFog(level.theme);
     const reach = level.twist === 'dark' ? DARK_FOG : FOG;
     if (reach !== fog) { fog = reach; buildRows(); }
-    castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm);
+    castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lights.lit.length > 0);
     if (level.twist === 'flooded') floodFloor(now);
     if (level.twist === 'overgrown') mossFloor();
     // stains lie on the floor, so the walls drawn next hide them where they should;

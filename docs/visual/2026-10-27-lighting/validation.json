@@ -1,0 +1,240 @@
+{
+  "baseCommit": "d1eba99c578733255d5b794bf6efc777f4ffcdbc",
+  "release": "0.9.48",
+  "build": 63,
+  "runtimeSourceHashes": {
+    "js/renderer.js": "554fc7318bb6cc08a31c8cb81f6ea1dbcc10d64a6c0b3bf3eff8997d28ec3854",
+    "js/titlemenu.js": "863bb1eab7badc3ea005c39f40892966cb3e739b6dd65afa5bc5e2cd7f880f8d",
+    "js/release.js": "af7dd4ff3c71367428c54251f0e0ddb3099588f171dad47e9d818679b103203b",
+    "sw.js": "521425a3c7df59dc105b7a5958ecc54c3ff2e8ba488108aa8fb6b00fb584919e"
+  },
+  "beforeDiagnostics": {
+    "tileBoundaryMaxBrightnessStep": 21.666666666666657,
+    "weakTorchBrightness": 156,
+    "withoutWeakTorchBrightness": 178.33333333333334,
+    "note": "Tile-boundary failure on unchanged main; weak-torch priority failure recorded after interpolation, before preserving the hero pool."
+  },
+  "finalDiagnostics": {
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "passed": 2,
+    "requirements": [
+      "adjacent tile-boundary brightness step <=5",
+      "positive torch brightening retained",
+      "weak torch never dims stronger hero foot light",
+      "whole run and Dice/Odds unchanged"
+    ]
+  },
+  "native": {
+    "sessions": 18,
+    "commands": 90,
+    "frameRecords": 1188,
+    "frozenRegionalViews": 104,
+    "pngCaptures": 437
+  },
+  "offline": {
+    "installedProfiles": 4,
+    "commands": 20,
+    "pngCaptures": 74,
+    "version": "0.9.48"
+  },
+  "rules": {
+    "passed": 751,
+    "failures": 0,
+    "finalDuration": "1m37s"
+  },
+  "performance": {
+    "cpuThrottle": 4,
+    "minimumFps": 30,
+    "wideMinimumFps": 27,
+    "startupMaximumMs": 6000,
+    "samples": [
+      {
+        "file": "before/performance.txt",
+        "revision": "unchanged v0.9.47",
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 39.2,
+            "scriptMs": 13.3
+          },
+          "wide": {
+            "fps": 38.1,
+            "scriptMs": 12.8
+          },
+          "flooded": {
+            "fps": 33.8,
+            "scriptMs": 15.1
+          },
+          "painted": {
+            "fps": 30.1,
+            "scriptMs": 17.6
+          },
+          "rite": {
+            "fps": 47.7,
+            "scriptMs": 13.7
+          }
+        },
+        "startup": {
+          "ms": 2299
+        }
+      },
+      {
+        "file": "performance-intermediate.txt",
+        "revision": "interpolation only",
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 36.4,
+            "scriptMs": 14.5
+          },
+          "wide": {
+            "fps": 31.9,
+            "scriptMs": 15.7
+          },
+          "flooded": {
+            "fps": 37.5,
+            "scriptMs": 14.5
+          },
+          "painted": {
+            "fps": 37.7,
+            "scriptMs": 15.4
+          },
+          "rite": {
+            "fps": 48.1,
+            "scriptMs": 14.1
+          }
+        },
+        "startup": {
+          "ms": 2169
+        }
+      },
+      {
+        "file": "performance-first-final.txt",
+        "revision": "final candidate first measurement",
+        "passed": false,
+        "scenes": {
+          "fight": {
+            "fps": 36.3,
+            "scriptMs": 14.9
+          },
+          "wide": {
+            "fps": 36.6,
+            "scriptMs": 13.3
+          },
+          "flooded": {
+            "fps": 32.7,
+            "scriptMs": 16
+          },
+          "painted": {
+            "fps": 29.7,
+            "scriptMs": 20.2
+          },
+          "rite": {
+            "fps": 44.7,
+            "scriptMs": 15.1
+          }
+        },
+        "startup": {
+          "ms": 2145
+        }
+      },
+      {
+        "file": "performance-paired-baseline.txt",
+        "revision": "paired unchanged v0.9.47",
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 38.2,
+            "scriptMs": 13.3
+          },
+          "wide": {
+            "fps": 41,
+            "scriptMs": 11.6
+          },
+          "flooded": {
+            "fps": 36.4,
+            "scriptMs": 14.7
+          },
+          "painted": {
+            "fps": 34.2,
+            "scriptMs": 17.7
+          },
+          "rite": {
+            "fps": 49.1,
+            "scriptMs": 12.2
+          }
+        },
+        "startup": {
+          "ms": 2305
+        }
+      },
+      {
+        "file": "performance-paired-final.txt",
+        "revision": "paired final candidate",
+        "passed": true,
+        "scenes": {
+          "fight": {
+            "fps": 35.1,
+            "scriptMs": 15.5
+          },
+          "wide": {
+            "fps": 38.5,
+            "scriptMs": 13
+          },
+          "flooded": {
+            "fps": 39.6,
+            "scriptMs": 11.9
+          },
+          "painted": {
+            "fps": 35.1,
+            "scriptMs": 17.4
+          },
+          "rite": {
+            "fps": 43.9,
+            "scriptMs": 15.4
+          }
+        },
+        "startup": {
+          "ms": 2215
+        }
+      }
+    ],
+    "conclusion": "Final paired budget run passed. Earlier failed 29.7FPS painted measurement retained; variable samples do not establish a speed improvement."
+  },
+  "fullChromium": {
+    "status": "passed",
+    "ordinaryCases": 933,
+    "ordinaryWorkers": 2,
+    "ordinaryFailures": 0,
+    "ordinaryDuration": "1.1h",
+    "serialFullCacheCases": 6,
+    "serialFullCacheWorkers": 1,
+    "serialFullCacheFailures": 0,
+    "serialFullCacheDuration": "2.8m",
+    "totalDistinctCases": 939,
+    "abortedThreeWorkerAttempt": {
+      "passed": 294,
+      "failed": 2,
+      "interrupted": 3,
+      "notRun": 634,
+      "duration": "21.5m",
+      "failures": [
+        "title deferred-art 25s deadline",
+        "crowded render <8ms budget"
+      ],
+      "unmodifiedIsolatedRecheck": {
+        "passed": 2,
+        "failures": 0,
+        "workers": 1,
+        "duration": "14.0s"
+      },
+      "resolution": "Repeat complete matrix at normal two-worker concurrency; retain all original limits and diagnostics."
+    },
+    "scope": "Both complete phone/small projects. The three full-cache install test titles ran once each per project serially, with original assertions/deadlines."
+  },
+  "ci": "Required on pushed main commit, including the release publisher.",
+  "balance": "No rule, targeting, wall/sprite lighting, fog/visibility distance, collision, input, timer or dice changes; presentation regression checks apply instead of balance simulation."
+}

@@ -52,6 +52,53 @@ test('regional materials keep coded locks, water, shade caches and run dice inta
   expect(errors).toEqual([]);
 });
 
+test('torchlight crosses a floor tile boundary without a brightness step @mobile', async ({ page }) => {
+  await startGame(page, { seed: 'floor-light-boundary' });
+  const result = await page.evaluate(async () => {
+    Game.update = () => {}; Game.level().monsters = []; Game.level().npcs = [];
+    const { Dice, Odds } = await import('/js/rng.js'), original = Assets.themes[0];
+    // Uniform diagnostic materials isolate lighting from painted grout/colour.
+    // They are never used as visual review or substituted into shipped art.
+    const shades = Array.from({ length: 8 }, (_, n) => {
+      const v = n === 7 ? 0 : 160 - n * 20;
+      return new Uint32Array(4096).fill((0xff000000 | v << 16 | v << 8 | v) >>> 0);
+    });
+    Assets.themes[0] = new Proxy(original, { get(t, k) {
+      if (k === 'floor' || k === 'ceil') return shades;
+      if (k === 'floorOf' || k === 'ceilOf') return () => shades;
+      return t[k];
+    } });
+    const T = Dungeon.T, w = 15, h = 15, tiles = new Uint8Array(w * h).fill(T.FLOOR);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!x || !y || x === w - 1 || y === h - 1) tiles[y * w + x] = T.WALL;
+    const L = { ...Game.level(), w, h, tiles, theme: 0, twist: null, roomId: new Int16Array(w * h), rooms: [{ x: 1, y: 1, w: 13, h: 13, shape: 'box' }], piece: null, pieces: [], caved: [], lights: [{ x: 7, y: 3 }], dressing: [], remains: [], monsters: [], npcs: [], items: {}, fields: {}, explored: new Uint8Array(w * h).fill(1), seen: new Uint8Array(w * h).fill(1), locks: {}, pools: [], stairsUp: null, stairsDown: null };
+    const now = 10000, rs = Game.renderState(now), fx = { ...rs.fx, view: null, arriveAt: -1e9, doorShut: {}, doorFire: {}, frost: [], vents: [], rocks: [], stains: {} };
+    const state = JSON.stringify(Game.state()), dice = [Dice.s, Odds.s], samples = [], canvas = document.querySelector('#view'), ctx = canvas.getContext('2d'), row = canvas.height / 2 + 70;
+    Renderer.setCalm(true);
+    try {
+      for (let j = -10; j <= 10; j++) {
+        const cam = { x: 7.5, y: 6 + j * .004 + 100 / 70, angle: -Math.PI / 2 };
+        Renderer.render(L, cam, [], fx, now);
+        const p = ctx.getImageData(160, row, 1, 1).data;
+        samples.push((p[0] + p[1] + p[2]) / 3);
+      }
+      Renderer.render({ ...L, lights: [] }, { x: 7.5, y: 6 + 100 / 70, angle: -Math.PI / 2 }, [], fx, now);
+      const p = ctx.getImageData(160, row, 1, 1).data, unlit = (p[0] + p[1] + p[2]) / 3;
+      // A weak distant torch must not cancel the hero's brighter foot light.
+      const nearRow = canvas.height / 2 + 110, nearCam = { x: 7.5, y: 7 + 100 / 110, angle: -Math.PI / 2 };
+      Renderer.render(L, nearCam, [], fx, now);
+      const a = ctx.getImageData(160, nearRow, 1, 1).data, nearLit = (a[0] + a[1] + a[2]) / 3;
+      Renderer.render({ ...L, lights: [] }, nearCam, [], fx, now);
+      const b = ctx.getImageData(160, nearRow, 1, 1).data, nearUnlit = (b[0] + b[1] + b[2]) / 3;
+      return { samples, unlit, nearLit, nearUnlit, maxStep: Math.max(...samples.slice(1).map((v, i) => Math.abs(v - samples[i]))), unchanged: state === JSON.stringify(Game.state()) && dice[0] === Dice.s && dice[1] === Odds.s };
+    } finally { Assets.themes[0] = original; Renderer.setCalm(false); }
+  });
+  expect(result.unchanged).toBe(true);
+  expect(result.samples.every(v => v > 100)).toBe(true);
+  expect(Math.min(...result.samples) - result.unlit).toBeGreaterThan(10);
+  expect(result.nearLit, JSON.stringify({ lit: result.nearLit, unlit: result.nearUnlit })).toBeGreaterThanOrEqual(result.nearUnlit);
+  expect(result.maxStep, JSON.stringify(result.samples)).toBeLessThanOrEqual(5);
+});
+
 test('regional stone and wood are stable across a full page reload', async ({ page }) => {
   await page.goto('/'); await page.waitForFunction(() => window.Assets?.themes.length);
   const before = (await surfaces(page)).result;

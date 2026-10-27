@@ -1004,3 +1004,12 @@ three lever-action sessions and two installed offline profiles provide bounded
 evidence; no further confirmed chest/secret-wall/lever/trap art defect was found.
 No new painting or atlas is commissioned. [Review, scope and release checks](../../docs/visual/2026-10-27-interactions/README.md).
 Publication remains subject to the required CI and release publisher.
+
+### Lighting and material transitions — 27 October 2026
+The v0.9.48 candidate blends floor/ceiling torchlight across tile edges and keeps
+weak torches from dimming the hero's foot light. Native movement/elemental,
+regional material and installed-offline evidence is recorded in the
+[lighting review](../../docs/visual/2026-10-27-lighting/README.md). Original
+paintings and game rules are preserved; no new atlas is commissioned. The
+review retains negative diagnostics and the marginal performance failure beside
+the paired budget results. Required CI and release publication remain gates.

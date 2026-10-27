@@ -1,0 +1,9 @@
+{
+  "case": "art \u203a pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after",
+  "project": "phone",
+  "workers": 3,
+  "deadlineMs": 25000,
+  "remainingDeferredPictures": 26,
+  "error": "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: 0\nReceived: 26\n\nCall Log:\n- Timeout 25000ms exceeded while waiting on the predicate",
+  "followup": "Recheck unchanged case alone after broad suite; no deadline/assertion change."
+}

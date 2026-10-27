@@ -1,0 +1,519 @@
+
+Running 933 tests using 3 workers
+
+(node:619029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:619028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:619030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:619029) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:619030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:619028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [phone] › test/browser/a11y.spec.js:133:1 › a keeper introduction (10.6s)
+  ✓    4 [phone] › test/browser/a11y.spec.js:145:1 › an encounter (9.8s)
+  ✓    5 [phone] › test/browser/a11y.spec.js:174:1 › the divided stair (11.1s)
+  ✓    6 [phone] › test/browser/a11y.spec.js:192:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (14.7s)
+  ✓    3 [phone] › test/browser/a11y.spec.js:26:1 › the title, the hero's making and the screens off the title (53.7s)
+  ✓    7 [phone] › test/browser/a11y.spec.js:209:1 › the dungeon on a wide screen, with the map docked beside the view (11.1s)
+  ✓    8 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (12.8s)
+  ✓    9 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (13.2s)
+  ✓   11 [phone] › test/browser/access.spec.js:10:3 › @mobile enlarged title greetings leave the logo and New Game clear at 320px (7.5s)
+  ✓   10 [phone] › test/browser/a11y.spec.js:222:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (13.8s)
+  ✓    2 [phone] › test/browser/a11y.spec.js:75:1 › the dungeon and every overlay in it (1.4m)
+  ✓   13 [phone] › test/browser/access.spec.js:10:3 › @mobile enlarged title greetings leave the logo and New Game clear at 390px (6.6s)
+  ✓   12 [phone] › test/browser/access.spec.js:36:3 › @mobile enlarged shop and journal headers keep their text and Close clear at 320px (10.2s)
+  ✓   14 [phone] › test/browser/access.spec.js:36:3 › @mobile enlarged shop and journal headers keep their text and Close clear at 390px (9.1s)
+  ✓   15 [phone] › test/browser/access.spec.js:10:3 › @mobile enlarged title greetings leave the logo and New Game clear at 740px (6.3s)
+  ✓   16 [phone] › test/browser/access.spec.js:36:3 › @mobile enlarged shop and journal headers keep their text and Close clear at 740px (10.0s)
+  ✓   17 [phone] › test/browser/access.spec.js:90:3 › text at twice its size fits the phone: every screen, the dungeon's bars and controls, and every overlay (14.3s)
+  ✓   18 [phone] › test/browser/access.spec.js:90:3 › text at twice its size fits the small phone: every screen, the dungeon's bars and controls, and every overlay (14.4s)
+  ✓   19 [phone] › test/browser/access.spec.js:90:3 › text at twice its size fits the phone on its side: every screen, the dungeon's bars and controls, and every overlay (14.1s)
+  ✓   20 [phone] › test/browser/access.spec.js:128:1 › a screen reader hears each log line once as it shows, the view put into words as the hero turns, and the bars by name (9.2s)
+  ✓   21 [phone] › test/browser/access.spec.js:158:1 › the colour-blind safe colours tell a blow from a trick by blue and orange, and recolour the map and its legend (12.5s)
+  ✓   22 [phone] › test/browser/access.spec.js:182:1 › Calm view stills every animation on the page as well as the view (8.0s)
+  ✓   23 [phone] › test/browser/access.spec.js:199:3 › one-handed (right thumb) puts every control a fight needs within the thumb's reach, the drink with them (8.7s)
+  ✓   24 [phone] › test/browser/access.spec.js:199:3 › one-handed (left thumb) puts every control a fight needs within the thumb's reach, the drink with them (9.7s)
+  ✓   25 [phone] › test/browser/access.spec.js:229:1 › with the largest text a long tip takes the view's height and scrolls: a drag reads on, only a tap closes it (11.5s)
+  ✓   28 [phone] › test/browser/art.spec.js:53:3 › art › an elite colour keeps its cached picture, shades and pose links when first shown (4.5s)
+  ✓   27 [phone] › test/browser/art.spec.js:27:3 › art › a creature is painted a piece at a time, a floor's own kinds first, and drawn plain until its poses are ready (16.8s)
+  ✓   29 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (23.2s)
+  ✘   26 [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after (32.2s)
+(node:621307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:621307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   31 [phone] › test/browser/art.spec.js:138:3 › art › each class has its hero's face: on its card, on the hero sheet, and at the end of a run, grey if they fell (11.2s)
+  ✓   32 [phone] › test/browser/art.spec.js:170:3 › art › water drips from the roof here and there, more where the floor has flooded (7.9s)
+  ✓   30 [phone] › test/browser/art.spec.js:104:3 › art › what is upon a monster is drawn on it, and each kind dies its own way (30.6s)
+  ✓   34 [phone] › test/browser/art.spec.js:208:3 › art › a door stands back in its doorway, the stone of the doorway either side of it (7.4s)
+  ✓   33 [phone] › test/browser/art.spec.js:179:3 › art › a stair is drawn as a stairwell behind its arch, from the side it is come at by, and as plain wall from any other (8.1s)
+  ✓   36 [phone] › test/browser/art.spec.js:288:3 › art › a pillar standing free in a room is drawn narrower than its square; a block joined to a wall is not (7.5s)
+  ✓   37 [phone] › test/browser/art.spec.js:313:3 › art › a door slides into the wall as it is pushed open (9.3s)
+  ✓   35 [phone] › test/browser/art.spec.js:229:3 › art › each set piece is drawn as what it is, the ways between rooms are laid as paths, and corners wear webs (11.2s)
+  ✓   40 [phone] › test/browser/art.spec.js:388:3 › art › regional walls use their approved material, including black glass rather than generic brick (4.8s)
+  ✓   38 [phone] › test/browser/art.spec.js:335:3 › art › a new floor rises out of the dark of the stair, and a level gained sends light up through the view (10.9s)
+  ✓   41 [phone] › test/browser/art.spec.js:416:3 › art › the two-handed sword is held in both fists, and is a far bigger blade than the long sword (9.9s)
+  ✓   42 [phone] › test/browser/art.spec.js:439:5 › art › the lich right in front fits under its bar and is drawn finely, held sideways (8.1s)
+  ✓   43 [phone] › test/browser/art.spec.js:439:5 › art › the lich right in front fits under its bar and is drawn finely, held upright (8.6s)
+  ✓   44 [phone] › test/browser/art.spec.js:458:3 › art › a number rising from a creature about to strike goes up beside its warning mark, never over it (10.5s)
+  ✓   45 [phone] › test/browser/art.spec.js:489:3 › art › held sideways, the warning mark over a big one close in stands beside its head, not on its face (8.5s)
+  ✓   39 [phone] › test/browser/art.spec.js:357:3 › art › a lantern lights a dark floor, loot worth having glints, and a fallen hero's shade wears the gear of their trade (34.3s)
+  ✓   46 [phone] › test/browser/art.spec.js:513:5 › art › a creature right in front stands with its feet in the view, held sideways (8.2s)
+  ✓   47 [phone] › test/browser/art.spec.js:513:5 › art › a creature right in front stands with its feet in the view, held upright (7.9s)
+  ✓   48 [phone] › test/browser/art.spec.js:530:3 › art › on a portrait phone the view stands taller than it is wide, and a room's dressing is drawn in it (8.8s)
+  ✓   49 [phone] › test/browser/art.spec.js:561:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held sideways (8.9s)
+  ✓   50 [phone] › test/browser/art.spec.js:561:5 › art › a ranger's bow and drawing hand leave an item one square ahead in plain sight, held narrow (8.7s)
+  ✓   51 [phone] › test/browser/art.spec.js:601:3 › art › candles left burning light the floor around them, a smaller pool than a torch's (6.9s)
+  ✓   52 [phone] › test/browser/art.spec.js:623:3 › art › a creature sways as it stands, leans into a step across the view and topples as it falls; firelight warms the side it is on; a calm view holds it upright (10.2s)
+  ✓   54 [phone] › test/browser/art.spec.js:711:1 › refined bestiary sprites retain readable blink and unclipped raised equipment (5.7s)
+  ✓   53 [phone] › test/browser/art.spec.js:690:3 › art › a creature standing on a pile of things is drawn in front of all of it (9.1s)
+  ✓   56 [phone] › test/browser/awareness.spec.js:69:3 › knowing where you are › on a short landscape screen the map uses the height it has, and the key still fits (7.8s)
+  ✓   57 [phone] › test/browser/awareness.spec.js:85:3 › knowing where you are › on a phone with a notch and a home bar, a tall map and its key still fit without scrolling (7.3s)
+  ✓   55 [phone] › test/browser/awareness.spec.js:40:3 › knowing where you are › the map marker sits on the square the player is standing on (10.8s)
+  ✓   58 [phone] › test/browser/awareness.spec.js:99:3 › knowing where you are › the map has a legend naming what the colours mean (8.6s)
+  ✓   59 [phone] › test/browser/awareness.spec.js:119:3 › knowing where you are › walking into a wall says so (7.4s)
+  ✓   60 [phone] › test/browser/awareness.spec.js:135:3 › knowing what is hitting you › an attack from behind says which way it came from (7.3s)
+  ✓   63 [phone] › test/browser/awareness.spec.js:214:3 › not wasting what you carry › a known potion is refused at full health, and an unknown one is not (7.8s)
+  ✓   61 [phone] › test/browser/awareness.spec.js:159:3 › knowing what is hitting you › a blow from out of sight lights a broad red glow on its side, held a while, and buzzes twice (9.0s)
+  ✓   62 [phone] › test/browser/awareness.spec.js:196:3 › knowing what is hitting you › the death screen names the killer and shows the last moments (12.2s)
+  ✓   64 [phone] › test/browser/awareness.spec.js:246:3 › not wasting what you carry › a spell with no target costs nothing (7.2s)
+  ✓   65 [phone] › test/browser/awareness.spec.js:262:3 › not wasting what you carry › a foe that rides out a blast has "saves" over it, and the log says it took the worst of it (8.4s)
+  ✓   66 [phone] › test/browser/awareness.spec.js:288:3 › not losing a run by accident › starting a new run warns before replacing a saved hero (9.3s)
+  ✓   67 [phone] › test/browser/awareness.spec.js:307:3 › not losing a run by accident › choosing to replace reaches character creation (9.3s)
+  ✓   68 [phone] › test/browser/awareness.spec.js:320:3 › being readable by assistive technology › the chosen class, background and item announce their state (8.4s)
+  ✓   70 [phone] › test/browser/bestiary.spec.js:13:3 › bestiary › an empty bestiary shows every monster as unmet, with where to look (5.4s)
+  ✓   71 [phone] › test/browser/bestiary.spec.js:26:3 › bestiary › a met creature can be looked at close, by a tap or from the keyboard, and shows no row of poses (6.1s)
+  ✓   69 [phone] › test/browser/awareness.spec.js:345:3 › seeing the dice behind a swing › the roll behind a swing is hidden on a first run, and the menu shows it in the message box and hides it again (10.7s)
+  ✓   72 [phone] › test/browser/bestiary.spec.js:54:3 › bestiary › each stage of knowledge shows only what has been learned (5.4s)
+  ✓   73 [phone] › test/browser/bestiary.spec.js:80:3 › bestiary › the Journal has a Bestiary tab, and meeting a monster in play fills it in (12.8s)
+  ✓   74 [phone] › test/browser/bestiary.spec.js:106:3 › bestiary › every creature has its own painting in the title bestiary and Journal (18.5s)
+  ✓   76 [phone] › test/browser/bestiary.spec.js:148:3 › bestiary › a missing champion painting falls back to its own sprite once (7.0s)
+  ✓   75 [phone] › test/browser/bestiary.spec.js:137:3 › bestiary › all painted creatures are available after an offline reload (23.3s)
+  ✓   78 [phone] › test/browser/boss-portraits.spec.js:20:50 › Goblin Warlord: its introduction pauses play, unlocks the portrait and happens once (16.0s)
+  ✓   77 [phone] › test/browser/boss-portraits.spec.js:20:50 › Dread Lich: its introduction pauses play, unlocks the portrait and happens once (19.9s)
+  ✓   79 [phone] › test/browser/boss-portraits.spec.js:20:50 › Heartforged: its introduction pauses play, unlocks the portrait and happens once (15.6s)
+  ✓   80 [phone] › test/browser/boss-portraits.spec.js:61:1 › a level-up waits for the introduction rather than covering it (8.6s)
+  ✓   82 [phone] › test/browser/boss-portraits.spec.js:96:1 › a missing portrait uses the dungeon sprite and the introduction still closes by keyboard (10.6s)
+  ✓   81 [phone] › test/browser/boss-portraits.spec.js:72:1 › unmet keepers keep their portraits hidden; met portraits survive offline reload and enlarge without cropping (25.9s)
+  ✓   84 [phone] › test/browser/collection-browser.spec.js:32:1 › collection search and facets match only revealed names and learned traits @mobile (12.6s)
+  ✓   85 [phone] › test/browser/collection-browser.spec.js:66:1 › layout survives reload and filters survive inspecting entries and changing collection surfaces @mobile (16.8s)
+  ✓   86 [phone] › test/browser/collection-browser.spec.js:99:1 › new discoveries clear only through inspection and keep an open New-filter entry in place @mobile (19.1s)
+  ✓   88 [phone] › test/browser/collection-browser.spec.js:145:1 › damaged or unavailable preference storage cannot reveal entries or break browsing @mobile (5.0s)
+  ✓   87 [phone] › test/browser/collection-browser.spec.js:129:1 › collection controls fit double text and remain accessible in gallery and empty states @mobile (16.5s)
+  ✓   89 [phone] › test/browser/combat-clarity.spec.js:15:1 › visible enemy intent names attacks, shots, magic and charges without exposing hidden foes @mobile (27.3s)
+  ✓   90 [phone] › test/browser/combat-clarity.spec.js:53:1 › landed damage and critical hits keep their actual outcome and readable labels @mobile (25.6s)
+  ✓   91 [phone] › test/browser/combat-clarity.spec.js:69:1 › critical text fits beside filling warnings in Calm view and large numbers @mobile (24.9s)
+  ✓   92 [phone] › test/browser/combat-clarity.spec.js:99:1 › condition countdowns retain focus, explain themselves and expire with the delve clock @mobile (23.5s)
+  ✓   93 [phone] › test/browser/combat-clarity.spec.js:115:1 › death advice explains the recorded source, includes conditions and escapes hostile text @mobile (27.2s)
+  ✓   94 [phone] › test/browser/combat-clarity.spec.js:134:1 › crowded combat keeps conditions bounded, touch targets reachable and the view accessible @mobile (25.7s)
+  ✓   96 [phone] › test/browser/companions.spec.js:8:1 › the companion collection remains accessible with double text (6.3s)
+  ✓   97 [phone] › test/browser/companions.spec.js:23:1 › loading an older save recovers recorded encounters without revealing unseen kinds (7.9s)
+  ✓   98 [phone] › test/browser/companions.spec.js:40:1 › unmet companions stay hidden, and the title collection returns by keyboard (4.2s)
+  ✓   95 [phone] › test/browser/combat-clarity.spec.js:162:1 › aligned crowd damage receipts stay apart at different depths @mobile (26.9s)
+  ✓   99 [phone] › test/browser/companions.spec.js:50:1 › meeting a companion without recruiting unlocks it in the Journal and survives reload (11.7s)
+  ✓  101 [phone] › test/browser/companions.spec.js:120:1 › a missing companion painting falls back to its sprite (4.9s)
+  ✓  102 [phone] › test/browser/delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run (13.4s)
+  ✓  100 [phone] › test/browser/companions.spec.js:81:1 › all companion portraits load, zoom by touch and keyboard, and remain available offline @mobile (26.2s)
+  ✓  104 [phone] › test/browser/delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus (9.4s)
+  ✓  103 [phone] › test/browser/delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines (12.9s)
+  ✓  105 [phone] › test/browser/delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions (10.8s)
+  ✓  106 [phone] › test/browser/delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses (9.7s)
+  ✓  107 [phone] › test/browser/delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers (10.0s)
+CAMPAIGN: {
+ "journey": [
+  "floor 1 -> 2, pages 1",
+  "floor 2 -> 3, pages 2",
+  "floor 3 -> 4, pages 3",
+  "brought down the lich and took the Heart on floor 4"
+ ],
+ "seen": {
+  "traders": 2,
+  "keysUsed": 3,
+  "pages": 3,
+  "boss": true
+ },
+ "ending": {
+  "status": "won",
+  "depth": 4,
+  "lich": false,
+  "pages": 4,
+  "level": 8,
+  "gold": 572
+ }
+}
+  ✓   83 [phone] › test/browser/campaign.spec.js:202:1 › a four floor campaign: down to the lich, and the Heart (3.6m)
+  ✓  108 [phone] › test/browser/delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text (19.4s)
+  ✓  110 [phone] › test/browser/elemental-feedback.spec.js:26:4 › flame_strike keeps its cost and impact timing with its own visual style (11.5s)
+  ✓  111 [phone] › test/browser/elemental-feedback.spec.js:26:4 › cone_cold keeps its cost and impact timing with its own visual style (11.3s)
+  ✓  109 [phone] › test/browser/dice.spec.js:62:1 › the same seed pressed the same way is the same run, in the browser, and a save taken up twice is twice the same run (33.4s)
+  ✓  112 [phone] › test/browser/elemental-feedback.spec.js:26:4 › lightning keeps its cost and impact timing with its own visual style (12.5s)
+  ✓  113 [phone] › test/browser/elemental-feedback.spec.js:26:4 › call_lightning keeps its cost and impact timing with its own visual style (12.1s)
+  ✓  116 [phone] › test/browser/elemental-feedback.spec.js:73:1 › elemental impacts fade and Calm view removes travelling effects and holds the target still (4.1s)
+  ✓  115 [phone] › test/browser/elemental-feedback.spec.js:51:1 › elemental scrolls keep their delayed launch and damage alignment (10.9s)
+  ✓  114 [phone] › test/browser/elemental-feedback.spec.js:26:4 › insect_plague keeps its cost and impact timing with its own visual style (12.2s)
+  ✓  117 [phone] › test/browser/endgame.spec.js:25:3 › the endgame › down the Warrens the Warlord keeps the Heart: he is drawn, speaks, and his life runs across the top of the view (12.3s)
+  ✓  119 [phone] › test/browser/endgame.spec.js:92:3 › the endgame › the Long Delve passes through the dark elves' halls: their floor named on the map, their warriors, mages and High Priestess drawn as themselves, a tip when blades cross (11.4s)
+  ✓  120 [phone] › test/browser/endgame.spec.js:128:3 › the endgame › a sixteen-floor delve passes through the grey dwarves' hold: their warriors, arbalests and Thane drawn as themselves, their anvil, a dwarf grown tall, and a tip when one swells (11.8s)
+  ✓  122 [phone] › test/browser/endgame.spec.js:204:3 › the endgame › the Heart will not come loose while the lich stands (10.3s)
+  ✓  118 [phone] › test/browser/endgame.spec.js:52:3 › the endgame › at the bottom of a Long Delve the Heartforged keeps the Heart: drawn, waking, its life across the top, and a tip when it raises its hammer (34.0s)
+  ✓  123 [phone] › test/browser/endgame.spec.js:227:3 › the endgame › with the lich down, lifting the Heart wins at once: its light fills the view, then victory (13.1s)
+  ✓  121 [phone] › test/browser/endgame.spec.js:173:3 › the endgame › a sixteen-floor delve passes through the lizardfolk's marsh: water in its rooms, warriors, shamans and the Marsh-Mother drawn as themselves, their eggs, and a tip when a tail coils (29.8s)
+  ✓  124 [phone] › test/browser/endgame.spec.js:269:3 › the endgame › a hero carrying the smiths' quench is asked at the Heart, and the end card tells the fire going out (13.2s)
+  ✓  126 [phone] › test/browser/endgame.spec.js:319:3 › the endgame › an old climbing save opened straight from the title still shows the rising light (10.2s)
+  ✓  125 [phone] › test/browser/endgame.spec.js:295:3 › the endgame › quitting while the light rises leaves the victory behind with its run (13.8s)
+  ✓  127 [phone] › test/browser/endgame.spec.js:342:3 › the endgame › a run saved on the old climb out loads as won (10.7s)
+  ✓  130 [phone] › test/browser/features.spec.js:7:3 › dungeon features › a secret door can be found by walking into the wall that hides it (6.6s)
+  ✓  129 [phone] › test/browser/endgame.spec.js:389:1 › the end screen lists the lessons learnt at each level, with a count for one learnt twice (11.0s)
+  ✓  128 [phone] › test/browser/endgame.spec.js:358:1 › a second death opens the end screen at its title, not where the last one was scrolled to (16.6s)
+  ✓  131 [phone] › test/browser/features.spec.js:24:3 › dungeon features › a fountain heals once and then runs dry (8.6s)
+  ✓  132 [phone] › test/browser/features.spec.js:44:3 › dungeon features › a missile weapon reaches down a corridor and a champion is tougher (9.4s)
+  ✓  133 [phone] › test/browser/features.spec.js:80:3 › dungeon features › a champion near says on the bar what its mark makes it do, with the whole of it in the title (8.8s)
+  ✓  134 [phone] › test/browser/features.spec.js:93:3 › dungeon features › unfamiliar potions read as an appearance until one is drunk (8.0s)
+  ✓  135 [phone] › test/browser/features.spec.js:119:3 › dungeon features › a strong character can force a locked door without the key (8.2s)
+  ✓  136 [phone] › test/browser/features.spec.js:148:3 › dungeon features › a fighter can take a second blade, and the shield hand knows it (9.7s)
+  ✓  137 [phone] › test/browser/features.spec.js:184:3 › dungeon features › a cleric is offered no second blade (8.8s)
+  ✓  138 [phone] › test/browser/features.spec.js:195:3 › dungeon features › the Use button says Descend when you face the stairs, and taking them works (9.4s)
+  ✓  139 [phone] › test/browser/features.spec.js:220:3 › dungeon features › a scroll of mapping shows the whole level the moment the map opens (9.4s)
+  ✓  140 [phone] › test/browser/features.spec.js:244:3 › dungeon features › with the rolls hidden, an encounter shows its odds without the dice behind them (8.2s)
+  ✓  141 [phone] › test/browser/features.spec.js:271:3 › dungeon features › a tap already on its way when an encounter opens does not answer it (8.6s)
+  ✓  142 [phone] › test/browser/features.spec.js:308:3 › dungeon features › an encounter asks, shows the odds, cannot be dodged, and reports what it did (11.1s)
+  ✓  143 [phone] › test/browser/features.spec.js:349:3 › dungeon features › a level earned in an encounter waits until its result has been read, and nothing is left stuck open (11.7s)
+  ✓  144 [phone] › test/browser/features.spec.js:379:3 › dungeon features › an unknown potion can be studied from the pack, with the odds on the button (9.4s)
+  ✓  145 [phone] › test/browser/features.spec.js:400:3 › dungeon features › a relic picked up from the floor shows in gold, with its powers and story (10.0s)
+  ✓  146 [phone] › test/browser/features.spec.js:424:3 › dungeon features › what is found wears the colour of its grade, a legend says so, and this run's finds keep it (11.1s)
+  ✓  147 [phone] › test/browser/features.spec.js:459:3 › dungeon features › unknown gear shows a ?, and a cursed piece put on will not come off (10.0s)
+  ✓  148 [phone] › test/browser/features.spec.js:487:3 › dungeon features › a spell that cannot be cast says why inside the spell list (8.6s)
+  ✓  150 [phone] › test/browser/features.spec.js:522:3 › dungeon features › Quick Start puts a fitting random hero in the dungeon in two taps (6.1s)
+  ✓  149 [phone] › test/browser/features.spec.js:499:3 › dungeon features › Lightning Bolt cast from the spell list fells a whole group of three (9.6s)
+  ✓  152 [phone] › test/browser/features.spec.js:550:3 › dungeon features › a basilisk readying its gaze says to turn away, over a tip already showing; an answered trick says there is an opening (9.4s)
+  ✓  151 [phone] › test/browser/features.spec.js:538:3 › dungeon features › text size changes the whole interface and is remembered (10.7s)
+  ✓  153 [phone] › test/browser/features.spec.js:573:3 › dungeon features › a ghoul's reaching claw says to strike it, and a web says fire burns it only to a hero with fire (9.5s)
+  ✓  154 [phone] › test/browser/features.spec.js:597:3 › dungeon features › a hero with no fire is told to tear free of a web (8.4s)
+  ✓  155 [phone] › test/browser/features.spec.js:608:3 › dungeon features › once three foes are down, a quiet moment says where the hidden combat rolls are turned on (10.4s)
+  ✓  156 [phone] › test/browser/features.spec.js:630:3 › dungeon features › the newer things are each told once at a quiet moment: an oil, a job on its floor, a companion's trick, a mastered path; and the Warlord's throne in the fight (24.3s)
+  ✓  158 [phone] › test/browser/features.spec.js:689:3 › dungeon features › a drowned one shows only as a ripple until it rises, and is told when it does; an eyeless is told as it comes near (17.9s)
+  ✓  157 [phone] › test/browser/features.spec.js:660:3 › dungeon features › a puffcap coming close is told once: its spores, and how to answer them; not to a druid, who breathes them (21.1s)
+  ✓  160 [phone] › test/browser/features.spec.js:745:3 › dungeon features › a tip lies over the log: off the fight in the view, and off the controls (7.8s)
+  ✓  159 [phone] › test/browser/features.spec.js:715:3 › dungeon features › a trick's warning goes once the trick has come and gone, and no log line runs under the Log button (10.6s)
+  ✓  161 [phone] › test/browser/features.spec.js:762:3 › dungeon features › every tip fits whole, over the log and below the fight, on a small phone and a large one (9.8s)
+  ✓  163 [phone] › test/browser/features.spec.js:803:3 › dungeon features › the first foe is taught at once, over the controls tip (7.1s)
+  ✓  162 [phone] › test/browser/features.spec.js:787:3 › dungeon features › the controls tip gives way once the hero moves, and the dungeon waits while it is read (9.1s)
+  ✓  165 [phone] › test/browser/features.spec.js:854:3 › dungeon features › a first blow not stepped back from is called too slow if it lands, and time runs on after it (9.6s)
+  ✓  164 [phone] › test/browser/features.spec.js:818:3 › dungeon features › the first fight is coached: face it, strike it, step back from its blow with time slowed (15.3s)
+  ✓  166 [phone] › test/browser/features.spec.js:882:3 › dungeon features › a trick's first coming slows time while its answer is read, and only while it is coming (12.2s)
+  ✓  168 [phone] › test/browser/features.spec.js:937:3 › dungeon features › a first rat is taught with a step aside, as it pounces after a step back (9.5s)
+  ✓  167 [phone] › test/browser/features.spec.js:900:3 › dungeon features › the step-back lesson waits for the next blow if the first foe dies first, and says to step aside with a wall behind (11.3s)
+  ✓  169 [phone] › test/browser/features.spec.js:956:3 › dungeon features › a rat at your side is taught with a step forward or back, and a lunge that follows a step away is called a lunge (9.2s)
+  ✓  170 [phone] › test/browser/features.spec.js:982:3 › dungeon features › the pack has two ring fingers, a throat and a cloak, and an unknown ring is put on and named (9.6s)
+  ✓  171 [phone] › test/browser/features.spec.js:998:3 › dungeon features › with both fingers taken, a third ring asks which one comes off (8.4s)
+  ✓  172 [phone] › test/browser/features.spec.js:1020:3 › dungeon features › the Hero sheet gives a ring its real amount, a curse's minus included, and two of a kind once (8.4s)
+  ✓  174 [phone] › test/browser/features.spec.js:1060:3 › dungeon features › a fire scroll's log line and a draught's healing show when they land, not before (8.6s)
+  ✓  173 [phone] › test/browser/features.spec.js:1040:3 › dungeon features › what lies underfoot shows at the foot of the view, and a tap there takes it (11.8s)
+  ✓  175 [phone] › test/browser/features.spec.js:1107:3 › dungeon features › a tip shows the first time, only once, and the menu can turn tips off (14.2s)
+  ✓  176 [phone] › test/browser/features.spec.js:1136:3 › dungeon features › a dark floor is seen darker, and a flooded one shows its water (8.6s)
+  ✓  177 [phone] › test/browser/features.spec.js:1159:3 › dungeon features › an oil cask is told once and kicked over spills oil; set alight it burns in the view, the fire is told, and it burns out to ash (13.4s)
+  ✓  178 [phone] › test/browser/features.spec.js:1188:3 › dungeon features › the Menu turns endless life, spell points and gold on and off for testing, each asking a second tap while the run counts; the HUD says it is a test run (18.9s)
+  ✓  179 [phone] › test/browser/features.spec.js:1239:3 › dungeon features › testing aids left on are switched off when a run that counts begins or is taken up again; a test run taken up keeps them (20.3s)
+  ✓  181 [phone] › test/browser/features.spec.js:1349:3 › dungeon features › the status line says when the hero stands in spilt oil or a puddle, which the view cannot show underfoot (8.4s)
+  ✓  180 [phone] › test/browser/features.spec.js:1277:3 › dungeon features › the Menu's testing tools: reveal the floor, show every monster, be given an item, gain a level and go to a floor (18.6s)
+  ✓  182 [phone] › test/browser/features.spec.js:1363:3 › dungeon features › a burning door burns on its own face: flames across the planks, not only on the floor before it (8.9s)
+  ✓  183 [phone] › test/browser/features.spec.js:1399:3 › dungeon features › a barrel that creaks brings the mimic tip while still shut; a sprung snare snaps across the foot of the view (9.0s)
+  ✓  184 [phone] › test/browser/features.spec.js:1451:3 › dungeon features › a smouldering floor: a crack heating up glows over the squares it will flare, the tip says to step clear, and the row warns when your own square is in it (9.8s)
+  ✓  185 [phone] › test/browser/features.spec.js:1487:3 › dungeon features › a floor of tremors: grit rings where rock will land, the tip says to step off, and the rock comes down (9.8s)
+  ✓  187 [phone] › test/browser/features.spec.js:1551:3 › dungeon features › standing in fire shows flames licking up the foot of the view, and they go when you step out (8.8s)
+  ✓  186 [phone] › test/browser/features.spec.js:1525:3 › dungeon features › the title says how the last run ended; the Menu draws combat numbers large; the pack sorts like with like (14.3s)
+  ✓  188 [phone] › test/browser/features.spec.js:1572:3 › dungeon features › a flask of lamp oil is thrown from the pack and spills where it lands (9.9s)
+  ✓  189 [phone] › test/browser/features.spec.js:1592:3 › dungeon features › a puffcap is drawn in front of you, and a blow from beside it bursts it in spores (10.0s)
+  ✓  190 [phone] › test/browser/features.spec.js:1614:3 › dungeon features › Calm view in the menu stops the shake and the dust, and is remembered (15.1s)
+  ✓  191 [phone] › test/browser/features.spec.js:1641:3 › dungeon features › a save code from the menu carries the hero to a fresh browser; a bad code says why (25.1s)
+  ✓  192 [phone] › test/browser/features.spec.js:1672:3 › dungeon features › a returning player is told once what is new; a new player is not; dismissing or starting a run puts it away (26.0s)
+  ✓  193 [phone] › test/browser/features.spec.js:1712:3 › dungeon features › a charm in the pack is given to the hound from its card, and the Hero sheet says it wears it (17.6s)
+  ✓  194 [phone] › test/browser/features.spec.js:1747:3 › dungeon features › a trader brings out a whetstone for a sellsword at your side; bought, it is given from its card, and the Hero sheet says they wear it (13.0s)
+  ✓  195 [phone] › test/browser/features.spec.js:1783:3 › dungeon features › a hound that has come down two floors at the hero's side is blooded, and the Hero sheet says what it has learned (13.3s)
+  ✓  196 [phone] › test/browser/features.spec.js:1813:3 › dungeon features › a starving hound fed on the way follows the hero, shows in the view, and stays or comes when told (15.7s)
+  ✓  197 [phone] › test/browser/features.spec.js:1876:3 › dungeon features › a sellsword waits for hire leaning on the sword; paid, they follow, drawn as themselves, and lean on it again when told to stay (12.5s)
+  ✓  198 [phone] › test/browser/features.spec.js:1907:3 › dungeon features › a healer kneels by a dead lamp; given a share of food they follow, drawn as themselves, tend the hero between fights, and the Hero sheet counts it (12.8s)
+  ✓  199 [phone] › test/browser/features.spec.js:1942:3 › dungeon features › a goblin let out of its cage follows, and the Use button picks a locked door there is no key for (11.2s)
+  ✓  200 [phone] › test/browser/features.spec.js:1989:3 › dungeon features › left-handed controls in the menu swap the pad and the buttons, and are remembered (13.9s)
+  ✓  202 [phone] › test/browser/feel.spec.js:40:1 › the mix has a limiter, and the music steps back under a level gained (8.7s)
+  ✓  201 [phone] › test/browser/feel.spec.js:8:1 › an overlay or a screen fades up with the sound of a page, and a calm view has no fade (11.8s)
+  ✓  205 [phone] › test/browser/feel.spec.js:107:1 › the title shows its key art, framed for how the phone is held, drifting slowly, and still in a calm view (8.9s)
+  ✓  203 [phone] › test/browser/feel.spec.js:50:1 › the title opens out of the dark once a visit, a tap ends it at once and starts the swell, and a calm view has none (17.9s)
+  ✓  204 [phone] › test/browser/feel.spec.js:84:1 › each floor is named over the view as the hero arrives, once, and a calm view leaves it to the log (16.5s)
+  ✓  207 [phone] › test/browser/fire-feedback.spec.js:43:1 › fire flares locally at impact, fades out, and Calm view holds a smaller still glow (4.1s)
+  ✓  206 [phone] › test/browser/fire-feedback.spec.js:5:1 › Burning Hands keeps its cost and impact timing, with a readable target and warning (12.0s)
+  ✓  210 [phone] › test/browser/gear-tools.spec.js:75:1 › @mobile both-hand previews describe stowed shields and blocked choices without equipping (10.7s)
+  ✓  208 [phone] › test/browser/gear-tools.spec.js:20:1 › @mobile three belt slots use existing actions, keep counts and survive reload (17.9s)
+  ✓  209 [phone] › test/browser/gear-tools.spec.js:50:1 › @mobile favourites block dropping, individual sales and bulk sales (16.9s)
+  ✓  211 [phone] › test/browser/gear-tools.spec.js:97:1 › @mobile relic sets distinguish discoveries, carried pieces and active bonuses (10.9s)
+  ✓  212 [phone] › test/browser/gear-tools.spec.js:118:1 › @mobile current companion card shows health, learned abilities and waiting or fallen state (11.4s)
+  ✓  213 [phone] › test/browser/gear-tools.spec.js:133:1 › @mobile floor haul records actual pickups once, excludes purchases and persists on reload (13.3s)
+  ✓  216 [phone] › test/browser/gear-tools.spec.js:186:1 › @mobile local gear preferences reject invalid ids, escape labels and reset for a new run (12.8s)
+  ✓  214 [phone] › test/browser/gear-tools.spec.js:154:119 › @mobile gear tools remain accessible with double text upright (23.0s)
+  ✓  215 [phone] › test/browser/gear-tools.spec.js:154:119 › @mobile gear tools remain accessible with double text sideways (22.8s)
+  ✓  217 [phone] › test/browser/held-equipment.spec.js:5:36 › held equipment keeps its object inside the 160-pixel view @mobile (9.8s)
+  ✓  218 [phone] › test/browser/held-equipment.spec.js:5:36 › held equipment keeps its object inside the 360-pixel view @mobile (9.1s)
+  ✓  219 [phone] › test/browser/held-equipment.spec.js:5:36 › held equipment keeps its object inside the 464-pixel view @mobile (9.2s)
+  ✓  220 [phone] › test/browser/held-equipment.spec.js:28:1 › bow grips follow fitted nocks, release matches combat, and action hands are not duplicated @mobile (8.5s)
+  ✓  221 [phone] › test/browser/held-equipment.spec.js:65:1 › cached bow flex and surface glints respect Calm view and preserve existing named silhouettes @mobile (8.0s)
+  ✓  222 [phone] › test/browser/held-equipment.spec.js:88:1 › fitted shields and foci leave floor loot visible in a tall view @mobile (8.7s)
+  ✓  223 [phone] › test/browser/interface.spec.js:22:3 › interface › every control on the game screen is at least 44 pixels (8.2s)
+  ✓  224 [phone] › test/browser/interface.spec.js:40:3 › interface › a thumb that strays up off the d-pad does not open the log; its own button does, and a press just above an arrow is that arrow (10.1s)
+  ✓  225 [phone] › test/browser/interface.spec.js:68:3 › interface › a scroll can be read in a fight on a small phone with a full pack, and the pack gets out of the way (9.6s)
+  ✓  226 [phone] › test/browser/interface.spec.js:95:3 › interface › a scroll or a draught used from the pack, even out of a fight, closes it and is seen to be read or drunk (12.3s)
+  ✓  227 [phone] › test/browser/interface.spec.js:141:3 › interface › an oil in the pack is worked into the weapon, and the blows it has left show under the bars (10.7s)
+  ✓  228 [phone] › test/browser/interface.spec.js:165:3 › interface › the quick button offers a Scroll of Lightning at two foes in a line, and Frost Oil for a foe the cold bites (10.1s)
+  ✓  229 [phone] › test/browser/interface.spec.js:203:3 › interface › a scroll worth reading now is one tap away at the end of the log, and gone when it is not (9.4s)
+  ✓  230 [phone] › test/browser/interface.spec.js:233:3 › interface › the text a player reads clears the 4.5:1 contrast minimum (8.2s)
+  ✘  231 [phone] › test/browser/interface.spec.js:260:3 › interface › a crowded level still renders inside a 60fps budget (9.4s)
+(node:630709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:630709) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  233 [phone] › test/browser/interface.spec.js:314:3 › interface › the message panel keeps scrolling after the log fills up (7.4s)
+  ✓  232 [phone] › test/browser/interface.spec.js:284:3 › interface › the title screen animates and survives a round trip into a game (11.0s)
+  ✓  234 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a small phone (7.7s)
+  ✓  235 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a iPhone SE (7.1s)
+  ✓  236 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a tall phone (7.3s)
+  ✓  237 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a landscape phone (7.4s)
+  ✓  238 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a small landscape (7.8s)
+  ✓  239 [phone] › test/browser/interface.spec.js:354:5 › interface › every control can be reached on a desktop (8.0s)
+  ✓  240 [phone] › test/browser/interface.spec.js:372:3 › interface › a phone held sideways puts the view beside the controls, filled and with nothing off the edge (7.4s)
+  ✓  241 [phone] › test/browser/interface.spec.js:402:3 › interface › sideways the view is big, the log shows three lines, a tip is small print, and nothing sits over the fight or the hands (7.5s)
+  ✓  242 [phone] › test/browser/interface.spec.js:444:3 › interface › upright, the quick scroll is out of the view, off the shield or focus held low in its corner (9.4s)
+  ✓  243 [phone] › test/browser/interface.spec.js:468:3 › interface › on a tall phone the view grows into the spare height without stretching (9.1s)
+  ✓  244 [phone] › test/browser/interface.spec.js:489:3 › interface › on a narrow phone the message box wraps rather than cutting off the roll (8.5s)
+  ✓  247 [phone] › test/browser/interface.spec.js:580:45 › interface › dismissing a fact respects sound being turned off @mobile (5.1s)
+  ✓  246 [phone] › test/browser/interface.spec.js:562:3 › interface › unread news takes priority over a fact without asking for a second dismissal @mobile (8.6s)
+  ✓  248 [phone] › test/browser/interface.spec.js:580:45 › interface › dismissing a fact respects music being turned off @mobile (4.6s)
+  ✓  249 [phone] › test/browser/interface.spec.js:589:3 › interface › a fresh floor is hidden until seen, and mapping stops at the fog @mobile (7.8s)
+  ✓  245 [phone] › test/browser/interface.spec.js:527:3 › interface › a fact greets a quiet title, its first tap starts the theme, and it stays dismissed for the visit @mobile (23.7s)
+  ✓  250 [phone] › test/browser/interface.spec.js:616:3 › interface › both maps wait for the opening passage to finish @mobile (8.7s)
+  ✓  253 [phone] › test/browser/interface.spec.js:725:5 › layout › the title screen fits a small phone without sideways scroll (4.4s)
+  ✓  251 [phone] › test/browser/interface.spec.js:630:3 › interface › the corner map draws a torch as the wall it is set into (8.2s)
+  ✓  254 [phone] › test/browser/interface.spec.js:725:5 › layout › the title screen fits a tall phone without sideways scroll (4.8s)
+  ✓  252 [phone] › test/browser/interface.spec.js:687:3 › interface › the pack compares a weapon against the one already in hand (11.0s)
+  ✓  255 [phone] › test/browser/interface.spec.js:725:5 › layout › the title screen fits a landscape phone without sideways scroll (5.1s)
+  ✓  256 [phone] › test/browser/interface.spec.js:725:5 › layout › the title screen fits a desktop without sideways scroll (6.9s)
+  ✓  257 [phone] › test/browser/interface.spec.js:741:3 › round five playtest › trying another class and coming back gives back the same numbers, and a background bonus shows (6.7s)
+  ✓  258 [phone] › test/browser/interface.spec.js:760:3 › round five playtest › How to Play is split into pages, one shown at a time (7.5s)
+  ✓  261 [phone] › test/browser/interface.spec.js:803:3 › round five playtest › a tap on a tip puts it away, and does not act in the dungeon (8.9s)
+  ✓  259 [phone] › test/browser/interface.spec.js:780:5 › round five playtest › a tip lies over the log, clear of the top half of the view and of the newest line, held upright (10.6s)
+  ✓  260 [phone] › test/browser/interface.spec.js:780:5 › round five playtest › a tip lies over the log, clear of the top half of the view and of the newest line, held sideways (10.9s)
+  ✓  262 [phone] › test/browser/interface.spec.js:823:3 › talents › an even level offers a class talent, and the Hero sheet lists it (9.4s)
+  ✓  264 [phone] › test/browser/interface.spec.js:874:3 › talents › a tap already on its way when the level-up opens does not choose, and the screen says what the level gave (9.2s)
+  ✓  263 [phone] › test/browser/interface.spec.js:845:3 › talents › a talent passed over is held for the next offer, first among the cards and marked as held (10.7s)
+  ✓  266 [phone] › test/browser/interface.spec.js:933:3 › gear powers › overlays are named dialogs with labelled close buttons, and the game behind one is out of reach (8.3s)
+  ✓  265 [phone] › test/browser/interface.spec.js:917:3 › gear powers › a powered piece names its power in the pack, and the Hero sheet lists what the gear gives (10.2s)
+  ✓  267 [phone] › test/browser/interface.spec.js:951:3 › gear powers › the phone's back gesture closes what is open, and in the dungeon opens the Menu rather than leaving the game (10.7s)
+  ✓  268 [phone] › test/browser/interface.spec.js:981:5 › gear powers › every tip fits its box on a small phone held sideways (8.6s)
+  ✓  269 [phone] › test/browser/interface.spec.js:981:5 › gear powers › every tip fits its box on the smallest upright phone (7.9s)
+  ✓  271 [phone] › test/browser/interface.spec.js:1023:3 › the screens around the dungeon › the class picker shows each class in a line, and the whole of the chosen one beneath; sideways all six in one row (6.1s)
+  ✓  270 [phone] › test/browser/interface.spec.js:1001:3 › gear powers › a reload with the Pack open stays on the game, rather than going back a page (13.0s)
+  ✓  272 [phone] › test/browser/interface.spec.js:1044:3 › the screens around the dungeon › the menu is in groups, its testing tools folded until opened, and open while one is on (11.2s)
+  ✓  273 [phone] › test/browser/interface.spec.js:1072:3 › the screens around the dungeon › the map fills the width it has, and zooms in about the hero by its buttons or a pinch (8.8s)
+  ✓  274 [phone] › test/browser/interface.spec.js:1098:3 › the screens around the dungeon › the pack sums up what is worn, the hero sheet is grouped, and the messages can be narrowed to one kind (9.5s)
+  ✓  275 [phone] › test/browser/interface.spec.js:1126:3 › the screens around the dungeon › every control wears a drawn icon from the one set, not a character the phone may draw as an emoji (7.7s)
+  ✓  277 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places fighter equipment and keeps its actions (12.2s)
+  ✓  276 [phone] › test/browser/interface.spec.js:1143:3 › the screens around the dungeon › the bottle says Drink and how many; Continue is shown only with a run to continue (14.5s)
+  ✓  278 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places mage equipment and keeps its actions (10.8s)
+  ✓  279 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places thief equipment and keeps its actions (11.1s)
+  ✓  280 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places cleric equipment and keeps its actions (10.8s)
+  ✓  281 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places ranger equipment and keeps its actions (10.6s)
+  ✓  283 [phone] › test/browser/interface.spec.js:1207:1 › @mobile pack silhouette yields to large text without clipping equipment (8.9s)
+  ✓  282 [phone] › test/browser/interface.spec.js:1162:3 › @mobile pack silhouette places druid equipment and keeps its actions (11.8s)
+  ✓  284 [phone] › test/browser/interface.spec.js:1230:1 › @mobile one left-hand slot follows shield, off-hand blade and two-handed grip (11.7s)
+  ✓  285 [phone] › test/browser/interface.spec.js:1268:1 › @mobile item sheet keeps actions in reach and Back restores the selected item (13.5s)
+  ✓  286 [phone] › test/browser/interface.spec.js:1304:1 › @mobile slot-first equipment filters candidates and previews without changing the hero (11.6s)
+  ✓  287 [phone] › test/browser/interface.spec.js:1340:1 › @mobile bag categories and compact view preserve capacity and item actions (12.5s)
+  ✓  289 [phone] › test/browser/interface.spec.js:1394:1 › @mobile unknown quality inspections keep powers and stat comparisons hidden (9.0s)
+  ✓  290 [phone] › test/browser/interface.spec.js:1407:1 › @mobile shop inspection shares item presentation without buying, selling or arming payment (10.7s)
+  ✓  288 [phone] › test/browser/interface.spec.js:1370:1 › @mobile recent finds survive reload, clear on inspection and return for a larger stack (14.8s)
+  ✓  291 [phone] › test/browser/layout.spec.js:23:3 › on a tablet held sideways the map is docked beside the view and follows the hero; every control is on the screen (10.3s)
+  ✓  292 [phone] › test/browser/layout.spec.js:23:3 › on a Steam Deck the map is docked beside the view and follows the hero; every control is on the screen (9.3s)
+  ✓  293 [phone] › test/browser/layout.spec.js:23:3 › on a desktop window the map is docked beside the view and follows the hero; every control is on the screen (10.4s)
+  ✓  294 [phone] › test/browser/layout.spec.js:53:1 › a tablet held upright keeps its corner map, larger, and a phone has no docked map (16.4s)
+  ✓  295 [phone] › test/browser/melee-feedback.spec.js:17:1 › a close blow leaves a short impact; blocked plates and arrows do not claim a melee hit (25.9s)
+  ✓  296 [phone] › test/browser/melee-feedback.spec.js:48:1 › the impact is visible, smaller in Calm view, and hidden behind stone (24.4s)
+  ✘  299 [phone] › test/browser/melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile (8.9s)
+  ✘  298 [phone] › test/browser/melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile (10.8s)
+  ✘  297 [phone] › test/browser/melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view (22.8s)
+
+
+  1) [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m26[39m
+
+    Call Log:
+    - Timeout 25000ms exceeded while waiting on the predicate
+
+      21 |     // and the rest are painted in the time to spare, well before a first floor
+      22 |     // (a creature a piece at a time, so frames stay smooth, takes a few seconds longer in all)
+    > 23 |     await expect.poll(async () => (await waiting()).length, { timeout: 25_000 }).toBe(0);
+         |     ^
+      24 |     expect(errors).toEqual([]);
+      25 |   });
+      26 |
+        at /workspace/Dungeon-Hack-Mobile/test/browser/art.spec.js:23:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/art-art-pictures-the-title-50008--are-all-painted-soon-after-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [phone] › test/browser/interface.spec.js:260:3 › interface › a crowded level still renders inside a 60fps budget
+
+    Error: one frame must fit well inside 16.7ms
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: < [32m8[39m
+    Received:   [31m10.327499999850989[39m
+
+      279 |     });
+      280 |     expect(perf.monsters).toBeGreaterThan(30);
+    > 281 |     expect(perf.ms, 'one frame must fit well inside 16.7ms').toBeLessThan(8);
+          |                                                              ^
+      282 |   });
+      283 |
+      284 |   test('the title screen animates and survives a round trip into a game', async ({ page }) => {
+        at /workspace/Dungeon-Hack-Mobile/test/browser/interface.spec.js:281:62
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/interface-interface-a-crow-78d3a-nders-inside-a-60fps-budget-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/interface-interface-a-crow-78d3a-nders-inside-a-60fps-budget-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/interface-interface-a-crow-78d3a-nders-inside-a-60fps-budget-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/interface-interface-a-crow-78d3a-nders-inside-a-60fps-budget-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [phone] › test/browser/melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view
+
+    Test was interrupted.
+
+    Error: page.waitForFunction: Test ended.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at setup (/workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:14:9)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:88:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/melee-feedback-a-late-wind-386fd-side-an-impact-in-Calm-view-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/melee-feedback-a-late-wind-386fd-side-an-impact-in-Calm-view-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/melee-feedback-a-late-wind-386fd-side-an-impact-in-Calm-view-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/melee-feedback-a-late-wind-386fd-side-an-impact-in-Calm-view-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [phone] › test/browser/melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile
+
+    Test was interrupted.
+
+    Error: page.waitForFunction: Test ended.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at setup (/workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:14:9)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:103:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/melee-feedback-shot-warnin-8ea80-uped-special-attacks-mobile-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/melee-feedback-shot-warnin-8ea80-uped-special-attacks-mobile-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/melee-feedback-shot-warnin-8ea80-uped-special-attacks-mobile-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/melee-feedback-shot-warnin-8ea80-uped-special-attacks-mobile-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [phone] › test/browser/melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile
+
+    Test was interrupted.
+
+    Error: page.waitForFunction: Test ended.
+
+       at helpers.js:172
+
+      170 |  */
+      171 | async function artReady(page, wanted = null) {
+    > 172 |   await page.waitForFunction(wanted => wanted
+          |              ^
+      173 |     ? Object.entries(wanted).every(([kind, poses]) => {
+      174 |       const art = Assets.sprites[kind];
+      175 |       return art && poses.every(pose => !!art[pose]);
+        at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:172:14)
+        at setup (/workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:14:9)
+        at /workspace/Dungeon-Hack-Mobile/test/browser/melee-feedback.spec.js:142:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/melee-feedback-avoided-blo-5529f-ge-cue-or-extra-dice-mobile-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/melee-feedback-avoided-blo-5529f-ge-cue-or-extra-dice-mobile-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/melee-feedback-avoided-blo-5529f-ge-cue-or-extra-dice-mobile-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/melee-feedback-avoided-blo-5529f-ge-cue-or-extra-dice-mobile-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [phone] › test/browser/art.spec.js:8:3 › art › pictures the title does not need wait to be painted, arrive whole when asked for, and are all painted soon after
+    [phone] › test/browser/interface.spec.js:260:3 › interface › a crowded level still renders inside a 60fps budget
+  3 interrupted
+    [phone] › test/browser/melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view
+    [phone] › test/browser/melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile
+    [phone] › test/browser/melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile
+  634 did not run
+  294 passed (21.5m)
