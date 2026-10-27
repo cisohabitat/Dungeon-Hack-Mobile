@@ -1,0 +1,27 @@
+
+Running 6 tests using 2 workers
+
+(node:737306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737306) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/painted-world.spec.js:175:1 › native greatsword read and drink overlaps release one hand and restore both @mobile (8.6s)
+  ✓  2 [phone] › test/browser/painted-world.spec.js:227:73 › named ninth_circle read and drink overlaps use the released drive and restore both hands @mobile (18.4s)
+(node:737653) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737653) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone] › test/browser/painted-world.spec.js:227:73 › named heartroot read and drink overlaps use the released drive and restore both hands @mobile (15.8s)
+(node:737805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:737805) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [small] › test/browser/painted-world.spec.js:175:1 › native greatsword read and drink overlaps release one hand and restore both @mobile (8.5s)
+  ✓  5 [small] › test/browser/painted-world.spec.js:227:73 › named ninth_circle read and drink overlaps use the released drive and restore both hands @mobile (15.5s)
+  ✓  6 [small] › test/browser/painted-world.spec.js:227:73 › named heartroot read and drink overlaps use the released drive and restore both hands @mobile (14.0s)
+
+  6 passed (43.6s)

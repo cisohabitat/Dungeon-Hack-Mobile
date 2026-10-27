@@ -1,0 +1,43 @@
+{
+  "runtimeVersion": "0.9.49",
+  "runtimeBase": "a15ec7d3ddfda027086e69759906d4b1c7a05397",
+  "changedSpecSHA256": "2f0ee8bbf89e1df49b99bc0708cd1744cbf29983ce8f85a1cdeff153710c3702",
+  "focused": {
+    "passed": 6,
+    "duration": "43.6s",
+    "projects": [
+      "phone",
+      "small"
+    ]
+  },
+  "stress": {
+    "observations": 24,
+    "contexts": 12,
+    "classes": [
+      "fighter",
+      "mage"
+    ],
+    "widths": [
+      320,
+      390
+    ],
+    "cpuSlowdown": [
+      1,
+      4,
+      8
+    ],
+    "passed": 24
+  },
+  "originalControl": {
+    "observations": 2,
+    "driveMisses": 1,
+    "restorationPasses": 2
+  },
+  "limits": "Artificial Chromium CPU slowdown is not Safari. CI retains all suites. No product/art/rules change, version bump or balance simulation.",
+  "checks": {
+    "npmTest": "PASSED",
+    "ruleChecks": 751,
+    "ruleDuration": "1m28s",
+    "requiredCI": "Pending after push; all jobs retained."
+  }
+}

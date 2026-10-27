@@ -1352,3 +1352,12 @@ rectangle separately, preserving overlapping warnings as well as Calm view.
 Keep spell duration/impact phase, costs, hit flashes, corpse timing and dice
 unchanged. The native action review in `docs/visual/2026-10-27-combat-effects/`
 is distinct from deterministic synthetic pixel regressions in elemental-feedback.
+
+### Native staff overlap timing fixtures
+The named staff read/drink test prepares its first visible enemy and waits for
+art work before measuring the short swing. Start attack and consumable on a
+fresh animation frame, whose game loop has refreshed the presentation clock.
+A guessed timer can resume after the entire 330ms swing while raster work runs;
+waiting longer for the missed frame cannot recover it. Keep native actions,
+released `drive-one`, restored `rest-two`, both 5s polls and the 120s test limit.
+The diagnostic comparison lives in `docs/verification/2026-10-27-staff-timing/`.

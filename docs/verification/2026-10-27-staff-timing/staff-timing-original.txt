@@ -1,0 +1,2 @@
+{"width":320,"cls":"mage","rate":4,"type":"scroll_map","painting":322,"drive":false,"rest":true}
+{"width":320,"cls":"mage","rate":4,"type":"potion_heal","painting":313,"drive":true,"rest":true}

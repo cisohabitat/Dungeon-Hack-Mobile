@@ -1,0 +1,4083 @@
+{
+  "scope": "Chromium diagnostic at artificial CPU slowdown; exact old fixture action order and assertion window. Not Safari evidence; no source/dice/renderer substitutions.",
+  "rows": [
+    {
+      "rate": 1,
+      "type": "scroll_map",
+      "born": 3337,
+      "at": 3326.0999999940395,
+      "swingAt": 3270.3,
+      "swingMs": 330,
+      "painting": 321,
+      "useAt": 3384.5999999940395,
+      "consumed": true,
+      "drive": true,
+      "rest": true,
+      "trace": [
+        {
+          "at": 3343.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 3361.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 3403.9000000059605,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3422.199999988079,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3439.0999999940395,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3451.0999999940395,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3466.5999999940395,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3481.0999999940395,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3498.9000000059605,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3522.699999988079,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3535.4000000059605,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 3552.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3562.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3591.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3599.5999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3625.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3631.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3653.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3663,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3684.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3691.9000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3727.7999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3736.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3745.7999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3772.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3778.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3799.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3811.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3826.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3844.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3865.4000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3876,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3892.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3911.4000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3925,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3945.2999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3964.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3978.7999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3997.4000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4011.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4027.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4041.2999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4057.7999999821186,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4075.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4094.4000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4111.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4127.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4143.5999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4162.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4182.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4207.4000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4214.799999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4229.9000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4245.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4259.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4279.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4292.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4321.9000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4328.799999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4340.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4357.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4383.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4400.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4408.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4425.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4443.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4468,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4473.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4495.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4510.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4526.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4547.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4558.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4580,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4595.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4611.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4630.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4649.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4670.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4675.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4695.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4707,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4725.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4741,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4775.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4781.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4820.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4825.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4848.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4899.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4907.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4925.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4970.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4975.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5008.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5014,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5048.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5053.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5057.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5074.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5090.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5114,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5125.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5142.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5161.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5178.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5196.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5211.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5241.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5246.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5265.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5281.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5295.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5307,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5326.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5345.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5360.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5374.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5395.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5413.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5433.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5445.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5460.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5480.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5495.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5511.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5524.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5544.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5557.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5579,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5606.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5611.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5623.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5642.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5663.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5674.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5691.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5708.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5724.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5740.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5764.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5775.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5791,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5809,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5830.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5841.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5860.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5882.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5896.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5909.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5928.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5957.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5962.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5975.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5992.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6016.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6035.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6041.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6058.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6076.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6094.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6112.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6142.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6148.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6166.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6179.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6191.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6207.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6226.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6243.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6257.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6279.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6297.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6317.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6323.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6344,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6366.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6385.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6390.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6425.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6429.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6449.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6464.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6477.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6490.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6509.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6535.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6540.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6557.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6576.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6593.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6608.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6624.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6645.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6656.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6675,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6693,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6709.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6724.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6739.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6760.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6775.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6791.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6829.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6834.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6841.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6867.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6874.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6896.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6907,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6927.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6940.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6961.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6975.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6995.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7013.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7025.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7046,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7067.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7073.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7090.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7107.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7123.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7142.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7172.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7176.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7193,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7210.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7227.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7244.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7260.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7273.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7293.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7309.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7329.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7340.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7356.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7375.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7392.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7410.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7431,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7441.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7456.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7480.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7492,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7507.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7526.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7545.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7561.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7579.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7590.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7609.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7623.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7643.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7662.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7673.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7727.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7736,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7743.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7786.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7793.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7822.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7826.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7854.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7859,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7884.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7889.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7928,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7932.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7957.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7962.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7992.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7997.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8029.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8035.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8041.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8071.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8076.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8106.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8111.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8139.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8144.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8194.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8198.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8227.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8232.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8244.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8261.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8275,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8290.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8309.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8323.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8342.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8357.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8386.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8391.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    },
+    {
+      "rate": 1,
+      "type": "potion_heal",
+      "born": 8470.1,
+      "at": 8426.5,
+      "swingAt": 8403.5,
+      "swingMs": 330,
+      "painting": 252,
+      "useAt": 8482.09999999404,
+      "consumed": true,
+      "drive": true,
+      "rest": true,
+      "trace": [
+        {
+          "at": 8430.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8442.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8458.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8477.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8495.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8508.09999999404,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8528,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8548.5,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8562.90000000596,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8579.699999988079,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8594.40000000596,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8611,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8625.5,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8641.699999988079,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8659.299999982119,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8680.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8693,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8708.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8726,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8745.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8757.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8776.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8792,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8809.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8826.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8842.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8857.799999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8874,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8892,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8910.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8927.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8944.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8962.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8976.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8991.40000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9009,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9026.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9042.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9061,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9075.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9091.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9108.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9136.299999982119,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9142.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9160.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9178,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9198.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9212.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9226.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9240.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9257.699999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9275,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9291.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9308.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9325,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9343.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9362.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9377,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9390.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9407.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9423.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9441.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9458.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9482.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9494.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9506.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9525.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9544.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9559,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9576.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9590.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9608,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9625.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9641.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9659.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9674.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9689.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9707,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9725.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9741,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9757.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9775.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9791.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9806.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9823.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9840.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9859.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9873.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9889.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9906.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9923.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9940.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9959.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9976,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9991.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10008.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10028.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10042,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10059.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10077.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10093.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10109.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10127.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10143,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10166.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10173.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10195,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10207.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10225.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10242.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10257.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10275.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10290.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10307.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10323.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10340.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10357.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10373.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10390.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10407.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10427.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10440.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10456.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10473.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10490,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10507.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10523.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10540.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10557,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10573.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10589.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10606.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10623.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10640.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10656.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10673.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10690.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10707,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10724.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10741,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10756.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10773.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10790.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10806.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10823.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10839.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10856.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10873.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10890,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10906.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10923.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10940.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10956.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10973.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10990.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11006.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11023.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11040,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11056.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11073.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11090,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11106.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11123,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11139.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11156.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11173.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11195.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11206.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11224.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11243.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11256.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11274.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11290,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11306.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11323.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11340.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11357.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11373.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11390.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11406.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11424.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11440.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11456.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11473.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11490.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11506.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11523.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11541,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11557.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11574.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11591.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11607.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11624.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11641.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11657.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11675,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11690.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11707,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11723.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11740.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11756.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11773.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11789.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11806.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11823.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11840.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11856.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11873.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11890.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11906.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11923.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11940.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11958.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11981,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11989.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12006.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12023.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12039.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12057.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12074.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12090.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12107,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12123.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12140.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12156.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12174.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12190.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12206.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12223.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12241.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12258.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12273.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12290.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12306.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12323.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12339.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12357.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12373.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12389.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12406.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12423.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12440.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12456.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12473.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12490.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12507.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12524.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12540.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12559.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12574.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12590.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12607,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12623.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12640.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12656.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12673.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12689.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12706.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12723.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12739.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12756.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12774.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12790.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12806.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12824.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12840.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12856.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12872.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12890.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12906.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12923.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12940.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12956.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12974.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12990.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13006.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13024.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13039.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13057.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13074.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13090.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13107.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13123.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13140.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13160.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13173.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13190,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13206.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13223.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13241.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13256.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13272.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13289.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13306.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13323,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13340.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13356.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13372.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13389.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13406.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13423.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13440.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13456.299999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13472.799999982119,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13489.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    },
+    {
+      "rate": 4,
+      "type": "scroll_map",
+      "born": 3003.8,
+      "at": 2930.5999999940395,
+      "swingAt": 2737.1,
+      "swingMs": 330,
+      "painting": 324,
+      "useAt": 3077.7000000178814,
+      "consumed": true,
+      "drive": false,
+      "rest": true,
+      "trace": [
+        {
+          "at": 2969.800000011921,
+          "key": "mage-legend_heartroot-drive-two"
+        },
+        {
+          "at": 3061.7000000178814,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 3214.7000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3292.300000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3418.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3476.2000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3535.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3566.7000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3632,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3689.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3721.7000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3763.0999999940395,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3801.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3868,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 3906.7000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4006.2000000178814,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4045.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4076.2000000178814,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4106.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4135.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4171.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4207.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4238.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4265,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4295.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4320.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4352.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4380.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4410.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4437.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4459.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4493,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4525.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4601.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4627.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4653.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4681.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4714.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4751.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4789.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4818.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4852.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4885.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4915.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4944.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4976.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5007.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5033.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5058.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5082.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5103.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5182.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5206.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5228.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5250,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5272.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5301.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5329.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5353,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5382.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5408,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5436.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5459,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5485.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5509.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5539.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5568.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5596.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5625.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5640.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5783.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5812.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5835.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5860.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5895.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5923.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5949.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5981.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6006.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6035,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6072.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6102,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6131.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6157.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6183.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6207.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6249.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6270.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6337,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6367.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6401.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6440.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6470,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6503.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6536.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6563.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6591.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6624.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6675.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6699.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6739.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6768.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6793.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6824,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6887.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6924.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6964.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6996.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7024.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7053.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7081.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7112.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7146.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7174.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7221.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7257.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7293.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7324.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7347.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7377.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7414,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7479.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7513.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7548.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7587.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7620,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7652.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7675.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7708.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7730.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7753,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7777.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7786,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7814,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7845.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7869.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7891.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7924.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7958.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8014.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8049.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8079.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8108.5,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    },
+    {
+      "rate": 4,
+      "type": "potion_heal",
+      "born": 8270.2,
+      "at": 8213.59999999404,
+      "swingAt": 8136.8,
+      "swingMs": 330,
+      "painting": 314,
+      "useAt": 8343.5,
+      "consumed": true,
+      "drive": true,
+      "rest": true,
+      "trace": [
+        {
+          "at": 8239.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8323.40000000596,
+          "key": "mage-legend_heartroot-drive-two"
+        },
+        {
+          "at": 8374.59999999404,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8440,
+          "key": "mage-legend_heartroot-drive-one"
+        },
+        {
+          "at": 8478.200000017881,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8537.300000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8647.40000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8681.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8734.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8787.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8828.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8865.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8902.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8940.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 8983.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9011.09999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9040.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9076.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9122.5,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 9195.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9237.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9279.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9318,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9376.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9423.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9460.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9499.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9525.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9551,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9591.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9623,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9655.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9687.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9741.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9776.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9814.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9844,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9871.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9915.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9934,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9956.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10003.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10035,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10074.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10110.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10140.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10181.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10213.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10240.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10294,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10328,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10360.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10395.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10422.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10463,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10484.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10513.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10541.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10572.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10647.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10681.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10715.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10747,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10787.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10832.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10890.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10921.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10956.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10986.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11014.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11052.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11078.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11106.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11131.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11157.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11180.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11206,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11241.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11268.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11302.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11336.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11359.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11395.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11459.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11489.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11510.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11538.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11571.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11602.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11630.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11671.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11701,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11733,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11764,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11799.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11833.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11864.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11896.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11924.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11955.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11977,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12053.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12103.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12142.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12189.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12235.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12267.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12313,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12358.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12409,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12448.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12484.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12524.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12563.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12624.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12654.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12678.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12706.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12729.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12751.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12773.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12797.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12824.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12859.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12886.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12917,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12944.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12971.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13000.200000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13033,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13073.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13105.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13142.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13241,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13276.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13306.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13333.700000017881,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13360.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    },
+    {
+      "rate": 8,
+      "type": "scroll_map",
+      "born": 4073.3,
+      "at": 3761.199999988079,
+      "swingAt": 3273.4,
+      "swingMs": 330,
+      "painting": 324,
+      "useAt": 4489.9000000059605,
+      "consumed": true,
+      "drive": false,
+      "rest": true,
+      "trace": [
+        {
+          "at": 3908.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4381.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 4640.9000000059605,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 4999,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 5341.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5455.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5524.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5641,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5721,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5804.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 5901.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6140.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6211.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6442.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6548.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6637,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6792.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6872.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6901.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 6974.9000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7070,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7150.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7223.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7280.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7633.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7705.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7764.5999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7829.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7891,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 7975.0999999940395,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8041.4000000059605,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8123,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8188.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8383,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8436.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8478.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8544.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8612.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8753.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8799.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8862.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 8928.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9045.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9055.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9109.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9171.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9187.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9267.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9367.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9464.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 9536.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    },
+    {
+      "rate": 8,
+      "type": "potion_heal",
+      "born": 9973.1,
+      "at": 9824.300000011921,
+      "swingAt": 9639.8,
+      "swingMs": 330,
+      "painting": 321,
+      "useAt": 10119.5,
+      "consumed": true,
+      "drive": false,
+      "rest": true,
+      "trace": [
+        {
+          "at": 9915.800000011921,
+          "key": "mage-legend_heartroot-drive-two"
+        },
+        {
+          "at": 10067.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 10198.40000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10309.300000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10441.59999999404,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10535.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10614.90000000596,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10725.199999988079,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10840.800000011921,
+          "key": "mage-legend_heartroot-rest-one"
+        },
+        {
+          "at": 10955.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11145.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11235.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11314,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11380.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11461.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11547.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11660.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11787.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11862.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 11950.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12044.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12128.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12176.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12257.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12315.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12444.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12520.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12582.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12643.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12712.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12772.800000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12834.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12896.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 12954.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13127.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13198.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13255.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13314.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13388.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13458.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13521.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13584.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13641,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13759.90000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13828,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13887.300000011921,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 13954.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14012.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14087.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14151,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14209.699999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14269.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14407.5,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14474.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14534.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14603.40000000596,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14669.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14749.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14832,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14908.199999988079,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 14974.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 15072.59999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        },
+        {
+          "at": 15139.09999999404,
+          "key": "mage-legend_heartroot-rest-two"
+        }
+      ]
+    }
+  ]
+}

@@ -233,8 +233,13 @@ for(const[cls,relic]of[['fighter','ninth_circle'],['mage','heartroot']])test(`na
  // while the completed rest frame is already painted.
  await expect.poll(()=>page.evaluate(({id,cls})=>window.__namedStaffFrames.every(([,m])=>Assets.held(id,m.pose,cls,m.two,m.lit)?.img.width===256),{id,cls}),{timeout:30000}).toBe(true);
  await page.evaluate(({id,cls})=>{const map=new Map();for(const[key,m]of window.__namedStaffFrames)map.set(Assets.held(id,m.pose,cls,m.two,m.lit).img,key);const ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;window.__namedStaff=[];ctx.drawImage=function(img,...args){if(map.has(img))window.__namedStaff.push({at:performance.now(),key:map.get(img)});return draw.call(this,img,...args);};},{id,cls});
- for(const t of['scroll_map','potion_heal']){
-  await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});const born=await page.evaluate(async t=>{const p=Game.player(),G=Game.state();p.nextAttack=0;G.blowGate=0;p.hp=700;window.__namedStaff=[];Game.input('attack');const fx=Game.renderState(performance.now()).fx;if(fx.swingAt<0)throw Error('No native staff attack');await new Promise(r=>setTimeout(r,fx.swingMs*.12));const it={t,q:1,e:0};p.inv.push(it);Game.useItem(it);if(p.inv.includes(it))throw Error('Native consumable did not run');return Game.renderState(performance.now()).fx[t==='scroll_map'?'readAt':'useAt'];},t);
+ // This measures a short native animation, so unrelated raster work must be
+ // finished first. A fresh frame also refreshes the game's presentation clock.
+ await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});
+ await artReady(page);
+ for(const [i,t] of ['scroll_map','potion_heal'].entries()){
+  if(i)await placeMonster(page,'orc',1,{hp:9999,maxHp:9999,nextAct:1e12,awake:true,spoke:true});
+  const born=await page.evaluate(t=>new Promise((resolve,reject)=>requestAnimationFrame(()=>{try{const p=Game.player(),G=Game.state();p.nextAttack=0;G.blowGate=0;p.hp=700;window.__namedStaff=[];Game.input('attack');const fx=Game.renderState(performance.now()).fx;if(fx.swingAt<0)throw Error('No native staff attack');if(performance.now()>=fx.swingAt+fx.swingMs)throw Error('Native staff attack ended before overlap');const it={t,q:1,e:0};p.inv.push(it);Game.useItem(it);if(p.inv.includes(it))throw Error('Native consumable did not run');resolve(Game.renderState(performance.now()).fx[t==='scroll_map'?'readAt':'useAt']);}catch(error){reject(error);}})),t);
   await expect.poll(()=>page.evaluate(born=>window.__namedStaff.some(f=>f.at>=born&&f.key.endsWith('-drive-one')),born),{timeout:5000}).toBe(true);
   await expect.poll(()=>page.evaluate(born=>window.__namedStaff.some(f=>f.at>born+1100&&f.key.endsWith('-rest-two')),born),{timeout:5000}).toBe(true);
  }

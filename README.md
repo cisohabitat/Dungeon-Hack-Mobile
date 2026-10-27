@@ -667,6 +667,12 @@ not changed. Art, audio, presentation-only UI and documentation changes need rel
 regression checks; changes to controls, targeting, timing or visibility also require
 balance testing when they affect gameplay. The full rule lives in [AGENTS.md](AGENTS.md).
 
+The named-staff overlap fixture waits for art preparation and starts native
+attack/consumable actions on a fresh frame. It retains the released-drive and
+hand-restoration assertions and their five-second windows; a guessed timer can
+resume after the entire short swing under load. See the
+[fixture comparison](docs/verification/2026-10-27-staff-timing/README.md).
+
 `npm test` runs the headless generator checks, plus a rule suite that loads the real game logic and
 exercises the edge cases that are easy to break quietly: enchanted duplicates not merging in the
 pack, two-handed weapons stowing the shield, save surviving a JSON round trip with buffs intact,
