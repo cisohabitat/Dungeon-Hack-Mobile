@@ -1,9 +1,9 @@
 // The published release and stamped commit, shared by the title and opt-in reports.
 // Generated with npm run release:prepare; keep package/lock versions, build
 // and offline cache together. See README.md for automatic release rules.
-export const RELEASE_VERSION = '0.9.46';
+export const RELEASE_VERSION = '0.9.47';
 // Internal offline readiness counter; players identify a deployment by commit.
-export const BUILD_NUMBER = 61;
+export const BUILD_NUMBER = 62;
 const sha = typeof document === 'undefined' ? '' : document.querySelector('meta[name="commit"]')?.getAttribute('content') || '';
 export const COMMIT_ID = /^[a-f0-9]{40}$/.test(sha) ? sha.slice(0, 7) : 'local';
 export const VERSION_ID = `${RELEASE_VERSION} (${COMMIT_ID})`;

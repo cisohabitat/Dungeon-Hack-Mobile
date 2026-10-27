@@ -1330,3 +1330,11 @@ The approved molten core and matching two-step dais live in `art/creatures/heart
 
 ### Sliding door surfaces
 `Assets.doorLeaf` caches the inner48×60 leaf (x8,y4) of each64px door/gate source in a WeakMap. The renderer uses that leaf for both closed and moving slabs, before crack/fire effects. Masonry comes from the fixed world walls/jambs; never translate the complete framed painting. Source textures/lock patches remain unchanged; a late painted source has a new cache identity. Preserve door ray intersections, texture scrolling, collision and timing. The painted-world regressions check surround exclusion, independent cache identity and104 region/cell/opening-state routes per project with unchanged run/dice.
+
+Apply cracks to a ray-hit leaf (`shutAt`), including when its tile is already open.
+The moving remnant of a burned door uses its final charred stage from `burntDoors`
+after its fire field becomes ash; never apply this texture to adjacent jambs.
+Keyed unlocks must call `setTile` before deleting the saved lock, so `doorMoves`
+can retain the actual colour. The final saved tile, key consumption and lock
+removal remain unchanged. Native opening/closing and fire-expiry regressions
+live in `painted-world.spec.js`.

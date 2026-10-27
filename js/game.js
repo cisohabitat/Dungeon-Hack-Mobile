@@ -1262,8 +1262,8 @@ const Game = (() => {
       return false;
     }
     removeOne(k);
-    delete L.locks[key(x, y)];
     setTile(x, y, T.DOOR_OPEN);
+    delete L.locks[key(x, y)];
     log(`You unlock the door with the ${color} key.`, 'good');
     Sound.play('door', { how: 'unlock' });
     emit('inv');

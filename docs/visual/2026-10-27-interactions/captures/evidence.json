@@ -1,0 +1,5633 @@
+{
+  "sourceCommit": "07eefed60211cf4507d07cf8c4250353e5b8355f",
+  "records": [
+    {
+      "width": 320,
+      "kind": "door",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9853789776968594,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-door-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9587817287136006,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9507834147781338,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9231260000194085,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-door-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8894575255094186,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.845261700015694,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8251939335726102,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.784726523284593,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-door-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7227028110505125,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.701850446176605,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6551847500328714,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.5904208028365094,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-door-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.015396908179594129,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-door-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.037816105605644156,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.06387354059142898,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.12489555147644443,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-door-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.1399267414922291,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.18367336472975945,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.2297059043856487,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2807005334234494,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-door-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.298416047651866,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.35033926342739996,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.40531885808503954,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 117,
+          "shut": {
+            "656": {
+              "shut": 0.4622435151769448,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-door-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "battered",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 276,
+          "shut": {
+            "656": {
+              "shut": 0.9924175622306166,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-battered-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9859859999955227,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9526447528369318,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.941583906227156,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-battered-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9190102643989322,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8888892715977879,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 242,
+          "shut": {
+            "656": {
+              "shut": 0.8588258447332631,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8195276104922176,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-battered-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7720220432403111,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.736972146532801,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.7031819943339506,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.646060456012671,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-battered-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.015396908170231989,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-battered-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.03174273335687787,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.04908257463302206,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.08165665830961982,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-battered-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.10418468194945031,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 35,
+          "shut": {
+            "656": {
+              "shut": 0.13395754748756633,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.1734557500535819,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.20853153325573215,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-battered-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2584049698757801,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.3064389324575773,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.34923300242258015,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.38777987444135736,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-battered-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "blows": 2,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "gate-key",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9807042812708232,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "320-gate-key-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9552481529664639,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9455715102495945,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9195089414072549,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "320-gate-key-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8571560772467167,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8459078999772417,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8066065177657032,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.784,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "320-gate-key-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7431306700655191,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.706636773845694,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.650490500002258,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.5838766345525235,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "320-gate-key-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.017586109893446368,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-gate-key-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.03043524112562124,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.06001636638807404,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.08810654371017358,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-gate-key-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.10252734454982505,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 35,
+          "shut": {
+            "656": {
+              "shut": 0.14452113494933647,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.18001672815267653,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.2429203813131356,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-gate-key-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2713041647082083,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.29921589588074743,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.3519999999339774,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.3897540199742684,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "320-gate-key-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "burn",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 276,
+          "shut": {
+            "656": {
+              "shut": 0.9944011315458966,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-burn-fall-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9816537811839645,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9689141634887515,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9482064692336143,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-burn-fall-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9223101327146481,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8900246081019576,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 242,
+          "shut": {
+            "656": {
+              "shut": 0.843750000038686,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8192996273735025,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-burn-fall-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7832726779132982,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7305124988348675,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.7050435679810609,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6480000000495182,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "320-burn-fall-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": true,
+        "field": "ash",
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "secret",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "320-secret-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "320-secret-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "320-secret-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "320-secret-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "chest",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-chest-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-chest-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-chest-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-chest-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 23
+          }
+        ],
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "snare",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-snare-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-snare-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-snare-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-snare-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Whoever made the marks did not get in either. You leave the door to the next one.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "door",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 276,
+          "shut": {
+            "656": {
+              "shut": 0.9900189436769997,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-door-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9832406890130028,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9488902612816168,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9221465208238507,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-door-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8881297816567119,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8542160965504577,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.811951008334348,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7484840937954416,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-door-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7284360312654876,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.6854854149179961,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6518725349504693,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.6065754602234883,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-door-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 1,
+          "shut": {
+            "656": {
+              "shut": 0.009228331471069827,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-door-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.018346218821119864,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.030327422482280573,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.057120876817817315,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-door-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.07622394171939666,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.10344675329870621,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.136209957801525,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.1889747419931735,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-door-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.21045057241370502,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2822751329596871,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.2954879999366178,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.3467465694061438,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-door-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "battered",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 276,
+          "shut": {
+            "656": {
+              "shut": 0.993907289377878,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-battered-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9779081702543172,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9412943544606276,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9125820426109488,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-battered-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8960000000440151,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8617298927296179,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8238398811417255,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7856939744399389,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-battered-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7454290777093033,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.7045120000158447,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6593155655788782,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.6034654375648094,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-battered-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.01587153117888044,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-battered-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.03011231223116862,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.06357313097933599,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.08082336549840723,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-battered-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.11589142115669128,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.1481097301497124,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.1829857760309573,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.21915746875000042,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-battered-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.26845095855022094,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.30966299033832234,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.38580736793723114,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.3979494483217728,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-battered-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "blows": 2,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "gate-key",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9811386581702325,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "390-gate-key-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9640682676238115,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9310815444924904,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9183433417202458,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "390-gate-key-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8656340000243608,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8461230764821355,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8242916458672898,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7603420519187946,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "390-gate-key-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7415950301700259,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.6959735785161594,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6410632769993889,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.6079878437331689,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "390-gate-key-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 3,
+          "shut": {
+            "656": {
+              "shut": 0.017586109913381734,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-gate-key-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.03363799998653393,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.05372948777332504,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.07703688090293583,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-gate-key-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.10659762370251188,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.14221688519679,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.21117171142467,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.22184075012835971,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-gate-key-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2563580471930207,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.2968180055867288,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.3484037812170578,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.389189812889224,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "390-gate-key-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "burn",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 276,
+          "shut": {
+            "656": {
+              "shut": 0.9928047078227579,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-burn-fall-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.983322337178898,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9640682676515644,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9368763304595307,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-burn-fall-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9228000918394894,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8939611949786603,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8569468319673308,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8265442500401867,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-burn-fall-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7859356140479172,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7341354215680145,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.6675445910311457,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6538054673680522,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "390-burn-fall-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": true,
+        "field": "ash",
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "secret",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "390-secret-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "390-secret-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "390-secret-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "390-secret-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "chest",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-chest-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-chest-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-chest-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-chest-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 23
+          }
+        ],
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "snare",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-snare-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-snare-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-snare-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-snare-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Whoever made the marks did not get in either. You leave the door to the next one.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "door",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9769686362028114,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-door-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9613457751265326,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9122380312294779,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.8554788649880444,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-door-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.8352289687237007,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.8047355003137082,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7683142612358193,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7289555691969649,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-door-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.6887218606480418,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.5621643477127766,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 160,
+          "shut": {
+            "656": {
+              "shut": 0.5400579537579644,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 146,
+          "shut": {
+            "656": {
+              "shut": 0.5072113161952556,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-door-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 19,
+          "shut": {
+            "656": {
+              "shut": 0.0956499347974504,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-door-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.12094802729574347,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.1553855039075176,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.2656063337659585,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-door-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.28939014495618937,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.3147846554392344,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.396534562485775,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.41726285665663165,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-door-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 131,
+          "shut": {
+            "656": {
+              "shut": 0.5317118371471511,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 144,
+          "shut": {
+            "656": {
+              "shut": 0.5647418265504125,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 157,
+          "shut": {
+            "656": {
+              "shut": 0.6077054310928316,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 170,
+          "shut": {
+            "656": {
+              "shut": 0.635494824246579,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-door-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "battered",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9525128602449224,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-battered-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9371752017701843,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.904528397498676,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8924683742115416,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-battered-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 241,
+          "shut": {
+            "656": {
+              "shut": 0.854637480808556,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7752200719016178,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.6683650349177027,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.6521488055938875,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-battered-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 173,
+          "shut": {
+            "656": {
+              "shut": 0.6122201256426543,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 146,
+          "shut": {
+            "656": {
+              "shut": 0.4922118184313816,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 133,
+          "shut": {
+            "656": {
+              "shut": 0.45792888220862094,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 120,
+          "shut": {
+            "656": {
+              "shut": 0.42011329303019485,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-battered-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 7,
+          "shut": {
+            "656": {
+              "shut": 0.06297415684913335,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-battered-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.147897718762635,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 45,
+          "shut": {
+            "656": {
+              "shut": 0.2114122721325724,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.23292584502901326,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-battered-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2601999267040301,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.3748490508648177,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.38665252522813304,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 117,
+          "shut": {
+            "656": {
+              "shut": 0.43955480479627695,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-battered-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 131,
+          "shut": {
+            "656": {
+              "shut": 0.6460604560457217,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 170,
+          "shut": {
+            "656": {
+              "shut": 0.6680916042025238,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 183,
+          "shut": {
+            "656": {
+              "shut": 0.680073468750002,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 196,
+          "shut": {
+            "656": {
+              "shut": 0.7835152071999318,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-battered-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "blows": 2,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "gate-key",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9815683924009765,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "740-gate-key-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9712687326832,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9494343950842067,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8729121529000643,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "740-gate-key-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 242,
+          "shut": {
+            "656": {
+              "shut": 0.8546374807960075,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.811025257937796,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 221,
+          "shut": {
+            "656": {
+              "shut": 0.7618432094455212,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7356838099823642,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "740-gate-key-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 186,
+          "shut": {
+            "656": {
+              "shut": 0.5912733637745995,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 160,
+          "shut": {
+            "656": {
+              "shut": 0.5389073114102124,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 147,
+          "shut": {
+            "656": {
+              "shut": 0.49538467361149685,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 133,
+          "shut": {
+            "656": {
+              "shut": 0.37400839381332684,
+              "lock": "silver"
+            }
+          },
+          "tile": 3,
+          "file": "740-gate-key-action-11.png"
+        }
+      ],
+      "closing": [
+        {
+          "index": 0,
+          "columns": 12,
+          "shut": {
+            "656": {
+              "shut": 0.08690299863450099,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-gate-key-close-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 27,
+          "shut": {
+            "656": {
+              "shut": 0.1145447210174792,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 36,
+          "shut": {
+            "656": {
+              "shut": 0.14620574823458532,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 56,
+          "shut": {
+            "656": {
+              "shut": 0.2484719138624122,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-gate-key-close-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 67,
+          "shut": {
+            "656": {
+              "shut": 0.2684509585656568,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 79,
+          "shut": {
+            "656": {
+              "shut": 0.3045621214634716,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 91,
+          "shut": {
+            "656": {
+              "shut": 0.35699172179625127,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 104,
+          "shut": {
+            "656": {
+              "shut": 0.3891898128724102,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-gate-key-close-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 131,
+          "shut": {
+            "656": {
+              "shut": 0.6023335899717216,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 170,
+          "shut": {
+            "656": {
+              "shut": 0.7707882161342847,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 208,
+          "shut": {
+            "656": {
+              "shut": 0.8296803559798414,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 230,
+          "shut": {
+            "656": {
+              "shut": 0.8737110778334085,
+              "lock": null
+            }
+          },
+          "tile": 2,
+          "file": "740-gate-key-close-11.png"
+        }
+      ],
+      "final": {
+        "tile": 2,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "burn",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 274,
+          "shut": {
+            "656": {
+              "shut": 0.9738403904367485,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-burn-fall-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 270,
+          "shut": {
+            "656": {
+              "shut": 0.9402759973749387,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 265,
+          "shut": {
+            "656": {
+              "shut": 0.9292061751439087,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 258,
+          "shut": {
+            "656": {
+              "shut": 0.9186770913802542,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-burn-fall-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 250,
+          "shut": {
+            "656": {
+              "shut": 0.8110252579930213,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 232,
+          "shut": {
+            "656": {
+              "shut": 0.7955269476984439,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 210,
+          "shut": {
+            "656": {
+              "shut": 0.7403132876660653,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 198,
+          "shut": {
+            "656": {
+              "shut": 0.558725397394213,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-burn-fall-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 146,
+          "shut": {
+            "656": {
+              "shut": 0.5173046199534622,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 133,
+          "shut": {
+            "656": {
+              "shut": 0.451318656250001,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 120,
+          "shut": {
+            "656": {
+              "shut": 0.40276567789884044,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 107,
+          "shut": {
+            "656": {
+              "shut": 0.3706491761733106,
+              "lock": null
+            }
+          },
+          "tile": 3,
+          "file": "740-burn-fall-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": true,
+        "field": "ash",
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "secret",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "740-secret-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "740-secret-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "740-secret-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 3,
+          "file": "740-secret-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 3,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "chest",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-chest-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-chest-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-chest-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-chest-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 23
+          }
+        ],
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "snare",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-snare-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-snare-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-snare-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-snare-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Whoever made the marks did not get in either. You leave the door to the next one.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-0-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-0-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-0-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-0-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-0-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-0-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-0-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-0-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-6-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-6-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-6-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-6-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-6-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-6-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-6-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-6-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-10-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-10-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-10-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-10-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "320-angle-10-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "320-angle-10-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "320-angle-10-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 320,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "320-angle-10-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-0-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-0-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-0-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-0-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-0-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-0-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-0-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-0-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-6-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-6-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-6-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-6-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-6-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-6-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-6-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-6-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-10-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-10-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-10-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-10-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "390-angle-10-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "390-angle-10-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "390-angle-10-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 390,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "390-angle-10-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-0-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-0-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-0-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-0-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-0-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-0-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-0-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 0,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-0-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-6-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-6-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-6-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-6-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-6-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-6-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-6-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 6,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-6-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-10-door-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": false,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-10-door-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-10-door-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": false,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-10-door-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": -1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 4.15,
+        "y": 5.78,
+        "angle": -0.2045078154583437
+      },
+      "file": "740-angle-10-gate-x--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": true,
+      "axis": "x",
+      "side": 1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 6.85,
+        "y": 5.78,
+        "angle": -2.9370848381314496
+      },
+      "file": "740-angle-10-gate-x-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": -1,
+      "columns": 122,
+      "jambs": 98,
+      "cam": {
+        "x": 5.78,
+        "y": 4.15,
+        "angle": 1.7753041422532403
+      },
+      "file": "740-angle-10-gate-y--1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    },
+    {
+      "width": 740,
+      "region": 10,
+      "cell": true,
+      "axis": "y",
+      "side": 1,
+      "columns": 122,
+      "jambs": 99,
+      "cam": {
+        "x": 5.78,
+        "y": 6.85,
+        "angle": -1.7753041422532403
+      },
+      "file": "740-angle-10-gate-y-1.png",
+      "scope": "Frozen supplied geometry and 65% leaf; native shipped loader/rendering, no source substitutions."
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "baseCommit": "07eefed60211cf4507d07cf8c4250353e5b8355f",
+  "release": "0.9.47",
+  "build": 62,
+  "runtimeSourceHashes": {
+    "js/game.js": "299ed79ec9c7e75c83767f431fe4fd281ac94d8fe17f697d9c779e3aaa3c4047",
+    "js/renderer.js": "626d0a7d9850148054b5770be6d565ef506be1f176856ee8506cadf1088e24f0",
+    "js/titlemenu.js": "1046cd2b7253813a8055fb2b2c0fb91ee284e3ae35f5216a6cbdb58ba56cb2f6",
+    "js/release.js": "a442c6e2baa8777be1b78cd83fea1402711a71701232c236d5913ffded46b153",
+    "sw.js": "9789137d32f408f0ed0e6cb4f2bbb34a2ca59783d1519469df4d54a38a309388"
+  },
+  "beforeRegressionCases": {
+    "failed": 3,
+    "observations": "before-failures.json"
+  },
+  "initialFixedRegressionCases": {
+    "passed": 6,
+    "projects": [
+      "phone",
+      "small"
+    ],
+    "note": "Before the subsequent same-turn first-frame rendering and bounded expiry polling refinements; final regressions are included in the full browser runs."
+  },
+  "nativeSessions": {
+    "interactions": 24,
+    "traps": 15,
+    "leverActions": 3,
+    "installedOfflineProfiles": 2,
+    "frozenAngleViews": 72
+  },
+  "rules": {
+    "passed": 751,
+    "failures": 0
+  },
+  "performance": {
+    "status": "passed",
+    "cpuThrottle": 4,
+    "minimumFps": 30,
+    "wideMinimumFps": 27,
+    "startupMaximumMs": 6000,
+    "scenes": {
+      "fight": {
+        "fps": 37.3,
+        "scriptMs": 14.5
+      },
+      "wide": {
+        "fps": 40.3,
+        "scriptMs": 12.8
+      },
+      "flooded": {
+        "fps": 35.5,
+        "scriptMs": 15
+      },
+      "painted": {
+        "fps": 34.2,
+        "scriptMs": 17.2
+      },
+      "rite": {
+        "fps": 51.2,
+        "scriptMs": 12.9
+      }
+    },
+    "startup": {
+      "ms": 2141
+    }
+  },
+  "fullChromium": {
+    "status": "passed",
+    "ordinaryCases": 931,
+    "serialFullCacheCases": 6,
+    "totalDistinctCases": 937,
+    "failures": 0,
+    "ordinaryWorkers": 2,
+    "fullCacheWorkers": 1,
+    "ordinaryDuration": "1.0h",
+    "serialFullCacheDuration": "2.7m",
+    "scope": "Both complete phone/small projects. Three full-cache test titles excluded from the ordinary pass and run once each per project serially, with original assertions/deadlines.",
+    "localConfig": "Temporary wrapper /tmp/m45-release.playwright.cjs retains repository project selection and use settings; sets system /usr/bin/chromium, absolute test/server paths and a fresh server on port 4190."
+  },
+  "ci": "Required on pushed main commit; release publisher must also pass.",
+  "balance": "Presentation only. Damage, key and fire rules, collision, visibility distances, ray geometry, input timing and seeded outcomes unchanged; no new balance simulation needed.",
+  "setupNotes": [
+    "An initial default-config browser run could not locate the downloaded headless shell; all recorded browser runs use the installed system Chromium.",
+    "release:prepare initially needed sandbox permission for its git subprocess and succeeded when rerun with that permission.",
+    "A standalone release:check invocation lacked RELEASE_BASE and correctly refused to run; the exact-commit pre-push check supplies the remote main SHA."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "runtimeCommit": "07eefed60211cf4507d07cf8c4250353e5b8355f",
+  "command": "npx playwright test --config=/tmp/m45-release.playwright.cjs test/browser/painted-world.spec.js --project=phone --grep \"keeps damage and key colour|burning door stays charred\" --workers=1",
+  "outcome": "All three regression cases failed against the unchanged v0.9.46 runtime. Earlier default-config launch failed because the downloaded Playwright Chromium shell was absent; the configured system Chromium run supplied these observations.",
+  "observations": [
+    {
+      "opening": {
+        "seen": 0,
+        "tile": 3
+      },
+      "closing": 6899,
+      "damage": 2,
+      "lockBefore": null,
+      "movingLock": "any",
+      "keyConsumed": true,
+      "savedLock": false,
+      "openTile": 3
+    },
+    {
+      "opening": {
+        "seen": 0,
+        "tile": 3
+      },
+      "closing": 6813,
+      "damage": 2,
+      "lockBefore": null,
+      "movingLock": "any",
+      "keyConsumed": true,
+      "savedLock": false,
+      "openTile": 3
+    },
+    {
+      "charredMoving": 0,
+      "plainMoving": 3582,
+      "burnt": true,
+      "tile": 3,
+      "openTile": 3,
+      "sliding": 0,
+      "field": "ash"
+    }
+  ]
+}

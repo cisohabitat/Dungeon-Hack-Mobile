@@ -347,3 +347,52 @@ test('closed and sliding doors draw only leaves in every region without changing
   if(JSON.stringify(Game.state())!==before||Dice.s!==dice[0]||Odds.s!==dice[1])throw Error('Door surface rendering changed state/dice '+JSON.stringify({keys:Object.keys(Game.state()).filter(k=>JSON.stringify(Game.state()[k])!==JSON.stringify(JSON.parse(before)[k])),beforeDice:dice,afterDice:[Dice.s,Odds.s]}));return rows;
  });expect(rows).toHaveLength(104);for(const r of rows){expect(r.rawDraws,JSON.stringify(r)).toBe(0);if(r.shut===0)expect(r.leafDraws).toBe(0);else expect(r.leafDraws,JSON.stringify(r)).toBeGreaterThan(0);}
 });
+
+for(const cell of [false,true])test(`${cell?'cell gate':'wooden door'} keeps damage and key colour through native opening and closing @mobile`,async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'door-continuity'});await faceOpenGround(page,2);
+ await page.evaluate(async cell=>{
+  const G=Game.state();G.levels[G.depth]={...Game.level()};
+  const L=Game.level(),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir],x=p.x+dx,y=p.y+dy;
+  L.monsters=[];L.npcs=[];L.dressing=[];L.puzzle=null;L.items={};L.fields={};L.traps={};
+  L.tiles[y*L.w+x]=Dungeon.T.DOOR;L.tiles[(y+dx)*L.w+x-dy]=Dungeon.T.WALL;L.tiles[(y-dx)*L.w+x+dy]=Dungeon.T.WALL;
+  if(cell){L.piece={kind:'cells',room:0};L.rooms[0]={x:1,y:1,w:L.w-2,h:L.h-2,shape:'box'};L.roomId.fill(0);}else L.piece=null;
+  window.__continuity={x,y,key:x+','+y,cell};const t=Assets.themes[L.theme];void t.door;void t.cellDoor;void t.locked.silver;t.cellLocked('silver');
+  window.__continuityState=(await import('/js/paintedworld.js')).paintedWorldState;
+  const m=(await import('/js/paintedcatalog.js')).PAINTED.themes[L.theme];window.__continuityUrls=[m.door,m.cellDoor].filter(Boolean);
+ },cell);
+ await page.waitForFunction(()=>window.__continuityUrls.every(p=>window.__continuityState()[p]==='ready'));
+ const result=await page.evaluate(async()=>{
+  const {x,y,key,cell}=window.__continuity,L=Game.level(),p=Game.player(),t=Assets.themes[L.theme],ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;
+  const leaf=Assets.doorLeaf(cell?t.cellDoor:t.door),damaged=Assets.crackedDoor(leaf,2);let seen=0;
+  const drawCurrent=()=>{const now=performance.now(),rs=Game.renderState(now);Renderer.render(rs.level,rs.cam,rs.sprites,rs.fx,now);};
+  ctx.drawImage=function(image,...args){if(image===damaged)seen++;return draw.call(this,image,...args);};
+  try{
+   L.doorBlows={[key]:2};Game.input('use');drawCurrent();
+   const lockBefore=Game.renderState(performance.now()).fx.doorShut?.[y*L.w+x]?.lock;
+   const opening=await new Promise(resolve=>{let n=0;function frame(){if(++n<8)requestAnimationFrame(frame);else resolve({seen,tile:L.tiles[y*L.w+x]});}requestAnimationFrame(frame);});
+   await new Promise(r=>setTimeout(r,650));seen=0;Game.input('use');drawCurrent();await new Promise(r=>setTimeout(r,650));const closing=seen;
+   // A real keyed unlock consumes the key, clears the saved lock and keeps its
+   // colour in the transient moving leaf, including the cell's native lock.
+   L.tiles[y*L.w+x]=Dungeon.T.DOOR_LOCKED;L.locks[key]='silver';const it={t:'key',color:'silver',q:1,e:0};p.inv.push(it);Game.input('use');
+   return{opening,closing,damage:L.doorBlows[key],lockBefore,movingLock:Game.renderState(performance.now()).fx.doorShut?.[y*L.w+x]?.lock,keyConsumed:!p.inv.includes(it),savedLock:Object.hasOwn(L.locks,key),openTile:Dungeon.T.DOOR_OPEN};
+  }finally{ctx.drawImage=draw;}
+ });
+ expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);
+});
+
+test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'door-burn-continuity'});await faceOpenGround(page,2);
+ await page.evaluate(async()=>{const G=Game.state();G.levels[G.depth]={...Game.level(),monsters:[],npcs:[],dressing:[],items:{},fields:{},puzzle:null,piece:null,doorBlows:{}};const L=Game.level(),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir],x=p.x+dx,y=p.y+dy;L.tiles[y*L.w+x]=Dungeon.T.DOOR;L.tiles[(y+dx)*L.w+x-dy]=Dungeon.T.WALL;L.tiles[(y-dx)*L.w+x+dy]=Dungeon.T.WALL;window.__burnDoor={x,y,key:x+','+y};void Assets.themes[L.theme].door;window.__burnDoorState=(await import('/js/paintedworld.js')).paintedWorldState;window.__burnDoorUrl=(await import('/js/paintedcatalog.js')).PAINTED.themes[L.theme].door;});
+ await page.waitForFunction(()=>window.__burnDoorState()[window.__burnDoorUrl]==='ready');
+ await page.evaluate(()=>{
+  const G=Game.state(),L=Game.level(),{x,y,key}=window.__burnDoor,ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage,leaf=Assets.doorLeaf(Assets.themes[L.theme].door),charred=new Set([0,1,2].map(f=>Assets.burningDoor(leaf,2,f)));let charredMoving=0,plainMoving=0;
+  ctx.drawImage=function(image,...args){if(L.burntDoors?.[key]){if(charred.has(image))charredMoving++;if(image===leaf)plainMoving++;}return draw.call(this,image,...args);};
+  window.__burnDoorResult=()=>({charredMoving,plainMoving,burnt:L.burntDoors?.[key],tile:L.tiles[y*L.w+x],openTile:Dungeon.T.DOOR_OPEN,sliding:Renderer.doorColumns,field:L.fields[key]?.k});window.__burnDoorRestore=()=>{ctx.drawImage=draw;};
+  L.fields[key]={k:'fire',fuel:'door',until:G.t+650,spread:1e12,burn:1e12,gen:0};
+ });
+ try{
+  await expect.poll(()=>page.evaluate(()=>!!Game.level().burntDoors?.[window.__burnDoor.key]),{timeout:5000}).toBe(true);
+  await expect.poll(()=>page.evaluate(()=>Renderer.doorColumns),{timeout:5000}).toBe(0);
+  const result=await page.evaluate(()=>window.__burnDoorResult());expect(result.burnt).toBe(true);expect(result.tile).toBe(result.openTile);expect(result.field).toBe('ash');expect(result.sliding).toBe(0);expect(result.charredMoving,JSON.stringify(result)).toBeGreaterThan(0);expect(result.plainMoving).toBe(0);expect(errors).toEqual([]);
+ }finally{await page.evaluate(()=>window.__burnDoorRestore());}
+});

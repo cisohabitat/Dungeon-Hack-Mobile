@@ -1,0 +1,311 @@
+{
+  "sourceCommit": "07eefed60211cf4507d07cf8c4250353e5b8355f",
+  "records": [
+    {
+      "width": 320,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "320-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Wrong. Darts spit from holes in the frame before you can step back.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 390,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "390-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Wrong. Darts spit from holes in the frame before you can step back.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    },
+    {
+      "width": 740,
+      "kind": "levers",
+      "moving": [
+        {
+          "index": 0,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-0.png"
+        },
+        {
+          "index": 1,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 2,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 3,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-3.png"
+        },
+        {
+          "index": 4,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 5,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 6,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 7,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-7.png"
+        },
+        {
+          "index": 8,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 9,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 10,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "pixels": null
+        },
+        {
+          "index": 11,
+          "columns": 0,
+          "shut": null,
+          "tile": 0,
+          "file": "740-levers-action-11.png"
+        }
+      ],
+      "closing": [],
+      "final": {
+        "tile": 0,
+        "sliding": 0,
+        "burnt": false,
+        "chest": false,
+        "snare": false,
+        "trap": false
+      },
+      "outcome": "Wrong. Darts spit from holes in the frame before you can step back.",
+      "errors": [],
+      "scope": "Native commands, updates and renderer; nearby objects/resources supplied, no asset substitutions."
+    }
+  ]
+}

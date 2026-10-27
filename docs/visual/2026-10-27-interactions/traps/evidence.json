@@ -1,0 +1,1067 @@
+[
+  {
+    "width": 320,
+    "kind": "dart",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "file": "320-dart-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "file": "320-dart-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "dart",
+        "at": 5169.5,
+        "dodged": false,
+        "file": "320-dart-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 993,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 320,
+    "kind": "needle",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "file": "320-needle-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "file": "320-needle-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "needle",
+        "at": 5066.7,
+        "dodged": false,
+        "file": "320-needle-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 995,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 320,
+    "kind": "pit",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "file": "320-pit-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "file": "320-pit-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "pit",
+        "at": 5098.2,
+        "dodged": false,
+        "file": "320-pit-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 997,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 320,
+    "kind": "alarm",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "file": "320-alarm-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "file": "320-alarm-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "alarm",
+        "at": 5005.3,
+        "dodged": false,
+        "file": "320-alarm-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 320,
+    "kind": "snare",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "file": "320-snare-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "file": "320-snare-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "snare",
+        "at": 5015.5,
+        "dodged": false,
+        "file": "320-snare-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 997,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 390,
+    "kind": "dart",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "file": "390-dart-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "file": "390-dart-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "dart",
+        "at": 5234.5,
+        "dodged": false,
+        "file": "390-dart-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 998,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 390,
+    "kind": "needle",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "file": "390-needle-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "file": "390-needle-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "needle",
+        "at": 5003.5,
+        "dodged": true,
+        "file": "390-needle-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 390,
+    "kind": "pit",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "file": "390-pit-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "file": "390-pit-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "pit",
+        "at": 5043.6,
+        "dodged": false,
+        "file": "390-pit-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 992,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 390,
+    "kind": "alarm",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "file": "390-alarm-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "file": "390-alarm-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "alarm",
+        "at": 5052.6,
+        "dodged": false,
+        "file": "390-alarm-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 390,
+    "kind": "snare",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "file": "390-snare-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "file": "390-snare-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "snare",
+        "at": 5095.2,
+        "dodged": false,
+        "file": "390-snare-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 997,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 740,
+    "kind": "dart",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "file": "740-dart-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "file": "740-dart-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "dart",
+        "at": 5050.1,
+        "dodged": false,
+        "file": "740-dart-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 996,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 740,
+    "kind": "needle",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "file": "740-needle-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "file": "740-needle-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "needle",
+        "at": 4925.3,
+        "dodged": true,
+        "file": "740-needle-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 740,
+    "kind": "pit",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "file": "740-pit-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "file": "740-pit-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "pit",
+        "at": 4845.4,
+        "dodged": false,
+        "file": "740-pit-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 997,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 740,
+    "kind": "alarm",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "file": "740-alarm-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "file": "740-alarm-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "alarm",
+        "at": 5100.3,
+        "dodged": false,
+        "file": "740-alarm-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  },
+  {
+    "width": 740,
+    "kind": "snare",
+    "rows": [
+      {
+        "index": 0,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "file": "740-snare-0.png"
+      },
+      {
+        "index": 1,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 2,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 3,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "file": "740-snare-3.png"
+      },
+      {
+        "index": 4,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 5,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 6,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "pixels": null
+      },
+      {
+        "index": 7,
+        "kind": "snare",
+        "at": 5042.8,
+        "dodged": true,
+        "file": "740-snare-7.png"
+      }
+    ],
+    "final": {
+      "trap": false,
+      "snare": false,
+      "atSquare": true,
+      "hp": 999,
+      "status": "playing"
+    },
+    "errors": [],
+    "scope": "Native forward command/updates/rendering. Supplied nearby trap, 999 HP and Wisdom 1; seeded spotting/dodging remain active."
+  }
+]

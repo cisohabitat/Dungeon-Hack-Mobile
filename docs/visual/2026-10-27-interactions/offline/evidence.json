@@ -1,0 +1,48 @@
+[
+  {
+    "width": 320,
+    "cases": [
+      {
+        "cell": false,
+        "lock": "silver",
+        "tile": 3,
+        "blows": 2,
+        "columns": 277
+      },
+      {
+        "cell": true,
+        "lock": "silver",
+        "tile": 3,
+        "blows": 2,
+        "columns": 276
+      }
+    ],
+    "offlineReload": true,
+    "version": "0.9.47 (07eefed)",
+    "errors": [],
+    "rejectedOriginRequests": 0
+  },
+  {
+    "width": 390,
+    "cases": [
+      {
+        "cell": false,
+        "lock": "silver",
+        "tile": 3,
+        "blows": 2,
+        "columns": 277
+      },
+      {
+        "cell": true,
+        "lock": "silver",
+        "tile": 3,
+        "blows": 2,
+        "columns": 276
+      }
+    ],
+    "offlineReload": true,
+    "version": "0.9.47 (07eefed)",
+    "errors": [],
+    "rejectedOriginRequests": 0
+  }
+]

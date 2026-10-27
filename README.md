@@ -10,7 +10,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 ## Features
 
 - **Sliding door panels.** Door leaves slide into the wall while the surrounding
-  masonry stays in the doorway. Painted and fallback doors share the same fit.
+  masonry stays in the doorway. Damage, lock colours and burned wood stay visible
+  through opening. Painted and fallback doors share the same fit.
 
 - **Readable crowd damage.** Floating damage and save labels stay apart when
   enemies at different depths line up in the view.

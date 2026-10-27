@@ -994,3 +994,13 @@ All17 focused browser checks, three native animations and four real installed
 upgrade/retry profiles passed; paired performance and751 rules passed. Earlier
 performance/fixture failures are retained in the [review](../../docs/visual/2026-10-27-door-panels/README.md).
 Prepared for v0.9.46, subject to required CI and release publication.
+
+### Moving scenery and interaction follow-up — 27 October 2026
+Native review found three further door continuity defects: opening erased cracks,
+keyed unlocks lost their lock colour, and burned remnants reverted to clean wood.
+The v0.9.47 correction preserves those surfaces through the existing animation.
+24 native interaction sessions, 72 controlled side views, 15 native trap sessions,
+three lever-action sessions and two installed offline profiles provide bounded
+evidence; no further confirmed chest/secret-wall/lever/trap art defect was found.
+No new painting or atlas is commissioned. [Review, scope and release checks](../../docs/visual/2026-10-27-interactions/README.md).
+Publication remains subject to the required CI and release publisher.

@@ -1348,12 +1348,14 @@ const Renderer = (() => {
         else { const c = level.locks[mapX + ',' + mapY]; img = tex.locked[c] || tex.door; }
       }
       if (shutAt && img) img = Assets.doorLeaf(img);
-      if (tile === T.DOOR || tile === T.DOOR_LOCKED) {
+      if (shutAt) {
         const blows = level.doorBlows && level.doorBlows[mapX + ',' + mapY];
         if (blows) img = Assets.crackedDoor(img, blows);
       }
-      // a door on fire burns on its own face, and lights itself
-      const burning = fx.doorFire && (tile === T.DOOR || tile === T.DOOR_LOCKED) ? fx.doorFire[mapX + ',' + mapY] : undefined;
+      // The moving leaf keeps its damage and final charred face after the tile
+      // opens. Burnt ground alone must never put a door texture on a jamb.
+      const burning = shutAt ? fx.doorFire?.[mapX + ',' + mapY]
+        ?? (door && level.burntDoors?.[mapX + ',' + mapY] ? 1 : undefined) : undefined;
       if (burning !== undefined) img = Assets.burningDoor(img, burning < 0.34 ? 0 : burning < 0.67 ? 1 : 2, calm ? 0 : Math.floor(now / 110) % 3);
       // (a door stands back in the shadow of its doorway, and the doorway's sides are darker still)
       let shade = dist / fog + (side === 1 ? 0.12 : 0) - (burning !== undefined ? 0.4 : 0) + (shutAt ? 0.06 : jamb ? 0.16 : 0);
