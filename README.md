@@ -521,7 +521,7 @@ Stage its `tools/version-resets.json` audit record alongside the four metadata
 files. CI accepts that exact old/new version and build transition
 only with one newer build/cache and no bundled gameplay changes. Never reset
 builds, reuse an existing version tag or edit published history.
-The pre-push hook and CI reject player changes without a suitable version/build bump. After all seven
+The pre-push hook and CI reject player changes without a suitable version/build bump. After all required matrix
 test jobs pass on main, it creates the version tag and a GitHub release with
 generated notes. Repeated runs skip existing releases, older main runs skip
 publication, and existing tags are never moved. Release-tool-only changes use the isolated Git fixtures and both phone
@@ -612,12 +612,16 @@ The browser suite drives the real game in headless Chromium: the core loop, dung
 the trader, the story layer, the endgame, and an interface pass that asserts every
 control clears the 44px touch guideline, that readable text clears 4.5:1 contrast, and that a
 crowded level meets its frame-rate budget under simulated CPU slowdown. Runtime depends on
-the machine. CI runs the phone suite in three shards, the small-phone suite and a separate
-performance job on pushes to `main` and pull requests. A separate WebKit job runs on one worker and checks the
-mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
+the machine. CI runs three phone shards, two small-phone shards, three WebKit
+shards and a separate performance job on pushes to `main` and pull requests.
+Each WebKit shard uses one worker and checks the mobile flows tagged `@mobile`: first-tap music and mute choices, map fog, portrait
 expansion, puzzle choices/retries/rewards/save transfer, quoted-name and compressed-save safety, touch controls and save/resume after navigating away. CI uses
-Node 24, a read-only repository token and checkouts without persisted credentials. The default browser
-script uses Chromium so it works with the locally preinstalled browser. WebKit tests
+Node 24, a read-only repository token and checkouts without persisted credentials.
+Browser/performance jobs select runtime/test files and creature metadata through
+a shared sparse-checkout step; rules and publication retain full history. All
+ten required matrix jobs gate publication. Exact case coverage and working-tree
+bytes are recorded in the [CI execution review](docs/verification/2026-10-27-ci-refactor/phase2/README.md).
+The default browser script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
 Safari, speaker output or OS tab eviction. `npm start` serves the game locally on
 port 4173 with no server dependencies.

@@ -1,0 +1,34 @@
+{
+  "baseline": "1c6fb9431012f002469b375b7678a05b773e236f",
+  "workflowSHA256": "e4c24413683483f5c7cee641cc4c548bfcca239ee491b8892200520dc5f74209",
+  "noPlayerOrTestSourceChanges": true,
+  "versionUnchanged": "0.9.50",
+  "rules": 751,
+  "rulesDuration": "1m24s",
+  "fullAndSparseInventories": {
+    "phone": 615,
+    "small": 330,
+    "safari": 200,
+    "perf": 1,
+    "missing": 0,
+    "duplicates": 0
+  },
+  "sparse": {
+    "selectedFiles": 2795,
+    "runtimeTestPaths": 2745,
+    "serviceWorkerAssetURLs": 1851,
+    "allSelectedBytesMatch": true
+  },
+  "sparseSmoke": {
+    "passed": 3,
+    "seconds": 45.7
+  },
+  "requiredTestJobsBefore": 7,
+  "requiredTestJobsAfter": 10,
+  "limits": [
+    "Working-tree payload reduction does not measure compressed network bytes or checkout time.",
+    "Native Playwright uses count-based shards; actual job timing and host variation must be measured in CI.",
+    "Discovery inventories do not replace browser execution or physical iOS coverage."
+  ],
+  "publication": "Pending committed release specs, exact-commit hook, all10required CI jobs/publisher and exact public commit/runtime delivery. Publish after phase1 verification."
+}

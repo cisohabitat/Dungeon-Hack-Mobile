@@ -3,12 +3,13 @@
 Baseline: `62be4c80a760feed1a1837308ab43610fded9348`, game v0.9.50.
 These phases change test execution, not game behavior or art. Keep the same
 assertions, installation deadlines, performance thresholds and publication
-dependencies. Publish and verify each phase before the next.
+dependencies. Verify and publish each phase separately; the next publication
+waits for the preceding phase to pass even if independent preparation overlaps.
 
 1. [Settled accessibility audits](phase1/README.md): share actual finite-panel
    readiness, remove the guide contrast race and prove genuine contrast faults
    still fail. No animation suppression or retry increase.
-2. Refactor CI execution: reduce browser checkout payload while preserving every
+2. [Refactor CI execution](phase2/README.md): reduce browser checkout payload while preserving every
    runtime/test dependency and required release history; balance browser
    workloads, especially WebKit. Compare exact file/test inventories before and
    after, keeping every case once, one worker per WebKit runner and the native

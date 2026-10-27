@@ -1,0 +1,32 @@
+{
+  "origin": "https://dungeon-hack-mobile.vercel.app",
+  "commit": "1c6fb9431012f002469b375b7678a05b773e236f",
+  "version": "0.9.50",
+  "files": [
+    {
+      "file": "js/renderer.js",
+      "sha256": "ba2d7439881ce6c56dd50b91a88149cbcd61bbaf91dcbed336d0fcc338e9276b",
+      "byteMatch": true
+    },
+    {
+      "file": "js/elementfx.js",
+      "sha256": "d03a75bda25cff51444f443261ab071ee6af09fd71de7fd8aa705740d90c1b13",
+      "byteMatch": true
+    },
+    {
+      "file": "js/titlemenu.js",
+      "sha256": "cf65d7c15be0c72af446a193c2f24882c91073cc51a20bdbab22c382dd93ede3",
+      "byteMatch": true
+    },
+    {
+      "file": "js/release.js",
+      "sha256": "78b22fae878da5d29e9609c3a2c2e60ae738f874222bfe20ac3788e982da32fb",
+      "byteMatch": true
+    },
+    {
+      "file": "sw.js",
+      "sha256": "f2350644506d71594a52996523fb4029c7180f0903e6172897f3dabe97abf9e0",
+      "byteMatch": true
+    }
+  ]
+}

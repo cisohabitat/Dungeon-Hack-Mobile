@@ -1,0 +1,12 @@
+
+Running 3 tests using 1 worker
+
+(node:811780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:811780) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults (6.9s)
+  ✓  2 [phone] › test/browser/painted-world.spec.js:192:1 › all named equipment states fit exact runtime routes without changing run or dice @mobile (12.9s)
+  ✓  3 [phone] › test/browser/painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile (24.5s)
+
+  3 passed (45.7s)

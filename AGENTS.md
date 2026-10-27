@@ -867,7 +867,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   publication job explicitly marks the tested current version as latest, even
   when its number is lower than archived releases.
   CI rejects unversioned player changes and creates the version tag and GitHub
-  release only after all seven required checks pass on main. Publication reruns
+  release only after all required matrix checks pass on main. Publication reruns
   are idempotent, skip stale main runs and never move an existing tag.
   The release job alone has `contents: write`; test jobs retain read-only tokens.
   Vercel still deploys main on push; the CI gate governs the GitHub release.
@@ -1073,7 +1073,7 @@ require both full Chromium projects and the isolated frame-rate budget below.
 For release tooling, documentation and version-metadata-only changes, run
 `npm run test:release` and `release.spec.js` on both Chromium projects locally;
 CI still runs the full Chromium, WebKit and performance suites and blocks GitHub
-publication until all seven required checks pass. Do not weaken assertions or
+publication until all required matrix checks pass. Do not weaken assertions or
 skip any CI job for this exception. WebKit is not installed in this container.
 Wait for every CI job, including publication when applicable, before reporting
 a pushed change as verified.
@@ -1101,7 +1101,7 @@ a pushed change as verified.
 - `npx playwright test --project=small`: the interface, play and accessibility
   specs again at iPhone SE size (the device matrix, `docs/DEVICES.md`).
 - `npm run test:webkit`: focused `@mobile` tests in Playwright WebKit, installed
-  in a separate CI job and run on one worker. Keep full navigation, narration
+  in three CI shards, each on one worker. Keep full navigation, narration
   and error assertions, and tags on the audio unlock/mute, portrait, fog and
   touch/save regressions. Playwright is pinned to 1.59.1: version 1.56's WebKit
   crashes on reload (microsoft/playwright#37766, fixed in 1.57). Verify native
@@ -1113,7 +1113,9 @@ a pushed change as verified.
   rated serious or critical. A new overlay goes into it. `test/browser/access.spec.js` checks what
   axe cannot: text at twice its size on three phone shapes, the reader's log, the palette, Calm view, one-handed reach.
 - CI (`.github/workflows/test.yml`) runs `npm test`, the browser tests in
-  three shards, the small phone, the focused WebKit checks, and the frame-rate budget alone on every push
+  three phone shards, two small-phone shards, three focused WebKit shards, and
+  the frame-rate budget alone on every push. Together with the rules job these
+  are ten required checks; publication waits for every matrix group.
   Full-cache offline installation checks run in a separate serial step in each
   Chromium job; competing workers exceed the unchanged ten-second installation
   deadline with the full painted catalog. Both steps retain the same shard filter,
@@ -1125,7 +1127,14 @@ a pushed change as verified.
   raster queue first; that queue can consume the whole test budget in this engine.
   Held animation capture waits for every referenced painted pose before storing
   image identities, since a completed rest pose does not imply a decoded drive.
-  to `main`.
+  Browser/performance runners share the runtime-checkout YAML anchor. Its
+  non-cone sparse patterns keep all runtime/test inputs and top-level creature
+  JSON metadata, including the manifest required by named-equipment.cjs. Raw
+  art, review captures and audio masters stay out of those working trees. Rules
+  and publication retain full checkouts/history for provenance and release
+  validation. Failure artifact names include the shard to avoid collisions.
+  The exact workflow/inventory and sparse-byte review lives in
+  `docs/verification/2026-10-27-ci-refactor/phase2/`.
   `tools/install-browser.sh` retries the same browser/dependency install up to
   three times for transient package-mirror failures. Exhaustion fails the job;
   it never skips a browser project or changes test retries and assertions.

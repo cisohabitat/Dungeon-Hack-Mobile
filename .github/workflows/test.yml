@@ -24,7 +24,7 @@ jobs:
       - run: npm test
 
   browser:
-    # split three ways: the suite took six minutes on one runner
+    # Native Playwright shards; every case still runs once across the matrix.
     name: Browser tests (${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
     strategy:
@@ -32,9 +32,21 @@ jobs:
       matrix:
         shard: [1, 2, 3]
     steps:
-      - uses: actions/checkout@v4
+      - &runtime-checkout
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
+          # Runtime/test inputs plus creature metadata; omit large source art,
+          # review captures and audio masters. Sparse checkout fetches blob:none.
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /*
+            !/art/*
+            /art/creatures/
+            !/art/creatures/*
+            /art/creatures/*.json
+            !/docs/
+            !/sound/masters/
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -58,9 +70,7 @@ jobs:
     name: Frame-rate budget
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+      - *runtime-checkout
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -72,18 +82,20 @@ jobs:
           PERF: '1'
 
   safari:
-    name: Safari engine mobile checks
+    name: Safari engine mobile checks (${{ matrix.shard }}/3)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+      - *runtime-checkout
       - uses: actions/setup-node@v4
         with:
           node-version: 24
       - run: npm ci
       - run: sh tools/install-browser.sh webkit
-      - run: npm run test:webkit
+      - run: npm run test:webkit -- --shard=${{ matrix.shard }}/3
         env:
           DEBUG: pw:browser
       - name: Native browser failure diagnostics
@@ -94,7 +106,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-report-safari
+          name: playwright-report-safari-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/
@@ -102,12 +114,14 @@ jobs:
 
   small:
     # the smallest phone in the device matrix (docs/DEVICES.md)
-    name: Smallest phone
+    name: Smallest phone (${{ matrix.shard }}/2)
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
+      - *runtime-checkout
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -115,12 +129,12 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: npx playwright test --project=small --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
-      - run: npx playwright test --project=small --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
+      - run: npx playwright test --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
+      - run: npx playwright test --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: playwright-report-small
+          name: playwright-report-small-${{ matrix.shard }}
           path: |
             playwright-report/
             test-results/

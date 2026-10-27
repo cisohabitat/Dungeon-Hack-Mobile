@@ -57,3 +57,12 @@ Final focused run:36passed in223.0s, no retries. `npm test` passed all751rule
 checks (1m21s rules;172.7s overall) and all other required repository checks.
 Fresh committed release-identity checks, the exact-commit hook, all required
 CI jobs/publisher and public commit delivery remain gates after this commit.
+
+The phase1 push is `1c6fb9431012f002469b375b7678a05b773e236f`. Its
+[CI run40555937167](https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/40555937167)
+provides the authoritative required-gate results. Fresh committed release
+checks passed6cases in28.8s; the exact-commit hook passed751rules (1m26s).
+Public commit metadata and five runtime files matched the unchanged v0.9.50
+source exactly. Both new-control and guide cases passed first try in the
+completed phone shard; final WebKit results were still pending at this local
+phase2 commit.
