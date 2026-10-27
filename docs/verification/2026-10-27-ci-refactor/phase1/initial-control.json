@@ -1,0 +1,11 @@
+{
+  "suiteCases": 36,
+  "existingPassed": 34,
+  "newNegativeControlFailed": 2,
+  "cause": "Deliberately exact-background-color label did not produce an axe violation. Replaced with visible low-contrast color #403b49; ordinary clean audit and opacity had already passed.",
+  "retainedArtifacts": "/workspace/ci-refactor-artifacts/initial-control",
+  "fixedFocusedControl": {
+    "passed": 2,
+    "seconds": 10.7
+  }
+}

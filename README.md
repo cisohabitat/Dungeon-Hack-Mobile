@@ -625,6 +625,12 @@ Playwright is pinned to 1.59.1: 1.56's WebKit has a confirmed
 [reload crash](https://github.com/microsoft/playwright/issues/37766), fixed in 1.57.
 Use Node 24 for the included server, tests and Vercel functions (`package.json` pins the runtime).
 
+Guide and general accessibility audits use the shared `uiReady` helper to wait
+for finite panel animations instead of a guessed delay. Audits retain all WCAG
+rules and serious/critical assertions, with a deliberate contrast-fault guard.
+The [CI readiness review](docs/verification/2026-10-27-ci-refactor/phase1/README.md)
+records the controlled before/after comparison and its limits.
+
 `npm run playtest` loads the real rules headlessly and plays complete runs with a bot that
 fights, casts at range, retreats when hurt and rests when safe. It reports win rate and average
 depth per class, which is how the balance below was tuned rather than guessed at. Runs take

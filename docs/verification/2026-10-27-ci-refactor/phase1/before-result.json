@@ -1,0 +1,7 @@
+{
+  "baseline": "62be4c80a760feed1a1837308ab43610fded9348",
+  "before": true,
+  "exitCode": 1,
+  "repeats": 3,
+  "scope": "Actual guide navigation/audits with only Pack entry duration extended to2s. Diagnostic stress, not an unmodified WebKit reproduction. No audit rules, serious/critical threshold, test deadline or production animation changed."
+}

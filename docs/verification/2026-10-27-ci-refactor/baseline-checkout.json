@@ -1,0 +1,36 @@
+{
+  "run": 40542440308,
+  "source": "Timestamped completed GitHub job logs; checkout group start to next Node setup group start. Includes step boundary overhead; not a pure network throughput measurement.",
+  "rows": [
+    {
+      "id": 122324095547,
+      "checkoutStart": "2026-10-27T16:35:46.5306069Z",
+      "nextStep": "2026-10-27T16:55:18.4866435Z",
+      "checkoutSeconds": 1171.956
+    },
+    {
+      "id": 122324096040,
+      "checkoutStart": "2026-10-27T16:35:46.0760953Z",
+      "nextStep": "2026-10-27T16:51:05.4509968Z",
+      "checkoutSeconds": 919.374
+    },
+    {
+      "id": 122324096062,
+      "checkoutStart": "2026-10-27T16:35:46.7657983Z",
+      "nextStep": "2026-10-27T16:37:16.9366162Z",
+      "checkoutSeconds": 90.171
+    },
+    {
+      "id": 122324096541,
+      "checkoutStart": "2026-10-27T16:35:46.3635660Z",
+      "nextStep": "2026-10-27T16:40:38.5545043Z",
+      "checkoutSeconds": 292.191
+    },
+    {
+      "id": 122324097022,
+      "checkoutStart": "2026-10-27T16:35:46.2378595Z",
+      "nextStep": "2026-10-27T16:45:36.8095132Z",
+      "checkoutSeconds": 590.572
+    }
+  ]
+}

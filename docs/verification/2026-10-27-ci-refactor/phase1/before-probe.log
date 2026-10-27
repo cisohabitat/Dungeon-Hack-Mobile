@@ -1,0 +1,1032 @@
+
+Running 3 tests using 1 worker
+
+  ✘  1 [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (10.2s)
+  ✘  2 [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (10.4s)
+  ✘  3 [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (10.1s)
+
+
+  1) [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -   1
+    + Received  + 303
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3c3848, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3c3848, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">left hand</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.97,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#4e4a52",
+    +               "fontSize": "14.9pt (19.84px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<div>Shield</div>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > div",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring2\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring2\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring2\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"amulet: empty\" class=\"slot\" data-slot=\"amulet\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">amulet</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"amulet: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">amulet</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"amulet: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"cloak: empty\" class=\"slot\" data-slot=\"cloak\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">cloak</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"cloak: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">cloak</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"cloak: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#241f27",
+    +               "contrastRatio": 1.91,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#514c4e",
+    +               "fontSize": "22.6pt (30.08px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.91 (foreground color: #514c4e, background color: #241f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +                 "target": Array [
+    +                   "#inv-compact",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.91 (foreground color: #514c4e, background color: #241f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-compact",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.97,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#4e4a52",
+    +               "fontSize": "24.0pt (32px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +                 "target": Array [
+    +                   "#inv-search",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-search",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      80 |   const audit = async () => {
+      81 |     const r = await new Axe({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    > 82 |     expect(r.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+         |                                                                                  ^
+      83 |     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      84 |   };
+      85 |   await journal(page, 'quests'); await audit();
+        at audit (/tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:82:82)
+        at /tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:88:129
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -   1
+    + Received  + 303
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.47,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3a3747",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.47 (foreground color: #3a3747, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.47 (foreground color: #3a3747, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">left hand</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.9,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#4b4850",
+    +               "fontSize": "14.9pt (19.84px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.9 (foreground color: #4b4850, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.9 (foreground color: #4b4850, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<div>Shield</div>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > div",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1b1825",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3a3747",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1b1825",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3a3747",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring2\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring2\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring2\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1b1825",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3a3747",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"amulet: empty\" class=\"slot\" data-slot=\"amulet\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">amulet</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"amulet: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">amulet</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"amulet: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1b1825",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3a3747",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"cloak: empty\" class=\"slot\" data-slot=\"cloak\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">cloak</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"cloak: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3a3747, background color: #1b1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">cloak</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"cloak: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#231f27",
+    +               "contrastRatio": 1.84,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#4f494c",
+    +               "fontSize": "22.6pt (30.08px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.84 (foreground color: #4f494c, background color: #231f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +                 "target": Array [
+    +                   "#inv-compact",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.84 (foreground color: #4f494c, background color: #231f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-compact",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.9,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#4b4850",
+    +               "fontSize": "24.0pt (32px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.9 (foreground color: #4b4850, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +                 "target": Array [
+    +                   "#inv-search",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.9 (foreground color: #4b4850, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-search",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      80 |   const audit = async () => {
+      81 |     const r = await new Axe({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    > 82 |     expect(r.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+         |                                                                                  ^
+      83 |     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      84 |   };
+      85 |   await journal(page, 'quests'); await audit();
+        at audit (/tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:82:82)
+        at /tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:88:129
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -   1
+    + Received  + 303
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+    +     "help": "Elements must meet minimum color contrast ratio thresholds",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=playwright",
+    +     "id": "color-contrast",
+    +     "impact": "serious",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.5,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.5 (foreground color: #3c3848, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.5 (foreground color: #3c3848, background color: #1d1a28, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">left hand</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.97,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#4e4a52",
+    +               "fontSize": "14.9pt (19.84px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"Left hand: Shield, Shield\" class=\"slot filled\" data-slot=\"shield\" data-hand=\"left\" aria-controls=\"inv-grid item-detail\" aria-pressed=\"false\"><span class=\"lbl\">left hand</span><img src=\"img/world/shield.png\" alt=\"\"><div>Shield</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"Left hand: Shield, Shield\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 14.9pt (19.84px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<div>Shield</div>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"Left hand: Shield, Shield\"] > div",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"ring: empty\" class=\"slot\" data-slot=\"ring2\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">ring</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[data-slot=\"ring2\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">ring</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[data-slot=\"ring2\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"amulet: empty\" class=\"slot\" data-slot=\"amulet\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">amulet</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"amulet: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">amulet</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"amulet: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1a1825",
+    +               "contrastRatio": 1.54,
+    +               "expectedContrastRatio": "4.5:1",
+    +               "fgColor": "#3c3848",
+    +               "fontSize": "13.2pt (17.6px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" aria-label=\"cloak: empty\" class=\"slot\" data-slot=\"cloak\" aria-controls=\"inv-grid item-detail\"><span class=\"lbl\">cloak</span><div>—</div></button>",
+    +                 "target": Array [
+    +                   "button[aria-label=\"cloak: empty\"]",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.54 (foreground color: #3c3848, background color: #1a1825, font size: 13.2pt (17.6px), font weight: normal). Expected contrast ratio of 4.5:1",
+    +         "html": "<span class=\"lbl\">cloak</span>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "button[aria-label=\"cloak: empty\"] > .lbl",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#241f27",
+    +               "contrastRatio": 1.91,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#514c4e",
+    +               "fontSize": "22.6pt (30.08px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.91 (foreground color: #514c4e, background color: #241f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +                 "target": Array [
+    +                   "#inv-compact",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.91 (foreground color: #514c4e, background color: #241f27, font size: 22.6pt (30.08px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<button type=\"button\" id=\"inv-compact\" class=\"small ghost\" aria-pressed=\"true\" aria-label=\"Compact bag\">Compact</button>",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-compact",
+    +         ],
+    +       },
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": Object {
+    +               "bgColor": "#1d1a28",
+    +               "contrastRatio": 1.97,
+    +               "expectedContrastRatio": "3:1",
+    +               "fgColor": "#4e4a52",
+    +               "fontSize": "24.0pt (32px)",
+    +               "fontWeight": "normal",
+    +               "messageKey": null,
+    +             },
+    +             "id": "color-contrast",
+    +             "impact": "serious",
+    +             "message": "Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +             "relatedNodes": Array [
+    +               Object {
+    +                 "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +                 "target": Array [
+    +                   "#inv-search",
+    +                 ],
+    +               },
+    +             ],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Element has insufficient color contrast of 1.97 (foreground color: #4e4a52, background color: #1d1a28, font size: 24.0pt (32px), font weight: normal). Expected contrast ratio of 3:1",
+    +         "html": "<input id=\"inv-search\" type=\"search\" maxlength=\"80\" autocomplete=\"off\" placeholder=\"Name, type or known power\">",
+    +         "impact": "serious",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "#inv-search",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.color",
+    +       "wcag2aa",
+    +       "wcag143",
+    +       "TTv5",
+    +       "TT13.c",
+    +       "EN-301-549",
+    +       "EN-9.1.4.3",
+    +       "ACT",
+    +       "RGAAv4",
+    +       "RGAA-3.2.1",
+    +     ],
+    +   },
+    + ]
+
+      80 |   const audit = async () => {
+      81 |     const r = await new Axe({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+    > 82 |     expect(r.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
+         |                                                                                  ^
+      83 |     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+      84 |   };
+      85 |   await journal(page, 'quests'); await audit();
+        at audit (/tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:82:82)
+        at /tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:88:129
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat2/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat2/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat2/trace.zip
+    Usage:
+
+        npx playwright show-trace ../ci-refactor-artifacts/phase1-before/artifacts/delve-guide--mobile-guide--803f7-accessible-with-double-text-phone-repeat2/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+    [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+    [phone] › ../../tmp/deepdelve-ui-ready-Jxvlzk/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+(node:802618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:802618) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:802829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:802829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803039) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

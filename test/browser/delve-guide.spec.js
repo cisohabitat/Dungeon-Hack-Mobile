@@ -1,6 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const { selectJournalTab, startGame, watchForErrors } = require('./helpers');
+const { selectJournalTab, uiReady, startGame, watchForErrors } = require('./helpers');
 async function journal(page, tab) { await page.click('[data-open="journal"]'); await selectJournalTab(page, tab); }
 
 test('@mobile quest tracker shows progress, payment and unfinished leads without changing the run', async ({ page }) => {
@@ -71,6 +71,7 @@ test('@mobile guide pages, map landmarks and search remain accessible with doubl
   await page.addInitScript(() => { localStorage.setItem('deepdelve.textSize', '4'); localStorage.setItem('deepdelve.palette', 'safe'); });
   await startGame(page, { seed: 'guide-a11y' }); await page.evaluate(() => { Game.level().monsters = []; });
   const audit = async () => {
+    await uiReady(page);
     const r = await new Axe({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     expect(r.violations.filter(v => ['serious', 'critical'].includes(v.impact))).toEqual([]);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

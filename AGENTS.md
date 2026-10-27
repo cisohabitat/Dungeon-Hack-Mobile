@@ -1373,3 +1373,16 @@ The verification record is `docs/verification/2026-10-27-render-headroom/`.
 It retains controls and rejected interval-cache variants: favorable frozen
 render timings did not carry through to the unchanged native FPS budget.
 Never weaken that budget or publish a diagnostic gain as universal speedup.
+
+### Settled accessibility audits
+Use `uiReady` from the browser helpers before auditing a newly opened screen or
+overlay. It waits for finite animations in the active panel and for outgoing
+overlays to close, with a bounded 10s wait; infinite decoration does not block it.
+It does not disable motion, advance the game, drain deferred artwork or omit
+axe rules. A fixed 250ms sleep is not a reliable readiness condition across
+engines. Keep the guide's complete navigation, overflow, keyboard and
+serious/critical assertions. The regression stretches the native Pack fade and
+checks that a visible low-contrast label still fails. The original exact-
+background-color negative control did not produce an axe violation; use visible
+low-contrast text for this guard. The diagnostic comparison is in
+`docs/verification/2026-10-27-ci-refactor/phase1/`.

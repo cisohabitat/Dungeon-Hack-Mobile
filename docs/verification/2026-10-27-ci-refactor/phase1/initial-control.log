@@ -1,0 +1,129 @@
+
+Running 36 tests using 2 workers
+
+(node:798445) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:798444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:798445) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:798444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   2 [phone] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults (10.6s)
+(node:798823) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:798823) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [phone] › test/browser/a11y.spec.js:50:1 › the title, the hero's making and the screens off the title (35.1s)
+  ✓   4 [phone] › test/browser/a11y.spec.js:157:1 › a keeper introduction (6.0s)
+  ✓   5 [phone] › test/browser/a11y.spec.js:169:1 › an encounter (6.2s)
+  ✓   6 [phone] › test/browser/a11y.spec.js:198:1 › the divided stair (6.9s)
+  ✓   3 [phone] › test/browser/a11y.spec.js:99:1 › the dungeon and every overlay in it (50.3s)
+  ✓   7 [phone] › test/browser/a11y.spec.js:216:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (11.5s)
+  ✓   8 [phone] › test/browser/a11y.spec.js:233:1 › the dungeon on a wide screen, with the map docked beside the view (9.6s)
+  ✓   9 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (8.6s)
+  ✓  10 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (8.2s)
+  ✓  11 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (8.5s)
+  ✓  13 [phone] › test/browser/delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines (8.1s)
+  ✓  12 [phone] › test/browser/delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run (9.1s)
+  ✓  14 [phone] › test/browser/delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus (6.8s)
+  ✓  15 [phone] › test/browser/delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions (8.0s)
+  ✓  16 [phone] › test/browser/delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses (7.5s)
+  ✓  17 [phone] › test/browser/delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers (6.7s)
+(node:800160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:800160) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [phone] › test/browser/delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text (12.6s)
+(node:800416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  19 [small] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults (9.9s)
+(node:800424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:800416) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:800424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  20 [small] › test/browser/a11y.spec.js:50:1 › the title, the hero's making and the screens off the title (32.4s)
+  ✓  22 [small] › test/browser/a11y.spec.js:157:1 › a keeper introduction (5.3s)
+  ✓  23 [small] › test/browser/a11y.spec.js:169:1 › an encounter (6.3s)
+  ✓  21 [small] › test/browser/a11y.spec.js:99:1 › the dungeon and every overlay in it (47.2s)
+  ✓  24 [small] › test/browser/a11y.spec.js:198:1 › the divided stair (7.0s)
+  ✓  25 [small] › test/browser/a11y.spec.js:216:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (11.3s)
+  ✓  26 [small] › test/browser/a11y.spec.js:233:1 › the dungeon on a wide screen, with the map docked beside the view (9.0s)
+  ✓  27 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (7.7s)
+  ✓  28 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (7.8s)
+  ✓  29 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (7.6s)
+  ✓  30 [small] › test/browser/delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run (8.6s)
+  ✓  31 [small] › test/browser/delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines (7.4s)
+  ✓  32 [small] › test/browser/delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus (6.7s)
+  ✓  33 [small] › test/browser/delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions (6.7s)
+  ✓  34 [small] › test/browser/delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses (6.5s)
+  ✓  35 [small] › test/browser/delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers (6.1s)
+  ✓  36 [small] › test/browser/delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text (9.9s)
+
+
+  1) [phone] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      45 |   await uiReady(page);
+      46 |   const bad = await audit();
+    > 47 |   expect(bad.violations.some(v => v.id === 'color-contrast' && BAR.includes(v.impact))).toBe(true);
+         |                                                                                         ^
+      48 | });
+      49 |
+      50 | test('the title, the hero\'s making and the screens off the title', async ({ page }) => {
+        at /workspace/Dungeon-Hack-Mobile/test/browser/a11y.spec.js:47:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [small] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      45 |   await uiReady(page);
+      46 |   const bad = await audit();
+    > 47 |   expect(bad.violations.some(v => v.id === 'color-contrast' && BAR.includes(v.impact))).toBe(true);
+         |                                                                                         ^
+      48 | });
+      49 |
+      50 | test('the title, the hero\'s making and the screens off the title', async ({ page }) => {
+        at /workspace/Dungeon-Hack-Mobile/test/browser/a11y.spec.js:47:89
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-small/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-small/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-small/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/a11y--mobile-accessibility-04148-eports-real-contrast-faults-small/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [phone] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults
+    [small] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults
+  34 passed (3.7m)

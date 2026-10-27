@@ -1,0 +1,57 @@
+
+Running 36 tests using 2 workers
+
+(node:803989) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803989) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [phone] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults (9.8s)
+  ✓   2 [phone] › test/browser/a11y.spec.js:50:1 › the title, the hero's making and the screens off the title (35.7s)
+  ✓   4 [phone] › test/browser/a11y.spec.js:157:1 › a keeper introduction (6.4s)
+  ✓   5 [phone] › test/browser/a11y.spec.js:169:1 › an encounter (6.8s)
+  ✓   6 [phone] › test/browser/a11y.spec.js:198:1 › the divided stair (6.7s)
+  ✓   3 [phone] › test/browser/a11y.spec.js:99:1 › the dungeon and every overlay in it (51.5s)
+  ✓   7 [phone] › test/browser/a11y.spec.js:216:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (12.0s)
+  ✓   8 [phone] › test/browser/a11y.spec.js:233:1 › the dungeon on a wide screen, with the map docked beside the view (8.9s)
+  ✓   9 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (8.1s)
+  ✓  10 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (8.3s)
+  ✓  11 [phone] › test/browser/a11y.spec.js:246:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (7.8s)
+  ✓  12 [phone] › test/browser/delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run (9.1s)
+  ✓  13 [phone] › test/browser/delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines (8.7s)
+  ✓  14 [phone] › test/browser/delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus (6.9s)
+  ✓  15 [phone] › test/browser/delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions (7.8s)
+  ✓  16 [phone] › test/browser/delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses (7.7s)
+  ✓  17 [phone] › test/browser/delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers (7.3s)
+(node:805612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:805612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 [phone] › test/browser/delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text (13.6s)
+(node:805834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:805834) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [small] › test/browser/a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults (8.6s)
+  ✓  20 [small] › test/browser/a11y.spec.js:50:1 › the title, the hero's making and the screens off the title (33.6s)
+  ✓  22 [small] › test/browser/a11y.spec.js:157:1 › a keeper introduction (5.6s)
+  ✓  23 [small] › test/browser/a11y.spec.js:169:1 › an encounter (6.6s)
+  ✓  21 [small] › test/browser/a11y.spec.js:99:1 › the dungeon and every overlay in it (49.2s)
+  ✓  24 [small] › test/browser/a11y.spec.js:198:1 › the divided stair (7.5s)
+  ✓  25 [small] › test/browser/a11y.spec.js:216:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours (11.4s)
+  ✓  26 [small] › test/browser/a11y.spec.js:233:1 › the dungeon on a wide screen, with the map docked beside the view (9.0s)
+  ✓  27 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle1 exposes its clues and controls to assistive technology (7.7s)
+  ✓  28 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle3 exposes its clues and controls to assistive technology (7.7s)
+  ✓  29 [small] › test/browser/a11y.spec.js:246:55 › optional cache puzzle0 exposes its clues and controls to assistive technology (8.0s)
+  ✓  30 [small] › test/browser/delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run (8.8s)
+  ✓  31 [small] › test/browser/delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines (8.0s)
+  ✓  32 [small] › test/browser/delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus (6.9s)
+  ✓  33 [small] › test/browser/delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions (7.2s)
+  ✓  34 [small] › test/browser/delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses (7.0s)
+  ✓  35 [small] › test/browser/delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers (7.0s)
+  ✓  36 [small] › test/browser/delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text (10.6s)
+
+  36 passed (3.7m)

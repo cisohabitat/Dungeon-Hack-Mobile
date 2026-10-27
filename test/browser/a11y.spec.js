@@ -3,14 +3,14 @@
 // and none may hold a fault it rates serious or critical.
 const { test } = require('@playwright/test');
 const AxeBuilder = require('@axe-core/playwright').default;
-const { customiseCreation, selectJournalTab, expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, selectJournalTab, uiReady, expect, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
 
 const TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const BAR = ['serious', 'critical'];
 
 /** Every fault axe finds on the page as it stands, under the name of where it was. */
 async function scan(page, where, found) {
-  await page.waitForTimeout(250);   // overlays fade in
+  await uiReady(page);
   const r = await new AxeBuilder({ page }).withTags(TAGS).analyze();
   for (const v of r.violations) {
     for (const n of v.nodes) found.push({ where, rule: v.id, impact: v.impact, target: n.target.join(' '), help: v.help, summary: n.failureSummary });
@@ -22,6 +22,30 @@ function report(found) {
   for (const [k, v] of Object.entries(by).sort()) console.log(`AXE ${k}: ${v.n} in ${[...v.where].join(', ')} e.g. ${v.eg.join(' | ')}`);
   return found.filter(f => BAR.includes(f.impact));
 }
+
+test('@mobile accessibility readiness waits for panel motion and still reports real contrast faults', async ({ page }) => {
+  await startGame(page, { seed: 'a11y-readiness' });
+  await page.evaluate(() => { Game.level().monsters = []; });
+  // Stretch the native fade past the old guessed wait. A decorative infinite
+  // animation must not prevent a settled audit from reaching its assertions.
+  await page.addStyleTag({ content: `
+    #ov-inv.open { animation-duration: 900ms !important; }
+    @keyframes readiness-pulse { from { transform: translateX(0); } to { transform: translateX(0); } }
+    #ov-inv h2 { animation: readiness-pulse 100ms infinite; }
+  ` });
+  await page.click('[data-open="inv"]');
+  await uiReady(page);
+  await expect(page.locator('#ov-inv')).toHaveCSS('opacity', '1');
+  const audit = () => new AxeBuilder({ page }).include('#ov-inv').withTags(TAGS).analyze();
+  const good = await audit();
+  expect(good.violations.filter(v => BAR.includes(v.impact))).toEqual([]);
+  await page.locator('#ov-inv .slot .lbl').first().evaluate(el => {
+    el.style.color = '#403b49';   // visible but well below AA contrast on the slot
+  });
+  await uiReady(page);
+  const bad = await audit();
+  expect(bad.violations.some(v => v.id === 'color-contrast' && BAR.includes(v.impact))).toBe(true);
+});
 
 test('the title, the hero\'s making and the screens off the title', async ({ page }) => {
   test.setTimeout(120_000);

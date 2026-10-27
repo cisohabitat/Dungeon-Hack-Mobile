@@ -1,0 +1,47 @@
+{
+  "baseline": "62be4c80a760feed1a1837308ab43610fded9348",
+  "versionUnchanged": "0.9.50",
+  "noPlayerFilesChanged": true,
+  "rules": 751,
+  "focusedCases": 36,
+  "before": {
+    "contrastFailures": 3,
+    "repeats": 3
+  },
+  "after": {
+    "passed": 3,
+    "repeats": 3
+  },
+  "sourceSHA256": {
+    "test/browser/helpers.js": "b446be1294547bd18e637d44607546eac6e0e070070a45ef4eb8f70a032c9de2",
+    "test/browser/a11y.spec.js": "b155daf7ba8b61ff17494bc7531d23f79986d90605a9cab3993765847f7c7dba",
+    "test/browser/delve-guide.spec.js": "d3b50103424567e5c8ea56926ce5394c621d7cece7af4638ef371955ef1e9101"
+  },
+  "steps": [
+    {
+      "name": "before",
+      "exitCode": 0,
+      "seconds": 39.7,
+      "log": "/tmp/ci-phase1-before.log"
+    },
+    {
+      "name": "after",
+      "exitCode": 0,
+      "seconds": 37.4,
+      "log": "/tmp/ci-phase1-after.log"
+    },
+    {
+      "name": "focused",
+      "exitCode": 0,
+      "seconds": 223.0,
+      "log": "/tmp/ci-phase1-focused.log"
+    },
+    {
+      "name": "npm",
+      "exitCode": 0,
+      "seconds": 172.7,
+      "log": "/tmp/ci-phase1-npm.log"
+    }
+  ],
+  "publication": "Fresh committed release specs, exact-commit hook, seven required CI jobs, publisher and public commit delivery pending at commit creation."
+}

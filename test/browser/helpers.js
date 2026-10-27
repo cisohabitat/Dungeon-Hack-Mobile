@@ -35,6 +35,17 @@ async function selectJournalTab(page, tab) {
   await page.click(`[data-jtab="${tab}"]`);
 }
 
+/** Audit the settled UI, without disabling motion or waiting for unrelated artwork. */
+async function uiReady(page) {
+  await page.waitForFunction(() => {
+    if (document.querySelector('.overlay.closing')) return false;
+    const overlays = [...document.querySelectorAll('.overlay.open')];
+    const roots = overlays.length ? overlays : [...document.querySelectorAll('.screen.active')];
+    return roots.length > 0 && roots.every(root => root.getAnimations({ subtree: true }).every(a =>
+      a.playState === 'finished' || a.playState === 'idle' || !Number.isFinite(a.effect?.getComputedTiming().endTime)));
+  }, null, { timeout: 10000, polling: 'raf' });
+}
+
 /**
  * Create a character and step through the prologue into the dungeon.
  * @param {import('@playwright/test').Page} page
@@ -216,4 +227,4 @@ async function padStick(page, x, y, ms = 90) {
   await page.waitForTimeout(ms);
 }
 
-module.exports = { customiseCreation, selectJournalTab, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, usePad, padPress, padStick, PAD, expect };
+module.exports = { customiseCreation, selectJournalTab, uiReady, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, killMonster, descendTo, artReady, usePad, padPress, padStick, PAD, expect };

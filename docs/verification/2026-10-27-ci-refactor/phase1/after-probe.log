@@ -1,0 +1,20 @@
+
+Running 3 tests using 1 worker
+
+  ✓  1 [phone] › ../../tmp/deepdelve-ui-ready-1dU4Gv/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (11.6s)
+  ✓  2 [phone] › ../../tmp/deepdelve-ui-ready-1dU4Gv/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (11.3s)
+  ✓  3 [phone] › ../../tmp/deepdelve-ui-ready-1dU4Gv/delve-guide.spec.js:73:1 › @mobile guide pages, map landmarks and search remain accessible with double text (11.2s)
+
+  3 passed (36.7s)
+(node:803300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
