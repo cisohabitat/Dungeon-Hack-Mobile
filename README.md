@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Local spell impacts.** Painted fire and frost bursts stay bounded near their
+  targets. Damage numbers draw above spells, and attack warnings stay clear.
+
 - **Continuous torchlight.** Light blends across floor and ceiling tiles as you
   walk and turn, preserving the existing fog, materials and torch flicker.
 

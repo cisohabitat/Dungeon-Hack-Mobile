@@ -107,3 +107,94 @@ test('elemental impacts fade and Calm view removes travelling effects and holds 
     expect(r.gone.n, r.style).toBe(0); expect(r.composite).toBe('source-over');
   }
 });
+
+test('painted fire and frost stay local at close range and expire @mobile', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(async () => {
+    const { paintedImpact } = await import('/js/paintedworld.js');
+    window.__impactReady = () => ['fire', 'frost'].every(k => [0, 1, 2, 3].every(i => !!paintedImpact(k, i)));
+    window.__impactReady();
+  });
+  await page.waitForFunction(() => window.__impactReady());
+  const rows = await page.evaluate(async () => {
+    const { makeSpellFx } = await import('/js/spellfx.js');
+    const canvas = document.createElement('canvas'); canvas.width = 320; canvas.height = 240;
+    const ctx = canvas.getContext('2d'), fx = makeSpellFx({ W: 320, H: 240, ctx, calm: false });
+    return ['fireball', 'cone'].flatMap(style => [35, 240, 800].map(r => {
+      const effect = { spells: [{ style, color: '#8ef', impact: .35, born: 0, until: 1000, pts: [{}] }] };
+      const bounds = age => {
+        ctx.clearRect(0, 0, 320, 240);
+        fx.drawSpells(effect, age * 1000, () => ({ x: 160, y: 120, r }));
+        const data = ctx.getImageData(0, 0, 320, 240).data;
+        let minX = 320, maxX = -1, minY = 240, maxY = -1, n = 0;
+        for (let i = 0; i < data.length; i += 4) if (data[i + 3]) {
+          const x = i / 4 % 320, y = (i / 4 / 320) | 0;
+          minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); n++;
+        }
+        return { width: maxX - minX + 1, height: maxY - minY + 1, n };
+      };
+      return { style, r, impact: bounds(.36), gone: bounds(1), composite: ctx.globalCompositeOperation, alpha: ctx.globalAlpha };
+    }));
+  });
+  for (const row of rows) {
+    expect(row.impact.n).toBeGreaterThan(row.r > 35 ? 10 : 0);
+    expect(row.impact.width).toBeLessThanOrEqual(103);
+    expect(row.impact.height).toBeLessThanOrEqual(103);
+    expect(row.gone.n).toBe(0); expect(row.composite).toBe('source-over'); expect(row.alpha).toBe(1);
+  }
+  for (const style of ['fireball', 'cone']) {
+    const [far, middle, close] = rows.filter(r => r.style === style);
+    expect(close.impact.width).toBe(middle.impact.width);
+    expect(far.impact.width).toBeLessThan(close.impact.width);
+  }
+});
+
+test('overlapping spells leave warning and damage receipt pixels clear @mobile', async ({ page }) => {
+  await setup(page, 'Mage');
+  const result = await page.evaluate(async () => {
+    const { Dice, Odds } = await import('/js/rng.js');
+    Game.update = () => {};
+    const m = Game.level().monsters[0], at = performance.now(), G = Game.state();
+    m.windup = { at: G.t - 800, until: G.t + 200, kind: 'melee' };
+    const rs = Game.renderState(at), render = Renderer.render, ctx = document.querySelector('#view').getContext('2d');
+    const pt = { x: m.rx + .5, y: m.ry + .5 }, state = JSON.stringify(G), dice = [Dice.s, Odds.s];
+    const fx = { ...rs.fx, view: null, texts: [{ ...pt, text: '42', color: '#ff7040', outcome: 'critical', born: at - 10, until: at + 500 }], spells: [] };
+    const rows = [];
+    for (const big of [false, true]) for (const calm of [false, true]) {
+      Renderer.setBigNumbers(big); Renderer.setCalm(calm);
+      render(rs.level, rs.cam, rs.sprites, fx, at);
+      const marks = Renderer.shown.filter(m => m.markSize).map(m => ({ x: m.markX - m.markSize - 2, y: m.markY - m.markSize - 2, w: m.markSize * 2 + 4, h: m.markSize + 4 }));
+      const labels = Renderer.numbers.map(n => ({ x: n.x - n.half - 3, y: n.y - (big ? 23 : 16) - 3, w: n.half * 2 + 6, h: (big ? 23 : 16) + 7 }));
+      const rects = [...marks, ...labels].map(r => ({ x: Math.max(0, Math.floor(r.x)), y: Math.max(0, Math.floor(r.y)), w: Math.floor(r.w), h: Math.floor(r.h) }));
+      // Compare only opaque ink; translucent antialias edges naturally blend
+      // with the spell behind them. A dense volley deliberately crosses both.
+      const ink = [];
+      const originalFill = ctx.fillText.bind(ctx), originalStroke = ctx.strokeText.bind(ctx);
+      ctx.fillText = () => {}; ctx.strokeText = () => {};
+      render(rs.level, rs.cam, rs.sprites, fx, at);
+      const noText = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data;
+      ctx.fillText = originalFill; ctx.strokeText = originalStroke;
+      render(rs.level, rs.cam, rs.sprites, fx, at);
+      const before = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data;
+      for (const r of labels) for (let y = Math.ceil(r.y); y < Math.floor(r.y + r.h); y++) for (let x = Math.ceil(r.x); x < Math.floor(r.x + r.w); x++) {
+        const i = (y * ctx.canvas.width + x) * 4;
+        if (before[i] === 255 && before[i + 1] === 112 && before[i + 2] === 64 && (before[i] !== noText[i] || before[i + 1] !== noText[i + 1])) ink.push(i);
+      }
+      // A dense stationary volley crosses the label and warning even in Calm.
+      fx.spells = Array.from({ length: 12 }, () => ({ style: 'lightning', from: { x: .5, y: 0 }, color: '#8ef', impact: 0, born: at - 20, until: at + 500, pts: [pt] }));
+      render(rs.level, rs.cam, rs.sprites, fx, at);
+      const after = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height).data;
+      const same = i => before[i] === after[i] && before[i + 1] === after[i + 1] && before[i + 2] === after[i + 2];
+      let warningChanges = 0;
+      for (const r of rects.slice(0, marks.length)) for (let y = r.y; y < r.y + r.h; y++) for (let x = r.x; x < r.x + r.w; x++) if (!same((y * ctx.canvas.width + x) * 4)) warningChanges++;
+      rows.push({ big, calm, marks: marks.length, labels: labels.length, ink: ink.length, changedInk: ink.filter(i => !same(i)).length, warningChanges });
+      fx.spells = [];
+    }
+    return { rows, unchanged: JSON.stringify(G) === state && Dice.s === dice[0] && Odds.s === dice[1] };
+  });
+  for (const row of result.rows) {
+    expect(row.marks).toBeGreaterThan(0); expect(row.labels).toBe(1); expect(row.ink).toBeGreaterThan(5);
+    expect(row.changedInk).toBe(0); expect(row.warningChanges).toBe(0);
+  }
+  expect(result.unchanged).toBe(true);
+});

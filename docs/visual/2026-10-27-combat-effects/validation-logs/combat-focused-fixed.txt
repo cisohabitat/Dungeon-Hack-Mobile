@@ -1,0 +1,143 @@
+
+Running 50 tests using 2 workers
+
+(node:682223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:682222) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:682223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:682222) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [phone] › test/browser/combat-clarity.spec.js:53:1 › landed damage and critical hits keep their actual outcome and readable labels @mobile (13.3s)
+  ✓   2 [phone] › test/browser/combat-clarity.spec.js:15:1 › visible enemy intent names attacks, shots, magic and charges without exposing hidden foes @mobile (13.8s)
+  ✓   3 [phone] › test/browser/combat-clarity.spec.js:69:1 › critical text fits beside filling warnings in Calm view and large numbers @mobile (22.0s)
+  ✓   4 [phone] › test/browser/combat-clarity.spec.js:99:1 › condition countdowns retain focus, explain themselves and expire with the delve clock @mobile (23.0s)
+  ✓   5 [phone] › test/browser/combat-clarity.spec.js:115:1 › death advice explains the recorded source, includes conditions and escapes hostile text @mobile (21.7s)
+  ✓   6 [phone] › test/browser/combat-clarity.spec.js:134:1 › crowded combat keeps conditions bounded, touch targets reachable and the view accessible @mobile (21.7s)
+  ✓   8 [phone] › test/browser/elemental-feedback.spec.js:26:4 › flame_strike keeps its cost and impact timing with its own visual style (8.8s)
+  ✓   7 [phone] › test/browser/combat-clarity.spec.js:162:1 › aligned crowd damage receipts stay apart at different depths @mobile (16.1s)
+  ✓   9 [phone] › test/browser/elemental-feedback.spec.js:26:4 › cone_cold keeps its cost and impact timing with its own visual style (9.2s)
+  ✓  10 [phone] › test/browser/elemental-feedback.spec.js:26:4 › lightning keeps its cost and impact timing with its own visual style (9.4s)
+  ✓  11 [phone] › test/browser/elemental-feedback.spec.js:26:4 › call_lightning keeps its cost and impact timing with its own visual style (8.6s)
+  ✓  12 [phone] › test/browser/elemental-feedback.spec.js:26:4 › insect_plague keeps its cost and impact timing with its own visual style (8.7s)
+  ✓  13 [phone] › test/browser/elemental-feedback.spec.js:51:1 › elemental scrolls keep their delayed launch and damage alignment (7.6s)
+  ✓  14 [phone] › test/browser/elemental-feedback.spec.js:73:1 › elemental impacts fade and Calm view removes travelling effects and holds the target still (3.0s)
+  ✘  15 [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile (3.3s)
+(node:683340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:683340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [phone] › test/browser/elemental-feedback.spec.js:152:1 › spells leave warning and damage receipt pixels clear in a crowd @mobile (8.1s)
+  ✓  18 [phone] › test/browser/fire-feedback.spec.js:43:1 › fire flares locally at impact, fades out, and Calm view holds a smaller still glow (2.5s)
+  ✓  17 [phone] › test/browser/fire-feedback.spec.js:5:1 › Burning Hands keeps its cost and impact timing, with a readable target and warning (9.6s)
+  ✓  19 [phone] › test/browser/melee-feedback.spec.js:17:1 › a close blow leaves a short impact; blocked plates and arrows do not claim a melee hit (13.4s)
+  ✓  20 [phone] › test/browser/melee-feedback.spec.js:48:1 › the impact is visible, smaller in Calm view, and hidden behind stone (13.2s)
+  ✓  21 [phone] › test/browser/melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view (13.5s)
+  ✓  22 [phone] › test/browser/melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile (14.7s)
+  ✓  23 [phone] › test/browser/melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile (13.4s)
+  ✓  24 [phone] › test/browser/melee-feedback.spec.js:178:1 › warning glyphs stay distinct without colour and defence receipts expire without travelling @mobile (13.5s)
+(node:683902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:683902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  25 [phone] › test/browser/melee-feedback.spec.js:209:1 › stepping out of a wind-up gives dodge feedback and a landed blow takes priority @mobile (12.2s)
+(node:684040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:684040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  26 [small] › test/browser/combat-clarity.spec.js:15:1 › visible enemy intent names attacks, shots, magic and charges without exposing hidden foes @mobile (12.0s)
+  ✓  27 [small] › test/browser/combat-clarity.spec.js:53:1 › landed damage and critical hits keep their actual outcome and readable labels @mobile (12.2s)
+  ✓  28 [small] › test/browser/combat-clarity.spec.js:69:1 › critical text fits beside filling warnings in Calm view and large numbers @mobile (12.8s)
+  ✓  29 [small] › test/browser/combat-clarity.spec.js:99:1 › condition countdowns retain focus, explain themselves and expire with the delve clock @mobile (16.0s)
+  ✓  30 [small] › test/browser/combat-clarity.spec.js:115:1 › death advice explains the recorded source, includes conditions and escapes hostile text @mobile (15.9s)
+  ✓  31 [small] › test/browser/combat-clarity.spec.js:134:1 › crowded combat keeps conditions bounded, touch targets reachable and the view accessible @mobile (16.1s)
+  ✓  32 [small] › test/browser/combat-clarity.spec.js:162:1 › aligned crowd damage receipts stay apart at different depths @mobile (12.3s)
+  ✓  34 [small] › test/browser/elemental-feedback.spec.js:26:4 › cone_cold keeps its cost and impact timing with its own visual style (8.6s)
+  ✓  33 [small] › test/browser/elemental-feedback.spec.js:26:4 › flame_strike keeps its cost and impact timing with its own visual style (8.8s)
+  ✓  35 [small] › test/browser/elemental-feedback.spec.js:26:4 › lightning keeps its cost and impact timing with its own visual style (8.6s)
+  ✓  36 [small] › test/browser/elemental-feedback.spec.js:26:4 › call_lightning keeps its cost and impact timing with its own visual style (8.5s)
+  ✓  38 [small] › test/browser/elemental-feedback.spec.js:51:1 › elemental scrolls keep their delayed launch and damage alignment (7.8s)
+  ✓  37 [small] › test/browser/elemental-feedback.spec.js:26:4 › insect_plague keeps its cost and impact timing with its own visual style (8.8s)
+  ✓  39 [small] › test/browser/elemental-feedback.spec.js:73:1 › elemental impacts fade and Calm view removes travelling effects and holds the target still (2.4s)
+  ✘  40 [small] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile (2.8s)
+(node:684781) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:684781) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  41 [small] › test/browser/elemental-feedback.spec.js:152:1 › spells leave warning and damage receipt pixels clear in a crowd @mobile (7.5s)
+  ✓  43 [small] › test/browser/fire-feedback.spec.js:43:1 › fire flares locally at impact, fades out, and Calm view holds a smaller still glow (2.0s)
+  ✓  42 [small] › test/browser/fire-feedback.spec.js:5:1 › Burning Hands keeps its cost and impact timing, with a readable target and warning (8.5s)
+  ✓  44 [small] › test/browser/melee-feedback.spec.js:17:1 › a close blow leaves a short impact; blocked plates and arrows do not claim a melee hit (11.6s)
+  ✓  45 [small] › test/browser/melee-feedback.spec.js:48:1 › the impact is visible, smaller in Calm view, and hidden behind stone (11.2s)
+  ✓  46 [small] › test/browser/melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view (11.2s)
+  ✓  47 [small] › test/browser/melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile (11.5s)
+  ✓  48 [small] › test/browser/melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile (11.6s)
+  ✓  49 [small] › test/browser/melee-feedback.spec.js:178:1 › warning glyphs stay distinct without colour and defence receipts expire without travelling @mobile (11.4s)
+  ✓  50 [small] › test/browser/melee-feedback.spec.js:209:1 › stepping out of a wind-up gives dodge feedback and a landed blow takes priority @mobile (9.0s)
+
+
+  1) [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 17
+    Received: 18
+
+      145 |   for (const style of ['fireball', 'cone']) {
+      146 |     const [far, middle, close] = rows.filter(r => r.style === style);
+    > 147 |     expect(close.impact.width).toBe(middle.impact.width);
+          |                                ^
+      148 |     expect(far.impact.width).toBeLessThan(close.impact.width);
+      149 |   }
+      150 | });
+        at /workspace/Dungeon-Hack-Mobile/test/browser/elemental-feedback.spec.js:147:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [small] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 17
+    Received: 18
+
+      145 |   for (const style of ['fireball', 'cone']) {
+      146 |     const [far, middle, close] = rows.filter(r => r.style === style);
+    > 147 |     expect(close.impact.width).toBe(middle.impact.width);
+          |                                ^
+      148 |     expect(far.impact.width).toBeLessThan(close.impact.width);
+      149 |   }
+      150 | });
+        at /workspace/Dungeon-Hack-Mobile/test/browser/elemental-feedback.spec.js:147:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-small/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-small/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-small/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-small/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+    [small] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+  48 passed (4.7m)

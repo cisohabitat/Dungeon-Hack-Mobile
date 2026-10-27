@@ -12,7 +12,9 @@ export function makeElementFx(K) {
     const i = age < .135 ? 0 : age < .4 ? 1 : age < .7 ? 2 : 3;
     const image = paintedImpact(family, i);
     if (!image) return false;
-    const size = q.r * (family === 'fire' ? 1.6 : 1.4) * 256 / 216;
+    // Painted bursts use the same bounded target radius as their fallback.
+    // A nearby target must not turn a torso impact into a full-view flare.
+    const size = radius(q) * (family === 'fire' ? 1.6 : 1.4) * 256 / 216;
     ctx.save(); ctx.globalCompositeOperation = 'source-over';
     ctx.globalAlpha = (1 - age) ** (family === 'fire' ? 2 : 1.6);
     ctx.drawImage(image, q.x - size / 2, q.y - size / 2, size, size); ctx.restore();

@@ -1647,6 +1647,27 @@ const Renderer = (() => {
     drawBits(fx, now, px, py, dirX, dirY, planeX, planeY, invDet);
     if (!calm) drawDrips(level, now, px, py, dirX, dirY, planeX, planeY, invDet);
 
+    // spells, drawn over the world where they land
+    if (fx.spells?.length) {
+      ctx.save();
+      // Clip each warning separately so overlapping marks remain protected.
+      // Damage receipts are drawn afterwards, above every travelling effect.
+      for (const m of shown) if (m.markSize) {
+        ctx.beginPath(); ctx.rect(0, 0, W, H);
+        ctx.rect(m.markX - m.markSize - 3, m.markY - m.markSize - 3, m.markSize * 2 + 6, m.markSize + 6);
+        ctx.clip('evenodd');
+      }
+      drawSpells(fx, now, pt => {
+        const sx = pt.x - px, sy = pt.y - py;
+        const tY = invDet * (-planeY * sx + planeX * sy);
+        if (tY <= 0.2) return null;
+        const tX = invDet * (dirY * sx - dirX * sy);
+        const hFull = P / tY;
+        return { x: (W / 2) * (1 + tX / tY), y: H / 2 + hFull * 0.08, r: hFull };
+      });
+      ctx.restore();
+    }
+
     // floating texts
     const textPx = bigNumbers ? 23 : 16;
     ctx.font = `bold ${textPx}px monospace`;
@@ -1711,16 +1732,6 @@ const Renderer = (() => {
       numbers.push({ text: t.text, label: text, x, y, half });
       ctx.globalAlpha = 1;
     }
-
-    // spells, drawn over the world where they land
-    drawSpells(fx, now, pt => {
-      const sx = pt.x - px, sy = pt.y - py;
-      const tY = invDet * (-planeY * sx + planeX * sy);
-      if (tY <= 0.2) return null;
-      const tX = invDet * (dirY * sx - dirX * sy);
-      const hFull = P / tY;
-      return { x: (W / 2) * (1 + tX / tY), y: H / 2 + hFull * 0.08, r: hFull };
-    });
 
     // effects
     // the hero's hands, over the world and under the flashes; once the Heart

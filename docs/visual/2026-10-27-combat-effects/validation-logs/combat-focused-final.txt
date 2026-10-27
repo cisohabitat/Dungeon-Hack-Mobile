@@ -1,0 +1,21 @@
+
+Running 4 tests using 2 workers
+
+(node:685300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:685299) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:685299) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:685300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile (3.2s)
+(node:685579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:685579) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [small] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile (2.7s)
+  ✓  2 [phone] › test/browser/elemental-feedback.spec.js:152:1 › overlapping spells leave warning and damage receipt pixels clear @mobile (8.7s)
+  ✓  4 [small] › test/browser/elemental-feedback.spec.js:152:1 › overlapping spells leave warning and damage receipt pixels clear @mobile (7.0s)
+
+  4 passed (15.3s)

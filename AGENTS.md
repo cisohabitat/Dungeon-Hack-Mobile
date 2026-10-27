@@ -1345,3 +1345,12 @@ Keyed unlocks must call `setTile` before deleting the saved lock, so `doorMoves`
 can retain the actual colour. The final saved tile, key consumption and lock
 removal remain unchanged. Native opening/closing and fire-expiry regressions
 live in `painted-world.spec.js`.
+
+### Combat effect layering
+Painted fire/frost impacts in `elementfx.js` use the same bounded target radius
+as procedural impacts; full projection height must never set their size.
+`renderer.js` draws spells before floating receipts and clips each warning
+rectangle separately, preserving overlapping warnings as well as Calm view.
+Keep spell duration/impact phase, costs, hit flashes, corpse timing and dice
+unchanged. The native action review in `docs/visual/2026-10-27-combat-effects/`
+is distinct from deterministic synthetic pixel regressions in elemental-feedback.

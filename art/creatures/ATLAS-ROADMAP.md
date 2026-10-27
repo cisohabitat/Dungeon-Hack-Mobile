@@ -1013,3 +1013,13 @@ regional material and installed-offline evidence is recorded in the
 paintings and game rules are preserved; no new atlas is commissioned. The
 review retains negative diagnostics and the marginal performance failure beside
 the paired budget results. Required CI and release publication remain gates.
+
+### Combat effects polish — 27 October 2026
+The v0.9.49 candidate bounds painted fire/frost bursts to a torso radius, draws
+spell effects below damage receipts and protects incoming-attack warnings.
+78 native combat sequences at320/390/740px,12 additional native death-style
+sequences and8 actions in two fresh installed offline profiles are recorded in
+the [combat effects review](../../docs/visual/2026-10-27-combat-effects/README.md).
+All seven existing death styles retain their approved creature paintings and
+native motion. No new painting or atlas is commissioned. Publication remains
+subject to the full browser, rules, isolated performance, CI and release gates.

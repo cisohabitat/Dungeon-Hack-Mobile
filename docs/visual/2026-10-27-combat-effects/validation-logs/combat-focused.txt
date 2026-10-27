@@ -1,0 +1,48 @@
+
+Running 2 tests using 1 worker
+
+(node:681407) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:681407) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile (2.4s)
+(node:681553) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:681553) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [phone] › test/browser/elemental-feedback.spec.js:152:1 › spells leave warning and damage receipt pixels clear in a crowd @mobile (6.7s)
+
+
+  1) [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 10
+    Received:   9
+
+      138 |   });
+      139 |   for (const row of rows) {
+    > 140 |     expect(row.impact.n).toBeGreaterThan(10);
+          |                          ^
+      141 |     expect(row.impact.width).toBeLessThanOrEqual(103);
+      142 |     expect(row.impact.height).toBeLessThanOrEqual(103);
+      143 |     expect(row.gone.n).toBe(0); expect(row.composite).toBe('source-over'); expect(row.alpha).toBe(1);
+        at /workspace/Dungeon-Hack-Mobile/test/browser/elemental-feedback.spec.js:140:26
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/elemental-feedback-painted-d6fe4-ose-range-and-expire-mobile-phone/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [phone] › test/browser/elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+  1 passed (11.7s)

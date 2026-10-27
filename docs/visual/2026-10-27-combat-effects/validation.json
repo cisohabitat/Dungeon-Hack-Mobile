@@ -1,0 +1,187 @@
+{
+  "version": "0.9.49",
+  "build": 64,
+  "baseCommit": "5c4ca94c3aa009d858ddcfa7a2b4758edb200770",
+  "sourceSHA256": {
+    "js/elementfx.js": "d03a75bda25cff51444f443261ab071ee6af09fd71de7fd8aa705740d90c1b13",
+    "js/renderer.js": "85f037a1b316ddc4b0c532edb7e752b461c422fa6daf77c0e3a62629c1621f1d",
+    "js/titlemenu.js": "f089181d94c7ecd5c67ae5b5f82ac0b6ee33934cca5f4885ccd6a942f594d107",
+    "js/release.js": "869e8d4613032e5693d9881623e3a403a8a6692f88ce56d94577ac2f9d0a240c",
+    "sw.js": "1f20a71f53065cb8fccddc554c8642488927b36591dadcbb4da4e426d411c631",
+    "test/browser/elemental-feedback.spec.js": "03cd33ee03a67c1050d8ddaa51efc20b5efe0a6ccbbb6fad101ffc098a548a94"
+  },
+  "captures": {
+    "native": {
+      "version": "0.9.49",
+      "actions": 78,
+      "frameRecords": 4680,
+      "pngs": 390
+    },
+    "deaths": {
+      "version": "0.9.49",
+      "actions": 12,
+      "frameRecords": 720,
+      "pngs": 60
+    },
+    "offline": {
+      "version": "0.9.49",
+      "actions": 8,
+      "frameRecords": 640,
+      "pngs": 48
+    }
+  },
+  "focused": {
+    "existingCasesPassed": 46,
+    "newCorrectedCasesPassed": 4,
+    "distinctCases": 50,
+    "expectedOriginalFailures": 2,
+    "fixtureErrors": [
+      "First draft required >10 far pixels but the tiny far mark has9; require >0 far and >10 close.",
+      "Cap comparison mistakenly used projection200, giving radius52 below cap54; corrected to240."
+    ],
+    "logs": "validation-logs/",
+    "earlierRun": {
+      "total": 50,
+      "passed": 48,
+      "newSizeFixtureFailures": 2
+    }
+  },
+  "performance": {
+    "localStatus": "FAILED on previous release and candidate; not an established change regression and not a local pass. CI budget remains a required publication gate.",
+    "samples": [
+      {
+        "sample": "candidate-first",
+        "revision": "working v0.9.49",
+        "result": "FAILED",
+        "settings": {
+          "workers": 1,
+          "cpuSlowdown": 4,
+          "minFPS": 30,
+          "minWideFPS": 27,
+          "maxStartMs": 6000
+        },
+        "scenes": {
+          "fight": {
+            "fps": 29.3,
+            "scriptMs": 18.6
+          },
+          "wide": {
+            "fps": 34.2,
+            "scriptMs": 14
+          },
+          "flooded": {
+            "fps": 31.1,
+            "scriptMs": 17.2
+          },
+          "painted": {
+            "fps": 29.7,
+            "scriptMs": 21.5
+          },
+          "rite": {
+            "fps": 38.1,
+            "scriptMs": 17.9
+          }
+        },
+        "start": {
+          "ms": 2712
+        }
+      },
+      {
+        "sample": "paired-baseline",
+        "revision": "5c4ca94c3aa009d858ddcfa7a2b4758edb200770",
+        "result": "FAILED",
+        "settings": {
+          "workers": 1,
+          "cpuSlowdown": 4,
+          "minFPS": 30,
+          "minWideFPS": 27,
+          "maxStartMs": 6000
+        },
+        "scenes": {
+          "fight": {
+            "fps": 27.1,
+            "scriptMs": 19.2
+          },
+          "wide": {
+            "fps": 33.5,
+            "scriptMs": 14.7
+          },
+          "flooded": {
+            "fps": 28.6,
+            "scriptMs": 18.9
+          },
+          "painted": {
+            "fps": 22.5,
+            "scriptMs": 30.1
+          },
+          "rite": {
+            "fps": 41.2,
+            "scriptMs": 16.7
+          }
+        },
+        "start": {
+          "ms": 2547
+        }
+      },
+      {
+        "sample": "paired-candidate",
+        "revision": "working v0.9.49",
+        "result": "FAILED",
+        "settings": {
+          "workers": 1,
+          "cpuSlowdown": 4,
+          "minFPS": 30,
+          "minWideFPS": 27,
+          "maxStartMs": 6000
+        },
+        "scenes": {
+          "fight": {
+            "fps": 30.6,
+            "scriptMs": 17.9
+          },
+          "wide": {
+            "fps": 26.6,
+            "scriptMs": 18
+          },
+          "flooded": {
+            "fps": 29,
+            "scriptMs": 17.7
+          },
+          "painted": {
+            "fps": 24.2,
+            "scriptMs": 26.7
+          },
+          "rite": {
+            "fps": 41.2,
+            "scriptMs": 16.5
+          }
+        },
+        "start": {
+          "ms": 2462
+        }
+      }
+    ]
+  },
+  "rules": {
+    "status": "PASSED",
+    "command": "npm test",
+    "checks": 751,
+    "ruleFiles": 74,
+    "ruleWorkers": 4,
+    "ruleDuration": "1m38s",
+    "log": "validation-logs/npm-test.txt"
+  },
+  "chromium": {
+    "status": "PASSED",
+    "ordinaryCasesPassed": 937,
+    "ordinaryWorkers": 2,
+    "ordinaryDuration": "1.1h",
+    "ordinaryFailures": 0,
+    "serialOfflineCasesPassed": 6,
+    "serialOfflineWorkers": 1,
+    "serialOfflineDuration": "2.9m",
+    "distinctCasesPassed": 943
+  },
+  "ci": "Required after push; do not describe publication as verified until all required jobs and publisher complete.",
+  "balance": "Not required: drawing size/layering only; game rules, inputs, timing, visibility distances and seeded outcomes unchanged."
+}

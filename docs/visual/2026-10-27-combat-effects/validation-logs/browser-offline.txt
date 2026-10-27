@@ -1,0 +1,19 @@
+
+Running 6 tests using 1 worker
+
+(node:732497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:732497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (38.4s)
+  ✓  2 [phone] › test/browser/painted-creatures.spec.js:339:1 › painted creature survives an installed offline native reload @mobile (27.8s)
+  ✓  3 [phone] › test/browser/sharecard.spec.js:166:1 › installed offline ending exports its painted dais and companion without network access (20.9s)
+(node:732774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:732774) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [small] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (38.9s)
+  ✓  5 [small] › test/browser/painted-creatures.spec.js:339:1 › painted creature survives an installed offline native reload @mobile (26.0s)
+  ✓  6 [small] › test/browser/sharecard.spec.js:166:1 › installed offline ending exports its painted dais and companion without network access (19.6s)
+
+  6 passed (2.9m)
