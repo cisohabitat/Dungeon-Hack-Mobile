@@ -1120,6 +1120,16 @@ a pushed change as verified.
   `ubuntu-latest`: its 26.04 rollover fails browser dependency installation
   before tests start. Upgrade the runner label deliberately alongside verified
   browser support; never bypass platform checks or skip engine installation.
+
+  Freezing `Game.update` does not freeze the presentation clock passed to
+  `renderState(now)`. The class-Shade routing fixture samples known idle and
+  blink phases of its actual UID-dependent cycle and checks both exact class
+  objects. Keep the boss/Mimic assertions and native blink behavior intact.
+  The Orc fixture anchors its hit phase to retain exact +60ms hurt and +900ms
+  idle assertions, and additionally checks the exact post-reel blink frame.
+  Keep its hit/champion assertions; blinking is not unrecovered damage.
+  The old idle-only comparison and deterministic control are recorded in
+  `docs/verification/2026-10-28-shade-clock/`.
   Full-cache offline installation checks run in a separate serial step in each
   Chromium job; competing workers exceed the unchanged ten-second installation
   deadline with the full painted catalog. Both steps retain the same shard filter,

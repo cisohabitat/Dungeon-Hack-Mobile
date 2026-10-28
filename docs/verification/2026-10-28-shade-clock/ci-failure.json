@@ -1,0 +1,31 @@
+{
+  "run_id": 40619663929,
+  "commit": "7fb0d92c2ffebcf8450efff4000a71e4fe4f45a1",
+  "job_id": 122590348531,
+  "artifact_id": 12786838759,
+  "artifact_url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/40619663929/artifacts/12786838759",
+  "failedTitle": "boss equipment and class shades follow live state without revealing concealed creatures",
+  "expected": [
+    true,
+    true
+  ],
+  "received": [
+    true,
+    false
+  ],
+  "attempts": 2,
+  "excerpt": [
+    "    - Expected  - 1",
+    "    + Received  + 1",
+    "    - Expected  - 1",
+    "    + Received  + 1",
+    "2026-10-28T02:26:07.8493898Z ##[notice]  1 failed",
+    "  204 passed (12.0m)",
+    "2026-10-28T02:26:07.8498335Z     \u001b[32m- Expected  - 1\u001b[39m",
+    "2026-10-28T02:26:07.8498683Z     \u001b[31m+ Received  + 1\u001b[39m",
+    "2026-10-28T02:26:07.8530404Z     \u001b[32m- Expected  - 1\u001b[39m",
+    "2026-10-28T02:26:07.8530723Z     \u001b[31m+ Received  + 1\u001b[39m",
+    "2026-10-28T02:26:07.8615522Z   1 failed",
+    "2026-10-28T02:26:07.8617190Z   204 passed (12.0m)"
+  ]
+}

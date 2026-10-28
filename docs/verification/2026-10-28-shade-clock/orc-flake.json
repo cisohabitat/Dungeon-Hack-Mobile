@@ -1,0 +1,16 @@
+{
+  "run_id": 40619663929,
+  "job_id": 122590348581,
+  "title": "a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour",
+  "firstAttempt": "failed",
+  "automaticRetry": "passed",
+  "expected": {
+    "reeling": true,
+    "after": true
+  },
+  "received": {
+    "reeling": true,
+    "after": false
+  },
+  "scope": "A correct native blink at the original +900ms sample defeats an idle-only pointer assertion; deterministic probe reproduces this without replaying CI."
+}

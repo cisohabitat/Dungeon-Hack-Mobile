@@ -82,13 +82,17 @@ test.describe('art', () => {
     expect(await placeMonster(page, 'orc', 2, { hp: 300, maxHp: 300 })).not.toBeNull();
     // struck just now: the view is handed its flinching picture
     const drawn = await page.evaluate(() => {
-      const m = Game.level().monsters.find(q => q.maxHp === 300), now = performance.now();
+      const m = Game.level().monsters.find(q => q.maxHp === 300), period = 3200 + (m.uid % 5) * 450;
+      const cycle = Math.ceil((performance.now() + 900 + m.uid * 977) / period) * period - m.uid * 977;
+      // Anchor the fixture hit so its original +900ms sample is idle.
+      const now = cycle + 200 - 900;
       m.flashAt = now; m.flashUntil = now + 130;
       const s = Game.renderState(now + 60).sprites.find(q => q.maxHp === 300);
       const later = Game.renderState(now + 900).sprites.find(q => q.maxHp === 300);
-      return { reeling: s.img === Assets.sprites.orc.hurt, after: later.img === Assets.sprites.orc };
+      const blink = Game.renderState(cycle + period + 64).sprites.find(q => q.maxHp === 300);
+      return { reeling: s.img === Assets.sprites.orc.hurt, after: later.img === Assets.sprites.orc, blink: blink.img === Assets.sprites.orc.blink };
     });
-    expect(drawn).toEqual({ reeling: true, after: true });
+    expect(drawn).toEqual({ reeling: true, after: true, blink: true });
     // each champion has a picture of its own, poses and all; a wash of its kind
     // covers the same pixels, its own picture does not
     const champs = await page.evaluate(() => Object.keys(MONSTERS).filter(id => MONSTERS[id].named).map(id => {

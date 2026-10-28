@@ -1,0 +1,42 @@
+{
+  "scope": "Forced native idle/blink phase and fixture-supplied Orc hit flash reproduce old identity assumptions, not original CI timing/trace or real combat. No assets/renderer/clock replacement.",
+  "shade": {
+    "uid": 90000,
+    "period": 3200,
+    "cycle": 2800,
+    "idleAt": 3000,
+    "blinkAt": 2864,
+    "originalPredicateAtIdle": [
+      true,
+      true
+    ],
+    "originalPredicateAtBlink": [
+      true,
+      false
+    ],
+    "exactIdleAndBlink": [
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "orc": {
+    "uid": 90001,
+    "period": 3650,
+    "hitAt": 3987,
+    "oldAfterAt": 4887,
+    "correctedHitAt": 4123,
+    "correctedAfterAt": 5023,
+    "blinkAt": 8537,
+    "oldPredicate": {
+      "reeling": true,
+      "after": false
+    },
+    "exactHurtIdleBlink": {
+      "reeling": true,
+      "after": true,
+      "blink": true
+    }
+  }
+}

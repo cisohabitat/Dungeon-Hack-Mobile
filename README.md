@@ -631,6 +631,8 @@ bytes are recorded in the [CI execution review](docs/verification/2026-10-27-ci-
 CI pins Ubuntu 24.04 because the pinned Playwright 1.59.1 does not support the
 Ubuntu 26.04 image now supplied by `ubuntu-latest`. Runner upgrades must follow
 verified browser support; all engine suites and the performance gate remain.
+Class-Shade routing and Orc recovery checks verify exact idle and blink images
+at known animation times.
 
 The default browser script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical

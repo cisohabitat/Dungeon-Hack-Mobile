@@ -85,3 +85,12 @@ pinned Playwright 1.59.1. The
 [CI-only follow-up](../../verification/2026-10-28-ci-runner-pin/README.md)
 pins supported Ubuntu 24.04 and retains every suite/threshold. Player and art
 bytes, game version/build/cache and the successful local evidence are unchanged.
+
+The supported-runner CI then found an old class-Shade fixture sampling its
+correct blink frame while expecting idle. Its
+[exact idle/blink follow-up](../../verification/2026-10-28-shade-clock/README.md)
+preserves all assertions and additionally verifies exact class blink identity.
+The other nine required jobs passed. The lantern's game and painting bytes
+remain unchanged; publication still waits for the complete corrected run.
+The same follow-up also corrects an Orc recovery fixture that retried after
+sampling a valid blink instead of idle, keeping its hurt/champion assertions.

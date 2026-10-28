@@ -1,0 +1,80 @@
+
+Running 15 tests using 2 workers
+
+(node:882043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882043) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [phone] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (6.6s)
+(node:882354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882354) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (13.4s)
+(node:882508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [phone] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.7s)
+  ✓   3 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (12.5s)
+(node:882661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882669) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882669) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [phone] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (6.1s)
+(node:882967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:882967) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (12.5s)
+(node:883125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (11.5s)
+(node:883280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [phone] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.7s)
+(node:883280) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [phone] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.7s)
+(node:883586) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883586) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone] › test/browser/art.spec.js:77:3 › art › a struck monster is drawn reeling, and a named champion as itself, not its kind in another colour (10.6s)
+(node:883744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [small] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.5s)
+(node:883884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:883884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [small] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.4s)
+(node:884051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:884051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [small] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.4s)
+(node:884192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:884192) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 [small] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.2s)
+  ✓  15 [small] › test/browser/painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile (5.0s)
+
+  15 passed (1.1m)
