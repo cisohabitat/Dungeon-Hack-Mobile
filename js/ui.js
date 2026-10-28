@@ -444,6 +444,8 @@ const UI = (() => {
     // renderer keeps bars and warning marks out from under it
     const el = $('#tip'), view = $('#view'), chips = $('#hud-status');
     let rows = 0;
+    // Most frames have neither: avoid forcing layout just to reserve zero rows.
+    if (!el?.classList.contains('show') && !chips?.children.length) { Renderer.keepTopClear(0); return; }
     const v = view ? view.getBoundingClientRect() : null;
     if (el && el.classList.contains('show')) placeTip(el);
     // (a tip lies over the log now, but one long enough to rise into the top of the view still counts)
@@ -976,11 +978,16 @@ const UI = (() => {
     // where the oldest line starts instead.
     el.classList.remove('long');
     const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
-    while (el.children.length > 1 && el.firstElementChild.getBoundingClientRect().top < top) el.removeChild(el.firstElementChild);
+    // The flex-end stack keeps retained lines anchored to the same bottom.
+    // Measure the prefix together, before removals can force another layout.
+    const lines = Array.from(el.children), tops = lines.map(line => line.getBoundingClientRect().top);
+    let first = 0;
+    while (first < lines.length - 1 && tops[first] < top) first++;
+    for (let i = 0; i < first; i++) el.removeChild(lines[i]);
     // one message taller than the panel (a shade's arrival runs to five lines)
     // shows from its start, fading at the foot, rather than losing its opening
     // under the view: the rest is in the Log
-    if (el.firstElementChild && el.firstElementChild.getBoundingClientRect().top < top) el.classList.add('long');
+    if (lines.length && tops[first] < top) el.classList.add('long');
   }
   // Render exactly as many rows as the box the view was given has room for,
   // so its pixels stay square however tall the phone is.

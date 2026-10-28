@@ -1455,3 +1455,18 @@ overlays. Native running seven-kind/Calm references and fresh offline reads live
 in `docs/visual/2026-10-28-reading-scroll/`; supplied inventory, unknown status
 and safety are labelled. The FPS budget adds repeated actual reads on the
 existing dark painted crowd, retaining all original scenes and thresholds.
+
+### Reading-scene preparation and layout
+`deferCreatureDetail` gives a requested bound creature atlas at most500ms to
+decode before close-up procedural refinement. Use the ordinary native fallback
+through that window; failed/slow images, explicit procedural guards and unbound
+pictures retain refinement. This is presentation-only and must not change
+actions, warning/visibility geometry, dice or effect timings. Keep the delayed,
+failed, procedural and unbound regressions in painted-creatures.spec.js.
+`fitLog` reads line positions together before removing the old prefix; its
+flex-end stack preserves retained positions. Do not interleave those removals
+with layout reads. Empty tip/chip frames reserve zero rows without reading view
+geometry; occupied chips/tips retain native protection. The180-case DOM proof,
+original/candidate profiles, retained failures and unchanged budget measurements
+are in `docs/verification/2026-10-28-reading-headroom/`. Diagnostic profiles and
+frozen DOM timings are separate from native FPS and physical-device approval.

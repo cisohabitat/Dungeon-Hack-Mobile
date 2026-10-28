@@ -518,3 +518,15 @@ Batch AI's [implementation and native review](docs/visual/2026-10-28-amber-lante
 records the selected compact iron source and rejected tall original. Batch AJ's [implementation and native review](docs/visual/2026-10-28-reading-scroll/README.md)
 records the blank open vellum and source fit correction. Both proposed physical
 objects are now painted; dynamic effect/UI layers keep their existing rendering.
+
+## Follow-up after AI/AJ artwork
+
+- [x] Reading-scene preparation and layout implemented for v0.9.53: a bounded
+  atlas-decoding grace avoids unnecessary close-up fallback work, while native
+  fallback/failure/procedural paths remain available. Log measurements are
+  batched and empty warning space avoids layout reads. See [profiles, controls
+  and release gates](docs/verification/2026-10-28-reading-headroom/README.md).
+- [ ] Proposed next phase: investigate recurring CI browser-context closures,
+  retaining the actual failures/retries and all existing coverage and gates.
+- [ ] Physical iPhone visual/play review; Linux WebKit and phone-sized Chromium
+  runs remain separate evidence from a real-device check.

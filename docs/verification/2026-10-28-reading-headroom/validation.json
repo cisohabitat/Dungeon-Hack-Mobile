@@ -1,0 +1,305 @@
+{
+  "baseline": "3fe0efd14e6eefed94ce65377a27271d357bed4b",
+  "candidate": {
+    "version": "0.9.53",
+    "build": 68,
+    "cache": "deepdelve-v128"
+  },
+  "layout": {
+    "comparisons": 180,
+    "changed": 0,
+    "read_after_removal_opportunities": [
+      212,
+      0
+    ]
+  },
+  "focused": {
+    "startTime": "2026-10-28T05:56:47.225Z",
+    "duration": 41466.992,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "existing_closeup": {
+    "startTime": "2026-10-28T06:01:43.310Z",
+    "duration": 17772.379999999997,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "native": {
+    "reads": 42,
+    "frames": 84,
+    "widths": [
+      320,
+      390,
+      740
+    ],
+    "scope": "Native consumable actions/running updates, supplied inventory/unknown status/safety/cleared enemies. Not physical Safari, balance or upgrade evidence."
+  },
+  "budgets": {
+    "ui_only": {
+      "scenes": {
+        "fight": {
+          "fps": 39.5,
+          "scriptMs": 14.1
+        },
+        "wide": {
+          "fps": 37.6,
+          "scriptMs": 13.7
+        },
+        "flooded": {
+          "fps": 39.1,
+          "scriptMs": 13.2
+        },
+        "painted": {
+          "fps": 35.1,
+          "scriptMs": 16.9
+        },
+        "amber": {
+          "fps": 31.3,
+          "scriptMs": 17.6
+        },
+        "scroll": {
+          "fps": 28.4,
+          "scriptMs": 20.7
+        },
+        "rite": {
+          "fps": 45.7,
+          "scriptMs": 14.6
+        }
+      },
+      "start": {
+        "ms": 1943
+      },
+      "pass": false,
+      "profile": false
+    },
+    "candidate": {
+      "scenes": {
+        "fight": {
+          "fps": 41.4,
+          "scriptMs": 12.6
+        },
+        "wide": {
+          "fps": 39.2,
+          "scriptMs": 12.5
+        },
+        "flooded": {
+          "fps": 35.8,
+          "scriptMs": 15.1
+        },
+        "painted": {
+          "fps": 36.6,
+          "scriptMs": 14.9
+        },
+        "amber": {
+          "fps": 37.4,
+          "scriptMs": 11.7
+        },
+        "scroll": {
+          "fps": 42.3,
+          "scriptMs": 8.9
+        },
+        "rite": {
+          "fps": 46.4,
+          "scriptMs": 14.7
+        }
+      },
+      "start": {
+        "ms": 2144
+      },
+      "pass": true,
+      "profile": false
+    },
+    "baseline_control": {
+      "scenes": {
+        "fight": {
+          "fps": 35.6,
+          "scriptMs": 14.8
+        },
+        "wide": {
+          "fps": 38.7,
+          "scriptMs": 12.2
+        },
+        "flooded": {
+          "fps": 37.3,
+          "scriptMs": 14.5
+        },
+        "painted": {
+          "fps": 43.3,
+          "scriptMs": 11.4
+        },
+        "amber": {
+          "fps": 36.7,
+          "scriptMs": 13.3
+        },
+        "scroll": {
+          "fps": 27.3,
+          "scriptMs": 19
+        },
+        "rite": {
+          "fps": 47.9,
+          "scriptMs": 14.1
+        }
+      },
+      "start": {
+        "ms": 1869
+      },
+      "pass": false,
+      "profile": false
+    },
+    "original_profile": {
+      "scenes": {
+        "fight": {
+          "fps": 46,
+          "scriptMs": 10.8
+        },
+        "wide": {
+          "fps": 41.1,
+          "scriptMs": 12.6
+        },
+        "flooded": {
+          "fps": 36,
+          "scriptMs": 15.2
+        },
+        "painted": {
+          "fps": 33.4,
+          "scriptMs": 17.7
+        },
+        "amber": {
+          "fps": 32.7,
+          "scriptMs": 16.9
+        },
+        "scroll": {
+          "fps": 27.5,
+          "scriptMs": 22.3
+        },
+        "rite": {
+          "fps": 49.1,
+          "scriptMs": 13.4
+        }
+      },
+      "start": {
+        "ms": 2124
+      },
+      "pass": false,
+      "profile": true
+    },
+    "candidate_profile": {
+      "scenes": {
+        "fight": {
+          "fps": 43,
+          "scriptMs": 11.1
+        },
+        "wide": {
+          "fps": 39.1,
+          "scriptMs": 12.6
+        },
+        "flooded": {
+          "fps": 35,
+          "scriptMs": 14.8
+        },
+        "painted": {
+          "fps": 35.1,
+          "scriptMs": 15.8
+        },
+        "amber": {
+          "fps": 30.5,
+          "scriptMs": 15.6
+        },
+        "scroll": {
+          "fps": 31.7,
+          "scriptMs": 15.9
+        },
+        "rite": {
+          "fps": 49.3,
+          "scriptMs": 13.1
+        }
+      },
+      "start": {
+        "ms": 1956
+      },
+      "pass": true,
+      "profile": true
+    },
+    "prepared_candidate": {
+      "scenes": {
+        "fight": {
+          "fps": 32.7,
+          "scriptMs": 16.3
+        },
+        "wide": {
+          "fps": 36.5,
+          "scriptMs": 13.7
+        },
+        "flooded": {
+          "fps": 35.2,
+          "scriptMs": 15.8
+        },
+        "painted": {
+          "fps": 36.8,
+          "scriptMs": 14.9
+        },
+        "amber": {
+          "fps": 31.9,
+          "scriptMs": 15.7
+        },
+        "scroll": {
+          "fps": 29.7,
+          "scriptMs": 16.5
+        },
+        "rite": {
+          "fps": 42.7,
+          "scriptMs": 15.3
+        }
+      },
+      "start": {
+        "ms": 2097
+      },
+      "pass": false,
+      "profile": false,
+      "reproduction_tool": "budget.cjs, native current source; no substitution"
+    }
+  },
+  "limits": "Sequential native-play observations, not matched scene speed ratios; profiled304/324px heights differ with battle/log state. All original thresholds/scenes/deadlines/retries retained; failures preserved. Prepared native repeat missed reading at29.7 FPS. Work reduction is demonstrated; a reliable local minimum FPS is not. Retain required separate-runner CI budget as a hard publication gate.",
+  "raw_profiles": {
+    "original": {
+      "path": "/workspace/reading-profile-original.json",
+      "sha256": "4df382fa9765d2b6300692d203a1ac60902427534c898cea228ef2c6519d9e79"
+    },
+    "candidate": {
+      "path": "/workspace/reading-profile-candidate.json",
+      "sha256": "791cbad926ec7db5964208f1436166d271941e3053181aa15236d6a87c884143"
+    }
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "rule_files": 74,
+    "rule_duration": "1m21s"
+  },
+  "full_chromium": {
+    "ordinary": {
+      "startTime": "2026-10-28T06:10:27.240Z",
+      "duration": 3695863.185,
+      "expected": 953,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "ordinary_workers": 2,
+    "serial_installation": {
+      "startTime": "2026-10-28T07:12:41.536Z",
+      "duration": 159321.153,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial_workers": 1,
+    "distinct_cases": 959
+  }
+}

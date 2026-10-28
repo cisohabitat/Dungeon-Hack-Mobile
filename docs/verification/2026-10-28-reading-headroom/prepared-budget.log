@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":32.7,"scriptMs":16.3},"wide":{"fps":36.5,"scriptMs":13.7},"flooded":{"fps":35.2,"scriptMs":15.8},"painted":{"fps":36.8,"scriptMs":14.9},"amber":{"fps":31.9,"scriptMs":15.7},"scroll":{"fps":29.7,"scriptMs":16.5},"rite":{"fps":42.7,"scriptMs":15.3}} start {"ms":2097}
+  ✘  1 [perf] › ../../tmp/reading-budget-DgCNA4/budget.cjs:53:1 › the view holds its frame rate on a slow processor (1.0m)
+
+
+  1) [perf] › ../../tmp/reading-budget-DgCNA4/budget.cjs:53:1 › the view holds its frame rate on a slow processor
+
+    Error: scroll: {"fps":29.7,"scriptMs":16.5}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m29.7[39m
+
+      153 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      154 |   if (REPORT_ONLY) return;
+    > 155 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      156 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      157 | });
+      158 |
+        at /tmp/reading-budget-DgCNA4/budget.cjs:155:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/budget.cjs-the-view-holds-its-frame-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/budget.cjs-the-view-holds-its-frame-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/budget.cjs-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/budget.cjs-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › ../../tmp/reading-budget-DgCNA4/budget.cjs:53:1 › the view holds its frame rate on a slow processor
+(node:988997) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:988997) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

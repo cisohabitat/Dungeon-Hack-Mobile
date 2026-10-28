@@ -1,0 +1,186 @@
+{
+  "scope": "Sampled self time from native repeated-reading scene at4xCPU; profiler overhead, not unprofiled FPS evidence.",
+  "sampled_ms": 5563.526,
+  "top": [
+    {
+      "function": "(program)",
+      "file": "",
+      "line": 0,
+      "self_ms": 2800.459
+    },
+    {
+      "function": "castFloor",
+      "file": "renderer.js",
+      "line": 129,
+      "self_ms": 454.905
+    },
+    {
+      "function": "drawImage",
+      "file": "",
+      "line": 0,
+      "self_ms": 256.599
+    },
+    {
+      "function": "getBoundingClientRect",
+      "file": "",
+      "line": 0,
+      "self_ms": 191.698
+    },
+    {
+      "function": "makeSprite",
+      "file": "assets.js",
+      "line": 61,
+      "self_ms": 150.239
+    },
+    {
+      "function": "render",
+      "file": "renderer.js",
+      "line": 1243,
+      "self_ms": 120.819
+    },
+    {
+      "function": "paintParts",
+      "file": "painter.js",
+      "line": 94,
+      "self_ms": 117.243
+    },
+    {
+      "function": "",
+      "file": "painter.js",
+      "line": 104,
+      "self_ms": 103.699
+    },
+    {
+      "function": "(garbage collector)",
+      "file": "",
+      "line": 0,
+      "self_ms": 94.932
+    },
+    {
+      "function": "warmQ",
+      "file": "renderer.js",
+      "line": 66,
+      "self_ms": 89.327
+    },
+    {
+      "function": "toneFor",
+      "file": "painter.js",
+      "line": 51,
+      "self_ms": 72.312
+    },
+    {
+      "function": "renderState",
+      "file": "motion.js",
+      "line": 189,
+      "self_ms": 61.982
+    },
+    {
+      "function": "fillRect",
+      "file": "",
+      "line": 0,
+      "self_ms": 49.281
+    },
+    {
+      "function": "putImageData",
+      "file": "",
+      "line": 0,
+      "self_ms": 41.716
+    },
+    {
+      "function": "visitNode",
+      "file": "",
+      "line": 267,
+      "self_ms": 37.662
+    },
+    {
+      "function": "tn",
+      "file": "painter.js",
+      "line": 160,
+      "self_ms": 34.049
+    },
+    {
+      "function": "(idle)",
+      "file": "",
+      "line": 0,
+      "self_ms": 33.62
+    },
+    {
+      "function": "api.<computed>",
+      "file": "recording.js",
+      "line": 104,
+      "self_ms": 30.615
+    },
+    {
+      "function": "querySelector",
+      "file": "",
+      "line": 0,
+      "self_ms": 27.773
+    },
+    {
+      "function": "getContext",
+      "file": "",
+      "line": 0,
+      "self_ms": 27.479
+    },
+    {
+      "function": "loop",
+      "file": "main.js",
+      "line": 45,
+      "self_ms": 27.224
+    },
+    {
+      "function": "grain",
+      "file": "painter.js",
+      "line": 68,
+      "self_ms": 25.803
+    },
+    {
+      "function": "bossBar",
+      "file": "ui.js",
+      "line": 867,
+      "self_ms": 21.638
+    },
+    {
+      "function": "get",
+      "file": "paintedworld.js",
+      "line": 157,
+      "self_ms": 20.583
+    },
+    {
+      "function": "refreshLog",
+      "file": "ui.js",
+      "line": 951,
+      "self_ms": 16.726
+    },
+    {
+      "function": "drawMotes",
+      "file": "renderer.js",
+      "line": 260,
+      "self_ms": 16.479
+    },
+    {
+      "function": "drawBossBar",
+      "file": "overlay.js",
+      "line": 16,
+      "self_ms": 15.787
+    },
+    {
+      "function": "refreshHud",
+      "file": "ui.js",
+      "line": 695,
+      "self_ms": 15.749
+    },
+    {
+      "function": "createGain",
+      "file": "",
+      "line": 0,
+      "self_ms": 15.685
+    },
+    {
+      "function": "visitChild",
+      "file": "",
+      "line": 319,
+      "self_ms": 14.766
+    }
+  ]
+}

@@ -53,7 +53,7 @@ function palette(atlas, tint) {
 }
 
 function load(kind) {
-  const atlas = { kind, state: 'loading', image: new Image(), palettes: new Map() };
+  const atlas = { kind, state: 'loading', image: new Image(), palettes: new Map(), requestedAt: performance.now() };
   atlases.set(kind, atlas);
   const { image } = atlas;
   image.onload = () => {
@@ -79,6 +79,17 @@ function paintedCreature(sprite, variant = '') {
 }
 
 export { bindPaintedCreature, paintedCreature };
+
+// Let a requested atlas decode before queuing a costly close-up fallback.
+// A slow or failed image still gets the original refinement; this grace only
+// affects picture preparation, never the creature's actions or visibility.
+export function deferCreatureDetail(sprite, variant = '') {
+  const link = links.get(sprite), kind = variant || link?.kind;
+  if (!link || !kinds.has(kind)) return false;
+  const atlas = atlases.get(kind);
+  return !!atlas && atlas.state !== 'failed' && !atlas.palettes.get(link.tint)?.[link.pose]
+    && performance.now() - atlas.requestedAt < 500;
+}
 
 // End-card exports wait only for their own pictures, never the world's queue.
 // Failed or unbound art is settled too: its existing fallback remains usable.

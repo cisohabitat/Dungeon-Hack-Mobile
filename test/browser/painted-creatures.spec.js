@@ -39,6 +39,34 @@ async function ready(page, elite = '') {
 
 test.describe('painted dungeon creature', () => {
   test.use({ serviceWorkers: 'block' });
+  test('close-up fallback refinement gives atlas decoding a bounded grace and preserves procedural forms @mobile',async({page})=>{
+    const errors=watchForErrors(page);let release;const gate=new Promise(r=>release=r);
+    await page.route('**/img/creatures/minotaur.webp',async r=>{await gate;await r.continue();});
+    await startGame(page,{seed:'detail-grace'});await faceOpenGround(page,2);
+    await page.evaluate(()=>{Game.level().monsters=[];Game.update=()=>{};void Assets.sprites.minotaur;});
+    await artReady(page,{minotaur:['windup','blink']});
+    const first=await page.evaluate(async()=>{
+      const p=await import('/js/paintedcreatures.js'),base=Assets.sprites.minotaur,rs=Game.renderState(performance.now()),P=Game.player(),D=Dungeon.DIRS[P.dir],near=base.near;
+      window.__detail={p,base,rs,calls:0};base.near=()=>{window.__detail.calls++;return near();};
+      window.__detailDraw=procedural=>{const f=window.__detail;Renderer.render(rs.level,rs.cam,[{x:P.x+D[0],y:P.y+D[1],img:base,scale:1,maxHp:999,hp:999,procedural}],{...rs.fx,view:null},performance.now());};
+      p.paintedCreature(base);const waiting=p.deferCreatureDetail(base);window.__detailDraw(false);
+      const calls=window.__detail.calls;window.__detailDraw(true);return {waiting,calls,proceduralCalls:window.__detail.calls,unbound:p.deferCreatureDetail({...base})};
+    });expect(first).toEqual({waiting:true,calls:0,proceduralCalls:1,unbound:false});
+    // Real time must end the grace even while the image request stays held.
+    await expect.poll(()=>page.evaluate(()=>window.__detail.p.deferCreatureDetail(window.__detail.base))).toBe(false);
+    expect(await page.evaluate(()=>{window.__detailDraw(false);return window.__detail.calls;})).toBeGreaterThan(0);
+    release();await expect.poll(()=>page.evaluate(()=>window.__detail.p.paintedCreature(window.__detail.base)!==window.__detail.base)).toBe(true);
+    const ready=await page.evaluate(()=>{const n=window.__detail.calls;window.__detailDraw(false);return window.__detail.calls===n;});expect(ready).toBe(true);
+    expect(errors).toEqual([]);
+  });
+  test('failed painted art and explicit procedural forms retain close-up refinement immediately @mobile',async({page})=>{
+    const errors=watchForErrors(page);await page.route('**/img/creatures/minotaur.webp',r=>r.fulfill({status:200,contentType:'image/webp',body:'corrupt'}));
+    await startGame(page,{seed:'detail-failure'});await page.evaluate(()=>{Game.level().monsters=[];Game.update=()=>{};});await faceOpenGround(page,2);await artReady(page,{minotaur:['blink']});
+    await page.evaluate(async()=>{window.__detailPaint=await import('/js/paintedcreatures.js');window.__detailPaint.paintedCreature(Assets.sprites.minotaur);});
+    await expect.poll(()=>page.evaluate(()=>window.__detailPaint.paintedCreatureSettled(Assets.sprites.minotaur))).toBe(true);
+    const result=await page.evaluate(()=>{const art=Assets.sprites.minotaur,near=art.near,rs=Game.renderState(performance.now()),p=Game.player(),D=Dungeon.DIRS[p.dir];let calls=0;art.near=()=>{calls++;return near();};try{for(const procedural of[false,true])Renderer.render(rs.level,rs.cam,[{x:p.x+D[0],y:p.y+D[1],img:art,scale:1,maxHp:99,hp:99,procedural}],{...rs.fx,view:null},performance.now());return{calls,grace:window.__detailPaint.deferCreatureDetail(art)};}finally{art.near=near;}});
+    expect(result).toEqual({calls:2,grace:false});expect(errors).toEqual([]);
+  });
   test('nine cached poses retain transparency, lighting, elite colours and dice @mobile', async ({ page }) => {
     const errors = watchForErrors(page); let requests = 0;
     page.on('request', r => { if (r.url().endsWith('/img/creatures/drow_warrior.webp')) requests++; });

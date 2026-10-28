@@ -2,6 +2,14 @@
 const { test, expect } = require('@playwright/test');
 const { startGame, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
 
+test('empty tip space avoids layout reads while live status chips still protect warning rows @mobile',async({page})=>{
+  const errors=watchForErrors(page);await startGame(page,{seed:'empty-warning-space'});
+  const result=await page.evaluate(()=>{Game.level().monsters=[];Game.level().twist=null;Game.level().press=0;Game.update=()=>{};const p=Game.player(),rect=Element.prototype.getBoundingClientRect;let reads=0;UI.refreshHud(true);document.querySelector('#tip').classList.remove('show');document.querySelector('#hud-status').replaceChildren();
+    Element.prototype.getBoundingClientRect=function(){if(this.id==='view')reads++;return rect.call(this);};
+    try{Renderer.keepTopClear(50);UI.refreshHud(true);const empty={reads,kept:Renderer.keptClear};p.dazzled=Game.state().t+10000;UI.refreshHud(true);UI.refreshHud(true);return{empty,protected:Renderer.keptClear>0,readsWithChip:reads>empty.reads,chip:document.querySelector('#hud-status').textContent.includes('Dazzled')};}finally{Element.prototype.getBoundingClientRect=rect;}
+  });expect(result).toEqual({empty:{reads:0,kept:0},protected:true,readsWithChip:true,chip:true});expect(errors).toEqual([]);
+});
+
 async function scene(page) {
   await page.addInitScript(() => { localStorage.setItem('deepdelve.sound', 'off'); localStorage.setItem('deepdelve.prelude', 'off'); });
   await startGame(page, { seed: 'visual-polish', permadeath: false });

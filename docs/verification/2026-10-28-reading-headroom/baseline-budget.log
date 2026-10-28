@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:940731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:940731) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":35.6,"scriptMs":14.8},"wide":{"fps":38.7,"scriptMs":12.2},"flooded":{"fps":37.3,"scriptMs":14.5},"painted":{"fps":43.3,"scriptMs":11.4},"amber":{"fps":36.7,"scriptMs":13.3},"scroll":{"fps":27.3,"scriptMs":19},"rite":{"fps":47.9,"scriptMs":14.1}} start {"ms":1869}
+  ✘  1 [perf] › ../../tmp/reading-perf/baseline.cjs:53:1 › the view holds its frame rate on a slow processor (1.1m)
+
+
+  1) [perf] › ../../tmp/reading-perf/baseline.cjs:53:1 › the view holds its frame rate on a slow processor
+
+    Error: scroll: {"fps":27.3,"scriptMs":19}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m27.3[39m
+
+      154 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      155 |   if (REPORT_ONLY) return;
+    > 156 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      157 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      158 | });
+      159 |
+        at /tmp/reading-perf/baseline.cjs:156:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/baseline.cjs-the-view-hold-ce03b-me-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/baseline.cjs-the-view-hold-ce03b-me-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/baseline.cjs-the-view-hold-ce03b-me-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/baseline.cjs-the-view-hold-ce03b-me-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › ../../tmp/reading-perf/baseline.cjs:53:1 › the view holds its frame rate on a slow processor

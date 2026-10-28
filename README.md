@@ -1706,3 +1706,5 @@ Voice download resumption reads the offline cache index once, avoiding repeated 
 Visual polish follow-up: [review and settled phone captures](docs/visual/2026-10-25-art-polish/README.md). Reproduce the native running-game/portrait samples with `node docs/visual/2026-10-25-art-polish/capture.cjs` (system Chromium and project Playwright required).
 
 Release0.9.42 improves enlarged-text menus: title greetings take their own space, Journal labels reflow, and trader balances and actions remain clear of Close and item descriptions. [Before/after review](docs/visual/2026-10-25-mobile-layouts/README.md).
+
+Reading-scene performance: [bounded picture preparation and batched log layout](docs/verification/2026-10-28-reading-headroom/README.md) preserve spell timing and warning space. The review retains original/candidate profiles, failed controls and the unchanged frame-rate budget; measurements are not a universal device-speed claim.

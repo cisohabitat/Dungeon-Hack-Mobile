@@ -1,0 +1,14 @@
+{
+  "ui": {
+    "baseline": "5220c3b822e7e909b0d8ca82222877945749efbb8136b9ddc13421bd78f91116",
+    "candidate": "dfdc093061f47128c955c908649ff1aa6a75876c73c343dc6c593a25b088434b"
+  },
+  "renderer": {
+    "baseline": "4f2f53cee2882bdef0aa8481805b0b165d37393fa9dd5be21e2b49aaecbb2e6c",
+    "candidate": "c8c209932ccc83403d034ac4e87bd700e533aef6144190721f57c03c63833f35"
+  },
+  "paintedcreatures": {
+    "baseline": "6fa8003509bfadacfaaefaf0bda1f8c87b1775264d64a515fe9017c713412e34",
+    "candidate": "2c84cc871010993e6439c518925f29702227f8f355647283b1163cd0d5d3e74c"
+  }
+}

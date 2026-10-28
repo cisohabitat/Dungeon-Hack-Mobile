@@ -7,7 +7,7 @@ import { makeOverlay } from './overlay.js';
 import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } from './meleeview.js';
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
-import { paintedCreature } from './paintedcreatures.js';
+import { paintedCreature, deferCreatureDetail } from './paintedcreatures.js';
 import { paintedLantern } from './paintedworld.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
@@ -1511,7 +1511,7 @@ const Renderer = (() => {
       // usually ready by the time the creature is in your face; judged on its
       // size before it was drawn smaller to keep its feet in view, so that
       // shrinking never hands back the blockier painting
-      if (tY < NEAR_ASK && art.near) { const fine = art.near(); if (fine && size / lift / art.h > NEAR_BLOCK) art = fine; }
+      if (tY < NEAR_ASK && art.near && (s.procedural || !deferCreatureDetail(art, s.paintedKind))) { const fine = art.near(); if (fine && size / lift / art.h > NEAR_BLOCK) art = fine; }
       // a monster's body squashes and stretches as it breathes, lunges and falls
       const sh = size * (s.sqy || 1), sw = size * (s.sqx || 1);
       const top = floorY - sh - (s.yOff || 0) * hFull;

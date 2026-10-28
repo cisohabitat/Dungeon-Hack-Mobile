@@ -1,0 +1,60 @@
+
+Running 1 test using 1 worker
+
+(node:939488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:939488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+read scene {
+  height: [33m304[39m,
+  view: {
+    weapon: [32m'longsword'[39m,
+    two: [33mfalse[39m,
+    drawn: [33mfalse[39m,
+    shield: [32m'shield'[39m,
+    offhand: [1mnull[22m,
+    cls: [32m'fighter'[39m,
+    walk: [33m0[39m,
+    steps: [33m0[39m,
+    lantern: [33mtrue[39m
+  },
+  painting: [33m1[39m
+}
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":46,"scriptMs":10.8},"wide":{"fps":41.1,"scriptMs":12.6},"flooded":{"fps":36,"scriptMs":15.2},"painted":{"fps":33.4,"scriptMs":17.7},"amber":{"fps":32.7,"scriptMs":16.9},"scroll":{"fps":27.5,"scriptMs":22.3},"rite":{"fps":49.1,"scriptMs":13.4}} start {"ms":2124}
+  ✘  1 [perf] › ../../tmp/reading-perf/profile.cjs:53:1 › the view holds its frame rate on a slow processor (1.1m)
+
+
+  1) [perf] › ../../tmp/reading-perf/profile.cjs:53:1 › the view holds its frame rate on a slow processor
+
+    Error: scroll: {"fps":27.5,"scriptMs":22.3}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m27.5[39m
+
+      155 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      156 |   if (REPORT_ONLY) return;
+    > 157 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      158 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      159 | });
+      160 |
+        at /tmp/reading-perf/profile.cjs:157:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/profile.cjs-the-view-holds-ce45e-me-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/profile.cjs-the-view-holds-ce45e-me-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/profile.cjs-the-view-holds-ce45e-me-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/profile.cjs-the-view-holds-ce45e-me-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › ../../tmp/reading-perf/profile.cjs:53:1 › the view holds its frame rate on a slow processor

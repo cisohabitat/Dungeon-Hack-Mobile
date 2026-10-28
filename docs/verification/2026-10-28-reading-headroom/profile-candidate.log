@@ -1,0 +1,26 @@
+
+Running 1 test using 1 worker
+
+(node:942030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942030) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+read scene {
+  height: [33m324[39m,
+  view: {
+    weapon: [32m'longsword'[39m,
+    two: [33mfalse[39m,
+    drawn: [33mfalse[39m,
+    shield: [32m'shield'[39m,
+    offhand: [1mnull[22m,
+    cls: [32m'fighter'[39m,
+    walk: [33m0[39m,
+    steps: [33m0[39m,
+    lantern: [33mtrue[39m
+  },
+  painting: [33m0[39m
+}
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":43,"scriptMs":11.1},"wide":{"fps":39.1,"scriptMs":12.6},"flooded":{"fps":35,"scriptMs":14.8},"painted":{"fps":35.1,"scriptMs":15.8},"amber":{"fps":30.5,"scriptMs":15.6},"scroll":{"fps":31.7,"scriptMs":15.9},"rite":{"fps":49.3,"scriptMs":13.1}} start {"ms":1956}
+  ✓  1 [perf] › ../../tmp/reading-perf/profile.cjs:53:1 › the view holds its frame rate on a slow processor (59.3s)
+
+  1 passed (1.0m)

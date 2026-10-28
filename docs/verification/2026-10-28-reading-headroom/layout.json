@@ -1,0 +1,2706 @@
+{
+  "scope": "Frozen original/current fitLog against the same native DOM/CSS; exact retained HTML/classes/line rectangles. Alternating synchronous timings include DOM setup. Read-after-removal counts approximate forced layout opportunities, not measured browser Layout events. Not native play/FPS.",
+  "identicalSourceControl": false,
+  "records": [
+    {
+      "text": 0,
+      "width": 320,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1.9033333321412405,
+          0.5866666654745738
+        ],
+        [
+          1.9,
+          0.5900000015894572
+        ],
+        [
+          1.946666665871938,
+          0.5866666674613953
+        ],
+        [
+          1.9133333345254262,
+          0.6099999984105428
+        ],
+        [
+          1.9299999992052714,
+          0.5766666670640309
+        ],
+        [
+          1.926666667064031,
+          0.5633333325386047
+        ],
+        [
+          1.869999998807907,
+          0.5900000015894572
+        ],
+        [
+          1.9299999992052714,
+          0.5833333333333334
+        ],
+        [
+          1.9166666666666667,
+          0.6200000007947286
+        ],
+        [
+          1.9166666666666667,
+          0.5899999996026357
+        ]
+      ]
+    },
+    {
+      "text": 0,
+      "width": 390,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 4,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 4,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          0.9799999992052714,
+          0.6200000007947286
+        ],
+        [
+          1.2566666662693025,
+          0.6199999988079071
+        ],
+        [
+          1.030000001192093,
+          0.5566666662693024
+        ],
+        [
+          0.9899999996026357,
+          0.5433333337306976
+        ],
+        [
+          1,
+          0.5633333325386047
+        ],
+        [
+          0.9566666682561239,
+          0.5333333333333333
+        ],
+        [
+          0.9933333317438762,
+          0.5466666678587596
+        ],
+        [
+          0.9399999996026357,
+          0.5433333337306976
+        ],
+        [
+          0.9899999996026357,
+          0.573333332935969
+        ],
+        [
+          0.9966666678587596,
+          0.5666666666666667
+        ]
+      ]
+    },
+    {
+      "text": 0,
+      "width": 740,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          3.226666667064031,
+          1.5100000003973644
+        ],
+        [
+          3.1533333321412402,
+          1.503333334128062
+        ],
+        [
+          3.2333333333333334,
+          1.5
+        ],
+        [
+          3.603333334128062,
+          1.4566666662693024
+        ],
+        [
+          3.043333333730698,
+          1.523333332935969
+        ],
+        [
+          3.2233333349227906,
+          1.4766666650772096
+        ],
+        [
+          3.0166666666666666,
+          1.4033333321412405
+        ],
+        [
+          3.8399999996026355,
+          1.4666666666666666
+        ],
+        [
+          2.8399999996026355,
+          1.376666667064031
+        ],
+        [
+          2.873333332935969,
+          1.353333334128062
+        ]
+      ]
+    },
+    {
+      "text": 1,
+      "width": 320,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1.4900000015894572,
+          0.5599999984105428
+        ],
+        [
+          1.7399999996026356,
+          0.5933333337306976
+        ],
+        [
+          1.6099999984105429,
+          0.5100000003973643
+        ],
+        [
+          1.626666667064031,
+          0.6600000003973643
+        ],
+        [
+          1.6166666666666667,
+          0.5133333325386047
+        ],
+        [
+          1.5633333325386047,
+          0.553333334128062
+        ],
+        [
+          1.473333332935969,
+          0.48333333333333334
+        ],
+        [
+          1.526666667064031,
+          0.4966666658719381
+        ],
+        [
+          1.45,
+          0.4899999996026357
+        ],
+        [
+          1.7133333325386046,
+          0.6200000007947286
+        ]
+      ]
+    },
+    {
+      "text": 1,
+      "width": 390,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 4,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 4,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1,
+          0.43333333333333335
+        ],
+        [
+          1.0466666678587595,
+          0.4133333325386047
+        ],
+        [
+          1.0366666654745738,
+          0.45
+        ],
+        [
+          1.0566666662693023,
+          0.45
+        ],
+        [
+          1.090000001589457,
+          0.4433333317438761
+        ],
+        [
+          1.123333332935969,
+          0.43666666746139526
+        ],
+        [
+          1.0866666654745738,
+          0.43666666746139526
+        ],
+        [
+          1.0166666666666666,
+          0.4166666666666667
+        ],
+        [
+          1.053333334128062,
+          0.4366666654745738
+        ],
+        [
+          1.076666667064031,
+          0.4533333341280619
+        ]
+      ]
+    },
+    {
+      "text": 1,
+      "width": 740,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          4.330000001192093,
+          1.4066666662693024
+        ],
+        [
+          4.786666667461395,
+          1.4
+        ],
+        [
+          4.443333333730697,
+          1.573333332935969
+        ],
+        [
+          4.213333332538605,
+          1.8633333345254262
+        ],
+        [
+          4.813333332538605,
+          1.5866666674613952
+        ],
+        [
+          4.626666667064031,
+          1.6399999996026358
+        ],
+        [
+          4.95,
+          1.75
+        ],
+        [
+          5,
+          1.6933333337306977
+        ],
+        [
+          4.8699999988079075,
+          1.5566666682561239
+        ],
+        [
+          5.219999998807907,
+          1.55
+        ]
+      ]
+    },
+    {
+      "text": 2,
+      "width": 320,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          2.2233333329359692,
+          0.6066666662693023
+        ],
+        [
+          1.8566666662693023,
+          0.5933333337306976
+        ],
+        [
+          1.9399999996026358,
+          0.5966666658719381
+        ],
+        [
+          1.8600000003973642,
+          0.6100000003973644
+        ],
+        [
+          1.8466666658719382,
+          0.5766666670640309
+        ],
+        [
+          1.919999998807907,
+          0.5700000007947286
+        ],
+        [
+          1.923333332935969,
+          0.6033333341280619
+        ],
+        [
+          1.9700000007947287,
+          0.5966666658719381
+        ],
+        [
+          1.9533333341280619,
+          0.6
+        ],
+        [
+          2.3266666650772097,
+          0.6
+        ]
+      ]
+    },
+    {
+      "text": 2,
+      "width": 390,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1.9200000007947287,
+          0.6066666662693023
+        ],
+        [
+          2.0166666666666666,
+          0.6166666666666667
+        ],
+        [
+          2.0166666666666666,
+          0.5800000011920929
+        ],
+        [
+          1.9866666674613953,
+          0.5799999992052715
+        ],
+        [
+          1.946666665871938,
+          0.6366666674613952
+        ],
+        [
+          2.1466666678587596,
+          0.6333333333333333
+        ],
+        [
+          2.1333333333333333,
+          0.6433333337306977
+        ],
+        [
+          2.2899999996026357,
+          0.6899999996026357
+        ],
+        [
+          2.246666665871938,
+          0.696666665871938
+        ],
+        [
+          2.0066666662693025,
+          0.676666667064031
+        ]
+      ]
+    },
+    {
+      "text": 2,
+      "width": 740,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            2,
+            0
+          ],
+          "retained": 2,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          4.579999999205271,
+          1.4633333325386046
+        ],
+        [
+          4.903333334128062,
+          1.5600000003973642
+        ],
+        [
+          4.879999999205271,
+          1.5633333345254263
+        ],
+        [
+          4.683333333333334,
+          1.673333332935969
+        ],
+        [
+          4.486666667461395,
+          1.396666665871938
+        ],
+        [
+          4.266666666666667,
+          1.4666666666666666
+        ],
+        [
+          4.180000001192093,
+          1.4433333337306977
+        ],
+        [
+          4.386666665474574,
+          1.4166666666666667
+        ],
+        [
+          4.503333334128062,
+          1.8199999988079072
+        ],
+        [
+          5.25,
+          1.3633333325386048
+        ]
+      ]
+    },
+    {
+      "text": 3,
+      "width": 320,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          2.096666665871938,
+          0.6866666674613953
+        ],
+        [
+          2.076666667064031,
+          0.6833333333333333
+        ],
+        [
+          2.053333334128062,
+          0.626666667064031
+        ],
+        [
+          2.1066666662693025,
+          0.6466666658719381
+        ],
+        [
+          2.043333333730698,
+          0.6466666658719381
+        ],
+        [
+          2.0066666662693025,
+          0.6333333333333333
+        ],
+        [
+          2.0566666662693023,
+          0.65
+        ],
+        [
+          1.9399999996026358,
+          0.6566666682561239
+        ],
+        [
+          1.869999998807907,
+          0.5733333349227905
+        ],
+        [
+          1.869999998807907,
+          0.5899999996026357
+        ]
+      ]
+    },
+    {
+      "text": 3,
+      "width": 390,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            1,
+            0
+          ],
+          "retained": 3,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1.7866666654745738,
+          0.5866666674613953
+        ],
+        [
+          1.853333334128062,
+          0.5666666666666667
+        ],
+        [
+          1.823333332935969,
+          0.5699999988079071
+        ],
+        [
+          2.603333334128062,
+          0.6899999996026357
+        ],
+        [
+          1.876666667064031,
+          0.6366666654745737
+        ],
+        [
+          1.873333332935969,
+          0.6600000003973643
+        ],
+        [
+          1.8466666678587595,
+          0.5833333333333334
+        ],
+        [
+          1.9166666666666667,
+          0.5833333333333334
+        ],
+        [
+          1.8066666662693023,
+          0.5766666670640309
+        ],
+        [
+          1.776666667064031,
+          0.546666665871938
+        ]
+      ]
+    },
+    {
+      "text": 3,
+      "width": 740,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          5.769999998807907,
+          1.4866666674613953
+        ],
+        [
+          5.916666666666667,
+          1.5099999984105428
+        ],
+        [
+          6.463333332538605,
+          2.203333334128062
+        ],
+        [
+          5.713333332538605,
+          1.7100000003973643
+        ],
+        [
+          5.776666667064031,
+          1.473333332935969
+        ],
+        [
+          5.739999999602635,
+          1.4299999992052714
+        ],
+        [
+          5.740000001589457,
+          1.523333332935969
+        ],
+        [
+          6.046666665871938,
+          1.7666666666666666
+        ],
+        [
+          6.539999999602636,
+          1.4400000015894572
+        ],
+        [
+          5.843333333730698,
+          1.4366666654745737
+        ]
+      ]
+    },
+    {
+      "text": 4,
+      "width": 320,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          1.8333333333333333,
+          0.5933333337306976
+        ],
+        [
+          1.8866666654745738,
+          0.5833333333333334
+        ],
+        [
+          1.8866666674613952,
+          0.6
+        ],
+        [
+          1.7833333333333334,
+          0.5833333333333334
+        ],
+        [
+          1.8200000007947286,
+          0.5666666666666667
+        ],
+        [
+          1.840000001589457,
+          0.5766666650772094
+        ],
+        [
+          1.8700000007947286,
+          0.5799999992052715
+        ],
+        [
+          1.8399999996026357,
+          0.5766666670640309
+        ],
+        [
+          1.8399999996026357,
+          0.5966666658719381
+        ],
+        [
+          1.8633333325386048,
+          0.5800000011920929
+        ]
+      ]
+    },
+    {
+      "text": 4,
+      "width": 390,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          2.319999998807907,
+          0.6633333325386047
+        ],
+        [
+          1.7833333333333334,
+          0.626666667064031
+        ],
+        [
+          1.7933333337306976,
+          0.5600000003973643
+        ],
+        [
+          1.8066666662693023,
+          0.5633333325386047
+        ],
+        [
+          1.8333333333333333,
+          0.5566666662693024
+        ],
+        [
+          1.7666666666666666,
+          0.5433333337306976
+        ],
+        [
+          1.7933333337306976,
+          0.5566666662693024
+        ],
+        [
+          1.7666666666666666,
+          0.5566666662693024
+        ],
+        [
+          1.840000001589457,
+          0.5599999984105428
+        ],
+        [
+          1.803333334128062,
+          0.553333334128062
+        ]
+      ]
+    },
+    {
+      "text": 4,
+      "width": 740,
+      "checks": [
+        {
+          "quiet": false,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": false,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": false,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 0,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 0,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 1,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 2,
+          "same": true,
+          "afterWriteReads": [
+            0,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 3,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        },
+        {
+          "quiet": true,
+          "case": 4,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": false
+        },
+        {
+          "quiet": true,
+          "case": 5,
+          "same": true,
+          "afterWriteReads": [
+            3,
+            0
+          ],
+          "retained": 1,
+          "long": true
+        }
+      ],
+      "timings": [
+        [
+          6.069999998807907,
+          1.5
+        ],
+        [
+          6.80333333214124,
+          1.4800000011920929
+        ],
+        [
+          5.903333334128062,
+          1.5333333333333334
+        ],
+        [
+          6.123333332935969,
+          1.503333334128062
+        ],
+        [
+          6.010000000397365,
+          1.5366666674613954
+        ],
+        [
+          6.820000000794729,
+          1.4866666654745737
+        ],
+        [
+          7.8733333349227905,
+          1.9133333325386048
+        ],
+        [
+          6.926666667064031,
+          1.4566666662693024
+        ],
+        [
+          7.189999999602636,
+          1.646666665871938
+        ],
+        [
+          7.05333333214124,
+          1.6633333345254262
+        ]
+      ]
+    }
+  ]
+}

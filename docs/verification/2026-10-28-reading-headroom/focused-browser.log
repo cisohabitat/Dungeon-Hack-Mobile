@@ -1,0 +1,33 @@
+
+Running 12 tests using 2 workers
+
+(node:940985) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:940986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:940986) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:940985) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [phone] › test/browser/interface.spec.js:489:3 › interface › on a narrow phone the message box wraps rather than cutting off the roll (4.9s)
+  ✓   2 [phone] › test/browser/interface.spec.js:314:3 › interface › the message panel keeps scrolling after the log fills up (5.4s)
+  ✓   4 [phone] › test/browser/painted-creatures.spec.js:62:3 › painted dungeon creature › failed painted art and explicit procedural forms retain close-up refinement immediately @mobile (4.7s)
+  ✓   3 [phone] › test/browser/painted-creatures.spec.js:42:3 › painted dungeon creature › close-up fallback refinement gives atlas decoding a bounded grace and preserves procedural forms @mobile (5.7s)
+  ✓   5 [phone] › test/browser/visual-polish.spec.js:5:1 › empty tip space avoids layout reads while live status chips still protect warning rows @mobile (4.7s)
+(node:941463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:941463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [small] › test/browser/interface.spec.js:314:3 › interface › the message panel keeps scrolling after the log fills up (4.8s)
+  ✓   6 [phone] › test/browser/visual-polish.spec.js:355:1 › @mobile the quiet log gives the dungeon room and fresh warnings restore the full log (11.6s)
+(node:941661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:941661) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [small] › test/browser/interface.spec.js:489:3 › interface › on a narrow phone the message box wraps rather than cutting off the roll (4.5s)
+  ✓   9 [small] › test/browser/painted-creatures.spec.js:42:3 › painted dungeon creature › close-up fallback refinement gives atlas decoding a bounded grace and preserves procedural forms @mobile (6.0s)
+  ✓  10 [small] › test/browser/painted-creatures.spec.js:62:3 › painted dungeon creature › failed painted art and explicit procedural forms retain close-up refinement immediately @mobile (4.3s)
+  ✓  11 [small] › test/browser/visual-polish.spec.js:5:1 › empty tip space avoids layout reads while live status chips still protect warning rows @mobile (4.1s)
+  ✓  12 [small] › test/browser/visual-polish.spec.js:355:1 › @mobile the quiet log gives the dungeon room and fresh warnings restore the full log (10.6s)
+
+  12 passed (41.5s)

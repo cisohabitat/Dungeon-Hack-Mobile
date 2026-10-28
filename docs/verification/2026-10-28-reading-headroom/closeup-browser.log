@@ -1,0 +1,27 @@
+
+Running 6 tests using 2 workers
+
+(node:942258) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942259) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942259) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942258) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/art.spec.js:443:5 › art › the lich right in front fits under its bar and is drawn finely, held upright (5.6s)
+  ✓  2 [phone] › test/browser/art.spec.js:443:5 › art › the lich right in front fits under its bar and is drawn finely, held sideways (5.9s)
+  ✓  3 [phone] › test/browser/painted-creatures.spec.js:356:43 › painted dungeon creature › delayed art retains every procedural fallback pose @mobile (5.1s)
+  ✓  4 [phone] › test/browser/painted-creatures.spec.js:356:43 › painted dungeon creature › corrupt art retains every procedural fallback pose @mobile (4.9s)
+(node:942647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942657) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942647) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:942657) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [small] › test/browser/painted-creatures.spec.js:356:43 › painted dungeon creature › delayed art retains every procedural fallback pose @mobile (4.9s)
+  ✓  6 [small] › test/browser/painted-creatures.spec.js:356:43 › painted dungeon creature › corrupt art retains every procedural fallback pose @mobile (4.9s)
+
+  6 passed (17.8s)
