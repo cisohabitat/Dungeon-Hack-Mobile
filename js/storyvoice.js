@@ -109,7 +109,9 @@ export function makeStoryVoice(K) {
     if (!G || G.status !== 'playing' || K.screen() !== 'screen-game') return;
     if (now < checkAt || (!pending.length && !discovery)) return;
     checkAt = now + 150;
-    if (K.overlay() || K.game.preludeOn()) {
+    // A tutorial gets the first word too: discovery controls otherwise cover
+    // the tip where it rises above the log on an upright phone.
+    if (K.overlay() || K.game.preludeOn() || $('#tip')?.classList.contains('show')) {
       if (context === 'discovery') { if (core.active() && discovery) pending.unshift(discovery); stop(); discovery = null; }
       return;
     }

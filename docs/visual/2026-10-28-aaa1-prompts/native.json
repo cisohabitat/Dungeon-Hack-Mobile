@@ -1,0 +1,221 @@
+{
+  "scope": "Native UI with shipped recordings; only real text/Calm preferences set. No media, image, renderer, enemy, game-clock or safety substitutions. Not physical-device, listening or full-run approval.",
+  "runs": [
+    {
+      "label": "320-normal",
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 341.421875,
+          "width": 252,
+          "height": 85.5625,
+          "top": 341.421875,
+          "right": 256,
+          "bottom": 426.984375,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 292.890625,
+          "width": 304,
+          "height": 84.09375,
+          "top": 292.890625,
+          "right": 312,
+          "bottom": 376.984375,
+          "left": 8
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "320-double-calm",
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 156.3125,
+          "width": 228,
+          "height": 139,
+          "top": 156.3125,
+          "right": 232,
+          "bottom": 295.3125,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 162.53125,
+          "width": 304,
+          "height": 123.78125,
+          "top": 162.53125,
+          "right": 312,
+          "bottom": 286.3125,
+          "left": 8
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "390-normal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 508.875,
+          "width": 322,
+          "height": 67.671875,
+          "top": 508.875,
+          "right": 326,
+          "bottom": 576.546875,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 458.453125,
+          "width": 374,
+          "height": 84.09375,
+          "top": 458.453125,
+          "right": 382,
+          "bottom": 542.546875,
+          "left": 8
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "390-double-calm",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 213.78125,
+          "width": 298,
+          "height": 228.59375,
+          "top": 213.78125,
+          "right": 302,
+          "bottom": 442.375,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 295.03125,
+          "width": 374,
+          "height": 138.34375,
+          "top": 295.03125,
+          "right": 382,
+          "bottom": 433.375,
+          "left": 8
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "740-normal",
+      "viewport": {
+        "width": 740,
+        "height": 390
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 330.796875,
+          "width": 460,
+          "height": 33.3125,
+          "top": 330.796875,
+          "right": 464,
+          "bottom": 364.109375,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 223.015625,
+          "width": 512,
+          "height": 84.09375,
+          "top": 223.015625,
+          "right": 520,
+          "bottom": 307.109375,
+          "left": 8
+        }
+      },
+      "errors": []
+    },
+    {
+      "label": "740-double-calm",
+      "viewport": {
+        "width": 740,
+        "height": 390
+      },
+      "lesson": {
+        "tip": {
+          "x": 4,
+          "y": 155.8125,
+          "width": 436,
+          "height": 87.984375,
+          "top": 155.8125,
+          "right": 440,
+          "bottom": 243.796875,
+          "left": 4
+        },
+        "voiceHidden": true,
+        "playing": false
+      },
+      "discovery": {
+        "caption": "Cold stone halls stretch into darkness.",
+        "tipVisible": false,
+        "voice": {
+          "x": 8,
+          "y": 132.625,
+          "width": 512,
+          "height": 102.171875,
+          "top": 132.625,
+          "right": 520,
+          "bottom": 234.796875,
+          "left": 8
+        }
+      },
+      "errors": []
+    }
+  ]
+}

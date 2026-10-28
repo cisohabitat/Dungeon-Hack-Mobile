@@ -1,0 +1,19 @@
+
+Running 12 tests using 1 worker
+
+  ✓   1 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px normal @mobile (5.6s)
+  ✓   2 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px Double Calm @mobile (5.4s)
+  ✓   3 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px normal @mobile (5.5s)
+  ✓   4 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px Double Calm @mobile (5.6s)
+  ✓   5 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px normal @mobile (5.1s)
+  ✓   6 [phone] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px Double Calm @mobile (5.2s)
+  ✓   7 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px normal @mobile (5.5s)
+  ✓   8 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px Double Calm @mobile (5.6s)
+  ✓   9 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px normal @mobile (5.4s)
+  ✓  10 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px Double Calm @mobile (5.3s)
+  ✓  11 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px normal @mobile (5.5s)
+  ✓  12 [small] › test/browser/visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px Double Calm @mobile (5.3s)
+::notice title=🎭 Playwright Run Summary::  12 passed (1.1m)
+
+  12 passed (1.1m)
+Browser step aaa-focused-isolated exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa-focused-isolated/.

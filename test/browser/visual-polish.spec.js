@@ -2,6 +2,45 @@
 const { test, expect } = require('@playwright/test');
 const { startGame, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
 
+// A long silent media fixture keeps the discovery active while its controls
+// are checked. Captures with the shipped recordings are separate evidence.
+const voiceRate=8000, voiceBytes=voiceRate*60*2, voiceWav=Buffer.alloc(44+voiceBytes);
+voiceWav.write('RIFF');voiceWav.writeUInt32LE(36+voiceBytes,4);voiceWav.write('WAVEfmt ',8);
+voiceWav.writeUInt32LE(16,16);voiceWav.writeUInt16LE(1,20);voiceWav.writeUInt16LE(1,22);
+voiceWav.writeUInt32LE(voiceRate,24);voiceWav.writeUInt32LE(voiceRate*2,28);
+voiceWav.writeUInt16LE(2,32);voiceWav.writeUInt16LE(16,34);voiceWav.write('data',36);voiceWav.writeUInt32LE(voiceBytes,40);
+for(const viewport of [{width:320,height:667},{width:390,height:844},{width:740,height:390}])for(const large of [false,true]){
+  test(`tutorial takes priority over discovery narration at ${viewport.width}px ${large?'Double Calm':'normal'} @mobile`,async({page})=>{
+    const errors=watchForErrors(page);
+    await page.setViewportSize(viewport);
+    await page.addInitScript(big=>{
+      localStorage.setItem('deepdelve.prelude','off');localStorage.setItem('deepdelve.samples','off');
+      if(big){localStorage.setItem('deepdelve.textSize','4');localStorage.setItem('deepdelve.calm','1');}
+    },large);
+    await page.route(/\/sound\/narration\/[^/]+\.(?:m4a|ogg)$/,r=>r.fulfill({status:200,contentType:'audio/wav',body:voiceWav}));
+    await startGame(page,{seed:'aaa-review-2026-10-28',cls:'fighter',tips:true});
+    // Isolate prompt priority from the separate enemy-warning voice guard.
+    await page.evaluate(()=>{Game.level().monsters.length=0;});
+    const tip=page.locator('#tip'),voice=page.locator('#discovery-voice');
+    await expect(tip).toHaveClass(/show/);await expect(tip).toHaveAttribute('data-tip','controls');
+    // Negative observation across multiple150ms scheduler checks, rather than
+    // treating the instant before a queued discovery starts as a passing case.
+    await page.waitForTimeout(450);
+    await expect(tip).toHaveClass(/show/);await expect(voice).toBeHidden();
+    expect(await page.evaluate(()=>UI.voicePlaying())).toBe(false);
+    await tip.click();await expect(tip).not.toHaveClass(/show/);
+    await expect(voice).toBeVisible();await expect.poll(()=>page.evaluate(()=>UI.voicePlaying())).toBe(true);
+    await expect(page.locator('#discovery-voice-caption')).not.toBeEmpty();
+    const box=await voice.boundingBox(),view=await page.locator('.view-wrap').boundingBox();
+    expect(box.y).toBeGreaterThanOrEqual(view.y-1);expect(box.y+box.height).toBeLessThanOrEqual(view.y+view.height+1);
+    const toggle=voice.locator('[data-voice-toggle]');
+    await toggle.click();await expect(toggle).toHaveText('Resume');
+    await toggle.click();await expect(toggle).toHaveText('Pause');
+    await voice.locator('[data-voice-stop]').click();await expect(voice).toBeHidden();
+    expect(await page.evaluate(()=>UI.voicePlaying())).toBe(false);expect(errors).toEqual([]);
+  });
+}
+
 test('empty tip space avoids layout reads while live status chips still protect warning rows @mobile',async({page})=>{
   const errors=watchForErrors(page);await startGame(page,{seed:'empty-warning-space'});
   const result=await page.evaluate(()=>{Game.level().monsters=[];Game.level().twist=null;Game.level().press=0;Game.update=()=>{};const p=Game.player(),rect=Element.prototype.getBoundingClientRect;let reads=0;UI.refreshHud(true);document.querySelector('#tip').classList.remove('show');document.querySelector('#hud-status').replaceChildren();

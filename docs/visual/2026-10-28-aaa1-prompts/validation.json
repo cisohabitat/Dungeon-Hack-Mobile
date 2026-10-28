@@ -1,0 +1,116 @@
+{
+  "baseline": "9d37bdc3916f77dc1f940a48adbad942dfb5598a",
+  "candidate": {
+    "version": "0.9.54",
+    "build": 69,
+    "cache": "deepdelve-v129"
+  },
+  "repository": {
+    "rules": 751,
+    "files": 74,
+    "rule_duration": "1m20s",
+    "passed": true
+  },
+  "focused": {
+    "startTime": "2026-10-28T10:57:49.511Z",
+    "duration": 66989.17300000001,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "performance": {
+    "startTime": "2026-10-28T11:03:50.949Z",
+    "duration": 65109.458,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "performance_scenes": {
+    "fight": {
+      "fps": 39.2,
+      "scriptMs": 13.3
+    },
+    "wide": {
+      "fps": 40.2,
+      "scriptMs": 12.9
+    },
+    "flooded": {
+      "fps": 35.2,
+      "scriptMs": 15.4
+    },
+    "painted": {
+      "fps": 42.2,
+      "scriptMs": 10.8
+    },
+    "amber": {
+      "fps": 42.1,
+      "scriptMs": 9.5
+    },
+    "scroll": {
+      "fps": 37.2,
+      "scriptMs": 10.8
+    },
+    "rite": {
+      "fps": 46.5,
+      "scriptMs": 14.2
+    }
+  },
+  "native": {
+    "runs": 6,
+    "frames": 12,
+    "errors": 0
+  },
+  "negative_control": {
+    "original_scheduler_condition": true,
+    "quiet_enemy_fixture": true,
+    "result": "expected failure: discovery visible while tip remains visible"
+  },
+  "full_chromium": {
+    "regular": {
+      "startTime": "2026-10-28T11:05:33.769Z",
+      "duration": 3969755.9850000003,
+      "expected": 965,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial": {
+      "startTime": "2026-10-28T12:12:18.478Z",
+      "duration": 171556.43099999998,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "distinct_passed": 971
+  },
+  "limits": [
+    "Not physical-device, listening, complete-run or AAA certification evidence",
+    "The earlier unisolated negative-control draft hit the separate enemy-warning guard; not used as defect proof",
+    "Chromium native SIGSEGV and previous WebKit offline-status causes remain open"
+  ],
+  "source_hashes": {
+    "js/storyvoice.js": "9ca10ef526c0dcda12e584c9055927e812578831812ec721f8e67e5ded2ca01b",
+    "js/titlemenu.js": "acdad6375112151e2fddf46643e2d2625f18d1b79cdcf7f88695b1ffce819ae3",
+    "js/release.js": "28e421b79943a01feaf0b665d8b67b39639cd625412deefae9499e439a985c04",
+    "sw.js": "f74c10bf0fb9b6b66bde17a82cd38dba389847fe6a39b78c2ea95c831ad2d399"
+  },
+  "runtime_scope": "Discovery priority only; no CSS/game rules/art changes",
+  "performance_start_ms": 1932,
+  "raw_logs": {
+    "regular": {
+      "path": "/workspace/aaa-full-regular.log",
+      "sha256": "51a7d4b9b7755811b30b56e1d008c292efb6e88734fbc4e8614ecfb4c027e251"
+    },
+    "serial": {
+      "path": "/workspace/aaa-full-offline.log",
+      "sha256": "7cde39f07927f8aa00f140d870a1492eadc6c24e780f04dd774beac76770e455"
+    },
+    "negative_original": {
+      "path": "/workspace/aaa-baseline-isolated.log",
+      "sha256": "52efb711cd1c6b914b66bc5a6a3949367b267eed55b029c4ffad38c83578c1fa"
+    }
+  }
+}

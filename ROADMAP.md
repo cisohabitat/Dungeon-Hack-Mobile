@@ -535,3 +535,44 @@ objects are now painted; dynamic effect/UI layers keep their existing rendering.
   either intermittent failure is eliminated.
 - [ ] Physical iPhone visual/play review; Linux WebKit and phone-sized Chromium
   runs remain separate evidence from a real-device check.
+
+## AAA finish within the retro style (28 October 2026)
+
+The focused review of v0.9.53/main `9d37bdc` gave a provisional **7/10** against
+an AAA polish benchmark: painted art8, dungeon staging6.5, interface/onboarding6.5,
+combat presentation7, systems depth8.5, accessibility8 and technical readiness7.
+It used fresh320/390/740px UI walkthroughs, existing controlled combat captures
+and current CI evidence. It was not a complete unassisted run, a listening pass
+or physical-device approval; audio is ungraded. These are editorial judgments,
+not player-study results or a promise of a future score.
+
+The first confirmed defect was discovery narration covering the controls tip
+by approximately34px at390px and36px at320px. The Pack's line-drawn mannequin
+also differs visibly from the painted equipment. Prioritise cohesive delivery
+and player understanding over further atlas counts. Keep the software renderer,
+existing retro identity, free web delivery and established scope decisions.
+
+| Order | Phase | Concrete work | Completion evidence |
+| --- | --- | --- | --- |
+| AAA1 | Tutorial/narration priority — implemented for v0.9.54 | Queue discovery readings while a tutorial tip is visible; keep dismissal, Pause/Resume/Skip and combat priority intact. | [Native captures and verification](docs/visual/2026-10-28-aaa1-prompts/README.md) at320/390/740px, Normal and Double text/Calm;971 Chromium cases and the isolated FPS budget passed locally. Publication retains every CI gate. |
+| AAA2 | Interface cohesion | Review title/create/Pack/Journal/Hero together; prototype a mannequin treatment matching the painted kit, consistent panels/icons/type and clearer primary actions. Preserve inventory information and touch targets. | Before/after native screens, full-pack/long-name/Double-text/landscape/keyboard/controller/axe checks; no concealed actions or information. |
+| AAA3 | Dungeon staging | Review all13 themes in play; select representative entrance, landmark, treasure and keeper rooms for stronger composition, lighting and environmental storytelling using approved assets first. | Labelled native action captures, recognisable regional landmarks and intact fog, collision, warnings and procedural generation; balance comparisons for any rule/layout changes. |
+| AAA4 | Combat and audio finish | Complete a listening review; choose one ordinary foe, champion and keeper as reference encounters. Refine anticipation/contact/recoil/recovery and weapon/material sound layers together, then apply the reviewed standard. | Running combat/video and listening evidence, costs/timing/dice regressions, Calm compatibility and isolated FPS clearance. Commission/license replacement recordings only after the listening findings identify a need. |
+| AAA5 | Device confidence and independent regrade | Run the real older-Android/iPhone checklist, including sustained heavy combat, speaker/audio resume, installation, offline reopening and save recovery. Review the first five minutes and a complete run with unfamiliar players. | Device/OS/browser/build recorded in DEVICES.md, actual observations and prioritised fixes; independent regrade against the same criteria. |
+
+### Delivery rules and open dependencies
+
+- Publish after each bounded, verified phase; retain before/after evidence and
+  update the phase status here. A completed slice does not complete every item
+  in the larger first-five-minute or AAA-quality review.
+- Every player-facing change keeps the existing rule, browser, accessibility,
+  performance and release gates. Preserve all reviewed art and game mechanics
+  unless a phase explicitly changes them and supplies the required benchmarks.
+- The retained Chromium native SIGSEGVs and previous WebKit offline-status
+  timeout remain a separate engineering investigation. Passing retries are
+  reported and their traces preserved; do not mark their causes fixed by this
+  presentation roadmap.
+- Physical devices, independent player observations and a listening pass cannot
+  be inferred from automated screenshot or CI success. Leave those items open
+  until their evidence exists. AAA finish is an aspiration to reassess, not an
+  automatic label earned by completing this table.

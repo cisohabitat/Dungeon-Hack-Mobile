@@ -1,0 +1,60 @@
+{
+  "baseline": "9d37bdc3916f77dc1f940a48adbad942dfb5598a",
+  "scope": "Fresh native UI review with shipped recordings, before this fix. No renderer/image/game substitutions.",
+  "bounds": {
+    "05-first-floor-bounds.json": {
+      "width": 390,
+      "voiceVisible": true,
+      "tipVisible": true,
+      "voice": {
+        "left": 8,
+        "top": 458.453125,
+        "right": 382,
+        "bottom": 542.546875
+      },
+      "tip": {
+        "left": 4,
+        "top": 508.875,
+        "right": 326,
+        "bottom": 576.546875
+      },
+      "intersection": 10707.65625
+    },
+    "10-small-game-bounds.json": {
+      "width": 320,
+      "voiceVisible": true,
+      "tipVisible": true,
+      "voice": {
+        "left": 8,
+        "top": 292.890625,
+        "right": 312,
+        "bottom": 376.984375
+      },
+      "tip": {
+        "left": 4,
+        "top": 341.421875,
+        "right": 256,
+        "bottom": 426.984375
+      },
+      "intersection": 8819.5
+    },
+    "12-landscape-bounds.json": {
+      "width": 740,
+      "voiceVisible": true,
+      "tipVisible": true,
+      "voice": {
+        "left": 8,
+        "top": 223.015625,
+        "right": 520,
+        "bottom": 307.109375
+      },
+      "tip": {
+        "left": 4,
+        "top": 330.796875,
+        "right": 464,
+        "bottom": 364.109375
+      },
+      "intersection": 0
+    }
+  }
+}

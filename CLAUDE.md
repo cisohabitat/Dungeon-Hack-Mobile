@@ -1481,3 +1481,15 @@ geometry; occupied chips/tips retain native protection. The180-case DOM proof,
 original/candidate profiles, retained failures and unchanged budget measurements
 are in `docs/verification/2026-10-28-reading-headroom/`. Diagnostic profiles and
 frozen DOM timings are separate from native FPS and physical-device approval.
+
+### Tutorial and discovery narration priority
+`storyvoice.js` gives a visible tutorial tip the same discovery-queue priority
+as an overlay or prelude. An active discovery is returned to the queue using
+the existing interruption path; queued discoveries wait until the tip closes.
+Do not hide the tutorial, mute the master sound or move narration over combat
+warnings to resolve the collision. Prologue, Journal and ending narration keep
+their existing controls. The visual-polish regressions isolate this priority
+with long silent media and cleared enemies; native captures use shipped audio
+and actual UI with neither substitution. Record those evidence types separately
+in `docs/visual/2026-10-28-aaa1-prompts/`. Keep all release gates and the broader
+AAA phases in ROADMAP.md; one collision fix does not certify AAA quality.

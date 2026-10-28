@@ -9,6 +9,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **First lessons before the storyteller.** Discovery narration waits while a
+  tutorial tip is visible, so its caption and controls cannot cover the lesson.
+  The [AAA finish roadmap](ROADMAP.md#aaa-finish-within-the-retro-style-28-october-2026)
+  tracks interface cohesion, dungeon staging, combat/audio review and real-device
+  validation within the existing retro style.
+
 - **Painted reading scrolls.** Worn vellum rises in your hand while spell-coloured
   writing kindles and the page burns away in its original shower of embers.
 
@@ -99,8 +105,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   remains available if an atlas cannot load.
   The [art coverage audit](docs/visual/2026-10-27-art-coverage/README.md) records
   current bindings and intentional procedural layers; the
-  [atlas roadmap](art/creatures/ATLAS-ROADMAP.md) records the lantern delivery
-  and remaining optional reading-scroll conversion.
+  [atlas roadmap](art/creatures/ATLAS-ROADMAP.md) records the lantern and
+  open reading-scroll deliveries.
   Bestiary, companion and relic collections
   offer Field notes and Gallery layouts; Gallery puts the paintings first with
   expandable lore and statistics, preserving what each hero has learned. Layout

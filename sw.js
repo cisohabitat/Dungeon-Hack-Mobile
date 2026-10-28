@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v128';
+const CACHE = 'deepdelve-v129';
 const ASSETS = [
   './img/overlays/amber-lantern.png',
   './img/overlays/reading-scroll.png',
