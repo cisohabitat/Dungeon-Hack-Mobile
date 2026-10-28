@@ -1152,6 +1152,19 @@ a pushed change as verified.
   it never skips a browser project or changes test retries and assertions.
   On GitHub runners it replaces the stalled Azure Ubuntu mirror with Ubuntu's
   canonical HTTPS archive; package signature verification stays enabled.
+  `tools/run-browser-ci.sh LABEL ...` runs the same Playwright selections with
+  separate `test-results/LABEL/` and `ci-diagnostics/LABEL-*` outputs. Preserve
+  those per-step paths: a later serial run otherwise deletes earlier traces.
+  JSON reports, native browser logs and before/after resource snapshots upload
+  on successful retries as well as failures, unless cancelled. A passing retry
+  remains flaky; missing kernel/cgroup counters do not establish absence of OOM.
+  The recent Chromium context failures included native SIGSEGVs; the WebKit
+  offline-status timeout is separate and neither underlying cause is resolved.
+  Run `CHROMIUM_PATH=/usr/bin/chromium node test/ci-diagnostics.cjs` to verify
+  failed-attempt retention, subsequent-step isolation and hard-failure exit codes.
+  Exact evidence and inventory/gate controls live in
+  `docs/verification/2026-10-28-ci-browser-audit/`. Keep debug/resource collection
+  outside game code and resource snapshots outside the FPS measurement.
 - `.githooks/pre-push` checks the version against the remote main commit, then
   runs `npm test` on the exact commit being pushed to
   `main` (in a scratch checkout) and refuses the push if it fails. Turn it on

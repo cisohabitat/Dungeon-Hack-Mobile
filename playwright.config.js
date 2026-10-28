@@ -11,7 +11,9 @@ module.exports = defineConfig({
   fullyParallel: true,
   workers: process.env.CI ? 2 : undefined,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [['github'], ['list']] : [['list']],
+  reporter: process.env.CI ? [['github'], ['list'], ['json', {
+    outputFile: process.env.PLAYWRIGHT_JSON_OUTPUT_NAME || 'ci-diagnostics/results.json',
+  }]] : [['list']],
   use: {
     baseURL: `http://127.0.0.1:${PORT}`,
     // this repo's containers often run as root, where the sandbox cannot start

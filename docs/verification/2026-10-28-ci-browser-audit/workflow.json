@@ -1,0 +1,33 @@
+{
+  "baseline": "f15a96a3012b424f9357e85a3e11dbfeb9d80ff9",
+  "matrix_and_gates_unchanged": true,
+  "jobs": {
+    "browser": {
+      "selection_unchanged": true,
+      "commands": [
+        "npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'",
+        "npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests"
+      ]
+    },
+    "small": {
+      "selection_unchanged": true,
+      "commands": [
+        "npx playwright test --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'",
+        "npx playwright test --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests"
+      ]
+    },
+    "safari": {
+      "selection_unchanged": true,
+      "commands": [
+        "npx playwright test --project=safari --workers=1 --shard=${{ matrix.shard }}/3"
+      ]
+    },
+    "perf": {
+      "selection_unchanged": true,
+      "commands": [
+        "npx playwright test --project=perf --workers=1"
+      ]
+    }
+  },
+  "workflow_sha256": "6d3086fb9e7bbaf634ff9e5cf3da30f45d5c61e542ceb5173614bb98de5a7508"
+}

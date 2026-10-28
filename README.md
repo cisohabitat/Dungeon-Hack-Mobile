@@ -637,6 +637,14 @@ verified browser support; all engine suites and the performance gate remain.
 Class-Shade routing and Orc recovery checks verify exact idle and blink images
 at known animation times.
 
+CI retains JSON attempt reports, native browser logs, failure traces and resource
+snapshots for seven days, including when a retry passes. Separate regular/offline
+output directories keep the later step from deleting earlier evidence. The
+[browser failure audit](docs/verification/2026-10-28-ci-browser-audit/README.md)
+records the observed native Chromium SIGSEGVs and separate WebKit offline-status
+timeout; their underlying causes remain open. Repeat the diagnostic retention
+controls locally with `CHROMIUM_PATH=/usr/bin/chromium node test/ci-diagnostics.cjs`.
+
 The default browser script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
 Safari, speaker output or OS tab eviction. `npm start` serves the game locally on

@@ -1,0 +1,12 @@
+{
+  "result": "passed",
+  "controls": [
+    "passing retry retains failed trace/report",
+    "serial followup preserves previous evidence",
+    "hard failure exits 1",
+    "native launch/exit logs",
+    "before/after resource snapshots",
+    "invalid label rejected"
+  ],
+  "artifactPrefix": "diagnostic-control-992531"
+}

@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-10-28",
+  "baseline": "f15a96a3012b424f9357e85a3e11dbfeb9d80ff9",
+  "observations": [
+    {
+      "version": "0.9.51",
+      "run": 40624438776,
+      "job": 122605876192,
+      "test": "lich take: native ending exports its actual keeper, symbol and painted companion",
+      "error": "browser.newContext: Target page, context or browser has been closed",
+      "native": "Received signal 11 SEGV_MAPERR 0000000001b0",
+      "retry": 1,
+      "retryPassed": true,
+      "availableArtifacts": 0
+    },
+    {
+      "version": "0.9.52",
+      "run": 40635805861,
+      "job": 122642374872,
+      "test": "a finished run replays with the same outcome, pauses, and leaves saves and progress untouched",
+      "error": "browser.newContext: Target page, context or browser has been closed",
+      "native": "Received signal 11 SEGV_MAPERR 0000000001b0",
+      "retry": 1,
+      "retryPassed": true,
+      "availableArtifacts": 0
+    },
+    {
+      "version": "0.9.53",
+      "run": 40650246766,
+      "job": 122688393118,
+      "test": "core play is ready offline while all recordings are delayed, then voices resume and survive reload",
+      "error": "Offline status was empty after the last native reload; expected Game and voice ready offline in 10000ms",
+      "native": "No SIGSEGV in this job; logged browser exits were exitCode=0, signal=null",
+      "retry": 1,
+      "retryPassed": true,
+      "availableArtifacts": 0
+    }
+  ],
+  "limits": [
+    "Historical runs retained no uploaded trace artifacts",
+    "A native SIGSEGV identifies the browser crash, not its underlying trigger",
+    "No evidence establishes OOM or an application-level offline-status cause",
+    "No runtime fix claimed"
+  ]
+}

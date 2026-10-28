@@ -1,0 +1,80 @@
+##[error]  1) [small] › test/browser/replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched
+    Error: browser.newContext: Target page, context or browser has been closed
+    Browser logs:
+
+    <launching> /home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-YxkHUe --remote-debugging-pipe --no-startup-window
+    <launched> pid=3073
+    [pid=3073][err] [1028/050437.456809:WARNING:sandbox/policy/linux/sandbox_linux.cc:405] InitializeSandbox() called with multiple threads in process gpu-process.
+    [pid=3073][err] [1028/050515.741876:WARNING:media/audio/linux/audio_manager_linux.cc:54] Falling back to ALSA for audio output. PulseAudio is not available or could not be initialized.
+    [pid=3073][err] [1028/050516.469350:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469369:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469376:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469381:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469386:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469390:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469395:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469399:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=3073][err] [1028/050516.469403:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples
+2026-10-28T05:12:55.2372927Z ##[notice]  1 flaky
+    [small] › test/browser/replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched
+  164 passed (8.3m)
+2026-10-28T05:12:55.2373943Z
+2026-10-28T05:12:55.2373950Z
+2026-10-28T05:12:55.2374521Z   1) [small] › test/browser/replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched
+2026-10-28T05:12:55.2374922Z
+2026-10-28T05:12:55.2375147Z     Error: browser.newContext: Target page, context or browser has been closed
+2026-10-28T05:12:55.2375481Z     Browser logs:
+2026-10-28T05:12:55.2375586Z
+2026-10-28T05:12:55.2382713Z     <launching> /home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-YxkHUe --remote-debugging-pipe --no-startup-window
+2026-10-28T05:12:55.2389024Z     <launched> pid=3073
+2026-10-28T05:12:55.2389653Z     [pid=3073][err] [1028/050437.456809:WARNING:sandbox/policy/linux/sandbox_linux.cc:405] InitializeSandbox() called with multiple threads in process gpu-process.
+2026-10-28T05:12:55.2390685Z     [pid=3073][err] [1028/050515.741876:WARNING:media/audio/linux/audio_manager_linux.cc:54] Falling back to ALSA for audio output. PulseAudio is not available or could not be initialized.
+2026-10-28T05:12:55.2391923Z     [pid=3073][err] [1028/050516.469350:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2393030Z     [pid=3073][err] [1028/050516.469369:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2394128Z     [pid=3073][err] [1028/050516.469376:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2395269Z     [pid=3073][err] [1028/050516.469381:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2396747Z     [pid=3073][err] [1028/050516.469386:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2398061Z     [pid=3073][err] [1028/050516.469390:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2399375Z     [pid=3073][err] [1028/050516.469395:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2400577Z     [pid=3073][err] [1028/050516.469399:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2401666Z     [pid=3073][err] [1028/050516.469403:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2402893Z     [pid=3073][err] [1028/050516.469407:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2403990Z     [pid=3073][err] [1028/050516.469411:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2405183Z     [pid=3073][err] [1028/050516.469415:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2406609Z     [pid=3073][err] [1028/050516.469419:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2407918Z     [pid=3073][err] [1028/050516.469423:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+2026-10-28T05:12:55.2408731Z     [pid=3073][err] Received signal 11 SEGV_MAPERR 0000000001b0
+2026-10-28T05:12:55.2409545Z     [pid=3073][err] #0 0x55bf5d5ecf5a (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3954f59)
+2026-10-28T05:12:55.2410555Z     [pid=3073][err] #1 0x55bf60a1ed24 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x6d86d23)
+2026-10-28T05:12:55.2411261Z     [pid=3073][err] #2 0x7fbbbc445330 (/usr/lib/x86_64-linux-gnu/libc.so.6+0x4532f)
+2026-10-28T05:12:55.2412004Z     [pid=3073][err] #3 0x55bf60052c76 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x63bac75)
+2026-10-28T05:12:55.2412994Z     [pid=3073][err] #4 0x55bf6001870e (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x638070d)
+2026-10-28T05:12:55.2414197Z     [pid=3073][err] #5 0x55bf5fe70e72 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x61d8e71)
+2026-10-28T05:12:55.2415388Z     [pid=3073][err] #6 0x55bf5d2db2e9 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x36432e8)
+2026-10-28T05:12:55.2416639Z     [pid=3073][err] #7 0x55bf5d2db1d3 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x36431d2)
+2026-10-28T05:12:55.2417791Z     [pid=3073][err] #8 0x55bf5d2dda92 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3645a91)
+2026-10-28T05:12:55.2418899Z     [pid=3073][err] #9 0x55bf5d2dcf1a (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3644f19)
+2026-10-28T05:12:55.2419876Z     [pid=3073][err] #10 0x55bf5ffc9485 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x6331484)
+2026-10-28T05:12:55.2420827Z     [pid=3073][err] #11 0x55bf5b6227b4 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x198a7b3)
+2026-10-28T05:12:55.2421781Z     [pid=3073][err] #12 0x55bf5b4e79a4 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x184f9a3)
+2026-10-28T05:12:55.2422726Z     [pid=3073][err] #13 0x55bf5be682d3 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x21d02d2)
+2026-10-28T05:12:55.2423681Z     [pid=3073][err] #14 0x55bf5be67a51 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x21cfa50)
+2026-10-28T05:12:55.2424783Z     [pid=3073][err] #15 0x55bf5d40e2ef (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x37762ee)
+2026-10-28T05:12:55.2425744Z     [pid=3073][err] #16 0x55bf5dc7fe66 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3fe7e65)
+2026-10-28T05:12:55.2426798Z     [pid=3073][err] #17 0x55bf5dc7ffe6 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3fe7fe5)
+2026-10-28T05:12:55.2427756Z     [pid=3073][err] #18 0x55bf5dc83481 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3feb480)
+2026-10-28T05:12:55.2428707Z     [pid=3073][err] #19 0x55bf5dc80419 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3fe8418)
+2026-10-28T05:12:55.2429669Z     [pid=3073][err] #20 0x55bf5dc7f50e (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3fe750d)
+2026-10-28T05:12:55.2430629Z     [pid=3073][err] #21 0x55bf5e61aad0 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x4982acf)
+2026-10-28T05:12:55.2431588Z     [pid=3073][err] #22 0x55bf5e61bcf2 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x4983cf1)
+2026-10-28T05:12:55.2432268Z     [pid=3073][err] #23 0x7fbbbc42a1ca (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a1c9)
+2026-10-28T05:12:55.2432712Z     [pid=3073][err] #24 0x7fbbbc42a28b (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a28a)
+2026-10-28T05:12:55.2433440Z     [pid=3073][err] #25 0x55bf5e1537ca (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x44bb7c9)
+2026-10-28T05:12:55.2434354Z     [pid=3073][err]   r8: 0000000000000004  r9: 0000072403414664 r10: 0000000000000070 r11: 0000000000000070
+2026-10-28T05:12:55.2434899Z     [pid=3073][err]  r12: 00000724000c8700 r13: 000055bf6482d1f8 r14: 00000000000000a8 r15: 0000000000000000
+2026-10-28T05:12:55.2435443Z     [pid=3073][err]   di: 00007ffd2f6ab510  si: 00000000000000a8  bp: 00007ffd2f6ab270  bx: 00007ffd2f6ab510
+2026-10-28T05:12:55.2435983Z     [pid=3073][err]   dx: 0000000000000009  ax: 0000000000000000  cx: 000000000000104d  sp: 00007ffd2f6ab070
+2026-10-28T05:12:55.2436615Z     [pid=3073][err]   ip: 000055bf5c94bbfd efl: 0000000000010202 cgf: 002b000000000033 erf: 0000000000000004
+2026-10-28T05:12:55.2437097Z     [pid=3073][err]  trp: 000000000000000e msk: 0000000000000000 cr2: 00000000000001b0
+2026-10-28T05:12:55.2437435Z     [pid=3073][err] [end of stack trace]
+2026-10-28T05:12:55.

@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/release.spec.js:8:1 › the main page shows its release and commit at the bottom on phones and desktop (5.1s)
+  ✓  2 [phone] › test/browser/release.spec.js:31:1 › release details and the menu stay reachable with double text and the first-time card (2.0s)
+  ✓  3 [phone] › test/browser/release.spec.js:43:1 › the installed game keeps its release and commit offline (10.6s)
+  ✓  4 [small] › test/browser/release.spec.js:8:1 › the main page shows its release and commit at the bottom on phones and desktop (4.4s)
+  ✓  5 [small] › test/browser/release.spec.js:31:1 › release details and the menu stay reachable with double text and the first-time card (1.8s)
+  ✓  6 [small] › test/browser/release.spec.js:43:1 › the installed game keeps its release and commit offline (9.1s)
+::notice title=🎭 Playwright Run Summary::  6 passed (35.0s)
+
+  6 passed (35.0s)
+Browser step audit-release exited 0; diagnostics retained in ci-diagnostics/ and test-results/audit-release/.

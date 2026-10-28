@@ -526,7 +526,12 @@ objects are now painted; dynamic effect/UI layers keep their existing rendering.
   fallback/failure/procedural paths remain available. Log measurements are
   batched and empty warning space avoids layout reads. See [profiles, controls
   and release gates](docs/verification/2026-10-28-reading-headroom/README.md).
-- [ ] Proposed next phase: investigate recurring CI browser-context closures,
-  retaining the actual failures/retries and all existing coverage and gates.
+- [x] Audit recurring CI browser-context closures and the WebKit offline retry:
+  retain native SIGSEGV/timeout evidence, prevent later steps erasing traces,
+  and upload retry reports/browser logs/resource snapshots even on a successful
+  retry. All cases and gates remain. See the [audit and controls](docs/verification/2026-10-28-ci-browser-audit/README.md).
+- [ ] Diagnose the underlying Chromium native crash and WebKit offline-status
+  timeout from retained failed-attempt evidence; this audit does not claim
+  either intermittent failure is eliminated.
 - [ ] Physical iPhone visual/play review; Linux WebKit and phone-sized Chromium
   runs remain separate evidence from a real-device check.

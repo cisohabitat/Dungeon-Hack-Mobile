@@ -1,0 +1,109 @@
+{
+  "baseline": "f15a96a3012b424f9357e85a3e11dbfeb9d80ff9",
+  "scope": "CI diagnostics only; no player-facing files changed",
+  "version": "0.9.53",
+  "build": 68,
+  "cache": "deepdelve-v128",
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "rule_files": 74,
+    "rule_duration": "1m25s"
+  },
+  "native_chromium": {
+    "release": {
+      "stats": {
+        "startTime": "2026-10-28T08:22:28.735Z",
+        "duration": 35032.526,
+        "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "report": "ci-diagnostics/audit-release-results.json",
+      "sha256": "a2957cd1ec149e00b85d86871c946cf4fd9b8fcb26ac0238c108fcb653378cb1"
+    },
+    "offline": {
+      "stats": {
+        "startTime": "2026-10-28T08:23:35.393Z",
+        "duration": 75525.172,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "report": "ci-diagnostics/audit-offline-results.json",
+      "sha256": "0890f754c7b24329d3c814d7a577ab8a399e210b75f71e84006591162dd76033"
+    },
+    "affected": {
+      "stats": {
+        "startTime": "2026-10-28T08:25:07.651Z",
+        "duration": 42531.964,
+        "expected": 4,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "report": "ci-diagnostics/audit-affected-results.json",
+      "sha256": "fe3537c4bb74acb25a3b59456aa1c5ecb744032edc160b11c2ca59438bc4c8b7"
+    }
+  },
+  "controls": {
+    "result": "passed",
+    "controls": [
+      "passing retry retains failed trace/report",
+      "serial followup preserves previous evidence",
+      "hard failure exits 1",
+      "native launch/exit logs",
+      "before/after resource snapshots",
+      "invalid label rejected"
+    ],
+    "artifactPrefix": "diagnostic-control-992531"
+  },
+  "discovery": {
+    "phone": 622,
+    "small": 337,
+    "safari": 207,
+    "perf": 1,
+    "identical": true,
+    "policies_unchanged": true
+  },
+  "workflow": {
+    "baseline": "f15a96a3012b424f9357e85a3e11dbfeb9d80ff9",
+    "matrix_and_gates_unchanged": true,
+    "jobs": {
+      "browser": {
+        "selection_unchanged": true,
+        "commands": [
+          "npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'",
+          "npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests"
+        ]
+      },
+      "small": {
+        "selection_unchanged": true,
+        "commands": [
+          "npx playwright test --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'",
+          "npx playwright test --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests"
+        ]
+      },
+      "safari": {
+        "selection_unchanged": true,
+        "commands": [
+          "npx playwright test --project=safari --workers=1 --shard=${{ matrix.shard }}/3"
+        ]
+      },
+      "perf": {
+        "selection_unchanged": true,
+        "commands": [
+          "npx playwright test --project=perf --workers=1"
+        ]
+      }
+    },
+    "workflow_sha256": "6d3086fb9e7bbaf634ff9e5cf3da30f45d5c61e542ceb5173614bb98de5a7508"
+  },
+  "limits": [
+    "No local WebKit installation or physical iPhone test",
+    "Native SIGSEGV trigger and WebKit offline-status timeout cause remain unresolved",
+    "No standalone local FPS run for this CI-only phase; unchanged full performance case remains required in CI"
+  ]
+}

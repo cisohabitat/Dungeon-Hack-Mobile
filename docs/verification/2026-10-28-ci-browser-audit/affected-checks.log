@@ -1,0 +1,11 @@
+
+Running 4 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched (11.6s)
+  ✓  2 [phone] › test/browser/sharecard.spec.js:58:3 › lich take: native ending exports its actual keeper, symbol and painted companion @mobile (9.0s)
+  ✓  3 [small] › test/browser/replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched (11.0s)
+  ✓  4 [small] › test/browser/sharecard.spec.js:58:3 › lich take: native ending exports its actual keeper, symbol and painted companion @mobile (8.9s)
+::notice title=🎭 Playwright Run Summary::  4 passed (42.5s)
+
+  4 passed (42.5s)
+Browser step audit-affected exited 0; diagnostics retained in ci-diagnostics/ and test-results/audit-affected/.

@@ -55,14 +55,14 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
-      - run: npx playwright test --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
+      - run: sh tools/run-browser-ci.sh phone-regular --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
+      - run: sh tools/run-browser-ci.sh phone-offline --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: ${{ !cancelled() }}
         with:
           name: playwright-report-${{ matrix.shard }}
           path: |
-            playwright-report/
+            ci-diagnostics/
             test-results/
           retention-days: 7
 
@@ -77,10 +77,18 @@ jobs:
           node-version: 24
       - run: npm ci
       - run: sh tools/install-browser.sh chromium
-      - run: npx playwright test --project=perf --workers=1
+      - run: sh tools/run-browser-ci.sh perf --project=perf --workers=1
         # the first reading on a runner was 47, 48 and 60 fps against a bar of 30
         env:
           PERF: '1'
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-perf
+          path: |
+            ci-diagnostics/
+            test-results/
+          retention-days: 7
 
   safari:
     name: Safari engine mobile checks (${{ matrix.shard }}/3)
@@ -96,20 +104,13 @@ jobs:
           node-version: 24
       - run: npm ci
       - run: sh tools/install-browser.sh webkit
-      - run: npm run test:webkit -- --shard=${{ matrix.shard }}/3
-        env:
-          DEBUG: pw:browser
-      - name: Native browser failure diagnostics
-        if: failure()
-        run: |
-          free -m
-          sudo dmesg | rg -i 'out of memory|oom-kill|killed process|segfault' || true
+      - run: sh tools/run-browser-ci.sh safari --project=safari --workers=1 --shard=${{ matrix.shard }}/3
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: ${{ !cancelled() }}
         with:
           name: playwright-report-safari-${{ matrix.shard }}
           path: |
-            playwright-report/
+            ci-diagnostics/
             test-results/
           retention-days: 7
 
@@ -130,14 +131,14 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: npx playwright test --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
-      - run: npx playwright test --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
+      - run: sh tools/run-browser-ci.sh small-regular --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
+      - run: sh tools/run-browser-ci.sh small-offline --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: ${{ !cancelled() }}
         with:
           name: playwright-report-small-${{ matrix.shard }}
           path: |
-            playwright-report/
+            ci-diagnostics/
             test-results/
           retention-days: 7
 

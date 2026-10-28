@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (37.5s)
+  ✓  2 [small] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (36.0s)
+::notice title=🎭 Playwright Run Summary::  2 passed (1.3m)
+
+  2 passed (1.3m)
+Browser step audit-offline exited 0; diagnostics retained in ci-diagnostics/ and test-results/audit-offline/.
