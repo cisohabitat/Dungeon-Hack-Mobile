@@ -1240,7 +1240,21 @@ const Renderer = (() => {
   function busy(x0, y0, x1, y1) {
     return crowd.some(r => r[0] < x1 && r[2] > x0 && r[1] < y1 && r[3] > y0);
   }
+  // Wall columns do not overlap. Composite their shade, then their warmth,
+  // merging only adjacent columns with exactly equal rectangles and colours.
+  const wallTops = new Int32Array(W), wallHeights = new Int32Array(W);
+  const wallShades = new Uint8Array(W), wallHeats = new Uint8Array(W);
+  function paintWallLight(steps, styles) {
+    for (let x = 0; x < W;) {
+      const start = x++, shade = steps[start];
+      if (!shade) continue;
+      while (x < W && steps[x] === shade && wallTops[x] === wallTops[start] && wallHeights[x] === wallHeights[start]) x++;
+      ctx.fillStyle = styles[shade];
+      ctx.fillRect(start, wallTops[start], x - start, wallHeights[start]);
+    }
+  }
   function render(level, cam, sprites, fx, now) {
+    wallShades.fill(0); wallHeats.fill(0);
     const tex = Assets.themes[level.theme];
     const px = cam.x, py = cam.y;
     {
@@ -1349,6 +1363,7 @@ const Renderer = (() => {
       if (dist > fog + 1) continue;
       const lineH = Math.floor(P / dist);
       const top = ((H - lineH) / 2) | 0;
+      wallTops[col] = top; wallHeights[col] = lineH;
       let wallX = side === 0 ? py + dist * rdy : px + dist * rdx;
       wallX = colT >= 0 ? colU : wallX - Math.floor(wallX);
       // (a sliding door shows its leading part: what has gone into the wall is the part not seen)
@@ -1437,17 +1452,14 @@ const Renderer = (() => {
       let lightHere = lightAt(lm, w, h, px + dist * rdx, py + dist * rdy);
       if (tile === T.TORCH) { const k = lights.src[mapY * w + mapX]; lightHere = Math.max(lightHere, LIGHT_MAX * 0.8 * (k >= 0 ? lights.gain[k] : 1)); }
       if (lightHere > 0) shade -= lightHere / 7;
-      if (shade > 0.03) {
-        ctx.fillStyle = shadeStyles[Math.min(20, Math.round(shade * 20))];
-        ctx.fillRect(col, top, 1, lineH);
-      }
+      if (shade > 0.03) wallShades[col] = Math.min(20, Math.round(shade * 20));
       // and where a torch's light falls, or the hero's own, the stone warms
       const heat = Math.max(Math.min(1, lightHere / LIGHT_MAX), dist < OWN_R ? (1 - dist / OWN_R) * 0.5 : 0);
-      if (heat > 0.08) {
-        ctx.fillStyle = WARM[Math.min(10, Math.round(heat * 10))];
-        ctx.fillRect(col, top, 1, lineH);
-      }
+      if (heat > 0.08) wallHeats[col] = Math.min(10, Math.round(heat * 10));
     }
+
+    paintWallLight(wallShades, shadeStyles);
+    paintWallLight(wallHeats, WARM);
 
     // a fountain's water moving: the stream running down, the basin glittering
     drawFountains(now);

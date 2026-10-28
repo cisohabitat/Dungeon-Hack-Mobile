@@ -1,0 +1,60 @@
+{
+  "baseline": "ea8ecc9024df7066a387eec14f67a7b386ba337b",
+  "variants": [
+    {
+      "name": "renderer-empty-light.js",
+      "external_path": "/workspace/perf-recovery/renderer-empty-light.js",
+      "sha256": "9b26181c71f0e084ce13b15ae33f7201639992da8ae7bc52fa030839c5edffc8",
+      "selected": false
+    },
+    {
+      "name": "renderer-occlusion-reused.js",
+      "external_path": "/workspace/perf-recovery/renderer-occlusion-reused.js",
+      "sha256": "ae02940a0619bcebb21f8dcb67068975664b83f74a4220dd486e5d829fb0b9d9",
+      "selected": false
+    },
+    {
+      "name": "renderer-occlusion.js",
+      "external_path": "/workspace/perf-recovery/renderer-occlusion.js",
+      "sha256": "7f421c2e05184f27fede9eddae29c063165be3b5377b175492d7d2b335fceb16",
+      "selected": false
+    },
+    {
+      "name": "renderer-original.js",
+      "external_path": "/workspace/perf-recovery/renderer-original.js",
+      "sha256": "c8c209932ccc83403d034ac4e87bd700e533aef6144190721f57c03c63833f35",
+      "selected": false
+    },
+    {
+      "name": "renderer-projected-kernel.js",
+      "external_path": "/workspace/perf-recovery/renderer-projected-kernel.js",
+      "sha256": "72cea01a3f1b6645e04365fe885f053e6cd0796e4e707ac2d8226ee2c054a9f1",
+      "selected": false
+    },
+    {
+      "name": "renderer-projection.js",
+      "external_path": "/workspace/perf-recovery/renderer-projection.js",
+      "sha256": "5b6fa2c5aa3432e8afa75b6e8e410c7fb4f5accec2c7620027ad0f9e5151e9e9",
+      "selected": false
+    },
+    {
+      "name": "renderer-wall-batches.js",
+      "external_path": "/workspace/perf-recovery/renderer-wall-batches.js",
+      "sha256": "aedc972e75f6af7e4fdae79513885ea7d9f7e678dc36e1292c8090f23e92048e",
+      "selected": true
+    },
+    {
+      "name": "renderer-wall-paths.js",
+      "external_path": "/workspace/perf-recovery/renderer-wall-paths.js",
+      "sha256": "76fcb68283d8e624a9963032f23a68bff4f1816e26a84e41b0562f7e98c513f8",
+      "selected": false
+    },
+    {
+      "name": "renderer-warm-tables.js",
+      "external_path": "/workspace/perf-recovery/renderer-warm-tables.js",
+      "sha256": "bc248373737facd07ae27a517e8635fbb5aed8ee9ad5305073cf987e6d83b3db",
+      "selected": false
+    }
+  ],
+  "note": "Rejected full-source experiments retained outside Git; hashes and all measurements retained here. Selected source is js/renderer.js. No threshold, scene, CPU rate, duration or retry setting changed."
+}

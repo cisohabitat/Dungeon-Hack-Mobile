@@ -1,0 +1,83 @@
+{
+  "baseline": "ea8ecc9024df7066a387eec14f67a7b386ba337b",
+  "candidate": {
+    "version": "0.9.56",
+    "build": 71,
+    "cache": "deepdelve-v131"
+  },
+  "selected": "Exact adjacent wall-light rectangle batches;28-line renderer diff;3200bytes fixed buffers; no rule/art/timing changes",
+  "renderer_sha256": "aedc972e75f6af7e4fdae79513885ea7d9f7e678dc36e1292c8090f23e92048e",
+  "pixel_comparison": {
+    "ordinary_views": 2340,
+    "transition_views": 936,
+    "different_views": 0,
+    "sources": {
+      "wall-batches-pixels": {
+        "views": 2340,
+        "changed": 0,
+        "sha256": "ca63485214b25d326d25ffb441038137bcaa0d27763147540ef11028385e8f25"
+      },
+      "transitions": {
+        "views": 936,
+        "changed": 0,
+        "sha256": "8be84df324ceb0caaa613bdaec3adc1106ae475358a23ad3043b031f6f27f01d"
+      }
+    }
+  },
+  "isolated_integrated_performance": {
+    "startTime": "2026-10-28T17:03:49.856Z",
+    "duration": 61069.068,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "performance_scenes": {
+    "fight": 40.7,
+    "wide": 38.4,
+    "flooded": 35,
+    "painted": 44.9,
+    "amber": 38.9,
+    "scroll": 44.8,
+    "rite": 51.4,
+    "start_ms": 2175
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "rule_duration": "1m39s"
+  },
+  "native": {
+    "sessions": 9,
+    "actions": 45,
+    "frames": 540,
+    "errors": 0,
+    "scope": "Running native updates/assets, supplied safe terrain/resources; not physical-device or balance evidence"
+  },
+  "full_chromium": {
+    "regular": {
+      "startTime": "2026-10-28T17:08:59.580Z",
+      "duration": 4086461.1210000003,
+      "expected": 973,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial": {
+      "startTime": "2026-10-28T18:17:25.758Z",
+      "duration": 169384.154,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "distinct_passed": 979,
+    "retries": 0
+  },
+  "limits": [
+    "Not physical-device, listening or independent AAA certification",
+    "Paired native reading32.0/32.3 is not reliable attribution or universal speedup; prior v55 CI28.8 and3browser retries retained",
+    "All CI matrix jobs and tagged publisher remain required before verified publication"
+  ]
+}

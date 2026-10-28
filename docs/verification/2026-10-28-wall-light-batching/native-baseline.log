@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":35.6,"scriptMs":15.3},"wide":{"fps":34.3,"scriptMs":14.5},"flooded":{"fps":34.3,"scriptMs":15.8},"painted":{"fps":45.7,"scriptMs":9.7},"amber":{"fps":34.8,"scriptMs":11.6},"scroll":{"fps":32,"scriptMs":13.7},"rite":{"fps":43.6,"scriptMs":15.1}} start {"ms":2055}
+  ✓  1 [perf] › ../../tmp/perf-recovery/perf.spec.js:59:1 › the view holds its frame rate on a slow processor (58.6s)
+::notice title=🎭 Playwright Run Summary::  1 passed (59.9s)
+
+  1 passed (59.9s)
+Browser step recovery-baseline exited 0; diagnostics retained in ci-diagnostics/ and test-results/recovery-baseline/.

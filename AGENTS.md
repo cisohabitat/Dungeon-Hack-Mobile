@@ -1520,3 +1520,16 @@ Overlay/controller link selectors use `a[href]`, not bare `[href]`: a decorative
 SVG image also has an href but must never become the dialog's first focus or
 a controller stop. Preserve the screen-reader focus/return and pad navigation
 checks when adding decorative images inside an overlay.
+
+### Wall lighting batches
+`renderer.js` records each wall column's already calculated shade and warmth
+into fixed320-entry buffers. After all wall images/webs, draw shade first and
+warmth second; merge only adjacent columns with the same colour step, top and
+height. These integer rectangles do not overlap, so reordering across columns
+preserves compositing. Clear both step buffers each frame: distant/fogged
+columns and open stair arches must never inherit an earlier wall's lighting.
+Keep stair-recess lighting in place, ahead of the arch, and finish wall batches
+before fountains, particles and sprites. Pixel/timing controls and rejected
+experiments live in `docs/verification/2026-10-28-wall-light-batching/`.
+The v0.9.55 CI reading-scroll28.8FPS failure and browser retries remain evidence,
+not a reason to relax the30FPS gate or retry an unchanged source for a pass.

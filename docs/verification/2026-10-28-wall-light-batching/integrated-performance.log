@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":40.7,"scriptMs":12.9},"wide":{"fps":38.4,"scriptMs":12.7},"flooded":{"fps":35,"scriptMs":15.5},"painted":{"fps":44.9,"scriptMs":10.5},"amber":{"fps":38.9,"scriptMs":11.5},"scroll":{"fps":44.8,"scriptMs":8.2},"rite":{"fps":51.4,"scriptMs":12.5}} start {"ms":2175}
+  ✓  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.0m)
+::notice title=🎭 Playwright Run Summary::  1 passed (1.0m)
+
+  1 passed (1.0m)
+Browser step recovery-integrated-perf exited 0; diagnostics retained in ci-diagnostics/ and test-results/recovery-integrated-perf/.

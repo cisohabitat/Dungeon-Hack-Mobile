@@ -9,6 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **More efficient wall lighting.** Shared lighting passes reduce canvas calls
+  while preserving the painted scene, fog and combat timing. See the
+  [rendering verification](docs/verification/2026-10-28-wall-light-batching/README.md).
+
 - **A painted equipment stand.** A neutral wooden mannequin with aged brass
   joints sits behind the Pack's equipment slots. Selection highlights and
   connectors remain live, with an independent SVG fallback while loading or on

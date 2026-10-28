@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":38.2,"scriptMs":14.8},"wide":{"fps":37,"scriptMs":13.6},"flooded":{"fps":36.7,"scriptMs":15.2},"painted":{"fps":38.8,"scriptMs":14.8},"amber":{"fps":34.9,"scriptMs":15.1},"scroll":{"fps":32.3,"scriptMs":15.3},"rite":{"fps":49,"scriptMs":12.4}} start {"ms":2079}
+  ✓  1 [perf] › ../../tmp/perf-recovery/perf.spec.js:59:1 › the view holds its frame rate on a slow processor (1.1m)
+::notice title=🎭 Playwright Run Summary::  1 passed (1.1m)
+
+  1 passed (1.1m)
+Browser step recovery-wall-batches exited 0; diagnostics retained in ci-diagnostics/ and test-results/recovery-wall-batches/.
