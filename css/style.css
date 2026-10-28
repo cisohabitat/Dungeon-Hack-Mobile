@@ -1,10 +1,10 @@
 :root {
-  --bg: #0b0a10;
-  --panel: #16141f;
-  --panel2: #1f1c2b;
-  --border: #3a3450;
+  --bg: #0c0b09;
+  --panel: #171613;
+  --panel2: #201e1b;
+  --border: #474035;
   --text: #e6dfd0;
-  --dim: #9a93a8;
+  --dim: #aaa18f;
   --gold: #e0b84a;
   --red: #c8403a;
   --green: #5ec06a;
@@ -22,7 +22,7 @@
      A screen is built from these; a value outside them is a picture, not the interface */
   --text-soft: #c8bfae;
   --text-mid: #d8cfbe;
-  --press: #2b2740;
+  --press: #302a20;
   --primary-bg: #4a3a1c;
   --primary-text: #f5e6c0;
   --edge-won: #7a6030;
@@ -45,7 +45,7 @@
   --g-legend-edge: #8a4a18;
   --g-fine-edge: #3c5a3a;
   --g-rare-edge: #34486a;
-  --overlay-bg: #08070c;
+  --overlay-bg: #0c0b09;
   --frame-radius: 8px;
   --frame-sheen: inset 0 1px 0 rgba(232, 215, 180, 0.08);
   --t-2xs: 0.62rem;
@@ -316,7 +316,7 @@ body.calm #hud-gold.flare { animation: none; }
 .hall-pages li b { font-style: normal; color: var(--text); }
 #ov-boons .ov-head { padding: var(--s-10) var(--s-14); }
 #boon-title { font-size: var(--t-base); line-height: 1.3; }
-.boon { display: block; width: 100%; text-align: left; padding: var(--s-12) var(--s-14); margin-bottom: var(--s-8); background: linear-gradient(#232032, #17151f); border-color: #4a4463; }
+.boon { display: block; width: 100%; text-align: left; padding: var(--s-12) var(--s-14); margin-bottom: var(--s-8); background: linear-gradient(var(--panel2), var(--panel)); border-color: var(--border); }
 .boon.talent { border-color: var(--gold); background: linear-gradient(#2e2618, #1b1710); }
 .boon.talent b { color: var(--gold); }
 /* a rank of renown: past the top level, a paler gold than a talent's */
@@ -329,7 +329,7 @@ body.calm #hud-gold.flare { animation: none; }
 /* what a road holds, under its card's words: the names the run's own plans give it */
 .fork-choice .road-facts { display: block; margin-top: var(--s-4); font-size: var(--t-sm); color: var(--gold); }
 /* a path: the bigger choice, once a run, so its card says everything it does */
-.boon.path { border-color: var(--gold); background: linear-gradient(#2a2335, #15131c); box-shadow: inset 0 0 14px rgba(224, 184, 74, 0.12); }
+.boon.path { border-color: var(--gold); background: linear-gradient(var(--sel-bg), var(--card-bg)); box-shadow: inset 0 0 14px rgba(224, 184, 74, 0.12); }
 .boon.path b, .path-sheet b { font-size: var(--t-2xl); color: var(--gold); display: block; }
 .boon.path.armed { border-color: var(--warn); background: linear-gradient(#3a2a1c, #1c1510); box-shadow: 0 0 0 2px rgba(255, 176, 64, 0.35), inset 0 0 18px rgba(255, 176, 64, 0.18); }
 /* the second tap it asks for, said on the card itself */
@@ -525,6 +525,8 @@ body.calm .overlay.closing { display: none; }
 .figure-detail { fill: none; stroke: #676f80; stroke-width: 1; stroke-linecap: round; }
 .figure-trim { stroke: var(--figure-tone); }
 .figure-zones { fill: transparent; stroke: transparent; }
+.equipment-figure.painted .figure-body { fill: transparent; stroke: transparent; }
+.equipment-figure.painted .figure-detail { visibility: hidden; }
 .figure-body .active, .figure-zones .active { fill: var(--figure-tone); fill-opacity: .35; stroke: var(--gold); stroke-width: 1.8; }
 .equipment-links { fill: var(--dim); stroke: var(--border); stroke-width: 1; }
 .equipment-links path { fill: none; }
@@ -1390,6 +1392,12 @@ body.calm .item-showcase > img { animation: none !important; }
 .relic-row:has(img.zoom) > div, .item-showcase:has(img.zoom) > div { width: 100%; }
 .relic-row img.relic-portrait.zoom, .detail .item-showcase > img.relic-portrait.zoom {
   flex: none; width: min(100%, 320px); height: auto; max-width: 100%; cursor: zoom-out;
+}
+/* Give enlarged item names the whole narrow panel rather than splitting a
+   word into the sliver beside its portrait. The actions remain below it. */
+@media (max-width: 480px) {
+  body.big-text .item-showcase { flex-direction: column; align-items: flex-start; }
+  body.big-text .item-showcase > div { width: 100%; }
 }
 
 

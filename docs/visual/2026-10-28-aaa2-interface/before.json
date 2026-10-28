@@ -1,0 +1,5 @@
+{
+  "captured_commit": "9d37bdc3916f77dc1f940a48adbad942dfb5598a",
+  "interface_baseline": "9f886e83fb201111602ad36599e2c70b386657ed",
+  "scope": "Historical native UI walkthrough. index.html, css/style.css and js/pack.js were unchanged between these commits; hero/name/stat fixtures differ from the candidate. These are presentation comparisons, not matched gameplay or balance runs."
+}

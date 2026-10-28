@@ -1,0 +1,96 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":32.7,"scriptMs":16.5},"wide":{"fps":33.4,"scriptMs":14.8},"flooded":{"fps":28.4,"scriptMs":18.5},"painted":{"fps":27.2,"scriptMs":19.4},"amber":{"fps":29.4,"scriptMs":14.6},"scroll":{"fps":23.8,"scriptMs":18.3},"rite":{"fps":29.5,"scriptMs":19.1}} start {"ms":2451}
+  ✘  1 [perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.2m)
+::error file=../../tmp/aaa2-published-baseline/test/browser/perf.spec.js,title=[perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor,line=155,col=97::  1) [perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor %0A    Error: flooded: {"fps":28.4,"scriptMs":18.5}%0A%0A    expect(received).toBeGreaterThanOrEqual(expected)%0A%0A    Expected: >= 30%0A    Received:    28.4%0A%0A      153 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));%0A      154 |   if (REPORT_ONLY) return;%0A    > 155 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);%0A          |                                                                                                 ^%0A      156 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);%0A      157 | });%0A      158 |%0A        at /tmp/aaa2-published-baseline/test/browser/perf.spec.js:155:97
+::notice title=🎭 Playwright Run Summary::  1 failed%0A    [perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor
+
+
+  1) [perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor
+
+    Error: flooded: {"fps":28.4,"scriptMs":18.5}
+
+    expect(received).toBeGreaterThanOrEqual(expected)
+
+    Expected: >= 30
+    Received:    28.4
+
+      153 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      154 |   if (REPORT_ONLY) return;
+    > 155 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      156 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      157 | });
+      158 |
+        at /tmp/aaa2-published-baseline/test/browser/perf.spec.js:155:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/aaa2-published-performance-fixed/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/aaa2-published-performance-fixed/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/aaa2-published-performance-fixed/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/aaa2-published-performance-fixed/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › ../../tmp/aaa2-published-baseline/test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor
+(node:1055706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:1055706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  pw:browser <launching> /usr/bin/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-n3fbqm --remote-debugging-pipe --no-startup-window +0ms
+  pw:browser <launched> pid=1055719 +4ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132955.996497:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory +98ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132955.996564:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.000601:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory +4ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.000991:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.000998:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.063568:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +63ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.083087:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +19ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.083180:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.083203:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.083235:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.087296:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +4ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.087367:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.091195:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +4ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.091217:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.091229:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.091232:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.091378:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.092117:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +1ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.092661:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type:  +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.092681:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.094608:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +2ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.095461:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +6ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132956.095512:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055719:1028/132956.095748:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484736:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +2s
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484775:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +1ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484787:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484822:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484834:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484845:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484856:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484867:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484877:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484888:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484899:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484909:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484936:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055747:1028/132958.484947:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix") +0ms
+  pw:browser [pid=1055719][err] [1055719:1055750:1028/133057.626983:ERROR:google_apis/gcm/engine/connection_handler_impl.cc:404] Received message of invalid type 84 +59s
+  pw:browser [pid=1055719][err] [1055719:1055750:1028/133057.627012:ERROR:google_apis/gcm/engine/connection_factory_impl.cc:484] ConnectionHandler failed with net error: -4 +0ms
+  pw:browser [pid=1055719][err] [1055719:1055750:1028/133057.737093:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT +110ms
+  pw:browser [pid=1055719] <gracefully close start> +10s
+  pw:browser [pid=1055719] <process did exit: exitCode=0, signal=null> +59ms
+  pw:browser [pid=1055719] starting temporary directories cleanup +1ms
+  pw:browser [pid=1055719] finished temporary directories cleanup +10ms
+  pw:browser [pid=1055719] <gracefully close end> +0ms
+Browser step aaa2-published-performance-fixed exited 1; diagnostics retained in ci-diagnostics/ and test-results/aaa2-published-performance-fixed/.

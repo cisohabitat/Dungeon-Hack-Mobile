@@ -1,0 +1,1415 @@
+{
+  "version": "0.9.55",
+  "native": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "errors": [],
+      "scope": "Actual fresh controls and shipped assets/recordings; no inventory, image, renderer, clock or enemy substitutions."
+    }
+  ],
+  "fixtures": [
+    {
+      "label": "320-normal",
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 90.65625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 90.671875,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 90.65625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 90.65625,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 90.65625,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 90.65625,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 90.65625,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 69.5,
+          "height": 99,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    },
+    {
+      "label": "320-double-calm",
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 142,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 142,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 184,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 184,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 184,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 166,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.65625,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 94.671875,
+          "height": 138,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    },
+    {
+      "label": "390-normal",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 114,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 114,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 89,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 89,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 89,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 89,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 99,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        },
+        {
+          "width": 87,
+          "height": 84,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    },
+    {
+      "label": "390-double-calm",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 177,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 177,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 156,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 156,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 156,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 138,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 110,
+          "overflow": false
+        },
+        {
+          "width": 118,
+          "height": 110,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    },
+    {
+      "label": "740-normal",
+      "viewport": {
+        "width": 740,
+        "height": 390
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 152,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 152,
+          "height": 72,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 74,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.40625,
+          "height": 69,
+          "overflow": false
+        },
+        {
+          "width": 138.390625,
+          "height": 69,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    },
+    {
+      "label": "740-double-calm",
+      "viewport": {
+        "width": 740,
+        "height": 390
+      },
+      "supplied": [
+        {
+          "id": "ninth_circle",
+          "name": "Staff of the Ninth Circle"
+        },
+        {
+          "id": "warchiefs_knuckle",
+          "name": "the Warchief's Knuckle"
+        },
+        {
+          "id": "rimebound",
+          "name": "the Rimebound Grimoire"
+        },
+        {
+          "id": "penitent",
+          "name": "the Penitent's Flail"
+        },
+        {
+          "id": "sisters_buckler",
+          "name": "the Sisters' Buckler"
+        },
+        {
+          "id": "archivist",
+          "name": "the Archivist's Robe"
+        },
+        {
+          "id": "lantern_mercy",
+          "name": "the Lantern of Mercy"
+        },
+        {
+          "id": "hearthwool",
+          "name": "the Hearthwool Robe"
+        },
+        {
+          "id": "sextons_locket",
+          "name": "the Sexton's Locket"
+        },
+        {
+          "id": "midnight_folio",
+          "name": "the Midnight Folio"
+        },
+        {
+          "id": "spider_pendant",
+          "name": "the Spider Pendant"
+        },
+        {
+          "id": "moonbound",
+          "name": "the Moonbound Torc"
+        },
+        {
+          "id": "vashti",
+          "name": "Vashti's Needles"
+        },
+        {
+          "id": "ogres_toll",
+          "name": "the Ogre's Toll"
+        },
+        {
+          "id": "rustwarden",
+          "name": "Rustwarden Mail"
+        },
+        {
+          "id": "cinder_ring",
+          "name": "the Cinder Ring"
+        },
+        {
+          "id": "kests_bulwark",
+          "name": "Kest's Bulwark"
+        },
+        {
+          "id": "mossmantle",
+          "name": "the Mossmantle"
+        },
+        {
+          "id": "thane_ring",
+          "name": "Durgrim's Ring"
+        },
+        {
+          "id": "hissra_tooth",
+          "name": "Hissra's Tooth"
+        }
+      ],
+      "sizes": [
+        {
+          "width": 234,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 94,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 234,
+          "height": 76,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 110,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 110,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 110,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.65625,
+          "height": 82,
+          "overflow": false
+        },
+        {
+          "width": 234.671875,
+          "height": 82,
+          "overflow": false
+        }
+      ],
+      "equipmentInventoryGoldUnchanged": true,
+      "errors": [],
+      "scope": "Only a full inventory of twenty valid long-named relics and their type knowledge supplied; actual UI/rules/assets. Not a played-through loot distribution or balance result."
+    }
+  ],
+  "axe": [
+    {
+      "screen": "native-title",
+      "seriousCritical": []
+    },
+    {
+      "screen": "native-create",
+      "seriousCritical": []
+    },
+    {
+      "screen": "native-pack",
+      "seriousCritical": []
+    },
+    {
+      "screen": "native-hero",
+      "seriousCritical": []
+    },
+    {
+      "screen": "native-journal",
+      "seriousCritical": []
+    },
+    {
+      "screen": "320-double-calm-full-pack",
+      "seriousCritical": []
+    }
+  ]
+}

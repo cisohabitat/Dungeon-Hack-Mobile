@@ -9,6 +9,12 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **A painted equipment stand.** A neutral wooden mannequin with aged brass
+  joints sits behind the Pack's equipment slots. Selection highlights and
+  connectors remain live, with an independent SVG fallback while loading or on
+  failure. Enlarged text keeps the readable equipment list. Shared panels use
+  warm iron, parchment and brass across menus, creation, Pack, Hero and Journal.
+
 - **First lessons before the storyteller.** Discovery narration waits while a
   tutorial tip is visible, so its caption and controls cannot cover the lesson.
   The [AAA finish roadmap](ROADMAP.md#aaa-finish-within-the-retro-style-28-october-2026)

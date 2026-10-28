@@ -1493,3 +1493,28 @@ with long silent media and cleared enemies; native captures use shipped audio
 and actual UI with neither substitution. Record those evidence types separately
 in `docs/visual/2026-10-28-aaa1-prompts/`. Keep all release gates and the broader
 AAA phases in ROADMAP.md; one collision fix does not certify AAA quality.
+
+### Painted equipment stand and shared panel palette
+The Pack's decorative stand uses `img/ui/equipment-mannequin.webp` inside the
+existing360x300 SVG. `pack.js` sets its href on first Pack render and hides only
+the original body/detail paint after the image's load event. Keep the original
+SVG fallback and region/slot/link geometry; active fills/strokes remain above
+the painting. A failed or delayed image must never block item inspection or
+change inventory, equipment or focus. Double text still hides the figure in
+favour of the equipment list. The source/reference/prompt live in
+`art/ui/aaa2-equipment/`; `python3 art/ui/aaa2-equipment/export.py --check`
+reproduces the lossless720x600 export with uniform registration only. The file
+must stay in sw.js and art/review.json. Warm neutral panel tokens are shared;
+keep rarity, curse, warning, selection and mastery colours distinct. Native
+before/after, full-pack/long-name and accessibility evidence lives under
+`docs/visual/2026-10-28-aaa2-interface/`; supplied inventory fixtures are distinct
+from the ordinary native walkthrough and physical-device approval.
+At narrow widths, enlarged item headers stack the portrait above the title;
+keep zoom and the independent scrolling description/action footer intact.
+The interface regression measures an actual word range rather than asserting
+a CSS layout property. Full-Pack captures close the automatic New find panel
+through its real Close control before reviewing the unobstructed bag.
+Overlay/controller link selectors use `a[href]`, not bare `[href]`: a decorative
+SVG image also has an href but must never become the dialog's first focus or
+a controller stop. Preserve the screen-reader focus/return and pad navigation
+checks when adding decorative images inside an overlay.

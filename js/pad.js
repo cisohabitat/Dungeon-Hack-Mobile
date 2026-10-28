@@ -13,7 +13,8 @@ const REPEAT_AFTER = 380, REPEAT_EVERY = 110;   // a direction held moves the ri
 // a row pinned to the foot of a scrolling page (the new hero's Back and Descend): it is the page's end,
 // whatever scrolls past behind it, so the ring goes down into it only from the last thing on the page
 const PINNED = '.create-foot';
-const FOCUSABLE = 'button, [href], input:not([type=hidden]), select, textarea, summary, [tabindex]:not([tabindex="-1"])';
+// An href on a decorative SVG image does not make it a controller stop.
+const FOCUSABLE = 'button, a[href], input:not([type=hidden]), select, textarea, summary, [tabindex]:not([tabindex="-1"])';
 
 /**
  * @param {{

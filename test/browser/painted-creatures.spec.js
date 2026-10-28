@@ -383,6 +383,9 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     await page.click('#c-begin');await page.click('#pro-begin');
     await expect(page.locator('#screen-game')).toBeVisible();
     await page.evaluate(()=>{Game.level().monsters.length=0;});
+    await page.click('[data-open="inv"]');
+    await expect(page.locator('.equipment-figure')).toHaveClass(/painted/);
+    await page.locator('#ov-inv [data-close]').click();
     expect(await faceOpenGround(page,3)).toBeGreaterThanOrEqual(3);
     await placeMonster(page,'drow_warrior',1,{hp:999,maxHp:999});
     await artReady(page,{drow_warrior:poses.slice(1)});await ready(page);

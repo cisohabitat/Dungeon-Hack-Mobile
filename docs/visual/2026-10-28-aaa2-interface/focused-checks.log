@@ -1,0 +1,27 @@
+
+Running 20 tests using 1 worker
+
+  ✓   1 [phone] › test/browser/interface.spec.js:1161:1 › @mobile Pack painting loads on opening and preserves the equipment geometry and highlights (4.7s)
+  ✓   2 [phone] › test/browser/interface.spec.js:1177:41 › @mobile corrupt Pack painting retains the silhouette, slots and selection (4.7s)
+  ✓   3 [phone] › test/browser/interface.spec.js:1177:41 › @mobile delayed Pack painting retains the silhouette, slots and selection (4.5s)
+  ✓   4 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places fighter equipment and keeps its actions (6.1s)
+  ✓   5 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places mage equipment and keeps its actions (6.2s)
+  ✓   6 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places thief equipment and keeps its actions (6.1s)
+  ✓   7 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places cleric equipment and keeps its actions (6.2s)
+  ✓   8 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places ranger equipment and keeps its actions (5.9s)
+  ✓   9 [phone] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places druid equipment and keeps its actions (6.0s)
+  ✓  10 [phone] › test/browser/interface.spec.js:1246:1 › @mobile pack silhouette yields to large text without clipping equipment (5.0s)
+  ✓  11 [small] › test/browser/interface.spec.js:1161:1 › @mobile Pack painting loads on opening and preserves the equipment geometry and highlights (4.7s)
+  ✓  12 [small] › test/browser/interface.spec.js:1177:41 › @mobile corrupt Pack painting retains the silhouette, slots and selection (4.6s)
+  ✓  13 [small] › test/browser/interface.spec.js:1177:41 › @mobile delayed Pack painting retains the silhouette, slots and selection (4.6s)
+  ✓  14 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places fighter equipment and keeps its actions (5.9s)
+  ✓  15 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places mage equipment and keeps its actions (5.7s)
+  ✓  16 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places thief equipment and keeps its actions (5.6s)
+  ✓  17 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places cleric equipment and keeps its actions (5.8s)
+  ✓  18 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places ranger equipment and keeps its actions (5.4s)
+  ✓  19 [small] › test/browser/interface.spec.js:1201:3 › @mobile pack silhouette places druid equipment and keeps its actions (5.8s)
+  ✓  20 [small] › test/browser/interface.spec.js:1246:1 › @mobile pack silhouette yields to large text without clipping equipment (4.5s)
+::notice title=🎭 Playwright Run Summary::  20 passed (1.8m)
+
+  20 passed (1.8m)
+Browser step aaa2-focused exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa2-focused/.

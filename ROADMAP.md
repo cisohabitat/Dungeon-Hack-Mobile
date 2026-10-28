@@ -509,8 +509,9 @@ generation. Each requires source review, exact runtime routing, independent
 failure fallback, offline delivery and the existing release gates before it
 can be marked complete. See the [current atlas plan](art/creatures/ATLAS-ROADMAP.md#remaining-procedural-object-conversions--27-october-2026).
 Dynamic strings/projectiles, spell paths, terrain patches, warnings, damage
-receipts, map symbols and the decorative Pack mannequin remain procedural by
-design. No extra monster, class portrait or regional atlas is currently missing
+receipts, map symbols and functional interface icons remain procedural by
+design. AAA2 adds a painted decorative Pack stand while retaining its vector
+fallback, selection regions and connectors. No extra monster, class portrait or regional atlas is currently missing
 from the declared inventory. Exhaustive loader coverage is not exhaustive
 gameplay or physical-device visual approval.
 
@@ -555,7 +556,7 @@ existing retro identity, free web delivery and established scope decisions.
 | Order | Phase | Concrete work | Completion evidence |
 | --- | --- | --- | --- |
 | AAA1 | Tutorial/narration priority — implemented for v0.9.54 | Queue discovery readings while a tutorial tip is visible; keep dismissal, Pause/Resume/Skip and combat priority intact. | [Native captures and verification](docs/visual/2026-10-28-aaa1-prompts/README.md) at320/390/740px, Normal and Double text/Calm;971 Chromium cases and the isolated FPS budget passed locally. Publication retains every CI gate. |
-| AAA2 | Interface cohesion | Review title/create/Pack/Journal/Hero together; prototype a mannequin treatment matching the painted kit, consistent panels/icons/type and clearer primary actions. Preserve inventory information and touch targets. | Before/after native screens, full-pack/long-name/Double-text/landscape/keyboard/controller/axe checks; no concealed actions or information. |
+| AAA2 | Interface cohesion — implemented for v0.9.55 | A neutral painted Pack stand retains SVG fallbacks, slot connectors and highlights; shared warm iron/parchment/brass panels unify title/create/Pack/Journal/Hero. Preserve inventory information, icon meanings, type sizes and touch targets. | Before/after native screens, full-pack/long-name/Double-text/landscape/keyboard/controller checks and six axe scans with no serious/critical findings. Local FPS misses are retained; required CI performance remains a publication gate. See [the interface review](docs/visual/2026-10-28-aaa2-interface/README.md). |
 | AAA3 | Dungeon staging | Review all13 themes in play; select representative entrance, landmark, treasure and keeper rooms for stronger composition, lighting and environmental storytelling using approved assets first. | Labelled native action captures, recognisable regional landmarks and intact fog, collision, warnings and procedural generation; balance comparisons for any rule/layout changes. |
 | AAA4 | Combat and audio finish | Complete a listening review; choose one ordinary foe, champion and keeper as reference encounters. Refine anticipation/contact/recoil/recovery and weapon/material sound layers together, then apply the reviewed standard. | Running combat/video and listening evidence, costs/timing/dice regressions, Calm compatibility and isolated FPS clearance. Commission/license replacement recordings only after the listening findings identify a need. |
 | AAA5 | Device confidence and independent regrade | Run the real older-Android/iPhone checklist, including sustained heavy combat, speaker/audio resume, installation, offline reopening and save recovery. Review the first five minutes and a complete run with unfamiliar players. | Device/OS/browser/build recorded in DEVICES.md, actual observations and prioritised fixes; independent regrade against the same criteria. |

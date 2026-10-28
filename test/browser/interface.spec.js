@@ -1158,6 +1158,71 @@ test.describe('the screens around the dungeon', () => {
   });
 });
 
+test('@mobile Pack painting loads on opening and preserves the equipment geometry and highlights',async({page})=>{
+  const errors=watchForErrors(page);let requests=0;
+  page.on('request',r=>{if(r.url().endsWith('/img/ui/equipment-mannequin.webp'))requests++;});
+  await startGame(page,{seed:'pack-painting',cls:'fighter'});
+  expect(requests).toBe(0);
+  await page.click('[data-open="inv"]');
+  const figure=page.locator('.equipment-figure');await expect(figure).toHaveClass(/painted/);
+  expect(await page.evaluate(()=>!!document.activeElement.closest('#ov-inv')&&!document.activeElement.closest('svg'))).toBe(true);
+  expect(requests).toBe(1);await expect(figure.locator('.equipment-painted')).toHaveAttribute('href','img/ui/equipment-mannequin.webp');
+  expect(await figure.locator('.figure-body').evaluate(el=>getComputedStyle(el).fill)).toBe('rgba(0, 0, 0, 0)');
+  const before=await page.evaluate(()=>JSON.stringify(Game.player().eq));
+  await figure.locator('[data-slot="weapon"]').click();
+  await expect(figure.locator('.figure-body [data-region="weapon"]')).toHaveClass(/active/);
+  expect(await figure.locator('.figure-body [data-region="weapon"]').evaluate(el=>getComputedStyle(el).stroke)).toBe('rgb(224, 184, 74)');
+  expect(await page.evaluate(()=>JSON.stringify(Game.player().eq))).toBe(before);expect(errors).toEqual([]);
+});
+
+for(const mode of ['corrupt','delayed'])test(`@mobile ${mode} Pack painting retains the silhouette, slots and selection`,async({page})=>{
+  const errors=watchForErrors(page);let release;const held=new Promise(resolve=>release=resolve);
+  await page.route('**/img/ui/equipment-mannequin.webp',async r=>{
+    if(mode==='corrupt')await r.fulfill({status:200,contentType:'image/webp',body:'not a painting'});
+    else{await held;await r.continue();}
+  });
+  try{
+    await startGame(page,{seed:'pack-painting-fallback',cls:'fighter'});
+    await Promise.all([page.waitForRequest('**/img/ui/equipment-mannequin.webp'),page.click('[data-open="inv"]')]);
+    const figure=page.locator('.equipment-figure');await expect(figure).not.toHaveClass(/painted/);
+    expect(await figure.locator('.figure-body').evaluate(el=>getComputedStyle(el).fill)).toContain('mannequin-shade');
+    const geometry=()=>figure.locator('.slot').evaluateAll(es=>es.map(el=>{const r=el.getBoundingClientRect();return[r.x,r.y,r.width,r.height];}));
+    const before=await geometry(),gear=await page.evaluate(()=>JSON.stringify(Game.player().eq));
+    await figure.locator('[data-slot="weapon"]').click();
+    await expect(figure.locator('.figure-body [data-region="weapon"]')).toHaveClass(/active/);
+    if(mode==='delayed'){release();await expect(figure).toHaveClass(/painted/);}
+    // Selection may scroll the equipment into view; compare its local sizes,
+    // not the document scroll position changed by the existing detail control.
+    expect((await geometry()).map(r=>r.slice(2))).toEqual(before.map(r=>r.slice(2)));
+    expect(await page.evaluate(()=>JSON.stringify(Game.player().eq))).toBe(gear);expect(errors).toEqual([]);
+  }finally{release();}
+});
+
+test('@mobile enlarged item titles keep whole words at narrow phone widths',async({page})=>{
+  const errors=watchForErrors(page);
+  await page.setViewportSize({width:320,height:667});
+  await page.addInitScript(()=>{localStorage.setItem('deepdelve.textSize','4');localStorage.setItem('deepdelve.calm','1');});
+  await startGame(page,{seed:'pack-long-title',cls:'fighter'});
+  await page.evaluate(()=>{Game.player().inv=[{t:'spellbook',e:1,q:1,u:'rimebound'}];Game.state().known.spellbook=1;});
+  await page.click('[data-open="inv"]');
+  await expect(page.locator('#item-detail-title')).toContainText('Rimebound');
+  for(const width of [320,390]){
+    await page.setViewportSize({width,height:667});
+    const word=await page.locator('#item-detail-title').evaluate(el=>{
+      const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let text;
+      while((text=walker.nextNode())){
+        const at=text.textContent.indexOf('Rimebound');if(at<0)continue;
+        const range=document.createRange();range.setStart(text,at);range.setEnd(text,at+9);
+        return{fragments:range.getClientRects().length,clipped:el.scrollWidth>el.clientWidth+1};
+      }
+      return null;
+    });
+    expect(word).toEqual({fragments:1,clipped:false});
+    await expect(page.locator('#item-detail .buttons button').filter({hasText:/^Close$/})).toBeInViewport();
+  }
+  expect(errors).toEqual([]);
+});
+
 for (const cls of ['fighter', 'mage', 'thief', 'cleric', 'ranger', 'druid']) {
   test(`@mobile pack silhouette places ${cls} equipment and keeps its actions`, async ({ page }) => {
     const errors = watchForErrors(page);

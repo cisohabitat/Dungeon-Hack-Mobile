@@ -1,0 +1,214 @@
+{
+  "baseline": "9f886e83fb201111602ad36599e2c70b386657ed",
+  "candidate": {
+    "version": "0.9.55",
+    "build": 70,
+    "cache": "deepdelve-v130"
+  },
+  "repository_final": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "duration": "1m32s"
+  },
+  "focused": {
+    "startTime": "2026-10-28T13:07:08.482Z",
+    "duration": 110632.719,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "whole_word_title": {
+    "startTime": "2026-10-28T13:20:11.203Z",
+    "duration": 12282.998,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "corrected_focus_checks": {
+    "startTime": "2026-10-28T13:39:24.157Z",
+    "duration": 129000.705,
+    "expected": 24,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "native_final": {
+    "flows": 1,
+    "full_pack_fixtures": 6,
+    "axe_scans": 6,
+    "seriousCritical": 0,
+    "dialogFocusChecked": true
+  },
+  "full_chromium": {
+    "regular": {
+      "startTime": "2026-10-28T13:52:44.836Z",
+      "duration": 4236237.478999999,
+      "expected": 973,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial": {
+      "startTime": "2026-10-28T15:03:53.608Z",
+      "duration": 172316.22499999998,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "distinct_passed": 979,
+    "retries": 0
+  },
+  "performance": {
+    "candidate": {
+      "scenes": {
+        "fight": {
+          "fps": 36,
+          "scriptMs": 13.1
+        },
+        "wide": {
+          "fps": 34,
+          "scriptMs": 14.2
+        },
+        "flooded": {
+          "fps": 36.2,
+          "scriptMs": 12.8
+        },
+        "painted": {
+          "fps": 27.9,
+          "scriptMs": 18.9
+        },
+        "amber": {
+          "fps": 30,
+          "scriptMs": 16.4
+        },
+        "scroll": {
+          "fps": 29.7,
+          "scriptMs": 14.2
+        },
+        "rite": {
+          "fps": 41.2,
+          "scriptMs": 16
+        }
+      },
+      "start": {
+        "ms": 2528
+      },
+      "passed": false,
+      "log": "/workspace/aaa2-performance.log",
+      "sha256": "1fd1dcd5c0f08cae07a996f63bc556104825fc7c067ef47d51074e9b8a5ec262"
+    },
+    "published_baseline": {
+      "scenes": {
+        "fight": {
+          "fps": 32.7,
+          "scriptMs": 16.5
+        },
+        "wide": {
+          "fps": 33.4,
+          "scriptMs": 14.8
+        },
+        "flooded": {
+          "fps": 28.4,
+          "scriptMs": 18.5
+        },
+        "painted": {
+          "fps": 27.2,
+          "scriptMs": 19.4
+        },
+        "amber": {
+          "fps": 29.4,
+          "scriptMs": 14.6
+        },
+        "scroll": {
+          "fps": 23.8,
+          "scriptMs": 18.3
+        },
+        "rite": {
+          "fps": 29.5,
+          "scriptMs": 19.1
+        }
+      },
+      "start": {
+        "ms": 2451
+      },
+      "passed": false,
+      "log": "/workspace/aaa2-published-performance-fixed.log",
+      "sha256": "f9c3aeedca8406fa16d3c94a67fb9aaeb9302d9140085310c5dcec85caf28f2a"
+    },
+    "invalid_setup_attempt": "Original historical worktree was not populated; no benchmark ran. Setup corrected before baseline measurement.",
+    "limits": "Both samples below unchanged gate. Observational single runs, not an equivalence/universal-speedup proof. Required CI budget unchanged; no physical-device signoff.",
+    "final_corrected_candidate": {
+      "scenes": {
+        "fight": {
+          "fps": 28.4,
+          "scriptMs": 17.7
+        },
+        "wide": {
+          "fps": 32.2,
+          "scriptMs": 15.4
+        },
+        "flooded": {
+          "fps": 24.9,
+          "scriptMs": 20.2
+        },
+        "painted": {
+          "fps": 27,
+          "scriptMs": 19.8
+        },
+        "amber": {
+          "fps": 26.3,
+          "scriptMs": 19.4
+        },
+        "scroll": {
+          "fps": 24.9,
+          "scriptMs": 19.9
+        },
+        "rite": {
+          "fps": 41.3,
+          "scriptMs": 14.4
+        }
+      },
+      "start": {
+        "ms": 2380
+      },
+      "passed": false,
+      "log": "/workspace/aaa2-final-performance.log"
+    }
+  },
+  "interrupted_full_run": {
+    "reason": "Confirmed new SVG href matched generic link focus selector; initial screen-reader focus assertion failed. Run stopped with SIGINT and corrected UI/pad selectors before restarting.",
+    "report": {
+      "startTime": "2026-10-28T13:32:17.421Z",
+      "duration": 336243.33400000003,
+      "expected": 76,
+      "skipped": 896,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "log": "/workspace/aaa2-full-regular.log"
+  },
+  "negative_control": {
+    "whole_word_title": "removing the narrow enlarged-text rule yielded 2 Rimebound fragments instead of 1; rule restored",
+    "initial_full_run_focus": "genuine decoration href focus regression fixed in both overlay and pad selectors; initial failed run retained separately"
+  },
+  "source_hashes": {
+    "css/style.css": "d990ec50b65c0c01d42bc7cffdba057e626e7e7c9850655e7fb463a7fdc10c66",
+    "index.html": "50183b0cf4b22eaa6a13cbcbfe0de6595bbd985d7385e1fdb48c7559017e00cb",
+    "js/pack.js": "f60395a70c34b3037f1abed0ab53632ced360528aab169c48a57171f01823632",
+    "js/ui.js": "7669f6508cea21312f7787576d53cefb041110e012690569d0106cb1807d93f5",
+    "js/pad.js": "1aa72a3a08a923859a89fd9ea3cbb3fe447bbd6ed8f5d5e8729228c9636d4e5f",
+    "js/titlemenu.js": "6ebbf4e1b7efa4b702d9811177922c8b896dd39193b53f71ebd77d3a00ac90f2",
+    "js/release.js": "cd057b3325f3533ad9fbf0f157cb432265a9332a4899c509c263f1daea464adb",
+    "sw.js": "bf51727557317671eb1a3843a1f63a2bc33eec13197f3321aa11769f89066ef2",
+    "img/ui/equipment-mannequin.webp": "855df3e5008ad277f37fd5b40679116d2b754b39a0977b99afff5f709db8b414"
+  },
+  "limits": [
+    "No physical-device, listening, complete-run or independent-player/AAA certification",
+    "All three isolated local FPS samples missed unchanged budgets; CI performance still required",
+    "Initial ordinary run stopped after focus regression; final corrected full suite passed without retries"
+  ]
+}

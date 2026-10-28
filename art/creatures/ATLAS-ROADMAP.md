@@ -1075,8 +1075,10 @@ Keep the following procedural unless a specific reviewed defect justifies work:
 - Blood/ash/oil/ice/water patches, corpse/debris motion, door cracks/char/fire,
   lighting, exact arch edges and colored locks: native geometry/composition
   preserves gameplay cues and already painted base surfaces.
-- Damage text, incoming warnings, map symbols, interface icons and the Pack
-  mannequin: functional text/vector layers do not need painted atlases.
+- Damage text, incoming warnings, map symbols and interface icons remain
+  functional text/vector layers. AAA2 adds a neutral painted Pack stand from
+  `art/ui/aaa2-equipment/`; its vector fallback, selection regions and slot
+  connectors remain live. It is an independent UI image, not a creature atlas.
 
 `key` and `amulet_tooth` stay reserves: playable keys route to five painted
 color-specific keys, and seeded jewel appearances remain painted through

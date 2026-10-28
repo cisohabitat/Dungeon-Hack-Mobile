@@ -183,6 +183,13 @@ export function makePack(K) {
   function renderInv() {
     const p = Game.player();
     $('.equipment-figure').dataset.hero = p.cls;
+    // The stand is decoration: keep the native silhouette until its own image
+    // loads, and leave every slot and highlight available on failure.
+    const painting = $('.equipment-painted');
+    if (painting && !painting.hasAttribute('href')) {
+      painting.addEventListener('load', () => $('.equipment-figure').classList.add('painted'), { once: true });
+      painting.setAttribute('href', 'img/ui/equipment-mannequin.webp');
+    }
     recent.sync(); GearTools.sync();
     const eq = $('#equip');
     eq.innerHTML = '';

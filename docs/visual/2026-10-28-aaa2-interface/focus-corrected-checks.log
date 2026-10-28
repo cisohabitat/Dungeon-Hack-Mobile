@@ -1,0 +1,31 @@
+
+Running 24 tests using 1 worker
+
+  ✓   1 [phone] › test/browser/access.spec.js:128:1 › a screen reader hears each log line once as it shows, the view put into words as the hero turns, and the bars by name (5.2s)
+  ✓   2 [phone] › test/browser/interface.spec.js:1161:1 › @mobile Pack painting loads on opening and preserves the equipment geometry and highlights (4.9s)
+  ✓   3 [phone] › test/browser/interface.spec.js:1178:41 › @mobile corrupt Pack painting retains the silhouette, slots and selection (4.6s)
+  ✓   4 [phone] › test/browser/interface.spec.js:1178:41 › @mobile delayed Pack painting retains the silhouette, slots and selection (4.9s)
+  ✓   5 [phone] › test/browser/interface.spec.js:1201:1 › @mobile enlarged item titles keep whole words at narrow phone widths (4.5s)
+  ✓   6 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places fighter equipment and keeps its actions (6.1s)
+  ✓   7 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places mage equipment and keeps its actions (5.8s)
+  ✓   8 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places thief equipment and keeps its actions (6.5s)
+  ✓   9 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places cleric equipment and keeps its actions (5.9s)
+  ✓  10 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places ranger equipment and keeps its actions (5.9s)
+  ✓  11 [phone] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places druid equipment and keeps its actions (5.7s)
+  ✓  12 [phone] › test/browser/interface.spec.js:1272:1 › @mobile pack silhouette yields to large text without clipping equipment (4.3s)
+  ✓  13 [phone] › test/browser/pad.spec.js:17:3 › controller › a controller alone starts a run from the title, plays it, and reaches the bar, the pack, the log and the Menu (7.0s)
+  ✓  14 [small] › test/browser/interface.spec.js:1161:1 › @mobile Pack painting loads on opening and preserves the equipment geometry and highlights (4.4s)
+  ✓  15 [small] › test/browser/interface.spec.js:1178:41 › @mobile corrupt Pack painting retains the silhouette, slots and selection (4.5s)
+  ✓  16 [small] › test/browser/interface.spec.js:1178:41 › @mobile delayed Pack painting retains the silhouette, slots and selection (4.5s)
+  ✓  17 [small] › test/browser/interface.spec.js:1201:1 › @mobile enlarged item titles keep whole words at narrow phone widths (4.4s)
+  ✓  18 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places fighter equipment and keeps its actions (5.7s)
+  ✓  19 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places mage equipment and keeps its actions (5.6s)
+  ✓  20 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places thief equipment and keeps its actions (5.5s)
+  ✓  21 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places cleric equipment and keeps its actions (5.4s)
+  ✓  22 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places ranger equipment and keeps its actions (5.2s)
+  ✓  23 [small] › test/browser/interface.spec.js:1227:3 › @mobile pack silhouette places druid equipment and keeps its actions (5.3s)
+  ✓  24 [small] › test/browser/interface.spec.js:1272:1 › @mobile pack silhouette yields to large text without clipping equipment (4.2s)
+::notice title=🎭 Playwright Run Summary::  24 passed (2.2m)
+
+  24 passed (2.2m)
+Browser step aaa2-focus-corrected exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa2-focus-corrected/.

@@ -1,0 +1,15 @@
+{
+  "generator": "image_gen.imagegen",
+  "date": "2026-10-28",
+  "prompt": "Create one new production UI game asset on a fully transparent background: a faceless, gender-neutral medieval equipment-display mannequin. The first reference gives the exact front-facing pose and body proportions to preserve: head centered, upright torso, both arms gently angled outward with open hands beside the upper thighs, straight legs and feet apart. The second reference establishes the grounded dark-fantasy painted material style of this game. Render a believable old charcoal-stained wooden articulated mannequin, worn dark wood grain and subtle tarnished antique brass joints/bands, restrained warm highlights, physical volume, hand-painted realism, precise readable silhouette. An inanimate equipment stand, NOT a living character or a suit of armour. Plain smooth oval head without eyes, nose, mouth, hair, horns, or helmet. No clothing, weapons, shield, jewellery, accessories or equipment that could misrepresent what the player actually wears. Full body completely inside frame, including every finger and both feet. Preserve the first reference pose/proportions closely, with hands at about 56% body height; narrow torso and shoulder width, hands slightly outward, no dramatic pose. No cartoon, cute doll, chibi, smooth vector shapes, sketch outlines, glowing magic, runes, stone pedestal, UI frame, text or background. Subtle dark neutral tones that sit quietly behind painted equipment cards, with sufficient warm edge lighting to read against near-black. Isolated cutout only, generous transparent margin around entire body, high resolution.",
+  "transparent_background": true,
+  "source": "art/ui/aaa2-equipment/mannequin-source.png",
+  "original_generated_artifact": "/workspace/generated_images/exec-bf8652c4-e71f-4667-942e-e1bd450225fe.png",
+  "references": [
+    "art/ui/aaa2-equipment/pose-reference.png",
+    "docs/visual/2026-10-26-phase1-combat/390-fighter-crowd.png"
+  ],
+  "export": "img/ui/equipment-mannequin.webp",
+  "registration": "Uniform alpha-bounds crop/scale,720x600 canvas,baseline570; preserves the existing360x300 SVG coordinate system. No repaint/warp/recolour.",
+  "scope": "Neutral inanimate stand shared by all classes; does not depict equipped gear or a living hero."
+}

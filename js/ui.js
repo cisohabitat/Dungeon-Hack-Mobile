@@ -1112,8 +1112,9 @@ const UI = (() => {
     if (name === 'boss') renderBoss();
     if (name === 'code') renderCode();
     // a keyboard's Tab, and a screen reader, start inside what has just opened, not behind it
+    // Only links take link focus: decorative SVG images can have an href too.
     // (a pad's ring finds its own way in: pad.js; no box to type in is chosen, so no keyboard springs up on a phone)
-    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ (name === 'inv' && selectedItem ? $('#item-detail-title') : $('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), [href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus({ preventScroll: name === 'inv' && $('#item-detail').classList.contains('treasure-reveal') }); }
+    if (lastInput !== 'pad') { const first = /** @type {HTMLElement|null} */ (name === 'inv' && selectedItem ? $('#item-detail-title') : $('#ov-' + name + ' .ov-body').querySelector('button:not([disabled]), a[href], select, summary, [tabindex]:not([tabindex="-1"])')); if (first) first.focus({ preventScroll: name === 'inv' && $('#item-detail').classList.contains('treasure-reveal') }); }
   }
   /** Its first words have already been spoken into the log; time waits here. */
   function renderBoss() {
