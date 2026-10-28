@@ -6,9 +6,10 @@ on:
 permissions:
   contents: read
 jobs:
+  # Playwright 1.59.1 supports Ubuntu 24.04; ubuntu-latest may roll ahead of it.
   rules:
     name: Types, generator and rule checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
         with:
@@ -26,7 +27,7 @@ jobs:
   browser:
     # Native Playwright shards; every case still runs once across the matrix.
     name: Browser tests (${{ matrix.shard }}/3)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -68,7 +69,7 @@ jobs:
   perf:
     # the frame-rate budget (test/browser/perf.spec.js), alone on its runner
     name: Frame-rate budget
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - *runtime-checkout
       - uses: actions/setup-node@v4
@@ -83,7 +84,7 @@ jobs:
 
   safari:
     name: Safari engine mobile checks (${{ matrix.shard }}/3)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -115,7 +116,7 @@ jobs:
   small:
     # the smallest phone in the device matrix (docs/DEVICES.md)
     name: Smallest phone (${{ matrix.shard }}/2)
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -144,7 +145,7 @@ jobs:
     name: Publish version
     needs: [rules, browser, perf, safari, small]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
     concurrency:

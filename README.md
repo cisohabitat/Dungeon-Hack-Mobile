@@ -628,6 +628,10 @@ Browser/performance jobs select runtime/test files and creature metadata through
 a shared sparse-checkout step; rules and publication retain full history. All
 ten required matrix jobs gate publication. Exact case coverage and working-tree
 bytes are recorded in the [CI execution review](docs/verification/2026-10-27-ci-refactor/phase2/README.md).
+CI pins Ubuntu 24.04 because the pinned Playwright 1.59.1 does not support the
+Ubuntu 26.04 image now supplied by `ubuntu-latest`. Runner upgrades must follow
+verified browser support; all engine suites and the performance gate remain.
+
 The default browser script uses Chromium so it works with the locally preinstalled browser. WebKit tests
 supplement the [real iPhone checklist](docs/DEVICES.md); they do not verify physical
 Safari, speaker output or OS tab eviction. `npm start` serves the game locally on

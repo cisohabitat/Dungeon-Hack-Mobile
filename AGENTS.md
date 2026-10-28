@@ -1116,6 +1116,10 @@ a pushed change as verified.
   three phone shards, two small-phone shards, three focused WebKit shards, and
   the frame-rate budget alone on every push. Together with the rules job these
   are ten required checks; publication waits for every matrix group.
+  Pin all jobs to `ubuntu-24.04`, which Playwright 1.59.1 supports. Do not use
+  `ubuntu-latest`: its 26.04 rollover fails browser dependency installation
+  before tests start. Upgrade the runner label deliberately alongside verified
+  browser support; never bypass platform checks or skip engine installation.
   Full-cache offline installation checks run in a separate serial step in each
   Chromium job; competing workers exceed the unchanged ten-second installation
   deadline with the full painted catalog. Both steps retain the same shard filter,

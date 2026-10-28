@@ -78,3 +78,10 @@ Prepared for v0.9.51/build66/cache126. Fresh committed release-identity checks,
 the exact-commit pre-push hook, required CI and the release publisher remain
 gates at report creation; their successful statuses on the publication commit
 are authoritative. No existing painting was replaced or source hash changed.
+
+The first remote run failed browser installation before any browser assertions
+or FPS measurement: `ubuntu-latest` supplied Ubuntu 26.04, unsupported by the
+pinned Playwright 1.59.1. The
+[CI-only follow-up](../../verification/2026-10-28-ci-runner-pin/README.md)
+pins supported Ubuntu 24.04 and retains every suite/threshold. Player and art
+bytes, game version/build/cache and the successful local evidence are unchanged.

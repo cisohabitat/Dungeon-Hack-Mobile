@@ -1,0 +1,28 @@
+{
+  "baseline": "13fb5259d55f58129e771615b7de586c8d9dbd38",
+  "changed_fields": [
+    "jobs.rules.runs-on",
+    "jobs.browser.runs-on",
+    "jobs.perf.runs-on",
+    "jobs.safari.runs-on",
+    "jobs.small.runs-on",
+    "jobs.release.runs-on"
+  ],
+  "before": "ubuntu-latest",
+  "after": "ubuntu-24.04",
+  "all_other_parsed_yaml_equal": true,
+  "job_definitions": 6,
+  "browser_matrix_counts": {
+    "browser": 3,
+    "safari": 3,
+    "small": 2
+  },
+  "required_test_jobs": 10,
+  "publication_needs": [
+    "rules",
+    "browser",
+    "perf",
+    "safari",
+    "small"
+  ]
+}
