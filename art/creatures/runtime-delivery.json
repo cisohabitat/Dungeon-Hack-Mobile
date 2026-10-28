@@ -7749,6 +7749,11 @@
       "source": "art/creatures/batch-ag-ah-preview/12-decor4.png",
       "runtime": "img/materials/region_12-decor4.png",
       "sha256": "2db640e7df7a2ba693b62a37cac9aeec1ce04f9e71e16d527f0cd2a97362e336"
+    },
+    {
+      "source": "art/creatures/batch-ai-preview/amber-lantern.png",
+      "runtime": "img/overlays/amber-lantern.png",
+      "sha256": "b8d4a8be3dd9413ce83adf5ac4bdc0488563a3626c30c4cf9f5c267b992ae4e0"
     }
   ],
   "exclusions": {

@@ -1,0 +1,19 @@
+
+Running 6 tests using 1 worker
+
+(node:825191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:825191) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile (24.6s)
+  ✓  2 [phone] › test/browser/painted-world.spec.js:325:1 › amber lantern loads only on demand, upgrades in place and fits native hand placements @mobile (3.8s)
+  ✓  3 [phone] › test/browser/painted-world.spec.js:356:1 › a corrupt amber lantern keeps its native flame and independent fallback @mobile (3.3s)
+(node:825452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:825452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [small] › test/browser/painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile (20.6s)
+  ✓  5 [small] › test/browser/painted-world.spec.js:325:1 › amber lantern loads only on demand, upgrades in place and fits native hand placements @mobile (3.6s)
+  ✓  6 [small] › test/browser/painted-world.spec.js:356:1 › a corrupt amber lantern keeps its native flame and independent fallback @mobile (3.1s)
+
+  6 passed (1.0m)

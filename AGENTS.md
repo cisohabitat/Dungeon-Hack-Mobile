@@ -1406,3 +1406,21 @@ keep native-action/offline regression evidence separate. Generic key/Tooth
 sources are reserves, not missing active item routes. Optional amber lantern
 and open reading-scroll conversions live in the atlas roadmap; preserve their
 existing live geometry, timing and independent fallback if later painted.
+
+### Ordinary amber lantern
+Batch AI uses `art/creatures/generation-batch-ai.json` and
+`export-batch-ai.py --check`; the tall original remains rejected provenance.
+The compact source is only cropped, uniformly scaled and registered, with
+transparent window/handle holes preserved. The common exporter adds one
+`PAINTED.overlays.amber_lantern` entry (path, anchor, window and physical scale).
+`paintedLantern` demand-loads/caches it independently in paintedworld.js;
+enumerations for installed-art decode must include overlay paths. The renderer
+clips its original amber glass/flame behind the measured window, then draws
+the empty iron body. Keep original light radius, flicker/sway clocks, wrist
+placement, Calm behavior and the blue Wayfarer exclusion; loading/failure uses
+the original complete cage. No per-frame raster preparation or new light.
+Native running movement/turn/offline captures and explicit supplied-fixture
+limits live in `docs/visual/2026-10-28-amber-lantern/`; synchronous fitting
+regressions are separate from those actions and physical Safari approval.
+The isolated performance budget retains its original scenes/thresholds and
+also measures the same painted crowd on a dark floor with this overlay ready.

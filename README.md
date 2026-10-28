@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **A painted lantern in the dark.** Weathered iron surrounds the ordinary
+  lantern's live amber flame, with the same glow and movement beside your gear.
+
 - **Local spell impacts.** Painted fire and frost bursts stay bounded near their
   targets. Damage numbers draw above spells, and attack warnings stay clear.
 
@@ -93,8 +96,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   remains available if an atlas cannot load.
   The [art coverage audit](docs/visual/2026-10-27-art-coverage/README.md) records
   current bindings and intentional procedural layers; the
-  [atlas roadmap](art/creatures/ATLAS-ROADMAP.md) lists the remaining optional
-  amber-lantern and reading-scroll conversions.
+  [atlas roadmap](art/creatures/ATLAS-ROADMAP.md) records the lantern delivery
+  and remaining optional reading-scroll conversion.
   Bestiary, companion and relic collections
   offer Field notes and Gallery layouts; Gallery puts the paintings first with
   expandable lore and statistics, preserving what each hero has learned. Layout

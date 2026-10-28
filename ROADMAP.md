@@ -495,12 +495,13 @@ Historical source-review notes in the atlas roadmap retain their original scope.
   declarations; correct the obsolete E–K pending status above.
 - [x] Request every declared creature pose and common world/equipment binding
   through the native loaders. See [inventory and limits](docs/visual/2026-10-27-art-coverage/README.md).
-- [ ] Optional Batch AI: paint the ordinary amber dark-floor lantern's cage and
-  handle, retaining its existing flame, glow, wrist placement and Calm behavior.
+- [x] Batch AI: ordinary amber lantern body integrated for v0.9.51, retaining
+  its live flame/glow, with native/failure/offline and local release checks.
+  Required CI and the release publisher gate publication on main.
 - [ ] Optional Batch AJ: paint the open scroll used during reading, retaining
   native writing, burn clipping, embers, spell colors and existing duration.
 
-AI/AJ are confirmed procedural object surfaces, not unactivated approved art
+AI/AJ were confirmed procedural object surfaces, not unactivated approved art
 or demonstrated gameplay defects. Native fitting and visual comparison precede
 generation. Each requires source review, exact runtime routing, independent
 failure fallback, offline delivery and the existing release gates before it
@@ -510,3 +511,8 @@ receipts, map symbols and the decorative Pack mannequin remain procedural by
 design. No extra monster, class portrait or regional atlas is currently missing
 from the declared inventory. Exhaustive loader coverage is not exhaustive
 gameplay or physical-device visual approval.
+
+Batch AI's [implementation and native review](docs/visual/2026-10-28-amber-lantern/README.md)
+records the selected compact iron source and rejected tall original. AJ remains
+the next unpainted physical-object proposal; dynamic effect/UI layers keep
+their existing procedural rendering.

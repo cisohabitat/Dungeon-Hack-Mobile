@@ -1,11 +1,11 @@
-# Dungeon artwork and atlas roadmap — Batches E–AH
+# Dungeon artwork and atlas roadmap — Batches E–AI
 
-Prepared 23 October 2026; extended and integrated 24 October 2026.
+Prepared 23 October 2026; extended and integrated through 28 October 2026.
 
-## Current delivery — 27 October 2026
+## Current delivery — release 0.9.51
 
-All approved playable batches through AH are activated; the game is v0.9.50.
-The common catalog delivers 1,550 files, including 810 held and 35 carried frames,
+For release 0.9.51, approved playable batches through AI are integrated.
+The common catalog delivers 1,551 files, including 810 held and 35 carried frames,
 plus the original creature atlases and separate portrait libraries. The older
 release/source-stage sections below are historical records, superseded by their
 later activation reports. They do not describe today's remaining work.
@@ -14,7 +14,9 @@ The [coverage audit](../../docs/visual/2026-10-27-art-coverage/README.md) reconc
 all current encounter/dressing keys, item reserves, creature poses, thirteen
 regional selections, source hashes and offline declarations. Its native loader
 sweep covers 569 creature pose routes and all common world/equipment bindings.
-Remaining optional object conversions are [AI/AJ](#remaining-procedural-object-conversions--27-october-2026).
+That audit predates AI; its next proposals were
+[AI/AJ](#remaining-procedural-object-conversions--27-october-2026). AI's
+implementation and release gates are recorded at the end; AJ remains optional.
 
 ## Runtime delivery — release 0.9.34
 
@@ -1059,7 +1061,9 @@ For each: capture native references, review source/registration, then integrate
 through independent loading/failure fallback and offline entries; verify native
 actions, Calm, short views and installed reloads; run unchanged release checks
 and publish the completed phase. Neither batch has generated source or runtime
-activation yet. No runtime defect was confirmed by the coverage inventory alone.
+activation at the time of the 27 October inventory. AI's later implementation
+is recorded below; AJ remains pending. No runtime defect was confirmed by the
+coverage inventory alone.
 
 Keep the following procedural unless a specific reviewed defect justifies work:
 
@@ -1079,3 +1083,20 @@ color-specific keys, and seeded jewel appearances remain painted through
 identification. The legacy `fountain_hint` sprite has no current caller outside
 its data declaration; regional fountains already have painted surfaces. These
 are not a new production backlog.
+
+## Batch AI — ordinary amber lantern (28 October 2026)
+
+One compact empty iron frame is integrated locally for v0.9.51. The selected
+image-tool repair shortens an unsuitable tall original; both sources and exact
+prompts remain in `generation-batch-ai.json`. Uniform crop/resize/translation
+preserves transparent windows and ring without scripted painting/masking.
+The renderer retains its original animated glass/flame/glow, position and
+Calm behavior behind the body, with independent demand loading and complete
+procedural fallback. The blue Wayfarer lantern is separate.
+
+Common delivery adds one overlay PNG (1,551 files total), with all1,550 previous
+files unchanged. Native movement/turn, fitting, loading/failure, offline and
+release evidence is tracked in the [review](../../docs/visual/2026-10-28-amber-lantern/README.md).
+Publication remains subject to the existing full Chromium, rules, isolated
+performance and CI/release gates. Next painting proposal is AJ's open reading
+scroll; no further creature or regional atlas is commissioned.

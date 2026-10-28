@@ -310,15 +310,55 @@ test('all activated art files decode after a native offline reload @mobile',asyn
  try{
   const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'all-paintings-offline'});
   await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
-  const urls=await page.evaluate(async()=>{const{PAINTED:p}=await import('/js/paintedcatalog.js');return [...new Set([...Object.values(p.static),...Object.values(p.atlases),...Object.values(p.effects),...Object.values(p.themes).flatMap(Object.values),...Object.values(p.held).map(m=>m.path),...Object.values(p.carried).map(m=>m.path)])];});
+  const urls=await page.evaluate(async()=>{const{PAINTED:p}=await import('/js/paintedcatalog.js');return [...new Set([...Object.values(p.static),...Object.values(p.atlases),...Object.values(p.effects),...Object.values(p.themes).flatMap(Object.values),...Object.values(p.held).map(m=>m.path),...Object.values(p.carried).map(m=>m.path),...Object.values(p.overlays).map(m=>m.path)])];});
   expect(urls.length).toBeGreaterThan(1500);
   await page.evaluate(async urls=>{for(const url of urls)if(!await caches.match('./'+url))throw Error('Uncached art '+url);},urls);
   connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.Assets?.themes.length===13);
   const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
   for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
   await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
+  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern}=await import('/js/paintedworld.js');return paintedLantern()?.img.width;})).toBe(256);
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
+});
+
+test('amber lantern loads only on demand, upgrades in place and fits native hand placements @mobile',async({page})=>{
+ let release,requests=0;const gate=new Promise(r=>release=r);
+ await page.route('**/img/overlays/amber-lantern.png',async route=>{requests++;await gate;await route.continue();});
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});expect(requests).toBe(0);
+ await page.evaluate(()=>{Game.level().monsters=[];Game.level().twist='dark';});
+ await expect.poll(()=>page.evaluate(()=>Renderer.lantern)).toBe(1);await expect.poll(()=>requests).toBe(1);
+ expect(await page.evaluate(async()=>{const{paintedLantern}=await import('/js/paintedworld.js');return paintedLantern();})).toBeNull();
+ release();await page.evaluate(async()=>{window.__paintedLantern=(await import('/js/paintedworld.js')).paintedLantern;});
+ await expect.poll(()=>page.evaluate(()=>window.__paintedLantern()?.img.width)).toBe(256);
+ const result=await page.evaluate(async()=>{
+  const {Dice,Odds}=await import('/js/rng.js'),frame=window.__paintedLantern(),ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;
+  const rs=Game.renderState(10000),before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],height=Renderer.H,calm=Renderer.calm,calls=[],bad=[];
+  const pixels=frame.img.getContext('2d').getImageData(0,0,256,256).data;let x0=256,y0=256,x1=0,y1=0;
+  for(let y=0;y<256;y++)for(let x=0;x<256;x++)if(pixels[(y*256+x)*4+3]>=8){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x+1);y1=Math.max(y1,y+1);}
+  ctx.drawImage=function(img,...args){if(img===frame.img)calls.push(args);return draw.call(this,img,...args);};
+  try{
+   for(const h of [160,360,464])for(const c of [false,true])for(const kit of ['free','shield','two']){
+    Renderer.setHeight(h);Renderer.setCalm(c);const fx={...rs.fx,view:{...rs.fx.view,lantern:true,weapon:kit==='two'?'greatsword':null,shield:kit==='shield'?'shield':null,offhand:null,two:kit==='two',walk:0,steps:0}};
+    const first=calls.length;for(const now of [10000,11000])Renderer.render(rs.level,rs.cam,rs.sprites,fx,now);
+    const pair=calls.slice(first);if(pair.length!==2)bad.push({h,c,kit,count:pair.length});
+    for(const[x,y,w,hh]of pair)if(x+x0*w/256<0||y+y0*hh/256<0||x+x1*w/256>Renderer.W||y+y1*hh/256>h)bad.push({h,c,kit,box:[x,y,w,hh]});
+    if(c&&JSON.stringify(pair[0])!==JSON.stringify(pair[1]))bad.push({h,c,kit,unstable:true});
+    const count=calls.length;fx.view.lantern=false;Renderer.render(rs.level,rs.cam,rs.sprites,fx,10000);if(calls.length!==count)bad.push({unexpected:true});
+   }
+   return{draws:calls.length,bad,cached:window.__paintedLantern()===frame,holes:[[105,165],[150,165],[127,45]].every(([x,y])=>pixels[(y*256+x)*4+3]===0),state:before===JSON.stringify(Game.state()),dice:dice[0]===Dice.s&&dice[1]===Odds.s};
+  }finally{ctx.drawImage=draw;Renderer.setHeight(height);Renderer.setCalm(calm);}
+ });expect(result).toEqual({draws:36,bad:[],cached:true,holes:true,state:true,dice:true});expect(requests).toBe(1);expect(errors).toEqual([]);
+ // The exact blue lantern excludes the ordinary dark-floor lantern.
+ expect(await page.evaluate(()=>{const p=Game.player(),prior=p.eq.shield;p.eq.shield={t:'wayfarer_lantern',q:1,e:0};const excluded=!Game.renderState(performance.now()).fx.view.lantern;p.eq.shield=prior;return excluded;})).toBe(true);
+});
+
+test('a corrupt amber lantern keeps its native flame and independent fallback @mobile',async({page})=>{
+ await page.route('**/img/overlays/amber-lantern.png',route=>route.fulfill({status:200,contentType:'image/png',body:'corrupt'}));
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});await page.evaluate(()=>{Game.level().monsters=[];Game.level().twist='dark';Assets.held(null,'fist','fighter',false);});
+ await expect.poll(()=>page.evaluate(async()=>{const{paintedWorldState}=await import('/js/paintedworld.js');return paintedWorldState()['img/overlays/amber-lantern.png'];})).toBe('failed');
+ await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','fighter',false)?.img.width)).toBe(256);
+ expect(await page.evaluate(async()=>{const{paintedLantern}=await import('/js/paintedworld.js');return{fallback:paintedLantern()===null,lantern:Renderer.lantern,status:Game.state().status};})).toEqual({fallback:true,lantern:1,status:'playing'});expect(errors).toEqual([]);
 });
 
 test('door leaves exclude surround pixels and cache each decoded source independently @mobile',async({page})=>{

@@ -1,0 +1,11 @@
+
+Running 1 test using 1 worker
+
+(node:825839) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:825839) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":37.8,"scriptMs":14.2},"wide":{"fps":43,"scriptMs":11.4},"flooded":{"fps":33.6,"scriptMs":15.9},"painted":{"fps":38.2,"scriptMs":14.2},"amber":{"fps":34,"scriptMs":15.7},"rite":{"fps":49.5,"scriptMs":14.1}} start {"ms":2190}
+  ✓  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.0m)
+
+  1 passed (1.0m)

@@ -105,6 +105,10 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: RATE });
   await measure(page, cdp, 3000);
   out.painted = await measure(page, cdp, 4000);
+  // Exercise the new body with the same painted crowd and native dark-floor light.
+  await page.evaluate(async()=>{Game.level().twist='dark';window.__amberFrame=(await import('/js/paintedworld.js')).paintedLantern;});
+  await page.waitForFunction(()=>window.__amberFrame()?.img&&Renderer.lantern===1,null,{timeout:30000});
+  out.amber = await measure(page, cdp, 4000);
   // the last floor, the lich awake two squares ahead and working its rite
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.evaluate(() => { Game.level().twist = null; Game.testFloor(Game.state().opts.levels || 8); });

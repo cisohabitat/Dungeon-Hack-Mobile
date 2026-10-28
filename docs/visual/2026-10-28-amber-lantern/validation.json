@@ -1,0 +1,96 @@
+{
+  "baseline": "fc6aac8a2d30710dba2295068a1b5cdf5c129f9f",
+  "candidate": {
+    "version": "0.9.51",
+    "build": 66,
+    "cache": "deepdelve-v126"
+  },
+  "native_captures": {
+    "before": 18,
+    "online": 18,
+    "offline": 18,
+    "widths": [
+      320,
+      390,
+      740
+    ],
+    "limits": "Supplied dark twist/equipment/cleared monsters/safety; native keyboard actions and updates; offline movement captured before release metadata; final-cache native loader verified in subsequent browser tests; not physical Safari or upgrade evidence."
+  },
+  "focused": {
+    "passed": 6,
+    "duration": "1.0m",
+    "workers": 1,
+    "retries": 0
+  },
+  "performance": {
+    "cpu_slowdown": 4,
+    "fps": {
+      "fight": 37.8,
+      "wide": 43.0,
+      "flooded": 33.6,
+      "painted": 38.2,
+      "amber": 34.0,
+      "rite": 49.5
+    },
+    "startup_ms": 2190,
+    "thresholds": {
+      "fps": 30,
+      "wide_fps": 27,
+      "startup_ms": 6000
+    },
+    "pass": true,
+    "note": "All original scenes retained; same painted crowd additionally measured on a dark floor with ready overlay. Observations, not a paired speed comparison."
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "rule_files": 74,
+    "rule_duration": "1m14s"
+  },
+  "full_chromium": {
+    "ordinary": {
+      "startTime": "2026-10-28T00:45:22.086Z",
+      "duration": 3645186.488,
+      "expected": 943,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial_installation": {
+      "startTime": "2026-10-28T01:46:40.547Z",
+      "duration": 155518.97499999998,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "distinct_cases": 949,
+    "workers": {
+      "ordinary": 2,
+      "serial_installation": 1
+    },
+    "filters": {
+      "serial": "core play is ready offline|painted creature survives an installed offline|installed offline ending exports",
+      "ordinary": "inverse of serial filter"
+    },
+    "local_runner": "Project config with system Chromium, fresh separate-port server and list/JSON reporters; existing assertions, deadlines and retries unchanged."
+  },
+  "delivery": {
+    "files": 1551,
+    "unchanged_previous_files": 1550,
+    "new_file_bytes": 41573,
+    "reproducible": true
+  },
+  "sha256": {
+    "art/creatures/batch-ai-preview/source-tall.png": "ba082bd0a264f71664307f8e16858e96e47c13c1120a454bd9f9ee2c118f3b45",
+    "art/creatures/batch-ai-preview/source-compact.png": "95e27e23288f782d52b7d8301182d191badf1f5ca5797e0b986c5d51a6b2deb5",
+    "art/creatures/batch-ai-preview/amber-lantern.png": "b8d4a8be3dd9413ce83adf5ac4bdc0488563a3626c30c4cf9f5c267b992ae4e0",
+    "img/overlays/amber-lantern.png": "b8d4a8be3dd9413ce83adf5ac4bdc0488563a3626c30c4cf9f5c267b992ae4e0",
+    "js/renderer.js": "4f2f53cee2882bdef0aa8481805b0b165d37393fa9dd5be21e2b49aaecbb2e6c",
+    "js/paintedworld.js": "a630e92a21c2bbf25af55d10483bd14f5590dfd97a0c1791b724c1451a0e722a",
+    "js/paintedcatalog.js": "0991e3e4d76c80efa5ede073480639b5085b6c26e9ae647fa80c7d6229da8271",
+    "js/release.js": "ad3746155f42245a6f56cf5d97f356b6ac019cb4859019cabea295fa268d49e5",
+    "sw.js": "58bd77a5fe8648dd96b1047439a9d6fc73fcbcc7fe12962f5c09f67e14767b8b"
+  },
+  "publication": "CI/publisher pending at report creation; exact commit statuses authoritative."
+}

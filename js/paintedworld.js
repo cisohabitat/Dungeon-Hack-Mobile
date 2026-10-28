@@ -92,6 +92,11 @@ export function paintedImpact(family, index) {
   const entries = [0, 1, 2, 3].map(i => picture(PAINTED.effects[family + '_' + i], 256, canvas));
   return entries.every(e => e.state === 'ready') ? entries[index].value : null;
 }
+// Empty iron frame: the renderer retains the lantern's own live light/flame.
+export function paintedLantern() {
+  const meta = PAINTED.overlays.amber_lantern;
+  return picture(meta.path, 256, image => ({ img: canvas(image), ...meta })).value;
+}
 function levels(image) {
   const c = canvas(image), d = c.getContext('2d').getImageData(0, 0, 64, 64).data;
   if (d.some((v, i) => i % 4 === 3 && v !== 255)) throw Error('Transparent surface');

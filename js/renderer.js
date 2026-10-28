@@ -8,6 +8,7 @@ import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } f
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
 import { paintedCreature } from './paintedcreatures.js';
+import { paintedLantern } from './paintedworld.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -923,10 +924,21 @@ const Renderer = (() => {
     const g = ctx.createRadialGradient(x, y, 0, x, y, H * 0.32);
     g.addColorStop(0, `rgba(255,190,90,${(0.32 * flick).toFixed(3)})`); g.addColorStop(1, 'rgba(255,150,60,0)');
     ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = g; ctx.fillRect(x - H * 0.32, y - H * 0.32, H * 0.64, H * 0.64); ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = '#1a1612'; ctx.fillRect(x - s, y - 12 * s, 2 * s, 5 * s);                       // the ring it hangs by
-    ctx.fillStyle = '#2e2a24'; ctx.fillRect(x - 5 * s, y - 8 * s, 10 * s, 3 * s);                   // the cap
+    const frame = paintedLantern(), k = frame ? s * frame.unitsPerPixel : 0;
+    const px = frame ? x - frame.anchor[0] * k : 0, py = frame ? y - frame.anchor[1] * k : 0;
+    if (frame) {
+      // The native flame stays at its original position, behind the open frame.
+      ctx.save(); ctx.beginPath();
+      const [x0, y0, x1, y1] = frame.window;
+      ctx.rect(px + x0 * k, py + y0 * k, (x1 - x0) * k, (y1 - y0) * k); ctx.clip();
+    }
+    if (!frame) {
+      ctx.fillStyle = '#1a1612'; ctx.fillRect(x - s, y - 12 * s, 2 * s, 5 * s);                     // the ring it hangs by
+      ctx.fillStyle = '#2e2a24'; ctx.fillRect(x - 5 * s, y - 8 * s, 10 * s, 3 * s);                 // the cap
+    }
     ctx.fillStyle = `rgb(${Math.round(230 * flick)},${Math.round(150 * flick)},60)`; ctx.fillRect(x - 4 * s, y - 5 * s, 8 * s, 10 * s);   // the glass
     ctx.fillStyle = '#fff0b0'; ctx.fillRect(x - s + Math.round(Math.sin(t / 130) * s), y - 2 * s, 2 * s, 4 * s);                        // the flame
+    if (frame) { ctx.restore(); ctx.drawImage(frame.img, px, py, 256 * k, 256 * k); return; }
     ctx.fillStyle = '#2e2a24';
     for (const bx of [-5, -1, 3]) ctx.fillRect(x + bx * s, y - 5 * s, 2 * s, 10 * s);              // the cage bars
     ctx.fillRect(x - 5 * s, y + 5 * s, 10 * s, 3 * s);                                               // the base

@@ -1,0 +1,29 @@
+{
+  "batch": "AI",
+  "surface": "ordinary amber dark-floor lantern body",
+  "selected": "batch-ai-preview/source-compact.png",
+  "rejected": {
+    "batch-ai-preview/source-tall.png": "Cage window too tall for the native flame/placement."
+  },
+  "sources": [
+    {
+      "path": "batch-ai-preview/source-tall.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Create ONE transparent game sprite: a small ordinary dungeon lantern's EMPTY METAL CAGE AND HANDLE ONLY, gritty hand-painted realistic fantasy equipment matching weathered dungeon monster art. Square canvas, single complete lantern upright centered, front-on nearly orthographic, no tilt, no perspective lean. Aspect ratio of complete object about 10 wide by 20 tall including a compact circular iron hanging ring at top. The ring reaches top, short broad flattened iron cap below, a rectangular tall cage, flat solid narrow iron base below. Cage outside edges vertical; one slender central front iron bar divides the window into two OPEN EMPTY apertures. The inside windows MUST BE FULLY TRANSPARENT alpha holes, as must the inside of the hanging ring. No glass surface, no lamp, no candle, no burner, NO FLAME, no glow, no colored light. This is an empty hollow iron frame to composite over an existing animated flame. Make the cage bars about 12 percent of total cage width, leave two large clear vertical openings. Dark worn charcoal iron, subtle warm brown patina, hammered edge texture, a few muted silver scuffs and small rivets; top-left neutral lighting; natural serious realistic materials, no cartoon, no chunky toy contours, no ornament, no blue gemstones, no runes. Keep every part fully visible with generous transparent padding; object occupies about 80 percent of canvas height. One object only, no hands, no scenery, no text, no pedestal, no ground or cast shadow. Deliver actual transparent background including all window and handle holes.",
+      "referenced_source": null,
+      "sha256": "ba082bd0a264f71664307f8e16858e96e47c13c1120a454bd9f9ee2c118f3b45"
+    },
+    {
+      "path": "batch-ai-preview/source-compact.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Edit this empty iron cage lantern sprite, preserving the same realistic weathered iron material, transparent windows, central vertical bar, cap, base and ring. Make it a COMPACT SQUAT lantern by shortening ONLY the vertical cage section to about HALF its current height. Its two open window slots should each be about 2.5 times taller than wide, not long prison bars. The entire visible lantern including circular hanging ring must be approximately TWICE as tall as its maximum width (visible metal silhouette width:height = 1:2). Reduce the ring diameter too: ring outside width should be half the cage body's maximum width, and total ring plus neck height about one quarter of overall lantern height. Cage window section occupies about half overall height. Retain front-on straight upright construction with a single central bar and two EMPTY fully transparent apertures. Transparent interior ring. No glass, flame, lamp burner, glow, background, floor, shadow, text or hands. Keep all metal complete, no clipped ends. Generous transparent margins. One standalone centered game equipment sprite; gritty painted realism, dark charcoal iron, muted warm patina and restrained worn metal edges.",
+      "referenced_source": "batch-ai-preview/source-tall.png",
+      "sha256": "95e27e23288f782d52b7d8301182d191badf1f5ca5797e0b986c5d51a6b2deb5"
+    }
+  ],
+  "registration": "Crop whole alpha>=8 visible bounds with four-pixel fringe; uniform resize and translation only. No masking, palette edits or scripted painting. Window landmarks measure native clipping; they do not erase source pixels.",
+  "export": "batch-ai-preview/amber-lantern.png",
+  "runtime": "img/overlays/amber-lantern.png"
+}

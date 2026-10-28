@@ -17775,5 +17775,21 @@ export const PAINTED = {
         182.52582159624413
       ]
     }
+  },
+  "overlays": {
+    "amber_lantern": {
+      "path": "img/overlays/amber-lantern.png",
+      "anchor": [
+        127,
+        169
+      ],
+      "window": [
+        89,
+        130,
+        166,
+        208
+      ],
+      "unitsPerPixel": 0.09009009009009009
+    }
   }
 };
