@@ -1,0 +1,19 @@
+
+Running 6 tests using 1 worker
+
+(node:890201) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:890201) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile (22.7s)
+  ✓  2 [phone] › test/browser/reading-scroll.spec.js:5:1 › reading vellum loads on demand and preserves live writing, clipping and every spell colour @mobile (8.0s)
+  ✓  3 [phone] › test/browser/reading-scroll.spec.js:36:1 › a corrupt reading parchment retains its complete procedural page and independent painted lantern @mobile (3.4s)
+(node:890440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:890440) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [small] › test/browser/painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile (21.6s)
+  ✓  5 [small] › test/browser/reading-scroll.spec.js:5:1 › reading vellum loads on demand and preserves live writing, clipping and every spell colour @mobile (7.7s)
+  ✓  6 [small] › test/browser/reading-scroll.spec.js:36:1 › a corrupt reading parchment retains its complete procedural page and independent painted lantern @mobile (3.2s)
+
+  6 passed (1.1m)

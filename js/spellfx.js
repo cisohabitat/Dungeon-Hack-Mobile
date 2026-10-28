@@ -4,6 +4,7 @@
 import { Assets } from './assets.js';
 import { makeElementFx } from './elementfx.js';
 import { makeArcaneFx } from './arcanefx.js';
+import { paintedReadingScroll } from './paintedworld.js';
 
 /** @param {any} K */
 export function makeSpellFx(K) {
@@ -55,14 +56,20 @@ export function makeSpellFx(K) {
     K.ctx.save();
     // (the top roll shows until the fire reaches it)
     K.ctx.beginPath(); K.ctx.rect(left - 6, burn > 0 ? edge : top - 6, w + 12, h + 12 + (burn > 0 ? 0 : 6)); K.ctx.clip();
-    K.ctx.fillStyle = '#2a1c10'; K.ctx.fillRect(left - 1, top - 1, w + 2, h + 2);
-    K.ctx.fillStyle = '#e8d8a8'; K.ctx.fillRect(left, top, w, h);
-    K.ctx.fillStyle = '#d4c090'; K.ctx.fillRect(left, top + h - 4, w, 4); K.ctx.fillRect(left + w - 3, top, 3, h);
-    // rolled ends, top and bottom
-    for (const ry of [top - 4, top + h]) {
-      K.ctx.fillStyle = '#2a1c10'; K.ctx.fillRect(left - 4, ry - 1, w + 8, 6);
-      K.ctx.fillStyle = '#b08850'; K.ctx.fillRect(left - 3, ry, w + 6, 4);
-      K.ctx.fillStyle = '#d8b070'; K.ctx.fillRect(left - 3, ry, w + 6, 1);
+    const page = paintedReadingScroll();
+    if (page) {
+      const s = page.unitsPerPixel;
+      K.ctx.drawImage(page.img, cx - page.anchor[0] * s, cy - page.anchor[1] * s, 256 * s, 256 * s);
+    } else {
+      K.ctx.fillStyle = '#2a1c10'; K.ctx.fillRect(left - 1, top - 1, w + 2, h + 2);
+      K.ctx.fillStyle = '#e8d8a8'; K.ctx.fillRect(left, top, w, h);
+      K.ctx.fillStyle = '#d4c090'; K.ctx.fillRect(left, top + h - 4, w, 4); K.ctx.fillRect(left + w - 3, top, 3, h);
+      // rolled ends, top and bottom
+      for (const ry of [top - 4, top + h]) {
+        K.ctx.fillStyle = '#2a1c10'; K.ctx.fillRect(left - 4, ry - 1, w + 8, 6);
+        K.ctx.fillStyle = '#b08850'; K.ctx.fillRect(left - 3, ry, w + 6, 4);
+        K.ctx.fillStyle = '#d8b070'; K.ctx.fillRect(left - 3, ry, w + 6, 1);
+      }
     }
     // the writing: five lines, lit one after another
     for (let i = 0; i < 5; i++) {

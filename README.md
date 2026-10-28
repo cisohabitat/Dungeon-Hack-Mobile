@@ -9,6 +9,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Painted reading scrolls.** Worn vellum rises in your hand while spell-coloured
+  writing kindles and the page burns away in its original shower of embers.
+
 - **A painted lantern in the dark.** Weathered iron surrounds the ordinary
   lantern's live amber flame, with the same glow and movement beside your gear.
 

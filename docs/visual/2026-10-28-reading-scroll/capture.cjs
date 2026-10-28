@@ -1,0 +1,19 @@
+'use strict';
+// Real consumable actions and running frames; supplied inventory and safety.
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http');
+const root=path.resolve(__dirname,'../../..'),{chromium}=require(root+'/node_modules/playwright'),{serve}=require(root+'/test/server');
+const {startGame,artReady,watchForErrors,expect}=require(root+'/test/browser/helpers');
+const out=path.resolve(process.env.SCROLL_OUTPUT||path.join(__dirname,'native')),offline=process.env.SCROLL_OFFLINE==='1';
+fs.mkdirSync(out,{recursive:true});
+(async()=>{let connected=true;const server=http.createServer((req,res)=>connected?serve(req,res):req.socket.destroy());await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']}),records=[];
+try{for(const width of [320,390,740]){connected=true;const context=await browser.newContext({baseURL:`http://127.0.0.1:${server.address().port}`,viewport:{width,height:width===740?360:width===320?667:844}}),page=await context.newPage(),errors=watchForErrors(page);
+await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'combat-clarity',name:'Scroll review'});await page.evaluate(()=>{Game.level().monsters=[];Game.player().hp=Game.player().maxHp=999;Game.save(true);});await artReady(page);await page.waitForTimeout(2200);
+if(offline){await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true',{timeout:120000});connected=false;await context.setOffline(true);await page.reload();await page.click('#btn-continue');await expect(page.locator('#screen-game')).toBeVisible();await artReady(page);}
+for(const calm of [false,true])for(const kind of ['fire','frost','lightning','heal','map','teleport','uncurse']){
+await page.evaluate(calm=>{Renderer.setCalm(calm);localStorage.setItem('deepdelve.calm',calm?'1':'0');},calm);
+const result=await page.evaluate(kind=>new Promise((resolve,reject)=>requestAnimationFrame(()=>{try{const p=Game.player(),it={t:'scroll_'+kind,q:1,e:0};p.inv.push(it);delete Game.state().known[it.t];Game.useItem(it);if(p.inv.includes(it))throw Error('Native read was not consumed');const fx=Game.renderState(performance.now()).fx,born=fx.readAt,frames=[];const sample=()=>{const now=performance.now(),ru=(now-born)/1000,phase=frames.length===0?.38:.78;if(frames.length<2&&ru>=phase){if(ru>=phase+.16)return reject(Error('Missed native reading frame '+ru));frames.push({ru,png:document.querySelector('#view').toDataURL()});}if(ru>1.05)return resolve({kind:fx.readKind,color:fx.readColor,born,consumed:true,frames});requestAnimationFrame(sample);};requestAnimationFrame(sample);}catch(e){reject(e);}})),kind);
+for(let i=0;i<result.frames.length;i++){const frame=result.frames[i],name=[width,kind,calm?'calm':'normal',i?'burn':'writing'].join('-')+'.png';fs.writeFileSync(path.join(out,name),Buffer.from(frame.png.split(',')[1],'base64'));delete frame.png;frame.file=name;}
+records.push({width,calm,offline,...result});console.log(width,kind,calm?'calm':'normal');}
+expect(errors).toEqual([]);await context.setOffline(false);await context.close();}
+fs.writeFileSync(path.join(out,'evidence.json'),JSON.stringify({scope:'Actual Game.useItem reads and native running updates/rendering, seven kinds, supplied inventory/safety, unknown-scroll status reset before each read and cleared enemies. Canvas frames sampled by requestAnimationFrame, no renderer/Assets/clock replacement. Offline profiles are fresh installs, not upgrades. Not balance, unidentified-effect disclosure or physical Safari sign-off.',records},null,2)+'\n');
+}finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e);process.exitCode=1;});

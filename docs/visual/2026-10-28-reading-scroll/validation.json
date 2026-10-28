@@ -1,0 +1,138 @@
+{
+  "candidate": {
+    "version": "0.9.52",
+    "build": 67,
+    "cache": "deepdelve-v127"
+  },
+  "baseline": "aed654125aee64e2d3e327999a8a6c8e02a70112",
+  "native": {
+    "before": {
+      "reads": 42,
+      "frames": 84
+    },
+    "native": {
+      "reads": 42,
+      "frames": 84
+    },
+    "offline": {
+      "reads": 42,
+      "frames": 84
+    }
+  },
+  "focused": {
+    "startTime": "2026-10-28T03:44:52.972Z",
+    "duration": 68893.21800000001,
+    "expected": 6,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "rule_duration": "1m17s"
+  },
+  "delivery": {
+    "files": 1552,
+    "prior_unchanged": 1551
+  },
+  "local_performance": {
+    "painting": {
+      "scenes": {
+        "fight": {
+          "fps": 35,
+          "scriptMs": 15.3
+        },
+        "wide": {
+          "fps": 38.4,
+          "scriptMs": 12.9
+        },
+        "flooded": {
+          "fps": 36,
+          "scriptMs": 15.1
+        },
+        "painted": {
+          "fps": 30.8,
+          "scriptMs": 20
+        },
+        "amber": {
+          "fps": 31.8,
+          "scriptMs": 18.2
+        },
+        "scroll": {
+          "fps": 27.4,
+          "scriptMs": 20.7
+        },
+        "rite": {
+          "fps": 47.9,
+          "scriptMs": 13.8
+        }
+      },
+      "start": {
+        "ms": 1915
+      },
+      "passed": false
+    },
+    "procedural_control": {
+      "scenes": {
+        "fight": {
+          "fps": 32.8,
+          "scriptMs": 16.3
+        },
+        "wide": {
+          "fps": 36.3,
+          "scriptMs": 13.7
+        },
+        "flooded": {
+          "fps": 33.6,
+          "scriptMs": 16.2
+        },
+        "painted": {
+          "fps": 29.7,
+          "scriptMs": 21
+        },
+        "amber": {
+          "fps": 30.5,
+          "scriptMs": 17.8
+        },
+        "scroll": {
+          "fps": 24.4,
+          "scriptMs": 23.8
+        },
+        "rite": {
+          "fps": 46.4,
+          "scriptMs": 14.6
+        }
+      },
+      "start": {
+        "ms": 1967
+      },
+      "passed": false
+    },
+    "limits": "Sequential samples, same unchanged thresholds; no causal speedup/regression established. Both local failures retained. Required separate-runner CI budget remains a hard publication gate."
+  },
+  "full_chromium": {
+    "ordinary": {
+      "startTime": "2026-10-28T03:55:26.223Z",
+      "duration": 3567845.351,
+      "expected": 947,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "ordinary_workers": 3,
+    "ordinary_expected": 947,
+    "serial_installation": {
+      "startTime": "2026-10-28T04:55:28.712Z",
+      "duration": 156820.70500000002,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "serial_workers": 1,
+    "distinct_cases": 953,
+    "local_runner": "Project config, system Chromium, fresh separate-port server; original assertions/deadlines and no retries."
+  }
+}

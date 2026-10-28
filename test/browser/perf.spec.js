@@ -109,6 +109,12 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   await page.evaluate(async()=>{Game.level().twist='dark';window.__amberFrame=(await import('/js/paintedworld.js')).paintedLantern;});
   await page.waitForFunction(()=>window.__amberFrame()?.img&&Renderer.lantern===1,null,{timeout:30000});
   out.amber = await measure(page, cdp, 4000);
+  // Repeated native reads exercise the blank parchment and its live writing/fire.
+  await page.evaluate(async()=>{window.__scrollFrame=(await import('/js/paintedworld.js')).paintedReadingScroll;window.__scrollFrame();});
+  await page.waitForFunction(()=>window.__scrollFrame()?.img,null,{timeout:30000});
+  await page.evaluate(()=>{const read=()=>{const p=Game.player(),it={t:'scroll_map',q:1,e:0};p.inv.push(it);delete Game.state().known.scroll_map;Game.useItem(it);if(p.inv.includes(it))throw Error('Budget read did not run');};read();window.__scrollBudget=setInterval(read,1100);});
+  try { out.scroll = await measure(page, cdp, 4000); }
+  finally { await page.evaluate(()=>clearInterval(window.__scrollBudget)); }
   // the last floor, the lich awake two squares ahead and working its rite
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await page.evaluate(() => { Game.level().twist = null; Game.testFloor(Game.state().opts.levels || 8); });

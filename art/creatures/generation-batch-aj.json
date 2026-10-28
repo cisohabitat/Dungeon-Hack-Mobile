@@ -1,0 +1,29 @@
+{
+  "batch": "AJ",
+  "surface": "open reading parchment",
+  "selected": "batch-aj-preview/source-taller.png",
+  "rejected": {
+    "batch-aj-preview/source-wide.png": "Flat panel too wide/short for the original five live writing lines."
+  },
+  "sources": [
+    {
+      "path": "batch-aj-preview/source-wide.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Create ONE standalone transparent game sprite of a small OPEN BLANK PARCHMENT SCROLL. Gritty realistic hand-painted dark fantasy equipment, weathered natural vellum and restrained earthy materials matching serious dungeon monster art. Front view, orthographic, upright, no perspective, no tilt. A wide rectangular flat blank writing panel, width to height exactly about 1.53:1, with one tightly curled horizontal parchment roll along its TOP edge and one matching horizontal parchment roll along its BOTTOM edge. The rolled ends project only a little beyond left and right edges. Each roll is about one sixth as tall as the flat panel; complete object approximately 1.25 times wider than tall. Broad, flat, pale warm ivory central panel with subtle old fibres and faint uneven stains, unobstructed and clean enough to overlay small animated coloured writing later. Strong readable curled edges with muted ochre-brown shadows and modest chipped vellum wear, no massive tears or missing central areas. Neutral upper left lighting, material shading contained inside the silhouette. All four corners and both rolls fully visible. Actual transparent background and generous transparent margin around the whole object. ONE object only, no hands, no table, no scene, no ground or cast shadow. Absolutely NO writing, letters, runes, symbols, ornament, seal, ribbons, wax, gemstones, metal rods, wooden handles, fire, embers, magic or coloured glow. No cartoon or toy outlines. Square canvas; the complete scroll occupies about 80 percent of canvas width, centered.",
+      "referenced_source": null,
+      "sha256": "0ec05e2223a1397735d7c2ec2f957aa0e38934b78eeeae1d3d8e81466f4612e9"
+    },
+    {
+      "path": "batch-aj-preview/source-taller.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Edit this blank open parchment scroll into a TALLER, more nearly square object. Keep the same realistic ivory vellum texture, two curled horizontal parchment rolls, blank central panel, subtle edge wear and transparent background. Increase the HEIGHT of the flat central writing panel by about 22 percent, keeping its WIDTH the same and both rolls the same diameter. The FLAT PANEL BETWEEN THE TWO ROLLS must have width-to-height about 1.5:1 (for example panel 900 pixels wide and 600 pixels tall), NOT 1.85:1. Complete object including the two rolls should be only about 1.2 times wider than tall. Show the COMPLETE object with at least 8 percent EMPTY TRANSPARENT margins on ALL FOUR sides; no scroll ends touching or clipped by canvas edges, no disconnected speckles outside the object. Front-on orthographic, no tilt. Keep panel entirely blank: NO writing, runes, symbols, seal, fire, glow, rods, hands or scenery. Actual transparent background; one connected parchment scroll only.",
+      "referenced_source": "batch-aj-preview/source-wide.png",
+      "sha256": "2cf8bdf000684eb55a61aa6741bbe3494b394cf721ddd059fc6c95c3d94ca176"
+    }
+  ],
+  "registration": "Whole alpha>=8 bounds plus four-source-pixel fringe, uniform resize and translation only. No scripted painting, recolouring or masking. Panel landmarks register the original 46px native writing span; original writing/burn geometry remains unchanged.",
+  "export": "batch-aj-preview/reading-scroll.png",
+  "runtime": "img/overlays/reading-scroll.png"
+}

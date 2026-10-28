@@ -17790,6 +17790,20 @@ export const PAINTED = {
         208
       ],
       "unitsPerPixel": 0.09009009009009009
+    },
+    "reading_scroll": {
+      "path": "img/overlays/reading-scroll.png",
+      "anchor": [
+        127.91,
+        128.8248
+      ],
+      "panel": [
+        27.8029,
+        67.6083,
+        230.5377,
+        190.0414
+      ],
+      "unitsPerPixel": 0.22689741251020112
     }
   }
 };

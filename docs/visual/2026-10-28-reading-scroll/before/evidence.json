@@ -1,0 +1,803 @@
+{
+  "scope": "Actual Game.useItem reads and native running updates/rendering, seven kinds, supplied inventory/safety, unknown-scroll status reset before each read and cleared enemies. Canvas frames sampled by requestAnimationFrame, no renderer/Assets/clock replacement. Offline profiles are fresh installs, not upgrades. Not balance, unidentified-effect disclosure or physical Safari sign-off.",
+  "records": [
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 9584,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38689999997615815,
+          "file": "320-fire-normal-writing.png"
+        },
+        {
+          "ru": 0.7865,
+          "file": "320-fire-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 10650.6,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3861999999523159,
+          "file": "320-frost-normal-writing.png"
+        },
+        {
+          "ru": 0.7869999999642369,
+          "file": "320-frost-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 11717.2,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38639999996423646,
+          "file": "320-lightning-normal-writing.png"
+        },
+        {
+          "ru": 0.7864999999880783,
+          "file": "320-lightning-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 12783.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3881999999642376,
+          "file": "320-heal-normal-writing.png"
+        },
+        {
+          "ru": 0.7861000000000004,
+          "file": "320-heal-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 13850.4,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38629999998807946,
+          "file": "320-map-normal-writing.png"
+        },
+        {
+          "ru": 0.7862999999880794,
+          "file": "320-map-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 14917.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3876999999523159,
+          "file": "320-teleport-normal-writing.png"
+        },
+        {
+          "ru": 0.7871999999523159,
+          "file": "320-teleport-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 15983.7,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38609999995231553,
+          "file": "320-uncurse-normal-writing.png"
+        },
+        {
+          "ru": 0.7859999999880783,
+          "file": "320-uncurse-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 17050.3,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3862999999642379,
+          "file": "320-fire-calm-writing.png"
+        },
+        {
+          "ru": 0.7862999999642379,
+          "file": "320-fire-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 18116.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38639999995231483,
+          "file": "320-frost-calm-writing.png"
+        },
+        {
+          "ru": 0.7860999999999986,
+          "file": "320-frost-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 19183.6,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3857999999761596,
+          "file": "320-lightning-calm-writing.png"
+        },
+        {
+          "ru": 0.7875999999880805,
+          "file": "320-lightning-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 20250.2,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38689999996423646,
+          "file": "320-heal-calm-writing.png"
+        },
+        {
+          "ru": 0.7867999999999993,
+          "file": "320-heal-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 21316.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38609999999999856,
+          "file": "320-map-calm-writing.png"
+        },
+        {
+          "ru": 0.7861999999642357,
+          "file": "320-map-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 22383.4,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3864999999761567,
+          "file": "320-teleport-calm-writing.png"
+        },
+        {
+          "ru": 0.7859999999761567,
+          "file": "320-teleport-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 23450.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38619999995231774,
+          "file": "320-uncurse-calm-writing.png"
+        },
+        {
+          "ru": 0.7865999999880805,
+          "file": "320-uncurse-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 9700.3,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.387499999952317,
+          "file": "390-fire-normal-writing.png"
+        },
+        {
+          "ru": 0.7869999999523171,
+          "file": "390-fire-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 10766.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3866999999642376,
+          "file": "390-frost-normal-writing.png"
+        },
+        {
+          "ru": 0.7873999999523167,
+          "file": "390-frost-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 11833.5,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38789999997615815,
+          "file": "390-lightning-normal-writing.png"
+        },
+        {
+          "ru": 0.7868999999761581,
+          "file": "390-lightning-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 12900.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3865999999880787,
+          "file": "390-heal-normal-writing.png"
+        },
+        {
+          "ru": 0.7867999999761578,
+          "file": "390-heal-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 13966.8,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38659999997615885,
+          "file": "390-map-normal-writing.png"
+        },
+        {
+          "ru": 0.7867000000000007,
+          "file": "390-map-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 15033.5,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38739999997615815,
+          "file": "390-teleport-normal-writing.png"
+        },
+        {
+          "ru": 0.7860999999642372,
+          "file": "390-teleport-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 16100.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38629999997615777,
+          "file": "390-uncurse-normal-writing.png"
+        },
+        {
+          "ru": 0.7865999999880787,
+          "file": "390-uncurse-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 17166.6,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38669999995231774,
+          "file": "390-fire-calm-writing.png"
+        },
+        {
+          "ru": 0.7869000000000015,
+          "file": "390-fire-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 18233.3,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3873999999880798,
+          "file": "390-frost-calm-writing.png"
+        },
+        {
+          "ru": 0.7872999999642379,
+          "file": "390-frost-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 19300,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3867999999523163,
+          "file": "390-lightning-calm-writing.png"
+        },
+        {
+          "ru": 0.7873999999761582,
+          "file": "390-lightning-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 20366.6,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38619999995231774,
+          "file": "390-heal-calm-writing.png"
+        },
+        {
+          "ru": 0.7866999999523178,
+          "file": "390-heal-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 21433.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38640000000000146,
+          "file": "390-map-calm-writing.png"
+        },
+        {
+          "ru": 0.7869000000000015,
+          "file": "390-map-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 22499.7,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3874999999880783,
+          "file": "390-teleport-calm-writing.png"
+        },
+        {
+          "ru": 0.7867999999999993,
+          "file": "390-teleport-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 23566.4,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38669999996423576,
+          "file": "390-uncurse-calm-writing.png"
+        },
+        {
+          "ru": 0.7865999999999985,
+          "file": "390-uncurse-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 9275.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3859000000119213,
+          "file": "740-fire-normal-writing.png"
+        },
+        {
+          "ru": 0.7862000000238423,
+          "file": "740-fire-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 10342.5,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38589999997615815,
+          "file": "740-frost-normal-writing.png"
+        },
+        {
+          "ru": 0.7858999999761581,
+          "file": "740-frost-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 11409.2,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3856000000119202,
+          "file": "740-lightning-normal-writing.png"
+        },
+        {
+          "ru": 0.7859000000238411,
+          "file": "740-lightning-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 12475.8,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38600000001192164,
+          "file": "740-heal-normal-writing.png"
+        },
+        {
+          "ru": 0.7860000000119216,
+          "file": "740-heal-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 13542.4,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3867000000238422,
+          "file": "740-map-normal-writing.png"
+        },
+        {
+          "ru": 0.7867000000238422,
+          "file": "740-map-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 14609,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.386,
+          "file": "740-teleport-normal-writing.png"
+        },
+        {
+          "ru": 0.7863000000119209,
+          "file": "740-teleport-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": false,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 15675.6,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38589999999999963,
+          "file": "740-uncurse-normal-writing.png"
+        },
+        {
+          "ru": 0.7852999999761577,
+          "file": "740-uncurse-normal-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "fire",
+      "color": "#ff7020",
+      "born": 16742.3,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38530000002384257,
+          "file": "740-fire-calm-writing.png"
+        },
+        {
+          "ru": 0.7858000000238425,
+          "file": "740-fire-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "frost",
+      "color": "#a8e0ff",
+      "born": 17808.9,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38609999999999856,
+          "file": "740-frost-calm-writing.png"
+        },
+        {
+          "ru": 0.7860999999999986,
+          "file": "740-frost-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "lightning",
+      "color": "#e0f0ff",
+      "born": 18875.5,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38539999997615815,
+          "file": "740-lightning-calm-writing.png"
+        },
+        {
+          "ru": 0.786,
+          "file": "740-lightning-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "heal",
+      "color": "#60e080",
+      "born": 19942.1,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38540000000000146,
+          "file": "740-heal-calm-writing.png"
+        },
+        {
+          "ru": 0.7855000000238433,
+          "file": "740-heal-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "map",
+      "color": "#70b0ff",
+      "born": 21008.8,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.38550000001192164,
+          "file": "740-map-calm-writing.png"
+        },
+        {
+          "ru": 0.7858000000238425,
+          "file": "740-map-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "teleport",
+      "color": "#c080ff",
+      "born": 22075.4,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3857000000238404,
+          "file": "740-teleport-calm-writing.png"
+        },
+        {
+          "ru": 0.7857000000238404,
+          "file": "740-teleport-calm-burn.png"
+        }
+      ]
+    },
+    {
+      "width": 740,
+      "calm": true,
+      "offline": false,
+      "kind": "uncurse",
+      "color": "#ffe8a0",
+      "born": 23142,
+      "consumed": true,
+      "frames": [
+        {
+          "ru": 0.3861999999880791,
+          "file": "740-uncurse-calm-writing.png"
+        },
+        {
+          "ru": 0.7871000000238418,
+          "file": "740-uncurse-calm-burn.png"
+        }
+      ]
+    }
+  ]
+}

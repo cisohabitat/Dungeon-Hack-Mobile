@@ -97,6 +97,11 @@ export function paintedLantern() {
   const meta = PAINTED.overlays.amber_lantern;
   return picture(meta.path, 256, image => ({ img: canvas(image), ...meta })).value;
 }
+// Blank vellum only; writing and fire remain live in the spell renderer.
+export function paintedReadingScroll() {
+  const meta = PAINTED.overlays.reading_scroll;
+  return picture(meta.path, 256, image => ({ img: canvas(image), ...meta })).value;
+}
 function levels(image) {
   const c = canvas(image), d = c.getContext('2d').getImageData(0, 0, 64, 64).data;
   if (d.some((v, i) => i % 4 === 3 && v !== 255)) throw Error('Transparent surface');

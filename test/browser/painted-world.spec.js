@@ -317,7 +317,7 @@ test('all activated art files decode after a native offline reload @mobile',asyn
   const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
   for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
   await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
-  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern}=await import('/js/paintedworld.js');return paintedLantern()?.img.width;})).toBe(256);
+  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256;})).toBe(true);
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });

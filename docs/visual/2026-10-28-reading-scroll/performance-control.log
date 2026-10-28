@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:891014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:891014) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":32.8,"scriptMs":16.3},"wide":{"fps":36.3,"scriptMs":13.7},"flooded":{"fps":33.6,"scriptMs":16.2},"painted":{"fps":29.7,"scriptMs":21},"amber":{"fps":30.5,"scriptMs":17.8},"scroll":{"fps":24.4,"scriptMs":23.8},"rite":{"fps":46.4,"scriptMs":14.6}} start {"ms":1967}
+  ✘  1 [perf] › ../../tmp/scroll-perf-control.cjs:53:1 › the view holds its frame rate on a slow processor (1.1m)
+
+
+  1) [perf] › ../../tmp/scroll-perf-control.cjs:53:1 › the view holds its frame rate on a slow processor
+
+    Error: painted: {"fps":29.7,"scriptMs":21}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m29.7[39m
+
+      154 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      155 |   if (REPORT_ONLY) return;
+    > 156 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      157 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      158 | });
+      159 |
+        at /tmp/scroll-perf-control.cjs:156:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/scroll-perf-control.cjs-th-32923-me-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/scroll-perf-control.cjs-th-32923-me-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/scroll-perf-control.cjs-th-32923-me-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/scroll-perf-control.cjs-th-32923-me-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › ../../tmp/scroll-perf-control.cjs:53:1 › the view holds its frame rate on a slow processor

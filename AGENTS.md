@@ -1438,3 +1438,20 @@ limits live in `docs/visual/2026-10-28-amber-lantern/`; synchronous fitting
 regressions are separate from those actions and physical Safari approval.
 The isolated performance budget retains its original scenes/thresholds and
 also measures the same painted crowd on a dark floor with this overlay ready.
+
+### Open reading parchment
+Batch AJ's `generation-batch-aj.json` retains the wide original and selected
+taller image-tool source. `python3 art/creatures/export-batch-aj.py --check`
+reproduces the256px vellum with uniform crop/scale/registration only; run the
+common exporter check too. `PAINTED.overlays.reading_scroll` carries its anchor,
+panel landmarks and native scale. `paintedReadingScroll` caches its canvas on
+first actual read, with independent loading/failure fallback. `spellfx.js`
+draws it within the original burn clip before unchanged live writing/embers;
+keep READ_MS, spell colours/flourishes, release timings and class hands intact.
+`reading-scroll.spec.js` compares complete non-body drawing traces across all
+seven kinds, checks126 class/height/Calm placements and corrupt-image isolation.
+Include it in the small-phone filter. All-export offline decoding includes both
+overlays. Native running seven-kind/Calm references and fresh offline reads live
+in `docs/visual/2026-10-28-reading-scroll/`; supplied inventory, unknown status
+and safety are labelled. The FPS budget adds repeated actual reads on the
+existing dark painted crowd, retaining all original scenes and thresholds.

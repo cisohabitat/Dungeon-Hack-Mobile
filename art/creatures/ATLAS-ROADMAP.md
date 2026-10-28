@@ -1,11 +1,11 @@
-# Dungeon artwork and atlas roadmap — Batches E–AI
+# Dungeon artwork and atlas roadmap — Batches E–AJ
 
 Prepared 23 October 2026; extended and integrated through 28 October 2026.
 
-## Current delivery — release 0.9.51
+## Current delivery — release 0.9.52
 
-For release 0.9.51, approved playable batches through AI are integrated.
-The common catalog delivers 1,551 files, including 810 held and 35 carried frames,
+For release 0.9.52, approved playable batches through AJ are integrated.
+The common catalog delivers 1,552 files, including 810 held and 35 carried frames,
 plus the original creature atlases and separate portrait libraries. The older
 release/source-stage sections below are historical records, superseded by their
 later activation reports. They do not describe today's remaining work.
@@ -15,8 +15,8 @@ all current encounter/dressing keys, item reserves, creature poses, thirteen
 regional selections, source hashes and offline declarations. Its native loader
 sweep covers 569 creature pose routes and all common world/equipment bindings.
 That audit predates AI; its next proposals were
-[AI/AJ](#remaining-procedural-object-conversions--27-october-2026). AI's
-implementation and release gates are recorded at the end; AJ remains optional.
+[AI/AJ](#remaining-procedural-object-conversions--27-october-2026). Both
+implementations and their release gates are recorded at the end.
 
 ## Runtime delivery — release 0.9.34
 
@@ -1062,7 +1062,7 @@ through independent loading/failure fallback and offline entries; verify native
 actions, Calm, short views and installed reloads; run unchanged release checks
 and publish the completed phase. Neither batch has generated source or runtime
 activation at the time of the 27 October inventory. AI's later implementation
-is recorded below; AJ remains pending. No runtime defect was confirmed by the
+is recorded below; AJ's later implementation is recorded after it. No runtime defect was confirmed by the
 coverage inventory alone.
 
 Keep the following procedural unless a specific reviewed defect justifies work:
@@ -1100,3 +1100,14 @@ release evidence is tracked in the [review](../../docs/visual/2026-10-28-amber-l
 Publication remains subject to the existing full Chromium, rules, isolated
 performance and CI/release gates. Next painting proposal is AJ's open reading
 scroll; no further creature or regional atlas is commissioned.
+
+### Batch AJ — native reading parchment (28 October 2026)
+
+Implemented for v0.9.52: one blank open vellum painting, independently loaded
+only during reading. The original five writing lines, spell colours, burn clip,
+embers, flourishes, class hands and 1,000ms duration remain live and unchanged.
+The small Pack scroll remains its existing painting. The wide source is retained
+as rejected provenance; the taller selected source uses uniform registration.
+See [native review and release checks](../../docs/visual/2026-10-28-reading-scroll/README.md).
+The AI/AJ proposals are integrated; no further physical-object atlas is required
+by this inventory. Dynamic effects and UI symbols remain procedural by design.
