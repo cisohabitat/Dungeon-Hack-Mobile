@@ -1,0 +1,4 @@
+page.evaluate: Error: Unexpected bar pixel difference
+    at eval (eval at evaluate (:302:30), <anonymous>:9:65)
+    at async <anonymous>:328:30
+    at /workspace/aaa3b-audit/bar-matrix.cjs:6:25

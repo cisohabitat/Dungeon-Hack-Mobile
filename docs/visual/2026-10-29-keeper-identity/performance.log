@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":46.6,"scriptMs":10},"wide":{"fps":40.4,"scriptMs":11.4},"flooded":{"fps":41.4,"scriptMs":11.3},"painted":{"fps":36.9,"scriptMs":13.4},"amber":{"fps":47.7,"scriptMs":7.9},"scroll":{"fps":32.7,"scriptMs":15},"rite":{"fps":50.5,"scriptMs":12.3}} start {"ms":2133}
+  ✓  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (58.4s)
+::notice title=🎭 Playwright Run Summary::  1 passed (59.4s)
+
+  1 passed (59.4s)
+Browser step aaa3b-performance exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3b-performance/.

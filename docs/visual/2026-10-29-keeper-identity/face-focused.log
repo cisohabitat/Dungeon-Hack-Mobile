@@ -1,0 +1,17 @@
+
+Running 10 tests using 1 worker
+
+  ✓   1 [phone] › test/browser/boss-portraits.spec.js:33:39 › lich's live life bar uses its known painted face without changing the run @mobile (17.7s)
+  ✓   2 [phone] › test/browser/boss-portraits.spec.js:33:39 › warlord's live life bar uses its known painted face without changing the run @mobile (15.9s)
+  ✓   3 [phone] › test/browser/boss-portraits.spec.js:33:39 › heartforged's live life bar uses its known painted face without changing the run @mobile (16.6s)
+  ✓   4 [phone] › test/browser/boss-portraits.spec.js:67:1 › a delayed keeper face retains the complete text bar until its own painting is ready @mobile (19.0s)
+  ✓   5 [phone] › test/browser/boss-portraits.spec.js:82:1 › a corrupt keeper face retains its original bar and cannot disable another keeper @mobile (18.0s)
+  ✓   6 [small] › test/browser/boss-portraits.spec.js:33:39 › lich's live life bar uses its known painted face without changing the run @mobile (15.9s)
+  ✓   7 [small] › test/browser/boss-portraits.spec.js:33:39 › warlord's live life bar uses its known painted face without changing the run @mobile (15.3s)
+  ✓   8 [small] › test/browser/boss-portraits.spec.js:33:39 › heartforged's live life bar uses its known painted face without changing the run @mobile (15.5s)
+  ✓   9 [small] › test/browser/boss-portraits.spec.js:67:1 › a delayed keeper face retains the complete text bar until its own painting is ready @mobile (21.8s)
+  ✓  10 [small] › test/browser/boss-portraits.spec.js:82:1 › a corrupt keeper face retains its original bar and cannot disable another keeper @mobile (16.6s)
+::notice title=🎭 Playwright Run Summary::  10 passed (3.1m)
+
+  10 passed (3.1m)
+Browser step aaa3b-face-focused exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3b-face-focused/.

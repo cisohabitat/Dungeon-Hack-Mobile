@@ -1,0 +1,10 @@
+{
+  "completed_batches": 252,
+  "simulations": 1008,
+  "matched_runs_per_variant": 504,
+  "matched_fingerprints": 504,
+  "differences": [],
+  "errors": 0,
+  "timeouts": 0,
+  "scope": "Exact regression controls of final presentation source on frozen v0.9.57 metadata; not a new win-rate estimate."
+}

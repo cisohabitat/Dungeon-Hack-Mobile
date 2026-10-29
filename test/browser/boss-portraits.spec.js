@@ -17,6 +17,85 @@ async function introduce(page, id) {
   await expect(page.locator('#ov-boss')).toHaveClass(/open/);
 }
 
+async function barPixels(page, portrait) {
+  return page.evaluate(async portrait => {
+    const { makeOverlay } = await import('/js/overlay.js');
+    const canvas = document.createElement('canvas'); canvas.width = 320; canvas.height = 40;
+    const ctx = canvas.getContext('2d'), calls = [], draw = ctx.drawImage.bind(ctx);
+    ctx.drawImage = (image, ...args) => { calls.push({ src: image.src, args }); draw(image, ...args); };
+    const overlay = makeOverlay({ W: 320, H: 224, ctx });
+    const boss = { name: 'Dread Lich', hp: 50, maxHp: 100, phase: 0, rite: false, riteDone: 0, ...(portrait ? { portrait } : {}) };
+    overlay.drawBossBar(boss, 10000);
+    return { pixels: Array.from(ctx.getImageData(0, 0, 320, 40).data), calls };
+  }, portrait);
+}
+
+for (const id of Object.keys(bosses)) test(`${id}'s live life bar uses its known painted face without changing the run @mobile`, async ({ page }, testInfo) => {
+  const errors = watchForErrors(page);
+  await prepare(page); await startGame(page, { seed: 'keeper-bar-' + id });
+  expect(await page.evaluate(async () => {
+    const { bossFaceState } = await import('/js/bossart.js');
+    return ['lich', 'warlord', 'heartforged'].map(bossFaceState);
+  })).toEqual(['unrequested', 'unrequested', 'unrequested']);
+  await introduce(page, id); await page.getByRole('button', { name: 'Face the keeper' }).click();
+  await expect.poll(() => page.evaluate(async id => (await import('/js/bossart.js')).bossFaceState(id), id)).toBe('ready');
+  const result = await page.evaluate(async id => {
+    const { Dice, Odds } = await import('/js/rng.js'), { makeOverlay } = await import('/js/overlay.js');
+    const bar = Game.renderState(performance.now()).fx.boss;
+    const before = JSON.stringify(Game.state()), dice = [Dice.s, Odds.s];
+    const canvas = document.createElement('canvas'); canvas.width = 320; canvas.height = 40;
+    const ctx = canvas.getContext('2d'), calls = [], draw = ctx.drawImage.bind(ctx);
+    ctx.drawImage = (image, ...args) => { calls.push({ src: image.src, args }); draw(image, ...args); };
+    const overlay = makeOverlay({ W: 320, H: 224, ctx });
+    const count = () => { const a = ctx.getImageData(34, 18, 164, 1).data; let n = 0; for (let i = 0; i < a.length; i += 4) if (a[i] === 122 && a[i + 1] === 90 && a[i + 2] === 216) n++; return n; };
+    overlay.drawBossBar({ ...bar, hp: 100, maxHp: 100, phase: 0, rite: false }, 10000); const full = count();
+    ctx.clearRect(0, 0, 320, 40); overlay.drawBossBar({ ...bar, hp: 50, maxHp: 100, phase: 0, rite: false }, 10000); const half = count();
+    return { identity: bar.portrait, calls, full, half, unchanged: before === JSON.stringify(Game.state()) && Dice.s === dice[0] && Odds.s === dice[1] };
+  }, id);
+  expect(result.identity).toBe(id); expect(result.unchanged).toBe(true);
+  expect(result.calls).toHaveLength(2);
+  for (const call of result.calls) {
+    expect(call.src).toMatch(new RegExp(`/img/bosses/${id}\\.webp$`));
+    expect(call.args.slice(-4)).toEqual([8, 1, 20, 20]);
+  }
+  expect(result.full).toBeGreaterThan(150);
+  expect(result.half / result.full).toBeGreaterThan(0.45); expect(result.half / result.full).toBeLessThan(0.55);
+  await page.screenshot({ path: testInfo.outputPath(`${id}-live-bar.png`) });
+  expect(errors).toEqual([]);
+});
+
+test('a delayed keeper face retains the complete text bar until its own painting is ready @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  let release; const gate = new Promise(resolve => { release = resolve; });
+  await page.route('**/img/bosses/lich.webp', async route => { await gate; await route.continue(); });
+  await prepare(page); await startGame(page, { seed: 'keeper-bar-delayed' });
+  await introduce(page, 'lich'); await page.getByRole('button', { name: 'Face the keeper' }).click();
+  await expect.poll(() => page.evaluate(async () => (await import('/js/bossart.js')).bossFaceState('lich'))).toBe('loading');
+  const legacy = await barPixels(page, null), delayed = await barPixels(page, 'lich');
+  expect(delayed).toEqual(legacy);
+  release();
+  await expect.poll(() => page.evaluate(async () => (await import('/js/bossart.js')).bossFaceState('lich'))).toBe('ready');
+  expect((await barPixels(page, 'lich')).calls).toHaveLength(1);
+  expect(errors).toEqual([]);
+});
+
+test('a corrupt keeper face retains its original bar and cannot disable another keeper @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await page.route('**/img/bosses/warlord.webp', route => route.fulfill({ contentType: 'image/webp', body: Buffer.from('broken portrait') }));
+  await prepare(page); await startGame(page, { seed: 'keeper-bar-failed' });
+  expect(await page.evaluate(async () => {
+    const { bossPortraitFace, bossFaceState } = await import('/js/bossart.js');
+    return ['constructor', 'toString', 'grisk'].map(id => [bossPortraitFace(id), bossFaceState(id)]);
+  })).toEqual([[null, 'unrequested'], [null, 'unrequested'], [null, 'unrequested']]);
+  await page.evaluate(async () => { (await import('/js/bossart.js')).bossPortraitFace('warlord'); });
+  await expect.poll(() => page.evaluate(async () => (await import('/js/bossart.js')).bossFaceState('warlord'))).toBe('failed');
+  expect(await barPixels(page, 'warlord')).toEqual(await barPixels(page, null));
+  await page.evaluate(async () => { (await import('/js/bossart.js')).bossPortraitFace('heartforged'); });
+  await expect.poll(() => page.evaluate(async () => (await import('/js/bossart.js')).bossFaceState('heartforged'))).toBe('ready');
+  expect((await barPixels(page, 'heartforged')).calls).toHaveLength(1);
+  expect(errors).toEqual([]);
+});
+
 for (const [id, name] of Object.entries(bosses)) test(`${name}: its introduction pauses play, unlocks the portrait and happens once`, async ({ page }, testInfo) => {
   const errors = watchForErrors(page);
   await prepare(page); await startGame(page, { seed: 'boss-portrait-' + id });
@@ -81,6 +160,9 @@ test('unmet keepers keep their portraits hidden; met portraits survive offline r
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
   await context.setOffline(true); await page.reload(); await page.click('#btn-beasts');
   for (const id of Object.keys(bosses)) {
+    await page.evaluate(async id => { (await import('/js/bossart.js')).bossPortraitFace(id); }, id);
+    await expect.poll(() => page.evaluate(async id => (await import('/js/bossart.js')).bossFaceState(id), id)).toBe('ready');
+    expect((await barPixels(page, id)).calls).toHaveLength(1);
     const face = page.locator(`[data-beast="${id}"] .boss-portrait`);
     await expect.poll(() => face.evaluate(e => e.complete && e.naturalWidth === 512)).toBe(true);
     await face.click(); await expect(face).toHaveAttribute('aria-pressed', 'true');

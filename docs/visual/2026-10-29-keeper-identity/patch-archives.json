@@ -1,0 +1,25 @@
+{
+  "scope": "Exact original patch bytes, losslessly compressed; unified-diff blank context lines are preserved.",
+  "patches": [
+    {
+      "archive": "presentation.patch.gz",
+      "uncompressed_sha256": "51647dafcc920cc613222b249ec3f044d349b31d1e856c835e5f8150ac4a7b43",
+      "archive_sha256": "0fede41f1aaf1ae67a86d84bff01c9dd4403b6f3c590454c7ce54b9669d03cd1"
+    },
+    {
+      "archive": "rejected-wide.patch.gz",
+      "uncompressed_sha256": "5a657e4cb96950b128e6c58a6fc9ecb77fd7bb7ec960ff1e9e973b611e774656",
+      "archive_sha256": "78ffcccc3ffde81cbf95e2e93820cd262ac959712f27e5823d13e041bbcb636a"
+    },
+    {
+      "archive": "rejected-wide-tests.patch.gz",
+      "uncompressed_sha256": "ac7f575215e920468d2f218973463f2ca7b51250e8c05ebf0863165413ad050b",
+      "archive_sha256": "6a2ee92028b026b7d01ba8cde08b932a1309e548b2c44517f62241fe9db22429"
+    },
+    {
+      "archive": "rejected-narrow.patch.gz",
+      "uncompressed_sha256": "38762c6ef5dbadbcaa99b9ff1badb418ad5a430b0192f6f911f4149cf4870b9a",
+      "archive_sha256": "33ed5adb8b6ce32b392e063b3c823206d584c8de31060ea5ec383c329351b33a"
+    }
+  ]
+}

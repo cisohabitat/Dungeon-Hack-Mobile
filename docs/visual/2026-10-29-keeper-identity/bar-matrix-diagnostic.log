@@ -1,0 +1,4 @@
+page.evaluate: Error: Unexpected bar pixel difference {"H":160,"now":0,"b":{"portrait":"warlord","name":"Goblin Warlord, on his throne","hp":25,"maxHp":100,"phase":2,"rite":true,"riteDone":0.4},"header":2229,"outside":2,"bad":[{"x":6,"y":8},{"x":6,"y":9}]}
+    at eval (eval at evaluate (:302:30), <anonymous>:9:235)
+    at async <anonymous>:328:30
+    at /workspace/aaa3b-audit/bar-matrix.cjs:6:25

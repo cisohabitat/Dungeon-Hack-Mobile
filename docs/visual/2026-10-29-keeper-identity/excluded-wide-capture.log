@@ -1,0 +1,7 @@
+lich 320 captured
+warlord 320 captured
+page.waitForFunction: Timeout 60000ms exceeded.
+    at artReady (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:183:14)
+    at /workspace/aaa3b-audit/approaches.cjs:19:9 {
+  name: 'TimeoutError'
+}

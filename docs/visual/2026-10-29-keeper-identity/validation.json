@@ -1,0 +1,149 @@
+{
+  "baseline_commit": "d7654bc88464e56a6f982737d36fb887ebf8d0ff",
+  "candidate_metadata": {
+    "version": "0.9.58",
+    "build": 73,
+    "cache": "deepdelve-v133"
+  },
+  "current_candidate": "PRESENTATION-ONLY keeper face badge in known active keeper health bar. Generation/test staging code reverted to baseline; no game-rule/generation changes will ship. Four runtimefilesbossart.js/overlay.js/motion.js/game.js(annotation), plus5@mobile browsercases/namedguardassert. Headerimagepaint20x20source200pxfacecrop, on-demandMap3max, independentfallbackoldbar, no unseen/namedportraits.",
+  "final_source_hashes": {
+    "js/bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+    "js/overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+    "js/motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+    "js/game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "test/browser/boss-portraits.spec.js": "ac2d1670f017f9665fb856304c69e346e81db3fe709605c99ea76177925773a8",
+    "test/browser/named.spec.js": "82c26573f6af855a15c41a54e1fdeb6abea9699a043ec9a988295bd46fda85ab",
+    "js/release.js": "99714a275fa208285c156ef39e2e5c97700c5e56cb2ccda59630cf0b988058c3",
+    "sw.js": "26dafaa679550e72f303f933db65817b5f81c6adf6829a85eb8b8f9446612997",
+    "package.json": "1a364e0b4a56a949d585619e1166bf998a4ffee24d06834b231052d66bdfd190",
+    "package-lock.json": "ac10741b247d749bf436baf90757688b07b1d4983774d10b7f91df369b4e53dc"
+  },
+  "expected_counts": {
+    "phone": 638,
+    "small": 353,
+    "safari": 224,
+    "perf": 1,
+    "chromium": 991,
+    "regular": 985,
+    "serial": 6
+  },
+  "performance": {
+    "passed": true,
+    "stats": {
+      "startTime": "2026-10-29T12:18:37.559Z",
+      "duration": 59377.368,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "scenes": {
+      "fight": 46.6,
+      "wide": 40.4,
+      "flooded": 41.4,
+      "painted": 36.9,
+      "amber": 47.7,
+      "scroll": 32.7,
+      "rite": 50.5
+    },
+    "startup_ms": 2133
+  },
+  "focused_final": {
+    "stats": {
+      "startTime": "2026-10-29T11:57:24.430Z",
+      "duration": 185077.915,
+      "expected": 10,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "note": "5mobilecases x2projects=10passes0retry; unknown-id extraassert introducedwhilephoneworkerhadoldtestloaded, smallworkercovered; finalfullsource coversboth. Offline enhancementaddedafterfocus; fullsource hashcurrent."
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "duration": "2m15s",
+    "note": "npmtest startedbeforeversionmetadata bump; finalpresentationJS matches, freshcommittedreleasechecksandexactcommithook stillrequired."
+  },
+  "matrix": {
+    "views": 126,
+    "outside_changes": 0,
+    "named_or_empty_entirely_unchanged": 18,
+    "mask": "x6..201,y0..26 includesoriginalx6textoutline; initialdiagnosticmaskx7 omitted2oldoutlinepixels, logsretained."
+  },
+  "controls": {
+    "completed_batches": 252,
+    "simulations": 1008,
+    "matched_runs_per_variant": 504,
+    "matched_fingerprints": 504,
+    "differences": [],
+    "errors": 0,
+    "timeouts": 0,
+    "scope": "Exact regression controls of final presentation source on frozen v0.9.57 metadata; not a new win-rate estimate."
+  },
+  "native_final": {
+    "cases": 9,
+    "frames": 81,
+    "forward_inputs": 72,
+    "sizes": [
+      "320Normal",
+      "740Normal",
+      "320DoubleCalm"
+    ],
+    "all3keepers": true,
+    "face_ready_in_all_last_frames": true,
+    "offline_heartforged": true,
+    "new_open_issue": "320DoubleCalm Heartforged multithreat condition/logcrowding, addedAAA4ROADMAP; badgestaysinreservedheader."
+  },
+  "pilots": {
+    "complete": true,
+    "actual_simulations": 4032,
+    "wide_pairs": 1344,
+    "narrow_pairs": 1344,
+    "shared_baseline": true,
+    "errors": 0,
+    "timeouts": 0,
+    "wide_outcome_flips": 89,
+    "narrow_outcome_flips": 7,
+    "decision": "Neitherprototype ships. Dungeongen andtests restoredHEAD. Allrawdata archiveddocs/rejected-*runs.json.gz, sourcepatchesretained. No final400runcandidatebenchmark needed/claimed becausepresentationonlysource outcomecontrols exact."
+  },
+  "full_chromium": {
+    "session": 92488,
+    "label": "aaa3b-full-ordinary",
+    "log": "/workspace/aaa3b-audit/full-ordinary.log",
+    "expected_regular": 985,
+    "expected_serial": 6,
+    "expected_total": 991,
+    "status": "passed991distinct",
+    "ordinary": {
+      "startTime": "2026-10-29T12:20:56.129Z",
+      "duration": 4208880.139,
+      "expected": 985,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "offline": {
+      "startTime": "2026-10-29T13:31:45.925Z",
+      "duration": 186115.80299999999,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "approved_art_sha256": {
+    "img/bosses/lich.webp": "6a74c84bbf7b207d0913d356a840063091d255112758ba91bc0ab6a9495ec796",
+    "img/bosses/warlord.webp": "e76f59e7157d7fbc54dbdfb7e4972c4cd2a87647a64e3abfc2a6eb90fda2c512",
+    "img/bosses/heartforged.webp": "ff96776381e33397cb56df42c7c89ad36f2748cf082122788b7a503f923dfeaf"
+  },
+  "source_changes": "4presentationfiles:bossartloader,overlayface,motionportraitmetadata,gameJSDoconly. No source-art or rule/generation change.",
+  "publication_gate": "All10requiredCIjobs pluspublisher must succeed on committedsource. Freshcommittedreleaseidentity6cases+exactcommitprepushnpmtest remainrequired.",
+  "setup_records": {
+    "initial_focused": "stale /tmp configpath:0tests; correctedpersistentconfig; original logretained",
+    "initial_release_prepare": "helper requiredstagingintendedchanges; correctedbeforefinalfullbrowser/performance releasechecks; no versionreset",
+    "initial_matrix": "originaltextoutline2pixelsatx6 felloutsidefirstnewmask; correctedmeasuredheaderbounds; oldfailurelogsretained",
+    "wide_capture": "incompleteartReady timeout underconcurrentbench workload; excludedfromreleaseproof; original logretained"
+  }
+}

@@ -88,7 +88,7 @@ const Game = (() => {
                deadAt: -1,
                /** @type {any} */ status: null,
                /** when the hero last came onto a floor, and last rose a level, for the view */ arriveAt: -1e9, levelAt: -1e9,
-               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number, named?: boolean, notches?: number[]}|null} */ boss: null,
+               /** @type {{name: string, hp: number, maxHp: number, phase: number, rite: boolean, riteDone: number, named?: boolean, notches?: number[], portrait?: string}|null} */ boss: null,
                /** @type {any} */ view: null };
   /** Forget the look of the last fight: a new run or a loaded save starts clean. */
   function clearFx() {

@@ -1,0 +1,3766 @@
+{
+  "scope": "Selected unchanged native screenshot/frame records. Supplied legal starting poses, testing HP and matching door keys. Running updates and actual forward inputs; independent walkthroughs, not matched pixels or unassisted play. Additional original frames remain indexed outside Git.",
+  "raw_path": "/workspace/aaa3b-audit/face-native/evidence.json",
+  "raw_sha256": "d0d465f1d69aa7a3e9044d10535a8b715e5b60e13a2c41048364408ce0ef3af7",
+  "complete_cases": 9,
+  "complete_frames": 81,
+  "complete_forward_inputs": 72,
+  "records": [
+    {
+      "id": "lich",
+      "levels": 8,
+      "route": "crypts",
+      "width": 320,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "lich",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "lich-320-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "A dreadful presence waits somewhere on this floor.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "lich-320-5.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 145.9375,
+              "bottom": 187,
+              "dist": 5,
+              "texel": 0.1875
+            },
+            {
+              "top": 145.40622545336498,
+              "bottom": 192,
+              "dist": 4,
+              "texel": 0.2565728971489438
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 28,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 26,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Dread Lich added.",
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "lich-320-8.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 114.34375,
+              "bottom": 217,
+              "dist": 2,
+              "texel": 0.46875
+            },
+            {
+              "top": 105.01554736885824,
+              "bottom": 267,
+              "dist": 1,
+              "texel": 0.9817239553402531
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 11,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll misses you."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "warlord",
+      "levels": 8,
+      "route": "warrens",
+      "width": 320,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "warlord",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "warlord-320-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart's own hall.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "warlord-320-5.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 143.29804075023068,
+              "bottom": 185.89312977099237,
+              "dist": 5.292929292929294,
+              "texel": 0.2014441222883995
+            },
+            {
+              "top": 144.3428198271254,
+              "bottom": 192,
+              "dist": 4,
+              "texel": 0.26128914120009783
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 26,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Goblin Warlord added.",
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "warlord-320-8.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 118.99198158213977,
+              "bottom": 217,
+              "dist": 2,
+              "texel": 0.49750263156274227
+            },
+            {
+              "top": 96.04502095182156,
+              "bottom": 267,
+              "dist": 1,
+              "texel": 1.0360907821101724
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 28,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 3,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll hits you for 12."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "heartforged",
+      "levels": 12,
+      "route": "crypts",
+      "width": 320,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 22,
+          "y": 2,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 20,
+          "y": 5,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 12002,
+            "id": "basilisk",
+            "x": 28,
+            "y": 6
+          },
+          {
+            "uid": 12003,
+            "id": "wraith",
+            "x": 28,
+            "y": 12
+          },
+          {
+            "uid": 12004,
+            "id": "hound",
+            "x": 26,
+            "y": 10
+          },
+          {
+            "uid": 12005,
+            "id": "hound",
+            "x": 31,
+            "y": 7
+          },
+          {
+            "uid": 12006,
+            "id": "basilisk",
+            "x": 30,
+            "y": 5
+          },
+          {
+            "uid": 12007,
+            "id": "ogre",
+            "x": 22,
+            "y": 18
+          },
+          {
+            "uid": 12008,
+            "id": "ogre",
+            "x": 29,
+            "y": 19
+          },
+          {
+            "uid": 12009,
+            "id": "wyrm",
+            "x": 32,
+            "y": 6
+          },
+          {
+            "uid": 12010,
+            "id": "hound",
+            "x": 18,
+            "y": 5
+          },
+          {
+            "uid": 12011,
+            "id": "minotaur",
+            "x": 18,
+            "y": 2
+          },
+          {
+            "uid": 12012,
+            "id": "hound",
+            "x": 28,
+            "y": 31
+          },
+          {
+            "uid": 12013,
+            "id": "heartforged",
+            "x": 31,
+            "y": 5
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "heartforged-320-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 20,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 26,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 5,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 20,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 19,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 27,
+              "y": 31,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 4,
+              "awake": false
+            }
+          ],
+          "log": [
+            "The Rabid Blink Hound hits you from your right for 7.",
+            "The Rabid Blink Hound hits you from your right for 6.",
+            "The Minotaur hits you from behind for 11.",
+            "The Rabid Blink Hound misses you from your right."
+          ]
+        },
+        {
+          "file": "heartforged-320-5.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 156.11461258577629,
+              "bottom": 178.11111111111111,
+              "dist": 9,
+              "texel": 0.10943531604644198
+            },
+            {
+              "top": 160.348320853497,
+              "bottom": 179.5,
+              "dist": 8,
+              "texel": 0.08785173920414226
+            },
+            {
+              "top": 147.99069494158778,
+              "bottom": 179.5,
+              "dist": 8,
+              "texel": 0.13671875
+            },
+            {
+              "top": 163.01515675276661,
+              "bottom": 181.28571428571428,
+              "dist": 6.999999999999999,
+              "texel": 0.12957842221948698
+            },
+            {
+              "top": 161.97230942516748,
+              "bottom": 183.66666666666666,
+              "dist": 6,
+              "texel": 0.15386068965602265
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 27,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 20,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 20,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 23,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 22,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 26,
+              "y": 30,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 5,
+              "awake": true
+            }
+          ],
+          "log": [
+            "The Minotaur slams into you from behind for 27.",
+            "You are knocked off your feet!",
+            "You are still getting to your feet!",
+            "The Rabid Blink Hound flickers out of the air, and steps back into it at your side! Turn and face it!"
+          ]
+        },
+        {
+          "file": "heartforged-320-8.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 25,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 152.79505410561717,
+              "bottom": 181.28571428571428,
+              "dist": 6.999999999999999,
+              "texel": 0.14174457801043336
+            },
+            {
+              "top": 158.67282374963887,
+              "bottom": 183.66666666666666,
+              "dist": 6,
+              "texel": 0.11465065558269631
+            },
+            {
+              "top": 161.9950208495767,
+              "bottom": 187,
+              "dist": 5,
+              "texel": 0.17860699393159493
+            },
+            {
+              "top": 161.8051813749402,
+              "bottom": 192,
+              "dist": 4,
+              "texel": 0.22040013594934169
+            },
+            {
+              "top": 122.65847792243721,
+              "bottom": 196.15233966213185,
+              "dist": 3.430256410256412,
+              "texel": 0.318853715054567
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 26,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 20,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 21,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 3,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 24,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 23,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 26,
+              "y": 30,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 28,
+              "y": 5,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You pick up the Garnet Ring.",
+            "The Minotaur swings at the air where you stood.",
+            "The Rabid Blink Hound snaps at the air where you stood.",
+            "Bestiary: Basilisk added."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "lich",
+      "levels": 8,
+      "route": "crypts",
+      "width": 740,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "lich",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "lich-740-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "A dreadful presence waits somewhere on this floor.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "lich-740-5.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 69.00699539564857,
+              "bottom": 102.16079632465544,
+              "dist": 6.595959595959595,
+              "texel": 0.14213246554364473
+            },
+            {
+              "top": 70.32814373647538,
+              "bottom": 112,
+              "dist": 4,
+              "texel": 0.2525567046274219
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 27,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Dread Lich added.",
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "lich-740-8.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 51.89583333333334,
+              "bottom": 120.33333333333334,
+              "dist": 3,
+              "texel": 0.3125
+            },
+            {
+              "top": 22.859357388208252,
+              "bottom": 172,
+              "dist": 1,
+              "texel": 0.9038826824957076
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 3,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 26,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll hits you for 12."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "warlord",
+      "levels": 8,
+      "route": "warrens",
+      "width": 740,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "warlord",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "warlord-740-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart's own hall.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "warlord-740-5.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 67.18430370803293,
+              "bottom": 102.72227163003431,
+              "dist": 6.360404040404038,
+              "texel": 0.1660650929943587
+            },
+            {
+              "top": 70.26152014844595,
+              "bottom": 112,
+              "dist": 4,
+              "texel": 0.25296048394881243
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 25,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 27,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Goblin Warlord added.",
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "warlord-740-8.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 45.51368410526685,
+              "bottom": 123.1736334405145,
+              "dist": 2.764444444444443,
+              "texel": 0.3693784771131105
+            },
+            {
+              "top": 23.080787807591733,
+              "bottom": 172,
+              "dist": 1,
+              "texel": 0.9025406799539895
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 25,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 17,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll hits you for 12."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "heartforged",
+      "levels": 12,
+      "route": "crypts",
+      "width": 740,
+      "big": false,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 22,
+          "y": 2,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 20,
+          "y": 5,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 12002,
+            "id": "basilisk",
+            "x": 28,
+            "y": 6
+          },
+          {
+            "uid": 12003,
+            "id": "wraith",
+            "x": 28,
+            "y": 12
+          },
+          {
+            "uid": 12004,
+            "id": "hound",
+            "x": 26,
+            "y": 10
+          },
+          {
+            "uid": 12005,
+            "id": "hound",
+            "x": 31,
+            "y": 7
+          },
+          {
+            "uid": 12006,
+            "id": "basilisk",
+            "x": 30,
+            "y": 5
+          },
+          {
+            "uid": 12007,
+            "id": "ogre",
+            "x": 22,
+            "y": 18
+          },
+          {
+            "uid": 12008,
+            "id": "ogre",
+            "x": 29,
+            "y": 19
+          },
+          {
+            "uid": 12009,
+            "id": "wyrm",
+            "x": 32,
+            "y": 6
+          },
+          {
+            "uid": 12010,
+            "id": "hound",
+            "x": 18,
+            "y": 5
+          },
+          {
+            "uid": 12011,
+            "id": "minotaur",
+            "x": 18,
+            "y": 2
+          },
+          {
+            "uid": 12012,
+            "id": "hound",
+            "x": 28,
+            "y": 31
+          },
+          {
+            "uid": 12013,
+            "id": "heartforged",
+            "x": 31,
+            "y": 5
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "heartforged-740-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 20,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 26,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 20,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 19,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 27,
+              "y": 31,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 4,
+              "awake": false
+            }
+          ],
+          "log": [
+            "The Rabid Blink Hound hits you from your right for 5.",
+            "The Rabid Blink Hound hits you from your right for 7.",
+            "The Rabid Blink Hound hits you from your right for 6.",
+            "The Minotaur hits you from behind for 11."
+          ]
+        },
+        {
+          "file": "heartforged-740-5.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 24,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 74.30322377592003,
+              "bottom": 99.5,
+              "dist": 8,
+              "texel": 0.12535709564218891
+            },
+            {
+              "top": 67.69196428571429,
+              "bottom": 101.28571428571429,
+              "dist": 6.999999999999999,
+              "texel": 0.15625000000000003
+            },
+            {
+              "top": 81.76734711147067,
+              "bottom": 103.66666666666667,
+              "dist": 6,
+              "texel": 0.15531432308649645
+            },
+            {
+              "top": 80.66088958047274,
+              "bottom": 107,
+              "dist": 5,
+              "texel": 0.18680220155693092
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 27,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 8,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 5,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 20,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 23,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 21,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 27,
+              "y": 31,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 4,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You pick up the Garnet Ring.",
+            "The Rabid Blink Hound swings at the air where you stood.",
+            "Bestiary: Heartforged added.",
+            "Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in the fire inside it. It says nothing at all."
+          ]
+        },
+        {
+          "file": "heartforged-740-8.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 27,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 60.57555330604845,
+              "bottom": 100,
+              "dist": 5,
+              "texel": 0.19614152584055497
+            },
+            {
+              "top": 46.2109375,
+              "bottom": 105,
+              "dist": 4,
+              "texel": 0.2734375
+            },
+            {
+              "top": 66.21004851498489,
+              "bottom": 112.62963084912089,
+              "dist": 3.064699090909091,
+              "texel": 0.3033959629682091,
+              "markX": 192,
+              "markY": 88,
+              "markSize": 30,
+              "midX": 160,
+              "width": 81.02086388113516
+            },
+            {
+              "top": 62.028514328924835,
+              "bottom": 129.63157578899546,
+              "dist": 2.0148463636363623,
+              "texel": 0.4418500749024224,
+              "markX": 207,
+              "markY": 88,
+              "markSize": 30,
+              "midX": 160,
+              "width": 117.21425394045583
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 29,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 12,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 28,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 8,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 20,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 25,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 24,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 27,
+              "y": 31,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 5,
+              "awake": true
+            }
+          ],
+          "log": [
+            "The Basilisk rears its head, and its eyes begin to blaze! Look away!",
+            "Bestiary: Basilisk, you learned its trick.",
+            "The Basilisk rears its head, and its eyes begin to blaze! Look away!",
+            "The Rabid Blink Hound snaps at the air where you stood."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "lich",
+      "levels": 8,
+      "route": "crypts",
+      "width": 320,
+      "big": true,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "lich",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "lich-320-double-calm-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "A dreadful presence waits somewhere on this floor.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "lich-320-double-calm-5.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 57.981051381305306,
+              "bottom": 98.77346683354193,
+              "dist": 5.326666666666668,
+              "texel": 0.17600125156445554
+            },
+            {
+              "top": 57.938489591095916,
+              "bottom": 105,
+              "dist": 4,
+              "texel": 0.2587518197296249
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 26,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Dread Lich added.",
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "lich-320-double-calm-8.png",
+          "bar": {
+            "portrait": "lich",
+            "name": "Dread Lich",
+            "hp": 194,
+            "maxHp": 194,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 30.000000000000007,
+              "bottom": 130,
+              "dist": 2,
+              "texel": 0.45662100456621
+            },
+            {
+              "top": 22.99378999152202,
+              "bottom": 158,
+              "dist": 1,
+              "texel": 0.8182194545968362
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 3,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "lich",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A cold voice fills the hall: \"Another thief, come for my Heart. Stay, then. Stay for ever.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll hits you for 12."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "warlord",
+      "levels": 8,
+      "route": "warrens",
+      "width": 320,
+      "big": true,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 19,
+          "y": 25,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 17,
+          "y": 28,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 8001,
+            "id": "rustmaw",
+            "x": 23,
+            "y": 15
+          },
+          {
+            "uid": 8002,
+            "id": "troll",
+            "x": 25,
+            "y": 28
+          },
+          {
+            "uid": 8004,
+            "id": "hound",
+            "x": 22,
+            "y": 15
+          },
+          {
+            "uid": 8005,
+            "id": "ghoul",
+            "x": 9,
+            "y": 24
+          },
+          {
+            "uid": 8006,
+            "id": "basilisk",
+            "x": 11,
+            "y": 29
+          },
+          {
+            "uid": 8007,
+            "id": "ogre",
+            "x": 17,
+            "y": 2
+          },
+          {
+            "uid": 8008,
+            "id": "basilisk",
+            "x": 21,
+            "y": 12
+          },
+          {
+            "uid": 8009,
+            "id": "minotaur",
+            "x": 12,
+            "y": 23
+          },
+          {
+            "uid": 8010,
+            "id": "warlord",
+            "x": 28,
+            "y": 28
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "warlord-320-double-calm-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 17,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": false
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 23,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 28,
+              "y": 28,
+              "awake": false
+            }
+          ],
+          "log": [
+            "(Testing) You are carried down to floor 8.",
+            "You descend to floor 8. Black glass walls hum with a terrible power.",
+            "Somewhere ahead a war-drum booms, slow and heavy. The Warlord of the Warrens has taken the Heart's own hall.",
+            "Game loaded."
+          ]
+        },
+        {
+          "file": "warlord-320-double-calm-5.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 21,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 60.19880606646008,
+              "bottom": 95.72227163003431,
+              "dist": 6.360404040404038,
+              "texel": 0.16599329914075897
+            },
+            {
+              "top": 63.283131573102665,
+              "bottom": 105,
+              "dist": 4,
+              "texel": 0.2528295056175596
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 25,
+              "y": 27,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 2,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 22,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 27,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You unlock the door with the brass key.",
+            "Bestiary: Goblin Warlord added.",
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added."
+          ]
+        },
+        {
+          "file": "warlord-320-double-calm-8.png",
+          "bar": {
+            "portrait": "warlord",
+            "name": "Goblin Warlord",
+            "hp": 156,
+            "maxHp": 156,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 23,
+            "y": 28,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 41.882767520267194,
+              "bottom": 114.49477351916374,
+              "dist": 2.8989898989899,
+              "texel": 0.3537567799668072
+            },
+            {
+              "top": 21.129191909205957,
+              "bottom": 158,
+              "dist": 1,
+              "texel": 0.8295200490351154
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 8001,
+              "id": "rustmaw",
+              "x": 23,
+              "y": 16,
+              "awake": false
+            },
+            {
+              "uid": 8002,
+              "id": "troll",
+              "x": 24,
+              "y": 28,
+              "awake": true
+            },
+            {
+              "uid": 8004,
+              "id": "hound",
+              "x": 22,
+              "y": 15,
+              "awake": false
+            },
+            {
+              "uid": 8005,
+              "id": "ghoul",
+              "x": 9,
+              "y": 24,
+              "awake": false
+            },
+            {
+              "uid": 8006,
+              "id": "basilisk",
+              "x": 12,
+              "y": 29,
+              "awake": false
+            },
+            {
+              "uid": 8007,
+              "id": "ogre",
+              "x": 18,
+              "y": 3,
+              "awake": false
+            },
+            {
+              "uid": 8008,
+              "id": "basilisk",
+              "x": 21,
+              "y": 14,
+              "awake": false
+            },
+            {
+              "uid": 8009,
+              "id": "minotaur",
+              "x": 12,
+              "y": 22,
+              "awake": false
+            },
+            {
+              "uid": 8010,
+              "id": "warlord",
+              "x": 25,
+              "y": 28,
+              "awake": true
+            }
+          ],
+          "log": [
+            "A great goblin in a crown of hammered gold heaves himself up from a heap of plunder, the Heart glowing among it. \"Grisk was my sister's boy. You will make me a fine footstool.\"",
+            "Bestiary: Troll added.",
+            "The Troll blocks your way.",
+            "The Troll hits you for 12."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    },
+    {
+      "id": "heartforged",
+      "levels": 12,
+      "route": "crypts",
+      "width": 320,
+      "big": true,
+      "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "setup": {
+        "room": {
+          "x": 22,
+          "y": 2,
+          "w": 11,
+          "h": 7,
+          "shape": "sanctum"
+        },
+        "entry": {
+          "x": 20,
+          "y": 5,
+          "dir": 1
+        },
+        "monsters": [
+          {
+            "uid": 12002,
+            "id": "basilisk",
+            "x": 28,
+            "y": 6
+          },
+          {
+            "uid": 12003,
+            "id": "wraith",
+            "x": 28,
+            "y": 12
+          },
+          {
+            "uid": 12004,
+            "id": "hound",
+            "x": 26,
+            "y": 10
+          },
+          {
+            "uid": 12005,
+            "id": "hound",
+            "x": 31,
+            "y": 7
+          },
+          {
+            "uid": 12006,
+            "id": "basilisk",
+            "x": 30,
+            "y": 5
+          },
+          {
+            "uid": 12007,
+            "id": "ogre",
+            "x": 22,
+            "y": 18
+          },
+          {
+            "uid": 12008,
+            "id": "ogre",
+            "x": 29,
+            "y": 19
+          },
+          {
+            "uid": 12009,
+            "id": "wyrm",
+            "x": 32,
+            "y": 6
+          },
+          {
+            "uid": 12010,
+            "id": "hound",
+            "x": 18,
+            "y": 5
+          },
+          {
+            "uid": 12011,
+            "id": "minotaur",
+            "x": 18,
+            "y": 2
+          },
+          {
+            "uid": 12012,
+            "id": "hound",
+            "x": 28,
+            "y": 31
+          },
+          {
+            "uid": 12013,
+            "id": "heartforged",
+            "x": 31,
+            "y": 5
+          }
+        ]
+      },
+      "frames": [
+        {
+          "file": "heartforged-320-double-calm-0.png",
+          "bar": null,
+          "faceState": "unrequested",
+          "position": {
+            "x": 20,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 28,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 26,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 30,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 22,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 20,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 19,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 27,
+              "y": 32,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 31,
+              "y": 5,
+              "awake": false
+            }
+          ],
+          "log": [
+            "The Rabid Blink Hound misses you from your right.",
+            "The Minotaur smashes a door to splinters!",
+            "The Rabid Blink Hound hits you from your right for 5.",
+            "The Rabid Blink Hound hits you from your right for 7."
+          ]
+        },
+        {
+          "file": "heartforged-320-double-calm-5.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 24,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 65.0533565867402,
+              "bottom": 92.5,
+              "dist": 8,
+              "texel": 0.12839546135608296
+            },
+            {
+              "top": 71.61170075349699,
+              "bottom": 94.28571428571429,
+              "dist": 6.999999999999999,
+              "texel": 0.10400923638631795
+            },
+            {
+              "top": 75.5427974384681,
+              "bottom": 94.28571428571429,
+              "dist": 6.999999999999999,
+              "texel": 0.1329284882783418
+            },
+            {
+              "top": 52.09567783295973,
+              "bottom": 98.31960667647888,
+              "dist": 5.458632478632477,
+              "texel": 0.20037069802398774
+            },
+            {
+              "top": 74.28940297740954,
+              "bottom": 105,
+              "dist": 4,
+              "texel": 0.22416494177073326
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 28,
+              "y": 6,
+              "awake": true
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 27,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 31,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 20,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 19,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 5,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 20,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 23,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 28,
+              "y": 32,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 29,
+              "y": 5,
+              "awake": true
+            }
+          ],
+          "log": [
+            "You pick up the Garnet Ring.",
+            "Bestiary: Basilisk added.",
+            "The Minotaur slams into you from behind for 19.",
+            "You are knocked off your feet!"
+          ]
+        },
+        {
+          "file": "heartforged-320-double-calm-8.png",
+          "bar": {
+            "portrait": "heartforged",
+            "name": "Heartforged",
+            "hp": 176,
+            "maxHp": 176,
+            "phase": 0,
+            "rite": false,
+            "riteDone": 0
+          },
+          "faceState": "ready",
+          "position": {
+            "x": 25,
+            "y": 5,
+            "dir": 1
+          },
+          "status": "playing",
+          "shown": [
+            {
+              "top": 64.2491083605239,
+              "bottom": 94.28571428571429,
+              "dist": 6.999999999999999,
+              "texel": 0.14047885589627507
+            },
+            {
+              "top": 71.24137519592905,
+              "bottom": 96.66666666666667,
+              "dist": 6,
+              "texel": 0.11662977738870464
+            },
+            {
+              "top": 75.46302914479104,
+              "bottom": 96.66666666666667,
+              "dist": 6,
+              "texel": 0.15038040795656477
+            },
+            {
+              "top": 36.64611088989197,
+              "bottom": 108.44362328001165,
+              "dist": 3.515726495726497,
+              "texel": 0.31110212962512745
+            },
+            {
+              "top": 57.81539820013555,
+              "bottom": 128.91062694530905,
+              "dist": 2.044545454545453,
+              "texel": 0.46467469768087255,
+              "markX": 207,
+              "markY": 129,
+              "markSize": 30,
+              "midX": 160,
+              "width": 116.77997573553226
+            }
+          ],
+          "monsters": [
+            {
+              "uid": 12002,
+              "id": "basilisk",
+              "x": 27,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12003,
+              "id": "wraith",
+              "x": 28,
+              "y": 13,
+              "awake": false
+            },
+            {
+              "uid": 12004,
+              "id": "hound",
+              "x": 25,
+              "y": 10,
+              "awake": false
+            },
+            {
+              "uid": 12005,
+              "id": "hound",
+              "x": 31,
+              "y": 7,
+              "awake": false
+            },
+            {
+              "uid": 12006,
+              "id": "basilisk",
+              "x": 31,
+              "y": 4,
+              "awake": false
+            },
+            {
+              "uid": 12007,
+              "id": "ogre",
+              "x": 21,
+              "y": 20,
+              "awake": false
+            },
+            {
+              "uid": 12008,
+              "id": "ogre",
+              "x": 29,
+              "y": 18,
+              "awake": false
+            },
+            {
+              "uid": 12009,
+              "id": "wyrm",
+              "x": 32,
+              "y": 6,
+              "awake": false
+            },
+            {
+              "uid": 12010,
+              "id": "hound",
+              "x": 24,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12011,
+              "id": "minotaur",
+              "x": 23,
+              "y": 5,
+              "awake": true
+            },
+            {
+              "uid": 12012,
+              "id": "hound",
+              "x": 28,
+              "y": 32,
+              "awake": false
+            },
+            {
+              "uid": 12013,
+              "id": "heartforged",
+              "x": 28,
+              "y": 5,
+              "awake": true
+            }
+          ],
+          "log": [
+            "The Basilisk rears its head, and its eyes begin to blaze! Look away!",
+            "Bestiary: Basilisk, you learned its trick.",
+            "The Rabid Blink Hound flickers out of the air, and steps back into it at your back! Turn and face it!",
+            "The Minotaur swings at the air where you stood."
+          ]
+        }
+      ],
+      "presentationHashes": {
+        "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+        "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+        "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+        "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+      },
+      "scope": "Generated final floor, supplied legal pose two squares before hall, testing HP and supplied matching door keys, native forward inputs and running updates; shipped assets; not unassisted play or physical-device evidence."
+    }
+  ]
+}

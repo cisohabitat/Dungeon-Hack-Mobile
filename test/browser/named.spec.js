@@ -28,6 +28,7 @@ test.describe('named champions', () => {
     const bar = await page.evaluate(() => Game.renderState(performance.now()).fx.boss);
     expect(bar.name).toBe('Grisk, the Goblin King');
     expect(bar.named).toBe(true);
+    expect(bar.portrait).toBeUndefined();
     expect([bar.hp, bar.maxHp]).toEqual([30, 50]);
     await page.waitForTimeout(300);
     // drawn: a gold bar about three fifths full across the top of the view

@@ -1,0 +1,26 @@
+{
+  "actual_simulations": 4032,
+  "matched_pairs_per_variant": 1344,
+  "settings": "sevenclasses Normal+Hard bench+alt eightseeds/twotrials,8/12/16floors,independentworktrees,unchangedbot,FIT1; default Medium/normaldensity/treasure,lockeddoors/traps on",
+  "shared_baseline": true,
+  "batches": [
+    {
+      "variant": "baseline",
+      "batches": 84,
+      "runs": 1344,
+      "archive_sha256": "f7eacb3abed15d24ccb1e3d5b8f94e62c99c6fd06438f439f0ad403079d32ef3"
+    },
+    {
+      "variant": "candidate",
+      "batches": 84,
+      "runs": 1344,
+      "archive_sha256": "136b2937e668dcecc04b589f4306f8affa7d7f10a191a6a4460a1181ca801cff"
+    },
+    {
+      "variant": "narrow",
+      "batches": 84,
+      "runs": 1344,
+      "archive_sha256": "42faa683901cb6774309fafbe0cac217940b52382b4ae909fe0d220e7a94b5eb"
+    }
+  ]
+}

@@ -1,0 +1,1836 @@
+{
+  "scope": "Supplied bar-painter states, exact old/new overlay modules, approved images. Not a matched dungeon render or native action measurement.",
+  "views": 126,
+  "outsideChanges": 0,
+  "unchangedNamedOrEmpty": 18,
+  "canvasStatePreserved": true,
+  "records": [
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1902,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1161,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2240,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 0,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1902,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1161,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2240,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 270,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1902,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1161,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2240,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 160,
+      "now": 10000,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1900,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1158,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2238,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 0,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1900,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1158,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2238,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 270,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1900,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1158,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2231,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2238,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1941,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1208,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 224,
+      "now": 10000,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1899,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1157,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2223,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2236,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1939,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 0,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1899,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1157,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2223,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2236,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1939,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 270,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1159,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1224,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1899,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "lich",
+        "name": "Dread Lich",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1157,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2242,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2307,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2223,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "warlord",
+        "name": "Goblin Warlord, on his throne",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 2236,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 100,
+        "maxHp": 100,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 1,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1274,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 25,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": true,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1939,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 0,
+        "maxHp": 100,
+        "phase": 2,
+        "rite": false,
+        "riteDone": 0.4
+      },
+      "headerChanges": 1209,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": {
+        "name": "Grisk, the Goblin King",
+        "hp": 50,
+        "maxHp": 100,
+        "phase": 0,
+        "named": true,
+        "notches": [
+          0.5
+        ]
+      },
+      "headerChanges": 0,
+      "outsideChanges": 0
+    },
+    {
+      "H": 320,
+      "now": 10000,
+      "boss": null,
+      "headerChanges": 0,
+      "outsideChanges": 0
+    }
+  ]
+}

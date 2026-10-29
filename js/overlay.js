@@ -4,6 +4,7 @@
 // lifted at the end. Drawn on the view's canvas by renderer.js, which lends what it needs
 // through K: the size and the canvas are read live, since the view's height follows its box.
 import { Assets } from './assets.js';
+import { bossPortraitFace } from './bossart.js';
 
 /** @param {any} K */
 export function makeOverlay(K) {
@@ -18,8 +19,15 @@ export function makeOverlay(K) {
     // in its third act the torches are out: the hall goes dark round the edges
     if (b.phase >= 2) rim(4, 2, 10, 0.72, 0.12);
     // along the top left, clear of the minimap in the corner
-    const bx = 8, bw = Math.round(W * 0.6), by = 16, bh = 5;
+    const face = b.portrait ? bossPortraitFace(b.portrait) : null;
+    const bx = face ? 34 : 8, bw = Math.round(W * 0.6) - (face ? 26 : 0), by = 16, bh = 5;
     K.ctx.save();
+    if (face) {
+      K.ctx.fillStyle = '#140f16'; K.ctx.fillRect(7, 0, 22, 22);
+      K.ctx.imageSmoothingEnabled = true;
+      K.ctx.drawImage(face.img, face.x, face.y, face.size, face.size, 8, 1, 20, 20);
+      K.ctx.lineWidth = 1; K.ctx.strokeStyle = '#86724c'; K.ctx.strokeRect(7.5, 0.5, 21, 21);
+    }
     K.ctx.font = 'bold 9px monospace'; K.ctx.textAlign = 'left'; K.ctx.lineJoin = 'round';
     K.ctx.lineWidth = 3; K.ctx.strokeStyle = 'rgba(0,0,0,0.9)';
     const label = b.rite ? `${b.name.toUpperCase()}: THE RITE` : b.name.toUpperCase();

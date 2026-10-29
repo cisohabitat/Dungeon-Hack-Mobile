@@ -1,0 +1,388 @@
+{
+  "unmodified_external_originals": [
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-1.png",
+      "sha256": "a80a79b14478929c8fee1d827e7761c4c97e08422f3b66b6f829da4f7464fcbe"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-2.png",
+      "sha256": "b83fa30d9aa5d2e7cfa8799c0c596e47695b074a67679ca84173ee8d85389875"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-3.png",
+      "sha256": "be8889aedc5d8d6599dfa056ed7ae20087b94bc919dc3440e50eaca9a5915885"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-4.png",
+      "sha256": "970c17a28f632e1611c293ddf88a86a9a7d2cd80051f69c235ba1a7169b41270"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-6.png",
+      "sha256": "bd0f2f33bb858851245002772e2da322ad70616d9991c82261d09e09d2960682"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-320-7.png",
+      "sha256": "25d93c603060d858a7e5b082b6b03c5909187a76ef3b6456b742340ce09185e6"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-1.png",
+      "sha256": "40beff6c748c86724c5b17676686f630a529d026588a8d93da6def9e51414380"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-2.png",
+      "sha256": "85b42a6cace7fe3a9c4bebc31cc2f5963768b7e69a33213b3942605a6f1263d1"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-3.png",
+      "sha256": "e0fc793b3198deba3ff49763ae376f6fdbdab21b0ee5f7d940743563ff30d8d3"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-4.png",
+      "sha256": "fdb9c18d496c12315c5a0aa1a301036f32e1ec051a1963057eec9fc6365d4730"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-6.png",
+      "sha256": "05bf04c2e7fa2e670e4d3a0491a91ebabc30bed77b7ec19770cd3d102723dd18"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-320-7.png",
+      "sha256": "406cdeec1f44c3a368e365fd4f179f74e5e74da0f9bbe2a9a265a916cb4dce40"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-1.png",
+      "sha256": "ba02626ef3048bab83a045b35983f644cd54574fa28788c0657cf46a541411fe"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-2.png",
+      "sha256": "0528f7ede0e5a0c4fa071e1adcfe23ce29fa7799f537d7928a6e9d9e1c6d3ca7"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-3.png",
+      "sha256": "99fb1177c1030554f221f1eaf1ecf5c039fabc4218145c36170beb257896dde9"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-4.png",
+      "sha256": "89da6773ecdd13ef2170cd4584d549478d55238bea5fa0a68724768d6fbaf199"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-6.png",
+      "sha256": "eb53d7471f2f71b0b1c96fbbc6a77e7eedae15134660586e49dc00d751c95902"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-320-7.png",
+      "sha256": "f16d176f919aa3c45fa662dfe3d141bf8e7d615683571f8c4aaf710e2b6b8d1b"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-1.png",
+      "sha256": "40c3701fdaee1b3ef5ea090a7090afe5074d9622cf10a11933f874ed8d7e72dc"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-2.png",
+      "sha256": "d5040ea826955e585f7460a2dde9b185a0b44b2bde1d738c9f3a11292e59dd69"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-3.png",
+      "sha256": "81fc16de1b8449a57baa4935db2f9836fefb61d8ff095aa826ac61da9a1a3495"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-4.png",
+      "sha256": "7a9240ec2cc09ad1095897f7fe27f6623a5cdd52cae3772dc35ae2677bbb38eb"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-6.png",
+      "sha256": "0f77c87928d5598c8d67c3a92dd8d06382db5148e4e9b44cec331bfed2e62b47"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/lich-740-7.png",
+      "sha256": "2b5605a502b34d924d6fe133c6a1a7c3109cfea95aefe6aed13c3c1b1d6dcb2d"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-1.png",
+      "sha256": "fa9eb2c2f66414fbb8c0782a559e26dcc188eb8f1d909fd18e035a2a08c8a680"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-2.png",
+      "sha256": "658dc7bf3e7745b81f7b51b25acc9012ad71cb5092c13f648c4702a6e7975fc3"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-3.png",
+      "sha256": "bf9d83f7ddc6d02a3204d816877667141b513aded253332dda0ce1ca06cf3986"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-4.png",
+      "sha256": "6dadcd84b9ae7cf0d8af7b02d09f7e86934ace12c39dc49828bd8fd69e8ef3f0"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-6.png",
+      "sha256": "c316e346221a6d24a7a8b59c09c54f19fcb10513171a7e62be137e8a595f397d"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/warlord-740-7.png",
+      "sha256": "730feefd1774dd896d8f78276d85427387d9a3b6d1184a2cbbf0c8eb14ac4598"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-1.png",
+      "sha256": "1e59b1be0827d0bb81efe7f711c1a0343d410a5e1399e25469cbc4069c504d79"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-2.png",
+      "sha256": "e551a23a93683cf04a1d6444e07a3e058d60ee4c5f0344b00f2be98597d22850"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-3.png",
+      "sha256": "589f555f13a557e189ac5e2b671c2ab7d085476e3b8e9ca0fbdb7774599c5aa0"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-4.png",
+      "sha256": "aa13b7b3cb88e4f7fa57140ec1a0b7cdf75ba75e46a4247712243419ef2f9dcb"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-6.png",
+      "sha256": "c8d33d75f2a1344ba177a64dc3208bdee80a4bc7f19f151682eb63c4f8efd94d"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-7.png",
+      "sha256": "125b3bbeb11ee8bec2a9949c6a53245709e3591032274d088092bc8ad2c2533c"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-1.png",
+      "sha256": "e1402bdb464565c79dbc72da5fed3d7ba232b39d5c0e51863503bffb6370d5bf"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-2.png",
+      "sha256": "d8b4d453fac75874c676d095def8e9c3a2bf6ea80aa2e3ceb51fc464939e27d0"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-3.png",
+      "sha256": "fd4613aa762613bafa2618d514ab8def1c66bb7eef327018bd4b045cbda3c5b0"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-4.png",
+      "sha256": "1c4779c71d8130a71e0572f7f8c6d973854c994879a489c9a56a065fe696ec87"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-6.png",
+      "sha256": "eaa64bf46cca655a21b67a2b72391368bf56268c475a815376aef2d12459ec41"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-7.png",
+      "sha256": "5bc3adbcf895cb4f70fac4cfed7aa069b086dd8d80642d7b4611407e6d68ce67"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-1.png",
+      "sha256": "1f44bb7cfe47660242428f4a2ac7805100b3c87fcb6c74567857bb307a0cb7e6"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-2.png",
+      "sha256": "300fde72910441a6bffe5b3dacb23b47b6d253d33aac852925cb390902d75509"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-3.png",
+      "sha256": "975c8febdba2eebda773443bed3eeabe6bb8c8d780ae78d215355b5b2c86d53f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-4.png",
+      "sha256": "9ca90c07b9c02b48b80e37f802dd9bd2a3feea5e665d799f9834f6f54d69c7e6"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-6.png",
+      "sha256": "a0ae5e731b4d51dd2b7393e91ce4aaeb7c6096a10f72ab4798a16aef8a2f0fc1"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-7.png",
+      "sha256": "55613f45dbf53032090b15a8ae2011eda09c4ad7390df8bb0bcf2a9f62b7d91c"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-1.png",
+      "sha256": "21849e9526804b1cd8d917d9064570eb54efeee3abfcc6fe33763de4e8b44b18"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-2.png",
+      "sha256": "09ffa4c24be8a5b32f46d29cbcef3708896595b56c66200c2f07eca62dc59064"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-3.png",
+      "sha256": "a22fa8f081a87341c0fcefd67a354cc86e62f637a79bfee1f92817d26dc40e51"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-4.png",
+      "sha256": "131395b5fb6d7a8cf5d9e693d680b84efae7a66491f33895137ee90fb27d8547"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-6.png",
+      "sha256": "5fb6c2cf42b58669a2b5973b009c0c2ab6ac2be85f705c2fcf26807d8bff9778"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-7.png",
+      "sha256": "14ba7f58f57e23bd1d139be1376e054a6bb6fb62f156e761b4f381dca1426732"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-1.png",
+      "sha256": "a24583dc08b39d2ed54959e7fc48bcf4010dcbca5c4086dcbdd40078a2918e83"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-2.png",
+      "sha256": "743bc44b1890cead7fea26be3e7a7ac4a15f92afaaebfe9804519ff8fcc13116"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-3.png",
+      "sha256": "d470f618cfa2e4487d4255a53960d9d95dcc5b69fe78a84444afd0e9a334a842"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-4.png",
+      "sha256": "049144d60f9fd7b824d6a39dddbfdc05a12c885bb07f75bcd19487fb5404970c"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-6.png",
+      "sha256": "c6bce3f4bd1a75e473474ea924ede22f8b0c764c7893bc2f713d2969fd61052f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-7.png",
+      "sha256": "28c9adcaaf4774c2375118fd7c3c0223b72c36f83b583489eeaffe6f3f3d8b4f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-1.png",
+      "sha256": "762b3b17020c28e91e612c4b066e153361fdc9ec95109af76cdb6a5dfa914bfd"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-2.png",
+      "sha256": "b11f11fbf0f13139ac776bae212ee5f04d5ccdc3c62521f2a14d90e21c33a5fa"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-3.png",
+      "sha256": "0c09ac6bb5fa57abcb9078d9a8162bf4b3dfa0e3beb8eaa29b3ebf15eb006d5a"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-4.png",
+      "sha256": "eae6e3919b396dfdcc1c141c04790f61850d9a5576b611ce0ea1e57a51ae5bdc"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-6.png",
+      "sha256": "dd6e06abb94f81712cd365aae694e0d30f2c286a1db39b528c4612748aecd4af"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-740-7.png",
+      "sha256": "29584f700be53bdc9a8d1ed782d02cab266599e330d3a6c06562e29ad241138f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-1.png",
+      "sha256": "625c93c6eb29e8640c136f2f9dc9ef7541ba00eba8b3a7d4cabce49c203d404f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-2.png",
+      "sha256": "bec3481cb74b8b1c51bbe4cb990e382d1bcc80aa3346472c80cfbfba85480970"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-3.png",
+      "sha256": "8703b472c3c57456fd4edbaf17a5347f1e3dec0c4f5cbef7a64cab86df1aefb8"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-4.png",
+      "sha256": "9a138d9a65ecaa956d47c46d5c0eda6740d7cd1831acb513cda70ae1fb85e7e8"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-6.png",
+      "sha256": "2b236193a802414df31ffde0bf6796e0647bf703a57dac8521578a919257a66b"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-7.png",
+      "sha256": "c37f9f403ed307281c2ea142cda03f5dfba2f4eac5499a95a3d782af45a9c5c1"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-1.png",
+      "sha256": "4f90a2691b4200f6904de192d9d820ac79cc95553254842a00a2c4d6fa690439"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-2.png",
+      "sha256": "ad9867c1224fcd1f744d5b701faee73fe03bd95378e226e55598df13440d1ed4"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-3.png",
+      "sha256": "bfb354baa5e3a384004a1263f70546d10213b245b40887a60ae4d33fa0f60286"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-4.png",
+      "sha256": "6b39694ecded053dc3aa9b2375064db453cdb82bdf9ad000f11122d78e04ab68"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-6.png",
+      "sha256": "9cd9d88a1767d567ad9e1e59e59e1b10f40d97dc1e95282300e629a3806bdefd"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-7.png",
+      "sha256": "5c95475704b6e211f5149c1421f72c35b5a90a82f4029b376c59671955e502ea"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-1.png",
+      "sha256": "053c7d946718e5d02e02703db3f2e7cf199785ecb991a9fa73c75f536625e88a"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-2.png",
+      "sha256": "671b9d4cb109363bcc3b9a2e5149a10e2f6d37c23778fa1d2133feed3821129b"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-3.png",
+      "sha256": "7cd00ce1b900e6a6c4dd90b5a33be1d5915880f3c12565992e452b4095e4794f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-4.png",
+      "sha256": "d1a17d0046e9a7a06b06566f2dfdb383f8a56cd80eec1ac5e62aa0706d27204c"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-6.png",
+      "sha256": "cba625eb1eda6fa07471967be0691164ffc4a22d1a62b570d75a6b9da41e4e5e"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-double-calm-7.png",
+      "sha256": "978a8c9b8c5a2ed4bafe88c1236fd08de807f0d6bcfcc3538b38253479fa42e7"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-1.png",
+      "sha256": "82368c81bd53258625c2c4be34298b00b9319782a7e1f7c8b9074eb0aed2e156"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-2.png",
+      "sha256": "8254b0ce2b3b67f18c0b0d83823155848cef22fd3f1493f35e0e645076bd964b"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-3.png",
+      "sha256": "def1bf0ba61c8e90ba22b2213d15d704a7605f42f9b6da897e6a28a0881f017f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-4.png",
+      "sha256": "ae102491da949a57bdb65f4026441b0294f917c11b78e1e09487f86d8714b71f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-6.png",
+      "sha256": "6b3ce7535dfdc889e294726c58051a4e07e35a0605d713b5dc9f8ef46382e766"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-double-calm-7.png",
+      "sha256": "491f485596c7e35447653b7a50d193611b05ca97b8a0040c1fe9d0602f4600b6"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/before-final/heartforged-740-3-intro.png",
+      "sha256": "4f710d0da571d6c7e4de037c27359473081add850d781a3acd660e767f1ce451"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-740-5-intro.png",
+      "sha256": "bdb18938ccd2f7be09aaa85a28ac10f766c1c375d9e7e491dd8748e0c5e7f07d"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-320-double-calm-3-intro.png",
+      "sha256": "90546f0ff0c7760c84864436ebeb4ed787cfb79821ae122b8e69fb91a6197e2f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/lich-740-4-intro.png",
+      "sha256": "d7bc24304e1fac3c21df1a06e5d5af84ff2f448a6a14ca8f82de6b11b3475c1d"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/warlord-320-3-intro.png",
+      "sha256": "e564a2d9629fea178227d5b42c5e907fddf71d63ec3962d87a29edd6ee4d884f"
+    },
+    {
+      "file": "/workspace/aaa3b-audit/face-native/heartforged-320-4-intro.png",
+      "sha256": "e005ca3cfa4569b078af4ce3124f85c29fcc87a5a7b5c92ee0916b1552485c9d"
+    }
+  ]
+}

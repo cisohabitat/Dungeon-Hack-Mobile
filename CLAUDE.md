@@ -1548,3 +1548,16 @@ roof-only matched render states and native turn/walk captures. Crowded keeper
 approaches remain an AAA3 follow-up requiring balance evidence before changing
 guard placement or room layouts. These presentation checks are not balance,
 physical-device, listening or independent AAA certification.
+
+### Known keeper identity in the live bar
+`motion.js` adds the keeper's canonical `portrait` id only to the existing
+awake/spoken live boss bar. Named champions retain their text-only bars.
+`bossart.js` demand-loads each approved512px introduction painting independently;
+the small face uses fixed source coordinates without editing the source or
+creating per-frame canvases. Loading, failure, unexpected dimensions and unknown
+ids retain the complete original text bar. `overlay.js` keeps the bar's right
+edge/header height, health fraction, phase notches, rite progress and throne
+wording; its saved canvas state contains smoothing changes. Never reveal an
+unmet keeper, alter encounters or auto-stage guards on save load for this cue.
+The native approach audit and rejected layout pilots live in
+`docs/visual/2026-10-29-keeper-identity/`; those pilots are not balance clearance.

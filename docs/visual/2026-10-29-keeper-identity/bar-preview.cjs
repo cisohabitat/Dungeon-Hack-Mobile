@@ -1,0 +1,10 @@
+const fs=require('fs'),http=require('http');
+const path=require('path');const root=path.resolve(__dirname,'../../..');
+const {chromium}=require(root+'/node_modules/playwright'),{serve}=require(root+'/test/server');
+(async()=>{const server=http.createServer((req,res)=>{if(req.url==='/preview'){res.setHeader('Content-Type','text/html; charset=utf-8');res.end('<body style="margin:0;padding:20px;background:#131017;color:#d8c8a5;font:16px monospace"><p>Keeper identity — actual bar painter, supplied fitting states</p><main></main></body>');}else serve(req,res);});await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({executablePath:'/usr/bin/chromium',args:['--no-sandbox']});
+try{const page=await browser.newPage({viewport:{width:680,height:350}});await page.goto(`http://127.0.0.1:${server.address().port}/preview`);
+await page.evaluate(async()=>{const {bossPortraitFace}=await import('/js/bossart.js');for(const id of['lich','warlord','heartforged'])bossPortraitFace(id);});
+await page.waitForFunction(async()=>{const{bossFaceState}=await import('/js/bossart.js');return['lich','warlord','heartforged'].every(id=>bossFaceState(id)==='ready');});
+await page.evaluate(async()=>{const{makeOverlay}=await import('/js/overlay.js');for(const[id,name]of Object.entries({lich:'Dread Lich',warlord:'Goblin Warlord, on his throne',heartforged:'Heartforged'})){const c=document.createElement('canvas');c.width=320;c.height=36;c.style='display:block;width:640px;height:72px;margin-bottom:16px;background:#27232a;image-rendering:pixelated';document.querySelector('main').append(c);makeOverlay({W:320,H:224,ctx:c.getContext('2d')}).drawBossBar({portrait:id,name,hp:75,maxHp:100,phase:0,rite:false},10000);}});
+await page.screenshot({path:process.env.KEEPER_PREVIEW_OUT||path.join(__dirname,'bar-preview-reproduced.png')});console.log('Fitting preview captured.');
+}finally{await browser.close();server.closeAllConnections();await new Promise(r=>server.close(r));}})().catch(e=>{console.error(e);process.exitCode=1});

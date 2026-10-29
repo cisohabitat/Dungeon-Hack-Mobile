@@ -1,0 +1,8 @@
+Error: /tmp/ci-refactor.playwright.cjs does not exist
+    at resolveConfigFile (/workspace/Dungeon-Hack-Mobile/node_modules/playwright/lib/common/configLoader.js:321:11)
+    at resolveConfigLocation (/workspace/Dungeon-Hack-Mobile/node_modules/playwright/lib/common/configLoader.js:302:30)
+    at loadConfigFromFile (/workspace/Dungeon-Hack-Mobile/node_modules/playwright/lib/common/configLoader.js:331:27)
+    at runTests (/workspace/Dungeon-Hack-Mobile/node_modules/playwright/lib/testActions.js:51:67)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async i.<anonymous> (/workspace/Dungeon-Hack-Mobile/node_modules/playwright/lib/program.js:56:7)
+Browser step aaa3b-focused exited 1; diagnostics retained in ci-diagnostics/ and test-results/aaa3b-focused/.

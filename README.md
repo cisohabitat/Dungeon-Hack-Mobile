@@ -9,10 +9,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Painted keeper identity in combat.** The active keeper's life bar carries
+  its painted face, so it remains identifiable when a guard fills the view.
+  Delayed or unavailable pictures retain the complete text bar.
+
 - **Quieter ceilings and recognisable forge ruins.** Room roofs recede behind
   the action, while existing decorative rubble in the Old Forges uses painted
   anvils. Cave-roof shading, fog boundaries, floor cues and gameplay stay intact.
-
 
 - **More efficient wall lighting.** Shared lighting passes reduce canvas calls
   while preserving the painted scene, fog and combat timing. See the

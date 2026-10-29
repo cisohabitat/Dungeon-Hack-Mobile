@@ -1,0 +1,32 @@
+{
+  "scope": "Actual installed offline reload of a saved generated-floor fight, with supplied inspection pose/keys/testing HP; current v0.9.58 metadata; not a physical device or unassisted run.",
+  "raw_path": "/workspace/aaa3b-audit/face-offline/evidence.json",
+  "raw_sha256": "67e4f6ab8e12e2c4529cdcc1aa00c11b706a2c4a53886b49cd63f41e282e696f",
+  "record": {
+    "id": "heartforged",
+    "levels": 12,
+    "route": "crypts",
+    "width": 320,
+    "big": false,
+    "snapshotHash": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+    "presentationHashes": {
+      "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+      "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+      "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+      "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e"
+    },
+    "offline": {
+      "status": "playing",
+      "bar": {
+        "portrait": "heartforged",
+        "name": "Heartforged",
+        "hp": 176,
+        "maxHp": 176,
+        "phase": 0,
+        "rite": false,
+        "riteDone": 0
+      },
+      "source": "Installed cache after actual offline reload; supplied initial pose/HP/keys."
+    }
+  }
+}

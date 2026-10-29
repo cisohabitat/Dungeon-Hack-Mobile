@@ -1,0 +1,14 @@
+{
+  "baseline": "d7654bc88464e56a6f982737d36fb887ebf8d0ff",
+  "presentation_source_hashes": {
+    "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "motion.js": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+    "overlay.js": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+    "bossart.js": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f"
+  },
+  "bot_hash": "2d4205a740716b8c46c598a5927e46999c0a823b382f4f3752fe41a01ee66654",
+  "runner_hash": "fe05aacfc7bf5239248ef1ce23dc2d0cf2c6c6291ce0c25f028b9ca81b168be9",
+  "control_archive_sha256": "72f764a51c7dc23bd1f4cd37304a3981791cda49e2df8252ef0d71326b0c4081",
+  "control_settings": "FIT1,FP1,sevenclasses,Normal+Hard,bench/alt/third2seeds*2trials,8/12/16floors;twofrozenworktrees252batches1008simulations;4workers;defaultMedium/normaldensity/treasure,doors/trapson;botunchanged",
+  "final_source_same": true
+}

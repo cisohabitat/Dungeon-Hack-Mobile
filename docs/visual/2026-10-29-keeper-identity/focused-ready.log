@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/region-art.spec.js:6:3 › lich's generated approach stays clear and saved guards keep their played positions @mobile (11.3s)
+  ✓  2 [phone] › test/browser/region-art.spec.js:6:3 › warlord's generated approach stays clear and saved guards keep their played positions @mobile (10.3s)
+  ✓  3 [phone] › test/browser/region-art.spec.js:6:3 › heartforged's generated approach stays clear and saved guards keep their played positions @mobile (12.7s)
+  ✓  4 [small] › test/browser/region-art.spec.js:6:3 › lich's generated approach stays clear and saved guards keep their played positions @mobile (12.0s)
+  ✓  5 [small] › test/browser/region-art.spec.js:6:3 › warlord's generated approach stays clear and saved guards keep their played positions @mobile (12.0s)
+  ✓  6 [small] › test/browser/region-art.spec.js:6:3 › heartforged's generated approach stays clear and saved guards keep their played positions @mobile (12.1s)
+::notice title=🎭 Playwright Run Summary::  6 passed (1.4m)
+
+  6 passed (1.4m)
+Browser step aaa3b-focused-ready exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3b-focused-ready/.
