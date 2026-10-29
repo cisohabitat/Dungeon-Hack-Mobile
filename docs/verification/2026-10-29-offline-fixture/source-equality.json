@@ -1,0 +1,40 @@
+{
+  "baseline": "f46811b1a0a25086a8cf158b8a8d792e8e083250",
+  "files": [
+    {
+      "file": "js/game.js",
+      "sha256": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "js/motion.js",
+      "sha256": "ffcc292ae32461fc5504500fef4b49196299e1bb50e63d23b6ca7204e887decc",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "js/overlay.js",
+      "sha256": "0ff8dc38d51436a36a903fa62550bc2cd97aed6cb9a6672c90e3c6eeb1391101",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "js/bossart.js",
+      "sha256": "43a61030099e3ff95c3193e98bc323fa29b7226329d11e9ada9d74bdee3fc78f",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "img/bosses/lich.webp",
+      "sha256": "6a74c84bbf7b207d0913d356a840063091d255112758ba91bc0ab6a9495ec796",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "img/bosses/warlord.webp",
+      "sha256": "e76f59e7157d7fbc54dbdfb7e4972c4cd2a87647a64e3abfc2a6eb90fda2c512",
+      "exact_baseline_bytes": true
+    },
+    {
+      "file": "img/bosses/heartforged.webp",
+      "sha256": "ff96776381e33397cb56df42c7c89ad36f2748cf082122788b7a503f923dfeaf",
+      "exact_baseline_bytes": true
+    }
+  ]
+}

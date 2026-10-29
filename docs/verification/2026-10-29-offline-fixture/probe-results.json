@@ -1,0 +1,262 @@
+[
+  {
+    "size": 0,
+    "ms": 6194.700000001118,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6050.0999999996275
+      },
+      {
+        "event": "message",
+        "at": 6065.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6126.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6133.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6175.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6192.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": 8,
+    "ms": 7312,
+    "events": [
+      {
+        "event": "controller",
+        "at": 7182.200000001118
+      },
+      {
+        "event": "message",
+        "at": 7191.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7247,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7296.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7309.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7309.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": 24,
+    "ms": 6920.4000000003725,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6820.300000000745
+      },
+      {
+        "event": "message",
+        "at": 6828.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6879.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6904.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6918.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": 64,
+    "ms": 6616,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6500.4000000003725
+      },
+      {
+        "event": "message",
+        "at": 6507.199999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6562.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6589,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6615.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  }
+]

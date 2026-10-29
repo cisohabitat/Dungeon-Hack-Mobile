@@ -1,0 +1,26 @@
+[
+  {
+    "retry": 0,
+    "registration_start": 11224.282,
+    "expect_start": 11277.336,
+    "expect_end": 21291.9,
+    "core_true_snapshots": [
+      21321.783
+    ],
+    "first_voice_monotonic": 20445.783,
+    "network_requests": 2112,
+    "page_errors": 0
+  },
+  {
+    "retry": 1,
+    "registration_start": 38407.068,
+    "expect_start": 38465.024,
+    "expect_end": 48475.874,
+    "core_true_snapshots": [
+      48496.704
+    ],
+    "first_voice_monotonic": 47868.381,
+    "network_requests": 2076,
+    "page_errors": 0
+  }
+]

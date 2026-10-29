@@ -1,0 +1,47 @@
+[
+  {
+    "name": "phone-3",
+    "bytes": 21603854,
+    "digest_matches": true
+  },
+  {
+    "name": "phone-1",
+    "bytes": 12814628,
+    "digest_matches": true
+  },
+  {
+    "name": "safari-2",
+    "bytes": 494616,
+    "digest_matches": true
+  },
+  {
+    "name": "safari-1",
+    "bytes": 3800358,
+    "digest_matches": true
+  },
+  {
+    "name": "small-1",
+    "bytes": 9724718,
+    "digest_matches": true
+  },
+  {
+    "name": "small-2",
+    "bytes": 17308715,
+    "digest_matches": true
+  },
+  {
+    "name": "phone-2",
+    "bytes": 135820429,
+    "digest_matches": true
+  },
+  {
+    "name": "safari-3",
+    "bytes": 12837963,
+    "digest_matches": true
+  },
+  {
+    "name": "perf",
+    "bytes": 11193,
+    "digest_matches": true
+  }
+]

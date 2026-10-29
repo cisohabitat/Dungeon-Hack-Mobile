@@ -1,0 +1,1772 @@
+[
+  {
+    "size": 0,
+    "ms": 6107.10000000149,
+    "events": [
+      {
+        "event": "controller",
+        "at": 5937.10000000149
+      },
+      {
+        "event": "message",
+        "at": 5938.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5998.300000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6031.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6047,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6068.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": -1,
+    "ms": 5102.299999998882,
+    "events": [
+      {
+        "event": "controller",
+        "at": 4830.0999999996275
+      },
+      {
+        "event": "message",
+        "at": 4832.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4882.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4893.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4910.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4931.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4965.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 16,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4982.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 20,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4998.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 24,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5033.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 28,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5035.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 32,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5048.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 36,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5081.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 40,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": 0,
+    "ms": 7104.799999998882,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6471.699999999255
+      },
+      {
+        "event": "message",
+        "at": 6474.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6536,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6550.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6565.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6586.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6604,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 16,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6621.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 20,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6667.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 24,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6706.39999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 28,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6720,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 32,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6738.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 36,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6785.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 40,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6803.39999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 44,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6814.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 48,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6848.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 52,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6854.799999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 56,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6870.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 60,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6907.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 64,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6918.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 68,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6948,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 72,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6980.39999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 76,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6997.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 80,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7022.199999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 84,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7085.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 88,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7100.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 92,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": -1,
+    "ms": 7211.200000001118,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6502.5
+      },
+      {
+        "event": "message",
+        "at": 6511.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6559.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6581.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6602.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6631.300000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6648.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 16,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6702,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 20,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6721.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 24,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6751.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 28,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6763.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 32,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6787.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 36,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6813.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 40,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6838.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 44,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6884.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 48,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6902.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 52,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6936.200000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 56,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6967.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 60,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7005.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 64,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7020.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 68,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7049.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 72,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7066.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 76,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7100.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 80,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7121.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 84,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7166.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 88,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7195.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 92,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": 0,
+    "ms": 7097.5999999996275,
+    "events": [
+      {
+        "event": "controller",
+        "at": 6147.0999999996275
+      },
+      {
+        "event": "message",
+        "at": 6153.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6205.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6223,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6238.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6258.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6273.199999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 16,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6291,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 20,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6310.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 24,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6330.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 28,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6347.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 32,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6372.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 36,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6380,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 40,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6396,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 44,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6423.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 48,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6444.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 52,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6457.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 56,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6477.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 60,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6495.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 64,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6509,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 68,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6526,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 72,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6540,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 76,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6557,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 80,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6572.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 84,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6613.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 88,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6628,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 92,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6642.799999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 96,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6659.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 100,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6694.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 104,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6708.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 108,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6726.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 112,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6752.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 116,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6762.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 120,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6777.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 124,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6796,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 128,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6811.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 132,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6828.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 136,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6844.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 140,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6855.799999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 144,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6870.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 148,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6879.699999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 152,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6894.199999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 156,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6911.199999999255,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 160,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6926.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 164,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6939.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 168,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6955.299999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 172,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6962.89999999851,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 176,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 6980.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 180,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7004.5999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 184,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7043,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 188,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7079.799999998882,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 192,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 7097.0999999996275,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 196,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  },
+  {
+    "size": -1,
+    "ms": 5141.60000000149,
+    "events": [
+      {
+        "event": "controller",
+        "at": 4666.4000000003725
+      },
+      {
+        "event": "message",
+        "at": 4668.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 0,
+          "voice": "pending",
+          "done": 0,
+          "total": 0
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4715.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 0,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4732.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 4,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4767,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 8,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4768.300000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 12,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4797.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 16,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4799.300000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 20,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4816.60000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 24,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4832.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 28,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4845.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 32,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4864.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 36,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4878.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 40,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4903.10000000149,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 44,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4915.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 48,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4932.4000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 52,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4945.700000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 56,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4965.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 60,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 4984.200000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 64,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5002.800000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 68,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5031.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 72,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5034.200000001118,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 76,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5051.9000000003725,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 80,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5095.300000000745,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 84,
+          "total": 330
+        },
+        "own": true
+      },
+      {
+        "event": "message",
+        "at": 5140.5,
+        "data": {
+          "type": "offline-state",
+          "build": 73,
+          "voice": "downloading",
+          "done": 88,
+          "total": 330
+        },
+        "own": true
+      }
+    ],
+    "status": "<p id=\"offline-status\" class=\"offline-status\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" data-core=\"true\" data-voice=\"downloading\">Game ready offline · Voice downloading</p>"
+  }
+]

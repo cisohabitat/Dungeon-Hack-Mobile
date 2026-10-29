@@ -1,0 +1,293 @@
+{
+  "reports": [
+    {
+      "artifact": "aaa3b-ci-perf.zip",
+      "report": "ci-diagnostics/perf-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:51.808Z",
+        "duration": 60700.329,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-1.zip",
+      "report": "ci-diagnostics/phone-offline-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:57:00.417Z",
+        "duration": 35982.3,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-1.zip",
+      "report": "ci-diagnostics/phone-regular-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:48.822Z",
+        "duration": 850738.4789999999,
+        "expected": 212,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-2.zip",
+      "report": "ci-diagnostics/phone-offline-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:58:31.809Z",
+        "duration": 54529.16,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-2.zip",
+      "report": "ci-diagnostics/phone-regular-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:49.175Z",
+        "duration": 941382.9049999999,
+        "expected": 212,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-3.zip",
+      "report": "ci-diagnostics/phone-offline-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:59:22.982Z",
+        "duration": 28029.339,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-phone-3.zip",
+      "report": "ci-diagnostics/phone-regular-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:48.521Z",
+        "duration": 993156.898,
+        "expected": 211,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-safari-1.zip",
+      "report": "ci-diagnostics/safari-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:56.037Z",
+        "duration": 772058.176,
+        "expected": 75,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-safari-2.zip",
+      "report": "ci-diagnostics/safari-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:55.468Z",
+        "duration": 873356.206,
+        "expected": 75,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-safari-3.zip",
+      "report": "ci-diagnostics/safari-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:43:33.882Z",
+        "duration": 930480.458,
+        "expected": 73,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 1
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-small-1.zip",
+      "report": "ci-diagnostics/small-offline-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:54:42.213Z",
+        "duration": 68574.90299999999,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-small-1.zip",
+      "report": "ci-diagnostics/small-regular-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:49.435Z",
+        "duration": 711603.0059999999,
+        "expected": 175,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-small-2.zip",
+      "report": "ci-diagnostics/small-offline-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:52:11.125Z",
+        "duration": 17171.057,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    },
+    {
+      "artifact": "aaa3b-ci-small-2.zip",
+      "report": "ci-diagnostics/small-regular-results.json",
+      "stats": {
+        "startTime": "2026-10-29T13:42:50.422Z",
+        "duration": 559872.5020000001,
+        "expected": 175,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "errors": []
+    }
+  ],
+  "totals": {
+    "perf": 1,
+    "phone": 638,
+    "safari": 224,
+    "small": 353
+  },
+  "non_expected": [
+    {
+      "artifact": "aaa3b-ci-phone-2.zip",
+      "report": "ci-diagnostics/phone-offline-results.json",
+      "title": "painted creature survives an installed offline native reload @mobile",
+      "file": "painted-creatures.spec.js",
+      "status": "unexpected",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "error": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#offline-status')\nExpected: \u001b[32m\"true\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#offline-status')\u001b[22m\n\u001b[2m    13 \u00d7 locator resolved to <p hidden=\"\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" id=\"offline-status\" class=\"offline-status\"></p>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  375 |     if(browserName!=='webkit')await artReady(page);\n  376 |     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));\n> 377 |     await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');\n      |                                                   ^\n  378 |     // As in offline.spec.js, disconnect the actual origin. WebKit's browser\n  379 |     // offline emulation aborts controlled navigations before the worker runs.\n  380 |     connected=false;await page.reload();expect(rejected).toBeGreaterThan(0);\n    at /home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test/browser/painted-creatures.spec.js:377:51"
+          ],
+          "attachments": [
+            {
+              "name": "screenshot",
+              "contentType": "image/png",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone/test-failed-1.png"
+            },
+            {
+              "name": "error-context",
+              "contentType": "text/markdown",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone/error-context.md"
+            },
+            {
+              "name": "trace",
+              "contentType": "application/zip",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone/trace.zip"
+            }
+          ],
+          "local_trace": "/workspace/aaa3b-audit/offline-attempt-0.zip"
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "error": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('#offline-status')\nExpected: \u001b[32m\"true\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  10000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" with timeout 10000ms\u001b[22m\n\u001b[2m  - waiting for locator('#offline-status')\u001b[22m\n\u001b[2m    13 \u00d7 locator resolved to <p hidden=\"\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" id=\"offline-status\" class=\"offline-status\"></p>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  375 |     if(browserName!=='webkit')await artReady(page);\n  376 |     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));\n> 377 |     await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');\n      |                                                   ^\n  378 |     // As in offline.spec.js, disconnect the actual origin. WebKit's browser\n  379 |     // offline emulation aborts controlled navigations before the worker runs.\n  380 |     connected=false;await page.reload();expect(rejected).toBeGreaterThan(0);\n    at /home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test/browser/painted-creatures.spec.js:377:51"
+          ],
+          "attachments": [
+            {
+              "name": "screenshot",
+              "contentType": "image/png",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone-retry1/test-failed-1.png"
+            },
+            {
+              "name": "error-context",
+              "contentType": "text/markdown",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone-retry1/error-context.md"
+            },
+            {
+              "name": "trace",
+              "contentType": "application/zip",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/phone-offline/painted-creatures-painted--27e79-ffline-native-reload-mobile-phone-retry1/trace.zip"
+            }
+          ],
+          "local_trace": "/workspace/aaa3b-audit/offline-attempt-1.zip"
+        }
+      ]
+    },
+    {
+      "artifact": "aaa3b-ci-safari-3.zip",
+      "report": "ci-diagnostics/safari-results.json",
+      "title": "cell gate keeps damage and key colour through native opening and closing @mobile",
+      "file": "painted-world.spec.js",
+      "status": "flaky",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "error": [
+            "Error: {\"opening\":{\"seen\":0,\"tile\":3},\"closing\":5709,\"damage\":2,\"lockBefore\":null,\"movingLock\":\"silver\",\"keyConsumed\":true,\"savedLock\":false,\"openTile\":3}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  423 |   }finally{ctx.drawImage=draw;}\n  424 |  });\n> 425 |  expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);\n      |                                                                                                            ^\n  426 | });\n  427 |\n  428 | test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{\n    at /home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:425:108"
+          ],
+          "attachments": [
+            {
+              "name": "screenshot",
+              "contentType": "image/png",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/safari/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-safari/test-failed-1.png"
+            },
+            {
+              "name": "error-context",
+              "contentType": "text/markdown",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/safari/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-safari/error-context.md"
+            },
+            {
+              "name": "trace",
+              "contentType": "application/zip",
+              "path": "/home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test-results/safari/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-safari/trace.zip"
+            }
+          ],
+          "local_trace": "/workspace/aaa3b-audit/gate-attempt-0.zip"
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "error": [],
+          "attachments": []
+        }
+      ]
+    }
+  ]
+}

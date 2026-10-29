@@ -1132,6 +1132,12 @@ a pushed change as verified.
   Chromium job; competing workers exceed the unchanged ten-second installation
   deadline with the full painted catalog. Both steps retain the same shard filter,
   so every test runs once; an empty offline shard is expected.
+  `test/offline-server.cjs` serves full-cache fixtures in a separate child,
+  pre-reading exact responses through the normal server before navigation.
+  Keep all declared assets and actual HTTP/cache/disconnection behavior; no
+  synthetic readiness or deadline changes. Run its unit checks via `npm test`.
+  The v0.9.58 failed attempts and recovery are recorded in
+  `docs/verification/2026-10-29-offline-fixture/`.
   These checks await the existing deferred art queue before starting their
   unchanged installation deadline. Voice resume discovers missing recordings
   from one cache-key snapshot; avoid per-clip scans of the painted catalog.

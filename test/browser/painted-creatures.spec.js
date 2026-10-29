@@ -1,7 +1,6 @@
 'use strict';
 const { test, expect } = require('@playwright/test');
-const http = require('node:http');
-const { serve } = require('../server');
+const { startOfflineServer } = require('../offline-server.cjs');
 const { startGame, customiseCreation, faceOpenGround, placeMonster, artReady, watchForErrors } = require('./helpers');
 const kinds = ['drow_warrior','hound','wyrm','lizardfolk','dwarf_arbalest','slime','rustmaw','skarrow','drow_mage','grey_dwarf','lizard_shaman','eyeless','puffcap','rat','bat','spider','goblin','skeleton','zombie','orc','ghoul','wraith','ogre','troll','minotaur','kobold','archer','basilisk','acolyte','moth','thornhog','imp','cutpurse','lookout','hexer','pikeman','quillback','drowned','emberling','mimic','lich','heartforged','warlord'];
 const champions = { grisk:'goblin', vessra:'spider', ushgar:'orc', morrow:'ghoul', orla:'wraith', gorrum:'troll', vaelith:'drow_mage', hissra:'lizardfolk', durgrim:'grey_dwarf' };
@@ -366,18 +365,16 @@ test.describe('painted dungeon creature', () => {
 
 test('painted creature survives an installed offline native reload @mobile',async({page,context,browserName})=>{
   const errors=watchForErrors(page);
-  let connected=true,rejected=0;
-  const server=http.createServer((req,res)=>{if(!connected){rejected++;req.socket.destroy();return;}serve(req,res);});
-  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  const server=await startOfflineServer();
   try{
     await page.addInitScript(()=>{for(const [k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});
-    await page.goto(`http://127.0.0.1:${server.address().port}`);
+    await page.goto(server.url);
     if(browserName!=='webkit')await artReady(page);
     await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
     await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');
     // As in offline.spec.js, disconnect the actual origin. WebKit's browser
     // offline emulation aborts controlled navigations before the worker runs.
-    connected=false;await page.reload();expect(rejected).toBeGreaterThan(0);
+    await server.setConnected(false);await page.reload();expect((await server.stats()).rejected).toBeGreaterThan(0);
     if(browserName!=='webkit'){await context.setOffline(true);await page.reload();}
     await page.click('#btn-new');await customiseCreation(page);await page.fill('#c-seed','combat-clarity');
     await page.click('#c-begin');await page.click('#pro-begin');
@@ -396,6 +393,6 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     expect(errors).toEqual([]);
   }finally{
     await context.setOffline(false);
-    const closed=new Promise(resolve=>server.close(resolve));server.closeAllConnections();await closed;
+    await server.close();
   }
 });
