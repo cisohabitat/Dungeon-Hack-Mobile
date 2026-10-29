@@ -134,3 +134,38 @@ test('every region renders the same visible foe with its own scenery in Calm vie
   if (process.env.REGION_REVIEW_OUT) require('fs').writeFileSync(process.env.REGION_REVIEW_OUT, Buffer.from(out.sheet, 'base64'));
   expect(errors).toEqual([]);
 });
+
+test('built roofs recede from the room while distant surfaces keep their fog boundary @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { seed: 'roof-focal-plane' });
+  const result = await page.evaluate(() => {
+    const original = Assets.themes[0], calm = Renderer.calm;
+    // Uniform diagnostic surfaces isolate roof lighting from authored patterns.
+    const shades = Array.from({ length: 8 }, (_, n) => new Uint32Array(4096).fill((0xff000000 | (200 - n * 20) * 0x010101) >>> 0));
+    Assets.themes[0] = new Proxy(original, { get(t, k) {
+      if (k === 'floor' || k === 'ceil') return shades;
+      if (k === 'floorOf' || k === 'ceilOf') return () => shades;
+      return t[k];
+    } });
+    const w = 31, h = 31, T = Dungeon.T, tiles = new Uint8Array(w * h).fill(T.FLOOR);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!x || !y || x === w - 1 || y === h - 1) tiles[y * w + x] = T.WALL;
+    const L = { ...Game.level(), w, h, tiles, theme: 0, twist: null, roomId: new Int16Array(w * h), rooms: [{ x: 1, y: 1, w: 29, h: 29, shape: 'box' }], piece: null, pieces: [], caved: [], lights: [], dressing: [], remains: [], monsters: [], npcs: [], items: {}, fields: {}, explored: new Uint8Array(w * h).fill(1), seen: new Uint8Array(w * h).fill(1), locks: {}, pools: [], stairsUp: null, stairsDown: null };
+    const now = 10000, rs = Game.renderState(now), fx = { ...rs.fx, view: null, arriveAt: -1e9, doorShut: {}, doorFire: {}, stains: {}, frost: [], vents: [], rocks: [], texts: [], spells: [], corpses: [], bits: [], boss: null };
+    const canvas = document.querySelector('#view'), ctx = canvas.getContext('2d');
+    try {
+      Renderer.setCalm(true); Renderer.render(L, { x: 15.5, y: 15.5, angle: -Math.PI / 2 }, [], fx, now);
+      const sample = offset => { const y = canvas.height / 2 + offset; return [ctx.getImageData(160, y, 1, 1).data[0], ctx.getImageData(160, canvas.height - 1 - y, 1, 1).data[0]]; };
+      const room = { middle: sample(29), distant: sample(13), fog: sample(10) };
+      Renderer.render({ ...L, rooms: [{ ...L.rooms[0], shape: 'cave' }] }, { x: 15.5, y: 15.5, angle: -Math.PI / 2 }, [], fx, now);
+      return { ...room, caveDistant: sample(13) };
+    } finally { Assets.themes[0] = original; Renderer.setCalm(calm); }
+  });
+  expect(result.middle[0] - result.middle[1], 'the roof recedes from a lit room floor').toBeGreaterThan(10);
+  expect(result.middle[1], 'the ceiling remains visible').toBeGreaterThan(50);
+  expect(result.distant[0], 'a distant surface remains visible').toBeGreaterThan(20);
+  expect(result.distant[1], 'the new roof shade does not introduce earlier fog').toBe(result.distant[0]);
+  expect(result.fog[1]).toBe(result.fog[0]);
+  expect(result.caveDistant[0]).toBe(result.distant[0]);
+  expect(result.caveDistant[1], 'natural caves retain their original darker roof').toBe(result.fog[1]);
+  expect(errors).toEqual([]);
+});

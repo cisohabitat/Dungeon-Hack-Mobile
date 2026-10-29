@@ -1,0 +1,785 @@
+{
+  "scope": "Additional original review PNGs retained outside Git to bound repository size; committed PNGs are unchanged copies.",
+  "archived": [
+    {
+      "file": "matched/00-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/00-entrance-before.png",
+      "sha256": "8d3b1939065b8cd26e4f5738ddacf1f2f70406baded250d977437e2b26f5962d"
+    },
+    {
+      "file": "matched/00-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/00-entrance-after.png",
+      "sha256": "895fdeaef255547640d322a1a0811408e7286a6413fe031bbac26f5260655f81"
+    },
+    {
+      "file": "matched/00-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/00-treasure-before.png",
+      "sha256": "de6cccdb083a8e6ee66002efd7c73593cc674a7b0dc51c471da0d71bb3ef82b2"
+    },
+    {
+      "file": "matched/00-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/00-treasure-after.png",
+      "sha256": "85bd2d1b6e9368457789b44f5ae321aa0f016b8c207ed03b71d96c1e6647d0cd"
+    },
+    {
+      "file": "matched/01-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/01-entrance-before.png",
+      "sha256": "6c7d21076478d8704b802da6091e111699335198793e26a416304cb79c61b390"
+    },
+    {
+      "file": "matched/01-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/01-entrance-after.png",
+      "sha256": "75d4c3f0f5cbd1a8620e1f644e00f8eb61a38d1f1a163ab986076966907c0235"
+    },
+    {
+      "file": "matched/01-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/01-treasure-before.png",
+      "sha256": "284ea520d723cd6d70c02778f8d2c1141acbcdcddf3b40e4f66213e013e5ef18"
+    },
+    {
+      "file": "matched/01-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/01-treasure-after.png",
+      "sha256": "25340c8c8df666eac62fae8ec3c17bde3c99440ecc7b5366ad5110ddb1749451"
+    },
+    {
+      "file": "matched/02-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/02-entrance-before.png",
+      "sha256": "6abffe2617731a780b5d34a9db1a823453f141f783f20841df58fa0d9cbb6a78"
+    },
+    {
+      "file": "matched/02-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/02-entrance-after.png",
+      "sha256": "18d1df4db5d4710767c6d003ef576c0be50580282eef04666e35097afa0f0707"
+    },
+    {
+      "file": "matched/02-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/02-treasure-before.png",
+      "sha256": "ba420b99397edccd83709b3b0184db8b9eaf43d00f428beafaf4038c60c7295b"
+    },
+    {
+      "file": "matched/02-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/02-treasure-after.png",
+      "sha256": "ce84790d35fde91e540847722cda099eb7d589c1ca72e31485a2c8b6944dc36e"
+    },
+    {
+      "file": "matched/03-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/03-entrance-before.png",
+      "sha256": "56675156db6ee3e83fde4ed39d8ed1c2a667e2b1c71077a0d61d0d4362eb3efa"
+    },
+    {
+      "file": "matched/03-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/03-entrance-after.png",
+      "sha256": "978658c48b507f31f980aaf83628c990a7cef92cb3fa93223b669154e868e7ea"
+    },
+    {
+      "file": "matched/03-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/03-treasure-before.png",
+      "sha256": "8a36cccc17dba447ad76686b3f900482047616e1f948a8bbccaab9ce844de3d3"
+    },
+    {
+      "file": "matched/03-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/03-treasure-after.png",
+      "sha256": "1a2c8b159038f7a7dddfce882380a1988b166c650c95b73eaf6ba173edc23e62"
+    },
+    {
+      "file": "matched/04-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/04-entrance-before.png",
+      "sha256": "4f73e17b86f6cebc6b0c433d430857906a77056594d920892d03b86b0a545dba"
+    },
+    {
+      "file": "matched/04-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/04-entrance-after.png",
+      "sha256": "6ba13b079a09d79a7ebbb1996aa094ccac08792c46663bc7d7089c1e7d898c9e"
+    },
+    {
+      "file": "matched/04-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/04-treasure-before.png",
+      "sha256": "02b99e16866c70820aa5afc479f5ea175476f2f231f8e51a226f38aa5c22b7ce"
+    },
+    {
+      "file": "matched/04-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/04-treasure-after.png",
+      "sha256": "cec00f5b6c1e120d637002fe2193a50b21b4b52a5a5c55993f0b19673cecb97e"
+    },
+    {
+      "file": "matched/05-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/05-entrance-before.png",
+      "sha256": "a46259aa67e66797b45b75f3895a27ce9e4078d06b9c630b9a97785575ec204d"
+    },
+    {
+      "file": "matched/05-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/05-entrance-after.png",
+      "sha256": "9cb10bd43b9d20e1a7885a90f9d19966b3f5d4fc84c1510faa33e51a2d2b82c2"
+    },
+    {
+      "file": "matched/05-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/05-treasure-before.png",
+      "sha256": "20de6092372e66f79b82cdeda91677c54f56d2063713a6791a0288d1baa02bda"
+    },
+    {
+      "file": "matched/05-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/05-treasure-after.png",
+      "sha256": "9ef319d7a64f87e9bb82944d72d54608add485877ad12fce4ee8ac468c4864dd"
+    },
+    {
+      "file": "matched/06-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/06-entrance-before.png",
+      "sha256": "9125b06898c2b31c5b999affb976f9c582ff374a9acae61b7d5f841f936cbcb8"
+    },
+    {
+      "file": "matched/06-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/06-entrance-after.png",
+      "sha256": "eac817c7baa2644938729d532175b8038e7060b8cbd85678fc42581d4ea4aa67"
+    },
+    {
+      "file": "matched/06-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/06-treasure-before.png",
+      "sha256": "cc358253a63f370e873072a7c04b0b24fdcdac513fce0c694ed6a4e2fd9006e6"
+    },
+    {
+      "file": "matched/06-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/06-treasure-after.png",
+      "sha256": "260294402a013ca957f16d507a3673ae07dccd148bcd01d3682348a45a6afe37"
+    },
+    {
+      "file": "matched/07-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/07-entrance-before.png",
+      "sha256": "c897b75eb90aed89b3832b7c51848e561a6e8edd8812b60d936594fae56fe951"
+    },
+    {
+      "file": "matched/07-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/07-entrance-after.png",
+      "sha256": "535406c56221bc0e1c1b371d849eb3b491b0b64f360e3bf0cacf6eed25d3797a"
+    },
+    {
+      "file": "matched/07-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/07-treasure-before.png",
+      "sha256": "243ac1ad66317bab70c84b35474a5761b131b6ed82d0633e405d405e4c555932"
+    },
+    {
+      "file": "matched/07-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/07-treasure-after.png",
+      "sha256": "5321cccdfee5450c8b50ac8f6784d0adcb3ef9084a3bfa83f35e9f901837f6f8"
+    },
+    {
+      "file": "matched/08-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/08-entrance-before.png",
+      "sha256": "9ac196366ede297e62859ec56fed823aba981bacf1de3a120a35a7710b2f734d"
+    },
+    {
+      "file": "matched/08-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/08-entrance-after.png",
+      "sha256": "b102aa31247ac4ef4a9f5e5f5f437433a648e8cc4fec542ac5249f66a9fde424"
+    },
+    {
+      "file": "matched/08-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/08-treasure-before.png",
+      "sha256": "e0c3722e92bb30197de5317a9879c4eeaff3194922f65b3d1d5adb48c5d9f9f5"
+    },
+    {
+      "file": "matched/08-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/08-treasure-after.png",
+      "sha256": "405d6501ce49702a74e68e3ee7c21d42167e5ab0b79fab486f235ed1676ec9fb"
+    },
+    {
+      "file": "matched/09-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/09-entrance-before.png",
+      "sha256": "adabd4b8131b4cdde1b60f915d32da7f34014ffb5f50accd6e06fdc60d8a068d"
+    },
+    {
+      "file": "matched/09-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/09-entrance-after.png",
+      "sha256": "d9be3451a4d9de00c39f055d784ea5696e1009a5ef208c3432c3882c4f315d71"
+    },
+    {
+      "file": "matched/09-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/09-treasure-before.png",
+      "sha256": "9408f9b10fe2a78b392c777c9791ba380740ce29988b49a2d75346e0980f06ea"
+    },
+    {
+      "file": "matched/09-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/09-treasure-after.png",
+      "sha256": "01ed5bbc3f746619415346e1983ae0c31882cd1cb20d179068eedc70f3dc28f8"
+    },
+    {
+      "file": "matched/10-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/10-entrance-before.png",
+      "sha256": "db0a125954fc736b3a2c5cdb5a99a290db252a0940379d9c5cc9fc69d243a3c1"
+    },
+    {
+      "file": "matched/10-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/10-entrance-after.png",
+      "sha256": "c5c7af59c2ea01f2a950521d2dd76b67be3d105f68fe81bd21a8829788f80479"
+    },
+    {
+      "file": "matched/10-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/10-treasure-before.png",
+      "sha256": "d7bfbe913796c1ddacac20010546c9e391d956053bad3ff23cb7ef6f9aae066b"
+    },
+    {
+      "file": "matched/10-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/10-treasure-after.png",
+      "sha256": "015a17c15c4f76c78b320c582578505967c5d37dfada87b8be0149d8cb439f21"
+    },
+    {
+      "file": "matched/11-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/11-entrance-before.png",
+      "sha256": "ecb9a75158c8680a891f400e725d78c00c9e975b23513abd25b8e92e79f9f794"
+    },
+    {
+      "file": "matched/11-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/11-entrance-after.png",
+      "sha256": "36bb080a5a1d49fe89d0492068e99d66546f01e32b0d594b12cba77510fc9ad3"
+    },
+    {
+      "file": "matched/11-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/11-treasure-before.png",
+      "sha256": "ad166124e399eaca8c1bddec165966b65f29ea4eb19fdd847d1d1a345ef55781"
+    },
+    {
+      "file": "matched/11-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/11-treasure-after.png",
+      "sha256": "6f93189cc612293773150d9e1ebc92394c685cce52ad41ed1ba9a68cd3db0e9d"
+    },
+    {
+      "file": "matched/12-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/matched/12-entrance-before.png",
+      "sha256": "b45fd8c3c3cbcef877c2e4f9c89b8652a199860d3292d244e297b76d479aae76"
+    },
+    {
+      "file": "matched/12-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/matched/12-entrance-after.png",
+      "sha256": "4b68fa1fceee9f8ae45916f9a3ca1c7948abd7c7dfbdca084257a64a07983bcc"
+    },
+    {
+      "file": "matched/12-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/matched/12-treasure-before.png",
+      "sha256": "cce673382b542bb0208fbe61ce68bac66a36508140f2061007eb4971e6bbaad9"
+    },
+    {
+      "file": "matched/12-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/matched/12-treasure-after.png",
+      "sha256": "1743b308a82747b163c640c9c4684ecc2636a1523e10a9a6fa269281d934b281"
+    },
+    {
+      "file": "native-320/05-warlord-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-entrance-after.png",
+      "sha256": "506718ccd63d75a4684d7c4bcfc23d03e36705c48585d5ffa685c374c2dfcf48"
+    },
+    {
+      "file": "native-320/08-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-entrance-before.png",
+      "sha256": "62ee7af1560861a53441fd3279ae7fca0f5f8ea4d130980d86657e524ef7afa7"
+    },
+    {
+      "file": "native-320/08-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-landmark-before.png",
+      "sha256": "f051612a54efc6ae2d1974aa15eccd142aad8446691f5e40b07669e626120628"
+    },
+    {
+      "file": "native-320/08-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-treasure-before.png",
+      "sha256": "aa959d37c5e330064b9524c0754f87095d612c05290b68548436f93874a98b89"
+    },
+    {
+      "file": "native-320/00-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-treasure-after.png",
+      "sha256": "58ad17ddba958ece95a1693bf325f9a6ff737b2af70b8332dde19f2924268af6"
+    },
+    {
+      "file": "native-320/05-warlord-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-treasure-after.png",
+      "sha256": "eaa8361dd617ef137c1066bbb21dd0426fcf5e2256299231c0f404fe239b0de4"
+    },
+    {
+      "file": "native-320/00-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-entrance-after.png",
+      "sha256": "fc31d9a0cdffc8aac1cfa7ab7e7bdc865a94796d9c7ba8cbfcd8938bc7e3a7a4"
+    },
+    {
+      "file": "native-320/12-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-entrance-before.png",
+      "sha256": "f09f801480d0dc39f8ea3be3846eecc34d9fc9d48d06a9e97f095a7fb502398d"
+    },
+    {
+      "file": "native-320/12-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-treasure.png",
+      "sha256": "a8dd0c38a6ea3a1db16fa5985c4e61a7c3cdb1b5c167d6404b75ee653effefc1"
+    },
+    {
+      "file": "native-320/05-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-entrance-after.png",
+      "sha256": "506718ccd63d75a4684d7c4bcfc23d03e36705c48585d5ffa685c374c2dfcf48"
+    },
+    {
+      "file": "native-320/05-heartforged-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-treasure-before.png",
+      "sha256": "80dc01e1b122a9f0ab20e3bbfa4e881ef4ef4fbc47c01acc969b45d39091f0a5"
+    },
+    {
+      "file": "native-320/00-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-treasure-before.png",
+      "sha256": "896ccbae644610a0ebc911a73a98b9b6a96cddd116aab66ea4cc67cd0436fd0a"
+    },
+    {
+      "file": "native-320/05-heartforged-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-entrance-before.png",
+      "sha256": "47c613295f85cdf21d2c122a97b5895500d7118c6ce02eb1921b437eb71417ee"
+    },
+    {
+      "file": "native-320/00-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-landmark-after.png",
+      "sha256": "a02ab1860216c3a362292bd3afa7be1d9d19b72be1c5df89482c0b2f2583cd2f"
+    },
+    {
+      "file": "native-320/05-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-entrance.png",
+      "sha256": "204865ca89ea0cf920624d710f116a9981e4b1e13091a7add4f3531ada0efc21"
+    },
+    {
+      "file": "native-320/08-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-treasure-after.png",
+      "sha256": "e23614cc41cfe277020ee3b32f9f4808a52408bf5e0cdb1310987f6b46059b3a"
+    },
+    {
+      "file": "native-320/05-heartforged-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-landmark-after.png",
+      "sha256": "31fb48124c58467d1534fa4fe7f097e4a3ac630a3a2428e63d2692c092dc2263"
+    },
+    {
+      "file": "native-320/12-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-entrance.png",
+      "sha256": "9f4e6e75277c676f9e45cac94716ba6da27d337fb08073f5028a9a8fd995128c"
+    },
+    {
+      "file": "native-320/05-heartforged-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-landmark-before.png",
+      "sha256": "a03555ec8fe82be49d6e9386d7fc6d907e2b8fd97b20193fb166830ab8202411"
+    },
+    {
+      "file": "native-320/05-warlord-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-landmark-after.png",
+      "sha256": "832748d4531c0f6b206eeef8166f152a2bc8c491b7c7cdd6bf3d5526779afaa2"
+    },
+    {
+      "file": "native-320/05-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-treasure-after.png",
+      "sha256": "6b906d9c04647776bba80cf5dc789dc76650313e442ad2dcb4fa551e50a82b95"
+    },
+    {
+      "file": "native-320/12-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-landmark-before.png",
+      "sha256": "2be4c6c996e5980bccde1a4ff3b5374dce47878282129ac177b75a721638a390"
+    },
+    {
+      "file": "native-320/05-warlord-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-entrance-before.png",
+      "sha256": "d096d441c12e35e1c8aa3667c27282bd3f97ff45c414bc46df4e30cb3666d1d6"
+    },
+    {
+      "file": "native-320/12-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-treasure-after.png",
+      "sha256": "e9915d8d3fd4e7686a5ad8a933cdc4a2927057f78780513994c98d654fa73c2b"
+    },
+    {
+      "file": "native-320/12-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-treasure-before.png",
+      "sha256": "39752c6f580477dbe0a61b81735c626f5bb4d8cee9a4deda2d9efe78e34a77ea"
+    },
+    {
+      "file": "native-320/00-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-landmark-before.png",
+      "sha256": "33067c28b103da574ab296c93c2eec646f35177609920fda560a431879046009"
+    },
+    {
+      "file": "native-320/08-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-entrance-after.png",
+      "sha256": "c5c09b2f296033667837c3d282ec384323d84ed2570ef2ecbffb05099aad887a"
+    },
+    {
+      "file": "native-320/05-heartforged-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-entrance.png",
+      "sha256": "c24fd2d8aa3c037ee228fa03a31e2944bb5c4cabee720d0e3eaba0f853600ffd"
+    },
+    {
+      "file": "native-320/05-heartforged-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-treasure.png",
+      "sha256": "e567703f1206c6d3071ad52fd6207a003dc10fbb2b1c674f429d814b0f54fb38"
+    },
+    {
+      "file": "native-320/05-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-landmark-before.png",
+      "sha256": "dcc538b1b33c7729a09601f2fd7161c8dd9a14e23776871b51f7fd4026b1bbe2"
+    },
+    {
+      "file": "native-320/00-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-entrance-before.png",
+      "sha256": "8bd79b29f1d45a84e3efc57feeb312c8a79adab32364cea2be94d806a7a4a44e"
+    },
+    {
+      "file": "native-320/05-warlord-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-treasure.png",
+      "sha256": "7123e10ded25d2a5ebecdd77742376ecf352eadd7307b3d3b6d5703d28cdd3b4"
+    },
+    {
+      "file": "native-320/05-warlord-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-landmark-before.png",
+      "sha256": "5d0ece5dd77fa008765d3ec4265bfabafdd263198a322944ed2f8463d7486103"
+    },
+    {
+      "file": "native-320/05-heartforged-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-entrance-after.png",
+      "sha256": "1f72fd1549809475417f37ee0d60dca34cbf0a3ee43512dd6ee61960d5794a6a"
+    },
+    {
+      "file": "native-320/08-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-landmark-after.png",
+      "sha256": "5b4ca7b24afc334775e0a4208002488ef803aadd6a1094d53ac0cca693ce6685"
+    },
+    {
+      "file": "native-320/08-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-treasure.png",
+      "sha256": "b46a88dfe32cfbe3522e77a658d9123d4a30d18a56323ec686ebea82efcc9f24"
+    },
+    {
+      "file": "native-320/05-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-treasure-before.png",
+      "sha256": "bcb629924800c2883f7bbabd547500e633b1d99a4e9d5777fb93ae39c0a05650"
+    },
+    {
+      "file": "native-320/00-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-treasure.png",
+      "sha256": "f6cc27cd1082bb38219b98b2b6f856f6efe3fd31fc338489d8b95e60e89fd23e"
+    },
+    {
+      "file": "native-320/05-warlord-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-treasure-before.png",
+      "sha256": "1ddd0ac685065457d565772cafed5ad35e3a247ff24d5868596b6138aa5da6b1"
+    },
+    {
+      "file": "native-320/05-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-landmark-after.png",
+      "sha256": "c8f071d1935e4e86b6900aedf0371bb8050487713b95ba906f97339a24b61cb1"
+    },
+    {
+      "file": "native-320/05-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-treasure.png",
+      "sha256": "78d5edf232f723f28b2e44672bdb50640418edf762a3ef18301268fdd80aa6fe"
+    },
+    {
+      "file": "native-320/12-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-entrance-after.png",
+      "sha256": "35cb56bec9f81df4bb3f58d42b53e937f73751b4d742d356fb239315495b0206"
+    },
+    {
+      "file": "native-320/05-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-entrance-before.png",
+      "sha256": "d096d441c12e35e1c8aa3667c27282bd3f97ff45c414bc46df4e30cb3666d1d6"
+    },
+    {
+      "file": "native-320/12-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/12-landmark-after.png",
+      "sha256": "0459aa1d3a90c7fa9646534f3f0024f47db304959cc829b310da727db9f59122"
+    },
+    {
+      "file": "native-320/05-heartforged-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-heartforged-treasure-after.png",
+      "sha256": "dd728b0eeb8713c2b1d19b05943061b15513860acf55044380216d105b48bba7"
+    },
+    {
+      "file": "native-320/05-warlord-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/05-warlord-entrance.png",
+      "sha256": "15a2c4247ee13ebb1259191e2d57a24f43d2ae4427212a716a90b4e24fadca11"
+    },
+    {
+      "file": "native-320/08-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/08-entrance.png",
+      "sha256": "2312765fcfed949e34e75e040deb3ccaa17427db6c531b146f20a6b1040b032a"
+    },
+    {
+      "file": "native-320/00-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-320/00-entrance.png",
+      "sha256": "5e9d30e327f53c2eaf2d4ba9485e38ceb1e32381cfac9b8a55a382d559a431e9"
+    },
+    {
+      "file": "native-740/05-warlord-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-entrance-after.png",
+      "sha256": "c7a0879a5a4cc71b4555bb3dd919c1f94d006d3bc65238ee6c78d30e257bdcc7"
+    },
+    {
+      "file": "native-740/08-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-entrance-before.png",
+      "sha256": "2117b8da05ff21e1e9809ccb8357ccfac41c3b5660a214bbc2ec508119d88bda"
+    },
+    {
+      "file": "native-740/08-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-landmark-before.png",
+      "sha256": "76b95e7e2aac5b610dfb9ec3a05b801d2641b3645defc2eadc524ab9aafbadee"
+    },
+    {
+      "file": "native-740/08-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-treasure-before.png",
+      "sha256": "1434f4b3d38b67c2cd8cdee9db1ed81eaefc85b1cb134eb7e38ab82731223449"
+    },
+    {
+      "file": "native-740/00-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-treasure-after.png",
+      "sha256": "5f0529365052d04f4c54c9934612541ccad1dead85205f7419202aa990a457cc"
+    },
+    {
+      "file": "native-740/05-warlord-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-treasure-after.png",
+      "sha256": "08aef2cff498bb7cf7df2e422979a28c0833f85a3ac80ef729c6d47d490165fb"
+    },
+    {
+      "file": "native-740/00-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-entrance-after.png",
+      "sha256": "1d22199d89b56b9f60926a5759f2dbdae358b16ff71a7d2a7f99b431e582103c"
+    },
+    {
+      "file": "native-740/12-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-entrance-before.png",
+      "sha256": "11bed12e536ed63878a940a6fc10e23cef5ffb59e08b0a162771fc309af4cd63"
+    },
+    {
+      "file": "native-740/12-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-treasure.png",
+      "sha256": "642a6f44260538b755f8faea5e9be55ee5c4c912376d183fb02c2d84786d5ad7"
+    },
+    {
+      "file": "native-740/05-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-entrance-after.png",
+      "sha256": "c7a0879a5a4cc71b4555bb3dd919c1f94d006d3bc65238ee6c78d30e257bdcc7"
+    },
+    {
+      "file": "native-740/05-heartforged-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-treasure-before.png",
+      "sha256": "8cae311a3b6f6313cbfb2162284f05702b5325b262118fd00d128a78d08cd384"
+    },
+    {
+      "file": "native-740/00-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-treasure-before.png",
+      "sha256": "83d42f5ecddc05e15867d4a422a2f47f2327ece560a3a2809010f41c807e824c"
+    },
+    {
+      "file": "native-740/05-heartforged-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-entrance-before.png",
+      "sha256": "0da338a311abe267cfee929ebe6113cd33fd6c068f85e5dffe53d5b58b450d0a"
+    },
+    {
+      "file": "native-740/00-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-landmark-after.png",
+      "sha256": "c7291899c52688c689a988076ba98f8c9df9ea90488a09e238ad2101237f1cf7"
+    },
+    {
+      "file": "native-740/05-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-entrance.png",
+      "sha256": "750aade96f33be1b42d5465ca78701b14f46301b84ef8b8b58c60b66d784403b"
+    },
+    {
+      "file": "native-740/08-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-treasure-after.png",
+      "sha256": "7c1635bb3cde60820fc27e3345e7c2b47187b897b2480c8e971fa38d3bba6029"
+    },
+    {
+      "file": "native-740/05-heartforged-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-landmark-after.png",
+      "sha256": "feba545f7a0d25aaaee5dde1ac061a7f9830e9bbf53cdb311b5796130866bbfa"
+    },
+    {
+      "file": "native-740/12-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-entrance.png",
+      "sha256": "8f9c79550769a9bea25136c51a3ac2bc644c7c41ab36f4f16471ddcab7be3f29"
+    },
+    {
+      "file": "native-740/05-heartforged-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-landmark-before.png",
+      "sha256": "4273765974a7c108785951f915de8d71189bb5039e31d4f9fa7d311bc578a520"
+    },
+    {
+      "file": "native-740/05-warlord-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-landmark-after.png",
+      "sha256": "9593bf01aa21edac728cd11c91c1f505c69dd297fb4a319becae67e823d70fdd"
+    },
+    {
+      "file": "native-740/05-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-treasure-after.png",
+      "sha256": "eeafbc77215e0997abe4e709945ee589801e538f4e48ead7a66bc5481113dd21"
+    },
+    {
+      "file": "native-740/12-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-landmark-before.png",
+      "sha256": "e9b2108d71da4f79e810febf8b2e732dcf7566e6916b411c46a66984fcbef9f3"
+    },
+    {
+      "file": "native-740/05-warlord-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-entrance-before.png",
+      "sha256": "4bb6411976d30704b2fdee8363ea842d87ff66798e3c62fd7630800f7cbd6a26"
+    },
+    {
+      "file": "native-740/12-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-treasure-after.png",
+      "sha256": "e1c9d8d7fa27635f7fe7089ca4ec33ed05dc4cb076b70254a038405dcd537a77"
+    },
+    {
+      "file": "native-740/12-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-treasure-before.png",
+      "sha256": "3fb9c4046aba8d608650a204b17da85265a9fa53e225f94d0bbb0e9586db0a08"
+    },
+    {
+      "file": "native-740/00-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-landmark-before.png",
+      "sha256": "99ff1ce8dc1d124b200e54ee7cc8f41738a12fa60a21582537acf4bf11e12971"
+    },
+    {
+      "file": "native-740/08-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-entrance-after.png",
+      "sha256": "e9beaac24d70472e4aa29eeefcfdda6332ff725cea9594006311369d63f65da4"
+    },
+    {
+      "file": "native-740/05-heartforged-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-entrance.png",
+      "sha256": "bacfb900580463167452defa1e6adffc1760a11ce8bbfa776aa1ed324376413a"
+    },
+    {
+      "file": "native-740/05-heartforged-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-treasure.png",
+      "sha256": "4b34f4c1cbbfb18b62d1e2e684ded4cadadbb390d0cbec9ae0364c69a987b079"
+    },
+    {
+      "file": "native-740/05-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-landmark-before.png",
+      "sha256": "ed501701641ec8282186b56d44c5bffd69ef910f9d943d7a96cb9b1ccc9f361e"
+    },
+    {
+      "file": "native-740/00-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-entrance-before.png",
+      "sha256": "a5b955e8006e60d7f85fc36c98fe38f0af425f24fe8860600f9152033beed930"
+    },
+    {
+      "file": "native-740/05-warlord-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-treasure.png",
+      "sha256": "7d5e6a7b1ac802da126052c7a85e5dd5f7feca5b3dc1eb66997a0757371e71bc"
+    },
+    {
+      "file": "native-740/05-warlord-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-landmark-before.png",
+      "sha256": "7632c6442fbe11314845c73b15b1d6defea146808a7eaa9162fd967ec7ce12b3"
+    },
+    {
+      "file": "native-740/05-heartforged-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-entrance-after.png",
+      "sha256": "e29bfea65537aa329f1f6d55e11430a6c296219db56a367730b3fd0d70e24f8e"
+    },
+    {
+      "file": "native-740/08-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-landmark-after.png",
+      "sha256": "4c0383f14b82a446e4dd33bf5adad7fb947f1e719345cd8a5d4c1e058b5097f8"
+    },
+    {
+      "file": "native-740/08-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-treasure.png",
+      "sha256": "674cd9d70726b3478dd88044cc090597c0bdb3acc15423c38baa9be1298764aa"
+    },
+    {
+      "file": "native-740/05-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-treasure-before.png",
+      "sha256": "9a9ff1dfefeca664f32f1f47f33c1e320d7782d54ab70534cd7eba0482ad744e"
+    },
+    {
+      "file": "native-740/00-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-treasure.png",
+      "sha256": "6377acd2cc5025a4baf24e64dcf4be33ceee57a8f95e416cb78ba90382bae39d"
+    },
+    {
+      "file": "native-740/05-warlord-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-treasure-before.png",
+      "sha256": "e881f85b4ba1caec41e28ca01ae82c081419ba3a86d0fba53f3c7fecaee4b7f4"
+    },
+    {
+      "file": "native-740/05-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-landmark-after.png",
+      "sha256": "8f0b0b1950438d4cbefdbdf1869f403b673345f48adbd2d23d311dfd165addea"
+    },
+    {
+      "file": "native-740/05-treasure.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-treasure.png",
+      "sha256": "49646c8e293e93dc61d0c5ffc1925f21da98b1d643c7d073dfc69604e55b255e"
+    },
+    {
+      "file": "native-740/12-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-entrance-after.png",
+      "sha256": "57907b7b2c699d90555a31dcff05047e6abc6152ca1c22ef37dd947d203fa819"
+    },
+    {
+      "file": "native-740/05-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-entrance-before.png",
+      "sha256": "4bb6411976d30704b2fdee8363ea842d87ff66798e3c62fd7630800f7cbd6a26"
+    },
+    {
+      "file": "native-740/12-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/12-landmark-after.png",
+      "sha256": "4e5965dd55317cff82007e9be679d6f4cdcd3a0da9289d30b57e23d9d6f99618"
+    },
+    {
+      "file": "native-740/05-heartforged-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-heartforged-treasure-after.png",
+      "sha256": "369b7d13bb378c8f1688822f50cf019537430fe2a089c7d24aa8debb405aaf70"
+    },
+    {
+      "file": "native-740/05-warlord-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/05-warlord-entrance.png",
+      "sha256": "d8794dd0b49a8aecaf2d50074ffc7a82ba57bc1205412ec20793e819d05192ef"
+    },
+    {
+      "file": "native-740/08-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/08-entrance.png",
+      "sha256": "a7c8433f77fea001ee2e1e3b128850aced0e3e4fd90e895c6a1af204b0235137"
+    },
+    {
+      "file": "native-740/00-entrance.png",
+      "raw": "/workspace/aaa3-audit/native-740/00-entrance.png",
+      "sha256": "8eed0e7d08ae9ff0550be67a390e8f937f69b3a0e116c1106adb97e124db71bb"
+    },
+    {
+      "file": "forge-before/12-entrance-before.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-entrance-before.png",
+      "sha256": "79ec30952ff00e8f7dfe064ccc8ef4bb4806a0a54217f7122ad4b8ca590eb435"
+    },
+    {
+      "file": "forge-before/12-treasure.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-treasure.png",
+      "sha256": "6dbe9e8f98377fc8e99f9c90e4a14b749a687cc1e86c7d9d7fbf4d943711c04c"
+    },
+    {
+      "file": "forge-before/12-entrance.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-entrance.png",
+      "sha256": "a925efdbac15ce7d6f178da1104c0e2377b2440078769d6b52abcfed6fc18cb7"
+    },
+    {
+      "file": "forge-before/12-landmark-before.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-landmark-before.png",
+      "sha256": "383f804c3528a28f3feca0b77cc774b8a97b0430dc56b6f296b2d3e43c8b9037"
+    },
+    {
+      "file": "forge-before/12-treasure-after.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-treasure-after.png",
+      "sha256": "77f84c6a181cc0e173fbe63ebf862f2b74ba9840b29799a7d6bcf3162948de95"
+    },
+    {
+      "file": "forge-before/12-treasure-before.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-treasure-before.png",
+      "sha256": "8d86e3653701cfdce55703b577f69adff3cd06924c8ad60ce96f40054fb8118b"
+    },
+    {
+      "file": "forge-before/12-entrance-after.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-entrance-after.png",
+      "sha256": "7a76fd0afaa3eef22b7b8eaf2bc49e22b186271760644cb45c457ebb1b44feda"
+    },
+    {
+      "file": "forge-before/12-landmark-after.png",
+      "raw": "/workspace/aaa3-audit/forge-before/12-landmark-after.png",
+      "sha256": "2f84d05161928dcdd04c88e9579d5eca228d637b05479057218c645a8a8a9282"
+    }
+  ]
+}

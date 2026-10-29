@@ -1,0 +1,15 @@
+{
+  "scope": "Intentional negative control; original v0.9.56 renderer routed into the new roof regression; no candidate changes or benchmark",
+  "stats": {
+    "startTime": "2026-10-28T23:22:01.847Z",
+    "duration": 6785.1140000000005,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "errors": [
+    "Error: the roof recedes from a lit room floor\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m10\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  26 |     } finally { Assets.themes[0] = original; Renderer.setCalm(calm); }\n  27 |   });\n> 28 |   expect(result.middle[0] - result.middle[1], 'the roof recedes from a lit room floor').toBeGreaterThan(10);\n     |                                                                                         ^\n  29 |   expect(result.middle[1], 'the ceiling remains visible').toBeGreaterThan(50);\n  30 |   expect(result.distant[0], 'a distant surface remains visible').toBeGreaterThan(20);\n  31 |   expect(result.distant[1], 'the new roof shade does not introduce earlier fog').toBe(result.distant[0]);\n    at /tmp/aaa3-negative/roof-negative.spec.js:28:89"
+  ],
+  "trace_directory": "/workspace/Dungeon-Hack-Mobile/test-results/aaa3-roof-negative"
+}

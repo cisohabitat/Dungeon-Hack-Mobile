@@ -1,0 +1,490 @@
+{
+  "scope": "Selected native landmark/action records; full unmodified original evidence and additional screenshots retained at the raw path. No image pixels changed.",
+  "rawEvidence": "/workspace/aaa3-audit/forge-before/evidence.json",
+  "rawEvidenceSHA256": "5a1b0af41ad8839d8185e95d1cfe41e968aaec20051dab25fcf2577193e9beac",
+  "records": [
+    {
+      "i": 12,
+      "n": 12,
+      "d": 8,
+      "stage": "landmark",
+      "file": "12-landmark.png",
+      "placement": {
+        "target": {
+          "x": 17,
+          "y": 5,
+          "k": "rubble",
+          "ox": -0.06,
+          "oy": 0.06
+        },
+        "x": 17,
+        "y": 8,
+        "dir": 0,
+        "dist": 3
+      },
+      "actions": [],
+      "theme": "The Old Forges",
+      "depth": 8,
+      "twist": "smouldering",
+      "piece": {
+        "kind": "cells",
+        "variant": "kennels",
+        "room": 3,
+        "props": [
+          {
+            "x": 9,
+            "y": 19,
+            "k": "bones"
+          },
+          {
+            "x": 15,
+            "y": 19,
+            "k": "bones"
+          },
+          {
+            "x": 14,
+            "y": 16,
+            "k": "bones"
+          },
+          {
+            "x": 9,
+            "y": 20,
+            "k": "bones"
+          },
+          {
+            "x": 9,
+            "y": 16,
+            "k": "shackles"
+          },
+          {
+            "x": 9,
+            "y": 17,
+            "k": "shackles"
+          }
+        ]
+      },
+      "rooms": [
+        {
+          "x": 3,
+          "y": 15,
+          "w": 4,
+          "h": 4,
+          "shape": "box"
+        },
+        {
+          "x": 3,
+          "y": 4,
+          "w": 5,
+          "h": 7,
+          "shape": "colonnade"
+        },
+        {
+          "x": 4,
+          "y": 27,
+          "w": 3,
+          "h": 6,
+          "shape": "box"
+        },
+        {
+          "x": 9,
+          "y": 13,
+          "w": 7,
+          "h": 8,
+          "shape": "cells"
+        },
+        {
+          "x": 9,
+          "y": 24,
+          "w": 7,
+          "h": 5,
+          "shape": "cross"
+        },
+        {
+          "x": 14,
+          "y": 4,
+          "w": 5,
+          "h": 5,
+          "shape": "box"
+        },
+        {
+          "x": 19,
+          "y": 19,
+          "w": 4,
+          "h": 3,
+          "shape": "box"
+        },
+        {
+          "x": 21,
+          "y": 3,
+          "w": 8,
+          "h": 6,
+          "shape": "niches"
+        },
+        {
+          "x": 21,
+          "y": 11,
+          "w": 8,
+          "h": 5,
+          "shape": "niches"
+        },
+        {
+          "x": 22,
+          "y": 28,
+          "w": 6,
+          "h": 5,
+          "shape": "niches"
+        },
+        {
+          "x": 25,
+          "y": 19,
+          "w": 8,
+          "h": 5,
+          "shape": "niches"
+        },
+        {
+          "x": 31,
+          "y": 5,
+          "w": 2,
+          "h": 11,
+          "shape": "gallery"
+        }
+      ],
+      "position": {
+        "x": 17,
+        "y": 8,
+        "dir": 0
+      },
+      "monsters": [
+        {
+          "id": "orc",
+          "x": 3,
+          "y": 8
+        },
+        {
+          "id": "emberling",
+          "x": 20,
+          "y": 21
+        },
+        {
+          "id": "orc",
+          "x": 23,
+          "y": 6
+        },
+        {
+          "id": "troll",
+          "x": 10,
+          "y": 26
+        },
+        {
+          "id": "quillback",
+          "x": 14,
+          "y": 6
+        },
+        {
+          "id": "rustmaw",
+          "x": 21,
+          "y": 20
+        },
+        {
+          "id": "rustmaw",
+          "x": 28,
+          "y": 20
+        },
+        {
+          "id": "troll",
+          "x": 15,
+          "y": 16
+        },
+        {
+          "id": "rustmaw",
+          "x": 30,
+          "y": 23
+        },
+        {
+          "id": "troll",
+          "x": 9,
+          "y": 13
+        },
+        {
+          "id": "ogre",
+          "x": 18,
+          "y": 25
+        },
+        {
+          "id": "basilisk",
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": "orc",
+          "x": 24,
+          "y": 5
+        },
+        {
+          "id": "orc",
+          "x": 22,
+          "y": 6
+        },
+        {
+          "id": "emberling",
+          "x": 23,
+          "y": 7
+        }
+      ],
+      "dressing": [
+        {
+          "x": 9,
+          "y": 19,
+          "k": "bones",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 15,
+          "y": 19,
+          "k": "bones",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 14,
+          "y": 16,
+          "k": "bones",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 9,
+          "y": 20,
+          "k": "bones",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 9,
+          "y": 16,
+          "k": "shackles",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 9,
+          "y": 17,
+          "k": "shackles",
+          "ox": 0,
+          "oy": 0
+        },
+        {
+          "x": 28,
+          "y": 6,
+          "k": "crate",
+          "ox": 0.18,
+          "oy": -0.14
+        },
+        {
+          "x": 23,
+          "y": 6,
+          "k": "candles",
+          "ox": -0.09,
+          "oy": 0.17
+        },
+        {
+          "x": 27,
+          "y": 4,
+          "k": "barrel",
+          "ox": -0.08,
+          "oy": -0.33
+        },
+        {
+          "x": 7,
+          "y": 9,
+          "k": "candles",
+          "ox": -0.05,
+          "oy": 0.16
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "k": "candles",
+          "ox": 0.16,
+          "oy": 0.2
+        },
+        {
+          "x": 3,
+          "y": 5,
+          "k": "crate",
+          "ox": 0.05,
+          "oy": 0.06
+        },
+        {
+          "x": 17,
+          "y": 5,
+          "k": "rubble",
+          "ox": -0.06,
+          "oy": 0.06
+        },
+        {
+          "x": 18,
+          "y": 8,
+          "k": "barrel",
+          "ox": 0.34,
+          "oy": 0.17
+        },
+        {
+          "x": 32,
+          "y": 8,
+          "k": "crate",
+          "ox": 0.28,
+          "oy": 0.08
+        },
+        {
+          "x": 31,
+          "y": 6,
+          "k": "barrel",
+          "ox": -0.34,
+          "oy": 0.17
+        },
+        {
+          "x": 21,
+          "y": 12,
+          "k": "rubble",
+          "ox": 0.08,
+          "oy": 0.16
+        },
+        {
+          "x": 25,
+          "y": 14,
+          "k": "barrel",
+          "ox": 0.09,
+          "oy": 0.25
+        },
+        {
+          "x": 27,
+          "y": 13,
+          "k": "candles",
+          "ox": -0.11,
+          "oy": 0.08
+        },
+        {
+          "x": 10,
+          "y": 17,
+          "k": "rubble",
+          "ox": -0.03,
+          "oy": -0.04
+        },
+        {
+          "x": 14,
+          "y": 20,
+          "k": "candles",
+          "ox": -0.03,
+          "oy": -0.13
+        },
+        {
+          "x": 3,
+          "y": 18,
+          "k": "crate",
+          "ox": -0.17,
+          "oy": 0.33
+        },
+        {
+          "x": 21,
+          "y": 21,
+          "k": "oilcask",
+          "ox": -0.15,
+          "oy": 0.23
+        },
+        {
+          "x": 19,
+          "y": 19,
+          "k": "barrel",
+          "ox": -0.19,
+          "oy": -0.29
+        },
+        {
+          "x": 30,
+          "y": 19,
+          "k": "rubble",
+          "ox": -0.16,
+          "oy": -0.12
+        },
+        {
+          "x": 26,
+          "y": 19,
+          "k": "rubble",
+          "ox": 0.18,
+          "oy": 0.08
+        },
+        {
+          "x": 28,
+          "y": 23,
+          "k": "barrel",
+          "ox": -0.16,
+          "oy": 0.34
+        },
+        {
+          "x": 15,
+          "y": 25,
+          "k": "barrel",
+          "ox": 0.23,
+          "oy": -0.28
+        },
+        {
+          "x": 9,
+          "y": 25,
+          "k": "candles",
+          "ox": -0.05,
+          "oy": -0.03
+        },
+        {
+          "x": 14,
+          "y": 27,
+          "k": "barrel",
+          "ox": -0.02,
+          "oy": 0.24
+        },
+        {
+          "x": 5,
+          "y": 27,
+          "k": "crate",
+          "ox": 0.19,
+          "oy": -0.13
+        },
+        {
+          "x": 25,
+          "y": 32,
+          "k": "oilcask",
+          "ox": 0.08,
+          "oy": 0.34
+        },
+        {
+          "x": 23,
+          "y": 30,
+          "k": "rubble",
+          "ox": 0.05,
+          "oy": -0.17
+        },
+        {
+          "k": "chest",
+          "x": 11,
+          "y": 5,
+          "ox": 0,
+          "oy": 0,
+          "loot": [
+            {
+              "t": "gold",
+              "q": 312
+            },
+            {
+              "t": "gem",
+              "name": "Amethyst",
+              "q": 88
+            }
+          ]
+        }
+      ],
+      "shown": [],
+      "paintFailures": [],
+      "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+    }
+  ]
+}

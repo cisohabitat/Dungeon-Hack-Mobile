@@ -1531,3 +1531,20 @@ before fountains, particles and sprites. Pixel/timing controls and rejected
 experiments live in `docs/verification/2026-10-28-wall-light-batching/`.
 The v0.9.55 CI reading-scroll28.8FPS failure and browser retries remain evidence,
 not a reason to relax the30FPS gate or retry an unchanged source for a pass.
+
+### Room roof hierarchy and forge dressing
+`renderer.js` selects a fixed eight-step roof shade table per material.
+Non-cave roofs recede one level at floor shades0–5; levels6/7 keep their original
+fog boundary. `CEIL.CAVE` retains its exact old sequence. Floor/wall/actor
+lighting, fog reach and warm-light quantisation are unchanged. Keep cave, far
+surface and lower-view pixel controls when changing this policy.
+In the Old Forges only, `regionalProp` draws existing non-fallen decorative
+rubble with the approved `dress_anvil` asset. Its saved kind, position, scale
+and count stay unchanged. Grey Hold scrap and fallen rubble keep their old
+pictures; never replace barrels, oil casks, crates or NPC encounter art.
+The regional-props invariant runs as `@mobile` so WebKit covers it too.
+`docs/visual/2026-10-28-aaa3-staging/` separates generated-room inspection poses,
+roof-only matched render states and native turn/walk captures. Crowded keeper
+approaches remain an AAA3 follow-up requiring balance evidence before changing
+guard placement or room layouts. These presentation checks are not balance,
+physical-device, listening or independent AAA certification.

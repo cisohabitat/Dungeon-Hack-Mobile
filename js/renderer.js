@@ -125,6 +125,10 @@ const Renderer = (() => {
     }
     return m;
   });
+  // Keep built roofs behind the room's focal plane without moving the fog
+  // boundary. Natural cave roofs retain their original shade sequence.
+  const BUILT_ROOF_SHADE = new Uint8Array([1, 2, 3, 4, 5, 6, 6, 7]);
+  const CAVE_ROOF_SHADE = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 7]);
   let floorKinds = 0;   // which floors (looks.js FLOOR) the last frame showed, as bits, for the tests
   function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lit) {
     const TX = Assets.TEX;
@@ -154,15 +158,15 @@ const Renderer = (() => {
       const ownWarm = (own * (WARM_STEPS - 1) + 0.5) | 0;
       const ownCeilWarm = (own * 0.7 * (WARM_STEPS - 1) + 0.5) | 0;
       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
-      let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], caveDark = 0;
+      let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], roofShade = BUILT_ROOF_SHADE;
       let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0;
       for (let x = 0; x < W; x++) {
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
         if (i !== lastI) {
           lastI = i;
-          if (i >= 0) { f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; caveDark = c === CAVE_ROOF ? 1 : 0; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
-          else { boost = 0; c = 0; footMap = FOOT[0]; caveDark = 0; floorT = floorSet[0]; ceilT = ceilSet[0]; }
+          if (i >= 0) { f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; roofShade = c === CAVE_ROOF ? CAVE_ROOF_SHADE : BUILT_ROOF_SHADE; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
+          else { boost = 0; c = 0; footMap = FOOT[0]; roofShade = BUILT_ROOF_SHADE; floorT = floorSet[0]; ceilT = ceilSet[0]; }
         }
         // Blend the same square-centred light field as the walls. Fetch its
         // four corners only on entering a new light cell, not for every texel.
@@ -193,8 +197,7 @@ const Renderer = (() => {
         // above it); and a cavern's roof is lost in the dark higher up than a built one
         let flv = lv + footMap[ti];
         if (flv > 7) flv = 7;
-        let clv = flv + caveDark;
-        if (clv > 7) clv = 7;
+        const clv = roofShade[flv];
         if (flv >= 7 && clv >= 7) { fb32[o + x] = fogPx; fb32[oc + x] = fogPx; fx += stepX; fy += stepY; continue; }
         const src = floorT[flv], csrc = ceilT[clv];
         if (glow > 0.05) {

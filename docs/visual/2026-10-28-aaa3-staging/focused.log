@@ -1,0 +1,19 @@
+
+Running 12 tests using 2 workers
+
+  ✓   2 [phone] › test/browser/region-art.spec.js:41:1 › regional materials keep coded locks, water, shade caches and run dice intact @mobile (3.5s)
+  ✓   1 [phone] › test/browser/region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile (5.1s)
+  ✓   4 [phone] › test/browser/region-art.spec.js:138:1 › built roofs recede from the room while distant surfaces keep their fog boundary @mobile (4.5s)
+  ✓   3 [phone] › test/browser/region-art.spec.js:109:1 › every region renders the same visible foe with its own scenery in Calm view @mobile (12.0s)
+  ✓   5 [phone] › test/browser/visual-polish.spec.js:96:1 › regional props change the painting while saved scenery, scale and dice stay fixed (11.6s)
+  ✓   7 [small] › test/browser/region-art.spec.js:41:1 › regional materials keep coded locks, water, shade caches and run dice intact @mobile (2.4s)
+  ✓   6 [phone] › test/browser/visual-polish.spec.js:363:1 › landmark textures keep clear arches, deterministic shade caches and game state @mobile (11.2s)
+  ✓   8 [small] › test/browser/region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile (4.3s)
+  ✓  10 [small] › test/browser/region-art.spec.js:138:1 › built roofs recede from the room while distant surfaces keep their fog boundary @mobile (3.8s)
+  ✓   9 [small] › test/browser/region-art.spec.js:109:1 › every region renders the same visible foe with its own scenery in Calm view @mobile (10.4s)
+  ✓  11 [small] › test/browser/visual-polish.spec.js:96:1 › regional props change the painting while saved scenery, scale and dice stay fixed (9.9s)
+  ✓  12 [small] › test/browser/visual-polish.spec.js:363:1 › landmark textures keep clear arches, deterministic shade caches and game state @mobile (8.9s)
+::notice title=🎭 Playwright Run Summary::  12 passed (48.5s)
+
+  12 passed (48.5s)
+Browser step aaa3-focused exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3-focused/.

@@ -1,0 +1,136 @@
+{
+  "baseline": "7001bbe343a51e045c6100edccbb5b2935d5c946",
+  "candidate": {
+    "version": "0.9.57",
+    "build": 72,
+    "cache": "deepdelve-v132"
+  },
+  "scope": "First bounded AAA3 slice: non-cave roof shade hierarchy plus approved anvil reuse for existing Old Forges decorative rubble. No rule/generation/art-source changes. Crowded keeper approaches remain next AAA3 slice with required balance benchmarks.",
+  "source_hashes": {
+    "js/renderer.js": "545227593842d9b22d9a4e0a69a1b8044339bb564ae198202406397284d0ebd3",
+    "js/regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+    "test/browser/region-art.spec.js": "7b15b810dfd25ea916e595293063d6d4f456457a6ea51a84a5f50c748435aa2d",
+    "test/browser/visual-polish.spec.js": "8eedd47af4855dc3527c27bca3cf2d53d60601a2dc3742a51b1e6809d5f11dc9",
+    "js/release.js": "5421203323315de3324bfe0e5a582b26e71240210a8f021537d8f5ba3950b1af",
+    "sw.js": "063094b02d2f5d93a2853beb748ffc2ea5892571c0edbea01f9c5c7381a4d900"
+  },
+  "focused": {
+    "startTime": "2026-10-28T23:20:20.633Z",
+    "duration": 48518.9,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "roof_cave_checks": {
+    "startTime": "2026-10-28T23:25:50.613Z",
+    "duration": 10841.202000000001,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "negative_control": {
+    "scope": "Intentional negative control; original v0.9.56 renderer routed into the new roof regression; no candidate changes or benchmark",
+    "stats": {
+      "startTime": "2026-10-28T23:22:01.847Z",
+      "duration": 6785.1140000000005,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "errors": [
+      "Error: the roof recedes from a lit room floor\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m10\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n\n  26 |     } finally { Assets.themes[0] = original; Renderer.setCalm(calm); }\n  27 |   });\n> 28 |   expect(result.middle[0] - result.middle[1], 'the roof recedes from a lit room floor').toBeGreaterThan(10);\n     |                                                                                         ^\n  29 |   expect(result.middle[1], 'the ceiling remains visible').toBeGreaterThan(50);\n  30 |   expect(result.distant[0], 'a distant surface remains visible').toBeGreaterThan(20);\n  31 |   expect(result.distant[1], 'the new roof shade does not introduce earlier fog').toBe(result.distant[0]);\n    at /tmp/aaa3-negative/roof-negative.spec.js:28:89"
+    ],
+    "trace_directory": "/workspace/Dungeon-Hack-Mobile/test-results/aaa3-roof-negative"
+  },
+  "roof_matrix": {
+    "views": 2808,
+    "lower_changes": 0,
+    "entire_cave_roof_views_unchanged": 432
+  },
+  "generated_roof_pairs": {
+    "views": 39,
+    "themes": 13,
+    "lower_changes": 0,
+    "actor_geometry_state_dice_unchanged": true,
+    "shared_current_decor_mapping": true
+  },
+  "native_actions": {
+    "cases": 12,
+    "actions": 44,
+    "frames": 352,
+    "widths": [
+      320,
+      740
+    ],
+    "all_three_keepers": true,
+    "scope": "Running native updates/assets and real turn/walk actions; supplied legal inspection poses/testingHP; not unassisted or balance/physical evidence"
+  },
+  "performance": {
+    "stats": {
+      "startTime": "2026-10-28T23:42:01.594Z",
+      "duration": 65214.46399999999,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "scenes": {
+      "fight": 38.2,
+      "wide": 37.9,
+      "flooded": 35.4,
+      "painted": 36.3,
+      "amber": 33.6,
+      "scroll": 39.9,
+      "rite": 49.1
+    },
+    "start_ms": 2209,
+    "passed": true
+  },
+  "repository": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "rule_duration": "1m24s"
+  },
+  "expected_ci_counts": {
+    "phone": 633,
+    "small": 348,
+    "safari": 219,
+    "perf": 1
+  },
+  "interrupted_full_run": {
+    "passes": 129,
+    "failures": 0,
+    "cause": "Environment restart lost exec session 62449 and its browser processes; no final JSON report was produced. Full suite restarted unchanged.",
+    "log": "/workspace/aaa3-audit/full-ordinary-interrupted.log"
+  },
+  "restart_setup_error": "Orphan server on port4193 from interrupted run caused startup failure before any tests. Identified and stopped orphan1170812/1170811, then started full suite under aaa3-full-ordinary-resumed; no config/coverage/retry changes.",
+  "full_chromium": {
+    "regular_expected": 975,
+    "serial_expected": 6,
+    "distinct_expected": 981,
+    "status": "passed",
+    "log": "/workspace/aaa3-audit/full-ordinary.log",
+    "session": 62449,
+    "ordinary": {
+      "startTime": "2026-10-29T00:02:22.708Z",
+      "duration": 3867351.3159999996,
+      "expected": 975,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "offline": {
+      "startTime": "2026-10-29T01:07:02.510Z",
+      "duration": 158366.606,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "publication_gate": "All required CI jobs and release publisher must pass on the committed source before release is reported complete."
+}

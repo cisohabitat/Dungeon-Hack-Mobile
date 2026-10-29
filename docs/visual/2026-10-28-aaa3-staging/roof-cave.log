@@ -1,0 +1,9 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/region-art.spec.js:138:1 › built roofs recede from the room while distant surfaces keep their fog boundary @mobile (4.2s)
+  ✓  2 [small] › test/browser/region-art.spec.js:138:1 › built roofs recede from the room while distant surfaces keep their fog boundary @mobile (4.0s)
+::notice title=🎭 Playwright Run Summary::  2 passed (10.8s)
+
+  2 passed (10.8s)
+Browser step aaa3-roof-cave exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3-roof-cave/.

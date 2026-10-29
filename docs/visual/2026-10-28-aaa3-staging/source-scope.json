@@ -1,0 +1,11 @@
+{
+  "baseline": "7001bbe343a51e045c6100edccbb5b2935d5c946",
+  "renderer_sha256": "545227593842d9b22d9a4e0a69a1b8044339bb564ae198202406397284d0ebd3",
+  "regionalprops_sha256": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+  "anvil_asset_sha256": "ff113f0980a33eb31ad00882d81ce09a1a58f2bb29a00993f3ec1c59a2f76696",
+  "art_source_changes": false,
+  "setup_attempt": "Initial external preview helper had a syntax error before browser execution; corrected, with its original log retained at /workspace/aaa3-audit/preview-setup-error.log.",
+  "capture_metadata_version": "0.9.56, before the release metadata bump",
+  "prepared_release": "0.9.57",
+  "scope_note": "Capture renderer/prop code hashes match the prepared release; no source-art or rule change. Final tests run with v0.9.57 metadata."
+}

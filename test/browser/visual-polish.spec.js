@@ -93,7 +93,7 @@ test('cached attack and recovery poses respect wind-ups, expiry and Calm view @m
   expect(errors).toEqual([]);
 });
 
-test('regional props change the painting while saved scenery, scale and dice stay fixed', async ({ page }, testInfo) => {
+test('regional props change the painting while saved scenery, scale and dice stay fixed @mobile', async ({ page }, testInfo) => {
   const errors = watchForErrors(page);
   await scene(page);
   const result = await page.evaluate(async () => {
@@ -111,7 +111,7 @@ test('regional props change the painting while saved scenery, scale and dice sta
       Renderer.render(rs.level, rs.cam, rs.sprites, rs.fx, now);
       const x = i % 3 * view.width, y = Math.floor(i / 3) * (view.height + 22);
       ctx.fillStyle = '#15121a'; ctx.fillRect(x, y, view.width, view.height + 22); ctx.fillStyle = '#eee'; ctx.fillText(name, x + 6, y + 16); ctx.drawImage(view, x, y + 22);
-      return { name, kinds: L.dressing.map(d => regionalProp(THEMES[L.theme], d.k)), positions: sprites.map(({ x, y, scale, yOff }) => ({ x, y, scale, yOff })) };
+      return { name, protectedKinds: ['barrel', 'oilcask', 'crate'].map(k => regionalProp(THEMES[L.theme], k)), kinds: L.dressing.map(d => regionalProp(THEMES[L.theme], d.k)), positions: sprites.map(({ x, y, scale, yOff }) => ({ x, y, scale, yOff })) };
     });
     const unchanged = JSON.stringify(L.dressing) === saved;
     L.dressing.push({ x: p.x + dx * 2, y: p.y + dy * 2, ox: 0, oy: 0, k: 'rubble', fell: true });
@@ -121,7 +121,8 @@ test('regional props change the painting while saved scenery, scale and dice sta
   expect(result.saved).toBe(true); expect(result.dice).toBe(true);
   expect(result.fallen, 'a cave-in still leaves the same stones that fell').toBe(true);
   for (const f of result.frames) expect(f.positions, f.name).toEqual(result.frames[0].positions);
-  expect(result.frames.map(f => f.kinds)).toEqual([['crypt_lid', 'mushrooms'], ['iron_scrap', 'mushrooms'], ['rubble', 'reed_bundle'], ['roots', 'mushrooms'], ['elf_shards', 'mushrooms'], ['iron_scrap', 'mushrooms']]);
+  for (const f of result.frames) expect(f.protectedKinds, f.name).toEqual(['barrel', 'oilcask', 'crate']);
+  expect(result.frames.map(f => f.kinds)).toEqual([['crypt_lid', 'mushrooms'], ['iron_scrap', 'mushrooms'], ['rubble', 'reed_bundle'], ['roots', 'mushrooms'], ['elf_shards', 'mushrooms'], ['anvil', 'mushrooms']]);
   await testInfo.attach('regional-props', { body: Buffer.from(result.sheet, 'base64'), contentType: 'image/png' });
   if (process.env.POLISH_REVIEW_DIR) require('fs').writeFileSync(process.env.POLISH_REVIEW_DIR + '/regional-props.png', Buffer.from(result.sheet, 'base64'));
   expect(errors).toEqual([]);

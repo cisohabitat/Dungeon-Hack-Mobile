@@ -57,7 +57,8 @@ export function regionalProp(theme, kind, fallen = false) {
   if (fallen) return kind;
   if (kind === 'rubble') {
     if (theme.road === 'crypts' || /Catacombs|Crypts/.test(theme.name)) return 'crypt_lid';
-    if (theme.people === 'dwarves' || theme.region === 'forge') return 'iron_scrap';
+    if (theme.region === 'forge') return 'anvil';
+    if (theme.people === 'dwarves') return 'iron_scrap';
     if (theme.people === 'elves' || theme.face === 'glass' || theme.name === 'Blue Vaults') return 'elf_shards';
     if (theme.name === 'Mossy Depths' || theme.road === 'warrens') return 'roots';
   }

@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (36.2s)
+  ✓  2 [phone] › test/browser/painted-creatures.spec.js:367:1 › painted creature survives an installed offline native reload @mobile (24.8s)
+  ✓  3 [phone] › test/browser/sharecard.spec.js:166:1 › installed offline ending exports its painted dais and companion without network access (19.4s)
+  ✓  4 [small] › test/browser/offline.spec.js:8:1 › core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile (34.5s)
+  ✓  5 [small] › test/browser/painted-creatures.spec.js:367:1 › painted creature survives an installed offline native reload @mobile (22.7s)
+  ✓  6 [small] › test/browser/sharecard.spec.js:166:1 › installed offline ending exports its painted dais and companion without network access (18.3s)
+::notice title=🎭 Playwright Run Summary::  6 passed (2.6m)
+
+  6 passed (2.6m)
+Browser step aaa3-full-offline exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa3-full-offline/.
