@@ -1,0 +1,131 @@
+{
+  "baseline": "c14f127be273d01b26649f8375a7e3c3a0890ee5",
+  "prepared_version": "0.9.60",
+  "local_gates": [
+    {
+      "label": "aaa4-full4-before-environment-restart",
+      "passed": 541,
+      "failed": 0,
+      "final_json_available": false,
+      "evidence": "full4-ordinary.log.gz + full4-completed.txt",
+      "retries": 0
+    },
+    {
+      "label": "aaa4-full4-resumed",
+      "stats": {
+        "startTime": "2026-10-29T19:39:03.718Z",
+        "duration": 1879200.1779999998,
+        "expected": 458,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "retries": 0
+    },
+    {
+      "label": "aaa4-full4-offline",
+      "stats": {
+        "startTime": "2026-10-29T20:10:24.024Z",
+        "duration": 167901.176,
+        "expected": 6,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "retries": 0
+    },
+    {
+      "label": "aaa4-perf-receipt-final",
+      "stats": {
+        "startTime": "2026-10-29T18:49:25.270Z",
+        "duration": 64440.520000000004,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "retries": 0
+    },
+    {
+      "label": "aaa4-receipt-clearance",
+      "stats": {
+        "startTime": "2026-10-29T18:45:09.586Z",
+        "duration": 172233.296,
+        "expected": 28,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "retries": 0
+    }
+  ],
+  "chromium_coverage": {
+    "ordinary_before_restart": 541,
+    "ordinary_resumed": 458,
+    "serial_offline": 6,
+    "total": 1005,
+    "source_hashes_identical": true
+  },
+  "npm_test": {
+    "passed": true,
+    "rule_checks": 751,
+    "rule_files": 74,
+    "log": "npm-test-receipt-final2.log.gz"
+  },
+  "native": {
+    "frames": 48,
+    "shapes": 5,
+    "overlap_or_spill": 0,
+    "supplied_state": true,
+    "frozen_updates": false,
+    "unassisted_win": false,
+    "physical_device_or_listening_approval": false
+  },
+  "fps": {
+    "cpu_slowdown": 4,
+    "minimum": 30,
+    "scenes": {
+      "fight": 39,
+      "wide": 39,
+      "flooded": 43.4,
+      "painted": 46.5,
+      "amber": 43.3,
+      "scroll": 36.2,
+      "rite": 43.6
+    },
+    "startup_ms": 2250,
+    "retries": 0
+  },
+  "source": {
+    "baseline": "c14f127be273d01b26649f8375a7e3c3a0890ee5",
+    "unchanged_js_modules": 113,
+    "changed": [
+      "js/release.js",
+      "js/renderer.js",
+      "js/titlemenu.js",
+      "js/ui.js"
+    ],
+    "notes": "Presentation only: full glyph-height warning clearance; UI scheduling/reservation; News; generated release metadata. Rule/data/generation and approved artwork unchanged."
+  },
+  "runtime_sha256": {
+    "css/style.css": "615ccbaaf8bb68efefca10bf1571f296f1471c42dcd0c997a09604448004f600",
+    "index.html": "2e0ba711b355f2326fc2b3b7504a878181b74ad651716407716d0724ddd0882a",
+    "js/ui.js": "7298f271ff1a437b080a40bc29c93abb13c50d0323c435d9ef89199d18f705c1",
+    "js/renderer.js": "c3d25e0f22c110ef5ebf2bc73d830b63727284c10774f34ed892119f58bc14a8",
+    "js/titlemenu.js": "afa2daed900956ea54abb974da9ed069a2fb0c74899b48d4ca691790b8ae809c",
+    "js/release.js": "55cfd0bf6539d606aa2f22941b3c929045d2da751aba6a7163cb45c01a592d45",
+    "sw.js": "75bc7fe6f72068d5997e7a39e5d412a6d6e5985804c5a742582cf76080cb44ea",
+    "package.json": "66a82b0cfb43200192359864cce9212b5a9d6fb60888d50110bb097a264b0243",
+    "playwright.config.js": "d81b5f8036a23062cf56812acd3191a240b9e419b02a4fb25b47fff14f840f11",
+    "test/browser/combat-layout.spec.js": "d412c6df61f974325bcfd6fb0f38794bcc85d29acc27c7563b1674306e386ced"
+  },
+  "retained_failures": [
+    "Initial reading FPS 28.7 and steady-row 28.8; profiled original/candidate misses; no publication from those results.",
+    "First full run: view height 291.64 below existing 300 minimum; corrected without weakening assertions.",
+    "Final standard two-worker run interrupted by environment restart after541 passes0failures; resumed458cases plus6offline. Original partial log/list retained; no fabricated full JSON.",
+    "Three-worker diagnostic:53 passes,2 failures(background-art25s deadline/leaning counter),3 interrupted; restored repository standard2workers, unchanged gates.",
+    "Second full interrupted after 466 passes by environment restart; resumed234 passes/1 missing MISS failure/2 interrupted. Full glyph-height warning clearance corrected; fresh full run replaces diagnostics."
+  ],
+  "publication": "Fresh committed release checks, pre-push scratch-checkout npm test and all ten CI groups plus publisher remain required. CI evidence and live/tag/main verification are recorded outside the repository after push.",
+  "open": "AAA4 listening/reference encounters, AAA5 physical devices and independent regrade."
+}

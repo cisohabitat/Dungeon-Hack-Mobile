@@ -27,7 +27,7 @@ module.exports = defineConfig({
     { name: 'phone', use: { ...devices['Pixel 5'] }, testIgnore: /perf\.spec\.js/ },
     // the smallest phone in the device matrix (docs/DEVICES.md): the interface and
     // the core loop again at its size, in Chromium (WebKit is not installed here)
-    { name: 'small', use: { ...devices['iPhone SE'], browserName: 'chromium', defaultBrowserType: 'chromium' }, testMatch: /(reading-scroll|painted-cache|painted-world|painted-creatures|combat-clarity|collection-browser|held-equipment|spellblade|memorable|polish|interface|play|mobile|a11y|release|replay|gear-tools|delve-guide|portraits|sharecard|relic-portraits|companions|boss-portraits|bestiary|melee-feedback|fire-feedback|elemental-feedback|security|puzzles|region-art|visual-polish|mythics|offline)\.spec\.js/ },
+    { name: 'small', use: { ...devices['iPhone SE'], browserName: 'chromium', defaultBrowserType: 'chromium' }, testMatch: /(reading-scroll|painted-cache|painted-world|painted-creatures|combat-clarity|combat-layout|collection-browser|held-equipment|spellblade|memorable|polish|interface|play|mobile|a11y|release|replay|gear-tools|delve-guide|portraits|sharecard|relic-portraits|companions|boss-portraits|bestiary|melee-feedback|fire-feedback|elemental-feedback|security|puzzles|region-art|visual-polish|mythics|offline)\.spec\.js/ },
     // Focused engine coverage; @mobile tests also run in the Chromium suites.
     { name: 'safari', use: { ...devices['iPhone SE'], browserName: 'webkit', launchOptions: { args: [] } }, grep: /@mobile/ },
     { name: 'perf', use: { ...devices['Pixel 5'] }, testMatch: /perf\.spec\.js/, retries: 0 },

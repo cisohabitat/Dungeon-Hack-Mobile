@@ -1,0 +1,13 @@
+
+Running 6 tests using 1 worker
+
+  ✓  1 [phone] › test/browser/combat-layout.spec.js:7:39 › Double text right-handed combat keeps messages and quick actions clear of the controls @mobile (11.0s)
+  ✓  2 [phone] › test/browser/combat-layout.spec.js:7:39 › Double text left-handed combat keeps messages and quick actions clear of the controls @mobile (10.4s)
+  ✓  3 [phone] › test/browser/combat-layout.spec.js:53:1 › enlarged vital bars keep full large numbers when they wrap @mobile (4.3s)
+  ✓  4 [small] › test/browser/combat-layout.spec.js:7:39 › Double text right-handed combat keeps messages and quick actions clear of the controls @mobile (10.9s)
+  ✓  5 [small] › test/browser/combat-layout.spec.js:7:39 › Double text left-handed combat keeps messages and quick actions clear of the controls @mobile (8.9s)
+  ✓  6 [small] › test/browser/combat-layout.spec.js:53:1 › enlarged vital bars keep full large numbers when they wrap @mobile (3.8s)
+::notice title=🎭 Playwright Run Summary::  6 passed (51.3s)
+
+  6 passed (51.3s)
+Browser step aaa4-layout-final3 exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa4-layout-final3/.

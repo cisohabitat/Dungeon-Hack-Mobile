@@ -9,6 +9,13 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Clearer enlarged combat layout.** At Larger and Double text, vital bars
+  share space when their full labels fit and conditions scroll in one touchable
+  row. Quick actions clear the live intent strip, with mirrored left-handed
+  spacing and the complete message history still one tap away. The view stays
+  steady between a visible foe’s attacks. Critical-hit, damage and miss labels
+  keep clear of attack warnings.
+
 - **Painted keeper identity in combat.** The active keeper's life bar carries
   its painted face, so it remains identifiable when a guard fills the view.
   Delayed or unavailable pictures retain the complete text bar.

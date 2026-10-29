@@ -794,7 +794,7 @@ body.calm .hud-quaff.urgent { animation: none; background: var(--alarm-bg); box-
    their edges showed above and below it, half struck through by its border */
 .view-col:has(#tip.show) .log div:not(:last-child) { visibility: hidden; }
 /* what lies underfoot, at the foot of the view */
-.feet { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: var(--s-6);
+.feet { position: absolute; left: 50%; bottom: calc(var(--intent-height, 0px) + 6px); transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: var(--s-6);
   min-height: 44px; padding: var(--s-4) var(--s-10); background: rgba(12, 10, 18, 0.72); border: 1px solid var(--border); border-radius: 10px; }
 .feet[hidden] { display: none; }
 .feet-icons { display: flex; gap: var(--s-2); align-items: center; }
@@ -1197,7 +1197,7 @@ body.big-text .bar span { line-height: calc(0.9rem + 2px); }
 /* the view gives up some of its height (never less than a wide strip) and the
    log keeps two lines, the rest a tap on Log away at the same size */
 body.big-text .view-wrap { min-height: calc(100vw * 0.4); }
-body.big-text .log { height: 2.9em; min-height: 2.9em; padding-right: 92px; }
+body.big-text .log { height: 2.9em; min-height: max(64px, 2.9em); padding-right: 92px; }
 body.big-text .logo { font-size: clamp(1.5rem, 8vw, 2.4rem); letter-spacing: 0.06em; }
 body.big-text .daily-kind button { font-size: var(--t-2xs); padding-left: var(--s-4); padding-right: var(--s-4); white-space: normal; line-height: 1.1; }
 .pro-class { display: block; color: var(--dim); }
@@ -1592,3 +1592,54 @@ body.big-text .collection-filters { grid-template-columns: minmax(0, 1fr); }
 
 .collection-filter-options { margin-top: var(--s-8); }
 .collection-filter-options > summary { min-height: 44px; padding-block: var(--s-12); color: var(--text-soft); cursor: pointer; }
+
+/* Enlarged combat HUD: readable bars share a row when their actual labels fit.
+   Let long numbers wrap the bars instead of clipping or reducing their type. */
+@media (orientation: portrait) {
+  body.big-text .hud-name { flex: 1 1 0; min-width: 0; flex-wrap: nowrap; }
+  body.big-text #hud-name { flex: 1 1 auto; min-width: 0; }
+  body.big-text #hud-cls { flex: none; }
+  body.big-text .hud-right { flex: 1 1 100%; min-width: 0; flex-wrap: wrap; justify-content: space-between; }
+  body.big-text .hud-bars { flex-direction: row; flex-wrap: wrap; }
+  body.big-text .bar { flex: 1 1 0; min-width: max-content; }
+  body.big-text .bar span { position: relative; inset: auto; display: block; white-space: nowrap; padding: 0 var(--s-4); }
+  body.big-text .hud-status { max-height: 44px; flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; }
+  body.big-text .hud-status button { flex: none; white-space: nowrap; }
+  body.big-text .controls { padding-top: var(--s-8); padding-bottom: var(--s-6); }
+  /* Reserve messages and controls even when the screen has little height. */
+  body.big-text .view-wrap { min-height: 44px; }
+}
+
+/* A short enlarged view must not let the corner map cover the intent line. */
+body.big-text #minimap { width: auto; max-height: calc(100% - var(--s-12)); }
+
+/* Mirror both ends of the log together for the left-handed pad. */
+.lefty .quick-scroll { left: auto; right: var(--s-6); }
+.lefty .view-col:has(#quick-scroll:not([hidden])) .log { padding-left: 68px; padding-right: 70px; }
+body.big-text.lefty .log { padding-left: 92px; padding-right: var(--s-8); }
+body.big-text.lefty .view-col:has(#quick-scroll:not([hidden])) .log { padding-left: 92px; padding-right: 70px; }
+
+/* Portrait Take stays above the intent strip; landscape Take shares the log. */
+.view-col:has(.combat-intent-slot.reserved) .feet { --intent-height: calc(var(--t-sm) * 1.4 + 9px); }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lefty .view-col:has(#feet:not([hidden])) .log,
+  body.big-text.lefty .view-col:has(#feet:not([hidden])) .log { padding-right: 172px; }
+  body.big-text:not(.lefty) .feet { right: 104px; }
+  body.big-text:not(.lefty) .view-col:has(#feet:not([hidden])) .log { padding-right: 208px; }
+}
+
+/* Visible foes retain the warning row between attacks, without stale words.
+   The status element itself keeps ordinary hidden semantics. */
+.combat-intent-slot { flex: 0 0 auto; min-width: 0; }
+.combat-intent-slot.reserved { min-height: calc(var(--t-sm) * 1.4 + 9px); }
+/* On the shortest enlarged portrait, keep the full condition target below a
+   keeper header by giving the view space from the existing message excerpt. */
+@media (orientation: portrait) and (max-height: 650px) {
+  body.big-text .view-wrap { min-height: 64px; }
+  body.big-text .log { height: 64px; min-height: 64px; }
+}
+/* A steady warning row shares the short landscape height with three complete
+   message rows and the existing touch controls. */
+@media (orientation: landscape) and (max-height: 500px) {
+  body:not(.big-text) .view-col:has(.combat-intent-slot.reserved) .log { height: max(64px, calc(3 * 1.3em + var(--s-10))); }
+}

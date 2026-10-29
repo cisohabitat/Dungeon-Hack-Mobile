@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":39,"scriptMs":14.3},"wide":{"fps":39,"scriptMs":13.3},"flooded":{"fps":43.4,"scriptMs":10.9},"painted":{"fps":46.5,"scriptMs":10},"amber":{"fps":43.3,"scriptMs":9.6},"scroll":{"fps":36.2,"scriptMs":11.4},"rite":{"fps":43.6,"scriptMs":14.9}} start {"ms":2250}
+  ✓  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.1m)
+::notice title=🎭 Playwright Run Summary::  1 passed (1.1m)
+
+  1 passed (1.1m)
+Browser step aaa4-perf-receipt-final exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa4-perf-receipt-final/.

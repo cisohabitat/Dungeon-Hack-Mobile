@@ -1,0 +1,1369 @@
+{
+  "records": [
+    {
+      "n": 0,
+      "t": 6599.8,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 194.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Rabid Blink Hound misses you from your right."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Open\n       "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"bad\">The Rabid Blink Hound misses you from your right.</div>"
+    },
+    {
+      "n": 1,
+      "t": 7233.000000000001,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 194.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Minotaur hits you from behind for 15."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Close\n      "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"bad\">The Minotaur hits you from behind for 15.</div>"
+    },
+    {
+      "n": 2,
+      "t": 7849.7,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 194.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Rabid Blink Hound swings at the air where you stood."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"good\">The Rabid Blink Hound swings at the air where you stood.</div>"
+    },
+    {
+      "n": 3,
+      "t": 8483.1,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 194.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "Bestiary: Minotaur, you learned its trick."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"note\">Bestiary: Minotaur, you learned its trick.</div>"
+    },
+    {
+      "n": 4,
+      "t": 9066.300000000003,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 211.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in th"
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"bad\">Something vast and dark at the far end of the hall lifts its head, and a furnace opens in its chest. Iron grinds on iron as it stands, and the Heart burns in the fire inside it. It says nothing at all.</div>"
+    },
+    {
+      "n": 5,
+      "t": 9699.600000000002,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 156.234375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Held\n          Floor 12/120 goldE\n "
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Held\n          Floor 12/12"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 156.234375,
+          "width": 320,
+          "height": 140.078125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runKnocked down 1sRabid Blink Hound"
+        },
+        "#view": {
+          "x": 0,
+          "y": 156.234375,
+          "width": 320,
+          "height": 138.078125,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 181.234375,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runKnocked down 1sRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 6,
+          "y": 302.3125,
+          "width": 56,
+          "height": 56,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Coat"
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 300.3125,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 296.3125,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 296.3125,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "You are knocked off your feet!"
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Knocked down 1s",
+          "height": 44,
+          "width": 208.765625
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"bad\">You are knocked off your feet!</div>"
+    },
+    {
+      "n": 6,
+      "t": 10332.900000000001,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 211.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 6,
+          "y": 322.171875,
+          "width": 56,
+          "height": 56,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Coat"
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Rabid Blink Hound flickers out of the air, and steps back into it at your side! Turn and face it!"
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"bad\">The Rabid Blink Hound flickers out of the air, and steps back into it at your side! Turn and face it!</div>"
+    },
+    {
+      "n": 7,
+      "t": 10949.600000000002,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 211.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "hidden": true,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": ""
+        },
+        "#quick-scroll": {
+          "x": 6,
+          "y": 322.171875,
+          "width": 56,
+          "height": 56,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Coat"
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 320.171875,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Rabid Blink Hound snaps at the air where you stood."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"good\">The Rabid Blink Hound snaps at the air where you stood.</div>"
+    },
+    {
+      "n": 8,
+      "t": 11582.800000000003,
+      "geometry": {
+        ".hud": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 188.171875,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 12/120 gol"
+        },
+        ".view-col": {
+          "x": 0,
+          "y": 0,
+          "width": 320,
+          "height": 376.109375,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "\n        \n          Keeper approach Fighter 1\n          \n            HP 21/21\n            SP 0/0\n            Fed\n          \n          Drink ×1\n          Floor 1"
+        },
+        ".view-wrap": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 128,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "1000 1 auto",
+          "text": "\n          ReplaySkip\n          \n          \n          Tap to skip\n          \n          \n          \n          \n          Test runRabid Blink Hound near · never f"
+        },
+        "#view": {
+          "x": 0,
+          "y": 188.171875,
+          "width": 320,
+          "height": 126,
+          "hidden": false,
+          "overflow": "clip",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": ""
+        },
+        "#hud-status": {
+          "x": 8,
+          "y": 211.171875,
+          "width": 222,
+          "height": 96,
+          "hidden": false,
+          "overflow": "auto",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Test runRabid Blink Hound near · never flees"
+        },
+        "#combat-intent": {
+          "x": 0,
+          "y": 316.171875,
+          "width": 320,
+          "height": 43.921875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "Basilisk · Drawing back to strike"
+        },
+        "#quick-scroll": {
+          "x": 6,
+          "y": 322.171875,
+          "width": 56,
+          "height": 56,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "Coat"
+        },
+        "#log-more": {
+          "x": 233.484375,
+          "y": 364.09375,
+          "width": 82.515625,
+          "height": 44,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "absolute",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        ".log-more-anchor": {
+          "x": 0,
+          "y": 360.09375,
+          "width": 320,
+          "height": 0,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "relative",
+          "flex": "0 1 auto",
+          "text": "≡ Log"
+        },
+        "#log": {
+          "x": 0,
+          "y": 360.09375,
+          "width": 320,
+          "height": 79.796875,
+          "hidden": false,
+          "overflow": "hidden",
+          "position": "static",
+          "flex": "1 1 auto",
+          "text": "The Rabid Blink Hound snaps at the air where you stood."
+        },
+        ".controls": {
+          "x": 0,
+          "y": 376.109375,
+          "width": 320,
+          "height": 160.0625,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 0 auto",
+          "text": "\n          \n            \n            \n            \n            \n            \n            \n          \n          \n            AttackReady\n            Use\n        "
+        },
+        ".bottombar": {
+          "x": 0,
+          "y": 536.171875,
+          "width": 320,
+          "height": 130.828125,
+          "hidden": false,
+          "overflow": "visible",
+          "position": "static",
+          "flex": "0 1 auto",
+          "text": "\n          Map\n          Pack\n          Spells\n          Hero\n          Journal\n          Restfoes near\n          Menu\n        "
+        }
+      },
+      "chips": [
+        {
+          "text": "Test run",
+          "height": 44,
+          "width": 109.296875
+        },
+        {
+          "text": "Rabid Blink Hound near · never flees",
+          "height": 94,
+          "width": 222
+        }
+      ],
+      "log": "<div class=\"good\">The Rabid Blink Hound snaps at the air where you stood.</div>"
+    }
+  ],
+  "errors": []
+}

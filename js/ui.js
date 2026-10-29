@@ -716,13 +716,17 @@ const UI = (() => {
     const at = performance.now();
     if (!now && !hudDirty && at - hudAt < 100) return;
     hudAt = at; hudDirty = false;
-    const intentEl = fixedEl('#combat-intent'), intent = !preluding && G.status === 'playing' ? Renderer.intent : '';
+    const intentEl = fixedEl('#combat-intent'), fighting = !preluding && G.status === 'playing';
+    const intent = fighting ? Renderer.intent : '';
+    // Keep the picture steady between a visible foe's wind-ups. Only the
+    // renderer's already visible creatures reserve space; hidden foes add none.
+    intentEl.parentElement.classList.toggle('reserved', fighting && (!!intent || Renderer.shown.length > 0));
     if (intentEl.textContent !== intent) intentEl.textContent = intent;
-    intentEl.hidden = !intent;
+    if (intentEl.hidden !== !intent) intentEl.hidden = !intent;
     GearTools.renderBelt($('#quick-belt'));
     const quiet = at > logLivelyUntil && !L.monsters.some(m => m.awake && m.hp > 0 && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     const log = $('#log');
-    if (log.classList.contains('quiet') !== quiet) { log.classList.toggle('quiet', quiet); fitLog(log); }
+    if (log.classList.contains('quiet') !== quiet) { log.classList.toggle('quiet', quiet); requestLogFit(log); }
     const champ = L.monsters.find(m => m.elite && m.awake && Math.abs(m.x - p.x) + Math.abs(m.y - p.y) <= 6);
     // how long a timed effect has left, in whole seconds, so the row counts down
     const left = until => Math.max(0, Math.ceil((until - G.t) / 1000));
@@ -967,7 +971,18 @@ const UI = (() => {
     const live = G.log.filter(e => !e.gone && !(e.at > now));
     el.innerHTML = live.filter((e, i) => e.c !== 'note' || i === live.length - 1).slice(-4).map(e => `<div class="${escapeHtml(e.c)}">${logLine(e.m)}</div>`).join('');
     access.readLog();
-    fitLog(el);
+    requestLogFit(el);
+  }
+  /** @type {ResizeObserver|null} */
+  let logFitObserver = null;
+  /** Fit new messages after layout, before paint, without forcing another layout. */
+  function requestLogFit(el) {
+    if (el.classList.contains('long')) el.classList.remove('long');
+    if (!logFitObserver) { fitLog(el); return; }
+    logFitObserver.disconnect();
+    // A fresh observation delivers once even when the new message has the same
+    // dimensions. Prefix removal and flex alignment do not resize this last line.
+    if (el.lastElementChild) logFitObserver.observe(el.lastElementChild);
   }
   /** Keep whole recent lines when the log changes height. @param {HTMLElement} el */
   function fitLog(el) {
@@ -976,7 +991,7 @@ const UI = (() => {
     // the full history is a tap on Log away. The panel stacks from the bottom, so
     // overflow spills off the top where scrollHeight does not count it: ask
     // where the oldest line starts instead.
-    el.classList.remove('long');
+    if (el.classList.contains('long')) el.classList.remove('long');
     const top = el.getBoundingClientRect().top + parseFloat(getComputedStyle(el).paddingTop) - 0.5;
     // The flex-end stack keeps retained lines anchored to the same bottom.
     // Measure the prefix together, before removals can force another layout.
@@ -1691,8 +1706,12 @@ const UI = (() => {
     setTextSize(textSize());
     refreshTitle();
     // (a resize may move between layouts: the corner map and the docked one are drawn afresh)
-    window.addEventListener('resize', () => { fitView(); miniSig = ''; if (overlay === 'map') renderMap(); });
+    window.addEventListener('resize', () => { fitView(); requestLogFit($('#log')); miniSig = ''; if (overlay === 'map') renderMap(); });
     new ResizeObserver(() => { viewFitPending = true; }).observe($('.view-wrap'));
+    logFitObserver = new ResizeObserver(entries => {
+      const log = fixedEl('#log');
+      if (entries.some(e => e.target === log.lastElementChild && e.contentRect.width > 0)) fitLog(log);
+    });
   }
 
   // ---------- titlemenu: see titlemenu.js ----------

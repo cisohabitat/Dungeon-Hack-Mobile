@@ -1033,7 +1033,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   priority when a receipt cannot fit. A continuing volley retains its shot/magic
   glyph even after its initial wind-up has ended. Short HUD condition clocks
   participate in the redraw signature and retain focus across ticks; the chip
-  row scrolls within two rows (one in short landscape) with 44px touch targets.
+  row scrolls within two rows (one at enlarged text or in short landscape) with 44px touch targets.
   `deathLesson` reads the existing killing source and active conditions, never
   invents a damage history or assumes a supply could have been used while held.
   `combat-clarity.spec.js` covers intent visibility, actual hit outcomes, warning
@@ -1569,3 +1569,43 @@ wording; its saved canvas state contains smoothing changes. Never reveal an
 unmet keeper, alter encounters or auto-stage guards on save load for this cue.
 The native approach audit and rejected layout pilots live in
 `docs/visual/2026-10-29-keeper-identity/`; those pilots are not balance clearance.
+
+### Enlarged combat layout and shared log anchors
+At Larger/Double text in portrait, vital bars use their actual label widths as
+minimums and wrap instead of shrinking or clipping numbers. The hero name may
+ellipsis beside the complete class/level; its full text remains in the DOM and
+Hero sheet. Condition buttons retain their full labels, clocks and 44px targets
+in one horizontal scroll row; countdown refreshes preserve focused identity.
+The view yields available height before messages reach controls, retaining a 44px
+minimum in enlarged portrait; screens 650px high or shorter reserve 64px for
+both the view and message excerpt so the keeper header and 44px targets fit.
+The minimap keeps its square aspect within a short enlarged view.
+Quick read/coat, Take and Log share `.log-more-anchor`. Portrait Take subtracts
+`--intent-height` to remain in the view; short landscape Take sits beside the log.
+Keep that offset consistent with the intent font/leading, 8px padding and 1px
+border. Mirror quick-action and log margins together for left-handed play,
+including the landscape underfoot prompt. The intent slot reserves one row while
+the renderer reports already visible creatures, even between wind-ups; clear
+that space when no creature is shown, during prelude or after play. Empty intent
+text keeps its normal hidden semantics. Update hidden attributes only when their
+state changes. This avoids repeated canvas-height changes and unnecessary DOM
+work without revealing unseen foes. Do not change item selection, combat
+clocks, tips, effect expiry or game rules to resolve presentation crowding.
+New message fitting observes the new last log line. Its initial ResizeObserver
+notification runs after layout and before paint; fitting removes only the old
+prefix and changes alignment, never the observed line's dimensions. Keep that
+leaf observation rather than observing/writing the log container in a feedback
+loop. Quiet and viewport changes request a new fit. The view's existing observer
+still only marks canvas fitting pending for the game frame.
+`combat-layout.spec.js` runs in both Chromium projects and mobile WebKit. It
+covers live intent, short portrait/landscape, both hands, countdown focus and
+scroll access, history return, underfoot spacing, complete large vitals and before-paint
+burst fitting at Normal/Double text.
+Native running keeper approaches and supplied-layout controls are separated in
+`docs/visual/2026-10-29-combat-layout/`; they are not physical-device or listening
+approval. AAA4's audio/reference-encounter work remains open.
+
+Combat receipts must use the full text height when testing their ascent against
+warning marks, matching the final overlap check. A fractional height can choose
+a blocked path and omit MISS at a short view height. Keep the existing three-label
+assertion in `combat-clarity.spec.js`; preserve warning priority and outcome text.

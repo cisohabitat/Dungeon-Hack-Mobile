@@ -1,0 +1,308 @@
+{
+  "config": {
+    "configFile": "/workspace/aaa4-clarity/baseline.config.cjs",
+    "rootDir": "/workspace/Dungeon-Hack-Mobile/test/browser",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone",
+        "name": "phone",
+        "testDir": "/workspace/Dungeon-Hack-Mobile/test/browser",
+        "testIgnore": [
+          "/perf\\.spec\\.js/"
+        ],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "small",
+        "name": "small",
+        "testDir": "/workspace/Dungeon-Hack-Mobile/test/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "/(reading-scroll|painted-cache|painted-world|painted-creatures|combat-clarity|combat-layout|collection-browser|held-equipment|spellblade|memorable|polish|interface|play|mobile|a11y|release|replay|gear-tools|delve-guide|portraits|sharecard|relic-portraits|companions|boss-portraits|bestiary|melee-feedback|fire-feedback|elemental-feedback|security|puzzles|region-art|visual-polish|mythics|offline)\\.spec\\.js/"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "safari",
+        "name": "safari",
+        "testDir": "/workspace/Dungeon-Hack-Mobile/test/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "perf",
+        "name": "perf",
+        "testDir": "/workspace/Dungeon-Hack-Mobile/test/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "/perf\\.spec\\.js/"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "github",
+        null
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/workspace/Dungeon-Hack-Mobile/ci-diagnostics/aaa4-baseline-control-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": {
+      "command": "node /workspace/Dungeon-Hack-Mobile/docs/visual/2026-10-29-combat-layout/baseline-server.cjs 4195",
+      "url": "http://127.0.0.1:4195",
+      "reuseExistingServer": false,
+      "stdout": "ignore"
+    }
+  },
+  "suites": [
+    {
+      "title": "combat-layout.spec.js",
+      "file": "combat-layout.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Double text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+          "ok": false,
+          "tags": [
+            "mobile"
+          ],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone",
+              "projectName": "phone",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 19744,
+                  "error": {
+                    "message": "Error: 320x667 combat layout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"actionsInLog\": true,\u001b[39m\n\u001b[32m-   \"conditionsBounded\": true,\u001b[39m\n\u001b[31m+   \"actionsInLog\": false,\u001b[39m\n\u001b[31m+   \"conditionsBounded\": false,\u001b[39m\n\u001b[2m    \"feetClear\": true,\u001b[22m\n\u001b[32m-   \"historyClear\": true,\u001b[39m\n\u001b[32m-   \"logClear\": true,\u001b[39m\n\u001b[31m+   \"historyClear\": false,\u001b[39m\n\u001b[31m+   \"logClear\": false,\u001b[39m\n\u001b[2m    \"mapContained\": true,\u001b[22m\n\u001b[2m    \"noOverflow\": true,\u001b[22m\n\u001b[32m-   \"scrollClear\": true,\u001b[39m\n\u001b[31m+   \"scrollClear\": false,\u001b[39m\n\u001b[2m    \"type\": true,\u001b[22m\n\u001b[2m    \"view\": true,\u001b[22m\n\u001b[2m  }\u001b[22m\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate",
+                    "stack": "Error: 320x667 combat layout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"actionsInLog\": true,\u001b[39m\n\u001b[32m-   \"conditionsBounded\": true,\u001b[39m\n\u001b[31m+   \"actionsInLog\": false,\u001b[39m\n\u001b[31m+   \"conditionsBounded\": false,\u001b[39m\n\u001b[2m    \"feetClear\": true,\u001b[22m\n\u001b[32m-   \"historyClear\": true,\u001b[39m\n\u001b[32m-   \"logClear\": true,\u001b[39m\n\u001b[31m+   \"historyClear\": false,\u001b[39m\n\u001b[31m+   \"logClear\": false,\u001b[39m\n\u001b[2m    \"mapContained\": true,\u001b[22m\n\u001b[2m    \"noOverflow\": true,\u001b[22m\n\u001b[32m-   \"scrollClear\": true,\u001b[39m\n\u001b[31m+   \"scrollClear\": false,\u001b[39m\n\u001b[2m    \"type\": true,\u001b[22m\n\u001b[2m    \"view\": true,\u001b[22m\n\u001b[2m  }\u001b[22m\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n    at /workspace/Dungeon-Hack-Mobile/test/browser/combat-layout.spec.js:32:5",
+                    "location": {
+                      "file": "/workspace/Dungeon-Hack-Mobile/test/browser/combat-layout.spec.js",
+                      "column": 5,
+                      "line": 32
+                    },
+                    "snippet": "  30 |     await page.evaluate(landscape => { const p=Game.player(), L=Game.level(), key=p.x+','+p.y; if(landscape)L.items[key]=[{t:'potion_heal',q:1,e:0}];else delete L.items[key]; }, width > height);\n  31 |     await expect(page.locator('#feet'))[width > height ? 'toBeVisible' : 'toBeHidden']();\n> 32 |     await expect.poll(() => page.evaluate(() => {\n     |     ^\n  33 |       const box = s => { const e = document.querySelector(s), r = e.getBoundingClientRect(); return { l:r.left, r:r.right, t:r.top, b:r.bottom, w:r.width, h:r.height }; };\n  34 |       const overlap = (a,b) => a.l < b.r - 1 && b.l < a.r - 1 && a.t < b.b - 1 && b.t < a.b - 1;\n  35 |       const log = box('#log'), controls = box('.controls'), scroll = box('#quick-scroll'), more = box('#log-more'), intent = box('#combat-intent'), feet = box('#feet');"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/Dungeon-Hack-Mobile/test/browser/combat-layout.spec.js",
+                        "column": 5,
+                        "line": 32
+                      },
+                      "message": "Error: 320x667 combat layout\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  - 5\u001b[39m\n\u001b[31m+ Received  + 5\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"actionsInLog\": true,\u001b[39m\n\u001b[32m-   \"conditionsBounded\": true,\u001b[39m\n\u001b[31m+   \"actionsInLog\": false,\u001b[39m\n\u001b[31m+   \"conditionsBounded\": false,\u001b[39m\n\u001b[2m    \"feetClear\": true,\u001b[22m\n\u001b[32m-   \"historyClear\": true,\u001b[39m\n\u001b[32m-   \"logClear\": true,\u001b[39m\n\u001b[31m+   \"historyClear\": false,\u001b[39m\n\u001b[31m+   \"logClear\": false,\u001b[39m\n\u001b[2m    \"mapContained\": true,\u001b[22m\n\u001b[2m    \"noOverflow\": true,\u001b[22m\n\u001b[32m-   \"scrollClear\": true,\u001b[39m\n\u001b[31m+   \"scrollClear\": false,\u001b[39m\n\u001b[2m    \"type\": true,\u001b[22m\n\u001b[2m    \"view\": true,\u001b[22m\n\u001b[2m  }\u001b[22m\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n\n  30 |     await page.evaluate(landscape => { const p=Game.player(), L=Game.level(), key=p.x+','+p.y; if(landscape)L.items[key]=[{t:'potion_heal',q:1,e:0}];else delete L.items[key]; }, width > height);\n  31 |     await expect(page.locator('#feet'))[width > height ? 'toBeVisible' : 'toBeHidden']();\n> 32 |     await expect.poll(() => page.evaluate(() => {\n     |     ^\n  33 |       const box = s => { const e = document.querySelector(s), r = e.getBoundingClientRect(); return { l:r.left, r:r.right, t:r.top, b:r.bottom, w:r.width, h:r.height }; };\n  34 |       const overlap = (a,b) => a.l < b.r - 1 && b.l < a.r - 1 && a.t < b.b - 1 && b.t < a.b - 1;\n  35 |       const log = box('#log'), controls = box('.controls'), scroll = box('#quick-scroll'), more = box('#log-more'), intent = box('#combat-intent'), feet = box('#feet');\n    at /workspace/Dungeon-Hack-Mobile/test/browser/combat-layout.spec.js:32:5"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m<launching> /usr/bin/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --enable-automation --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --user-data-dir=/tmp/playwright_chromiumdev_profile-YNwXXX --remote-debugging-pipe --no-startup-window \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m<launched> pid=75100 \u001b[30m+3ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.221971:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory \u001b[30m+115ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.222020:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.226574:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory \u001b[30m+3ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.226701:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.226732:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.287819:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+61ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.316558:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+28ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.316641:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.316694:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.317471:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.321786:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+4ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.321866:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.324496:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+2ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.324653:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.324670:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.324768:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+2ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.324824:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.325479:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.326025:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type:  \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.326061:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.326129:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.328021:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75128:1029/160914.328089:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are \"tcp\" and on UNIX \"unix\") \u001b[30m+0ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100][err] [75100:75100:1029/160914.329598:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type:  \u001b[30m+2ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100] <gracefully close start> \u001b[30m+20s\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100] <process did exit: exitCode=0, signal=null> \u001b[30m+56ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100] starting temporary directories cleanup \u001b[30m+1ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100] finished temporary directories cleanup \u001b[30m+8ms\u001b[0m\n"
+                    },
+                    {
+                      "text": "  \u001b[30;1mpw:browser \u001b[0m[pid=75100] <gracefully close end> \u001b[30m+0ms\u001b[0m\n"
+                    }
+                  ],
+                  "retry": 0,
+                  "startTime": "2026-10-29T16:09:14.086Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-phone/test-failed-1.png"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-phone/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/workspace/Dungeon-Hack-Mobile/test-results/aaa4-baseline-control/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-phone/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/Dungeon-Hack-Mobile/test/browser/combat-layout.spec.js",
+                    "column": 5,
+                    "line": 32
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "216cb096027aabfc135e-da96a78c642db9796cf1",
+          "file": "combat-layout.spec.js",
+          "line": 7,
+          "column": 39
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T16:09:13.345Z",
+    "duration": 22143.216,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

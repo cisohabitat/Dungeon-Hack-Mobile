@@ -1,0 +1,23 @@
+
+Running 16 tests using 1 worker
+
+  ✓   1 [phone] › test/browser/combat-layout.spec.js:7:73 › Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile (13.7s)
+  ✓   2 [phone] › test/browser/combat-layout.spec.js:7:73 › Larger text left-handed combat keeps messages and quick actions clear of the controls @mobile (12.5s)
+  ✓   3 [phone] › test/browser/combat-layout.spec.js:7:73 › Double text right-handed combat keeps messages and quick actions clear of the controls @mobile (12.8s)
+  ✓   4 [phone] › test/browser/combat-layout.spec.js:7:73 › Double text left-handed combat keeps messages and quick actions clear of the controls @mobile (13.3s)
+  ✓   5 [phone] › test/browser/combat-layout.spec.js:64:1 › enlarged vital bars keep full large numbers when they wrap @mobile (4.0s)
+  ✓   6 [phone] › test/browser/combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 1 and retains history @mobile (8.9s)
+  ✓   7 [phone] › test/browser/combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 4 and retains history @mobile (8.6s)
+  ✓   8 [phone] › test/browser/interface.spec.js:402:3 › interface › sideways the view is big, the log shows three lines, a tip is small print, and nothing sits over the fight or the hands (3.9s)
+  ✓   9 [small] › test/browser/combat-layout.spec.js:7:73 › Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile (13.1s)
+  ✓  10 [small] › test/browser/combat-layout.spec.js:7:73 › Larger text left-handed combat keeps messages and quick actions clear of the controls @mobile (10.6s)
+  ✓  11 [small] › test/browser/combat-layout.spec.js:7:73 › Double text right-handed combat keeps messages and quick actions clear of the controls @mobile (13.0s)
+  ✓  12 [small] › test/browser/combat-layout.spec.js:7:73 › Double text left-handed combat keeps messages and quick actions clear of the controls @mobile (12.8s)
+  ✓  13 [small] › test/browser/combat-layout.spec.js:64:1 › enlarged vital bars keep full large numbers when they wrap @mobile (4.0s)
+  ✓  14 [small] › test/browser/combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 1 and retains history @mobile (8.2s)
+  ✓  15 [small] › test/browser/combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 4 and retains history @mobile (8.8s)
+  ✓  16 [small] › test/browser/interface.spec.js:402:3 › interface › sideways the view is big, the log shows three lines, a tip is small print, and nothing sits over the fight or the hands (4.1s)
+::notice title=🎭 Playwright Run Summary::  16 passed (2.6m)
+
+  16 passed (2.6m)
+Browser step aaa4-layout-all-sizes exited 0; diagnostics retained in ci-diagnostics/ and test-results/aaa4-layout-all-sizes/.

@@ -1,0 +1,460 @@
+Listing tests:
+  [phone] › replay.spec.js:62:1 › an installed recording replays offline
+  [phone] › replay.spec.js:74:1 › a saved run continues recording after a page reload and replays the load grace correctly
+  [phone] › replay.spec.js:90:1 › an imported save plays normally without offering an incomplete recording
+  [phone] › reports.spec.js:26:1 › reports are off unless turned on, and a run that ends says so when they are
+  [phone] › reports.spec.js:66:1 › when something breaks, a report carries the error, the seed and the floor
+  [phone] › reports.spec.js:82:1 › the dashboard sets the bot's figures out by class, and says when no store answers
+  [phone] › review.spec.js:9:3 › the title › a first visit sees a three-line card, one Daily button and a line for a code; a returning player the daily switch and a goal (P9, P11)
+  [phone] › review.spec.js:31:3 › the title › the prologue shows the hero's face and has a way back that spends nothing (P6, P10)
+  [phone] › review.spec.js:49:3 › the title › the replace question says what was chosen (P18)
+  [phone] › review.spec.js:62:3 › the title › a background tapped keeps the name shown; the dice draw another (P7)
+  [phone] › review.spec.js:77:3 › the title › How to Play begins with who you are and moving, and ends with how the delve ends; the settings sit under Modes (P4)
+  [phone] › review.spec.js:89:3 › in the dungeon › the hero stands above the level-up's cards held upright, and makes way for them held sideways (P2)
+  [phone] › review.spec.js:112:3 › in the dungeon › the end screen says what beats what killed you, and one goal to go down for (P1, P11)
+  [phone] › review.spec.js:127:3 › in the dungeon › the first arrow drawn down the line brings its own tip: out of the line, or close in (P1)
+  [phone] › review.spec.js:140:3 › in the dungeon › a find flares the gold on the HUD (P16)
+  [phone] › samples.spec.js:9:1 › with the sound pack on, the game plays its samples, its music stems follow the fight, and its ambience loops
+  [phone] › samples.spec.js:41:1 › with the sound pack off, everything is synthesised as before
+  [phone] › samples.spec.js:57:1 › with the sound pack on, the first tap at the title plays its cue in place of the synthesised swell
+  [phone] › samples.spec.js:68:1 › the title has music of its own: the first key starts it looping, it plays on through the menus, gives way to a floor, and stops when the music is turned off
+  [phone] › security.spec.js:6:1 › a compressed save bomb is refused without replacing the hero @mobile
+  [phone] › security.spec.js:19:1 › quoted hero names stay text in the hero portrait attributes @mobile
+  [phone] › security.spec.js:29:46 › a forged floor item quantity is refused before replacing the hero @mobile
+  [phone] › security.spec.js:29:46 › a forged trader item quantity is refused before replacing the hero @mobile
+  [phone] › security.spec.js:51:1 › belt counts remain text even if a live item has a malformed quantity @mobile
+  [phone] › security.spec.js:67:1 › legacy Hall migration rejects inherited class IDs without polluting the page @mobile
+  [phone] › security.spec.js:83:1 › a hostile imported numeric field is refused through the code screen and keeps the saved hero
+  [phone] › security.spec.js:102:1 › imported journal and end-screen values cannot create markup
+  [phone] › security.spec.js:126:1 › the installed service worker never caches API responses
+  [phone] › shallows.spec.js:8:3 › the shallows › the four are painted with a wind-up, a trick and a flinch of their own
+  [phone] › shallows.spec.js:19:3 › the shallows › a glimmer moth's flare dazzles a hero looking at it: the bar says so until it fades, and one turned away is spared
+  [phone] › shallows.spec.js:44:3 › the shallows › a goblin hexer's hex shows on the bar: Slowed on a hero who has cast nothing, until it lifts
+  [phone] › sharecard.spec.js:58:3 › lich take: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › lich quench: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › lich keep: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › warlord take: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › warlord quench: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › warlord keep: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › heartforged take: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › heartforged quench: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:58:3 › heartforged keep: native ending exports its actual keeper, symbol and painted companion
+  [phone] › sharecard.spec.js:105:3 › ogre: death exports the painted killer while its companion is named only
+  [phone] › sharecard.spec.js:105:3 › grisk: death exports the painted killer while its companion is named only
+  [phone] › sharecard.spec.js:105:3 › skarrow: death exports the painted killer while its companion is named only
+  [phone] › sharecard.spec.js:105:3 › shade: death exports the painted killer while its companion is named only
+  [phone] › sharecard.spec.js:131:3 › corrupt killer art keeps sharing usable and independent
+  [phone] › sharecard.spec.js:131:3 › stalled killer art keeps sharing usable and independent
+  [phone] › sharecard.spec.js:185:1 › corrupt Heart paintings retain the new core fallbacks and independent quench art
+  [phone] › shop.spec.js:38:3 › the trader › a trader offers a job for the floor below, taken at a tap; on that floor the status line says how it goes
+  [phone] › shop.spec.js:64:3 › the trader › walking into a trader opens a shop and does not walk through them
+  [phone] › shop.spec.js:84:3 › the trader › gear the hero's class can never use says so in the trader's list
+  [phone] › shop.spec.js:105:3 › the trader › the shop names who keeps it: one of the Lampfolk, or at a goblin market a goblin pedlar, drawn as such
+  [phone] › shop.spec.js:132:3 › the trader › Wick meets you by name and tells a tale, and the Hall keeps what it has told
+  [phone] › shop.spec.js:173:3 › the trader › gear of another make on the shelf is measured against what you wear
+  [phone] › shop.spec.js:192:3 › the trader › buying costs gold, fills the pack and names what was bought
+  [phone] › shop.spec.js:218:3 › the trader › a dear purchase or sale asks twice, a cheap one does not, and the whole row answers a tap
+  [phone] › shop.spec.js:280:3 › the trader › the trader refuses the Heart and will not sell on credit
+  [phone] › shop.spec.js:303:3 › the trader › a trader and their stock survive a save
+  [phone] › sound.spec.js:10:3 › sound › every sound and every floor's ambience plays without an error
+  [phone] › sound.spec.js:44:3 › sound › music follows the fight, every instrument plays without an error, and the menu turns it off for good
+  [phone] › soundcheck.spec.js:8:1 › the sound check page lists everything in the manifest and plays it
+  [phone] › spellblade.spec.js:15:1 › five title taps reveal the Wayfarer, persist on this device, and leave the six public classes unchanged @mobile
+  [phone] › spellblade.spec.js:39:1 › keyboard unlock is accessible with double text and never replaces an existing save @mobile
+  [phone] › spellblade.spec.js:56:1 › the hidden hero descends with a sword and lantern, casts runes, and resumes its own saved class @mobile
+  [phone] › spellblade.spec.js:79:1 › the Silver Lantern is carried visibly on ordinary and dark floors and disappears when put away @mobile
+  [phone] › spellblade.spec.js:141:1 › Wayfarer level-up cards teach exclusive talents and lantern memories @mobile
+  [phone] › story.spec.js:7:3 › story and progression › choosing a background changes the stated advantage
+  [phone] › story.spec.js:17:3 › story and progression › the prologue runs before the first stair and names your background
+  [phone] › story.spec.js:38:3 › story and progression › levelling offers three choices, blocks play, and changes the character
+  [phone] › story.spec.js:74:3 › story and progression › Self-Taught asks for a score for each of its two points, and can be taken back before the second
+  [phone] › story.spec.js:99:3 › story and progression › a journal page is recorded once and shown in the journal
+  [phone] › story.spec.js:127:3 › story and progression › two floors below an offering at the old stone, a spring runs from the wall by the stair: drunk, it heals and the bar says the hero is watched over
+  [phone] › story.spec.js:157:3 › story and progression › two floors below a shared meal, the last delver's page is found besides the floors' own, outside their count, and shows the floor's hidden doors
+  [phone] › story.spec.js:189:3 › story and progression › the epilogue names the hero and differs between winning and dying
+  [phone] › story.spec.js:213:3 › choices kept › a level-up choice left waiting is still waiting after the game is reloaded
+  [phone] › story.spec.js:227:3 › choices kept › the valley's story is told in full the first time, then waits folded so the stair is on the screen
+  [phone] › story.spec.js:257:3 › choices kept › the way in plays as a run opens: the controls tip waits for it, a tap on the view skips it, and the roof is told
+  [phone] › story.spec.js:282:3 › choices kept › left alone the way in plays out by itself into the first floor, where the stair up lies under fallen rock
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px normal @mobile
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px Double Calm @mobile
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px normal @mobile
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px Double Calm @mobile
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px normal @mobile
+  [phone] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px Double Calm @mobile
+  [phone] › visual-polish.spec.js:44:1 › empty tip space avoids layout reads while live status chips still protect warning rows @mobile
+  [phone] › visual-polish.spec.js:60:1 › cached attack and recovery poses respect wind-ups, expiry and Calm view @mobile
+  [phone] › visual-polish.spec.js:96:1 › regional props change the painting while saved scenery, scale and dice stay fixed @mobile
+  [phone] › visual-polish.spec.js:131:1 › non-elemental magic has distinct shapes, fades and keeps Calm impacts still @mobile
+  [phone] › visual-polish.spec.js:172:1 › treasure inspection shows known grades and usable art without revealing hidden quality @mobile
+  [phone] › visual-polish.spec.js:204:4 › Mage magic keeps its actual cost and timing with readable effects in the dungeon
+  [phone] › visual-polish.spec.js:204:4 › Cleric magic keeps its actual cost and timing with readable effects in the dungeon
+  [phone] › visual-polish.spec.js:204:4 › Druid magic keeps its actual cost and timing with readable effects in the dungeon
+  [phone] › visual-polish.spec.js:241:1 › every named treasure has distinct cached art and matching held shapes @mobile
+  [phone] › visual-polish.spec.js:282:1 › named floor sprites retain their identity while pack and codex share painted portraits
+  [phone] › visual-polish.spec.js:313:1 › new Legendary and Mythic finds reveal in the opened pack without changing play @mobile
+  [phone] › visual-polish.spec.js:363:1 › landmark textures keep clear arches, deterministic shade caches and game state @mobile
+  [phone] › visual-polish.spec.js:395:1 › @mobile the quiet log gives the dungeon room and fresh warnings restore the full log
+  [phone] › visual-polish.spec.js:417:1 › @mobile sparse bags start compact and preserve an explicit full-grid preference
+  [phone] › visual-polish.spec.js:435:1 › @mobile the first visit shows one introduction and the selected hero has an expandable biography
+  [phone] › visual-polish.spec.js:452:1 › @mobile all three collections offer galleries with expandable notes and keep unknown entries hidden
+  [phone] › visual-polish.spec.js:489:1 › @mobile hidden walls keep the same surface detail as ordinary stone near and far
+  [phone] › weekly.spec.js:14:1 › the Weekly Challenge deals the week's hero and vows, keeps the best try and shares it, and picks up a try left waiting
+  [small] › a11y.spec.js:26:1 › @mobile accessibility readiness waits for panel motion and still reports real contrast faults
+  [small] › a11y.spec.js:50:1 › the title, the hero's making and the screens off the title
+  [small] › a11y.spec.js:99:1 › the dungeon and every overlay in it
+  [small] › a11y.spec.js:157:1 › a keeper introduction
+  [small] › a11y.spec.js:169:1 › an encounter
+  [small] › a11y.spec.js:198:1 › the divided stair
+  [small] › a11y.spec.js:216:1 › the dungeon and its Menu with the largest text, one-handed, in the colour-blind safe colours
+  [small] › a11y.spec.js:233:1 › the dungeon on a wide screen, with the map docked beside the view
+  [small] › a11y.spec.js:246:55 › optional cache puzzle1 exposes its clues and controls to assistive technology
+  [small] › a11y.spec.js:246:55 › optional cache puzzle3 exposes its clues and controls to assistive technology
+  [small] › a11y.spec.js:246:55 › optional cache puzzle0 exposes its clues and controls to assistive technology
+  [small] › bestiary.spec.js:13:3 › bestiary › an empty bestiary shows every monster as unmet, with where to look
+  [small] › bestiary.spec.js:26:3 › bestiary › a met creature can be looked at close, by a tap or from the keyboard, and shows no row of poses
+  [small] › bestiary.spec.js:54:3 › bestiary › each stage of knowledge shows only what has been learned
+  [small] › bestiary.spec.js:80:3 › bestiary › the Journal has a Bestiary tab, and meeting a monster in play fills it in
+  [small] › bestiary.spec.js:106:3 › bestiary › every creature has its own painting in the title bestiary and Journal
+  [small] › bestiary.spec.js:137:3 › bestiary › all painted creatures are available after an offline reload
+  [small] › bestiary.spec.js:148:3 › bestiary › a missing champion painting falls back to its own sprite once
+  [small] › boss-portraits.spec.js:33:39 › lich's live life bar uses its known painted face without changing the run @mobile
+  [small] › boss-portraits.spec.js:33:39 › warlord's live life bar uses its known painted face without changing the run @mobile
+  [small] › boss-portraits.spec.js:33:39 › heartforged's live life bar uses its known painted face without changing the run @mobile
+  [small] › boss-portraits.spec.js:67:1 › a delayed keeper face retains the complete text bar until its own painting is ready @mobile
+  [small] › boss-portraits.spec.js:82:1 › a corrupt keeper face retains its original bar and cannot disable another keeper @mobile
+  [small] › boss-portraits.spec.js:99:50 › Dread Lich: its introduction pauses play, unlocks the portrait and happens once
+  [small] › boss-portraits.spec.js:99:50 › Goblin Warlord: its introduction pauses play, unlocks the portrait and happens once
+  [small] › boss-portraits.spec.js:99:50 › Heartforged: its introduction pauses play, unlocks the portrait and happens once
+  [small] › boss-portraits.spec.js:140:1 › a level-up waits for the introduction rather than covering it
+  [small] › boss-portraits.spec.js:151:1 › unmet keepers keep their portraits hidden; met portraits survive offline reload and enlarge without cropping
+  [small] › boss-portraits.spec.js:178:1 › a missing portrait uses the dungeon sprite and the introduction still closes by keyboard
+  [small] › collection-browser.spec.js:32:1 › collection search and facets match only revealed names and learned traits @mobile
+  [small] › collection-browser.spec.js:66:1 › layout survives reload and filters survive inspecting entries and changing collection surfaces @mobile
+  [small] › collection-browser.spec.js:99:1 › new discoveries clear only through inspection and keep an open New-filter entry in place @mobile
+  [small] › collection-browser.spec.js:129:1 › collection controls fit double text and remain accessible in gallery and empty states @mobile
+  [small] › collection-browser.spec.js:145:1 › damaged or unavailable preference storage cannot reveal entries or break browsing @mobile
+  [small] › combat-clarity.spec.js:15:1 › visible enemy intent names attacks, shots, magic and charges without exposing hidden foes @mobile
+  [small] › combat-clarity.spec.js:53:1 › landed damage and critical hits keep their actual outcome and readable labels @mobile
+  [small] › combat-clarity.spec.js:69:1 › critical text fits beside filling warnings in Calm view and large numbers @mobile
+  [small] › combat-clarity.spec.js:99:1 › condition countdowns retain focus, explain themselves and expire with the delve clock @mobile
+  [small] › combat-clarity.spec.js:115:1 › death advice explains the recorded source, includes conditions and escapes hostile text @mobile
+  [small] › combat-clarity.spec.js:134:1 › crowded combat keeps conditions bounded, touch targets reachable and the view accessible @mobile
+  [small] › combat-clarity.spec.js:162:1 › aligned crowd damage receipts stay apart at different depths @mobile
+  [small] › combat-layout.spec.js:7:73 › Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile
+  [small] › combat-layout.spec.js:7:73 › Larger text left-handed combat keeps messages and quick actions clear of the controls @mobile
+  [small] › combat-layout.spec.js:7:73 › Double text right-handed combat keeps messages and quick actions clear of the controls @mobile
+  [small] › combat-layout.spec.js:7:73 › Double text left-handed combat keeps messages and quick actions clear of the controls @mobile
+  [small] › combat-layout.spec.js:64:1 › enlarged vital bars keep full large numbers when they wrap @mobile
+  [small] › combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 1 and retains history @mobile
+  [small] › combat-layout.spec.js:77:35 › combat log fits bursts before paint at text size 4 and retains history @mobile
+  [small] › companions.spec.js:8:1 › the companion collection remains accessible with double text
+  [small] › companions.spec.js:23:1 › loading an older save recovers recorded encounters without revealing unseen kinds
+  [small] › companions.spec.js:40:1 › unmet companions stay hidden, and the title collection returns by keyboard
+  [small] › companions.spec.js:50:1 › meeting a companion without recruiting unlocks it in the Journal and survives reload
+  [small] › companions.spec.js:81:1 › all companion portraits load, zoom by touch and keyboard, and remain available offline
+  [small] › companions.spec.js:120:1 › a missing companion painting falls back to its sprite
+  [small] › delve-guide.spec.js:6:1 › @mobile quest tracker shows progress, payment and unfinished leads without changing the run
+  [small] › delve-guide.spec.js:15:1 › @mobile map landmarks hide unexplored places, centre selections and remember resolved shrines
+  [small] › delve-guide.spec.js:30:1 › @mobile tapping a condition explains its effect and duration and preserves keyboard focus
+  [small] › delve-guide.spec.js:39:1 › @mobile companion commands use the normal facing and held restrictions
+  [small] › delve-guide.spec.js:48:1 › @mobile run recap combines known finds, jobs, companion milestones and defeated bosses
+  [small] › delve-guide.spec.js:56:1 › @mobile inventory search combines filters, keeps item actions and hides unknown powers
+  [small] › delve-guide.spec.js:66:1 › @mobile guide pages, map landmarks and search remain accessible with double text
+  [small] › elemental-feedback.spec.js:26:4 › flame_strike keeps its cost and impact timing with its own visual style
+  [small] › elemental-feedback.spec.js:26:4 › cone_cold keeps its cost and impact timing with its own visual style
+  [small] › elemental-feedback.spec.js:26:4 › lightning keeps its cost and impact timing with its own visual style
+  [small] › elemental-feedback.spec.js:26:4 › call_lightning keeps its cost and impact timing with its own visual style
+  [small] › elemental-feedback.spec.js:26:4 › insect_plague keeps its cost and impact timing with its own visual style
+  [small] › elemental-feedback.spec.js:51:1 › elemental scrolls keep their delayed launch and damage alignment
+  [small] › elemental-feedback.spec.js:73:1 › elemental impacts fade and Calm view removes travelling effects and holds the target still
+  [small] › elemental-feedback.spec.js:111:1 › painted fire and frost stay local at close range and expire @mobile
+  [small] › elemental-feedback.spec.js:152:1 › overlapping spells leave warning and damage receipt pixels clear @mobile
+  [small] › fire-feedback.spec.js:5:1 › Burning Hands keeps its cost and impact timing, with a readable target and warning
+  [small] › fire-feedback.spec.js:43:1 › fire flares locally at impact, fades out, and Calm view holds a smaller still glow
+  [small] › gear-tools.spec.js:20:1 › @mobile three belt slots use existing actions, keep counts and survive reload
+  [small] › gear-tools.spec.js:50:1 › @mobile favourites block dropping, individual sales and bulk sales
+  [small] › gear-tools.spec.js:75:1 › @mobile both-hand previews describe stowed shields and blocked choices without equipping
+  [small] › gear-tools.spec.js:97:1 › @mobile relic sets distinguish discoveries, carried pieces and active bonuses
+  [small] › gear-tools.spec.js:118:1 › @mobile current companion card shows health, learned abilities and waiting or fallen state
+  [small] › gear-tools.spec.js:133:1 › @mobile floor haul records actual pickups once, excludes purchases and persists on reload
+  [small] › gear-tools.spec.js:154:119 › @mobile gear tools remain accessible with double text upright
+  [small] › gear-tools.spec.js:154:119 › @mobile gear tools remain accessible with double text sideways
+  [small] › gear-tools.spec.js:186:1 › @mobile local gear preferences reject invalid ids, escape labels and reset for a new run
+  [small] › held-equipment.spec.js:5:36 › held equipment keeps its object inside the 160-pixel view @mobile
+  [small] › held-equipment.spec.js:5:36 › held equipment keeps its object inside the 360-pixel view @mobile
+  [small] › held-equipment.spec.js:5:36 › held equipment keeps its object inside the 464-pixel view @mobile
+  [small] › held-equipment.spec.js:28:1 › bow grips follow fitted nocks, release matches combat, and action hands are not duplicated @mobile
+  [small] › held-equipment.spec.js:65:1 › cached bow flex and surface glints respect Calm view and preserve existing named silhouettes @mobile
+  [small] › held-equipment.spec.js:88:1 › fitted shields and foci leave floor loot visible in a tall view @mobile
+  [small] › interface.spec.js:22:3 › interface › every control on the game screen is at least 44 pixels
+  [small] › interface.spec.js:40:3 › interface › a thumb that strays up off the d-pad does not open the log; its own button does, and a press just above an arrow is that arrow
+  [small] › interface.spec.js:68:3 › interface › a scroll can be read in a fight on a small phone with a full pack, and the pack gets out of the way
+  [small] › interface.spec.js:95:3 › interface › a scroll or a draught used from the pack, even out of a fight, closes it and is seen to be read or drunk
+  [small] › interface.spec.js:141:3 › interface › an oil in the pack is worked into the weapon, and the blows it has left show under the bars
+  [small] › interface.spec.js:165:3 › interface › the quick button offers a Scroll of Lightning at two foes in a line, and Frost Oil for a foe the cold bites
+  [small] › interface.spec.js:203:3 › interface › a scroll worth reading now is one tap away at the end of the log, and gone when it is not
+  [small] › interface.spec.js:233:3 › interface › the text a player reads clears the 4.5:1 contrast minimum
+  [small] › interface.spec.js:260:3 › interface › a crowded level still renders inside a 60fps budget
+  [small] › interface.spec.js:284:3 › interface › the title screen animates and survives a round trip into a game
+  [small] › interface.spec.js:314:3 › interface › the message panel keeps scrolling after the log fills up
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a small phone
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a iPhone SE
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a tall phone
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a landscape phone
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a small landscape
+  [small] › interface.spec.js:354:5 › interface › every control can be reached on a desktop
+  [small] › interface.spec.js:372:3 › interface › a phone held sideways puts the view beside the controls, filled and with nothing off the edge
+  [small] › interface.spec.js:402:3 › interface › sideways the view is big, the log shows three lines, a tip is small print, and nothing sits over the fight or the hands
+  [small] › interface.spec.js:444:3 › interface › upright, the quick scroll is out of the view, off the shield or focus held low in its corner
+  [small] › interface.spec.js:468:3 › interface › on a tall phone the view grows into the spare height without stretching
+  [small] › interface.spec.js:489:3 › interface › on a narrow phone the message box wraps rather than cutting off the roll
+  [small] › interface.spec.js:527:3 › interface › a fact greets a quiet title, its first tap starts the theme, and it stays dismissed for the visit
+  [small] › interface.spec.js:562:3 › interface › unread news takes priority over a fact without asking for a second dismissal
+  [small] › interface.spec.js:580:45 › interface › dismissing a fact respects sound being turned off
+  [small] › interface.spec.js:580:45 › interface › dismissing a fact respects music being turned off
+  [small] › interface.spec.js:589:3 › interface › a fresh floor is hidden until seen, and mapping stops at the fog
+  [small] › interface.spec.js:616:3 › interface › both maps wait for the opening passage to finish
+  [small] › interface.spec.js:630:3 › interface › the corner map draws a torch as the wall it is set into
+  [small] › interface.spec.js:687:3 › interface › the pack compares a weapon against the one already in hand
+  [small] › interface.spec.js:725:5 › layout › the title screen fits a small phone without sideways scroll
+  [small] › interface.spec.js:725:5 › layout › the title screen fits a tall phone without sideways scroll
+  [small] › interface.spec.js:725:5 › layout › the title screen fits a landscape phone without sideways scroll
+  [small] › interface.spec.js:725:5 › layout › the title screen fits a desktop without sideways scroll
+  [small] › interface.spec.js:741:3 › round five playtest › trying another class and coming back gives back the same numbers, and a background bonus shows
+  [small] › interface.spec.js:760:3 › round five playtest › How to Play is split into pages, one shown at a time
+  [small] › interface.spec.js:780:5 › round five playtest › a tip lies over the log, clear of the top half of the view and of the newest line, held upright
+  [small] › interface.spec.js:780:5 › round five playtest › a tip lies over the log, clear of the top half of the view and of the newest line, held sideways
+  [small] › interface.spec.js:803:3 › round five playtest › a tap on a tip puts it away, and does not act in the dungeon
+  [small] › interface.spec.js:823:3 › talents › an even level offers a class talent, and the Hero sheet lists it
+  [small] › interface.spec.js:845:3 › talents › a talent passed over is held for the next offer, first among the cards and marked as held
+  [small] › interface.spec.js:874:3 › talents › a tap already on its way when the level-up opens does not choose, and the screen says what the level gave
+  [small] › interface.spec.js:917:3 › gear powers › a powered piece names its power in the pack, and the Hero sheet lists what the gear gives
+  [small] › interface.spec.js:933:3 › gear powers › overlays are named dialogs with labelled close buttons, and the game behind one is out of reach
+  [small] › interface.spec.js:951:3 › gear powers › the phone's back gesture closes what is open, and in the dungeon opens the Menu rather than leaving the game
+  [small] › interface.spec.js:981:5 › gear powers › every tip fits its box on a small phone held sideways
+  [small] › interface.spec.js:981:5 › gear powers › every tip fits its box on the smallest upright phone
+  [small] › interface.spec.js:1001:3 › gear powers › a reload with the Pack open stays on the game, rather than going back a page
+  [small] › interface.spec.js:1023:3 › the screens around the dungeon › the class picker shows each class in a line, and the whole of the chosen one beneath; sideways all six in one row
+  [small] › interface.spec.js:1044:3 › the screens around the dungeon › the menu is in groups, its testing tools folded until opened, and open while one is on
+  [small] › interface.spec.js:1072:3 › the screens around the dungeon › the map fills the width it has, and zooms in about the hero by its buttons or a pinch
+  [small] › interface.spec.js:1098:3 › the screens around the dungeon › the pack sums up what is worn, the hero sheet is grouped, and the messages can be narrowed to one kind
+  [small] › interface.spec.js:1126:3 › the screens around the dungeon › every control wears a drawn icon from the one set, not a character the phone may draw as an emoji
+  [small] › interface.spec.js:1143:3 › the screens around the dungeon › the bottle says Drink and how many; Continue is shown only with a run to continue
+  [small] › interface.spec.js:1161:1 › @mobile Pack painting loads on opening and preserves the equipment geometry and highlights
+  [small] › interface.spec.js:1178:41 › @mobile corrupt Pack painting retains the silhouette, slots and selection
+  [small] › interface.spec.js:1178:41 › @mobile delayed Pack painting retains the silhouette, slots and selection
+  [small] › interface.spec.js:1201:1 › @mobile enlarged item titles keep whole words at narrow phone widths
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places fighter equipment and keeps its actions
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places mage equipment and keeps its actions
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places thief equipment and keeps its actions
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places cleric equipment and keeps its actions
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places ranger equipment and keeps its actions
+  [small] › interface.spec.js:1227:3 › @mobile pack silhouette places druid equipment and keeps its actions
+  [small] › interface.spec.js:1272:1 › @mobile pack silhouette yields to large text without clipping equipment
+  [small] › interface.spec.js:1295:1 › @mobile one left-hand slot follows shield, off-hand blade and two-handed grip
+  [small] › interface.spec.js:1333:1 › @mobile item sheet keeps actions in reach and Back restores the selected item
+  [small] › interface.spec.js:1369:1 › @mobile slot-first equipment filters candidates and previews without changing the hero
+  [small] › interface.spec.js:1405:1 › @mobile bag categories and compact view preserve capacity and item actions
+  [small] › interface.spec.js:1435:1 › @mobile recent finds survive reload, clear on inspection and return for a larger stack
+  [small] › interface.spec.js:1459:1 › @mobile unknown quality inspections keep powers and stat comparisons hidden
+  [small] › interface.spec.js:1472:1 › @mobile shop inspection shares item presentation without buying, selling or arming payment
+  [small] › melee-feedback.spec.js:17:1 › a close blow leaves a short impact; blocked plates and arrows do not claim a melee hit
+  [small] › melee-feedback.spec.js:48:1 › the impact is visible, smaller in Calm view, and hidden behind stone
+  [small] › melee-feedback.spec.js:87:1 › a late wind-up keeps its warning readable beside an impact in Calm view
+  [small] › melee-feedback.spec.js:101:1 › shot warnings distinguish missiles and magic, including grouped special attacks @mobile
+  [small] › melee-feedback.spec.js:140:1 › avoided blows show their actual outcome without a red damage cue or extra dice @mobile
+  [small] › melee-feedback.spec.js:178:1 › warning glyphs stay distinct without colour and defence receipts expire without travelling @mobile
+  [small] › melee-feedback.spec.js:209:1 › stepping out of a wind-up gives dodge feedback and a landed blow takes priority @mobile
+  [small] › memorable.spec.js:10:1 › @mobile places stay hidden until entered, then appear in the map and recap without changing the run
+  [small] › memorable.spec.js:41:1 › @mobile companion reactions and milestones use all six identities and preserve state and dice
+  [small] › memorable.spec.js:69:1 › @mobile field notes and the next-delve goal stay readable at double text
+  [small] › mobile.spec.js:5:1 › touch controls release after a tap and returning to the page resumes its saved hero
+  [small] › mythics.spec.js:29:1 › optional Mythic trial saves its guardian and grants one persistent class reward @mobile
+  [small] › mythics.spec.js:47:1 › the trial explains its bargain accessibly and can be declined without spawning a guardian
+  [small] › mythics.spec.js:63:161 › Fighter Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:63:161 › Cleric Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:63:161 › Mage Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:63:161 › Thief Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:63:161 › Ranger Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:63:161 › Druid Mythic shows its own art and drawback, equips and survives a save
+  [small] › mythics.spec.js:86:1 › Last Gate charges from a real blow survive fractional-clock saves and native reload @mobile
+  [small] › painted-cache.spec.js:5:1 › a late painted floor replaces an already-rendered fallback without changing the level @mobile
+  [small] › painted-creatures.spec.js:41:3 › painted dungeon creature › close-up fallback refinement gives atlas decoding a bounded grace and preserves procedural forms @mobile
+  [small] › painted-creatures.spec.js:61:3 › painted dungeon creature › failed painted art and explicit procedural forms retain close-up refinement immediately @mobile
+  [small] › painted-creatures.spec.js:69:3 › painted dungeon creature › nine cached poses retain transparency, lighting, elite colours and dice @mobile
+  [small] › painted-creatures.spec.js:97:3 › painted dungeon creature › each species and Skarrow keep independent cached poses and elite palettes @mobile
+  [small] › painted-creatures.spec.js:137:3 › painted dungeon creature › Batch D champions use their own cached paintings and retain class-specific shades @mobile
+  [small] › painted-creatures.spec.js:199:3 › painted dungeon creature › Batch D preserves champion warnings, dice and shade equipment during loading @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt hound atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt rat atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt troll atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt hexer atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt grisk atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:259:75 › painted dungeon creature › a corrupt shade atlas cannot break a different species @mobile
+  [small] › painted-creatures.spec.js:269:3 › painted dungeon creature › real wind-ups retain priority, Calm warnings and wall occlusion @mobile
+  [small] › painted-creatures.spec.js:288:40 › painted dungeon creature › Batch A keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile
+  [small] › painted-creatures.spec.js:288:40 › painted dungeon creature › Batch B keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile
+  [small] › painted-creatures.spec.js:288:40 › painted dungeon creature › Batch C keeps warnings, Calm view and occlusion with existing pose fallbacks @mobile
+  [small] › painted-creatures.spec.js:321:3 › painted dungeon creature › Batch C preserves mimic disguises, submerged corpses and keeper phases @mobile
+  [small] › painted-creatures.spec.js:355:43 › painted dungeon creature › delayed art retains every procedural fallback pose @mobile
+  [small] › painted-creatures.spec.js:355:43 › painted dungeon creature › corrupt art retains every procedural fallback pose @mobile
+  [small] › painted-world.spec.js:5:1 › approved world, equipment and material exports load through their native callers @mobile
+  [small] › painted-world.spec.js:26:1 › boss equipment and class shades follow live state without revealing concealed creatures @mobile
+  [small] › painted-world.spec.js:32:1 › a corrupt painted world image retains its own fallback while other pictures load @mobile
+  [small] › painted-world.spec.js:46:1 › ordinary painted shields follow exact equipment pairs and survive a native offline reload @mobile
+  [small] › painted-world.spec.js:67:1 › one corrupt ordinary shield retains its procedural fallback independently @mobile
+  [small] › painted-world.spec.js:78:1 › painted starter and wider weapons retain exact grips and survive native offline reload @mobile
+  [small] › painted-world.spec.js:96:1 › a corrupt wider weapon keeps its whole family procedural without disabling starter art @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt fighter flail keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt ranger dagger keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt spellblade dagger keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt fighter club keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt ranger shortsword keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:105:322 › a corrupt spellblade longsword keeps its family procedural independently @mobile
+  [small] › painted-world.spec.js:113:1 › activated melee paintings fit every pose and lit state without changing the run @mobile
+  [small] › painted-world.spec.js:127:1 › a corrupt released-hand staff frame retains the whole class family independently @mobile
+  [small] › painted-world.spec.js:135:1 › painted staff tips survive delivery and casting glints respect Calm @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new fighter sling preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new thief throwknife preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new fighter shortbow preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new fighter handxbow preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new spellblade scimitar preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new fighter greatsword preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:154:3 › a corrupt new cleric relic_penitent preserves independent family fallback @mobile
+  [small] › painted-world.spec.js:162:1 › new ranged, rare, named and released-hand bindings fit exact poses without changing run or dice @mobile
+  [small] › painted-world.spec.js:175:1 › native greatsword read and drink overlaps release one hand and restore both @mobile
+  [small] › painted-world.spec.js:192:1 › all named equipment states fit exact runtime routes without changing run or dice @mobile
+  [small] › painted-world.spec.js:203:3 › a corrupt named spellblade relic_grimtooth preserves its complete family fallback @mobile
+  [small] › painted-world.spec.js:203:3 › a corrupt named fighter relic_whisper preserves its complete family fallback @mobile
+  [small] › painted-world.spec.js:203:3 › a corrupt named mage legend_heartroot preserves its complete family fallback @mobile
+  [small] › painted-world.spec.js:203:3 › a corrupt named ranger mythic_horizon preserves its complete family fallback @mobile
+  [small] › painted-world.spec.js:209:186 › a corrupt named carried relic_kests_bulwark preserves exact independent fallback @mobile
+  [small] › painted-world.spec.js:209:186 › a corrupt named carried mythic_bloodstar preserves exact independent fallback @mobile
+  [small] › painted-world.spec.js:216:1 › named Fighter offhands equip and animate their own blades @mobile
+  [small] › painted-world.spec.js:227:73 › named ninth_circle read and drink overlaps use the released drive and restore both hands @mobile
+  [small] › painted-world.spec.js:227:73 › named heartroot read and drink overlaps use the released drive and restore both hands @mobile
+  [small] › painted-world.spec.js:249:1 › pending carried gear and all empty-hand families use exact native bindings @mobile
+  [small] › painted-world.spec.js:261:1 › regional painted composition retains exact native arch masks, gate edges, locks and fixed torch brackets @mobile
+  [small] › painted-world.spec.js:281:1 › new art failures remain independent across hands, items and regional surfaces @mobile
+  [small] › painted-world.spec.js:293:1 › small painted treasure caches rarity outlines without changing seeded unidentified appearances @mobile
+  [small] › painted-world.spec.js:306:1 › all activated art files decode after a native offline reload @mobile
+  [small] › painted-world.spec.js:325:1 › amber lantern loads only on demand, upgrades in place and fits native hand placements @mobile
+  [small] › painted-world.spec.js:356:1 › a corrupt amber lantern keeps its native flame and independent fallback @mobile
+  [small] › painted-world.spec.js:364:1 › door leaves exclude surround pixels and cache each decoded source independently @mobile
+  [small] › painted-world.spec.js:377:1 › closed and sliding doors draw only leaves in every region without changing run or dice @mobile
+  [small] › painted-world.spec.js:396:32 › wooden door keeps damage and key colour through native opening and closing @mobile
+  [small] › painted-world.spec.js:396:32 › cell gate keeps damage and key colour through native opening and closing @mobile
+  [small] › painted-world.spec.js:428:1 › a burning door stays charred during its native fall and leaves an empty doorway @mobile
+  [small] › play.spec.js:7:3 › core play › a new character can move, and every step is drawn without error
+  [small] › play.spec.js:21:3 › core play › attacking an adjacent monster kills it and grants experience
+  [small] › play.spec.js:39:3 › core play › a melee weapon cannot reach a monster three tiles away
+  [small] › play.spec.js:59:3 › core play › descending generates the next level and keeps the game playable
+  [small] › play.spec.js:77:3 › core play › at the divided stair the player chooses a road, or stays; the road they take is the next floor
+  [small] › play.spec.js:118:3 › core play › a save reloads to exactly the same position and pack
+  [small] › play.spec.js:133:3 › core play › running out of hit points ends the run and records the hero
+  [small] › play.spec.js:150:3 › core play › the death screen sums up the run: the best blow, the kills in pictures, talents and relics
+  [small] › polish.spec.js:6:1 › a new hero can descend with optional setup folded, and all six classes remain available @mobile
+  [small] › polish.spec.js:23:1 › custom choices survive folding and a class change, and the setup summary stays true @mobile
+  [small] › polish.spec.js:36:1 › the Journal leads with quests and keeps every collection reachable without advancing the run @mobile
+  [small] › polish.spec.js:62:1 › Attack names recovery until the actual cooldown is ready, without changing its timer @mobile
+  [small] › polish.spec.js:79:1 › map symbols expand into a readable key and Rest explains its recovery @mobile
+  [small] › polish.spec.js:95:1 › optional setup and Journal disclosures stay accessible at Double text @mobile
+  [small] › polish.spec.js:114:1 › a full Pack keeps long names readable, all twenty slots and item inspection at normal and Double text @mobile
+  [small] › portraits.spec.js:14:1 › all six painted class portraits load with smooth scaling and the earned mastery frames
+  [small] › portraits.spec.js:33:1 › selecting each hero shows a larger portrait and its own backstory, and the portrait expands by touch or keyboard
+  [small] › portraits.spec.js:68:1 › changing a class resets the expanded portrait and keeps the chosen name and background
+  [small] › portraits.spec.js:85:1 › the chosen portrait follows the hero into the story, hero sheet, ending and exported share card
+  [small] › portraits.spec.js:107:1 › a missing painted portrait falls back to the original face without blocking character creation
+  [small] › portraits.spec.js:121:1 › the installed game retains living and all seven fallen class portraits offline
+  [small] › portraits.spec.js:144:3 › the fallen fighter keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen thief keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen cleric keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen mage keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen ranger keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen druid keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:144:3 › the fallen spellblade keeps class identity in the death screen and exported portrait
+  [small] › portraits.spec.js:203:1 › a failed skull painting keeps a skull fallback and leaves other classes independent
+  [small] › portraits.spec.js:223:1 › a stalled skull load stays usable, exports its fallback, then upgrades in place
+  [small] › puzzles.spec.js:28:1 › each new hero chooses puzzles at the stair, including returning Quick Start @mobile
+  [small] › puzzles.spec.js:49:3 › runes: touch, a wrong guess, leaving and reopening, then collecting the cache @mobile
+  [small] › puzzles.spec.js:49:3 › torches: touch, a wrong guess, leaving and reopening, then collecting the cache @mobile
+  [small] › puzzles.spec.js:49:3 › seals: touch, a wrong guess, leaving and reopening, then collecting the cache @mobile
+  [small] › puzzles.spec.js:80:1 › puzzle overlay pauses the world, supports keyboard and controller, and passes axe at double text
+  [small] › puzzles.spec.js:102:1 › a reload and a save code keep the same partially answered puzzle @mobile
+  [small] › puzzles.spec.js:131:1 › Daily and Weekly starts explain that their puzzle rules stay fixed
+  [small] › puzzles.spec.js:145:3 › cache potion choice survives leaving and a reload, then grants only one share @mobile
+  [small] › puzzles.spec.js:145:3 › cache gear choice survives leaving and a reload, then grants only one share @mobile
+  [small] › puzzles.spec.js:187:1 › reward choices stay accessible at double text; Calm view and reduced motion keep the catch still
+  [small] › reading-scroll.spec.js:5:1 › reading vellum loads on demand and preserves live writing, clipping and every spell colour @mobile
+  [small] › reading-scroll.spec.js:36:1 › a corrupt reading parchment retains its complete procedural page and independent painted lantern @mobile
+  [small] › region-art.spec.js:41:1 › regional materials keep coded locks, water, shade caches and run dice intact @mobile
+  [small] › region-art.spec.js:55:1 › torchlight crosses a floor tile boundary without a brightness step @mobile
+  [small] › region-art.spec.js:102:1 › regional stone and wood are stable across a full page reload
+  [small] › region-art.spec.js:109:1 › every region renders the same visible foe with its own scenery in Calm view @mobile
+  [small] › region-art.spec.js:138:1 › built roofs recede from the room while distant surfaces keep their fog boundary @mobile
+  [small] › release.spec.js:8:1 › the main page shows its release and commit at the bottom on phones and desktop
+  [small] › release.spec.js:31:1 › release details and the menu stay reachable with double text and the first-time card
+  [small] › release.spec.js:43:1 › the installed game keeps its release and commit offline
+  [small] › relic-portraits.spec.js:5:1 › all 47 discovered relic paintings load and enlarge accessibly @mobile
+  [small] › relic-portraits.spec.js:34:1 › hidden quality hides the large portrait while Pack keeps its native small sprite
+  [small] › relic-portraits.spec.js:51:1 › an unavailable relic painting falls back to its named sprite
+  [small] › replay.spec.js:26:1 › a finished run replays with the same outcome, pauses, and leaves saves and progress untouched
+  [small] › replay.spec.js:48:1 › Escape closes a replay and returns focus to the end-screen button
+  [small] › replay.spec.js:62:1 › an installed recording replays offline
+  [small] › replay.spec.js:74:1 › a saved run continues recording after a page reload and replays the load grace correctly
+  [small] › replay.spec.js:90:1 › an imported save plays normally without offering an incomplete recording
+  [small] › security.spec.js:6:1 › a compressed save bomb is refused without replacing the hero @mobile
+  [small] › security.spec.js:19:1 › quoted hero names stay text in the hero portrait attributes @mobile
+  [small] › security.spec.js:29:46 › a forged floor item quantity is refused before replacing the hero @mobile
+  [small] › security.spec.js:29:46 › a forged trader item quantity is refused before replacing the hero @mobile
+  [small] › security.spec.js:51:1 › belt counts remain text even if a live item has a malformed quantity @mobile
+  [small] › security.spec.js:67:1 › legacy Hall migration rejects inherited class IDs without polluting the page @mobile
+  [small] › security.spec.js:83:1 › a hostile imported numeric field is refused through the code screen and keeps the saved hero
+  [small] › security.spec.js:102:1 › imported journal and end-screen values cannot create markup
+  [small] › security.spec.js:126:1 › the installed service worker never caches API responses
+  [small] › sharecard.spec.js:58:3 › lich take: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › lich quench: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › lich keep: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › warlord take: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › warlord quench: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › warlord keep: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › heartforged take: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › heartforged quench: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:58:3 › heartforged keep: native ending exports its actual keeper, symbol and painted companion
+  [small] › sharecard.spec.js:105:3 › ogre: death exports the painted killer while its companion is named only
+  [small] › sharecard.spec.js:105:3 › grisk: death exports the painted killer while its companion is named only
+  [small] › sharecard.spec.js:105:3 › skarrow: death exports the painted killer while its companion is named only
+  [small] › sharecard.spec.js:105:3 › shade: death exports the painted killer while its companion is named only
+  [small] › sharecard.spec.js:131:3 › corrupt killer art keeps sharing usable and independent
+  [small] › sharecard.spec.js:131:3 › stalled killer art keeps sharing usable and independent
+  [small] › sharecard.spec.js:185:1 › corrupt Heart paintings retain the new core fallbacks and independent quench art
+  [small] › spellblade.spec.js:15:1 › five title taps reveal the Wayfarer, persist on this device, and leave the six public classes unchanged @mobile
+  [small] › spellblade.spec.js:39:1 › keyboard unlock is accessible with double text and never replaces an existing save @mobile
+  [small] › spellblade.spec.js:56:1 › the hidden hero descends with a sword and lantern, casts runes, and resumes its own saved class @mobile
+  [small] › spellblade.spec.js:79:1 › the Silver Lantern is carried visibly on ordinary and dark floors and disappears when put away @mobile
+  [small] › spellblade.spec.js:141:1 › Wayfarer level-up cards teach exclusive talents and lantern memories @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px normal @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 320px Double Calm @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px normal @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 390px Double Calm @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px normal @mobile
+  [small] › visual-polish.spec.js:13:3 › tutorial takes priority over discovery narration at 740px Double Calm @mobile
+  [small] › visual-polish.spec.js:44:1 › empty tip space avoids layout reads while live status chips still protect warning rows @mobile
+  [small] › visual-polish.spec.js:60:1 › cached attack and recovery poses respect wind-ups, expiry and Calm view @mobile
+  [small] › visual-polish.spec.js:96:1 › regional props change the painting while saved scenery, scale and dice stay fixed @mobile
+  [small] › visual-polish.spec.js:131:1 › non-elemental magic has distinct shapes, fades and keeps Calm impacts still @mobile
+  [small] › visual-polish.spec.js:172:1 › treasure inspection shows known grades and usable art without revealing hidden quality @mobile
+  [small] › visual-polish.spec.js:204:4 › Mage magic keeps its actual cost and timing with readable effects in the dungeon
+  [small] › visual-polish.spec.js:204:4 › Cleric magic keeps its actual cost and timing with readable effects in the dungeon
+  [small] › visual-polish.spec.js:204:4 › Druid magic keeps its actual cost and timing with readable effects in the dungeon
+  [small] › visual-polish.spec.js:241:1 › every named treasure has distinct cached art and matching held shapes @mobile
+  [small] › visual-polish.spec.js:282:1 › named floor sprites retain their identity while pack and codex share painted portraits
+  [small] › visual-polish.spec.js:313:1 › new Legendary and Mythic finds reveal in the opened pack without changing play @mobile
+  [small] › visual-polish.spec.js:363:1 › landmark textures keep clear arches, deterministic shade caches and game state @mobile
+  [small] › visual-polish.spec.js:395:1 › @mobile the quiet log gives the dungeon room and fresh warnings restore the full log
+  [small] › visual-polish.spec.js:417:1 › @mobile sparse bags start compact and preserve an explicit full-grid preference
+  [small] › visual-polish.spec.js:435:1 › @mobile the first visit shows one introduction and the selected hero has an expandable biography
+  [small] › visual-polish.spec.js:452:1 › @mobile all three collections offer galleries with expandable notes and keep unknown entries hidden
+  [small] › visual-polish.spec.js:489:1 › @mobile hidden walls keep the same surface detail as ordinary stone near and far
+Total: 458 tests in 42 files

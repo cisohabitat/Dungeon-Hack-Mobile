@@ -559,7 +559,7 @@ existing retro identity, free web delivery and established scope decisions.
 | AAA2 | Interface cohesion — implemented for v0.9.55 | A neutral painted Pack stand retains SVG fallbacks, slot connectors and highlights; shared warm iron/parchment/brass panels unify title/create/Pack/Journal/Hero. Preserve inventory information, icon meanings, type sizes and touch targets. | Before/after native screens, full-pack/long-name/Double-text/landscape/keyboard/controller checks and six axe scans with no serious/critical findings. Local FPS misses are retained; required CI performance remains a publication gate. See [the interface review](docs/visual/2026-10-28-aaa2-interface/README.md). |
 | AAA2a | Rendering headroom — implemented for v0.9.56 | Batch identical wall shade/warmth rectangles without changing pixels, fog, doors or timing. This addresses the v0.9.55 CI reading-scroll miss (28.8 FPS against30); preserve that failure and three automatic browser retries. | 3,276 exact-pixel views,979 Chromium checks, nine native movement sessions and the original isolated FPS budget passed locally; every CI job and publication remain required. See [the recovery review](docs/verification/2026-10-28-wall-light-batching/README.md). |
 | AAA3 | Dungeon staging — roofs/scenery v0.9.57; keeper identity implemented v0.9.58, recovery v0.9.59; layout work open | Review all13 themes in play; select representative entrance, landmark, treasure and keeper rooms for stronger composition, lighting and environmental storytelling using approved assets first. | Labelled native action captures, recognisable regional landmarks and intact fog, collision, warnings and procedural generation; balance comparisons for any rule/layout changes. |
-| AAA4 | Combat and audio finish | Complete a listening review; choose one ordinary foe, champion and keeper as reference encounters. Refine anticipation/contact/recoil/recovery and weapon/material sound layers together, then apply the reviewed standard. | Running combat/video and listening evidence, costs/timing/dice regressions, Calm compatibility and isolated FPS clearance. Commission/license replacement recordings only after the listening findings identify a need. |
+| AAA4 | Combat and audio finish — first layout slice implemented for v0.9.60; listening open | Complete a listening review; choose one ordinary foe, champion and keeper as reference encounters. Refine anticipation/contact/recoil/recovery and weapon/material sound layers together, then apply the reviewed standard. | Running combat/video and listening evidence, costs/timing/dice regressions, Calm compatibility and isolated FPS clearance. Commission/license replacement recordings only after the listening findings identify a need. |
 | AAA5 | Device confidence and independent regrade | Run the real older-Android/iPhone checklist, including sustained heavy combat, speaker/audio resume, installation, offline reopening and save recovery. Review the first five minutes and a complete run with unfamiliar players. | Device/OS/browser/build recorded in DEVICES.md, actual observations and prioritised fixes; independent regrade against the same criteria. |
 
 ### AAA3 first slice and remaining composition work
@@ -590,9 +590,16 @@ Any spawn, room, corridor, light-placement or rule-bearing prop change needs
 matched generation/gameplay checks and the required balance comparisons; do not
 infer that clearance from this presentation-only pass. AAA4's reference combat
 and listening review can proceed without accepting those layout experiments.
-The320px Double-text/Calm Heartforged walk also exposes condition and log crowding
-under multiple live threats. Include that specific native case in AAA4's first
-combat-clarity fix; the keeper badge stays inside its existing reserved header.
+The 320px Double-text/Calm Heartforged walk exposed condition and log crowding
+under multiple live threats. The first AAA4 slice for v0.9.60 gives enlarged
+vitals room to share/wrap complete labels, bounds condition controls to one
+scrollable row, and keeps quick actions and the log below live intent. Left-hand
+mirroring, short-view minimap containment and a steady warning row between
+visible attacks and full-height damage-receipt clearance around warnings are
+included. See the
+[layout review](docs/visual/2026-10-29-combat-layout/README.md). The keeper badge
+stays inside its reserved header. This slice does not complete the listening,
+reference-encounter animation/audio, physical-device or independent regrade work.
 
 ### Delivery rules and open dependencies
 

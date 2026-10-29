@@ -1732,7 +1732,8 @@ const Renderer = (() => {
       // the whole way up, rather than jumping aside as it reaches it.
       // (a word is measured once, not every frame: a fight is full of them)
       if (t.halfAt !== textPx) { t.half = ctx.measureText(text).width / 2 + 2; t.halfAt = textPx; }
-      const half = t.half, hi = yAt(1) - textPx * 0.8, lo = yAt(0);
+      // Match the full-height clearance check below, including a clamped climb.
+      const half = t.half, hi = yAt(1) - textPx, lo = yAt(0);
       const fitX = value => Math.max(half, Math.min(W - half, value));
       let x = fitX(screenX);
       if (marked) {

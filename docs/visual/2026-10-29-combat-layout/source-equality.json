@@ -1,0 +1,11 @@
+{
+  "baseline": "c14f127be273d01b26649f8375a7e3c3a0890ee5",
+  "unchanged_js_modules": 113,
+  "changed": [
+    "js/release.js",
+    "js/renderer.js",
+    "js/titlemenu.js",
+    "js/ui.js"
+  ],
+  "notes": "Presentation only: full glyph-height warning clearance; UI scheduling/reservation; News; generated release metadata. Rule/data/generation and approved artwork unchanged."
+}
