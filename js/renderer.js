@@ -872,13 +872,17 @@ const Renderer = (() => {
     }
     return stainList;
   }
+  const stainScatter = new WeakMap();
+  // Retain each ellipse separately: combining overlapping paths changes alpha.
+  // Path2D reuses the original geometry while colour and light stay live.
+  const stainPaths = new WeakMap();
   function drawStains(list, level, px, py, dirX, dirY, planeX, planeY, lm, now) {
     if (!list || !list.length) return;
     // a stain from a blow still in the air waits for it
     if (list.some(s => s.at > now)) list = list.filter(s => !(s.at > now));
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const lx = W / 2 / TAN_HALF;
-    const blob = (x, y, r, c) => {
+    const blob = (x, y, r, c, saved) => {
       const sx = x - px, sy = y - py;
       const tY = invDet * (-planeY * sx + planeX * sy);
       if (tY < 0.35 || tY > fog) return;
@@ -890,7 +894,13 @@ const Renderer = (() => {
       const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
       const f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
       ctx.fillStyle = glow ? c : dim(c, f * 0.8, 0.7);
-      ctx.beginPath(); ctx.ellipse(cx, cy, rx, Math.min(ry, rx), 0, 0, Math.PI * 2); ctx.fill();
+      const height = Math.min(ry, rx);
+      if (!saved.path || saved.cx !== cx || saved.cy !== cy || saved.rx !== rx || saved.ry !== height) {
+        saved.path = new Path2D();
+        saved.path.ellipse(cx, cy, rx, height, 0, 0, Math.PI * 2);
+        saved.cx = cx; saved.cy = cy; saved.rx = rx; saved.ry = height;
+      }
+      ctx.fill(saved.path);
       return { cx, cy, rx, ry: Math.min(ry, rx), f };
     };
     // standing water catches the light: a glint that slides slowly across it and comes and goes
@@ -907,24 +917,44 @@ const Renderer = (() => {
     let glow = false;
     for (const st of list) {
       glow = !!st.glow;
-      const g = blob(st.x, st.y, st.r, st.c);
+      let paths = stainPaths.get(st);
+      if (!paths) stainPaths.set(st, paths = Array.from({ length: 5 }, () => ({ path: null, cx: NaN, cy: NaN, rx: NaN, ry: NaN })));
+      const g = blob(st.x, st.y, st.r, st.c, paths[0]);
       // Detail stays inside the original main ellipse. Unknown blood colours,
       // wet fields, glowing warnings and the four satellite blobs stay native.
       const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : null);
-      if (decal && g && g.rx >= 3 && g.ry >= .75) {
+      // Grain compressed below twelve buffer pixels adds noise rather than
+      // readable material. Keep the native fill and fade detail in by sixteen.
+      if (decal && g && g.rx >= 3 && g.ry > 6) {
         const image = paintedGroundDecal(decal, g.f);
         if (image) {
           const alpha = ctx.globalAlpha;
-          ctx.globalAlpha = .5;
+          ctx.globalAlpha = .5 * Math.min(1, (g.ry - 6) / 2);
           ctx.drawImage(image, g.cx - g.rx, g.cy - g.ry, g.rx * 2, g.ry * 2);
           ctx.globalAlpha = alpha;
         }
       }
       if (st.wet) glint(g, st.seed);
       if (st.solo) continue;
+      // The four splashes belong to the stain, not the frame. Keep their exact
+      // world coordinates; camera projection and light are still read live.
+      let scatter = stainScatter.get(st);
+      if (!scatter) {
+        scatter = { x: NaN, y: NaN, r: NaN, seed: NaN, points: new Float64Array(12) };
+        stainScatter.set(st, scatter);
+      }
+      if (scatter.x !== st.x || scatter.y !== st.y || scatter.r !== st.r || scatter.seed !== st.seed) {
+        for (let i = 0; i < 4; i++) {
+          const a = hash(st.seed + i) * Math.PI * 2, d = st.r * (0.9 + hash(st.seed + i + 9) * 0.9), j = i * 3;
+          scatter.points[j] = st.x + Math.cos(a) * d;
+          scatter.points[j + 1] = st.y + Math.sin(a) * d;
+          scatter.points[j + 2] = st.r * (0.18 + hash(st.seed + i + 5) * 0.2);
+        }
+        scatter.x = st.x; scatter.y = st.y; scatter.r = st.r; scatter.seed = st.seed;
+      }
       for (let i = 0; i < 4; i++) {
-        const a = hash(st.seed + i) * Math.PI * 2, d = st.r * (0.9 + hash(st.seed + i + 9) * 0.9);
-        blob(st.x + Math.cos(a) * d, st.y + Math.sin(a) * d, st.r * (0.18 + hash(st.seed + i + 5) * 0.2), st.c);
+        const j = i * 3;
+        blob(scatter.points[j], scatter.points[j + 1], scatter.points[j + 2], st.c, paths[i + 1]);
       }
     }
   }

@@ -1,0 +1,169 @@
+{
+  "scope": "Native running Game/Renderer/Assets and real turn/attack/read inputs. Comparison frames use supplied stain positions/radii/colours and cleared monsters/safety; action records label their supplied encounter/resources separately. No renderer/update substitution, unassisted/balance or physical-device claim.",
+  "sources": {
+    "js/renderer.js": "c4f2adfe14d95f2b38b91b9b133ae108750d6aaf2b1e83015148011227b2ac26",
+    "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+    "img/decals/blood.png": "9db65cd7101c9e139c8c7654595c182777c6ff5f2b0d31076d0948cef5609492",
+    "img/decals/ash.png": "6a18089a99b62c03b837261502a47dc3449738347c93eed36b82b0e43c5c3fb0"
+  },
+  "records": [
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-normal.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ],
+      "version": "0.9.65",
+      "build": 80
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-calm.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ],
+      "version": "0.9.65",
+      "build": 80
+    },
+    {
+      "width": 320,
+      "actions": true,
+      "attacks": 1,
+      "blood": [
+        {
+          "x": 6.544177891174331,
+          "y": 5.2937360912677836,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 472.07722114399076,
+          "at": 11236.5
+        }
+      ],
+      "target": {
+        "x": 6,
+        "y": 3,
+        "consumed": true
+      },
+      "ash": {
+        "k": "ash",
+        "until": 43749.4
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "scope": "Actual attack/corpse/blood and consumed fire scroll -> native fire expiry -> ash; two native forward inputs approach the cold field. Supplied1HP passive Orc, hero safety, oil field and scroll; earned talent selected through its real control; original attack/fire clocks, updates and renderer run unchanged."
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-normal.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ],
+      "version": "0.9.65",
+      "build": 80
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-calm.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ],
+      "version": "0.9.65",
+      "build": 80
+    },
+    {
+      "width": 390,
+      "actions": true,
+      "attacks": 1,
+      "blood": [
+        {
+          "x": 6.544177891174331,
+          "y": 5.2937360912677836,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 472.07722114399076,
+          "at": 11827.6
+        }
+      ],
+      "target": {
+        "x": 6,
+        "y": 3,
+        "consumed": true
+      },
+      "ash": {
+        "k": "ash",
+        "until": 44416.2
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "scope": "Actual attack/corpse/blood and consumed fire scroll -> native fire expiry -> ash; two native forward inputs approach the cold field. Supplied1HP passive Orc, hero safety, oil field and scroll; earned talent selected through its real control; original attack/fire clocks, updates and renderer run unchanged."
+    }
+  ]
+}

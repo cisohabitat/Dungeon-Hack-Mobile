@@ -1753,7 +1753,8 @@ AC–AH are activated for **0.9.40**: painted carried foci/shields, empty hands,
 Blood and cold ash have muted painted material detail inside their original
 floor footprints. Other gore colours, wet surfaces, live glints and warning
 geometry retain their existing rendering. The two128px textures load on demand
-with independent fallbacks and cached shades; see the [ground-art review](docs/visual/2026-10-30-ground-decals/README.md).
+with independent fallbacks and cached shades. Detail fades in as a patch gets
+large enough to read; the native fill remains visible throughout. See the [ground-art review](docs/visual/2026-10-30-ground-decals/README.md).
 
 CI runs full-cache offline installation checks separately on one worker, retaining the same install deadlines and native offline reload assertions. Other browser checks remain parallel. Their dedicated child-process origin prepares exact static responses before navigation, keeping trace recording out of the serving loop; browsers still fetch every required file into a cold native cache. Fixture byte/header, disconnect and failure checks run with `npm test`.
 Voice download resumption reads the offline cache index once, avoiding repeated scans of the full painted catalog.

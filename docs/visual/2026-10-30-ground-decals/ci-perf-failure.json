@@ -1,0 +1,17 @@
+{
+  "run": 41069868923,
+  "head": "14168814fa404bfe1ade21486594ecdf57400321",
+  "job": 124110827835,
+  "version": "0.9.64",
+  "reason": "Unchanged sixty-stain4xCPU scene missed30FPS at29.8; all seven earlier scenes passed. No unchanged rerun or lowered threshold.",
+  "lines": [
+    "2026-10-30T14:14:43.7914513Z frame budget at 4x slower (need 30 fps): {\"fight\":{\"fps\":42.9,\"scriptMs\":13.6},\"wide\":{\"fps\":46.9,\"scriptMs\":12.1},\"flooded\":{\"fps\":39.7,\"scriptMs\":14.9},\"painted\":{\"fps\":38.7,\"scriptMs\":14.8},\"amber\":{\"fps\":39.2,\"scriptMs\":13.8},\"scroll\":{\"fps\":36.9,\"scriptMs\":15.2},\"decals\":{\"fps\":29.8,\"scriptMs\":16.3},\"rite\":{\"fps\":49.6,\"scriptMs\":14.5}} start {\"ms\":2204}",
+    "    Error: decals: {\"fps\":29.8,\"scriptMs\":16.3}",
+    "    Expected: >= 30",
+    "    Received:    29.8",
+    "      165 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));",
+    "2026-10-30T14:14:49.3398497Z     Error: decals: {\"fps\":29.8,\"scriptMs\":16.3}",
+    "2026-10-30T14:14:49.3400580Z     Received:    \u001b[31m29.8\u001b[39m",
+    "2026-10-30T14:14:49.3401235Z       165 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));"
+  ]
+}

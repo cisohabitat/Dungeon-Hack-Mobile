@@ -12,7 +12,7 @@ test('ground materials load on demand and stay inside native landing footprints 
   await page.evaluate(async()=>{
    const {Dice,Odds}=await import('/js/rng.js');
    Game.update=()=>{};const rs=Game.renderState(10000),ctx=document.querySelector('#view').getContext('2d'),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];
-   const cases={blood:{c:'#5a0608'},ash:{c:'#16130f',solo:true},goo:{c:'#2a5a1a'},oil:{c:'#3a2a12'},ice:{c:'#a8cce4'},water:{c:'#2c3c4c',wet:true},glow:{c:'#5a0608',glow:true},future:{c:'#5a0608',at:10001},behind:{c:'#5a0608',behind:true}};
+   const cases={blood:{c:'#5a0608'},ash:{c:'#16130f',solo:true},nearBlood:{c:'#5a0608',distance:.8,r:.16},nearAsh:{c:'#16130f',solo:true,distance:.5,r:.42},distantDetail:{c:'#5a0608',distance:3,r:.16},goo:{c:'#2a5a1a'},oil:{c:'#3a2a12'},ice:{c:'#a8cce4'},water:{c:'#2c3c4c',wet:true},glow:{c:'#5a0608',glow:true},future:{c:'#5a0608',at:10001},behind:{c:'#5a0608',behind:true}};
    window.__groundBefore={};window.__groundBoxes=[];window.__groundRules=[];
    // Match renderer calls at one time; the native preview separately keeps the
    // main loop/motes running. A fixed argument alone cannot freeze ambient motes.
@@ -22,7 +22,7 @@ test('ground materials load on demand and stay inside native landing footprints 
    ctx.drawImage=function(img,...args){if(window.__groundImages?.has(img))window.__groundBoxes.push(args);return original.call(this,img,...args);};
    window.__groundProbe=(name,remember=false,quiet=false)=>{
     Renderer.setCalm(quiet);
-    const data=cases[name],distance=data.behind?-2:1.3;
+    const data=cases[name],distance=data.behind?-2:(data.distance??1.3);
     fx.stains[rs.level.depth]=[{x:p.x+.5+dx*distance,y:p.y+.5+dy*distance,r:.32,seed:73,at:0,...data}];
     window.__groundBoxes=[];const identity=window.__groundIdentity();render(rs.level,rs.cam,rs.sprites,fx,10000);window.__groundRules.push(identity===window.__groundIdentity());
     const pixels=ctx.getImageData(0,0,Renderer.W,Renderer.H).data;
@@ -36,24 +36,24 @@ test('ground materials load on demand and stay inside native landing footprints 
    };
    window.__groundIdentity=()=>JSON.stringify([Game.state(),Dice.s,Odds.s]);
    // Offscreen/future and unsupported fields must not initiate either request.
-   for(const quiet of [false,true])for(const name of ['goo','oil','ice','water','glow','future','behind'])window.__groundProbe(name,true,quiet);
+   for(const quiet of [false,true])for(const name of ['distantDetail','goo','oil','ice','water','glow','future','behind'])window.__groundProbe(name,true,quiet);
   });
   expect(requests).toHaveLength(0);
-  await page.evaluate(()=>{for(const quiet of [false,true]){window.__groundProbe('blood',true,quiet);window.__groundProbe('ash',true,quiet);}});
+  await page.evaluate(()=>{for(const quiet of [false,true]){window.__groundProbe('blood',true,quiet);window.__groundProbe('ash',true,quiet);window.__groundProbe('nearBlood',true,quiet);window.__groundProbe('nearAsh',true,quiet);}});
   await expect.poll(()=>requests.length).toBe(2);release();
   await page.evaluate(async()=>{window.__groundPaint=(await import('/js/paintedworld.js')).paintedGroundDecal;});
   await expect.poll(()=>page.evaluate(()=>!!window.__groundPaint('blood',1)&&!!window.__groundPaint('ash',1))).toBe(true);
   const result=await page.evaluate(()=>{
    const canvases=[];for(const kind of ['blood','ash'])for(let i=0;i<=100;i++)canvases.push(window.__groundPaint(kind,i/100));window.__groundImages=new Set(canvases);
-   const output={};for(const quiet of [false,true])for(const name of ['blood','ash','goo','oil','ice','water','glow','future','behind'])output[name+'|'+quiet]=window.__groundProbe(name,false,quiet);
+   const output={};for(const quiet of [false,true])for(const name of ['blood','ash','nearBlood','nearAsh','distantDetail','goo','oil','ice','water','glow','future','behind'])output[name+'|'+quiet]=window.__groundProbe(name,false,quiet);
    const create=document.createElement;let allocations=0;
    try{document.createElement=function(name,...args){if(name==='canvas')allocations++;return create.call(this,name,...args);};for(let i=0;i<100;i++)for(const kind of ['blood','ash'])window.__groundPaint(kind,.6);}
    finally{document.createElement=create;}
    return{output,allocations,unchanged:window.__groundRules.every(Boolean),unknown:window.__groundPaint('unknown',1)===null};
   });
 
-  for(const quiet of [false,true])for(const kind of ['blood','ash']){expect(result.output[kind+'|'+quiet].changed).toBeGreaterThan(5);expect(result.output[kind+'|'+quiet].outside).toBe(0);expect(result.output[kind+'|'+quiet].draws).toBe(1);}
-  for(const quiet of [false,true])for(const kind of ['goo','oil','ice','water','glow','future','behind'])expect(result.output[kind+'|'+quiet].changed,kind).toBe(0);
+  for(const quiet of [false,true])for(const kind of ['blood','ash','nearBlood','nearAsh']){expect(result.output[kind+'|'+quiet].changed,kind+' Calm='+quiet).toBeGreaterThan(5);expect(result.output[kind+'|'+quiet].outside).toBe(0);expect(result.output[kind+'|'+quiet].draws).toBe(1);}
+  for(const quiet of [false,true])for(const kind of ['distantDetail','goo','oil','ice','water','glow','future','behind'])expect(result.output[kind+'|'+quiet].changed,kind).toBe(0);
   expect(Object.values(result.output).every(r=>r.restored)).toBe(true);expect(result.allocations).toBe(0);expect(result.unchanged).toBe(true);expect(result.unknown).toBe(true);expect(requests).toHaveLength(2);expect(errors).toEqual([]);
  }finally{release?.();}
 });
@@ -67,4 +67,49 @@ for(const corrupt of ['blood','ash'])test(`a corrupt ${corrupt} decal keeps the 
  await expect.poll(()=>page.evaluate(kind=>window.__groundModule.paintedGroundDecal(kind,1)?.width,other)).toBe(128);
  await expect.poll(()=>page.evaluate(kind=>window.__groundModule.paintedWorldState()['img/decals/'+kind+'.png'],corrupt)).toBe('failed');
  expect(await page.evaluate(kind=>window.__groundModule.paintedGroundDecal(kind,1),corrupt)).toBeNull();expect(errors).toEqual([]);
+});
+
+test('cached splash geometry matches fresh geometry pixel for pixel and refreshes after a change @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});
+ await page.evaluate(()=>{Game.level().monsters=[];});await faceOpenGround(page,3);await artReady(page);
+ await page.evaluate(async()=>{window.__nativeGroundPaint=await import('/js/paintedworld.js');for(const k of ['blood','ash'])window.__nativeGroundPaint.paintedGroundDecal(k,1);});
+ await expect.poll(()=>page.evaluate(()=>['blood','ash'].every(k=>!!window.__nativeGroundPaint.paintedGroundDecal(k,1)))).toBe(true);
+ const result=await page.evaluate(async()=>{
+  const {Dice,Odds}=await import('/js/rng.js');Game.update=()=>{};
+  const render=Renderer.render;Renderer.render=()=>{};
+  const rs=Game.renderState(10000),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir],ctx=document.querySelector('#view').getContext('2d');
+  const colours=['#5a0608','#2a5a1a','#4e5e0e','#2a1a10','#1a3610','#262c1e','#5a2c12','#3a2a12','#a8cce4','#2c3c4c'];
+  const stains=Array.from({length:60},(_,i)=>{const d=.7+(i%8)*.8,side=((i%7)-3)*.23;return{x:p.x+.5+dx*d-dy*side,y:p.y+.5+dy*d+dx*side,r:[.08,.16,.42][i%3],c:colours[i%colours.length],seed:i*37,wet:i%colours.length===9,at:0};});
+  // Moving this diagnostic camera must not mark new live run tiles explored.
+  const cam={...rs.cam},level={...rs.level,explored:rs.level.explored.slice().fill(1)};
+  const fx={...rs.fx,stains:{[rs.level.depth]:stains},spells:[],texts:[],corpses:[],bits:[],drops:[],frost:[],rocks:[],vents:[],boss:null,view:{...rs.fx.view,walk:0,steps:0}};
+  const original={sin:Math.sin,cos:Math.cos,ellipse:Path2D.prototype.ellipse,fill:ctx.fill};
+  const ellipses=new WeakMap();let native=false,pathBuilds=0,nativeDifferences=0;
+  Path2D.prototype.ellipse=function(...args){pathBuilds++;ellipses.set(this,args);return original.ellipse.apply(this,args);};
+  ctx.fill=function(path,...args){const ellipse=path&&ellipses.get(path);if(native&&ellipse){this.beginPath();this.ellipse(...ellipse);return original.fill.call(this);}return original.fill.call(this,path,...args);};
+  let trig=0,differences=0,views=0;const counts=[];
+  for(const k of ['sin','cos'])Math[k]=function(n){trig++;return original[k](n);};
+  const identity=()=>JSON.stringify([Game.state(),Dice.s,Odds.s]),before=identity(),height=Renderer.H,quiet=Renderer.calm;
+  try{for(const h of [160,360,464])for(const calm of [false,true]){
+   Renderer.setHeight(h);Renderer.setCalm(calm);fx.stains[rs.level.depth]=stains;
+   render(level,cam,[],fx,10000);render(level,cam,[],fx,10000);
+   // The same object changes: a cache must invalidate every geometry input.
+   stains[0].x+=.13;stains[0].y-=.07;stains[0].r+=.005;stains[0].seed++;cam.x+=.07;cam.y-=.04;cam.angle+=.17;
+   trig=0;render(level,cam,[],fx,10000);const cachedTrig=trig,cached=ctx.getImageData(0,0,320,h).data;
+   // Draw each recorded ellipse through the original context path API too.
+   // Pixel equality must hold against native rasterization, not just a fresh cache.
+   native=true;render(level,cam,[],fx,10000);native=false;
+   const nativePixels=ctx.getImageData(0,0,320,h).data;
+   for(let i=0;i<cached.length;i++)if(cached[i]!==nativePixels[i])nativeDifferences++;
+   const built=pathBuilds;render(level,cam,[],fx,10000);const reused=pathBuilds===built;
+   // Fresh identities force the ordinary geometry calculation, with the exact
+   // same values, order, native ellipse calls, lighting and alpha compositing.
+   fx.stains[rs.level.depth]=stains.map(s=>({...s}));
+   trig=0;render(level,cam,[],fx,10000);const freshTrig=trig,fresh=ctx.getImageData(0,0,320,h).data;
+   for(let i=0;i<cached.length;i++)if(cached[i]!==fresh[i])differences++;
+   counts.push({cached:cachedTrig,fresh:freshTrig,reused});views++;
+  }}finally{Math.sin=original.sin;Math.cos=original.cos;Path2D.prototype.ellipse=original.ellipse;ctx.fill=original.fill;Renderer.setHeight(height);Renderer.setCalm(quiet);}
+  return{counts,differences,nativeDifferences,pathBuilds,views,unchanged:identity()===before};
+ });
+ expect(result.counts.every(r=>r.fresh>r.cached)).toBe(true);expect(result.counts.every(r=>r.reused)).toBe(true);expect(result.pathBuilds).toBeGreaterThan(0);expect(result.views).toBe(6);expect(result.differences).toBe(0);expect(result.nativeDifferences).toBe(0);expect(result.unchanged).toBe(true);expect(errors).toEqual([]);
 });

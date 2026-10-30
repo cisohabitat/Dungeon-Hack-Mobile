@@ -101,3 +101,52 @@ Required fresh CI and the release publisher remain publication gates; see
 No combat rules, saved state or balance settings changed; balance simulation
 is not required for this presentation-only pass. Human listening remains
 skipped at the owner's request.
+
+
+## v0.9.65 recovery
+
+The v0.9.64 main commit is `14168814fa404bfe1ade21486594ecdf57400321`.
+CI run41069868923 passed nine required jobs but failed its frame-rate job:
+the new stain crowd measured29.8FPS against the unchanged30FPS bar.
+The release publisher did not run; the local v0.9.64 passes above are not CI
+clearance. `ci-perf-failure.json` records that failure.
+
+The recovery retains native fills at every distance. Material grain fades in
+only above twelve projected buffer pixels in height, reaching its original
+half opacity by sixteen. Four satellite world coordinates are cached per stain
+with x/y/radius/seed invalidation. Each ellipse retains its own Path2D, rebuilt
+when its projected bounds change; colour, torchlight, alpha, ordering and
+camera projection remain live. Both caches are weak and are not saved state.
+The regression compares cached, fresh and original context-path rendering,
+including geometry changes, all six160/360/464-height Normal/Calm views and
+sixty differently coloured stains. Exact zero changed channels is required.
+
+Rejected recovery experiments are preserved outside the repository. A complete
+precomposited stamp spilled pixels at a near edge; batching native ellipse
+paths changed418 channels through overlap compositing. Neither ships. A
+stationary unlit-floor buffer experiment also missed the performance gate and
+was removed. No floor renderer, gate threshold, workload, retry policy or
+existing scene was changed. CPU profiles and an exact v0.9.64-renderer diagnostic
+showed older scenes also missing locally; those report-only diagnostics do not
+count as passing gates. Recovery validation is recorded separately so historical
+v0.9.64 captures and results remain attributable to their actual source.
+
+The camera-invalidation extension initially failed the unchanged-state assertion
+in both Chromium sizes: the native renderer marks the camera's tile explored.
+All pixel assertions and all ten regional/lighting checks passed in that run.
+The diagnostic now uses a copied explored map, retaining the strict game/dice
+assertion while exercising camera movement. The failed report/traces remain in
+`/workspace/ground-decals-v65-targeted/` and its log; no runtime exploration
+behaviour changed. The corrected focused selection is recorded separately.
+
+Recovery `npm test` passed751 checks in74 rule files, plus the type, generator,
+art, release, API/security, narration and offline checks. All eight corrected
+focused cases passed with no retries; all ten regional/lighting cases passed.
+Both installed full-art native reloads passed (56.5s, no retries). `recovery/`
+contains the new running native/action previews; the gallery points there and
+retains `after/` as historical v0.9.64 evidence. See
+`recovery-validation.json` for exact local results and failed speed experiments.
+Full browser coverage and the isolated speed gate are delegated to fresh CI,
+as the repository's pre-push workflow specifies. No v0.9.64 full-run result is
+relabelled as v0.9.65 coverage. The v0.9.65 recovery is not cleared for a release
+until that fresh workflow succeeds.

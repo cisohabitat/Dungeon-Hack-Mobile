@@ -517,7 +517,10 @@ gameplay or physical-device visual approval.
 
 The owner requested a further texture pass on30 October: AK adds blood
 and cold ash floor detail, preserving the existing procedural footprints and
-timing. AL reviews wet oil/ice/water surfaces next; AM/AN review spell contacts
+timing. The v0.9.64 release publisher was blocked by the new crowded-stain
+frame-rate check (29.8FPS against30); v0.9.65 addresses stain geometry reuse
+and distant detail readability, retaining the same eight scenes and thresholds.
+AL reviews wet oil/ice/water surfaces next; AM/AN review spell contacts
 and healing/ward accents only where native comparisons justify painting.
 See [the surface plan](art/creatures/ATLAS-ROADMAP.md#optional-surface-textures--30-october-2026).
 

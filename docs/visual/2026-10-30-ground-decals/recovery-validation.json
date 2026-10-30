@@ -1,0 +1,276 @@
+{
+  "version": "0.9.65",
+  "build": 80,
+  "cache": "deepdelve-v140",
+  "baseline": "14168814fa404bfe1ade21486594ecdf57400321",
+  "scope": "Stain geometry/Path2D reuse and readable-size material fade; native ellipse rasterization, live lighting, game rules and eight-scene thresholds retained.",
+  "focused": {
+    "cases": 8,
+    "duration": "1.6m",
+    "retries": 0,
+    "nativePixelDifferences": 0,
+    "cameraGeometryInvalidation": true,
+    "unchangedGameAndDice": true,
+    "log": "/workspace/ground-decals-v65-final-focused.log"
+  },
+  "localPerformance": [
+    {
+      "experiment": "recovery-perf-first",
+      "log": "/workspace/ground-decals-recovery-perf-first.log",
+      "sha256": "b3ec71ae0a2d1074aa1f8228027421e57ccbfb91c91b19f2b02bcd022778bedd",
+      "gate": "failed",
+      "scenes": {
+        "fight": {
+          "fps": 38.9,
+          "scriptMs": 13.7
+        },
+        "wide": {
+          "fps": 39.4,
+          "scriptMs": 12.9
+        },
+        "flooded": {
+          "fps": 34.9,
+          "scriptMs": 16
+        },
+        "painted": {
+          "fps": 31.9,
+          "scriptMs": 17.8
+        },
+        "amber": {
+          "fps": 34.6,
+          "scriptMs": 14.5
+        },
+        "scroll": {
+          "fps": 26.9,
+          "scriptMs": 17.9
+        },
+        "decals": {
+          "fps": 26.9,
+          "scriptMs": 18.1
+        },
+        "rite": {
+          "fps": 51.1,
+          "scriptMs": 11.9
+        }
+      },
+      "start": {
+        "ms": 2517
+      }
+    },
+    {
+      "experiment": "scatter-perf",
+      "log": "/workspace/ground-decals-scatter-perf.log",
+      "sha256": "fc2824393b696e2749a00189ac30c4d0ebd0d3f3806dda5ae56ba610d70e3280",
+      "gate": "failed",
+      "scenes": {
+        "fight": {
+          "fps": 34.9,
+          "scriptMs": 16
+        },
+        "wide": {
+          "fps": 37.1,
+          "scriptMs": 13.7
+        },
+        "flooded": {
+          "fps": 32.7,
+          "scriptMs": 15.2
+        },
+        "painted": {
+          "fps": 29.9,
+          "scriptMs": 16.7
+        },
+        "amber": {
+          "fps": 27.9,
+          "scriptMs": 18.6
+        },
+        "scroll": {
+          "fps": 19,
+          "scriptMs": 26.2
+        },
+        "decals": {
+          "fps": 16.7,
+          "scriptMs": 27.1
+        },
+        "rite": {
+          "fps": 38.1,
+          "scriptMs": 18
+        }
+      },
+      "start": {
+        "ms": 2762
+      }
+    },
+    {
+      "experiment": "lod-perf",
+      "log": "/workspace/ground-decals-lod-perf.log",
+      "sha256": "794f4fe6e84e36d73e5279130ea90f04ff4c77d89acb631dd56f36076bfa9988",
+      "gate": "failed",
+      "scenes": {
+        "fight": {
+          "fps": 32.4,
+          "scriptMs": 16.4
+        },
+        "wide": {
+          "fps": 32.7,
+          "scriptMs": 15.2
+        },
+        "flooded": {
+          "fps": 31.3,
+          "scriptMs": 17.3
+        },
+        "painted": {
+          "fps": 33,
+          "scriptMs": 16.7
+        },
+        "amber": {
+          "fps": 30.4,
+          "scriptMs": 16.1
+        },
+        "scroll": {
+          "fps": 27.7,
+          "scriptMs": 17.3
+        },
+        "decals": {
+          "fps": 21.9,
+          "scriptMs": 20.4
+        },
+        "rite": {
+          "fps": 40.5,
+          "scriptMs": 15.3
+        }
+      },
+      "start": {
+        "ms": 2397
+      }
+    },
+    {
+      "experiment": "still-floor-perf",
+      "log": "/workspace/ground-decals-still-floor-perf.log",
+      "sha256": "a014eef829dbbd160b2333738bc9b1bee598eead8be7617d1621679a379357bb",
+      "gate": "failed",
+      "scenes": {
+        "fight": {
+          "fps": 36.3,
+          "scriptMs": 15.4
+        },
+        "wide": {
+          "fps": 34.3,
+          "scriptMs": 14.6
+        },
+        "flooded": {
+          "fps": 31.3,
+          "scriptMs": 16.5
+        },
+        "painted": {
+          "fps": 29.2,
+          "scriptMs": 18.9
+        },
+        "amber": {
+          "fps": 34.1,
+          "scriptMs": 14.9
+        },
+        "scroll": {
+          "fps": 30.6,
+          "scriptMs": 16.5
+        },
+        "decals": {
+          "fps": 25.5,
+          "scriptMs": 18.3
+        },
+        "rite": {
+          "fps": 48.7,
+          "scriptMs": 12.9
+        }
+      },
+      "start": {
+        "ms": 2433
+      }
+    },
+    {
+      "experiment": "path-perf",
+      "log": "/workspace/ground-decals-path-perf.log",
+      "sha256": "b6ea315e558ea9e7c2d6e690cd97481403c34708c03e9b939b4153586b31ba28",
+      "gate": "failed",
+      "scenes": {
+        "fight": {
+          "fps": 35.6,
+          "scriptMs": 16
+        },
+        "wide": {
+          "fps": 35.5,
+          "scriptMs": 14.6
+        },
+        "flooded": {
+          "fps": 39,
+          "scriptMs": 12.3
+        },
+        "painted": {
+          "fps": 41.7,
+          "scriptMs": 11.2
+        },
+        "amber": {
+          "fps": 30.4,
+          "scriptMs": 17
+        },
+        "scroll": {
+          "fps": 28.7,
+          "scriptMs": 17.5
+        },
+        "decals": {
+          "fps": 21.7,
+          "scriptMs": 21
+        },
+        "rite": {
+          "fps": 31.2,
+          "scriptMs": 21.1
+        }
+      },
+      "start": {
+        "ms": 3036
+      }
+    }
+  ],
+  "fullBrowserCoverage": "Fresh CI must cover all 651 phone,366 small and237 Safari cases plus the isolated performance gate. v0.9.64 local full results are historical, not v0.9.65 coverage.",
+  "publicationGate": "Fresh CI required; do not treat report-only CPU/baseline diagnostics as clearance.",
+  "listening": "Skipped by owner instruction; physical device approval not claimed.",
+  "regional": {
+    "cases": 10,
+    "passed": 10,
+    "note": "All regional and lighting cases passed in the earlier eighteen-case targeted selection. The two ground camera-state fixture failures are separately retained.",
+    "log": "/workspace/ground-decals-v65-targeted.log",
+    "selection": {
+      "cases": 18,
+      "passed": 16,
+      "failed": 2,
+      "cause": "Camera-state fixture marked live explored tiles; fixed by copying explored map. Both pixel comparisons passed; corrected focused8 subsequently passed."
+    }
+  },
+  "npm": {
+    "passed": true,
+    "rules": 751,
+    "files": 74,
+    "log": "/workspace/ground-decals-v65-npm.log"
+  },
+  "offline": {
+    "cases": 2,
+    "passed": 2,
+    "duration": "56.5s",
+    "retries": 0,
+    "scope": "Both Chromium widths, installed full-art cache reload, both new material loaders.",
+    "log": "/workspace/ground-decals-v65-offline.log"
+  },
+  "native": {
+    "directory": "recovery",
+    "screenshots": 10,
+    "records": 6,
+    "version": "0.9.65",
+    "build": 80,
+    "exactSources": {
+      "js/renderer.js": "c4f2adfe14d95f2b38b91b9b133ae108750d6aaf2b1e83015148011227b2ac26",
+      "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+      "img/decals/blood.png": "9db65cd7101c9e139c8c7654595c182777c6ff5f2b0d31076d0948cef5609492",
+      "img/decals/ash.png": "6a18089a99b62c03b837261502a47dc3449738347c93eed36b82b0e43c5c3fb0"
+    },
+    "visualReview": "390px normal and320px real ash approach inspected; original dark native footprints retain material grain, no added halo or cartoon effects."
+  }
+}

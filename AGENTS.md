@@ -1658,7 +1658,11 @@ stain ellipse. Keep the original fill and four satellite blobs; clip only the
 half-opacity material layer, after the same visibility/projection/lighting
 checks and before walls/actors. Match only native dark-red blood and cold ash;
 other gore colours, oil/ice/water, glowing vents/warnings and future landings
-stay native. Subpixel/far patches keep the original fill without loading art.
+stay native. Detail fades in above twelve projected buffer pixels of height,
+reaching half opacity at sixteen; smaller patches keep the native fill.
+Satellite world coordinates and individual Path2D ellipses use weak caches,
+invalidating on changed geometry/projection. Draw each ellipse separately with
+live light/colour: merging paths changes alpha in overlaps.
 `paintedGroundDecal` demand-loads each image independently and prepares eight
 shade canvases and the circular alpha mask once on load; per-frame canvas
 clips missed the sixty-stain budget. Never allocate/rasterize material canvases in the
