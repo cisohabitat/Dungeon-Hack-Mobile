@@ -815,14 +815,14 @@ const Renderer = (() => {
   // A stain's object is kept from one frame to the next, by its square and part, and the list
   // they are gathered in is the same list each frame: a floor of many burnt squares was making
   // them all afresh sixty times a second. (A square's key is parsed once too.)
-  /** @type {Map<string, {x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean}>} */
+  /** @type {Map<string, {x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean, material?: string}>} */
   const stainKept = new Map();
-  /** @type {Array<{x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean}>} */
+  /** @type {Array<{x: number, y: number, r: number, c: string, seed: number, glow?: boolean, solo?: boolean, material?: string}>} */
   const stainList = [];
   let stainFloor = null;
-  const stain = (key, x, y, r, c, seed, glow, solo) => {
+  const stain = (key, x, y, r, c, seed, glow, solo, material = null) => {
     let s = stainKept.get(key);
-    if (!s) { s = { x, y, r, c, seed, glow, solo }; stainKept.set(key, s); } else { s.x = x; s.y = y; s.r = r; s.c = c; s.seed = seed; s.glow = glow; s.solo = solo; }
+    if (!s) { s = { x, y, r, c, seed, glow, solo, material }; stainKept.set(key, s); } else { s.x = x; s.y = y; s.r = r; s.c = c; s.seed = seed; s.glow = glow; s.solo = solo; s.material = material; }
     stainList.push(s);
   };
   /** @type {Map<string, number[]>} */
@@ -865,7 +865,7 @@ const Renderer = (() => {
         stain(k + '/h', x + 0.5, y + 0.5, 0.14, flick > 0.5 ? '#e87a24' : '#c85a18', seed + 3, true, true);
       // (a burnt floor can be many squares: each is one patch, without the splashes round it)
       } else if (FIELD_LOOK[f.k]) {
-        stain(k, x + 0.5, y + 0.5, FIELD_LOOK[f.k][1], FIELD_LOOK[f.k][0], seed, false, f.k === 'ash');
+        stain(k, x + 0.5, y + 0.5, FIELD_LOOK[f.k][1], FIELD_LOOK[f.k][0], seed, false, f.k === 'ash', f.k === 'ice' ? 'ice' : null);
         // lamp oil catches the light in a pale sheen, so a spill reads against the dark stone
         if (f.k === 'oil') stain(k + '/s', x + 0.42, y + 0.56, 0.15, '#8e6e2c', seed + 5, false, true);
       }
@@ -921,8 +921,8 @@ const Renderer = (() => {
       if (!paths) stainPaths.set(st, paths = Array.from({ length: 5 }, () => ({ path: null, cx: NaN, cy: NaN, rx: NaN, ry: NaN })));
       const g = blob(st.x, st.y, st.r, st.c, paths[0]);
       // Detail stays inside the original main ellipse. Unknown blood colours,
-      // wet fields, glowing warnings and the four satellite blobs stay native.
-      const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : null);
+      // oil/water, unmarked frost, warnings and satellite blobs stay native.
+      const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : st.c === '#a8cce4' && st.material === 'ice' ? 'ice' : null);
       // Grain compressed below twelve buffer pixels adds noise rather than
       // readable material. Keep the native fill and fade detail in by sixteen.
       if (decal && g && g.rx >= 3 && g.ry > 6) {

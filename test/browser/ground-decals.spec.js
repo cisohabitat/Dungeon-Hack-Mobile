@@ -12,7 +12,7 @@ test('ground materials load on demand and stay inside native landing footprints 
   await page.evaluate(async()=>{
    const {Dice,Odds}=await import('/js/rng.js');
    Game.update=()=>{};const rs=Game.renderState(10000),ctx=document.querySelector('#view').getContext('2d'),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];
-   const cases={blood:{c:'#5a0608'},ash:{c:'#16130f',solo:true},nearBlood:{c:'#5a0608',distance:.8,r:.16},nearAsh:{c:'#16130f',solo:true,distance:.5,r:.42},distantDetail:{c:'#5a0608',distance:3,r:.16},goo:{c:'#2a5a1a'},oil:{c:'#3a2a12'},ice:{c:'#a8cce4'},water:{c:'#2c3c4c',wet:true},glow:{c:'#5a0608',glow:true},future:{c:'#5a0608',at:10001},behind:{c:'#5a0608',behind:true}};
+   const cases={blood:{c:'#5a0608'},ash:{c:'#16130f',solo:true},nearBlood:{c:'#5a0608',distance:.8,r:.16},nearAsh:{c:'#16130f',solo:true,distance:.5,r:.42},distantDetail:{c:'#5a0608',distance:3,r:.16},goo:{c:'#2a5a1a'},oil:{c:'#3a2a12'},ice:{c:'#a8cce4',material:'ice'},cold:{c:'#a8cce4'},water:{c:'#2c3c4c',wet:true},glow:{c:'#5a0608',glow:true},future:{c:'#5a0608',at:10001},behind:{c:'#5a0608',behind:true}};
    window.__groundBefore={};window.__groundBoxes=[];window.__groundRules=[];
    // Match renderer calls at one time; the native preview separately keeps the
    // main loop/motes running. A fixed argument alone cannot freeze ambient motes.
@@ -36,44 +36,65 @@ test('ground materials load on demand and stay inside native landing footprints 
    };
    window.__groundIdentity=()=>JSON.stringify([Game.state(),Dice.s,Odds.s]);
    // Offscreen/future and unsupported fields must not initiate either request.
-   for(const quiet of [false,true])for(const name of ['distantDetail','goo','oil','ice','water','glow','future','behind'])window.__groundProbe(name,true,quiet);
+   for(const quiet of [false,true])for(const name of ['distantDetail','goo','oil','cold','water','glow','future','behind'])window.__groundProbe(name,true,quiet);
   });
   expect(requests).toHaveLength(0);
-  await page.evaluate(()=>{for(const quiet of [false,true]){window.__groundProbe('blood',true,quiet);window.__groundProbe('ash',true,quiet);window.__groundProbe('nearBlood',true,quiet);window.__groundProbe('nearAsh',true,quiet);}});
-  await expect.poll(()=>requests.length).toBe(2);release();
+  await page.evaluate(()=>{for(const quiet of [false,true]){window.__groundProbe('blood',true,quiet);window.__groundProbe('ash',true,quiet);window.__groundProbe('ice',true,quiet);window.__groundProbe('nearBlood',true,quiet);window.__groundProbe('nearAsh',true,quiet);}});
+  await expect.poll(()=>requests.length).toBe(3);release();
   await page.evaluate(async()=>{window.__groundPaint=(await import('/js/paintedworld.js')).paintedGroundDecal;});
-  await expect.poll(()=>page.evaluate(()=>!!window.__groundPaint('blood',1)&&!!window.__groundPaint('ash',1))).toBe(true);
+  await expect.poll(()=>page.evaluate(()=>!!window.__groundPaint('blood',1)&&!!window.__groundPaint('ash',1)&&!!window.__groundPaint('ice',1))).toBe(true);
   const result=await page.evaluate(()=>{
-   const canvases=[];for(const kind of ['blood','ash'])for(let i=0;i<=100;i++)canvases.push(window.__groundPaint(kind,i/100));window.__groundImages=new Set(canvases);
-   const output={};for(const quiet of [false,true])for(const name of ['blood','ash','nearBlood','nearAsh','distantDetail','goo','oil','ice','water','glow','future','behind'])output[name+'|'+quiet]=window.__groundProbe(name,false,quiet);
+   const canvases=[];for(const kind of ['blood','ash','ice'])for(let i=0;i<=100;i++)canvases.push(window.__groundPaint(kind,i/100));window.__groundImages=new Set(canvases);
+   const output={};for(const quiet of [false,true])for(const name of ['blood','ash','nearBlood','nearAsh','distantDetail','goo','oil','ice','cold','water','glow','future','behind'])output[name+'|'+quiet]=window.__groundProbe(name,false,quiet);
    const create=document.createElement;let allocations=0;
-   try{document.createElement=function(name,...args){if(name==='canvas')allocations++;return create.call(this,name,...args);};for(let i=0;i<100;i++)for(const kind of ['blood','ash'])window.__groundPaint(kind,.6);}
+   try{document.createElement=function(name,...args){if(name==='canvas')allocations++;return create.call(this,name,...args);};for(let i=0;i<100;i++)for(const kind of ['blood','ash','ice'])window.__groundPaint(kind,.6);}
    finally{document.createElement=create;}
    return{output,allocations,unchanged:window.__groundRules.every(Boolean),unknown:window.__groundPaint('unknown',1)===null};
   });
 
-  for(const quiet of [false,true])for(const kind of ['blood','ash','nearBlood','nearAsh']){expect(result.output[kind+'|'+quiet].changed,kind+' Calm='+quiet).toBeGreaterThan(5);expect(result.output[kind+'|'+quiet].outside).toBe(0);expect(result.output[kind+'|'+quiet].draws).toBe(1);}
-  for(const quiet of [false,true])for(const kind of ['distantDetail','goo','oil','ice','water','glow','future','behind'])expect(result.output[kind+'|'+quiet].changed,kind).toBe(0);
-  expect(Object.values(result.output).every(r=>r.restored)).toBe(true);expect(result.allocations).toBe(0);expect(result.unchanged).toBe(true);expect(result.unknown).toBe(true);expect(requests).toHaveLength(2);expect(errors).toEqual([]);
+  for(const quiet of [false,true])for(const kind of ['blood','ash','ice','nearBlood','nearAsh']){expect(result.output[kind+'|'+quiet].changed,kind+' Calm='+quiet).toBeGreaterThan(5);expect(result.output[kind+'|'+quiet].outside).toBe(0);expect(result.output[kind+'|'+quiet].draws).toBe(1);}
+  for(const quiet of [false,true])for(const kind of ['distantDetail','goo','oil','cold','water','glow','future','behind'])expect(result.output[kind+'|'+quiet].changed,kind).toBe(0);
+  expect(Object.values(result.output).every(r=>r.restored)).toBe(true);expect(result.allocations).toBe(0);expect(result.unchanged).toBe(true);expect(result.unknown).toBe(true);expect(requests).toHaveLength(3);expect(errors).toEqual([]);
  }finally{release?.();}
 });
 
-for(const corrupt of ['blood','ash'])test(`a corrupt ${corrupt} decal keeps the native fill and the other material independent @mobile`,async({page})=>{
+for(const corrupt of ['blood','ash','ice'])test(`a corrupt ${corrupt} decal keeps the native fill and the other material independent @mobile`,async({page})=>{
  const errors=watchForErrors(page);
  await page.route(`**/img/decals/${corrupt}.png`,r=>r.fulfill({status:200,contentType:'image/png',body:'corrupt'}));
  await startGame(page,{seed:'ground-fallback'});
- await page.evaluate(async()=>{window.__groundModule=await import('/js/paintedworld.js');for(const kind of ['blood','ash'])window.__groundModule.paintedGroundDecal(kind,1);});
+ await page.evaluate(async()=>{window.__groundModule=await import('/js/paintedworld.js');for(const kind of ['blood','ash','ice'])window.__groundModule.paintedGroundDecal(kind,1);});
  const other=corrupt==='blood'?'ash':'blood';
  await expect.poll(()=>page.evaluate(kind=>window.__groundModule.paintedGroundDecal(kind,1)?.width,other)).toBe(128);
  await expect.poll(()=>page.evaluate(kind=>window.__groundModule.paintedWorldState()['img/decals/'+kind+'.png'],corrupt)).toBe('failed');
  expect(await page.evaluate(kind=>window.__groundModule.paintedGroundDecal(kind,1),corrupt)).toBeNull();expect(errors).toEqual([]);
 });
 
+test('native ice fields alone receive material and reset it on replacement or delayed landing @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});
+ await page.evaluate(()=>{Game.level().monsters=[];});await faceOpenGround(page,3);await artReady(page);
+ await page.evaluate(async()=>{window.__icePaint=(await import('/js/paintedworld.js')).paintedGroundDecal;window.__icePaint('ice',1);});
+ await expect.poll(()=>page.evaluate(()=>!!window.__icePaint('ice',1))).toBe(true);
+ const result=await page.evaluate(async()=>{
+  const{Dice,Odds}=await import('/js/rng.js');Game.update=()=>{};const render=Renderer.render;Renderer.render=()=>{};
+  const rs=Game.renderState(10000),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir],x=p.x+dx*2,y=p.y+dy*2,key=x+','+y;
+  const level={...rs.level,fields:{},dressing:[],explored:rs.level.explored.slice()},fx={...rs.fx,stains:{},frost:[],vents:[],rocks:[],landings:[]};
+  const images=new Set(Array.from({length:101},(_,i)=>window.__icePaint('ice',i/100))),ctx=document.querySelector('#view').getContext('2d'),draw=ctx.drawImage;let count=0;
+  ctx.drawImage=function(image,...args){if(images.has(image))count++;return draw.call(this,image,...args);};
+  const identity=()=>JSON.stringify([Game.state(),Dice.s,Odds.s]),before=identity();
+  const probe=(kind,now=10000)=>{count=0;level.fields=kind?{[key]:{k:kind,until:20000}}:{};render(level,rs.cam,[],fx,now);return count;};
+  fx.frost=[{x,y,a:1}];const frost=probe(null);fx.frost=[];
+  const ice=probe('ice'),oil=probe('oil'),again=probe('ice'),cleared=probe(null);
+  fx.landings=[{x,y,at:10001,was:{}}];const airborne=probe('ice'),landed=probe('ice',10002);
+  return{frost,ice,oil,again,cleared,airborne,landed,unchanged:identity()===before};
+ });
+ expect(result).toEqual({frost:0,ice:1,oil:0,again:1,cleared:0,airborne:0,landed:1,unchanged:true});expect(errors).toEqual([]);
+});
+
 test('cached splash geometry matches fresh geometry pixel for pixel and refreshes after a change @mobile',async({page})=>{
  const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});
  await page.evaluate(()=>{Game.level().monsters=[];});await faceOpenGround(page,3);await artReady(page);
- await page.evaluate(async()=>{window.__nativeGroundPaint=await import('/js/paintedworld.js');for(const k of ['blood','ash'])window.__nativeGroundPaint.paintedGroundDecal(k,1);});
- await expect.poll(()=>page.evaluate(()=>['blood','ash'].every(k=>!!window.__nativeGroundPaint.paintedGroundDecal(k,1)))).toBe(true);
+ await page.evaluate(async()=>{window.__nativeGroundPaint=await import('/js/paintedworld.js');for(const k of ['blood','ash','ice'])window.__nativeGroundPaint.paintedGroundDecal(k,1);});
+ await expect.poll(()=>page.evaluate(()=>['blood','ash','ice'].every(k=>!!window.__nativeGroundPaint.paintedGroundDecal(k,1)))).toBe(true);
  const result=await page.evaluate(async()=>{
   const {Dice,Odds}=await import('/js/rng.js');Game.update=()=>{};
   const render=Renderer.render;Renderer.render=()=>{};

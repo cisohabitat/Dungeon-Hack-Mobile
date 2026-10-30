@@ -1,0 +1,19 @@
+{
+  "batch": "AL",
+  "surface": "Ice field fracture/grain detail; oil remains secondary, water unchanged",
+  "source": {
+    "path": "batch-al-preview/ice-source.png",
+    "tool": "image_gen",
+    "transparent_background": true,
+    "size": [
+      1254,
+      1254
+    ],
+    "prompt": "Create ONE production game texture cutout of thin ICE lying flat on a dungeon floor, matching serious gritty hand-painted dark fantasy monster art. True orthographic directly overhead view, square image, a roughly round irregular flat patch centred with generous fully transparent margins. Material detail only: muted blue-grey ice around #a8cce4, sparse fine darker blue-grey hairline fractures, restrained granular frost and faint translucent cloudy inclusions. Broad quiet areas so detail stays legible when reduced to128 pixels. Thin surface film, NOT a thick ice crystal object or a mound of snow. Absolutely no cartoon outlines, bright cyan, glowing magic, shining gems, big white snowflakes, snow bank, hard specular highlights, perspective, floor tile, stone backdrop, shadows or mist outside the ice silhouette. No text, borders, UI, characters or extra objects. All material pixels stay within a flat rounded patch occupying about70 percent of the square, with clean actual alpha transparency surrounding it. Preserve a muted pale-blue hazard identity. The game supplies lighting, projection and the base footprint; this is only restrained fracture/grain detail.",
+    "sha256": "c8ef6479374ebffe1265f8f695081808c87789fa0dc162a230c66248fa481c21"
+  },
+  "registration": "Full explicit1254px square; alpha>=8 bounds plus2px fringe, uniform fit112px centered in128px. Crop/scale/translate only; no scripted painting/recolouring/alpha repair.",
+  "runtime": "img/decals/ice.png",
+  "semantics": "Only renderer-owned actual ice field stains carry material=ice; colour alone does not route wraith frost. Original ellipse, satellites, live shade/fog, landing and rules retained.",
+  "review": "Source and128px registered/runtime exports visually reviewed for muted blue-grey fractures and clear margins. Native review and release gates recorded separately."
+}

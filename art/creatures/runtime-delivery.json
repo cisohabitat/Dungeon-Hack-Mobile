@@ -7769,6 +7769,11 @@
       "source": "art/creatures/batch-ak-preview/ash.png",
       "runtime": "img/decals/ash.png",
       "sha256": "6a18089a99b62c03b837261502a47dc3449738347c93eed36b82b0e43c5c3fb0"
+    },
+    {
+      "source": "art/creatures/batch-al-preview/ice.png",
+      "runtime": "img/decals/ice.png",
+      "sha256": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
     }
   ],
   "exclusions": {

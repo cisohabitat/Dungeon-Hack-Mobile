@@ -1656,8 +1656,9 @@ automated capture and decoding; do not reintroduce listening as a release gate.
 Batch AK adds128px image-tool blood/cold-ash textures inside the existing main
 stain ellipse. Keep the original fill and four satellite blobs; clip only the
 half-opacity material layer, after the same visibility/projection/lighting
-checks and before walls/actors. Match only native dark-red blood and cold ash;
-other gore colours, oil/ice/water, glowing vents/warnings and future landings
+checks and before walls/actors. Match native dark-red blood, cold ash and the
+explicit ice-field material marker;
+other gore colours, oil/water, glowing vents/warnings and future landings
 stay native. Detail fades in above twelve projected buffer pixels of height,
 reaching half opacity at sixteen; smaller patches keep the native fill.
 Satellite world coordinates and individual Path2D ellipses use weak caches,
@@ -1668,7 +1669,7 @@ shade canvases and the circular alpha mask once on load; per-frame canvas
 clips missed the sixty-stain budget. Never allocate/rasterize material canvases in the
 frame loop or add saved state, lights, clock/dice changes or gameplay fields.
 `python3 art/creatures/export-batch-ak.py --check` reproduces uniform registration;
-run the common exporter check too (now1,554 files after AI/AJ/AK). Keep sources/prompts/hashes, both offline
+run the common exporter check too (now1,555 files after AI/AJ/AK/AL). Keep sources/prompts/hashes, both offline
 entries and `PAINTED.decals` covered by the all-art installed reload check.
 `ground-decals.spec.js` runs on both Chromium widths and mobile WebKit. Its
 matched-render fixture isolates automatic rendering as well as game updates:
@@ -1681,9 +1682,19 @@ AL–AN in the atlas roadmap are audit candidates, not automatic commissions.
 
 AL's wet-surface audit is in `docs/visual/2026-10-30-wet-surfaces/`.
 Keep `floorOf(4)`'s thirteen selected regional water paintings distinct from
-procedural puddles and flooded-floor shimmer. Ice detail is the first painting
-candidate, oil is secondary, and a further water atlas is not justified by the
+procedural puddles and flooded-floor shimmer. The audit selected ice first
+(implemented in the AL follow-up); oil is secondary, and a water atlas is not justified by the
 recorded native comparison. The audit does not activate new art. Its capture
 observes Normal/Calm glints through forwarding draw calls and verifies expiry
 on the original clock; do not turn that fixture into a frozen renderer or
 claim supplied900ms expiry proves the normal cold-spell duration.
+
+AL adds a128px image-tool ice material, registered by `export-batch-al.py`.
+Only actual ice field stains carry the renderer-private `material: ice` marker;
+colour alone also matches wraith frost and must not activate art there. Reset
+that marker when a cached field becomes oil/ash or clears. Keep native landing
+suppression, footprint/satellites, fog, blue identity and expiry/melting rules.
+The exporter copies the reviewed ice PNG into the common1,555-file delivery;
+its independent loader shades/masks once and the installed all-art reload must
+include ice. The FPS budget retains its eight scenes and adds sixty mixed
+wet presentation marks; never replace the original crowd or lower its bars.

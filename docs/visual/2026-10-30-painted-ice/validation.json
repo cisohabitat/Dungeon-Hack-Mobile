@@ -1,0 +1,107 @@
+{
+  "version": "0.9.66",
+  "build": 81,
+  "baseline": "5b195ac3af87303d5fa7faf5bfd45510cec220e2",
+  "scope": "AL ice material only; oil/water unchanged; actual ice marker excludes wraith frost; original footprint, lighting/fog, landing and gameplay retained",
+  "focused": {
+    "cases": 12,
+    "passed": 12,
+    "duration": "58.7s",
+    "retries": 0,
+    "log": "/workspace/painted-ice-focused.log"
+  },
+  "exports": {
+    "single": "export-batch-al.py --check passed",
+    "common": "1555 exact runtime delivery files passed"
+  },
+  "native": {
+    "views": 12,
+    "records": 12,
+    "actualFreezeWidths": [
+      320,
+      390
+    ],
+    "actualApproachWidths": [
+      320,
+      390
+    ],
+    "originalExpiryWidths": [
+      320,
+      390
+    ],
+    "sources": {
+      "js/release.js": "6c35d8bf3dcad8fcdf6160f8f03a1dc6a7b616743d31cc2112a62d7bf5b61860",
+      "js/renderer.js": "f19c286c2c1c0c9a6aa0a22e25f8fcf7fd4fd5e758094e82e091ff5fc2da2f8c",
+      "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+      "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+      "js/paintedcatalog.js": "799fe7e799fcfdd01f1e7d0d5c7b7558bd14f82bbaa82952c0ae47fac2987358",
+      "img/decals/ice.png": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
+    },
+    "sourceFreezeGuard": true
+  },
+  "publicationGate": "Fresh CI and release publisher required; no claim of clearance from local captures alone.",
+  "historicalCapture": "Earlier native frames before final comment/source freeze retained outside repo at /workspace/painted-ice-before-comment-freeze; final evidence above matches six frozen runtime source hashes.",
+  "offline": {
+    "cases": 2,
+    "passed": 2,
+    "retries": 0,
+    "duration": "56.2s",
+    "log": "/workspace/painted-ice-offline.log"
+  },
+  "localPerformance": {
+    "conclusion": "failed",
+    "rate": 4,
+    "threshold": 30,
+    "wideThreshold": 27,
+    "scenes": {
+      "fight": {
+        "fps": 34.2,
+        "scriptMs": 15.9
+      },
+      "wide": {
+        "fps": 35.5,
+        "scriptMs": 14.2
+      },
+      "flooded": {
+        "fps": 36.3,
+        "scriptMs": 14.8
+      },
+      "painted": {
+        "fps": 39.4,
+        "scriptMs": 12.5
+      },
+      "amber": {
+        "fps": 27.3,
+        "scriptMs": 19.1
+      },
+      "scroll": {
+        "fps": 26.5,
+        "scriptMs": 19.4
+      },
+      "decals": {
+        "fps": 20.7,
+        "scriptMs": 22.1
+      },
+      "wet": {
+        "fps": 20,
+        "scriptMs": 22.5
+      },
+      "rite": {
+        "fps": 45.4,
+        "scriptMs": 13.9
+      }
+    },
+    "start": {
+      "ms": 2654
+    },
+    "log": "/workspace/painted-ice-perf.log",
+    "traceDirectory": "/workspace/painted-ice-perf-results",
+    "note": "Older amber/scroll/stain scenes and new wet scene miss. Previous v65 also missed locally before passing freshCI; that history is not new-source clearance or a causal benchmark. No unchanged rerun, diagnostic-only pass, scene removal or threshold change."
+  },
+  "staticChecks": {
+    "typecheck": "passed",
+    "artReview": "1731 shipped paintings +3icons, hashes and worker entries passed",
+    "agentGuidance": "in sync",
+    "unitSuite": "Exact committed snapshot will run through mandatory pre-push hook; full fresh browser/engine coverage delegated to CI."
+  }
+}
