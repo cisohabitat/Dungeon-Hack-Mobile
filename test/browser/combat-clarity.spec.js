@@ -171,3 +171,76 @@ test('aligned crowd damage receipts stay apart at different depths @mobile', asy
     for(let i=0;i<boxes.length;i++)for(let j=0;j<i;j++)expect(Math.abs(boxes[i].y-boxes[j].y)).toBeGreaterThanOrEqual(big?26:19);
   }
 });
+
+test('reference foes recover after striking, with new warnings and hurt taking priority @mobile', async ({ page }) => {
+  const errors = watchForErrors(page); await setup(page);
+  const rows = await page.evaluate(async () => {
+    const { Dice, Odds } = await import('/js/rng.js');
+    const { recordingPrint } = await import('/js/recording.js');
+    const G = Game.state(), m = Game.level().monsters[0], rows = [];
+    for (const id of ['orc', 'skarrow', 'heartforged', 'goblin']) {
+      m.id = id; m.windup = null; m.flashAt = 0; m.flashUntil = 0; m.lungeAt = 10000;
+      const base = Assets.sprites[MONSTERS[id].sprite];
+      const art = base.elite?.[id] || base;
+      const before = recordingPrint(G), dice = [Dice.s, Odds.s];
+      const sprite = now => Game.renderState(now).sprites.find(s => s.maxHp === 999);
+      const strike = sprite(10129).reaction === art.strike;
+      const recovery = sprite(10130).reaction === art.recover;
+      const end = !sprite(10300).reaction;
+      m.windup = { kind: 'melee', at: G.t - 100, until: G.t + 500 };
+      const warning = sprite(10200); m.windup = null;
+      m.flashAt = 10150; m.flashUntil = 10280;
+      const hurt = sprite(10200);
+      m.flashAt = 0; m.flashUntil = 0;
+      rows.push({ id, available: !!art.strike && !!art.recover, strike, recovery, end, warning: warning.tell > 0 && !warning.reaction,
+        hurt: hurt.reeling && !hurt.reaction,
+        unchanged: before === recordingPrint(G) && dice[0] === Dice.s && dice[1] === Odds.s });
+    }
+    return rows;
+  });
+  for (const row of rows) {
+    expect(row.available, row.id).toBe(true);
+    expect(row.strike, row.id).toBe(true);
+    expect(row.recovery, row.id).toBe(row.id !== 'goblin');
+    expect(row.end && row.warning && row.hurt && row.unchanged, row.id).toBe(true);
+  }
+  expect(errors).toEqual([]);
+});
+
+test('material layers preserve the learnt warning, immediate starts and run dice @mobile', async ({ page }) => {
+  await setup(page); const errors = watchForErrors(page);
+  const result = await page.evaluate(async () => {
+    const { Dice, Odds } = await import('/js/rng.js');
+    if (!Sound.isEnabled()) Sound.toggle();
+    Sound.unlock(); const { ctx } = Sound.audio();
+    const create = ctx.createOscillator.bind(ctx), filter = ctx.createBiquadFilter.bind(ctx);
+    let tones = [], filters = [], starts = [];
+    ctx.createOscillator = () => {
+      const node = create(), start = node.start.bind(node), set = node.frequency.setValueAtTime.bind(node.frequency);
+      let frequency = 0;
+      node.frequency.setValueAtTime = (value, at) => { frequency = value; return set(value, at); };
+      node.start = at => { tones.push([node.type, frequency]); starts.push(at - ctx.currentTime); start(at); };
+      return node;
+    };
+    ctx.createBiquadFilter = () => { const node = filter(); filters.push(node); return node; };
+    const dice = [Dice.s, Odds.s], rows = [];
+    try {
+      for (const name of ['windup', 'special']) {
+        const play = who => {
+          tones = []; filters = []; starts = [];
+          Sound.play(name, { who, kind: 'melee', pan: -0.5, dist: 1 });
+          return { tones, filters: filters.map(f => f.frequency.value), starts };
+        };
+        const plain = play('goblin');
+        for (const who of ['orc', 'skarrow', 'heartforged']) rows.push({ who, name, plain, layered: play(who) });
+      }
+    } finally { ctx.createOscillator = create; ctx.createBiquadFilter = filter; }
+    return { rows, unchanged: Dice.s === dice[0] && Odds.s === dice[1] };
+  });
+  for (const { who, plain, layered } of result.rows) {
+    for (const tone of plain.tones) expect(layered.tones).toContainEqual(tone);
+    expect(layered.tones.length + layered.filters.length, who).toBeGreaterThan(plain.tones.length + plain.filters.length);
+    expect(Math.max(...layered.starts)).toBeLessThanOrEqual(0.051);
+  }
+  expect(result.unchanged).toBe(true); expect(errors).toEqual([]);
+});

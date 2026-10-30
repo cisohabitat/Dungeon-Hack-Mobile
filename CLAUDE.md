@@ -1618,3 +1618,15 @@ updates or relax overlap/height assertions to mask a baseline race. All six
 failed attempts in `docs/verification/2026-10-29-safari-viewport-readiness/`
 show the later height before the wind-up was cleared. v0.9.60 was CI-blocked
 and untagged; its failures remain evidence, not release clearance.
+
+### Reference combat materials and recovery
+Orc, Skarrow and Heartforged use their existing recover picture from130–300ms
+after a melee lunge. Wind-ups and hurt take priority; the renderer retains its
+Calm exclusion. Do not change lunge/rule clocks or create saved recovery state.
+`foes.js` supplies identity to existing wind-up/special sounds and Heartforged's
+stamp impact. `sound.js` adds quiet short material layers beneath unchanged
+learnt warning tones, with no delayed impact on an interrupted tell. Other
+creatures retain their existing synthesis. Native running video/audio fixtures
+live in `docs/visual/2026-10-30-reference-combat/`; the audio master tap precedes
+the output limiter and the fixture chooses synthesis fallback. These captures
+are not human listening, physical-device or complete sample-pack approval.

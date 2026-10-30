@@ -1,0 +1,25 @@
+{
+  "originalTestCommit": "d551f50e76d86f660c54e7530599592cfe57137e",
+  "test": "cached attack and recovery poses respect wind-ups, expiry and Calm view",
+  "originalRead": "gone = sprite(now + 131)",
+  "correction": "attackRecover = sprite(now + 131), gone = sprite(now + 300); explicitly assert art.recover then no reaction",
+  "productChangedForCorrection": false,
+  "attempts": [
+    {
+      "project": "small",
+      "traceSha256": "a0210e00fa6913954662ab84bf4241e9c2eb41b1a1cd9f3a4dfe3938ebc25b7b",
+      "retainedTrace": "/workspace/aaa4-reference-original-pose-failure/visual-polish-cached-attac-c923c-expiry-and-Calm-view-mobile-small/trace.zip",
+      "errors": [
+        "Error: expect(received).toMatchObject(expected)\n\n- Expected  - 1\n+ Received  + 1\n\n@@ -1,10 +1,10 @@\n  Object {\n    \"calm\": 0,\n    \"dice\": true,\n    \"early\": false,\n-   \"gone\": false,\n+   \"gone\": true,\n    \"hit\": true,\n    \"recover\": true,\n    \"settled\": false,\n    \"strike\": true,\n    \"warning\": true,"
+      ]
+    },
+    {
+      "project": "phone",
+      "traceSha256": "776a5b4fd66ff92f5ca5cc457d48213a24e142bab953a1f607b9b10664cf4955",
+      "retainedTrace": "/workspace/aaa4-reference-original-pose-failure/visual-polish-cached-attac-c923c-expiry-and-Calm-view-mobile-phone/trace.zip",
+      "errors": [
+        "Error: expect(received).toMatchObject(expected)\n\n- Expected  - 1\n+ Received  + 1\n\n@@ -1,10 +1,10 @@\n  Object {\n    \"calm\": 0,\n    \"dice\": true,\n    \"early\": false,\n-   \"gone\": false,\n+   \"gone\": true,\n    \"hit\": true,\n    \"recover\": true,\n    \"settled\": false,\n    \"strike\": true,\n    \"warning\": true,"
+      ]
+    }
+  ]
+}

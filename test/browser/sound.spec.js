@@ -19,6 +19,7 @@ test.describe('sound', () => {
       const shapes = [
         {},
         { metal: true },
+        ...['orc', 'skarrow', 'heartforged'].map(who => ({ who, kind: 'melee', move: 'stamp' })),
         ...['goo', 'bile', 'ecto', 'spark', 'rust'].map(gore => ({ gore, w: 'longsword' })),
         { spell: 'cone_cold' },
         { dist: 1, pan: -1, who: 'orc', gore: 'bone', tag: 'crit', w: 'mace', spell: 'lightning', ms: 300, kind: 'shot' },

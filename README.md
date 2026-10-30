@@ -9,6 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **More weight in combat.** Orc, Skarrow and Heartforged settle back into guard
+  after striking. Quiet armour, breath and iron sounds sit beneath their familiar
+  warnings; Heartforged’s hammer carries a short iron ring.
+
 - **Clearer enlarged combat layout.** At Larger and Double text, vital bars
   share space when their full labels fit and conditions scroll in one touchable
   row. Quick actions clear the live intent strip, with mirrored left-handed

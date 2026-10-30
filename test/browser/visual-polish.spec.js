@@ -68,7 +68,7 @@ test('cached attack and recovery poses respect wind-ups, expiry and Calm view @m
     const before = [Dice.s, Odds.s], state = JSON.stringify(m);
     m.flashUntil = -1e9; m.lungeAt = now;
     const sprite = at => Game.renderState(at).sprites.find(s => s.maxHp === 999);
-    const strike = sprite(now + 50), early = sprite(now - 1), gone = sprite(now + 131);
+    const strike = sprite(now + 50), early = sprite(now - 1), attackRecover = sprite(now + 131), gone = sprite(now + 300);
     m.flashAt = now; m.flashUntil = now + 130;
     const hit = sprite(now + 140), recover = sprite(now + 300), settled = sprite(now + 391);
     const ctx = document.querySelector('#view').getContext('2d'), rs = Game.renderState(now + 300);
@@ -86,9 +86,9 @@ test('cached attack and recovery poses respect wind-ups, expiry and Calm view @m
     Renderer.render(next.level, next.cam, next.sprites, next.fx, now + 300);
     const marked = Renderer.shown.some(s => s.markSize > 0);
     Object.assign(m, JSON.parse(state)); delete m.windup;
-    return { strike: strike.reaction === art.strike, early: !!early.reaction, gone: !!gone.reaction, hit: hit.img === art.hurt, recover: recover.reaction === art.recover, settled: !!settled.reaction, normal, calm, warning: warning.tell > 0 && !warning.reaction && marked, dice: Dice.s === before[0] && Odds.s === before[1] };
+    return { strike: strike.reaction === art.strike, early: !!early.reaction, attackRecover: attackRecover.reaction === art.recover, gone: !!gone.reaction, hit: hit.img === art.hurt, recover: recover.reaction === art.recover, settled: !!settled.reaction, normal, calm, warning: warning.tell > 0 && !warning.reaction && marked, dice: Dice.s === before[0] && Odds.s === before[1] };
   });
-  expect(result).toMatchObject({ strike: true, early: false, gone: false, hit: true, recover: true, settled: false, calm: 0, warning: true, dice: true });
+  expect(result).toMatchObject({ strike: true, early: false, attackRecover: true, gone: false, hit: true, recover: true, settled: false, calm: 0, warning: true, dice: true });
   expect(result.normal).toBeGreaterThan(20);
   expect(errors).toEqual([]);
 });

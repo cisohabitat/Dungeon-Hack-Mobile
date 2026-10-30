@@ -1,0 +1,1966 @@
+{
+  "scope": "Native running frames and actual WebAudio master tap (before output limiter). Synth fallback selected; supplied hero HP/enemies/positions/spoken flag. No simulation/dice/image substitution. Not physical-device or human listening approval.",
+  "records": [
+    {
+      "width": 320,
+      "id": "orc",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7772.4000000059605,
+          "move": null,
+          "file": "320-orc-0.png"
+        },
+        {
+          "state": "reaction",
+          "at": 8418.20000000298,
+          "move": null,
+          "lungeAt": 8402.3,
+          "file": "320-orc-1.png"
+        },
+        {
+          "state": "idle",
+          "at": 8707.90000000596,
+          "move": null,
+          "lungeAt": 8402.3,
+          "file": "320-orc-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8772.30000000447,
+          "move": null,
+          "lungeAt": 8402.3,
+          "file": "320-orc-3.png"
+        },
+        {
+          "state": "reaction",
+          "at": 9239,
+          "move": null,
+          "lungeAt": 9235.7,
+          "file": "320-orc-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 9538.40000000596,
+          "move": null,
+          "lungeAt": 9235.7,
+          "file": "320-orc-5.png"
+        },
+        {
+          "state": "windup",
+          "at": 9788.70000000298,
+          "move": null,
+          "lungeAt": 9235.7
+        },
+        {
+          "state": "reaction",
+          "at": 10322.90000000596,
+          "move": null,
+          "lungeAt": 10319
+        },
+        {
+          "state": "idle",
+          "at": 10621.40000000596,
+          "move": null,
+          "lungeAt": 10319
+        },
+        {
+          "state": "windup",
+          "at": 10805.80000000447,
+          "move": null,
+          "lungeAt": 10319
+        },
+        {
+          "state": "reaction",
+          "at": 11473.10000000149,
+          "move": null,
+          "lungeAt": 11468.9
+        },
+        {
+          "state": "idle",
+          "at": 11772.60000000149,
+          "move": null,
+          "lungeAt": 11468.9
+        },
+        {
+          "state": "windup",
+          "at": 11821.70000000298,
+          "move": null,
+          "lungeAt": 11468.9
+        },
+        {
+          "state": "reaction",
+          "at": 12372.5,
+          "move": null,
+          "lungeAt": 12368.8
+        },
+        {
+          "state": "idle",
+          "at": 12671.70000000298,
+          "move": null,
+          "lungeAt": 12368.8
+        },
+        {
+          "state": "windup",
+          "at": 12838.60000000149,
+          "move": null,
+          "lungeAt": 12368.8
+        },
+        {
+          "state": "reaction",
+          "at": 13458.20000000298,
+          "move": null,
+          "lungeAt": 13452.2
+        },
+        {
+          "state": "idle",
+          "at": 13755,
+          "move": null,
+          "lungeAt": 13452.2
+        },
+        {
+          "state": "windup",
+          "at": 13855.60000000149,
+          "move": null,
+          "lungeAt": 13452.2
+        },
+        {
+          "state": "reaction",
+          "at": 14505.60000000149,
+          "move": null,
+          "lungeAt": 14502.1
+        },
+        {
+          "state": "idle",
+          "at": 14804.80000000447,
+          "move": null,
+          "lungeAt": 14502.1
+        },
+        {
+          "state": "windup",
+          "at": 14871.80000000447,
+          "move": null,
+          "lungeAt": 14502.1
+        },
+        {
+          "state": "reaction",
+          "at": 15489.30000000447,
+          "move": null,
+          "lungeAt": 15485.5
+        },
+        {
+          "state": "idle",
+          "at": 15788.5,
+          "move": null,
+          "lungeAt": 15485.5
+        },
+        {
+          "state": "windup",
+          "at": 15889.10000000149,
+          "move": null,
+          "lungeAt": 15485.5
+        },
+        {
+          "state": "reaction",
+          "at": 16472.5,
+          "move": null,
+          "lungeAt": 16468.7
+        },
+        {
+          "state": "idle",
+          "at": 16773,
+          "move": null,
+          "lungeAt": 16468.7
+        },
+        {
+          "state": "windup",
+          "at": 16905.80000000447,
+          "move": null,
+          "lungeAt": 16468.7
+        },
+        {
+          "state": "reaction",
+          "at": 17522.80000000447,
+          "move": null,
+          "lungeAt": 17518.7
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 7767.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8405.40000000596
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 8769.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9236.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 9786.20000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10319.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 10802.80000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11469.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 11819.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12369.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 12836
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13453
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 13852.80000000447
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14502.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 14869.40000000596
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15486
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 15885.90000000596
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16469.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 16902.60000000149
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17519.30000000447
+        }
+      ],
+      "status": "playing",
+      "hp": 9974,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "skarrow",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7322.10000000149,
+          "move": "breath",
+          "file": "320-skarrow-0.png"
+        },
+        {
+          "state": "idle",
+          "at": 8330.70000000298,
+          "move": null,
+          "file": "320-skarrow-1.png"
+        },
+        {
+          "state": "windup",
+          "at": 9927.10000000149,
+          "move": null,
+          "file": "320-skarrow-2.png"
+        },
+        {
+          "state": "reaction",
+          "at": 10527,
+          "move": null,
+          "lungeAt": 10516.9,
+          "file": "320-skarrow-3.png"
+        },
+        {
+          "state": "idle",
+          "at": 10820,
+          "move": null,
+          "lungeAt": 10516.9,
+          "file": "320-skarrow-4.png"
+        },
+        {
+          "state": "windup",
+          "at": 11038,
+          "move": null,
+          "lungeAt": 10516.9,
+          "file": "320-skarrow-5.png"
+        },
+        {
+          "state": "reaction",
+          "at": 11655.29999999702,
+          "move": null,
+          "lungeAt": 11650.1
+        },
+        {
+          "state": "idle",
+          "at": 11953.29999999702,
+          "move": null,
+          "lungeAt": 11650.1
+        },
+        {
+          "state": "windup",
+          "at": 12153.70000000298,
+          "move": null,
+          "lungeAt": 11650.1
+        },
+        {
+          "state": "reaction",
+          "at": 12754.29999999702,
+          "move": null,
+          "lungeAt": 12750.2
+        },
+        {
+          "state": "idle",
+          "at": 13052.89999999851,
+          "move": null,
+          "lungeAt": 12750.2
+        },
+        {
+          "state": "windup",
+          "at": 13270.5,
+          "move": null,
+          "lungeAt": 12750.2
+        },
+        {
+          "state": "reaction",
+          "at": 13889.89999999851,
+          "move": null,
+          "lungeAt": 13883.4
+        },
+        {
+          "state": "idle",
+          "at": 14186.5,
+          "move": null,
+          "lungeAt": 13883.4
+        },
+        {
+          "state": "windup",
+          "at": 14387.70000000298,
+          "move": null,
+          "lungeAt": 13883.4
+        },
+        {
+          "state": "reaction",
+          "at": 15005.10000000149,
+          "move": null,
+          "lungeAt": 15000
+        },
+        {
+          "state": "idle",
+          "at": 15303.29999999702,
+          "move": null,
+          "lungeAt": 15000
+        },
+        {
+          "state": "windup",
+          "at": 15504.10000000149,
+          "move": null,
+          "lungeAt": 15000
+        },
+        {
+          "state": "reaction",
+          "at": 16104.29999999702,
+          "move": null,
+          "lungeAt": 16100
+        },
+        {
+          "state": "idle",
+          "at": 16403.29999999702,
+          "move": null,
+          "lungeAt": 16100
+        },
+        {
+          "state": "windup",
+          "at": 16621,
+          "move": null,
+          "lungeAt": 16100
+        },
+        {
+          "state": "reaction",
+          "at": 17237.29999999702,
+          "move": null,
+          "lungeAt": 17233.3
+        }
+      ],
+      "sounds": [
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "ms": 1000,
+          "who": "skarrow",
+          "move": "breath",
+          "at": 7303.29999999702
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 8318.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 8320.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 9918
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10518.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 11034.39999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11651.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 12150.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12751.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 13267.29999999702
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13884.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 14384.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15001.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 15500.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16100.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 16617.60000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17234
+        }
+      ],
+      "status": "playing",
+      "hp": 9948,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "heartforged",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7539.20000000298,
+          "move": null,
+          "file": "320-heartforged-0.png"
+        },
+        {
+          "state": "reaction",
+          "at": 8139.60000000149,
+          "move": null,
+          "lungeAt": 8126.4,
+          "file": "320-heartforged-1.png"
+        },
+        {
+          "state": "idle",
+          "at": 8429.29999999702,
+          "move": null,
+          "lungeAt": 8126.4,
+          "file": "320-heartforged-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8847.60000000149,
+          "move": "stamp",
+          "lungeAt": 8126.4,
+          "file": "320-heartforged-3.png"
+        },
+        {
+          "state": "idle",
+          "at": 10256.10000000149,
+          "move": null,
+          "lungeAt": 8126.4,
+          "file": "320-heartforged-4.png"
+        },
+        {
+          "state": "windup",
+          "at": 11563.89999999851,
+          "move": null,
+          "lungeAt": 8126.4,
+          "file": "320-heartforged-5.png"
+        },
+        {
+          "state": "reaction",
+          "at": 12164.79999999702,
+          "move": null,
+          "lungeAt": 12159.6
+        },
+        {
+          "state": "idle",
+          "at": 12463.10000000149,
+          "move": null,
+          "lungeAt": 12159.6
+        },
+        {
+          "state": "windup",
+          "at": 12865.10000000149,
+          "move": null,
+          "lungeAt": 12159.6
+        },
+        {
+          "state": "reaction",
+          "at": 13483.39999999851,
+          "move": null,
+          "lungeAt": 13476.1
+        },
+        {
+          "state": "idle",
+          "at": 13779.39999999851,
+          "move": null,
+          "lungeAt": 13476.1
+        },
+        {
+          "state": "windup",
+          "at": 14179.89999999851,
+          "move": null,
+          "lungeAt": 13476.1
+        },
+        {
+          "state": "reaction",
+          "at": 14780.89999999851,
+          "move": null,
+          "lungeAt": 14776.2
+        },
+        {
+          "state": "idle",
+          "at": 15079.5,
+          "move": null,
+          "lungeAt": 14776.2
+        },
+        {
+          "state": "windup",
+          "at": 15496.89999999851,
+          "move": null,
+          "lungeAt": 14776.2
+        },
+        {
+          "state": "reaction",
+          "at": 16122.39999999851,
+          "move": null,
+          "lungeAt": 16109.4
+        },
+        {
+          "state": "idle",
+          "at": 16414.29999999702,
+          "move": null,
+          "lungeAt": 16109.4
+        },
+        {
+          "state": "windup",
+          "at": 16813.5,
+          "move": "stamp",
+          "lungeAt": 16109.4,
+          "file": "320-heartforged-17.png"
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 7527.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8130
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 8844.10000000149
+        },
+        {
+          "name": "smash",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "who": "heartforged",
+          "at": 10245.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10246.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 10410.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 11560.20000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12160.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 12860.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13476.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 14176.79999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14777
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 15493.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16117.20000000298
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 16810.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9900,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "orc",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 8349.60000000149,
+          "move": null,
+          "file": "390-orc-0.png"
+        },
+        {
+          "state": "reaction",
+          "at": 8850.29999999702,
+          "move": null,
+          "lungeAt": 8839.6,
+          "file": "390-orc-1.png"
+        },
+        {
+          "state": "idle",
+          "at": 9144,
+          "move": null,
+          "lungeAt": 8839.6,
+          "file": "390-orc-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 9361.79999999702,
+          "move": null,
+          "lungeAt": 8839.6,
+          "file": "390-orc-3.png"
+        },
+        {
+          "state": "reaction",
+          "at": 9827,
+          "move": null,
+          "lungeAt": 9822.8,
+          "file": "390-orc-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 10131.29999999702,
+          "move": null,
+          "lungeAt": 9822.8,
+          "file": "390-orc-5.png"
+        },
+        {
+          "state": "windup",
+          "at": 10377.5,
+          "move": null,
+          "lungeAt": 9822.8
+        },
+        {
+          "state": "reaction",
+          "at": 10964.69999999553,
+          "move": null,
+          "lungeAt": 10956.2
+        },
+        {
+          "state": "idle",
+          "at": 11260.19999999553,
+          "move": null,
+          "lungeAt": 10956.2
+        },
+        {
+          "state": "windup",
+          "at": 11394.60000000149,
+          "move": null,
+          "lungeAt": 10956.2
+        },
+        {
+          "state": "reaction",
+          "at": 11893.69999999553,
+          "move": null,
+          "lungeAt": 11889.5
+        },
+        {
+          "state": "idle",
+          "at": 12193.79999999702,
+          "move": null,
+          "lungeAt": 11889.5
+        },
+        {
+          "state": "windup",
+          "at": 12410.19999999553,
+          "move": null,
+          "lungeAt": 11889.5
+        },
+        {
+          "state": "reaction",
+          "at": 12860.19999999553,
+          "move": null,
+          "lungeAt": 12856.1
+        },
+        {
+          "state": "idle",
+          "at": 13160,
+          "move": null,
+          "lungeAt": 12856.1
+        },
+        {
+          "state": "windup",
+          "at": 13426.79999999702,
+          "move": null,
+          "lungeAt": 12856.1
+        },
+        {
+          "state": "reaction",
+          "at": 14177.60000000149,
+          "move": null,
+          "lungeAt": 14172.7
+        },
+        {
+          "state": "windup",
+          "at": 14443.5,
+          "move": null,
+          "lungeAt": 14172.7
+        },
+        {
+          "state": "reaction",
+          "at": 15093.89999999851,
+          "move": null,
+          "lungeAt": 15089.3
+        },
+        {
+          "state": "idle",
+          "at": 15392.39999999851,
+          "move": null,
+          "lungeAt": 15089.3
+        },
+        {
+          "state": "windup",
+          "at": 15459.89999999851,
+          "move": null,
+          "lungeAt": 15089.3
+        },
+        {
+          "state": "reaction",
+          "at": 16227.29999999702,
+          "move": null,
+          "lungeAt": 16222.6
+        },
+        {
+          "state": "windup",
+          "at": 16476.89999999851,
+          "move": null,
+          "lungeAt": 16222.6
+        },
+        {
+          "state": "reaction",
+          "at": 17077.19999999553,
+          "move": null,
+          "lungeAt": 17072.6
+        },
+        {
+          "state": "idle",
+          "at": 17377,
+          "move": null,
+          "lungeAt": 17072.6
+        },
+        {
+          "state": "windup",
+          "at": 17493.29999999702,
+          "move": null,
+          "lungeAt": 17072.6
+        },
+        {
+          "state": "reaction",
+          "at": 18193.69999999553,
+          "move": null,
+          "lungeAt": 18189.1
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 8340.69999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8841.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 9356.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9823.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 10373.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10958.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 11390.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11890.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 12406.69999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12856.69999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 13423.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14173.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 14440
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15090.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 15456.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16223.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 16473.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17073.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orc",
+          "at": 17489.79999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 18190.19999999553
+        }
+      ],
+      "status": "playing",
+      "hp": 9968,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "skarrow",
+      "rows": [
+        {
+          "state": "idle",
+          "at": 7821.80000000447,
+          "move": null,
+          "file": "390-skarrow-0.png"
+        },
+        {
+          "state": "windup",
+          "at": 8318.40000000596,
+          "move": "breath",
+          "file": "390-skarrow-1.png"
+        },
+        {
+          "state": "idle",
+          "at": 9321,
+          "move": null,
+          "file": "390-skarrow-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 10432.80000000447,
+          "move": null,
+          "file": "390-skarrow-3.png"
+        },
+        {
+          "state": "reaction",
+          "at": 11034.40000000596,
+          "move": null,
+          "lungeAt": 11025.4,
+          "file": "390-skarrow-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 11328.80000000447,
+          "move": null,
+          "lungeAt": 11025.4,
+          "file": "390-skarrow-5.png"
+        },
+        {
+          "state": "windup",
+          "at": 11546.10000000149,
+          "move": null,
+          "lungeAt": 11025.4
+        },
+        {
+          "state": "reaction",
+          "at": 12146.5,
+          "move": null,
+          "lungeAt": 12142
+        },
+        {
+          "state": "idle",
+          "at": 12445.20000000298,
+          "move": null,
+          "lungeAt": 12142
+        },
+        {
+          "state": "windup",
+          "at": 12645.5,
+          "move": null,
+          "lungeAt": 12142
+        },
+        {
+          "state": "reaction",
+          "at": 13246.5,
+          "move": null,
+          "lungeAt": 13242
+        },
+        {
+          "state": "idle",
+          "at": 13545.40000000596,
+          "move": null,
+          "lungeAt": 13242
+        },
+        {
+          "state": "windup",
+          "at": 13746.60000000149,
+          "move": null,
+          "lungeAt": 13242
+        },
+        {
+          "state": "reaction",
+          "at": 14362.70000000298,
+          "move": null,
+          "lungeAt": 14358.6
+        },
+        {
+          "state": "idle",
+          "at": 14661.70000000298,
+          "move": null,
+          "lungeAt": 14358.6
+        },
+        {
+          "state": "windup",
+          "at": 14862.90000000596,
+          "move": null,
+          "lungeAt": 14358.6
+        },
+        {
+          "state": "reaction",
+          "at": 15462.5,
+          "move": null,
+          "lungeAt": 15458.6
+        },
+        {
+          "state": "idle",
+          "at": 15762.10000000149,
+          "move": null,
+          "lungeAt": 15458.6
+        },
+        {
+          "state": "windup",
+          "at": 15979.20000000298,
+          "move": null,
+          "lungeAt": 15458.6
+        },
+        {
+          "state": "reaction",
+          "at": 16598.30000000447,
+          "move": null,
+          "lungeAt": 16591.8
+        },
+        {
+          "state": "idle",
+          "at": 16900.10000000149,
+          "move": null,
+          "lungeAt": 16591.8
+        },
+        {
+          "state": "windup",
+          "at": 17095.40000000596,
+          "move": null,
+          "lungeAt": 16591.8
+        },
+        {
+          "state": "reaction",
+          "at": 17697.10000000149,
+          "move": null,
+          "lungeAt": 17691.8
+        }
+      ],
+      "sounds": [
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9795918367346939,
+          "cut": 13207.692307692307,
+          "dist": 2,
+          "behind": false,
+          "ms": 1000,
+          "who": "skarrow",
+          "move": "breath",
+          "at": 8310.10000000149
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.9795918367346939,
+          "cut": 13207.692307692307,
+          "dist": 2,
+          "behind": false,
+          "at": 9310.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9795918367346939,
+          "cut": 13207.692307692307,
+          "dist": 2,
+          "behind": false,
+          "at": 9312
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 10426.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11027.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 11542.90000000596
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12142.80000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 12642.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13242.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 13742.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14359.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 14859.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15459.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 15975.90000000596
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16593.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skarrow",
+          "at": 17092.40000000596
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17693.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9903,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "heartforged",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7865.29999999702,
+          "move": null,
+          "file": "390-heartforged-0.png"
+        },
+        {
+          "state": "reaction",
+          "at": 8464.60000000149,
+          "move": null,
+          "lungeAt": 8452.3,
+          "file": "390-heartforged-1.png"
+        },
+        {
+          "state": "idle",
+          "at": 8758.89999999851,
+          "move": null,
+          "lungeAt": 8452.3,
+          "file": "390-heartforged-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 9157.60000000149,
+          "move": "stamp",
+          "lungeAt": 8452.3,
+          "file": "390-heartforged-3.png"
+        },
+        {
+          "state": "idle",
+          "at": 10582.29999999702,
+          "move": null,
+          "lungeAt": 8452.3,
+          "file": "390-heartforged-4.png"
+        },
+        {
+          "state": "windup",
+          "at": 11890.10000000149,
+          "move": null,
+          "lungeAt": 8452.3,
+          "file": "390-heartforged-5.png"
+        },
+        {
+          "state": "reaction",
+          "at": 12491.39999999851,
+          "move": null,
+          "lungeAt": 12485.4
+        },
+        {
+          "state": "idle",
+          "at": 12789.10000000149,
+          "move": null,
+          "lungeAt": 12485.4
+        },
+        {
+          "state": "windup",
+          "at": 13190.69999999553,
+          "move": null,
+          "lungeAt": 12485.4
+        },
+        {
+          "state": "reaction",
+          "at": 13808.29999999702,
+          "move": null,
+          "lungeAt": 13802.1
+        },
+        {
+          "state": "idle",
+          "at": 14106,
+          "move": null,
+          "lungeAt": 13802.1
+        },
+        {
+          "state": "windup",
+          "at": 14523,
+          "move": null,
+          "lungeAt": 13802.1
+        },
+        {
+          "state": "reaction",
+          "at": 15140.5,
+          "move": null,
+          "lungeAt": 15135.3
+        },
+        {
+          "state": "idle",
+          "at": 15442.10000000149,
+          "move": null,
+          "lungeAt": 15135.3
+        },
+        {
+          "state": "windup",
+          "at": 15839.89999999851,
+          "move": null,
+          "lungeAt": 15135.3
+        },
+        {
+          "state": "reaction",
+          "at": 16456.79999999702,
+          "move": null,
+          "lungeAt": 16452
+        },
+        {
+          "state": "idle",
+          "at": 16757.60000000149,
+          "move": null,
+          "lungeAt": 16452
+        },
+        {
+          "state": "windup",
+          "at": 17172.79999999702,
+          "move": "stamp",
+          "lungeAt": 16452,
+          "file": "390-heartforged-17.png"
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 7853.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8455.89999999851
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 9153.39999999851
+        },
+        {
+          "name": "smash",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "who": "heartforged",
+          "at": 10571.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10572.69999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 10719.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 11886.5
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12486.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 13186.19999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13803.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 14519.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15136.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 15836.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16453.10000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 17169.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9936,
+      "errors": []
+    }
+  ],
+  "version": "0.9.62",
+  "codeHashes": {
+    "js/foes.js": "edcc7e786ad19d8041bf23a352a3788d9886c4c9a64d49c136fd0878e7c7de38",
+    "js/motion.js": "51eddcc7d9ecaf32b62f06323f77ad237bb898c1027ecc8cfd9ff9804ce14252",
+    "js/sound.js": "81d94d60d4d2a573a68b950d02591ffc115571641208a4da2634a0b462b850c3"
+  }
+}

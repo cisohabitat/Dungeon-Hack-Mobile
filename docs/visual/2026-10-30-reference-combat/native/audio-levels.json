@@ -1,0 +1,80 @@
+[
+  {
+    "file": "320-orc.webm",
+    "sha256": "8b5c3de8627a2ec4975975107f31fff391e3bd390bce05306227b7b914383368",
+    "bytes": 1996198,
+    "levels": {
+      "mean_volume": -27.4,
+      "max_volume": -6.9
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  },
+  {
+    "file": "320-skarrow.webm",
+    "sha256": "42b1605ede3e3696669e36d3ee5d3b119b57b0f155fa6b005b143dbbe290cd29",
+    "bytes": 2133397,
+    "levels": {
+      "mean_volume": -25.2,
+      "max_volume": -7.0
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  },
+  {
+    "file": "320-heartforged.webm",
+    "sha256": "501e0dbbb0bf00f3d50ac8d13acd2a036a5d43e765fec7d733cef9def633387a",
+    "bytes": 2129366,
+    "levels": {
+      "mean_volume": -21.8,
+      "max_volume": -5.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  },
+  {
+    "file": "390-orc.webm",
+    "sha256": "2233d415ac3f2c75cc5bbb6e3f4c4fbd8e6e009d59010554558e26ad1768ba80",
+    "bytes": 1993295,
+    "levels": {
+      "mean_volume": -27.4,
+      "max_volume": -7.4
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  },
+  {
+    "file": "390-skarrow.webm",
+    "sha256": "f686f19aca58edb723eb2fce1114c6d1d41589eaf13e41c4a033d1de860589e0",
+    "bytes": 2175880,
+    "levels": {
+      "mean_volume": -25.0,
+      "max_volume": -7.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  },
+  {
+    "file": "390-heartforged.webm",
+    "sha256": "8de0eccd3bca672908760cc835ea23e4bc0c8fafd0e71b099c6b16d3cbec79bf",
+    "bytes": 2178986,
+    "levels": {
+      "mean_volume": -21.9,
+      "max_volume": -5.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ]
+  }
+]

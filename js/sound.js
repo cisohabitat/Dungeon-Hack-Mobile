@@ -420,6 +420,13 @@ const Sound = (() => {
     else if (gore === 'spark') { ring(out, 1640, 0.12, 0.025); noise(out, 0.04, 0.03, { type: 'highpass', f: 2600 }); }
     else if (gore === 'rust') noise(out, 0.09, 0.045, { type: 'bandpass', f: 1200, to: 400, q: 1 });
   };
+  // Quiet material layers sit under the learnt warning, never in its place.
+  // They finish early even when a wind-up is interrupted; no delayed impact.
+  const readyBody = (out, o) => {
+    if (o.who === 'heartforged') { ring(out, 390, 0.15, 0.025); ring(out, 730, 0.1, 0.012); }
+    else if (o.who === 'skarrow') noise(out, 0.18, 0.035, { f: 340, to: 650, attack: 0.04 });
+    else if (o.who === 'orc') noise(out, 0.1, 0.025, { type: 'bandpass', f: 800, to: 450, q: 1 });
+  };
   const FX = {
     hit: (out, o) => {
       (STRIKE[strikeOf(o)] || STRIKE.blade)(out);
@@ -450,13 +457,14 @@ const Sound = (() => {
     darkbolt: out => { noise(out, 0.3, 0.12, { type: 'bandpass', f: 500, q: 1, to: 1400, attack: 0.05 }); tone(lp(out, 900), 260, 0.3, 'sawtooth', 0.06, -140); tone(out, 1800, 0.25, 'sine', 0.02, -900); },
     // a blow being drawn back: short, rising, easy to learn to react to; a bow creaks instead
     windup: (out, o) => {
+      readyBody(out, o);
       if (o.kind === 'shot') { tone(lp(out, 1500), 300, 0.2, 'sawtooth', 0.05, 180, 0, 0.12); return; }
       tone(lp(out, 2200), 240, 0.17, 'sawtooth', 0.09, 260, 0, 0.02);
       noise(out, 0.16, 0.05, { type: 'bandpass', f: 500, to: 1500, q: 1.5, attack: 0.1 });
     },
     // a monster's own trick being readied: lower, longer, unlike any plain blow
-    special: out => { const l = lp(out, 1600); tone(l, 110, 0.5, 'sawtooth', 0.13, 220, 0, 0.03); tone(l, 165, 0.5, 'triangle', 0.07, 330, 0.05); },
-    smash: out => { noise(out, 0.3, 0.3, { f: 500, to: 120 }); tone(out, 60, 0.35, 'sine', 0.3, -25); clicks(out, 5, 0.3, 1500, 0.05); },
+    special: (out, o) => { readyBody(out, o); const l = lp(out, 1600); tone(l, 110, 0.5, 'sawtooth', 0.13, 220, 0, 0.03); tone(l, 165, 0.5, 'triangle', 0.07, 330, 0.05); },
+    smash: (out, o) => { if (o.who === 'heartforged') { ring(out, 290, 0.24, 0.04); ring(out, 610, 0.15, 0.02); } noise(out, 0.3, 0.3, { f: 500, to: 120 }); tone(out, 60, 0.35, 'sine', 0.3, -25); clicks(out, 5, 0.3, 1500, 0.05); },
     web: out => { noise(out, 0.25, 0.12, { type: 'bandpass', f: 1800, q: 2, to: 900 }); tone(lp(out, 800), 300, 0.2, 'sine', 0.06, -150); },
     nova: out => { noise(out, 0.6, 0.2, { type: 'bandpass', f: 400, to: 2500, q: 0.8, attack: 0.1 }); tone(out, 1500, 0.5, 'sine', 0.04, -900, 0.1); tone(out, 60, 0.5, 'sine', 0.2, -20, 0.1); },
     // a named champion speaks with its kind's voice, deepened by its size

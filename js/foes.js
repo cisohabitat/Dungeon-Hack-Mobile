@@ -248,7 +248,7 @@ export function makeFoes(K) {
     const p = K.P();
     m.windup = { kind, at: K.G.t, until: K.G.t + dur, px: p.x, py: p.y };
     m.nextAct = m.windup.until;
-    Sound.play('windup', K.heard(m, { kind }));
+    Sound.play('windup', K.heard(m, { kind, who: m.id }));
   }
   const WAKE_BEAT = 600;   // ms between a monster noticing you and doing anything about it
 
@@ -430,7 +430,7 @@ export function makeFoes(K) {
     m.nextAct = m.windup.until;
     K.log(say, 'bad');
     K.meet(m, 'trick');
-    Sound.play(mv === 'rite' ? 'rite' : 'special', K.heard(m, { ms: SPECIAL_MS[mv] }));
+    Sound.play(mv === 'rite' ? 'rite' : 'special', K.heard(m, { ms: SPECIAL_MS[mv], who: m.id, move: mv }));
     return true;
   }
   /** The trick comes off, or fails against a player who answered it. */
@@ -816,7 +816,7 @@ export function makeFoes(K) {
         // fire runs out from it along the floor, down all four lines, as far as its reach or the first wall
         const reach = stampReach(m);
         for (const [dx, dy] of K.DIRS) for (let i = 1; i <= reach; i++) { const x = m.x + dx * i, y = m.y + dy * i; if (!K.passable(x, y)) break; K.flame(x, y, STAMP_FIRE_MS); }
-        Sound.play('smash', K.heard(m));
+        Sound.play('smash', K.heard(m, { who: m.id }));
         K.fx.shakeAmp = 4; K.fx.shakeMs = 350; K.fx.shakeUntil = K.realNow + 350;
         if (onLines(m, reach)) {
           const c = K.trickSave('dex', 'stamp');
