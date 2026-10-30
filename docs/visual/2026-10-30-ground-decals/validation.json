@@ -1,0 +1,104 @@
+{
+  "version": "0.9.64",
+  "build": 79,
+  "cache": "deepdelve-v139",
+  "scope": "AK blood/cold ash material texture; gameplay and saved state unchanged",
+  "focused": {
+    "passed": 6,
+    "retries": 0,
+    "duration": "34.9s",
+    "log": "/workspace/ground-decals-final-focused.log"
+  },
+  "fullChromium": {
+    "cases": 1015,
+    "projects": {
+      "phone": 650,
+      "small": 365
+    },
+    "reports": [
+      {
+        "phase": "regular",
+        "stats": {
+          "startTime": "2026-10-30T12:44:12.228Z",
+          "duration": 4477671.416,
+          "expected": 1007,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "report": "/workspace/ground-decals-browser-final-regular.json",
+        "sha256": "d1508d938e8f5fb5b8156ba7a7c63d67e12f002e53e7df1af7311b0fb3a44bea"
+      },
+      {
+        "phase": "offline",
+        "stats": {
+          "startTime": "2026-10-30T13:58:51.173Z",
+          "duration": 225732.26299999998,
+          "expected": 8,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "report": "/workspace/ground-decals-browser-final-offline.json",
+        "sha256": "7172d7f3e883276bb28f9652aafae03799d49dd22b3aa1cdd664708fe255cf00"
+      }
+    ],
+    "failures": 0,
+    "skips": 0,
+    "retries": 0
+  },
+  "performance": {
+    "scenes": {
+      "fight": {
+        "fps": 32.3,
+        "scriptMs": 17.8
+      },
+      "wide": {
+        "fps": 38.8,
+        "scriptMs": 13.1
+      },
+      "flooded": {
+        "fps": 34.2,
+        "scriptMs": 16.6
+      },
+      "painted": {
+        "fps": 36.1,
+        "scriptMs": 14.4
+      },
+      "amber": {
+        "fps": 33.9,
+        "scriptMs": 15.3
+      },
+      "scroll": {
+        "fps": 40.1,
+        "scriptMs": 10
+      },
+      "decals": {
+        "fps": 34.5,
+        "scriptMs": 10.9
+      },
+      "rite": {
+        "fps": 43.3,
+        "scriptMs": 15.3
+      }
+    },
+    "startup": {
+      "ms": 2015
+    },
+    "thresholds": "Original30FPS, wide27FPS, startup6000ms retained; no retries",
+    "initialFailure": "Per-frame clips missed at22.8FPS; log/trace retained outside repo. Cached mask then passed unchanged8-scene budget."
+  },
+  "native": "after/evidence.json: v0.9.64build79, exact source hashes; supplied comparison and actual attack/fire/ash/movement fixtures labeled separately",
+  "exports": "AK registration and common1,554-file exporter reproduced bytes; art review1730 shipped paintings current",
+  "npm": "Passed all final complete-source repository gates: 751 rules in74 files, 1m32s rule phase; /workspace/ground-decals-final-npm.log",
+  "earlierRuns": {
+    "fourWorker": "84passed4failed4interrupted915notrun; reports/traces retained, no deadline changes. All4failedcases subsequently passed unchanged in usual2worker complete run. Timing cause not established.",
+    "preNewsTwoWorker": "78passed0failed2interrupted927notrun; restarted after required NEWS added."
+  },
+  "limits": [
+    "Fresh CI WebKit/performance/publication remain required before reporting release verified",
+    "Native Chromium context SIGSEGV cause remains open from prior CI phase",
+    "No physical-device or independent AAA clearance",
+    "Human listening explicitly skipped by owner"
+  ]
+}

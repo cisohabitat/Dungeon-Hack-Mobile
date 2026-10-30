@@ -1,0 +1,101 @@
+{
+  "scope": "Native running Game/Renderer/Assets, real turn actions; supplied stain positions/radii/colours and cleared monsters/safety. Not generated combat aftermath, balance or physical-device evidence.",
+  "records": [
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-normal.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-calm.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-normal.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-calm.png",
+      "supplied": [
+        {
+          "x": 6.72,
+          "y": 5.2,
+          "r": 0.16,
+          "c": "#5a0608",
+          "seed": 44,
+          "at": 0
+        },
+        {
+          "x": 6.32,
+          "y": 4.2,
+          "r": 0.42,
+          "c": "#16130f",
+          "seed": 93,
+          "at": 0,
+          "solo": true
+        }
+      ]
+    }
+  ]
+}

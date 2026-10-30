@@ -508,12 +508,18 @@ or demonstrated gameplay defects. Native fitting and visual comparison precede
 generation. Each requires source review, exact runtime routing, independent
 failure fallback, offline delivery and the existing release gates before it
 can be marked complete. See the [current atlas plan](art/creatures/ATLAS-ROADMAP.md#remaining-procedural-object-conversions--27-october-2026).
-Dynamic strings/projectiles, spell paths, terrain patches, warnings, damage
+Dynamic strings/projectiles, spell paths, terrain patch geometry, warnings, damage
 receipts, map symbols and functional interface icons remain procedural by
 design. AAA2 adds a painted decorative Pack stand while retaining its vector
 fallback, selection regions and connectors. No extra monster, class portrait or regional atlas is currently missing
 from the declared inventory. Exhaustive loader coverage is not exhaustive
 gameplay or physical-device visual approval.
+
+The owner requested a further texture pass on30 October: AK adds blood
+and cold ash floor detail, preserving the existing procedural footprints and
+timing. AL reviews wet oil/ice/water surfaces next; AM/AN review spell contacts
+and healing/ward accents only where native comparisons justify painting.
+See [the surface plan](art/creatures/ATLAS-ROADMAP.md#optional-surface-textures--30-october-2026).
 
 Batch AI's [implementation and native review](docs/visual/2026-10-28-amber-lantern/README.md)
 records the selected compact iron source and rejected tall original. Batch AJ's [implementation and native review](docs/visual/2026-10-28-reading-scroll/README.md)

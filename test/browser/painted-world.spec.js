@@ -318,14 +318,14 @@ test('all activated art files decode after a native offline reload @mobile',asyn
  try{
   const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'all-paintings-offline'});
   await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
-  const urls=await page.evaluate(async()=>{const{PAINTED:p}=await import('/js/paintedcatalog.js');return [...new Set([...Object.values(p.static),...Object.values(p.atlases),...Object.values(p.effects),...Object.values(p.themes).flatMap(Object.values),...Object.values(p.held).map(m=>m.path),...Object.values(p.carried).map(m=>m.path),...Object.values(p.overlays).map(m=>m.path)])];});
+  const urls=await page.evaluate(async()=>{const{PAINTED:p}=await import('/js/paintedcatalog.js');return [...new Set([...Object.values(p.static),...Object.values(p.atlases),...Object.values(p.effects),...Object.values(p.decals),...Object.values(p.themes).flatMap(Object.values),...Object.values(p.held).map(m=>m.path),...Object.values(p.carried).map(m=>m.path),...Object.values(p.overlays).map(m=>m.path)])];});
   expect(urls.length).toBeGreaterThan(1500);
   await page.evaluate(async urls=>{for(const url of urls)if(!await caches.match('./'+url))throw Error('Uncached art '+url);},urls);
   connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>window.Assets?.themes.length===13);
   const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
   for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
   await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
-  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256;})).toBe(true);
+  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll,paintedGroundDecal}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256&&paintedGroundDecal('blood',1)?.width===128&&paintedGroundDecal('ash',1)?.width===128;})).toBe(true);
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });

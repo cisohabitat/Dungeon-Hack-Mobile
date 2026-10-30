@@ -102,6 +102,27 @@ export function paintedReadingScroll() {
   const meta = PAINTED.overlays.reading_scroll;
   return picture(meta.path, 256, image => ({ img: canvas(image), ...meta })).value;
 }
+// Small material layers only. Shade canvases are prepared once on image load;
+// projection, silhouette, splashes and landing time stay in the renderer.
+export function paintedGroundDecal(kind, light) {
+  const path = PAINTED.decals[kind];
+  if (!path) return null;
+  const entry = picture(path, 128, image => {
+    // Mask once in local coordinates. Scaling this circle produces the same
+    // projected ellipse without rebuilding a canvas clip for every stain.
+    const base = canvas(image), mask = base.getContext('2d');
+    mask.globalCompositeOperation = 'destination-in';
+    mask.beginPath(); mask.ellipse(64, 64, 63, 63, 0, 0, Math.PI * 2); mask.fill();
+    return Array.from({ length: 8 }, (_, step) => {
+      const c = canvas(base), ctx = c.getContext('2d');
+      ctx.globalCompositeOperation = 'source-atop';
+      ctx.globalAlpha = step / 7;
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, 128, 128);
+      return c;
+    });
+  });
+  return entry.value?.[Math.max(0, Math.min(7, Math.round((1 - light * .8) * 7)))] || null;
+}
 function levels(image) {
   const c = canvas(image), d = c.getContext('2d').getImageData(0, 0, 64, 64).data;
   if (d.some((v, i) => i % 4 === 3 && v !== 255)) throw Error('Transparent surface');

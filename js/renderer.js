@@ -8,7 +8,7 @@ import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } f
 import { heldPlacement, meleePose } from './heldview.js';
 import { namedBase, namedId } from './namedart.js';
 import { paintedCreature, deferCreatureDetail } from './paintedcreatures.js';
-import { paintedLantern } from './paintedworld.js';
+import { paintedLantern, paintedGroundDecal } from './paintedworld.js';
 
 // First-person raycast renderer with textured walls and billboard sprites.
 
@@ -908,6 +908,18 @@ const Renderer = (() => {
     for (const st of list) {
       glow = !!st.glow;
       const g = blob(st.x, st.y, st.r, st.c);
+      // Detail stays inside the original main ellipse. Unknown blood colours,
+      // wet fields, glowing warnings and the four satellite blobs stay native.
+      const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : null);
+      if (decal && g && g.rx >= 3 && g.ry >= .75) {
+        const image = paintedGroundDecal(decal, g.f);
+        if (image) {
+          const alpha = ctx.globalAlpha;
+          ctx.globalAlpha = .5;
+          ctx.drawImage(image, g.cx - g.rx, g.cy - g.ry, g.rx * 2, g.ry * 2);
+          ctx.globalAlpha = alpha;
+        }
+      }
       if (st.wet) glint(g, st.seed);
       if (st.solo) continue;
       for (let i = 0; i < 4; i++) {

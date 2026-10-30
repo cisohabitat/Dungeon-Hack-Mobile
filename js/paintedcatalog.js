@@ -17805,5 +17805,9 @@ export const PAINTED = {
       ],
       "unitsPerPixel": 0.22689741251020112
     }
+  },
+  "decals": {
+    "blood": "img/decals/blood.png",
+    "ash": "img/decals/ash.png"
   }
 };

@@ -1113,3 +1113,20 @@ as rejected provenance; the taller selected source uses uniform registration.
 See [native review and release checks](../../docs/visual/2026-10-28-reading-scroll/README.md).
 The AI/AJ proposals are integrated; no further physical-object atlas is required
 by this inventory. Dynamic effects and UI symbols remain procedural by design.
+
+## Optional surface textures — 30 October 2026
+
+The owner requested the next procedural-to-painted pass. These extend texture
+detail on existing surfaces; they do not replace live geometry or introduce
+new effects. Earlier X/coverage decisions remain the baseline, not missing art.
+
+| Order | Batch | Surface | Scope and gates |
+|---|---|---|---|
+| 1 — implemented for v0.9.64 | AK | Blood and cold ash floor detail | Review the existing flat ellipse fills at320/390px. Author two muted, top-down transparent textures matching the monster paintings. Retain exact projection, ellipse clipping, colour distinctions, lighting/fog, delayed landing, satellite splashes, floor-before-wall ordering and independent failure fallback. Cache decoded/shaded pictures outside frames. Verify native views, Calm, offline, unchanged dice and the original performance budget before activation. |
+| 2 — audit next | AL | Oil, ice and water detail | Compare wet surfaces in native play before commissioning. Preserve oil sheen, water glints, ice/hazard identity, field boundaries, expiry and Calm behavior. No static glint or new light baked into art. |
+| 3 — audit candidate | AM | Additional spell contact textures | Review existing holy/force/lightning impacts at their actual hit times. A bounded contact texture may add material detail; keep live paths, targets, warning visibility and all effect clocks. Do not repaint integrated fire/frost families. |
+| 4 — audit candidate | AN | Healing and ward surface accents | Review subtle painted accents within existing live shapes. Preserve class/spell colours, readable creatures, Calm and original costs/durations. Generate only after a native comparison supports it. |
+
+Projectiles, strings, spell trajectories, weather, warning/damage text, map
+symbols, functional icons and all failed/loading-picture fallbacks stay live.
+AL–AN are review candidates, not promises that every effect needs a painting.

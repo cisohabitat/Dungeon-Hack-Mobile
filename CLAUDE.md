@@ -1350,7 +1350,7 @@ AE/AF source tooling preceded native activation for0.9.40. Use `python3 art/crea
 `reference-batch-ag-ah.cjs` captures native regional geometry/material/decor slots; `reference-batch-ag-ah.py` composes guides without overwriting production manifests. `generation-batch-ag-ah.json` records selected/rejected provenance. `export-batch-ag-ah.py --check` reproduces 405 native singles/detail exports and 25 source atlases plus diagnostics; opaque RGB material encoding omits incidental near-opaque source alpha and rejects holes; one-pixel crop insets exclude sheet seams. No scripted source painting or arch mask correction. `preview-batch-ag.cjs` and `preview-batch-ah.cjs` capture frozen source booths at 390/320; `gallery-batch-ag-ah.py` composes review galleries. These are not activation tools. AG uses 84 new candidates plus 12 shared approved R eight-bar gates; AH has 240 regional materials plus 69 decoration slots. Exact native arches remain authoritative (new alpha differs 15–17 pixels); shared gate masonry needs native regional edge/lock composition. Review adjoining wall/decor/door courses, repeat seams and torch bracket stability before activation; retain procedural variants when unresolved. AH decoration fixtures force each candidate into native slots so central native ornaments cannot cover the selected picture; they do not prove seeded slot generation. AH previews eagerly allocate all regional shade levels for audit; production must remain lazy and bounded. See `batch-ag-ah-preview/REVIEW.md` for honest coverage and integration limits.
 
 ### AC–AH native delivery for 0.9.40
-`tools/export-painted-runtime.py --check` now reproduces 1,550 catalogued files (577 additions;973 prior files unchanged), including 810 held frames,35 carried frames and regional materials. Preserve optional carried `base` landmarks through catalog and heldFrame; the Wayfarer lantern renderer requires `at.base`. Family lookup must also compare strict metadata id/class: null and the literal string `null` otherwise collide in a concatenated cache key. AF keeps reserved `key`/`amulet_tooth` excluded, seeded identification and 47 independent large relic portraits. Cached rarity outlines use variant-specific image entries and cached Pack data URLs; base and rarity aliases must not share an unoutlined completed frame.
+`tools/export-painted-runtime.py --check` reproduced 1,550 catalogued files for AC–AH (577 additions;973 prior files unchanged), including 810 held frames,35 carried frames and regional materials. Preserve optional carried `base` landmarks through catalog and heldFrame; the Wayfarer lantern renderer requires `at.base`. Family lookup must also compare strict metadata id/class: null and the literal string `null` otherwise collide in a concatenated cache key. AF keeps reserved `key`/`amulet_tooth` excluded, seeded identification and 47 independent large relic portraits. Cached rarity outlines use variant-specific image entries and cached Pack data URLs; base and rarity aliases must not share an unoutlined completed frame.
 `paintTheme` starts image/level work on property demand, increments material revision on late floor/ceiling decode and caches composition independently: original exact arch alpha, native regional gate edges, unchanged coloured lock patches, and a stable lower torch wall/bracket below y 30. Source alpha/crop files are never silently changed. Failed decoration/torch families retain their native family until complete; other images remain independent. Production must not eagerly warm all regional shade caches as review fixtures do.
 Native capture scripts are `preview-runtime-{casters,shields,hands,items,regions}.cjs`, under `batch-ac-ah-runtime/`; they use shipped Assets/Pack pictures without source substitutions, with frozen scene fitting clearly labelled. `gallery-runtime-{casters,shields,hands-items}.py` composes diagnostic captures. Browser tests in painted-world cover all new native equip pairs, exact hand guards, mask/edge/lock byte equivalence, torch stability, rarity/seeded appearances, corrupt-image independence and all-export offline reload. When testing demand-loaded region snapshots, warm the same requested fields before awaiting readiness on each reload. Full Chromium and isolated performance checks remain required for publication.
 
@@ -1648,3 +1648,27 @@ native action and automated waveform evidence lives in
 `docs/visual/2026-10-30-combat-rollout/`. Human listening review is skipped at the
 owner's explicit request. Keep actual listening/device approval distinct from
 automated capture and decoding; do not reintroduce listening as a release gate.
+
+
+### Ground material detail
+Batch AK adds128px image-tool blood/cold-ash textures inside the existing main
+stain ellipse. Keep the original fill and four satellite blobs; clip only the
+half-opacity material layer, after the same visibility/projection/lighting
+checks and before walls/actors. Match only native dark-red blood and cold ash;
+other gore colours, oil/ice/water, glowing vents/warnings and future landings
+stay native. Subpixel/far patches keep the original fill without loading art.
+`paintedGroundDecal` demand-loads each image independently and prepares eight
+shade canvases and the circular alpha mask once on load; per-frame canvas
+clips missed the sixty-stain budget. Never allocate/rasterize material canvases in the
+frame loop or add saved state, lights, clock/dice changes or gameplay fields.
+`python3 art/creatures/export-batch-ak.py --check` reproduces uniform registration;
+run the common exporter check too (now1,554 files after AI/AJ/AK). Keep sources/prompts/hashes, both offline
+entries and `PAINTED.decals` covered by the all-art installed reload check.
+`ground-decals.spec.js` runs on both Chromium widths and mobile WebKit. Its
+matched-render fixture isolates automatic rendering as well as game updates:
+ambient motes otherwise move between fixed-time calls. Keep exact footprint,
+other-field, future-landing, state/dice and independent-failure assertions.
+Native running previews and actual action fixtures are recorded separately in
+`docs/visual/2026-10-30-ground-decals/`. The isolated FPS budget adds the existing
+sixty-stain cap beside the painted crowd, retaining every original scene/bar.
+AL–AN in the atlas roadmap are audit candidates, not automatic commissions.

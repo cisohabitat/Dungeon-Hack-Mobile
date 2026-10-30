@@ -7759,6 +7759,16 @@
       "source": "art/creatures/batch-aj-preview/reading-scroll.png",
       "runtime": "img/overlays/reading-scroll.png",
       "sha256": "8098a3d44430270c27a9302e26472100ed37c9bc2ac116655bbadb5d053d245e"
+    },
+    {
+      "source": "art/creatures/batch-ak-preview/blood.png",
+      "runtime": "img/decals/blood.png",
+      "sha256": "9db65cd7101c9e139c8c7654595c182777c6ff5f2b0d31076d0948cef5609492"
+    },
+    {
+      "source": "art/creatures/batch-ak-preview/ash.png",
+      "runtime": "img/decals/ash.png",
+      "sha256": "6a18089a99b62c03b837261502a47dc3449738347c93eed36b82b0e43c5c3fb0"
     }
   ],
   "exclusions": {

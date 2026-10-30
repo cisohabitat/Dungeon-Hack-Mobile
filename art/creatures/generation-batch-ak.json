@@ -1,0 +1,31 @@
+{
+  "batch": "AK",
+  "surface": "blood and cold ash floor detail",
+  "selected": "batch-ak-preview/source-clean.png",
+  "rejected": {
+    "batch-ak-preview/source-haze.png": "Background haze and raised ash chunks; retained as provenance, not shipped."
+  },
+  "sources": [
+    {
+      "path": "batch-ak-preview/source-haze.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Create one production game sprite sheet containing exactly TWO separated top-down floor DECALS on a truly TRANSPARENT background. Wide canvas, two equally sized square cells side by side. LEFT CELL: one irregular low, flat puddle of old dark oxblood with clotted maroon edges, restrained dull red wet surface and subtle dark granular variations, several connected uneven lobes; no bright red, no gore/body parts, no white highlights. RIGHT CELL: one flat roughly round irregular patch of cold burnt charcoal ASH, dark brown-black powder with sparse tiny muted grey char flakes and fine cracks, soft broken gritty edge; no flame, sparks, glowing embers or raised rocks. Serious realistic hand-painted dungeon art, gritty weathered materials, muted earth palette matching dark fantasy monster paintings. Strict orthographic directly overhead view, no perspective, no floor tile, stone backdrop, cast shadows or environmental lighting. Both decals are flat surface-only cutouts, not objects. Each complete patch occupies about 70% of its square cell, centered, with wide empty transparent margin on every side and wide empty transparent separation. Blood should be very dark burgundy around #5a0608 with restrained slightly lighter clots; ash around #16130f with subdued #3c342b fine grit. No text, labels, borders, checkerboard, UI, frames, characters, weapons or extra objects. All material detail must stay inside each decal silhouette. Actual alpha transparency.",
+      "sha256": "b6e45707bf8c38e6b725da8c87e921f4f6dd5d6283c932aba1dd4783c1cb8d89"
+    },
+    {
+      "path": "batch-ak-preview/source-clean.png",
+      "tool": "image_gen",
+      "referenced_source": "batch-ak-preview/source-haze.png",
+      "transparent_background": true,
+      "prompt": "Repair this exact two-decal sprite sheet. KEEP the left dark blood material and right cold charcoal ash material, their positions and separate identities. REMOVE ALL gray/white background haze, ALL diffuse coloured shadows outside the two patches and ALL backdrop pixels between them. The empty space around each patch and the wide gutter must be completely empty alpha=0 transparency, with only narrow antialiased edges on the actual material. There must be NO floor or grey mist behind the patches. Make both patches flatter, strict straight-down surface markings. Reduce the large raised stone-like lumps in the ash to fine flat char flakes and powder; it is ASH DUST, not a mound of gravel. Blood stays dark burgundy with subtle clots, no white specular shine. Keep generous transparent space around all sides, no clipped edges. No added objects or labels. Actual clean transparent game cutouts.",
+      "sha256": "4f3070773689398608333b78907edc85480c64723f4d70b30569bbe62185de5b"
+    }
+  ],
+  "registration": "Two explicit source cells; alpha>=8 bounds plus two-pixel fringe, uniform resize to fit112px and centered translation into128px. No scripted recolouring, alpha cleaning or painting. Native renderer clips material detail to the original main ellipse.",
+  "runtime": {
+    "blood": "img/decals/blood.png",
+    "ash": "img/decals/ash.png"
+  },
+  "limits": "Half-opacity material detail only, with eight cached shade canvases per image; original fill, satellite blobs, lighting/fog projection and landing time retained. Only existing dark-red blood and cold-ash callers receive texture. Other gore, wet fields and glowing warnings remain procedural."
+}

@@ -1,0 +1,20 @@
+{
+  "t": 8832.999999999998,
+  "field": {
+    "k": "fire",
+    "fuel": "oil",
+    "until": 13332.999999999998,
+    "spread": 9532.999999999998,
+    "burn": 8982.999999999998,
+    "gen": 0
+  },
+  "paused": true,
+  "status": "playing",
+  "overlays": [
+    {
+      "id": "ov-boons",
+      "text": "Hero level 2: a Fighter's talent\nGround review\nFighter, hero level 2 · floor 1\n10006 of 10006 hit points · 0 gold\n\n+7 hit points · next talent at level 4 · your path at level 3\n\nA talent is for good, and each can be taken once. Choose the one that suits how you fight. At the levels between, a lesson: a smaller gain, a point to a score or a knack.\n\nBulwark\nA shield gives you 2 more armour class.\nShield Slam\nBash comes back in ten seconds, not fifteen, and knocks what it strikes a square back, dazed a second longer, when there is room.\nRiposte\nA blow that misses you, or swings at the air where you stood, opens a riposte: your next swing within two and a half seconds comes at once, with +4 to hit and +2 damage."
+    }
+  ],
+  "tip": ""
+}
