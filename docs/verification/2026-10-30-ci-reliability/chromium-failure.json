@@ -1,0 +1,17 @@
+{
+  "run": 41008983144,
+  "artifact": "small-2",
+  "trace": "test-results/small-regular/replay-a-finished-run-repl-f1087-aves-and-progress-untouched-small/trace.zip",
+  "traceSha256": "1a46127661f8529b47a65b4f91acd0a17231977878fe3b5a2f63d6b966f2212e",
+  "failingOperation": "browser.newContext",
+  "faultExcerpt": [
+    "Received signal 11 SEGV_MAPERR 0000000001b0",
+    "[pid=3186][err] #0 0x55a063633f5a (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x3954f59)",
+    "[pid=3186][err] #1 0x55a066a65d24 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x6d86d23)",
+    "[pid=3186][err] #2 0x7f46f7245330 (/usr/lib/x86_64-linux-gnu/libc.so.6+0x4532f)",
+    "[pid=3186][err] #3 0x55a066099c76 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x63bac75)",
+    "[pid=3186][err] #4 0x55a06605f70e (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x638070d)",
+    "[pid=3186][err] #5 0x55a065eb7e72 (/home/runner/.cache/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-linux64/chrome-headless-shell+0x61d8e71)"
+  ],
+  "finding": "Native SIGSEGV before application actions. Trigger and OOM attribution remain unproven. No browser flags, retry settings or game behavior changed."
+}

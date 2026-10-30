@@ -534,6 +534,11 @@ objects are now painted; dynamic effect/UI layers keep their existing rendering.
 - [ ] Diagnose the underlying Chromium native crash and WebKit offline-status
   timeout from retained failed-attempt evidence; this audit does not claim
   either intermittent failure is eliminated.
+- [x] Inspect the v0.9.63 retry traces; move the shield offline fixture out of
+  the trace worker and retain bootstrap stages/request failures. WebKit logged
+  internal main.js/CSS/manifest errors after native offline navigation.
+  Chromium failed before application actions with SIGSEGV. Underlying engine
+  causes remain open; see the [reliability follow-up](docs/verification/2026-10-30-ci-reliability/README.md).
 - [ ] Physical iPhone visual/play review; Linux WebKit and phone-sized Chromium
   runs remain separate evidence from a real-device check.
 

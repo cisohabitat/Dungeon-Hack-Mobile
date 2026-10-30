@@ -1,0 +1,35 @@
+{
+  "baseline": "0f79e40e3a5687da46b0696a05de8df847535841",
+  "version": "0.9.63",
+  "scope": "CI/test fixture and documentation only",
+  "local": {
+    "npmTest": "passed",
+    "shieldOffline": {
+      "passed": 4,
+      "projects": [
+        "phone",
+        "small"
+      ],
+      "repeatEach": 2,
+      "retries": 0,
+      "duration": "1.1m"
+    },
+    "replayAndRelease": {
+      "passed": 16,
+      "projects": [
+        "phone",
+        "small"
+      ],
+      "retries": 0,
+      "duration": "2.4m"
+    },
+    "ciCoverage": "647 phone + 362 small; identical before/after, zero duplicates; WebKit/perf commands unchanged"
+  },
+  "limitations": [
+    "Chromium native SIGSEGV trigger remains unproven",
+    "WebKit internal resource fault remains unproven",
+    "No local WebKit installation; full fresh CI required",
+    "Physical iPhone/Android round and independent regrade remain open",
+    "Human listening explicitly skipped by owner"
+  ]
+}

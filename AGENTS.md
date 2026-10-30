@@ -1170,6 +1170,15 @@ a pushed change as verified.
   offline-status timeout is separate and neither underlying cause is resolved.
   Run `CHROMIUM_PATH=/usr/bin/chromium node test/ci-diagnostics.cjs` to verify
   failed-attempt retention, subsequent-step isolation and hard-failure exit codes.
+  The ordinary shield offline test also uses the dedicated child-process
+  origin, runs in Chromium CI’s serial offline step, and attaches native
+  bootstrap stages, failed request paths, browser
+  version and origin counters on every attempt. Keep its60s budget, actual
+  disconnect, three legal equipment pairs and error assertions. The retained
+  WebKit failure includes internal errors for main.js/CSS/manifest after the
+  offline root navigation; server isolation is not proof that this engine
+  fault or the pre-context Chromium SIGSEGV is fixed. See
+  `docs/verification/2026-10-30-ci-reliability/`.
   Exact evidence and inventory/gate controls live in
   `docs/verification/2026-10-28-ci-browser-audit/`. Keep debug/resource collection
   outside game code and resource snapshots outside the FPS measurement.

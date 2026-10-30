@@ -1,0 +1,48 @@
+{
+  "run": 41008983144,
+  "artifact": "safari-2",
+  "trace": "test-results/safari/painted-world-ordinary-pai-e0caa-ative-offline-reload-mobile-safari/trace.zip",
+  "traceSha256": "c4700d8e3aa38d7acf6200aa3448875990c272a9a753b6e81ad9fd34356dc51e",
+  "consoleErrors": [
+    {
+      "type": "console",
+      "messageType": "error",
+      "text": "Failed to load resource: WebKit encountered an internal error",
+      "args": [],
+      "location": {
+        "url": "http://127.0.0.1:46133/js/main.js",
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "time": 600114.011,
+      "pageId": "page@40ad9f71c0971905573820fdf691b2aa"
+    },
+    {
+      "type": "console",
+      "messageType": "error",
+      "text": "Failed to load resource: WebKit encountered an internal error",
+      "args": [],
+      "location": {
+        "url": "http://127.0.0.1:46133/css/style.css",
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "time": 600114.19,
+      "pageId": "page@40ad9f71c0971905573820fdf691b2aa"
+    },
+    {
+      "type": "console",
+      "messageType": "error",
+      "text": "Failed to load resource: WebKit encountered an internal error",
+      "args": [],
+      "location": {
+        "url": "http://127.0.0.1:46133/manifest.json",
+        "lineNumber": 0,
+        "columnNumber": 0
+      },
+      "time": 600114.329,
+      "pageId": "page@40ad9f71c0971905573820fdf691b2aa"
+    }
+  ],
+  "finding": "Native offline reload returned the root but WebKit reported internal resource errors for main.js, style.css and manifest.json. The subsequent Assets readiness wait exhausted the original 60s test budget. The native fault cause is unproven."
+}

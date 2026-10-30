@@ -1,0 +1,17 @@
+{
+  "baseline": "0f79e40e3a5687da46b0696a05de8df847535841",
+  "policiesUnchanged": true,
+  "projects": {
+    "phone": {
+      "cases": 647,
+      "identical": true,
+      "duplicates": 0
+    },
+    "small": {
+      "cases": 362,
+      "identical": true,
+      "duplicates": 0
+    }
+  },
+  "webkitAndPerfCommandsUnchanged": true
+}

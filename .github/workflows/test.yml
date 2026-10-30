@@ -55,8 +55,8 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: sh tools/run-browser-ci.sh phone-regular --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
-      - run: sh tools/run-browser-ci.sh phone-offline --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
+      - run: sh tools/run-browser-ci.sh phone-regular --project=phone --shard=${{ matrix.shard }}/3 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports|ordinary painted shields'
+      - run: sh tools/run-browser-ci.sh phone-offline --project=phone --shard=${{ matrix.shard }}/3 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports|ordinary painted shields' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
@@ -131,8 +131,8 @@ jobs:
       - run: sh tools/install-browser.sh chromium
       # Full-cache installation checks run alone; competing browser workers
       # exceed their unchanged ten-second installation deadline.
-      - run: sh tools/run-browser-ci.sh small-regular --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports'
-      - run: sh tools/run-browser-ci.sh small-offline --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports' --pass-with-no-tests
+      - run: sh tools/run-browser-ci.sh small-regular --project=small --shard=${{ matrix.shard }}/2 --grep-invert 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports|ordinary painted shields'
+      - run: sh tools/run-browser-ci.sh small-offline --project=small --shard=${{ matrix.shard }}/2 --workers=1 --grep 'core play is ready offline|painted creature survives an installed offline|installed offline ending exports|ordinary painted shields' --pass-with-no-tests
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

@@ -1,6 +1,7 @@
 'use strict';
 const {test,expect}=require('@playwright/test');
 const {startGame,artReady,watchForErrors,faceOpenGround,placeMonster}=require('./helpers');
+const {startOfflineServer}=require('../offline-server.cjs');
 
 test('approved world, equipment and material exports load through their native callers @mobile',async({page})=>{
  test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'painted-delivery'});
@@ -44,11 +45,13 @@ test('a corrupt painted world image retains its own fallback while other picture
 });
 
 test('ordinary painted shields follow exact equipment pairs and survive a native offline reload @mobile',async({browser,browserName},testInfo)=>{
- let connected=true;const http=require('node:http'),{serve}=require('../server');
- const server=http.createServer((req,res)=>{if(!connected){req.socket.destroy();return;}serve(req,res);});
- await new Promise(r=>server.listen(0,'127.0.0.1',r));
- const context=await browser.newContext({baseURL:`http://127.0.0.1:${server.address().port}`,viewport:testInfo.project.use.viewport,isMobile:true,hasTouch:true}),page=await context.newPage();
+ // Keep full-cache HTTP serving outside the worker recording this trace.
+ const server=await startOfflineServer();let context,stage='create context';
+ const failures=[],stages=[];
+ const step=async(name,action)=>{stage=name;stages.push({name,at:Date.now()});return test.step(name,action);};
  try{
+ context=await browser.newContext({baseURL:server.url,viewport:testInfo.project.use.viewport,isMobile:true,hasTouch:true});const page=await context.newPage();
+ page.on('requestfailed',request=>failures.push({path:new URL(request.url()).pathname,error:request.failure()?.errorText}));
  const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'painted-shields'});
  const pairs=[['fighter','shield'],['cleric','shield'],['thief','buckler']];
  for(const[cls,id]of pairs){await page.evaluate(({cls,id})=>{const p=Game.player(),item={t:id,q:1,e:0};p.cls=cls;p.inv.push(item);if(Game.canEquip(item))throw Error('Illegal test kit');Game.equip(item);},{cls,id});
@@ -56,12 +59,17 @@ test('ordinary painted shields follow exact equipment pairs and survive a native
   const key=await page.evaluate(()=>Game.renderState(performance.now()).fx.view.shield);expect(key).toBe(id);
  }
  const guards=await page.evaluate(async()=>{const{paintedCarried}=await import('/js/paintedworld.js');return [['mage','shield'],['mage','buckler'],['thief','towershield'],['fighter','holy_symbol'],['cleric','spellbook']].every(([cls,id])=>paintedCarried(id,cls)===null);});expect(guards).toBe(true);
- await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);
+ await step('install and claim native worker',async()=>{await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));await page.waitForFunction(()=>!!navigator.serviceWorker.controller);});
  await expect.poll(()=>page.evaluate(async()=>{for(const key of ['fighter-shield','cleric-shield','thief-buckler'])if(!await caches.match('./img/held/'+key+'.png'))return false;return true;}),{timeout:30000}).toBe(true);
- connected=false;if(browserName!=='webkit')await context.setOffline(true);await page.reload();await page.waitForFunction(()=>typeof Assets!=='undefined');
+ await step('disconnect actual origin',async()=>{await server.setConnected(false);if(browserName!=='webkit')await context.setOffline(true);});
+ await step('native offline reload',()=>page.reload());
+ await step('offline module bootstrap',()=>page.waitForFunction(()=>typeof Assets!=='undefined'));
  for(const[cls,id]of pairs)await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
- connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
- }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
+ await server.setConnected(true);if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
+ }finally{
+  try{await testInfo.attach('shield-offline-stages',{body:JSON.stringify({browser:browserName,version:browser.version(),stage,stages,failures,server:await server.stats()},null,2),contentType:'application/json'});}
+  finally{try{await context?.close();}finally{await server.close();}}
+ }
 });
 
 test('one corrupt ordinary shield retains its procedural fallback independently @mobile',async({page})=>{
