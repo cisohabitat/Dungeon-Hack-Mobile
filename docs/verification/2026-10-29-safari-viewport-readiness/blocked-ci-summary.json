@@ -1,0 +1,182 @@
+{
+  "artifact_count": 9,
+  "report_count": 14,
+  "totals": {
+    "perf": 1,
+    "small": 360,
+    "phone": 645,
+    "safari": 231
+  },
+  "flaky_count": 3,
+  "unexpected_count": 3,
+  "issues": [
+    {
+      "final_status": "flaky",
+      "artifact": "small-2",
+      "project": "small",
+      "title": "an unavailable relic painting falls back to its named sprite",
+      "file": "relic-portraits.spec.js",
+      "line": 51,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: browser.newContext: Target page, context or browser has been closed"
+          ],
+          "retained_traces": [
+            "test-results/small-regular/relic-portraits-an-unavail-be413-ls-back-to-its-named-sprite-small/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "errors": [],
+          "retained_traces": []
+        }
+      ]
+    },
+    {
+      "final_status": "flaky",
+      "artifact": "small-2",
+      "project": "small",
+      "title": "lich keep: native ending exports its actual keeper, symbol and painted companion",
+      "file": "sharecard.spec.js",
+      "line": 58,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: browser.newContext: Target page, context or browser has been closed"
+          ],
+          "retained_traces": [
+            "test-results/small-regular/sharecard-lich-keep-native-1d050-ymbol-and-painted-companion-small/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "errors": [],
+          "retained_traces": []
+        }
+      ]
+    },
+    {
+      "final_status": "unexpected",
+      "artifact": "safari-1",
+      "project": "safari",
+      "title": "Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+      "file": "combat-layout.spec.js",
+      "line": 7,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Larger-text--e690e-lear-of-the-controls-mobile-safari/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Larger-text--e690e-lear-of-the-controls-mobile-safari-retry1/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "final_status": "unexpected",
+      "artifact": "safari-1",
+      "project": "safari",
+      "title": "Double text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+      "file": "combat-layout.spec.js",
+      "line": 7,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-safari/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-safari-retry1/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "final_status": "unexpected",
+      "artifact": "safari-1",
+      "project": "safari",
+      "title": "Double text left-handed combat keeps messages and quick actions clear of the controls @mobile",
+      "file": "combat-layout.spec.js",
+      "line": 7,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Double-text--c75b7-lear-of-the-controls-mobile-safari/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/combat-layout-Double-text--c75b7-lear-of-the-controls-mobile-safari-retry1/trace.zip"
+          ]
+        }
+      ]
+    },
+    {
+      "final_status": "flaky",
+      "artifact": "safari-2",
+      "project": "safari",
+      "title": "core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile",
+      "file": "offline.spec.js",
+      "line": 7,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed"
+          ],
+          "retained_traces": [
+            "test-results/safari/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-safari/trace.zip"
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "errors": [],
+          "retained_traces": []
+        }
+      ]
+    }
+  ]
+}

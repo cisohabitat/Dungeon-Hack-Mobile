@@ -1,0 +1,18 @@
+{
+  "baseline": "9b355202bb4588c14ff6c553daaa7125bb6d7e15",
+  "unchanged_js_modules": 116,
+  "changed_generated_metadata": [
+    "js/release.js"
+  ],
+  "service_worker_change": "deepdelve-v135 -> deepdelve-v136 only; asset list and logic identical",
+  "ui_css_html_renderer_rules_data_artwork": "byte-identical to baseline",
+  "unchanged_sha256": {
+    "js/ui.js": "7298f271ff1a437b080a40bc29c93abb13c50d0323c435d9ef89199d18f705c1",
+    "js/renderer.js": "c3d25e0f22c110ef5ebf2bc73d830b63727284c10774f34ed892119f58bc14a8",
+    "js/game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "js/main.js": "b86357950fe0ae12762096ea53f727a55cf39c9c2b7a6b341c36c186b55e883d",
+    "js/titlemenu.js": "afa2daed900956ea54abb974da9ed069a2fb0c74899b48d4ca691790b8ae809c",
+    "css/style.css": "615ccbaaf8bb68efefca10bf1571f296f1471c42dcd0c997a09604448004f600",
+    "index.html": "2e0ba711b355f2326fc2b3b7504a878181b74ad651716407716d0724ddd0882a"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "version": "0.9.61",
+  "build": 76,
+  "cache": "deepdelve-v136",
+  "baseline": "9b355202bb4588c14ff6c553daaa7125bb6d7e15",
+  "root_cause": "All six failed traces show the later canvas height before wind-up clearing; the immediate rotated-viewport baseline was stale.",
+  "assertions": "Original <0.5px equality guard, scene-expansion/overlap assertions, ten-second expectation deadline and retry settings unchanged.",
+  "focused": {
+    "startTime": "2026-10-29T20:53:05.131Z",
+    "duration": 171222.762,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "negative_control": {
+    "expected_guard_failures": 2,
+    "automatic_retries": 0,
+    "bootstrap_failure_not_counted": true
+  },
+  "npm_test": {
+    "passed": true,
+    "rules": 751,
+    "rule_files": 74,
+    "log": "npm-test.log.gz"
+  },
+  "source_equivalence": "runtime-equivalence.json",
+  "reused_unchanged_implementation_evidence": {
+    "chromium": 1005,
+    "native_frames": 48,
+    "native_shapes": 5,
+    "isolated_fps_scenes": 7,
+    "new_measurement": false,
+    "review": "../../visual/2026-10-29-combat-layout/README.md"
+  },
+  "test_sha256": "0c4e143f158985d324e09e622ddb4029f33f20a2e74359e3a8390e6424298c97",
+  "publication": "Fresh committed release checks, exact-commit pre-push gate and all ten CI groups plus publisher remain required; post-push evidence is recorded externally.",
+  "blocked_v60": "Untagged; nine required jobs passed, Safari shard1 failed three cases on both attempts; three other cases passed on automatic retry. All nine ZIP digests and14reports preserved."
+}

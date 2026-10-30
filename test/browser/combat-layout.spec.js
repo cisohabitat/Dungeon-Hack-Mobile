@@ -42,6 +42,17 @@ for (const textSize of ['3','4']) for (const hand of ['right', 'left']) test(`${
     await page.screenshot({ path: info.outputPath(`combat-${width}x${height}.png`) });
   }
   await page.setViewportSize({ width:320, height:667 });
+  // WebKit can finish the rotated canvas/HUD layout after setViewportSize
+  // resolves. Sample a settled viewport before changing the warning itself.
+  let geometry = '', steady = 0;
+  await expect.poll(async () => {
+    const next = await page.evaluate(() => {
+      const view = document.querySelector('#view'), r = view.getBoundingClientRect();
+      return JSON.stringify([r.x, r.y, r.width, r.height, view.height, document.querySelector('.combat-intent-slot').getBoundingClientRect().height]);
+    });
+    steady = next === geometry ? steady + 1 : 0; geometry = next;
+    return steady;
+  }, { message: 'Rotated viewport settles before warning-height comparison' }).toBeGreaterThanOrEqual(2);
   const viewBefore = await page.locator('#view').boundingBox(), reserveHeight = (await page.locator('.combat-intent-slot').boundingBox()).height;
   await page.evaluate(() => { Game.level().monsters[0].windup = null; });
   await expect(page.locator('#combat-intent')).toBeHidden();

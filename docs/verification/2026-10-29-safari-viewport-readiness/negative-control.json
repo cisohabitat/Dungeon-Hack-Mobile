@@ -1,0 +1,15 @@
+{
+  "scope": "Diagnostic CSS removes reserved minimum height after viewport checks; shipped fixture unchanged. Both original equality assertions must fail.",
+  "cases": [
+    {
+      "project": "phone",
+      "title": "Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+      "expected_guard_failure": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m192.328125\u001b[39m\nReceived: \u001b[31m227.53125\u001b[39m\n\nExpected precision:    0\nExpected difference: < \u001b[32m0.5\u001b[39m\nReceived difference:   \u001b[31m35.203125\u001b[39m\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n\n  59 |   await expect(page.locator('#combat-intent')).toBeHidden();\n  60 |   await expect(page.locator('.combat-intent-slot')).toHaveClass(/reserved/);\n> 61 |   await expect.poll(async () => (await page.locator('#view').boundingBox()).height).toBeCloseTo(viewBefore.height, 0);\n     |   ^\n  62 |   await page.keyboard.press('ArrowLeft');\n  63 |   await expect(page.locator('.combat-intent-slot')).not.toHaveClass(/reserved/);\n  64 |   await expect.poll(async () => (await page.locator('#view').boundingBox()).height).toBeGreaterThan(viewBefore.height + reserveHeight - 1);\n    at /workspace/aaa4-clarity/negative/control.spec.js:61:3"
+    },
+    {
+      "project": "small",
+      "title": "Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+      "expected_guard_failure": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeCloseTo\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m, \u001b[22mprecision\u001b[2m)\u001b[22m\n\nExpected: \u001b[32m192.328125\u001b[39m\nReceived: \u001b[31m227.53125\u001b[39m\n\nExpected precision:    0\nExpected difference: < \u001b[32m0.5\u001b[39m\nReceived difference:   \u001b[31m35.203125\u001b[39m\n\nCall Log:\n- Timeout 10000ms exceeded while waiting on the predicate\n\n  59 |   await expect(page.locator('#combat-intent')).toBeHidden();\n  60 |   await expect(page.locator('.combat-intent-slot')).toHaveClass(/reserved/);\n> 61 |   await expect.poll(async () => (await page.locator('#view').boundingBox()).height).toBeCloseTo(viewBefore.height, 0);\n     |   ^\n  62 |   await page.keyboard.press('ArrowLeft');\n  63 |   await expect(page.locator('.combat-intent-slot')).not.toHaveClass(/reserved/);\n  64 |   await expect.poll(async () => (await page.locator('#view').boundingBox()).height).toBeGreaterThan(viewBefore.height + reserveHeight - 1);\n    at /workspace/aaa4-clarity/negative/control.spec.js:61:3"
+    }
+  ]
+}

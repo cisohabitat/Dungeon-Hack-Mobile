@@ -1,0 +1,72 @@
+[
+  {
+    "path": "README.md",
+    "bytes": 3510,
+    "sha256": "bdacdbbdd7a3fffd97b481d2aa4338e076a0af7bd408cd7e0426a04535ac2b84"
+  },
+  {
+    "path": "aaa4-readiness-focused-results.json.gz",
+    "bytes": 5279,
+    "sha256": "33756699bc8aef1ec168038ef0fd2c060dce1b3a9bf30d648aa36dbba5dd77a8"
+  },
+  {
+    "path": "aaa4-readiness-negative2-results.json.gz",
+    "bytes": 3682,
+    "sha256": "fac6748213b8948fe2d9e24c7f9371118dcd045c19902d4dc3521cf2fe84d17c"
+  },
+  {
+    "path": "analyze-traces.py",
+    "bytes": 2594,
+    "sha256": "bcc641b98e302cd68e9b7b592b692b8752fc657c21de58f0974a0fb2ed76bc55"
+  },
+  {
+    "path": "blocked-ci-artifact-digests.json",
+    "bytes": 2249,
+    "sha256": "e2455f77a9a2f62d62f55252039fd3cd5dbc1e34474c649ea55e086178c3b250"
+  },
+  {
+    "path": "blocked-ci-summary.json",
+    "bytes": 6334,
+    "sha256": "356a19ee3a4b444e637e1e169fa5392e51c95b14d3dffa5541aa00150fdce76a"
+  },
+  {
+    "path": "failed-attempt-geometry.json",
+    "bytes": 4277,
+    "sha256": "2612119b1a69114b61258dda24c15933ce1d3a2067fb9f9fabe4f2bab0d28245"
+  },
+  {
+    "path": "negative-control.json",
+    "bytes": 2794,
+    "sha256": "883af7fe803c717522f416add2c7fe925b886caa61f65e603d4873cb580e810d"
+  },
+  {
+    "path": "negative-control.patch.gz",
+    "bytes": 609,
+    "sha256": "2a4d5b8e6c533964e43423c751b733ddcee0f5a6068c556feaa5b38f538b4844"
+  },
+  {
+    "path": "npm-test.log.gz",
+    "bytes": 1881,
+    "sha256": "009188d3cfc8d292897de26cd2e6edb7a6780dbcfb7105c00cae6e55a526fddf"
+  },
+  {
+    "path": "readiness-focused.log.gz",
+    "bytes": 985,
+    "sha256": "ab4ee3f48de1616102d2d1e8db8b88a1e8d3d3e3de2d5976de282f9ba299da60"
+  },
+  {
+    "path": "readiness-negative2.log.gz",
+    "bytes": 2964,
+    "sha256": "f0165ca47282090e4c78105ea79e1852f3e72903801440f345b6daffc2e4b554"
+  },
+  {
+    "path": "runtime-equivalence.json",
+    "bytes": 966,
+    "sha256": "746286cb43b67caf424723f10dbb195d889a88f47dc3738e94e40ead521987c4"
+  },
+  {
+    "path": "validation.json",
+    "bytes": 1592,
+    "sha256": "ad86b3358afe90f1cdd2089df96a15b2da4d52fdf2dc8b73b7a4196eacf61fb4"
+  }
+]

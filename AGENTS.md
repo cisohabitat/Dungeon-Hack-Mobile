@@ -1609,3 +1609,14 @@ Combat receipts must use the full text height when testing their ascent against
 warning marks, matching the final overlap check. A fractional height can choose
 a blocked path and omit MISS at a short view height. Keep the existing three-label
 assertion in `combat-clarity.spec.js`; preserve warning priority and outcome text.
+
+### Rotated viewport readiness in combat checks
+After a Playwright viewport rotation, WebKit can finish the canvas/HUD layout
+after `setViewportSize` resolves. Before comparing warning-driven geometry, wait
+for three matching geometry samples (including the canvas buffer and
+warning slot), then capture the baseline. Keep native frames running and retain
+the original subpixel equality guard and deadline. Do not force fitting, freeze
+updates or relax overlap/height assertions to mask a baseline race. All six
+failed attempts in `docs/verification/2026-10-29-safari-viewport-readiness/`
+show the later height before the wind-up was cleared. v0.9.60 was CI-blocked
+and untagged; its failures remain evidence, not release clearance.

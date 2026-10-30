@@ -1,0 +1,104 @@
+[
+  {
+    "title": "Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 0,
+    "trace_member": "test-results/safari/combat-layout-Larger-text--e690e-lear-of-the-controls-mobile-safari/trace.zip",
+    "trace_sha256": "fe3c59883e0a0c446ad00c9d2de402cfa4bce1208db6a0c92601ab3f8d9cf229",
+    "cached_baseline": 194.625,
+    "after_warning_clear": 192.328125,
+    "clear_action_start": 496849.853,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 496799.728,
+      "snapshot": "before@call@2031",
+      "height": 192.328125,
+      "top": 105.046875,
+      "canvas_buffer_height": "196"
+    },
+    "already_at_later_height_before_clear": true
+  },
+  {
+    "title": "Larger text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 1,
+    "trace_member": "test-results/safari/combat-layout-Larger-text--e690e-lear-of-the-controls-mobile-safari-retry1/trace.zip",
+    "trace_sha256": "839fa935e8059b817e64a7b3cecbf4c31f83b7ae47aab80d1d83c081da418726",
+    "cached_baseline": 194.625,
+    "after_warning_clear": 192.328125,
+    "clear_action_start": 550065.118,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 550014.49,
+      "snapshot": "before@call@109",
+      "height": 192.328125,
+      "top": 105.046875,
+      "canvas_buffer_height": "196"
+    },
+    "already_at_later_height_before_clear": true
+  },
+  {
+    "title": "Double text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 0,
+    "trace_member": "test-results/safari/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-safari/trace.zip",
+    "trace_sha256": "b90da99d94267782c20b02a25740efeb6ba7d04d16d3a54728512e58d7028d60",
+    "cached_baseline": 139.75,
+    "after_warning_clear": 136.671875,
+    "clear_action_start": 646847.944,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 646783.98,
+      "snapshot": "before@call@267",
+      "height": 136.671875,
+      "top": 119.734375,
+      "canvas_buffer_height": "160"
+    },
+    "already_at_later_height_before_clear": true
+  },
+  {
+    "title": "Double text right-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 1,
+    "trace_member": "test-results/safari/combat-layout-Double-text--5053c-lear-of-the-controls-mobile-safari-retry1/trace.zip",
+    "trace_sha256": "324193a1d71f3494fc7326b1cf681e7be637186bfa76cf22272c81230b52fb99",
+    "cached_baseline": 139.75,
+    "after_warning_clear": 136.671875,
+    "clear_action_start": 700841.265,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 700787.563,
+      "snapshot": "before@call@109",
+      "height": 136.671875,
+      "top": 119.734375,
+      "canvas_buffer_height": "160"
+    },
+    "already_at_later_height_before_clear": true
+  },
+  {
+    "title": "Double text left-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 0,
+    "trace_member": "test-results/safari/combat-layout-Double-text--c75b7-lear-of-the-controls-mobile-safari/trace.zip",
+    "trace_sha256": "dd5276955730d01ae47e406b121847519bf05ecf47baf481a359ef6d6f3d6719",
+    "cached_baseline": 139.75,
+    "after_warning_clear": 136.671875,
+    "clear_action_start": 753114.717,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 753054.718,
+      "snapshot": "before@call@109",
+      "height": 136.671875,
+      "top": 119.734375,
+      "canvas_buffer_height": "160"
+    },
+    "already_at_later_height_before_clear": true
+  },
+  {
+    "title": "Double text left-handed combat keeps messages and quick actions clear of the controls @mobile",
+    "retry": 1,
+    "trace_member": "test-results/safari/combat-layout-Double-text--c75b7-lear-of-the-controls-mobile-safari-retry1/trace.zip",
+    "trace_sha256": "59ddd87c3f7afb14f2fb2a2ddb1f3980424ed3805e9fac5e2d46c8a3c77f3308",
+    "cached_baseline": 139.75,
+    "after_warning_clear": 136.671875,
+    "clear_action_start": 805457.749,
+    "last_canvas_snapshot_before_clear": {
+      "timestamp": 805399.935,
+      "snapshot": "before@call@111",
+      "height": 136.671875,
+      "top": 119.734375,
+      "canvas_buffer_height": "160"
+    },
+    "already_at_later_height_before_clear": true
+  }
+]
