@@ -1,0 +1,53 @@
+{
+  "version": "0.9.66",
+  "head": "913885186d2b727954b3755782d7a61ab6de78af",
+  "run": 41097806265,
+  "job": 124207999722,
+  "conclusion": "failure",
+  "scenes": {
+    "fight": {
+      "fps": 47.7,
+      "scriptMs": 12.7
+    },
+    "wide": {
+      "fps": 46.7,
+      "scriptMs": 11.8
+    },
+    "flooded": {
+      "fps": 39.5,
+      "scriptMs": 14.9
+    },
+    "painted": {
+      "fps": 43,
+      "scriptMs": 14.4
+    },
+    "amber": {
+      "fps": 37.5,
+      "scriptMs": 14.4
+    },
+    "scroll": {
+      "fps": 37.7,
+      "scriptMs": 14.5
+    },
+    "decals": {
+      "fps": 30.2,
+      "scriptMs": 15.9
+    },
+    "wet": {
+      "fps": 28,
+      "scriptMs": 16.4
+    },
+    "rite": {
+      "fps": 50.4,
+      "scriptMs": 14.3
+    }
+  },
+  "start": {
+    "ms": 2127
+  },
+  "artifact": {
+    "id": 12996419028,
+    "digest": "sha256:c6ec9a3ce5fced32911202365ee3288879c87222f6ad2165e2fa42353e15bc0f",
+    "path": "/workspace/painted-ice-v66-ci-perf-failure.zip"
+  }
+}

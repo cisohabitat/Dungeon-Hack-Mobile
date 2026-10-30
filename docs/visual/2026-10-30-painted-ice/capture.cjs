@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),{createHash}=require('node:crypto');
-const root=path.resolve(__dirname,'../../..'),out=path.join(__dirname,'native');
+const root=path.resolve(__dirname,'../../..'),out=path.join(__dirname,process.env.ICE_OUTPUT||'native');
 const {chromium}=require(root+'/node_modules/playwright'),{serve}=require(root+'/test/server');
 const {startGame,artReady,faceOpenGround,placeMonster,watchForErrors,expect}=require(root+'/test/browser/helpers');
 fs.mkdirSync(out,{recursive:true});

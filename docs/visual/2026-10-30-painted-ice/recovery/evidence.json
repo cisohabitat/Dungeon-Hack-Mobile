@@ -1,0 +1,229 @@
+{
+  "scope": "Native running Game/Renderer/Assets. Comparison supplies60s ice field, cleared monsters and safety. Action consumes Frost scroll against supplied passive999HP Orc in supplied canonical .34 puddle; clears foe after actual strike for visibility, then observes original ice expiry restoring visible puddle. No renderer/update/image/clock substitution. Not unassisted gameplay or physical-device approval.",
+  "sources": {
+    "js/release.js": "341796fafc67faeb2970417901ade2a8c81c94065d24ee3a08b514596573f090",
+    "js/renderer.js": "697d1eea34645c8332c308b6da615c7c40cc5b136834011f0ed9a3bc7e07a994",
+    "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+    "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+    "js/paintedcatalog.js": "799fe7e799fcfdd01f1e7d0d5c7b7558bd14f82bbaa82952c0ae47fac2987358",
+    "img/decals/ice.png": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
+  },
+  "records": [
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "320-normal.png",
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "suppliedFieldDuration": 60000
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "320-calm.png",
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "suppliedFieldDuration": 60000
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "320-real-freeze-normal.png",
+      "actualFreeze": true,
+      "cast": {
+        "started": 7283.099999999999,
+        "consumed": true
+      },
+      "frozen": {
+        "field": {
+          "k": "ice",
+          "until": 15283.099999999999
+        },
+        "t": 7283.099999999999
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "monster": 90813
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "320-real-freeze-calm.png",
+      "actualFreeze": true,
+      "cast": {
+        "started": 7283.099999999999,
+        "consumed": true
+      },
+      "frozen": {
+        "field": {
+          "k": "ice",
+          "until": 15283.099999999999
+        },
+        "t": 7283.099999999999
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "monster": 90813
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-ice-approach.png",
+      "actualApproach": true,
+      "beforeStep": {
+        "x": 6,
+        "y": 6,
+        "dir": 0
+      },
+      "approach": {
+        "x": 6,
+        "y": 5
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-real-thaw.png",
+      "actualThaw": true,
+      "thaw": {
+        "t": 15532.7,
+        "puddle": true,
+        "draws": 549
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "390-normal.png",
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "suppliedFieldDuration": 60000
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "390-calm.png",
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "suppliedFieldDuration": 60000
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "390-real-freeze-normal.png",
+      "actualFreeze": true,
+      "cast": {
+        "started": 6783.0999999999985,
+        "consumed": true
+      },
+      "frozen": {
+        "field": {
+          "k": "ice",
+          "until": 14783.099999999999
+        },
+        "t": 6816.4
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "monster": 90917
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "390-real-freeze-calm.png",
+      "actualFreeze": true,
+      "cast": {
+        "started": 6783.0999999999985,
+        "consumed": true
+      },
+      "frozen": {
+        "field": {
+          "k": "ice",
+          "until": 14783.099999999999
+        },
+        "t": 6816.4
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      },
+      "monster": 90917
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-ice-approach.png",
+      "actualApproach": true,
+      "beforeStep": {
+        "x": 6,
+        "y": 6,
+        "dir": 0
+      },
+      "approach": {
+        "x": 6,
+        "y": 5
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      }
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-real-thaw.png",
+      "actualThaw": true,
+      "thaw": {
+        "t": 15032.7,
+        "puddle": true,
+        "draws": 549
+      },
+      "fixture": {
+        "x": 6,
+        "y": 4
+      }
+    }
+  ]
+}

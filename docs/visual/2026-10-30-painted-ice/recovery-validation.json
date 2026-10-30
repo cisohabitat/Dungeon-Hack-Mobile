@@ -1,0 +1,142 @@
+{
+  "version": "0.9.67",
+  "build": 82,
+  "baseline": "913885186d2b727954b3755782d7a61ab6de78af",
+  "scope": "Cache exact unchanged stain projection and shade calculations; live light sample, time, colour, glints and images retained. No workload/threshold change.",
+  "focused": {
+    "cases": 12,
+    "passed": 12,
+    "duration": "57.0s",
+    "log": "/workspace/painted-ice-shade-focused.log"
+  },
+  "extendedColourGlow": {
+    "cases": 2,
+    "passed": 2,
+    "duration": "13.4s",
+    "log": "/workspace/painted-ice-final-cache.log",
+    "pixelsDifferent": 0
+  },
+  "firstRecoveryPerformance": {
+    "conclusion": "failed",
+    "scenes": {
+      "fight": {
+        "fps": 39.8,
+        "scriptMs": 14.1
+      },
+      "wide": {
+        "fps": 39.7,
+        "scriptMs": 12.9
+      },
+      "flooded": {
+        "fps": 37.9,
+        "scriptMs": 14.8
+      },
+      "painted": {
+        "fps": 42.4,
+        "scriptMs": 10.9
+      },
+      "amber": {
+        "fps": 40.4,
+        "scriptMs": 10.5
+      },
+      "scroll": {
+        "fps": 37,
+        "scriptMs": 10.9
+      },
+      "decals": {
+        "fps": 33.2,
+        "scriptMs": 11.1
+      },
+      "wet": {
+        "fps": 27.4,
+        "scriptMs": 13.3
+      },
+      "rite": {
+        "fps": 45.1,
+        "scriptMs": 14.8
+      }
+    },
+    "start": {
+      "ms": 2263
+    },
+    "log": "/workspace/painted-ice-recovery-perf.log",
+    "traces": "/workspace/painted-ice-recovery-perf-results"
+  },
+  "finalPerformance": {
+    "conclusion": "failed",
+    "scenes": {
+      "fight": {
+        "fps": 33.9,
+        "scriptMs": 15.8
+      },
+      "wide": {
+        "fps": 37.7,
+        "scriptMs": 12.2
+      },
+      "flooded": {
+        "fps": 37.1,
+        "scriptMs": 14.7
+      },
+      "painted": {
+        "fps": 43.7,
+        "scriptMs": 11
+      },
+      "amber": {
+        "fps": 35,
+        "scriptMs": 14.4
+      },
+      "scroll": {
+        "fps": 36.5,
+        "scriptMs": 13.4
+      },
+      "decals": {
+        "fps": 27,
+        "scriptMs": 16.4
+      },
+      "wet": {
+        "fps": 24.8,
+        "scriptMs": 16.8
+      },
+      "rite": {
+        "fps": 46.2,
+        "scriptMs": 14.3
+      }
+    },
+    "start": {
+      "ms": 2431
+    },
+    "log": "/workspace/painted-ice-shade-perf.log",
+    "traceDirectory": "/workspace/painted-ice-shade-perf-results",
+    "note": "Local runner variations do not establish causal improvement/regression. Fresh CI9-scene pass still required. No unchanged rerun or lowered bar."
+  },
+  "originalCIFailure": "ci-v66-perf-failure.json",
+  "publicationGate": "All nine fresh CI speed scenes plus complete browser matrix and release publisher must pass.",
+  "native": {
+    "views": 12,
+    "records": 12,
+    "version": "0.9.67",
+    "build": 82,
+    "sourceFreezeGuard": true,
+    "sources": {
+      "js/release.js": "341796fafc67faeb2970417901ade2a8c81c94065d24ee3a08b514596573f090",
+      "js/renderer.js": "697d1eea34645c8332c308b6da615c7c40cc5b136834011f0ed9a3bc7e07a994",
+      "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+      "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+      "js/paintedcatalog.js": "799fe7e799fcfdd01f1e7d0d5c7b7558bd14f82bbaa82952c0ae47fac2987358",
+      "img/decals/ice.png": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
+    },
+    "scope": "Native running Game/Renderer/Assets. Comparison supplies60s ice field, cleared monsters and safety. Action consumes Frost scroll against supplied passive999HP Orc in supplied canonical .34 puddle; clears foe after actual strike for visibility, then observes original ice expiry restoring visible puddle. No renderer/update/image/clock substitution. Not unassisted gameplay or physical-device approval."
+  },
+  "staticChecks": {
+    "types": "passed",
+    "art": "1731 shipped+3icons passed",
+    "agents": "in sync"
+  },
+  "offline": {
+    "cases": 2,
+    "passed": 2,
+    "retries": 0,
+    "duration": "52.4s",
+    "log": "/workspace/painted-ice-recovery-offline.log"
+  }
+}

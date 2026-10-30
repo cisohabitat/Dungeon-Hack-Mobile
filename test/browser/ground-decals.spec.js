@@ -102,7 +102,7 @@ test('cached splash geometry matches fresh geometry pixel for pixel and refreshe
   const colours=['#5a0608','#2a5a1a','#4e5e0e','#2a1a10','#1a3610','#262c1e','#5a2c12','#3a2a12','#a8cce4','#2c3c4c'];
   const stains=Array.from({length:60},(_,i)=>{const d=.7+(i%8)*.8,side=((i%7)-3)*.23;return{x:p.x+.5+dx*d-dy*side,y:p.y+.5+dy*d+dx*side,r:[.08,.16,.42][i%3],c:colours[i%colours.length],seed:i*37,wet:i%colours.length===9,at:0};});
   // Moving this diagnostic camera must not mark new live run tiles explored.
-  const cam={...rs.cam},level={...rs.level,explored:rs.level.explored.slice().fill(1)};
+  const cam={...rs.cam},level={...rs.level,lights:[{x:p.x+dx*2,y:p.y+dy*2}],dressing:[],explored:rs.level.explored.slice().fill(1)};
   const fx={...rs.fx,stains:{[rs.level.depth]:stains},spells:[],texts:[],corpses:[],bits:[],drops:[],frost:[],rocks:[],vents:[],boss:null,view:{...rs.fx.view,walk:0,steps:0}};
   const original={sin:Math.sin,cos:Math.cos,ellipse:Path2D.prototype.ellipse,fill:ctx.fill};
   const ellipses=new WeakMap();let native=false,pathBuilds=0,nativeDifferences=0;
@@ -115,7 +115,7 @@ test('cached splash geometry matches fresh geometry pixel for pixel and refreshe
    Renderer.setHeight(h);Renderer.setCalm(calm);fx.stains[rs.level.depth]=stains;
    render(level,cam,[],fx,10000);render(level,cam,[],fx,10000);
    // The same object changes: a cache must invalidate every geometry input.
-   stains[0].x+=.13;stains[0].y-=.07;stains[0].r+=.005;stains[0].seed++;cam.x+=.07;cam.y-=.04;cam.angle+=.17;
+   stains[0].x+=.13;stains[0].y-=.07;stains[0].r+=.005;stains[0].seed++;stains[1].c=stains[1].c==='#2a5a1a'?'#5a0608':'#2a5a1a';stains[2].glow=!stains[2].glow;cam.x+=.07;cam.y-=.04;cam.angle+=.17;
    trig=0;render(level,cam,[],fx,10000);const cachedTrig=trig,cached=ctx.getImageData(0,0,320,h).data;
    // Draw each recorded ellipse through the original context path API too.
    // Pixel equality must hold against native rasterization, not just a fresh cache.
@@ -128,6 +128,26 @@ test('cached splash geometry matches fresh geometry pixel for pixel and refreshe
    fx.stains[rs.level.depth]=stains.map(s=>({...s}));
    trig=0;render(level,cam,[],fx,10000);const freshTrig=trig,fresh=ctx.getImageData(0,0,320,h).data;
    for(let i=0;i<cached.length;i++)if(cached[i]!==fresh[i])differences++;
+   // Colour and glow can change with a stationary camera and identical light.
+   fx.stains[rs.level.depth]=stains;render(level,cam,[],fx,10000);
+   stains[1].c=stains[1].c==='#2a5a1a'?'#5a0608':'#2a5a1a';stains[2].glow=!stains[2].glow;
+   render(level,cam,[],fx,10000);const recoloured=ctx.getImageData(0,0,320,h).data;
+   fx.stains[rs.level.depth]=stains.map(s=>({...s}));render(level,cam,[],fx,10000);
+   const colourFresh=ctx.getImageData(0,0,320,h).data;
+   for(let i=0;i<recoloured.length;i++)if(recoloured[i]!==colourFresh[i])differences++;
+   // A stationary projection still follows a new torch-flicker time. Fresh
+   // identities must produce the same pixels as the warmed geometry cache.
+   fx.stains[rs.level.depth]=stains;render(level,cam,[],fx,12000);render(level,cam,[],fx,12000);
+   const live=ctx.getImageData(0,0,320,h).data;
+   fx.stains[rs.level.depth]=stains.map(s=>({...s}));render(level,cam,[],fx,12000);
+   const liveFresh=ctx.getImageData(0,0,320,h).data;
+   for(let i=0;i<live.length;i++)if(live[i]!==liveFresh[i])differences++;
+   // Reach changes invalidate even cached invisible stains, without camera motion.
+   level.twist=level.twist==='dark'?null:'dark';fx.stains[rs.level.depth]=stains;
+   render(level,cam,[],fx,12000);const fogged=ctx.getImageData(0,0,320,h).data;
+   fx.stains[rs.level.depth]=stains.map(s=>({...s}));render(level,cam,[],fx,12000);
+   const fogFresh=ctx.getImageData(0,0,320,h).data;
+   for(let i=0;i<fogged.length;i++)if(fogged[i]!==fogFresh[i])differences++;
    counts.push({cached:cachedTrig,fresh:freshTrig,reused});views++;
   }}finally{Math.sin=original.sin;Math.cos=original.cos;Path2D.prototype.ellipse=original.ellipse;ctx.fill=original.fill;Renderer.setHeight(height);Renderer.setCalm(quiet);}
   return{counts,differences,nativeDifferences,pathBuilds,views,unchanged:identity()===before};

@@ -882,26 +882,43 @@ const Renderer = (() => {
     if (list.some(s => s.at > now)) list = list.filter(s => !(s.at > now));
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const lx = W / 2 / TAN_HALF;
+    let projectionVersion = 0, colourRGB;
     const blob = (x, y, r, c, saved) => {
-      const sx = x - px, sy = y - py;
-      const tY = invDet * (-planeY * sx + planeX * sy);
-      if (tY < 0.35 || tY > fog) return;
-      const tX = invDet * (dirY * sx - dirX * sy);
-      const cx = (W / 2) * (1 + tX / tY), cy = H / 2 + (P / 2) / tY;
-      const rx = r * lx / tY, ry = r * (P / 2) / (tY * tY);
-      if (cx + rx < 0 || cx - rx > W || ry < 0.3) return;
-      const tx = x | 0, ty = y | 0;
-      const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
-      const f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
-      ctx.fillStyle = glow ? c : dim(c, f * 0.8, 0.7);
-      const height = Math.min(ry, rx);
-      if (!saved.path || saved.cx !== cx || saved.cy !== cy || saved.rx !== rx || saved.ry !== height) {
-        saved.path = new Path2D();
-        saved.path.ellipse(cx, cy, rx, height, 0, 0, Math.PI * 2);
-        saved.cx = cx; saved.cy = cy; saved.rx = rx; saved.ry = height;
+      if (saved.version !== projectionVersion) {
+        saved.version = projectionVersion; saved.geometry = null;
+        const sx = x - px, sy = y - py;
+        const tY = invDet * (-planeY * sx + planeX * sy);
+        if (tY < 0.35 || tY > fog) return;
+        const tX = invDet * (dirY * sx - dirX * sy);
+        const cx = (W / 2) * (1 + tX / tY), cy = H / 2 + (P / 2) / tY;
+        const rx = r * lx / tY, ry = r * (P / 2) / (tY * tY);
+        if (cx + rx < 0 || cx - rx > W || ry < 0.3) return;
+        const height = Math.min(ry, rx);
+        if (!saved.path || saved.cx !== cx || saved.cy !== cy || saved.rx !== rx || saved.ry !== height) {
+          saved.path = new Path2D();
+          saved.path.ellipse(cx, cy, rx, height, 0, 0, Math.PI * 2);
+          saved.cx = cx; saved.cy = cy; saved.rx = rx; saved.ry = height;
+        }
+        saved.geometry = { cx, cy, rx, ry: height, tY, tx: x | 0, ty: y | 0, f: 0 };
       }
+      const g = saved.geometry;
+      if (!g) return;
+      const { tx, ty, tY } = g;
+      const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
+      // Read the live field every frame. Recompute its pure shade calculation
+      // only when that exact sample or any of its other inputs has changed.
+      if (saved.shadeVersion !== projectionVersion || saved.light !== lit || saved.inputColour !== c || saved.glow !== glow) {
+        saved.shadeVersion = projectionVersion; saved.light = lit; saved.inputColour = c; saved.glow = glow;
+        g.f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
+        if (!glow) {
+          const shade = g.f * 0.8;
+          const tint = Math.round(colourRGB[0] * shade) << 16 | Math.round(colourRGB[1] * shade) << 8 | Math.round(colourRGB[2] * shade);
+          if (saved.tint !== tint || saved.colour !== c) { saved.tint = tint; saved.colour = c; saved.style = dim(c, shade, 0.7); }
+        }
+      }
+      ctx.fillStyle = glow ? c : saved.style;
       ctx.fill(saved.path);
-      return { cx, cy, rx, ry: Math.min(ry, rx), f };
+      return g;
     };
     // standing water catches the light: a glint that slides slowly across it and comes and goes
     const glint = (g, seed) => {
@@ -917,8 +934,18 @@ const Renderer = (() => {
     let glow = false;
     for (const st of list) {
       glow = !!st.glow;
-      let paths = stainPaths.get(st);
-      if (!paths) stainPaths.set(st, paths = Array.from({ length: 5 }, () => ({ path: null, cx: NaN, cy: NaN, rx: NaN, ry: NaN })));
+      let cached = stainPaths.get(st);
+      if (!cached) stainPaths.set(st, cached = { version: 0, paths: Array.from({ length: 5 }, () => ({ path: null, version: -1, geometry: null, tint: -1, style: '', cx: NaN, cy: NaN, rx: NaN, ry: NaN })) });
+      // Projection is constant only while every camera and stain input agrees.
+      // Shadows, colour, torch flicker, glints and texture loading stay live.
+      if (cached.px !== px || cached.py !== py || cached.dx !== dirX || cached.dy !== dirY || cached.h !== H || cached.fog !== fog ||
+          cached.x !== st.x || cached.y !== st.y || cached.r !== st.r || cached.seed !== st.seed) {
+        cached.version++; cached.px = px; cached.py = py; cached.dx = dirX; cached.dy = dirY; cached.h = H; cached.fog = fog;
+        cached.x = st.x; cached.y = st.y; cached.r = st.r; cached.seed = st.seed;
+      }
+      if (cached.colour !== st.c) { cached.colour = st.c; cached.rgb = rgbOf(st.c); }
+      projectionVersion = cached.version; colourRGB = cached.rgb;
+      const paths = cached.paths;
       const g = blob(st.x, st.y, st.r, st.c, paths[0]);
       // Detail stays inside the original main ellipse. Unknown blood colours,
       // oil/water, unmarked frost, warnings and satellite blobs stay native.

@@ -1696,3 +1696,17 @@ The exporter copies the reviewed ice PNG into the common1,555-file delivery;
 its independent loader shades/masks once and the installed all-art reload must
 include ice. The FPS budget retains its eight scenes and adds sixty mixed
 wet presentation marks; never replace the original crowd or lower its bars.
+
+The AL speed recovery caches each stain's projection only while camera x/y,
+direction, view height, fog reach and stain x/y/radius/seed all agree. Light,
+colour, glints and image availability are still read live. Rounded native RGB
+styles may be reused only for the exact same colour and rounded channels.
+Pixel regressions compare warmed/fresh geometry, context paths, changed camera,
+size/seed, Normal/Calm, new torch times and fog changes. Never cache a lit frame
+or merge overlapping ellipses to meet the wet-scene budget.
+
+Shade memoization still samples the live light field per visible blob each
+frame. Its calculation can be reused only for exactly equal sample, projection
+version, input colour and glow flag. A geometry change must refresh the shade
+on its new geometry object even if light is unchanged. Keep explicit colour/
+glow-only stationary-camera comparisons as well as torch-time and fog changes.
