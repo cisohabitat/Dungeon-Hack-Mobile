@@ -1756,6 +1756,11 @@ geometry retain their existing rendering. The two128px textures load on demand
 with independent fallbacks and cached shades. Detail fades in as a patch gets
 large enough to read; the native fill remains visible throughout. See the [ground-art review](docs/visual/2026-10-30-ground-decals/README.md).
 
+The [wet-surface audit](docs/visual/2026-10-30-wet-surfaces/README.md) reviews
+oil, ice, puddles and flooded floors at both phone sizes. Ice is the next
+painting candidate; water retains its existing painted materials and live
+glints/shimmer. This audit adds no runtime artwork.
+
 CI runs full-cache offline installation checks separately on one worker, retaining the same install deadlines and native offline reload assertions. Other browser checks remain parallel. Their dedicated child-process origin prepares exact static responses before navigation, keeping trace recording out of the serving loop; browsers still fetch every required file into a cold native cache. Fixture byte/header, disconnect and failure checks run with `npm test`.
 Voice download resumption reads the offline cache index once, avoiding repeated scans of the full painted catalog.
 

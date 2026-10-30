@@ -1,0 +1,72 @@
+{
+  "source": "js/paintedcatalog.js",
+  "category": "FLOOR.WATER =4; floorOf(4) resolved through paintedworld region proxy",
+  "scope": "Existing selected regional water-floor art, not a new atlas or a claim every water effect is painted. Puddles and flooded-floor shimmer have separate live native paths.",
+  "materials": [
+    {
+      "path": "img/materials/halls_floor4.png",
+      "bytes": 7219,
+      "sha256": "3c8c082078a390640b4d3893eff8af35186a8da44a9acdf9ce03cdb219a0b541"
+    },
+    {
+      "path": "img/materials/region_1-floor4.png",
+      "bytes": 9147,
+      "sha256": "1224a0d33cd139e780a14a69c9c5451953f96b86b0be5687a0ef2cb592705f29"
+    },
+    {
+      "path": "img/materials/region_2-floor4.png",
+      "bytes": 9341,
+      "sha256": "3ddb17f9858de9c9529a1e2c7bc4d921da1419aac9bfd4b9e5a1ae5e5aa360aa"
+    },
+    {
+      "path": "img/materials/region_3-floor4.png",
+      "bytes": 8446,
+      "sha256": "e7cc8b5cca03a83c2812ffcd9ff182fcc0c057e6c2bed5dddec754eea54f8cfb"
+    },
+    {
+      "path": "img/materials/region_4-floor4.png",
+      "bytes": 8383,
+      "sha256": "54a87a8194004a360f81dfd5e7c4948ff651fb47c522785bf89018dee4359d6b"
+    },
+    {
+      "path": "img/materials/region_5-floor4.png",
+      "bytes": 8103,
+      "sha256": "a9fe4e94984acbaccd785ea23e8c3a0fbc926971b6cca67b4d9331e93ea12a57"
+    },
+    {
+      "path": "img/materials/region_6-floor4.png",
+      "bytes": 8721,
+      "sha256": "5e202ccbd8196a9508276c33d99b119fd296cf8d64b7356425696f8bd9d18967"
+    },
+    {
+      "path": "img/materials/region_7-floor4.png",
+      "bytes": 8471,
+      "sha256": "403b5e93bfb649ca98e4fbc1221640844dd82ad3a71d2d23403494058942519e"
+    },
+    {
+      "path": "img/materials/region_8-floor4.png",
+      "bytes": 8626,
+      "sha256": "41b78c4c7cae794f3db888ff0a76fd095ff78ec795c75e3392777e55a484c053"
+    },
+    {
+      "path": "img/materials/region_9-floor4.png",
+      "bytes": 9100,
+      "sha256": "106fdc972bf843655ab72343d464fb1449cafbe8539300b47185978ebce7d4c3"
+    },
+    {
+      "path": "img/materials/region_10-floor4.png",
+      "bytes": 8712,
+      "sha256": "c42ed0ba04bfbc80e5904d046f233d8e6adc53dac46b33b750fe99434b2129f6"
+    },
+    {
+      "path": "img/materials/region_11-floor4.png",
+      "bytes": 8439,
+      "sha256": "b5a4b5a34ba578119e6c31116250424b68dbee86bf0e5c9d6b35acb2868f7ae4"
+    },
+    {
+      "path": "img/materials/region_12-floor4.png",
+      "bytes": 8645,
+      "sha256": "36b41602c10264e3063ecdf5ef984de5adf0f8cd4832df1e95f4be7b756278c9"
+    }
+  ]
+}

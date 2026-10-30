@@ -1676,3 +1676,12 @@ Native running previews and actual action fixtures are recorded separately in
 `docs/visual/2026-10-30-ground-decals/`. The isolated FPS budget adds the existing
 sixty-stain cap beside the painted crowd, retaining every original scene/bar.
 AL–AN in the atlas roadmap are audit candidates, not automatic commissions.
+
+AL's wet-surface audit is in `docs/visual/2026-10-30-wet-surfaces/`.
+Keep `floorOf(4)`'s thirteen selected regional water paintings distinct from
+procedural puddles and flooded-floor shimmer. Ice detail is the first painting
+candidate, oil is secondary, and a further water atlas is not justified by the
+recorded native comparison. The audit does not activate new art. Its capture
+observes Normal/Calm glints through forwarding draw calls and verifies expiry
+on the original clock; do not turn that fixture into a frozen renderer or
+claim supplied900ms expiry proves the normal cold-spell duration.

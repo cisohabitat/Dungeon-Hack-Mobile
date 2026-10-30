@@ -1,0 +1,528 @@
+{
+  "scope": "Running native renderer and updates, no image/renderer/update/clock substitutions. Supplied cleared monsters/safety, oil/ice fields with60s duration, canonical-sized .34 puddle, flooded twist. Normal/Calm glints observed by forwarding native fillRect calls. Short-lived supplied ice expires on native clock. Not unassisted gameplay or physical-device approval.",
+  "sources": {
+    "js/renderer.js": "c4f2adfe14d95f2b38b91b9b133ae108750d6aaf2b1e83015148011227b2ac26",
+    "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+    "js/looks.js": "69a051ebd3b322f6f0e3092e4555c7596d80a1c9bf1a3ad794509916dc2f8bcc",
+    "js/paintedcatalog.js": "1e5820e5431c78384ca6287247ae3ee179d84af79a0f9f93a4d4fa8206172fef",
+    "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc"
+  },
+  "records": [
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-oil-normal.png",
+      "fixture": {
+        "kind": "oil",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "oil",
+            "until": 65766.4
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "oil",
+        "until": 65766.4
+      },
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-oil-calm.png",
+      "fixture": {
+        "kind": "oil",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "oil",
+            "until": 65766.4
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "oil",
+        "until": 65766.4
+      },
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-ice-normal.png",
+      "fixture": {
+        "kind": "ice",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "ice",
+            "until": 67982.9
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "ice",
+        "until": 67982.9
+      },
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-ice-calm.png",
+      "fixture": {
+        "kind": "ice",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "ice",
+            "until": 67982.9
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "ice",
+        "until": 67982.9
+      },
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-puddle-normal.png",
+      "fixture": {
+        "kind": "puddle",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": 0.34,
+        "fields": {},
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 40,
+      "uniqueGlints": 27,
+      "glintSamples": [
+        {
+          "args": [
+            143,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.255)"
+        },
+        {
+          "args": [
+            142,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.255)"
+        },
+        {
+          "args": [
+            142,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.255)"
+        }
+      ],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-puddle-calm.png",
+      "fixture": {
+        "kind": "puddle",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": 0.34,
+        "fields": {},
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 40,
+      "uniqueGlints": 1,
+      "glintSamples": [
+        {
+          "args": [
+            131,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        },
+        {
+          "args": [
+            131,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        },
+        {
+          "args": [
+            131,
+            234,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        }
+      ],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": false,
+      "file": "320-flooded-normal.png",
+      "fixture": {
+        "kind": "flooded",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {},
+        "twist": "flooded"
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "calm": true,
+      "file": "320-flooded-calm.png",
+      "fixture": {
+        "kind": "flooded",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {},
+        "twist": "flooded"
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 320,
+      "expiry": {
+        "x": 6,
+        "y": 4,
+        "started": 14432.7,
+        "until": 15332.7
+      },
+      "expiredAt": 16315.899999999998
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-oil-normal.png",
+      "fixture": {
+        "kind": "oil",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "oil",
+            "until": 65399.7
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "oil",
+        "until": 65399.7
+      },
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-oil-calm.png",
+      "fixture": {
+        "kind": "oil",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "oil",
+            "until": 65399.7
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "oil",
+        "until": 65399.7
+      },
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-ice-normal.png",
+      "fixture": {
+        "kind": "ice",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "ice",
+            "until": 67616.2
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "ice",
+        "until": 67616.2
+      },
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-ice-calm.png",
+      "fixture": {
+        "kind": "ice",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {
+          "6,4": {
+            "k": "ice",
+            "until": 67616.2
+          }
+        },
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": {
+        "k": "ice",
+        "until": 67616.2
+      },
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-puddle-normal.png",
+      "fixture": {
+        "kind": "puddle",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": 0.34,
+        "fields": {},
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 40,
+      "uniqueGlints": 23,
+      "glintSamples": [
+        {
+          "args": [
+            145,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.263)"
+        },
+        {
+          "args": [
+            144,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.26)"
+        },
+        {
+          "args": [
+            144,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.26)"
+        }
+      ],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-puddle-calm.png",
+      "fixture": {
+        "kind": "puddle",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": 0.34,
+        "fields": {},
+        "twist": null
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 41,
+      "uniqueGlints": 1,
+      "glintSamples": [
+        {
+          "args": [
+            131,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        },
+        {
+          "args": [
+            131,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        },
+        {
+          "args": [
+            131,
+            261,
+            21,
+            2
+          ],
+          "style": "rgba(150, 190, 220, 0.204)"
+        }
+      ],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": false,
+      "file": "390-flooded-normal.png",
+      "fixture": {
+        "kind": "flooded",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {},
+        "twist": "flooded"
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "calm": true,
+      "file": "390-flooded-calm.png",
+      "fixture": {
+        "kind": "flooded",
+        "x": 6,
+        "y": 4,
+        "puddleRadius": null,
+        "fields": {},
+        "twist": "flooded"
+      },
+      "version": "0.9.65",
+      "build": 80,
+      "glintDraws": 0,
+      "uniqueGlints": 0,
+      "glintSamples": [],
+      "field": null,
+      "status": "playing"
+    },
+    {
+      "width": 390,
+      "expiry": {
+        "x": 6,
+        "y": 4,
+        "started": 14166,
+        "until": 15066
+      },
+      "expiredAt": 16049.3
+    }
+  ]
+}

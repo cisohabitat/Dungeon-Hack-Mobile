@@ -520,7 +520,10 @@ and cold ash floor detail, preserving the existing procedural footprints and
 timing. The v0.9.64 release publisher was blocked by the new crowded-stain
 frame-rate check (29.8FPS against30); v0.9.65 addresses stain geometry reuse
 and distant detail readability, retaining the same eight scenes and thresholds.
-AL reviews wet oil/ice/water surfaces next; AM/AN review spell contacts
+AL's [wet-surface audit](docs/visual/2026-10-30-wet-surfaces/README.md) is complete:
+ice detail is the first candidate, oil is secondary, and existing painted water
+floors plus live glints/shimmer are retained. No new AL painting is activated.
+AM/AN review spell contacts
 and healing/ward accents only where native comparisons justify painting.
 See [the surface plan](art/creatures/ATLAS-ROADMAP.md#optional-surface-textures--30-october-2026).
 
