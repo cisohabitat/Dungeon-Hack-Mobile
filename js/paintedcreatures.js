@@ -100,7 +100,7 @@ export function paintedCreatureSettled(sprite) {
   return !!atlas && (atlas.state === 'failed' || (atlas.state === 'ready' && !!atlas.palettes.get(link.tint)));
 }
 
-// Keep a shot's weapon through its existing lunge without adding saved game state.
+// Keep a shot's weapon through its strike and recovery without adding saved game state.
 const shotCycles = new WeakMap();
 function monsterPaintKind(m, now) {
   if (m.id === 'heartforged') return m.phase >= 2 ? 'heartforged_whitehot' : m.phase === 1 ? 'heartforged_open' : '';
@@ -110,7 +110,7 @@ function monsterPaintKind(m, now) {
   if (m.windup?.kind === 'shot') { shotCycles.set(m, m.lungeAt ?? -1e9); return 'warlord_spear'; }
   if (m.windup) { shotCycles.delete(m); return ''; }
   const prior = shotCycles.get(m);
-  if (prior !== undefined && m.lungeAt > prior && now >= m.lungeAt && now - m.lungeAt < 130) return 'warlord_spear';
+  if (prior !== undefined && m.lungeAt > prior && now >= m.lungeAt && now - m.lungeAt < 300) return 'warlord_spear';
   shotCycles.delete(m); return '';
 }
 export { monsterPaintKind };

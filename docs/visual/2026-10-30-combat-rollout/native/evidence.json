@@ -1,0 +1,6032 @@
+{
+  "version": "0.9.63",
+  "codeHashes": {
+    "js/foes.js": "edcc7e786ad19d8041bf23a352a3788d9886c4c9a64d49c136fd0878e7c7de38",
+    "js/motion.js": "fa07cf9bbd16830148686a60ba49a31263422be2bc8fb7fce23be92c7d05aa2a",
+    "js/sound.js": "63318f2e883fcef5d2cbb338142e426c76821e93b603afb6820c349652cd3940",
+    "js/paintedcreatures.js": "010a933ba1cfc332612dfe5498c2362b3c79294e4455000d149cc2d7f76573b8"
+  },
+  "scope": "Native running frames and actual WebAudio master tap (before output limiter). Synth fallback selected; supplied hero HP/enemies/positions/spoken flag. No simulation/dice/image substitution. Human listening skipped by owner; not physical-device approval.",
+  "records": [
+    {
+      "width": 320,
+      "id": "rat",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-rat-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7267.80000000447,
+          "move": null,
+          "file": "320-rat-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7869.39999999851,
+          "move": null,
+          "lungeAt": 7858.7,
+          "file": "320-rat-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7997.70000000298,
+          "move": null,
+          "lungeAt": 7858.7,
+          "file": "320-rat-0-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8162,
+          "move": null,
+          "lungeAt": 7858.7
+        },
+        {
+          "state": "strike",
+          "at": 8762,
+          "move": null,
+          "lungeAt": 8758.7
+        },
+        {
+          "state": "recover",
+          "at": 8895.30000000447,
+          "move": null,
+          "lungeAt": 8758.7
+        },
+        {
+          "state": "windup",
+          "at": 9061.89999999851,
+          "move": null,
+          "lungeAt": 8758.7
+        },
+        {
+          "state": "strike",
+          "at": 9665.30000000447,
+          "move": null,
+          "lungeAt": 9658.7
+        },
+        {
+          "state": "recover",
+          "at": 9795,
+          "move": null,
+          "lungeAt": 9658.7
+        },
+        {
+          "state": "windup",
+          "at": 9962,
+          "move": null,
+          "lungeAt": 9658.7
+        },
+        {
+          "state": "strike",
+          "at": 10578.80000000447,
+          "move": null,
+          "lungeAt": 10575.3
+        },
+        {
+          "state": "recover",
+          "at": 10712.60000000149,
+          "move": null,
+          "lungeAt": 10575.3
+        },
+        {
+          "state": "idle",
+          "at": 10878.70000000298,
+          "move": null,
+          "lungeAt": 10575.3
+        },
+        {
+          "state": "windup",
+          "at": 10896.10000000149,
+          "move": null,
+          "lungeAt": 10575.3
+        },
+        {
+          "state": "strike",
+          "at": 11495.39999999851,
+          "move": null,
+          "lungeAt": 11491.9
+        },
+        {
+          "state": "recover",
+          "at": 11629.5,
+          "move": null,
+          "lungeAt": 11491.9
+        },
+        {
+          "state": "windup",
+          "at": 11797.30000000447,
+          "move": null,
+          "lungeAt": 11491.9
+        },
+        {
+          "state": "strike",
+          "at": 12394.80000000447,
+          "move": null,
+          "lungeAt": 12391.9
+        },
+        {
+          "state": "recover",
+          "at": 12527.70000000298,
+          "move": null,
+          "lungeAt": 12391.9
+        },
+        {
+          "state": "idle",
+          "at": 12695.10000000149,
+          "move": null,
+          "lungeAt": 12391.9
+        },
+        {
+          "state": "windup",
+          "at": 12712,
+          "move": null,
+          "lungeAt": 12391.9
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 7260
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7860.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 8159.20000000298
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8759.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 9059.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9660.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 9959.10000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10575.80000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 10892.70000000298
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11492.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 11792.60000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12392.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rat",
+          "at": 12709.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9998,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "bat",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-bat-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7264.39999999851,
+          "move": null,
+          "file": "320-bat-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7699.5,
+          "move": null,
+          "lungeAt": 7687.4,
+          "file": "320-bat-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7833.39999999851,
+          "move": null,
+          "lungeAt": 7687.4,
+          "file": "320-bat-0-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 7875.69999999553,
+          "move": null,
+          "lungeAt": 7687.4
+        },
+        {
+          "state": "strike",
+          "at": 8308.89999999851,
+          "move": null,
+          "lungeAt": 8304
+        },
+        {
+          "state": "recover",
+          "at": 8440.39999999851,
+          "move": null,
+          "lungeAt": 8304
+        },
+        {
+          "state": "windup",
+          "at": 8491.39999999851,
+          "move": null,
+          "lungeAt": 8304
+        },
+        {
+          "state": "strike",
+          "at": 8924,
+          "move": null,
+          "lungeAt": 8920.7
+        },
+        {
+          "state": "recover",
+          "at": 9056.89999999851,
+          "move": null,
+          "lungeAt": 8920.7
+        },
+        {
+          "state": "windup",
+          "at": 9107.29999999702,
+          "move": null,
+          "lungeAt": 8920.7
+        },
+        {
+          "state": "strike",
+          "at": 9542.79999999702,
+          "move": null,
+          "lungeAt": 9537.3
+        },
+        {
+          "state": "recover",
+          "at": 9674.5,
+          "move": null,
+          "lungeAt": 9537.3
+        },
+        {
+          "state": "windup",
+          "at": 9724.19999999553,
+          "move": null,
+          "lungeAt": 9537.3
+        },
+        {
+          "state": "strike",
+          "at": 10157.39999999851,
+          "move": null,
+          "lungeAt": 10154
+        },
+        {
+          "state": "recover",
+          "at": 10290.60000000149,
+          "move": null,
+          "lungeAt": 10154
+        },
+        {
+          "state": "windup",
+          "at": 10340.5,
+          "move": null,
+          "lungeAt": 10154
+        },
+        {
+          "state": "strike",
+          "at": 10773.5,
+          "move": null,
+          "lungeAt": 10770.6
+        },
+        {
+          "state": "recover",
+          "at": 10906.19999999553,
+          "move": null,
+          "lungeAt": 10770.6
+        },
+        {
+          "state": "windup",
+          "at": 10957,
+          "move": null,
+          "lungeAt": 10770.6
+        },
+        {
+          "state": "strike",
+          "at": 11391.10000000149,
+          "move": null,
+          "lungeAt": 11387.3
+        },
+        {
+          "state": "recover",
+          "at": 11523.69999999553,
+          "move": null,
+          "lungeAt": 11387.3
+        },
+        {
+          "state": "windup",
+          "at": 11573.5,
+          "move": null,
+          "lungeAt": 11387.3
+        },
+        {
+          "state": "strike",
+          "at": 12010.29999999702,
+          "move": null,
+          "lungeAt": 12003.9
+        },
+        {
+          "state": "recover",
+          "at": 12140.39999999851,
+          "move": null,
+          "lungeAt": 12003.9
+        },
+        {
+          "state": "windup",
+          "at": 12191.69999999553,
+          "move": null,
+          "lungeAt": 12003.9
+        },
+        {
+          "state": "strike",
+          "at": 12623.79999999702,
+          "move": null,
+          "lungeAt": 12620.5
+        },
+        {
+          "state": "recover",
+          "at": 12756.29999999702,
+          "move": null,
+          "lungeAt": 12620.5
+        },
+        {
+          "state": "windup",
+          "at": 12807.10000000149,
+          "move": null,
+          "lungeAt": 12620.5
+        },
+        {
+          "state": "strike",
+          "at": 13240.69999999553,
+          "move": null,
+          "lungeAt": 13237.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 7255.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7691.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 7871.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8304.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 8488.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8921.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 9104.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9538.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 9721.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10154.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 10337.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10771
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 10954.39999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11388
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 11571.10000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12004.69999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 12187.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12621
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "bat",
+          "at": 12804.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13237.89999999851
+        }
+      ],
+      "status": "playing",
+      "hp": 9989,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "slime",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-slime-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7399.19999999553,
+          "move": null,
+          "file": "320-slime-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7984.5,
+          "move": null,
+          "lungeAt": 7973.5,
+          "file": "320-slime-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8112.60000000149,
+          "move": null,
+          "lungeAt": 7973.5,
+          "file": "320-slime-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8276.60000000149,
+          "move": null,
+          "lungeAt": 7973.5
+        },
+        {
+          "state": "windup",
+          "at": 8893.5,
+          "move": null,
+          "lungeAt": 7973.5
+        },
+        {
+          "state": "strike",
+          "at": 9499.5,
+          "move": null,
+          "lungeAt": 9490.1
+        },
+        {
+          "state": "recover",
+          "at": 9627,
+          "move": null,
+          "lungeAt": 9490.1
+        },
+        {
+          "state": "idle",
+          "at": 9793.10000000149,
+          "move": null,
+          "lungeAt": 9490.1
+        },
+        {
+          "state": "windup",
+          "at": 10410.89999999851,
+          "move": null,
+          "lungeAt": 9490.1
+        },
+        {
+          "state": "strike",
+          "at": 11010.89999999851,
+          "move": null,
+          "lungeAt": 11006.7
+        },
+        {
+          "state": "recover",
+          "at": 11143.69999999553,
+          "move": null,
+          "lungeAt": 11006.7
+        },
+        {
+          "state": "idle",
+          "at": 11309.29999999702,
+          "move": null,
+          "lungeAt": 11006.7
+        },
+        {
+          "state": "windup",
+          "at": 11926.5,
+          "move": null,
+          "lungeAt": 11006.7
+        },
+        {
+          "state": "strike",
+          "at": 12527.39999999851,
+          "move": null,
+          "lungeAt": 12523.3
+        },
+        {
+          "state": "recover",
+          "at": 12659.69999999553,
+          "move": null,
+          "lungeAt": 12523.3
+        },
+        {
+          "state": "idle",
+          "at": 12827.19999999553,
+          "move": null,
+          "lungeAt": 12523.3
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "slime",
+          "at": 7393.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7975.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "slime",
+          "at": 8890.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9492
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "slime",
+          "at": 10407.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11007.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "slime",
+          "at": 11923.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12524.19999999553
+        }
+      ],
+      "status": "playing",
+      "hp": 9993,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "goblin",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-goblin-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7375.29999999702,
+          "move": null,
+          "file": "320-goblin-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7890.39999999851,
+          "move": null,
+          "lungeAt": 7878.3,
+          "file": "320-goblin-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8017.19999999553,
+          "move": null,
+          "lungeAt": 7878.3,
+          "file": "320-goblin-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8184.19999999553,
+          "move": null,
+          "lungeAt": 7878.3
+        },
+        {
+          "state": "windup",
+          "at": 8382.29999999702,
+          "move": null,
+          "lungeAt": 7878.3
+        },
+        {
+          "state": "strike",
+          "at": 9081.60000000149,
+          "move": null,
+          "lungeAt": 9078.3
+        },
+        {
+          "state": "recover",
+          "at": 9214.29999999702,
+          "move": null,
+          "lungeAt": 9078.3
+        },
+        {
+          "state": "idle",
+          "at": 9381.39999999851,
+          "move": null,
+          "lungeAt": 9078.3
+        },
+        {
+          "state": "windup",
+          "at": 9398.5,
+          "move": null,
+          "lungeAt": 9078.3
+        },
+        {
+          "state": "strike",
+          "at": 10148.69999999553,
+          "move": null,
+          "lungeAt": 10145
+        },
+        {
+          "state": "recover",
+          "at": 10281.69999999553,
+          "move": null,
+          "lungeAt": 10145
+        },
+        {
+          "state": "windup",
+          "at": 10415.29999999702,
+          "move": null,
+          "lungeAt": 10145
+        },
+        {
+          "state": "strike",
+          "at": 10982.10000000149,
+          "move": null,
+          "lungeAt": 10978.2
+        },
+        {
+          "state": "recover",
+          "at": 11114.39999999851,
+          "move": null,
+          "lungeAt": 10978.2
+        },
+        {
+          "state": "idle",
+          "at": 11281.5,
+          "move": null,
+          "lungeAt": 10978.2
+        },
+        {
+          "state": "windup",
+          "at": 11431.69999999553,
+          "move": null,
+          "lungeAt": 10978.2
+        },
+        {
+          "state": "strike",
+          "at": 12098.29999999702,
+          "move": null,
+          "lungeAt": 12094.8
+        },
+        {
+          "state": "recover",
+          "at": 12231.19999999553,
+          "move": null,
+          "lungeAt": 12094.8
+        },
+        {
+          "state": "idle",
+          "at": 12397.39999999851,
+          "move": null,
+          "lungeAt": 12094.8
+        },
+        {
+          "state": "windup",
+          "at": 12448,
+          "move": null,
+          "lungeAt": 12094.8
+        },
+        {
+          "state": "strike",
+          "at": 13114.69999999553,
+          "move": null,
+          "lungeAt": 13111.4
+        },
+        {
+          "state": "recover",
+          "at": 13247.5,
+          "move": null,
+          "lungeAt": 13111.4
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 7362.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7880.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 8378.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9078.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 9395.39999999851
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10145.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 10412.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10979.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 11428.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12095.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "goblin",
+          "at": 12445.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13111.89999999851
+        }
+      ],
+      "status": "playing",
+      "hp": 9999,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "skeleton",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-skeleton-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 6613.20000000298,
+          "move": null,
+          "file": "320-skeleton-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7230,
+          "move": null,
+          "lungeAt": 7219.1,
+          "file": "320-skeleton-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7358.4000000059605,
+          "move": null,
+          "lungeAt": 7219.1,
+          "file": "320-skeleton-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7525.20000000298,
+          "move": null,
+          "lungeAt": 7219.1
+        },
+        {
+          "state": "windup",
+          "at": 7739.5,
+          "move": null,
+          "lungeAt": 7219.1
+        },
+        {
+          "state": "strike",
+          "at": 8339.40000000596,
+          "move": null,
+          "lungeAt": 8335.7
+        },
+        {
+          "state": "recover",
+          "at": 8472.30000000447,
+          "move": null,
+          "lungeAt": 8335.7
+        },
+        {
+          "state": "idle",
+          "at": 8638.70000000298,
+          "move": null,
+          "lungeAt": 8335.7
+        },
+        {
+          "state": "windup",
+          "at": 8855.80000000447,
+          "move": null,
+          "lungeAt": 8335.7
+        },
+        {
+          "state": "strike",
+          "at": 9473.60000000149,
+          "move": null,
+          "lungeAt": 9469
+        },
+        {
+          "state": "recover",
+          "at": 9607.30000000447,
+          "move": null,
+          "lungeAt": 9469
+        },
+        {
+          "state": "idle",
+          "at": 9771.5,
+          "move": null,
+          "lungeAt": 9469
+        },
+        {
+          "state": "windup",
+          "at": 9972,
+          "move": null,
+          "lungeAt": 9469
+        },
+        {
+          "state": "strike",
+          "at": 10572.10000000149,
+          "move": null,
+          "lungeAt": 10569
+        },
+        {
+          "state": "recover",
+          "at": 10704.80000000447,
+          "move": null,
+          "lungeAt": 10569
+        },
+        {
+          "state": "idle",
+          "at": 10872.60000000149,
+          "move": null,
+          "lungeAt": 10569
+        },
+        {
+          "state": "windup",
+          "at": 11088.80000000447,
+          "move": null,
+          "lungeAt": 10569
+        },
+        {
+          "state": "strike",
+          "at": 11689.30000000447,
+          "move": null,
+          "lungeAt": 11685.6
+        },
+        {
+          "state": "recover",
+          "at": 11821.90000000596,
+          "move": null,
+          "lungeAt": 11685.6
+        },
+        {
+          "state": "idle",
+          "at": 11988.10000000149,
+          "move": null,
+          "lungeAt": 11685.6
+        },
+        {
+          "state": "windup",
+          "at": 12188.60000000149,
+          "move": null,
+          "lungeAt": 11685.6
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 6603.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7221.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 7736.30000000447
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8336.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 8853.10000000149
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9470
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 9969.5
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10569.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 11086.10000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11686.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 12186.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9999,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "zombie",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-zombie-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7399.70000000298,
+          "move": null,
+          "file": "320-zombie-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 8001.20000000298,
+          "move": null,
+          "lungeAt": 7990,
+          "file": "320-zombie-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8130.20000000298,
+          "move": null,
+          "lungeAt": 7990,
+          "file": "320-zombie-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8296.5,
+          "move": null,
+          "lungeAt": 7990
+        },
+        {
+          "state": "windup",
+          "at": 8994.29999999702,
+          "move": "grab",
+          "lungeAt": 7990,
+          "file": "320-zombie-0-4.png"
+        },
+        {
+          "state": "strike",
+          "at": 9747.39999999851,
+          "move": null,
+          "lungeAt": 9740
+        },
+        {
+          "state": "recover",
+          "at": 9877.60000000149,
+          "move": null,
+          "lungeAt": 9740
+        },
+        {
+          "state": "idle",
+          "at": 10043.20000000298,
+          "move": null,
+          "lungeAt": 9740
+        },
+        {
+          "state": "windup",
+          "at": 11362.10000000149,
+          "move": null,
+          "lungeAt": 9740
+        },
+        {
+          "state": "strike",
+          "at": 11962.20000000298,
+          "move": null,
+          "lungeAt": 11956.5
+        },
+        {
+          "state": "recover",
+          "at": 12093.5,
+          "move": null,
+          "lungeAt": 11956.5
+        },
+        {
+          "state": "idle",
+          "at": 12259.39999999851,
+          "move": null,
+          "lungeAt": 11956.5
+        },
+        {
+          "state": "windup",
+          "at": 12959.79999999702,
+          "move": null,
+          "lungeAt": 11956.5
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "zombie",
+          "at": 7391.60000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7992.29999999702
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 750,
+          "who": "zombie",
+          "move": "grab",
+          "at": 8991
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9742.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "zombie",
+          "at": 11357.79999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11957.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "zombie",
+          "at": 12957.10000000149
+        }
+      ],
+      "status": "playing",
+      "hp": 9989,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "pikeman",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-pikeman-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 6969.5999999940395,
+          "move": null,
+          "file": "320-pikeman-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7602.79999999702,
+          "move": null,
+          "lungeAt": 7592,
+          "file": "320-pikeman-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7730.69999999553,
+          "move": null,
+          "lungeAt": 7592,
+          "file": "320-pikeman-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7897.39999999851,
+          "move": null,
+          "lungeAt": 7592
+        },
+        {
+          "state": "windup",
+          "at": 8079.0999999940395,
+          "move": null,
+          "lungeAt": 7592
+        },
+        {
+          "state": "strike",
+          "at": 8814.19999999553,
+          "move": null,
+          "lungeAt": 8808.7
+        },
+        {
+          "state": "recover",
+          "at": 8945.79999999702,
+          "move": null,
+          "lungeAt": 8808.7
+        },
+        {
+          "state": "idle",
+          "at": 9111.79999999702,
+          "move": null,
+          "lungeAt": 8808.7
+        },
+        {
+          "state": "windup",
+          "at": 9196,
+          "move": null,
+          "lungeAt": 8808.7
+        },
+        {
+          "state": "strike",
+          "at": 9912.5,
+          "move": null,
+          "lungeAt": 9908.7
+        },
+        {
+          "state": "recover",
+          "at": 10046.5,
+          "move": null,
+          "lungeAt": 9908.7
+        },
+        {
+          "state": "idle",
+          "at": 10211.69999999553,
+          "move": null,
+          "lungeAt": 9908.7
+        },
+        {
+          "state": "windup",
+          "at": 10312,
+          "move": null,
+          "lungeAt": 9908.7
+        },
+        {
+          "state": "strike",
+          "at": 10996,
+          "move": null,
+          "lungeAt": 10992
+        },
+        {
+          "state": "recover",
+          "at": 11128,
+          "move": null,
+          "lungeAt": 10992
+        },
+        {
+          "state": "idle",
+          "at": 11297.89999999851,
+          "move": null,
+          "lungeAt": 10992
+        },
+        {
+          "state": "windup",
+          "at": 11429,
+          "move": null,
+          "lungeAt": 10992
+        },
+        {
+          "state": "strike",
+          "at": 11928.79999999702,
+          "move": null,
+          "lungeAt": 11925.2
+        },
+        {
+          "state": "recover",
+          "at": 12061.79999999702,
+          "move": null,
+          "lungeAt": 11925.2
+        },
+        {
+          "state": "idle",
+          "at": 12227.89999999851,
+          "move": null,
+          "lungeAt": 11925.2
+        },
+        {
+          "state": "windup",
+          "at": 12529.69999999553,
+          "move": null,
+          "lungeAt": 11925.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 6960.19999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7594.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 8075.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8810.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 9192.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9909.59999999404
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 10309.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10992.69999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 11426
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11926
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "pikeman",
+          "at": 12526.19999999553
+        }
+      ],
+      "status": "playing",
+      "hp": 9999,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "rustmaw",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-rustmaw-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7181.5,
+          "move": null,
+          "file": "320-rustmaw-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7775.79999999702,
+          "move": null,
+          "lungeAt": 7766.4,
+          "file": "320-rustmaw-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7905,
+          "move": null,
+          "lungeAt": 7766.4,
+          "file": "320-rustmaw-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8072.10000000149,
+          "move": null,
+          "lungeAt": 7766.4
+        },
+        {
+          "state": "windup",
+          "at": 8169.39999999851,
+          "move": null,
+          "lungeAt": 7766.4
+        },
+        {
+          "state": "strike",
+          "at": 8772.79999999702,
+          "move": null,
+          "lungeAt": 8766.4
+        },
+        {
+          "state": "recover",
+          "at": 8903.5,
+          "move": null,
+          "lungeAt": 8766.4
+        },
+        {
+          "state": "idle",
+          "at": 9069.10000000149,
+          "move": null,
+          "lungeAt": 8766.4
+        },
+        {
+          "state": "windup",
+          "at": 9170.60000000149,
+          "move": "rust",
+          "lungeAt": 8766.4,
+          "file": "320-rustmaw-0-8.png"
+        },
+        {
+          "state": "strike",
+          "at": 9990.89999999851,
+          "move": null,
+          "lungeAt": 9983
+        },
+        {
+          "state": "recover",
+          "at": 10119.79999999702,
+          "move": null,
+          "lungeAt": 9983
+        },
+        {
+          "state": "idle",
+          "at": 10286.39999999851,
+          "move": null,
+          "lungeAt": 9983
+        },
+        {
+          "state": "windup",
+          "at": 11003.29999999702,
+          "move": null,
+          "lungeAt": 9983
+        },
+        {
+          "state": "strike",
+          "at": 11603.60000000149,
+          "move": null,
+          "lungeAt": 11599.6
+        },
+        {
+          "state": "recover",
+          "at": 11736.10000000149,
+          "move": null,
+          "lungeAt": 11599.6
+        },
+        {
+          "state": "idle",
+          "at": 11903.10000000149,
+          "move": null,
+          "lungeAt": 11599.6
+        },
+        {
+          "state": "windup",
+          "at": 12003.20000000298,
+          "move": null,
+          "lungeAt": 11599.6
+        },
+        {
+          "state": "strike",
+          "at": 12602.70000000298,
+          "move": null,
+          "lungeAt": 12599.6
+        },
+        {
+          "state": "recover",
+          "at": 12736.39999999851,
+          "move": null,
+          "lungeAt": 12599.6
+        },
+        {
+          "state": "idle",
+          "at": 12903.20000000298,
+          "move": null,
+          "lungeAt": 12599.6
+        },
+        {
+          "state": "windup",
+          "at": 13020.39999999851,
+          "move": "rust",
+          "lungeAt": 12599.6
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rustmaw",
+          "at": 7168.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7768.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rustmaw",
+          "at": 8166.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8768.20000000298
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 800,
+          "who": "rustmaw",
+          "move": "rust",
+          "at": 9167.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9985.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rustmaw",
+          "at": 11000.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11600.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "rustmaw",
+          "at": 12000.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12600
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 800,
+          "who": "rustmaw",
+          "move": "rust",
+          "at": 13017.20000000298
+        }
+      ],
+      "status": "playing",
+      "hp": 9988,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "acolyte",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-acolyte-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7042.80000000447,
+          "move": null,
+          "file": "320-acolyte-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7643.30000000447,
+          "move": null,
+          "lungeAt": 7632.6,
+          "file": "320-acolyte-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7772.80000000447,
+          "move": null,
+          "lungeAt": 7632.6,
+          "file": "320-acolyte-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7935.5,
+          "move": null,
+          "lungeAt": 7632.6
+        },
+        {
+          "state": "windup",
+          "at": 8236.70000000298,
+          "move": null,
+          "lungeAt": 7632.6
+        },
+        {
+          "state": "strike",
+          "at": 8836.60000000149,
+          "move": null,
+          "lungeAt": 8832.6
+        },
+        {
+          "state": "recover",
+          "at": 8969,
+          "move": null,
+          "lungeAt": 8832.6
+        },
+        {
+          "state": "idle",
+          "at": 9135.30000000447,
+          "move": null,
+          "lungeAt": 8832.6
+        },
+        {
+          "state": "windup",
+          "at": 9453.5,
+          "move": null,
+          "lungeAt": 8832.6
+        },
+        {
+          "state": "strike",
+          "at": 10054.5,
+          "move": null,
+          "lungeAt": 10049.1
+        },
+        {
+          "state": "recover",
+          "at": 10185.10000000149,
+          "move": null,
+          "lungeAt": 10049.1
+        },
+        {
+          "state": "idle",
+          "at": 10352.5,
+          "move": null,
+          "lungeAt": 10049.1
+        },
+        {
+          "state": "windup",
+          "at": 10652.70000000298,
+          "move": null,
+          "lungeAt": 10049.1
+        },
+        {
+          "state": "strike",
+          "at": 11252.39999999851,
+          "move": null,
+          "lungeAt": 11249.1
+        },
+        {
+          "state": "recover",
+          "at": 11385.5,
+          "move": null,
+          "lungeAt": 11249.1
+        },
+        {
+          "state": "idle",
+          "at": 11552.30000000447,
+          "move": null,
+          "lungeAt": 11249.1
+        },
+        {
+          "state": "windup",
+          "at": 11869.20000000298,
+          "move": null,
+          "lungeAt": 11249.1
+        },
+        {
+          "state": "strike",
+          "at": 12469.10000000149,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "recover",
+          "at": 12601.80000000447,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "idle",
+          "at": 12768.39999999851,
+          "move": null,
+          "lungeAt": 12465.7
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "acolyte",
+          "at": 7033.80000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7635.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "acolyte",
+          "at": 8233.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8833.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "acolyte",
+          "at": 9450.60000000149
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10050
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "acolyte",
+          "at": 10650
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11249.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "acolyte",
+          "at": 11866.5
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12466.30000000447
+        }
+      ],
+      "status": "playing",
+      "hp": 9991,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "thornhog",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-thornhog-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7071.60000000149,
+          "move": null,
+          "file": "320-thornhog-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7669.39999999851,
+          "move": null,
+          "lungeAt": 7659.7,
+          "file": "320-thornhog-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7798.29999999702,
+          "move": null,
+          "lungeAt": 7659.7,
+          "file": "320-thornhog-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7962.39999999851,
+          "move": null,
+          "lungeAt": 7659.7
+        },
+        {
+          "state": "windup",
+          "at": 8183.79999999702,
+          "move": "bristle",
+          "lungeAt": 7659.7,
+          "file": "320-thornhog-0-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 9600,
+          "move": null,
+          "lungeAt": 7659.7
+        },
+        {
+          "state": "windup",
+          "at": 10997.29999999702,
+          "move": null,
+          "lungeAt": 7659.7
+        },
+        {
+          "state": "strike",
+          "at": 11613.5,
+          "move": null,
+          "lungeAt": 11609.6
+        },
+        {
+          "state": "recover",
+          "at": 11745.60000000149,
+          "move": null,
+          "lungeAt": 11609.6
+        },
+        {
+          "state": "idle",
+          "at": 11912,
+          "move": null,
+          "lungeAt": 11609.6
+        },
+        {
+          "state": "windup",
+          "at": 12129.29999999702,
+          "move": null,
+          "lungeAt": 11609.6
+        },
+        {
+          "state": "strike",
+          "at": 12729.5,
+          "move": null,
+          "lungeAt": 12726.2
+        },
+        {
+          "state": "recover",
+          "at": 12862.29999999702,
+          "move": null,
+          "lungeAt": 12726.2
+        },
+        {
+          "state": "idle",
+          "at": 13028.69999999553,
+          "move": null,
+          "lungeAt": 12726.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "thornhog",
+          "at": 7061
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7661.5
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "thornhog",
+          "move": "bristle",
+          "at": 8177.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "thornhog",
+          "at": 10993.79999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11610.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "thornhog",
+          "at": 12126.69999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12726.69999999553
+        }
+      ],
+      "status": "playing",
+      "hp": 9999,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "wyrm",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-wyrm-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7069.69999999553,
+          "move": null,
+          "file": "320-wyrm-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7673.60000000149,
+          "move": null,
+          "lungeAt": 7660.1,
+          "file": "320-wyrm-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7799.39999999851,
+          "move": null,
+          "lungeAt": 7660.1,
+          "file": "320-wyrm-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7966.5,
+          "move": null,
+          "lungeAt": 7660.1
+        },
+        {
+          "state": "windup",
+          "at": 8229.89999999851,
+          "move": null,
+          "lungeAt": 7660.1
+        },
+        {
+          "state": "strike",
+          "at": 8830.10000000149,
+          "move": null,
+          "lungeAt": 8826.7
+        },
+        {
+          "state": "recover",
+          "at": 8963,
+          "move": null,
+          "lungeAt": 8826.7
+        },
+        {
+          "state": "idle",
+          "at": 9132,
+          "move": null,
+          "lungeAt": 8826.7
+        },
+        {
+          "state": "windup",
+          "at": 9379.69999999553,
+          "move": null,
+          "lungeAt": 8826.7
+        },
+        {
+          "state": "strike",
+          "at": 9980.29999999702,
+          "move": null,
+          "lungeAt": 9976.7
+        },
+        {
+          "state": "recover",
+          "at": 10114,
+          "move": null,
+          "lungeAt": 9976.7
+        },
+        {
+          "state": "idle",
+          "at": 10279.5,
+          "move": null,
+          "lungeAt": 9976.7
+        },
+        {
+          "state": "windup",
+          "at": 10529.5,
+          "move": null,
+          "lungeAt": 9976.7
+        },
+        {
+          "state": "strike",
+          "at": 11147.69999999553,
+          "move": null,
+          "lungeAt": 11143.3
+        },
+        {
+          "state": "recover",
+          "at": 11281.10000000149,
+          "move": null,
+          "lungeAt": 11143.3
+        },
+        {
+          "state": "idle",
+          "at": 11446,
+          "move": null,
+          "lungeAt": 11143.3
+        },
+        {
+          "state": "windup",
+          "at": 11696.5,
+          "move": null,
+          "lungeAt": 11143.3
+        },
+        {
+          "state": "strike",
+          "at": 12314.89999999851,
+          "move": null,
+          "lungeAt": 12309.8
+        },
+        {
+          "state": "recover",
+          "at": 12445.79999999702,
+          "move": null,
+          "lungeAt": 12309.8
+        },
+        {
+          "state": "idle",
+          "at": 12612.60000000149,
+          "move": null,
+          "lungeAt": 12309.8
+        },
+        {
+          "state": "windup",
+          "at": 12862.69999999553,
+          "move": null,
+          "lungeAt": 12309.8
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 7061.19999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7666
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 8227.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8827.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 9377.19999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9977.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 10527.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11144
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 11693.69999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12310.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "wyrm",
+          "at": 12860.29999999702
+        }
+      ],
+      "status": "playing",
+      "hp": 9959,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "emberling",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-emberling-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7224.80000000447,
+          "move": null,
+          "file": "320-emberling-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7825,
+          "move": null,
+          "lungeAt": 7815.4,
+          "file": "320-emberling-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7954.70000000298,
+          "move": null,
+          "lungeAt": 7815.4,
+          "file": "320-emberling-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8121,
+          "move": null,
+          "lungeAt": 7815.4
+        },
+        {
+          "state": "windup",
+          "at": 8223.5,
+          "move": "flare",
+          "lungeAt": 7815.4,
+          "file": "320-emberling-0-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 9527.5,
+          "move": null,
+          "lungeAt": 7815.4
+        },
+        {
+          "state": "recover",
+          "at": 9935.5,
+          "move": null,
+          "lungeAt": 7815.4
+        },
+        {
+          "state": "idle",
+          "at": 10085.39999999851,
+          "move": null,
+          "lungeAt": 7815.4
+        },
+        {
+          "state": "windup",
+          "at": 10540.70000000298,
+          "move": null,
+          "lungeAt": 7815.4
+        },
+        {
+          "state": "strike",
+          "at": 11135.5,
+          "move": null,
+          "lungeAt": 11132
+        },
+        {
+          "state": "recover",
+          "at": 11268.70000000298,
+          "move": null,
+          "lungeAt": 11132
+        },
+        {
+          "state": "idle",
+          "at": 11285.5,
+          "move": null,
+          "lungeAt": 11132
+        },
+        {
+          "state": "windup",
+          "at": 11535.39999999851,
+          "move": null,
+          "lungeAt": 11132
+        },
+        {
+          "state": "strike",
+          "at": 12152.60000000149,
+          "move": null,
+          "lungeAt": 12148.6
+        },
+        {
+          "state": "recover",
+          "at": 12284.80000000447,
+          "move": null,
+          "lungeAt": 12148.6
+        },
+        {
+          "state": "idle",
+          "at": 12451.10000000149,
+          "move": null,
+          "lungeAt": 12148.6
+        },
+        {
+          "state": "windup",
+          "at": 12568.5,
+          "move": null,
+          "lungeAt": 12148.6
+        },
+        {
+          "state": "strike",
+          "at": 13168.80000000447,
+          "move": null,
+          "lungeAt": 13165.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "emberling",
+          "at": 7217.20000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7818.10000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "emberling",
+          "move": "flare",
+          "at": 8217.39999999851
+        },
+        {
+          "name": "cast",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "spell": "burning_hands",
+          "at": 9517.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9517.89999999851
+        },
+        {
+          "name": "hit",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "tag": "blaze",
+          "gore": "spark",
+          "w": "longsword",
+          "at": 9683.80000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 9684.80000000447
+        },
+        {
+          "name": "hit",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "tag": "blaze",
+          "gore": "spark",
+          "w": "longsword",
+          "at": 10482.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 10483.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "emberling",
+          "at": 10533.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11132.60000000149
+        },
+        {
+          "name": "hit",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "tag": "blaze",
+          "gore": "spark",
+          "w": "longsword",
+          "at": 11282.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 11283
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "emberling",
+          "at": 11532.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12149.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "emberling",
+          "at": 12565.80000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13165.89999999851
+        }
+      ],
+      "status": "playing",
+      "hp": 9957,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "mimic",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-mimic-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7230.30000000447,
+          "move": null,
+          "file": "320-mimic-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7830.4000000059605,
+          "move": null,
+          "lungeAt": 7819,
+          "file": "320-mimic-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7957.70000000298,
+          "move": null,
+          "lungeAt": 7819,
+          "file": "320-mimic-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8124.20000000298,
+          "move": null,
+          "lungeAt": 7819
+        },
+        {
+          "state": "windup",
+          "at": 8323.30000000447,
+          "move": "grab",
+          "lungeAt": 7819,
+          "file": "320-mimic-0-4.png"
+        },
+        {
+          "state": "strike",
+          "at": 9091.30000000447,
+          "move": null,
+          "lungeAt": 9085.6
+        },
+        {
+          "state": "recover",
+          "at": 9222.10000000149,
+          "move": null,
+          "lungeAt": 9085.6
+        },
+        {
+          "state": "idle",
+          "at": 9388.5,
+          "move": null,
+          "lungeAt": 9085.6
+        },
+        {
+          "state": "windup",
+          "at": 10206.30000000447,
+          "move": null,
+          "lungeAt": 9085.6
+        },
+        {
+          "state": "strike",
+          "at": 10806,
+          "move": null,
+          "lungeAt": 10802.2
+        },
+        {
+          "state": "recover",
+          "at": 10945.30000000447,
+          "move": null,
+          "lungeAt": 10802.2
+        },
+        {
+          "state": "idle",
+          "at": 11105.90000000596,
+          "move": null,
+          "lungeAt": 10802.2
+        },
+        {
+          "state": "windup",
+          "at": 11305.80000000447,
+          "move": null,
+          "lungeAt": 10802.2
+        },
+        {
+          "state": "strike",
+          "at": 11907.20000000298,
+          "move": null,
+          "lungeAt": 11902.2
+        },
+        {
+          "state": "recover",
+          "at": 12038.10000000149,
+          "move": null,
+          "lungeAt": 11902.2
+        },
+        {
+          "state": "idle",
+          "at": 12205.10000000149,
+          "move": null,
+          "lungeAt": 11902.2
+        },
+        {
+          "state": "windup",
+          "at": 12422.30000000447,
+          "move": null,
+          "lungeAt": 11902.2
+        },
+        {
+          "state": "strike",
+          "at": 13025.70000000298,
+          "move": null,
+          "lungeAt": 13018.7
+        },
+        {
+          "state": "recover",
+          "at": 13155.5,
+          "move": null,
+          "lungeAt": 13018.7
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "mimic",
+          "at": 7220.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7822.20000000298
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 750,
+          "who": "mimic",
+          "move": "grab",
+          "at": 8320
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9087.80000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "mimic",
+          "at": 10203.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10802.80000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "mimic",
+          "at": 11302.80000000447
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11902.90000000596
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "mimic",
+          "at": 12419.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13019.80000000447
+        }
+      ],
+      "status": "playing",
+      "hp": 9967,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "heartforged",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "320-heartforged-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 6967.39999999851,
+          "move": null,
+          "file": "320-heartforged-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7566.79999999702,
+          "move": null,
+          "lungeAt": 7554.2,
+          "file": "320-heartforged-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7695.0999999940395,
+          "move": null,
+          "lungeAt": 7554.2,
+          "file": "320-heartforged-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7861.19999999553,
+          "move": null,
+          "lungeAt": 7554.2
+        },
+        {
+          "state": "windup",
+          "at": 8258.79999999702,
+          "move": "stamp",
+          "lungeAt": 7554.2,
+          "file": "320-heartforged-0-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 9686.59999999404,
+          "move": null,
+          "lungeAt": 7554.2
+        },
+        {
+          "state": "windup",
+          "at": 10974.69999999553,
+          "move": null,
+          "lungeAt": 7554.2
+        },
+        {
+          "state": "strike",
+          "at": 11592.79999999702,
+          "move": null,
+          "lungeAt": 11587.3
+        },
+        {
+          "state": "recover",
+          "at": 11724.39999999851,
+          "move": null,
+          "lungeAt": 11587.3
+        },
+        {
+          "state": "idle",
+          "at": 11890.19999999553,
+          "move": null,
+          "lungeAt": 11587.3
+        },
+        {
+          "state": "windup",
+          "at": 12293.29999999702,
+          "move": null,
+          "lungeAt": 11587.3
+        },
+        {
+          "state": "strike",
+          "at": 12891.39999999851,
+          "move": null,
+          "lungeAt": 12887.4
+        },
+        {
+          "state": "recover",
+          "at": 13023.89999999851,
+          "move": null,
+          "lungeAt": 12887.4
+        },
+        {
+          "state": "idle",
+          "at": 13191.09999999404,
+          "move": null,
+          "lungeAt": 12887.4
+        },
+        {
+          "state": "windup",
+          "at": 13607.29999999702,
+          "move": null,
+          "lungeAt": 12887.4
+        },
+        {
+          "state": "strike",
+          "at": 14209.59999999404,
+          "move": null,
+          "lungeAt": 14204
+        },
+        {
+          "state": "recover",
+          "at": 14340.89999999851,
+          "move": null,
+          "lungeAt": 14204
+        },
+        {
+          "state": "idle",
+          "at": 14506.89999999851,
+          "move": null,
+          "lungeAt": 14204
+        },
+        {
+          "state": "windup",
+          "at": 14924.09999999404,
+          "move": null,
+          "lungeAt": 14204
+        },
+        {
+          "state": "strike",
+          "at": 15524.59999999404,
+          "move": null,
+          "lungeAt": 15520.6
+        },
+        {
+          "state": "recover",
+          "at": 15657.69999999553,
+          "move": null,
+          "lungeAt": 15520.6
+        },
+        {
+          "state": "idle",
+          "at": 15824.09999999404,
+          "move": null,
+          "lungeAt": 15520.6
+        },
+        {
+          "state": "windup",
+          "at": 16224.19999999553,
+          "move": "stamp",
+          "lungeAt": 15520.6
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 6956
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7557.69999999553
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 8255.19999999553
+        },
+        {
+          "name": "smash",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "who": "heartforged",
+          "at": 9673.19999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9674.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 1,
+          "cut": 20000,
+          "at": 9821.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 10971.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11588.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 12288
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12888.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 13604.5
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14205.29999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "heartforged",
+          "at": 14921.09999999404
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15521.09999999404
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1400,
+          "who": "heartforged",
+          "move": "stamp",
+          "at": 16221.09999999404
+        }
+      ],
+      "status": "playing",
+      "hp": 9934,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "grisk",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "390-grisk-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7179.19999999553,
+          "move": null,
+          "file": "390-grisk-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7941,
+          "move": null,
+          "lungeAt": 7932,
+          "file": "390-grisk-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8072.10000000149,
+          "move": null,
+          "lungeAt": 7932,
+          "file": "390-grisk-0-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8186.60000000149,
+          "move": null,
+          "lungeAt": 7932
+        },
+        {
+          "state": "strike",
+          "at": 8688.69999999553,
+          "move": null,
+          "lungeAt": 8682.1
+        },
+        {
+          "state": "recover",
+          "at": 8819.29999999702,
+          "move": null,
+          "lungeAt": 8682.1
+        },
+        {
+          "state": "idle",
+          "at": 8985.5,
+          "move": null,
+          "lungeAt": 8682.1
+        },
+        {
+          "state": "windup",
+          "at": 9203,
+          "move": null,
+          "lungeAt": 8682.1
+        },
+        {
+          "state": "strike",
+          "at": 9652.39999999851,
+          "move": null,
+          "lungeAt": 9648.6
+        },
+        {
+          "state": "recover",
+          "at": 9785.19999999553,
+          "move": null,
+          "lungeAt": 9648.6
+        },
+        {
+          "state": "idle",
+          "at": 9952.39999999851,
+          "move": null,
+          "lungeAt": 9648.6
+        },
+        {
+          "state": "windup",
+          "at": 10219.39999999851,
+          "move": null,
+          "lungeAt": 9648.6
+        },
+        {
+          "state": "strike",
+          "at": 10870,
+          "move": null,
+          "lungeAt": 10865.2
+        },
+        {
+          "state": "recover",
+          "at": 11002.19999999553,
+          "move": null,
+          "lungeAt": 10865.2
+        },
+        {
+          "state": "idle",
+          "at": 11168.60000000149,
+          "move": null,
+          "lungeAt": 10865.2
+        },
+        {
+          "state": "windup",
+          "at": 11236.39999999851,
+          "move": null,
+          "lungeAt": 10865.2
+        },
+        {
+          "state": "strike",
+          "at": 11785.79999999702,
+          "move": null,
+          "lungeAt": 11781.9
+        },
+        {
+          "state": "recover",
+          "at": 11918.39999999851,
+          "move": null,
+          "lungeAt": 11781.9
+        },
+        {
+          "state": "idle",
+          "at": 12085.60000000149,
+          "move": null,
+          "lungeAt": 11781.9
+        },
+        {
+          "state": "windup",
+          "at": 12252.89999999851,
+          "move": null,
+          "lungeAt": 11781.9
+        },
+        {
+          "state": "strike",
+          "at": 12803,
+          "move": null,
+          "lungeAt": 12798.5
+        },
+        {
+          "state": "recover",
+          "at": 12935.19999999553,
+          "move": null,
+          "lungeAt": 12798.5
+        },
+        {
+          "state": "idle",
+          "at": 13101.79999999702,
+          "move": null,
+          "lungeAt": 12798.5
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 7166.89999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7933.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 8182.69999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8683.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 9199.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9649.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 10215.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10866
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 11232.79999999702
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11782.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "grisk",
+          "at": 12249.39999999851
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12799.29999999702
+        }
+      ],
+      "status": "playing",
+      "hp": 9987,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "ushgar",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "390-ushgar-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7276,
+          "move": null,
+          "file": "390-ushgar-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 8009.39999999851,
+          "move": null,
+          "lungeAt": 7997.3,
+          "file": "390-ushgar-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8139.19999999553,
+          "move": null,
+          "lungeAt": 7997.3,
+          "file": "390-ushgar-0-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8286,
+          "move": null,
+          "lungeAt": 7997.3
+        },
+        {
+          "state": "strike",
+          "at": 9035.89999999851,
+          "move": null,
+          "lungeAt": 9030.6
+        },
+        {
+          "state": "recover",
+          "at": 9168.5,
+          "move": null,
+          "lungeAt": 9030.6
+        },
+        {
+          "state": "windup",
+          "at": 9301.39999999851,
+          "move": null,
+          "lungeAt": 9030.6
+        },
+        {
+          "state": "strike",
+          "at": 9869.19999999553,
+          "move": null,
+          "lungeAt": 9863.9
+        },
+        {
+          "state": "recover",
+          "at": 10000.89999999851,
+          "move": null,
+          "lungeAt": 9863.9
+        },
+        {
+          "state": "idle",
+          "at": 10171.09999999404,
+          "move": null,
+          "lungeAt": 9863.9
+        },
+        {
+          "state": "windup",
+          "at": 10317.39999999851,
+          "move": null,
+          "lungeAt": 9863.9
+        },
+        {
+          "state": "strike",
+          "at": 10801.29999999702,
+          "move": null,
+          "lungeAt": 10797.1
+        },
+        {
+          "state": "recover",
+          "at": 10934.69999999553,
+          "move": null,
+          "lungeAt": 10797.1
+        },
+        {
+          "state": "idle",
+          "at": 11100.39999999851,
+          "move": null,
+          "lungeAt": 10797.1
+        },
+        {
+          "state": "windup",
+          "at": 11333.79999999702,
+          "move": null,
+          "lungeAt": 10797.1
+        },
+        {
+          "state": "strike",
+          "at": 11884.69999999553,
+          "move": null,
+          "lungeAt": 11880.5
+        },
+        {
+          "state": "recover",
+          "at": 12017.29999999702,
+          "move": null,
+          "lungeAt": 11880.5
+        },
+        {
+          "state": "idle",
+          "at": 12184.79999999702,
+          "move": null,
+          "lungeAt": 11880.5
+        },
+        {
+          "state": "windup",
+          "at": 12351.39999999851,
+          "move": null,
+          "lungeAt": 11880.5
+        },
+        {
+          "state": "strike",
+          "at": 12834.29999999702,
+          "move": null,
+          "lungeAt": 12830.4
+        },
+        {
+          "state": "recover",
+          "at": 12967.09999999404,
+          "move": null,
+          "lungeAt": 12830.4
+        },
+        {
+          "state": "idle",
+          "at": 13133.69999999553,
+          "move": null,
+          "lungeAt": 12830.4
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 7265.0999999940395
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8000.0999999940395
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 8281.69999999553
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9031.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 9297.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9864.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 10314.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10797.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 11331
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11881.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "ushgar",
+          "at": 12347.69999999553
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12831.09999999404
+        }
+      ],
+      "status": "playing",
+      "hp": 9973,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "orla",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "390-orla-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7280.80000000447,
+          "move": null,
+          "file": "390-orla-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7895.39999999851,
+          "move": null,
+          "lungeAt": 7884.7,
+          "file": "390-orla-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8024.89999999851,
+          "move": null,
+          "lungeAt": 7884.7,
+          "file": "390-orla-0-2.png"
+        },
+        {
+          "state": "windup",
+          "at": 8188.70000000298,
+          "move": null,
+          "lungeAt": 7884.7
+        },
+        {
+          "state": "strike",
+          "at": 8790.10000000149,
+          "move": null,
+          "lungeAt": 8784.7
+        },
+        {
+          "state": "recover",
+          "at": 8925.80000000447,
+          "move": null,
+          "lungeAt": 8784.7
+        },
+        {
+          "state": "windup",
+          "at": 9093.60000000149,
+          "move": "drink",
+          "lungeAt": 8784.7,
+          "file": "390-orla-0-6.png"
+        },
+        {
+          "state": "strike",
+          "at": 9907,
+          "move": null,
+          "lungeAt": 9901.3
+        },
+        {
+          "state": "recover",
+          "at": 10038.20000000298,
+          "move": null,
+          "lungeAt": 9901.3
+        },
+        {
+          "state": "idle",
+          "at": 10208.30000000447,
+          "move": null,
+          "lungeAt": 9901.3
+        },
+        {
+          "state": "windup",
+          "at": 10805.20000000298,
+          "move": null,
+          "lungeAt": 9901.3
+        },
+        {
+          "state": "strike",
+          "at": 11421.70000000298,
+          "move": null,
+          "lungeAt": 11417.9
+        },
+        {
+          "state": "recover",
+          "at": 11554.60000000149,
+          "move": null,
+          "lungeAt": 11417.9
+        },
+        {
+          "state": "idle",
+          "at": 11720.80000000447,
+          "move": null,
+          "lungeAt": 11417.9
+        },
+        {
+          "state": "windup",
+          "at": 11738.60000000149,
+          "move": null,
+          "lungeAt": 11417.9
+        },
+        {
+          "state": "strike",
+          "at": 12356.39999999851,
+          "move": null,
+          "lungeAt": 12351.2
+        },
+        {
+          "state": "recover",
+          "at": 12490,
+          "move": null,
+          "lungeAt": 12351.2
+        },
+        {
+          "state": "idle",
+          "at": 12654.70000000298,
+          "move": null,
+          "lungeAt": 12351.2
+        },
+        {
+          "state": "windup",
+          "at": 12674.30000000447,
+          "move": "drink",
+          "lungeAt": 12351.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orla",
+          "at": 7269.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7887.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orla",
+          "at": 8185.39999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8786
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 800,
+          "who": "orla",
+          "move": "drink",
+          "at": 9086.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9903.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orla",
+          "at": 10801.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11418.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "orla",
+          "at": 11735.20000000298
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12352.10000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 800,
+          "who": "orla",
+          "move": "drink",
+          "at": 12670.70000000298
+        }
+      ],
+      "status": "playing",
+      "hp": 9965,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "durgrim",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "390-durgrim-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 6791.39999999851,
+          "move": null,
+          "file": "390-durgrim-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7488.20000000298,
+          "move": null,
+          "lungeAt": 7476,
+          "file": "390-durgrim-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7617.20000000298,
+          "move": null,
+          "lungeAt": 7476,
+          "file": "390-durgrim-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 7782.5,
+          "move": null,
+          "lungeAt": 7476
+        },
+        {
+          "state": "windup",
+          "at": 7950.89999999851,
+          "move": "enlarge",
+          "lungeAt": 7476,
+          "file": "390-durgrim-0-4.png"
+        },
+        {
+          "state": "idle",
+          "at": 9249.5,
+          "move": null,
+          "lungeAt": 7476
+        },
+        {
+          "state": "windup",
+          "at": 9831.39999999851,
+          "move": null,
+          "lungeAt": 7476
+        },
+        {
+          "state": "strike",
+          "at": 10581.60000000149,
+          "move": null,
+          "lungeAt": 10575.9
+        },
+        {
+          "state": "recover",
+          "at": 10713.29999999702,
+          "move": null,
+          "lungeAt": 10575.9
+        },
+        {
+          "state": "idle",
+          "at": 10879.5,
+          "move": null,
+          "lungeAt": 10575.9
+        },
+        {
+          "state": "windup",
+          "at": 10996.89999999851,
+          "move": null,
+          "lungeAt": 10575.9
+        },
+        {
+          "state": "strike",
+          "at": 11564.79999999702,
+          "move": null,
+          "lungeAt": 11559.2
+        },
+        {
+          "state": "recover",
+          "at": 11697.10000000149,
+          "move": null,
+          "lungeAt": 11559.2
+        },
+        {
+          "state": "idle",
+          "at": 11863,
+          "move": null,
+          "lungeAt": 11559.2
+        },
+        {
+          "state": "windup",
+          "at": 12162.79999999702,
+          "move": null,
+          "lungeAt": 11559.2
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "durgrim",
+          "at": 6777.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7479.70000000298
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "durgrim",
+          "move": "enlarge",
+          "at": 7943.60000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 300,
+          "at": 9244.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "durgrim",
+          "at": 9827.39999999851
+        },
+        {
+          "name": "block",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10576.79999999702
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "durgrim",
+          "at": 10993.20000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11560.60000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "durgrim",
+          "at": 12159.89999999851
+        }
+      ],
+      "status": "playing",
+      "hp": 9978,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "lich",
+      "phase": 0,
+      "calm": false,
+      "distance": 1,
+      "label": "390-lich-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7897.5,
+          "move": null,
+          "file": "390-lich-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 8514.39999999851,
+          "move": null,
+          "lungeAt": 8500.4,
+          "file": "390-lich-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8642.89999999851,
+          "move": null,
+          "lungeAt": 8500.4,
+          "file": "390-lich-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8808,
+          "move": null,
+          "lungeAt": 8500.4
+        },
+        {
+          "state": "windup",
+          "at": 9004,
+          "move": null,
+          "lungeAt": 8500.4
+        },
+        {
+          "state": "strike",
+          "at": 9622.10000000149,
+          "move": null,
+          "lungeAt": 9617
+        },
+        {
+          "state": "recover",
+          "at": 9754,
+          "move": null,
+          "lungeAt": 9617
+        },
+        {
+          "state": "idle",
+          "at": 9921,
+          "move": null,
+          "lungeAt": 9617
+        },
+        {
+          "state": "windup",
+          "at": 10125.69999999553,
+          "move": "nova",
+          "lungeAt": 9617,
+          "file": "390-lich-0-8.png"
+        },
+        {
+          "state": "idle",
+          "at": 11439.29999999702,
+          "move": null,
+          "lungeAt": 9617
+        },
+        {
+          "state": "windup",
+          "at": 12537.39999999851,
+          "move": null,
+          "lungeAt": 9617
+        },
+        {
+          "state": "strike",
+          "at": 13137.79999999702,
+          "move": null,
+          "lungeAt": 13133.6
+        },
+        {
+          "state": "recover",
+          "at": 13271,
+          "move": null,
+          "lungeAt": 13133.6
+        },
+        {
+          "state": "idle",
+          "at": 13437.5,
+          "move": null,
+          "lungeAt": 13133.6
+        },
+        {
+          "state": "windup",
+          "at": 13654.5,
+          "move": null,
+          "lungeAt": 13133.6
+        },
+        {
+          "state": "strike",
+          "at": 14256.29999999702,
+          "move": null,
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "recover",
+          "at": 14388.39999999851,
+          "move": null,
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "idle",
+          "at": 14553.69999999553,
+          "move": null,
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "windup",
+          "at": 14754.10000000149,
+          "move": "nova",
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "idle",
+          "at": 16072.5,
+          "move": null,
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "windup",
+          "at": 17186.89999999851,
+          "move": null,
+          "lungeAt": 14250.2
+        },
+        {
+          "state": "strike",
+          "at": 17789.89999999851,
+          "move": null,
+          "lungeAt": 17783.4
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 7885.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8504.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 9001
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 9618.10000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "lich",
+          "move": "nova",
+          "at": 10118
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11435.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11436
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 12534.19999999553
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13134.19999999553
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 13651
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 14251.60000000149
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "lich",
+          "move": "nova",
+          "at": 14750.79999999702
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16068.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 16068.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 17183.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17784
+        }
+      ],
+      "status": "playing",
+      "hp": 9921,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "warlord",
+      "phase": 1,
+      "calm": false,
+      "distance": 3,
+      "label": "390-warlord-1",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 8159.70000000298,
+          "move": null,
+          "file": "390-warlord-1-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 8727.20000000298,
+          "move": null,
+          "lungeAt": 8711.9,
+          "file": "390-warlord-1-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8852.39999999851,
+          "move": null,
+          "lungeAt": 8711.9,
+          "file": "390-warlord-1-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 9017.5,
+          "move": null,
+          "lungeAt": 8711.9
+        },
+        {
+          "state": "windup",
+          "at": 9583,
+          "move": null,
+          "lungeAt": 8711.9
+        },
+        {
+          "state": "strike",
+          "at": 10099.80000000447,
+          "move": null,
+          "lungeAt": 10095.2
+        },
+        {
+          "state": "recover",
+          "at": 10232.39999999851,
+          "move": null,
+          "lungeAt": 10095.2
+        },
+        {
+          "state": "idle",
+          "at": 10399.30000000447,
+          "move": null,
+          "lungeAt": 10095.2
+        },
+        {
+          "state": "windup",
+          "at": 11032.60000000149,
+          "move": null,
+          "lungeAt": 10095.2
+        },
+        {
+          "state": "strike",
+          "at": 11549.80000000447,
+          "move": null,
+          "lungeAt": 11545.1
+        },
+        {
+          "state": "recover",
+          "at": 11685.10000000149,
+          "move": null,
+          "lungeAt": 11545.1
+        },
+        {
+          "state": "idle",
+          "at": 11848.39999999851,
+          "move": null,
+          "lungeAt": 11545.1
+        },
+        {
+          "state": "windup",
+          "at": 12482.60000000149,
+          "move": null,
+          "lungeAt": 11545.1
+        },
+        {
+          "state": "strike",
+          "at": 13033.5,
+          "move": null,
+          "lungeAt": 13028.4
+        },
+        {
+          "state": "recover",
+          "at": 13165.70000000298,
+          "move": null,
+          "lungeAt": 13028.4
+        },
+        {
+          "state": "idle",
+          "at": 13331.80000000447,
+          "move": null,
+          "lungeAt": 13028.4
+        },
+        {
+          "state": "windup",
+          "at": 13932.20000000298,
+          "move": null,
+          "lungeAt": 13028.4
+        },
+        {
+          "state": "strike",
+          "at": 14383.20000000298,
+          "move": null,
+          "lungeAt": 14378.4
+        },
+        {
+          "state": "recover",
+          "at": 14515.30000000447,
+          "move": null,
+          "lungeAt": 14378.4
+        },
+        {
+          "state": "idle",
+          "at": 14681.70000000298,
+          "move": null,
+          "lungeAt": 14378.4
+        },
+        {
+          "state": "windup",
+          "at": 15365.60000000149,
+          "move": null,
+          "lungeAt": 14378.4
+        },
+        {
+          "state": "strike",
+          "at": 16066.10000000149,
+          "move": null,
+          "lungeAt": 16061.7
+        },
+        {
+          "state": "recover",
+          "at": 16199.30000000447,
+          "move": null,
+          "lungeAt": 16061.7
+        },
+        {
+          "state": "idle",
+          "at": 16364.89999999851,
+          "move": null,
+          "lungeAt": 16061.7
+        },
+        {
+          "state": "windup",
+          "at": 16815.89999999851,
+          "move": null,
+          "lungeAt": 16061.7
+        },
+        {
+          "state": "strike",
+          "at": 17566,
+          "move": null,
+          "lungeAt": 17561.5
+        },
+        {
+          "state": "recover",
+          "at": 17698.30000000447,
+          "move": null,
+          "lungeAt": 17561.5
+        },
+        {
+          "state": "idle",
+          "at": 17864.89999999851,
+          "move": null,
+          "lungeAt": 17561.5
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 8146.80000000447
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 8716.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 8717.80000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 9579.20000000298
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 10095.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 10096.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 11029.20000000298
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 11545.89999999851
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 11546.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 12479.10000000149
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 13029.20000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 13029.39999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 13929
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 14379.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 14379.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 15362.60000000149
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 16062.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 16062.70000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "warlord",
+          "at": 16812.20000000298
+        },
+        {
+          "name": "darkbolt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 17562.30000000447
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 17562.70000000298
+        }
+      ],
+      "status": "playing",
+      "hp": 9958,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "id": "archer",
+      "phase": 0,
+      "calm": false,
+      "distance": 3,
+      "label": "390-archer-0",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7781.39999999851,
+          "move": null,
+          "file": "390-archer-0-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 8380.79999999702,
+          "move": null,
+          "lungeAt": 8370.1,
+          "file": "390-archer-0-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 8509.29999999702,
+          "move": null,
+          "lungeAt": 8370.1,
+          "file": "390-archer-0-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8676.39999999851,
+          "move": null,
+          "lungeAt": 8370.1
+        },
+        {
+          "state": "windup",
+          "at": 9208,
+          "move": null,
+          "lungeAt": 8370.1
+        },
+        {
+          "state": "strike",
+          "at": 9807.70000000298,
+          "move": null,
+          "lungeAt": 9803.4
+        },
+        {
+          "state": "recover",
+          "at": 9940.79999999702,
+          "move": null,
+          "lungeAt": 9803.4
+        },
+        {
+          "state": "idle",
+          "at": 10106.89999999851,
+          "move": null,
+          "lungeAt": 9803.4
+        },
+        {
+          "state": "windup",
+          "at": 10641.79999999702,
+          "move": null,
+          "lungeAt": 9803.4
+        },
+        {
+          "state": "strike",
+          "at": 11257.29999999702,
+          "move": null,
+          "lungeAt": 11253.3
+        },
+        {
+          "state": "recover",
+          "at": 11389.79999999702,
+          "move": null,
+          "lungeAt": 11253.3
+        },
+        {
+          "state": "idle",
+          "at": 11556.5,
+          "move": null,
+          "lungeAt": 11253.3
+        },
+        {
+          "state": "windup",
+          "at": 12090.39999999851,
+          "move": null,
+          "lungeAt": 11253.3
+        },
+        {
+          "state": "strike",
+          "at": 12690.20000000298,
+          "move": null,
+          "lungeAt": 12686.6
+        },
+        {
+          "state": "recover",
+          "at": 12822.89999999851,
+          "move": null,
+          "lungeAt": 12686.6
+        },
+        {
+          "state": "idle",
+          "at": 12990.10000000149,
+          "move": null,
+          "lungeAt": 12686.6
+        },
+        {
+          "state": "windup",
+          "at": 13525.39999999851,
+          "move": null,
+          "lungeAt": 12686.6
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "archer",
+          "at": 7771.29999999702
+        },
+        {
+          "name": "arrow",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 8371.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "archer",
+          "at": 9204.39999999851
+        },
+        {
+          "name": "arrow",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 9804.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "archer",
+          "at": 10637.29999999702
+        },
+        {
+          "name": "arrow",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 11253.89999999851
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "archer",
+          "at": 12087.39999999851
+        },
+        {
+          "name": "arrow",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "at": 12687.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.763265306122449,
+          "cut": 9321.052631578948,
+          "dist": 3,
+          "behind": false,
+          "kind": "shot",
+          "who": "archer",
+          "at": 13520.89999999851
+        }
+      ],
+      "status": "playing",
+      "hp": 9999,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "skeleton",
+      "phase": 0,
+      "calm": true,
+      "distance": 1,
+      "label": "320-skeleton-0-calm",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7213.30000000447,
+          "move": null,
+          "file": "320-skeleton-0-calm-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7826.20000000298,
+          "move": null,
+          "lungeAt": 7815.3,
+          "file": "320-skeleton-0-calm-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7955.10000000149,
+          "move": null,
+          "lungeAt": 7815.3,
+          "file": "320-skeleton-0-calm-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8118.20000000298,
+          "move": null,
+          "lungeAt": 7815.3
+        },
+        {
+          "state": "windup",
+          "at": 8335.40000000596,
+          "move": null,
+          "lungeAt": 7815.3
+        },
+        {
+          "state": "strike",
+          "at": 8937.70000000298,
+          "move": null,
+          "lungeAt": 8932
+        },
+        {
+          "state": "recover",
+          "at": 9068,
+          "move": null,
+          "lungeAt": 8932
+        },
+        {
+          "state": "idle",
+          "at": 9234.80000000447,
+          "move": null,
+          "lungeAt": 8932
+        },
+        {
+          "state": "windup",
+          "at": 9451.70000000298,
+          "move": null,
+          "lungeAt": 8932
+        },
+        {
+          "state": "strike",
+          "at": 10051.90000000596,
+          "move": null,
+          "lungeAt": 10048.6
+        },
+        {
+          "state": "recover",
+          "at": 10184.5,
+          "move": null,
+          "lungeAt": 10048.6
+        },
+        {
+          "state": "idle",
+          "at": 10351.20000000298,
+          "move": null,
+          "lungeAt": 10048.6
+        },
+        {
+          "state": "windup",
+          "at": 10568.60000000149,
+          "move": null,
+          "lungeAt": 10048.6
+        },
+        {
+          "state": "strike",
+          "at": 11169.80000000447,
+          "move": null,
+          "lungeAt": 11165.2
+        },
+        {
+          "state": "recover",
+          "at": 11301.70000000298,
+          "move": null,
+          "lungeAt": 11165.2
+        },
+        {
+          "state": "idle",
+          "at": 11467.80000000447,
+          "move": null,
+          "lungeAt": 11165.2
+        },
+        {
+          "state": "windup",
+          "at": 11685.30000000447,
+          "move": null,
+          "lungeAt": 11165.2
+        },
+        {
+          "state": "strike",
+          "at": 12284.90000000596,
+          "move": null,
+          "lungeAt": 12281.8
+        },
+        {
+          "state": "recover",
+          "at": 12419.20000000298,
+          "move": null,
+          "lungeAt": 12281.8
+        },
+        {
+          "state": "idle",
+          "at": 12584.5,
+          "move": null,
+          "lungeAt": 12281.8
+        },
+        {
+          "state": "windup",
+          "at": 12784.70000000298,
+          "move": null,
+          "lungeAt": 12281.8
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 7205.20000000298
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7817.9000000059605
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 8332.40000000596
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8933.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 9449
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10049
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 10565.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 11166.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 11682.60000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12282.30000000447
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "skeleton",
+          "at": 12782.20000000298
+        }
+      ],
+      "status": "playing",
+      "hp": 9988,
+      "errors": []
+    },
+    {
+      "width": 320,
+      "id": "lich",
+      "phase": 0,
+      "calm": true,
+      "distance": 1,
+      "label": "320-lich-0-calm",
+      "rows": [
+        {
+          "state": "windup",
+          "at": 7219.39999999851,
+          "move": null,
+          "file": "320-lich-0-calm-0.png"
+        },
+        {
+          "state": "strike",
+          "at": 7827.89999999851,
+          "move": null,
+          "lungeAt": 7815.9,
+          "file": "320-lich-0-calm-1.png"
+        },
+        {
+          "state": "recover",
+          "at": 7951.79999999702,
+          "move": null,
+          "lungeAt": 7815.9,
+          "file": "320-lich-0-calm-2.png"
+        },
+        {
+          "state": "idle",
+          "at": 8118.89999999851,
+          "move": null,
+          "lungeAt": 7815.9
+        },
+        {
+          "state": "windup",
+          "at": 8335.79999999702,
+          "move": null,
+          "lungeAt": 7815.9
+        },
+        {
+          "state": "strike",
+          "at": 8952.89999999851,
+          "move": null,
+          "lungeAt": 8949.1
+        },
+        {
+          "state": "recover",
+          "at": 9085.39999999851,
+          "move": null,
+          "lungeAt": 8949.1
+        },
+        {
+          "state": "idle",
+          "at": 9252.89999999851,
+          "move": null,
+          "lungeAt": 8949.1
+        },
+        {
+          "state": "windup",
+          "at": 9458.5,
+          "move": "nova",
+          "lungeAt": 8949.1,
+          "file": "320-lich-0-calm-8.png"
+        },
+        {
+          "state": "idle",
+          "at": 10774,
+          "move": null,
+          "lungeAt": 8949.1
+        },
+        {
+          "state": "windup",
+          "at": 11869.20000000298,
+          "move": null,
+          "lungeAt": 8949.1
+        },
+        {
+          "state": "strike",
+          "at": 12471,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "recover",
+          "at": 12602.29999999702,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "idle",
+          "at": 12769.70000000298,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "windup",
+          "at": 12970.29999999702,
+          "move": null,
+          "lungeAt": 12465.7
+        },
+        {
+          "state": "strike",
+          "at": 13585.39999999851,
+          "move": null,
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "recover",
+          "at": 13718.39999999851,
+          "move": null,
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "idle",
+          "at": 13884.79999999702,
+          "move": null,
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "windup",
+          "at": 14102.10000000149,
+          "move": "nova",
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "idle",
+          "at": 15403,
+          "move": null,
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "windup",
+          "at": 16502.10000000149,
+          "move": null,
+          "lungeAt": 13582.3
+        },
+        {
+          "state": "strike",
+          "at": 17119.10000000149,
+          "move": null,
+          "lungeAt": 17115.5
+        }
+      ],
+      "sounds": [
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 7208
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 7819.20000000298
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 8333.10000000149
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 8949.79999999702
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "lich",
+          "move": "nova",
+          "at": 9449.89999999851
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10767.70000000298
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 10768.10000000149
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 11866.29999999702
+        },
+        {
+          "name": "whiff",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 12466.5
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 12966.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 13582.79999999702
+        },
+        {
+          "name": "special",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "ms": 1300,
+          "who": "lich",
+          "move": "nova",
+          "at": 14099.5
+        },
+        {
+          "name": "nova",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15399.5
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 15400
+        },
+        {
+          "name": "windup",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "kind": "melee",
+          "who": "lich",
+          "at": 16499.29999999702
+        },
+        {
+          "name": "hurt",
+          "pan": 0,
+          "gain": 0.9948979591836735,
+          "cut": 20000,
+          "dist": 1,
+          "behind": false,
+          "at": 17116.29999999702
+        }
+      ],
+      "status": "playing",
+      "hp": 9919,
+      "errors": []
+    }
+  ]
+}

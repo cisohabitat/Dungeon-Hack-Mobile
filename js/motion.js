@@ -253,7 +253,7 @@ export function makeMotion(K) {
       const age = now - (m.lungeAt ?? -1e9);
       const reaction = !tell && img ? reeling && now >= m.flashUntil + 120 ? img.recover
         : !reeling && age >= 0 && age < 130 ? img.strike
-        : !reeling && (m.id === 'orc' || m.id === 'skarrow' || m.id === 'heartforged') && age >= 130 && age < 300 ? img.recover : null : null;
+        : !reeling && age >= 130 && age < 300 ? img.recover : null : null;
       // what is upon it, drawn on its body: fire, venom, a bleeding wound, and what holds it fast
       const aff = afflictions(m);
       if (m.collapsed) {

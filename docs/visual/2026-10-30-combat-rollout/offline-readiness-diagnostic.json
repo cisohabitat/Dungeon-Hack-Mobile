@@ -1,0 +1,23 @@
+{
+  "test": "core play is ready offline while all recordings are delayed, then voices resume and survive reload",
+  "project": "phone",
+  "traceSha256": "851a14f43deea9bfd5db78592ec04d7406e356b5913e7e935bdbf6d89fa4cc87",
+  "retainedTrace": "/workspace/combat-rollout-offline-failure/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-phone/trace.zip",
+  "errors": [
+    "Error: expect(locator).toHaveAttribute(expected) failed\n\nLocator:  locator('#offline-status')\nExpected: \"true\"\nReceived: \"\"\nTimeout:  10000ms\n\nCall log:\n  - Expect \"toHaveAttribute\" with timeout 10000ms\n  - waiting for locator('#offline-status')\n    13 \u00d7 locator resolved to <p hidden=\"\" role=\"status\" aria-live=\"polite\" aria-atomic=\"true\" id=\"offline-status\" class=\"offline-status\"></p>\n       - unexpected value \"null\"\n",
+    "Expect failed"
+  ],
+  "networkRequests": 1985,
+  "recordedFailedRequests": 0,
+  "cause": "Unproven; core readiness not received within existing10000ms assertion during full2worker run.",
+  "sourceAndTimeoutsChanged": false,
+  "isolatedRecheck": {
+    "phone": "passed35.2s",
+    "small": "passed33.6s",
+    "workers": 1,
+    "retries": 0,
+    "assertionsAndDeadlinesUnchanged": true,
+    "productChanged": false,
+    "log": "/workspace/combat-rollout-offline-recheck.log"
+  }
+}

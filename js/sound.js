@@ -422,10 +422,39 @@ const Sound = (() => {
   };
   // Quiet material layers sit under the learnt warning, never in its place.
   // They finish early even when a wind-up is interrupted; no delayed impact.
+  const READY_OF = {
+    rat: 'claw', bat: 'wing', slime: 'wet', spider: 'claw',
+    goblin: 'leather', skeleton: 'bone', zombie: 'flesh', orc: 'leather',
+    ghoul: 'claw', wraith: 'magic', ogre: 'flesh', troll: 'flesh',
+    minotaur: 'leather', kobold: 'leather', archer: 'leather', basilisk: 'claw',
+    rustmaw: 'rust', acolyte: 'magic', moth: 'wing', thornhog: 'quill',
+    imp: 'magic', cutpurse: 'leather', lookout: 'leather', hexer: 'magic',
+    pikeman: 'armour', hound: 'claw', quillback: 'quill', wyrm: 'breath',
+    drowned: 'wet', eyeless: 'claw', drow_warrior: 'armour', drow_mage: 'magic',
+    grey_dwarf: 'armour', dwarf_arbalest: 'armour', lizardfolk: 'claw',
+    lizard_shaman: 'magic', emberling: 'fire', mimic: 'wood', puffcap: 'flesh',
+    lich: 'magic', heartforged: 'iron', warlord: 'armour', shade: 'magic',
+  };
+  // Champions share their base body's material, while keeping their own art.
+  // No delayed contact is scheduled here: an interrupted tell stays a tell.
   const readyBody = (out, o) => {
-    if (o.who === 'heartforged') { ring(out, 390, 0.15, 0.025); ring(out, 730, 0.1, 0.012); }
-    else if (o.who === 'skarrow') noise(out, 0.18, 0.035, { f: 340, to: 650, attack: 0.04 });
-    else if (o.who === 'orc') noise(out, 0.1, 0.025, { type: 'bandpass', f: 800, to: 450, q: 1 });
+    const body = READY_OF[MONSTERS[o.who]?.sprite];
+    switch (body) {
+      case 'iron': ring(out, 390, 0.15, 0.025); ring(out, 730, 0.1, 0.012); break;
+      case 'breath': noise(out, 0.18, 0.035, { f: 340, to: 650, attack: 0.04 }); break;
+      case 'leather': noise(out, 0.1, 0.025, { type: 'bandpass', f: 800, to: 450, q: 1 }); break;
+      case 'armour': ring(out, 680, 0.1, 0.018); noise(out, 0.07, 0.015, { f: 800, to: 450 }); break;
+      case 'bone': clicks(out, 3, 0.035, 1500, 0.02); break;
+      case 'claw': noise(out, 0.09, 0.025, { type: 'bandpass', f: 1600, to: 800, q: 1.7 }); break;
+      case 'magic': tone(out, 620, 0.12, 'sine', 0.015, -80); noise(out, 0.1, 0.012, { f: 1000, to: 500 }); break;
+      case 'wet': tone(out, 180, 0.1, 'sine', 0.01, -60); noise(out, 0.1, 0.025, { f: 350, to: 170 }); break;
+      case 'wood': tone(out, 180, 0.06, 'triangle', 0.02); clicks(out, 2, 0.03, 900, 0.01); break;
+      case 'wing': noise(out, 0.1, 0.018, { type: 'highpass', f: 1600 }); break;
+      case 'quill': noise(out, 0.09, 0.018, { type: 'highpass', f: 2400 }); break;
+      case 'rust': noise(out, 0.1, 0.02, { type: 'bandpass', f: 1000, to: 400 }); break;
+      case 'fire': noise(out, 0.12, 0.02, { type: 'bandpass', f: 400, to: 1000 }); break;
+      case 'flesh': noise(out, 0.09, 0.02, { type: 'bandpass', f: 1100, to: 450 }); break;
+    }
   };
   const FX = {
     hit: (out, o) => {

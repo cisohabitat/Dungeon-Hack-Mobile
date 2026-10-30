@@ -1,0 +1,445 @@
+{
+  "identities": 53,
+  "profiles": [
+    "armour",
+    "bone",
+    "breath",
+    "claw",
+    "fire",
+    "flesh",
+    "iron",
+    "leather",
+    "magic",
+    "quill",
+    "rust",
+    "wet",
+    "wing",
+    "wood"
+  ],
+  "rows": [
+    {
+      "id": "rat",
+      "name": "Giant Rat",
+      "sprite": "rat",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "bat",
+      "name": "Cave Bat",
+      "sprite": "bat",
+      "material": "wing",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "slime",
+      "name": "Green Slime",
+      "sprite": "slime",
+      "material": "wet",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "spider",
+      "name": "Cave Spider",
+      "sprite": "spider",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "goblin",
+      "name": "Goblin",
+      "sprite": "goblin",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "skeleton",
+      "name": "Skeleton",
+      "sprite": "skeleton",
+      "material": "bone",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "zombie",
+      "name": "Zombie",
+      "sprite": "zombie",
+      "material": "flesh",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "orc",
+      "name": "Orc",
+      "sprite": "orc",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "ghoul",
+      "name": "Ghoul",
+      "sprite": "ghoul",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "wraith",
+      "name": "Wraith",
+      "sprite": "wraith",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "ogre",
+      "name": "Ogre",
+      "sprite": "ogre",
+      "material": "flesh",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "troll",
+      "name": "Troll",
+      "sprite": "troll",
+      "material": "flesh",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "minotaur",
+      "name": "Minotaur",
+      "sprite": "minotaur",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "kobold",
+      "name": "Kobold Trapper",
+      "sprite": "kobold",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "archer",
+      "name": "Goblin Archer",
+      "sprite": "archer",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "basilisk",
+      "name": "Basilisk",
+      "sprite": "basilisk",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "rustmaw",
+      "name": "Rustmaw",
+      "sprite": "rustmaw",
+      "material": "rust",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "acolyte",
+      "name": "Dark Acolyte",
+      "sprite": "acolyte",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "moth",
+      "name": "Glimmer Moth",
+      "sprite": "moth",
+      "material": "wing",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "thornhog",
+      "name": "Thornhog",
+      "sprite": "thornhog",
+      "material": "quill",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "imp",
+      "name": "Gutter Imp",
+      "sprite": "imp",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "cutpurse",
+      "name": "Goblin Cutpurse",
+      "sprite": "cutpurse",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "lookout",
+      "name": "Goblin Lookout",
+      "sprite": "lookout",
+      "material": "leather",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "hexer",
+      "name": "Goblin Hexer",
+      "sprite": "hexer",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "pikeman",
+      "name": "Goblin Pikeman",
+      "sprite": "pikeman",
+      "material": "armour",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "hound",
+      "name": "Blink Hound",
+      "sprite": "hound",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "quillback",
+      "name": "Quillback",
+      "sprite": "quillback",
+      "material": "quill",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "wyrm",
+      "name": "Cave Wyrm",
+      "sprite": "wyrm",
+      "material": "breath",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "drowned",
+      "name": "Drowned One",
+      "sprite": "drowned",
+      "material": "wet",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "eyeless",
+      "name": "Eyeless Stalker",
+      "sprite": "eyeless",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "drow_warrior",
+      "name": "Dark Elf Warrior",
+      "sprite": "drow_warrior",
+      "material": "armour",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "drow_mage",
+      "name": "Dark Elf Mage",
+      "sprite": "drow_mage",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "grey_dwarf",
+      "name": "Grey Dwarf",
+      "sprite": "grey_dwarf",
+      "material": "armour",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "dwarf_arbalest",
+      "name": "Grey Dwarf Arbalest",
+      "sprite": "dwarf_arbalest",
+      "material": "armour",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "lizardfolk",
+      "name": "Lizardfolk Warrior",
+      "sprite": "lizardfolk",
+      "material": "claw",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "lizard_shaman",
+      "name": "Lizardfolk Shaman",
+      "sprite": "lizard_shaman",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "emberling",
+      "name": "Emberling",
+      "sprite": "emberling",
+      "material": "fire",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "mimic",
+      "name": "Mimic",
+      "sprite": "mimic",
+      "material": "wood",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "puffcap",
+      "name": "Puffcap",
+      "sprite": "puffcap",
+      "material": "flesh",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "lich",
+      "name": "Dread Lich",
+      "sprite": "lich",
+      "material": "magic",
+      "champion": false,
+      "keeper": true
+    },
+    {
+      "id": "heartforged",
+      "name": "Heartforged",
+      "sprite": "heartforged",
+      "material": "iron",
+      "champion": false,
+      "keeper": true
+    },
+    {
+      "id": "warlord",
+      "name": "Goblin Warlord",
+      "sprite": "warlord",
+      "material": "armour",
+      "champion": false,
+      "keeper": true
+    },
+    {
+      "id": "shade",
+      "name": "Shade",
+      "sprite": "shade",
+      "material": "magic",
+      "champion": false,
+      "keeper": false
+    },
+    {
+      "id": "grisk",
+      "name": "Grisk",
+      "sprite": "goblin",
+      "material": "leather",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "vessra",
+      "name": "Vessra",
+      "sprite": "spider",
+      "material": "claw",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "ushgar",
+      "name": "Ushgar",
+      "sprite": "orc",
+      "material": "leather",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "morrow",
+      "name": "Morrow",
+      "sprite": "ghoul",
+      "material": "claw",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "orla",
+      "name": "Orla",
+      "sprite": "wraith",
+      "material": "magic",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "gorrum",
+      "name": "Gorrum",
+      "sprite": "troll",
+      "material": "flesh",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "skarrow",
+      "name": "Skarrow",
+      "sprite": "wyrm",
+      "material": "breath",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "vaelith",
+      "name": "Vaelith",
+      "sprite": "drow_mage",
+      "material": "magic",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "hissra",
+      "name": "Hissra",
+      "sprite": "lizardfolk",
+      "material": "claw",
+      "champion": true,
+      "keeper": false
+    },
+    {
+      "id": "durgrim",
+      "name": "Durgrim",
+      "sprite": "grey_dwarf",
+      "material": "armour",
+      "champion": true,
+      "keeper": false
+    }
+  ]
+}

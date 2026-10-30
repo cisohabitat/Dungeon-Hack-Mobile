@@ -166,7 +166,7 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   reserve, never an identity-revealing substitution. Held bindings require exact
   id/class/pose/two/lit; keep authored bounds, grips and live bow string/hand.
   Boss variants use live phase/throne/shot state. A WeakMap keeps a completed
-  Warlord shot's spear during its 130ms lunge without adding saved combat state;
+  Warlord shot's spear through its 300ms strike/recovery pictures without adding saved combat state;
   interruptions and phase changes clear that presentation memory. Companion cell 6
   is sit; Mender heal is a separate 256px file. Unused poses do not add actions.
   Native phone/offline evidence is in runtime-preview/ and preview-runtime.cjs;
@@ -1621,14 +1621,23 @@ failed attempts in `docs/verification/2026-10-29-safari-viewport-readiness/`
 show the later height before the wind-up was cleared. v0.9.60 was CI-blocked
 and untagged; its failures remain evidence, not release clearance.
 
-### Reference combat materials and recovery
-Orc, Skarrow and Heartforged use their existing recover picture from130–300ms
-after a melee lunge. Wind-ups and hurt take priority; the renderer retains its
-Calm exclusion. Do not change lunge/rule clocks or create saved recovery state.
+### Enemy combat materials and recovery
+All 53 monster identities use their existing recover picture from 130–300ms
+following a strike, including ranged releases. Wind-ups and hurt take priority;
+Calm view keeps its existing exclusion of reaction pictures. No lunge/rule clock
+or saved recovery state changes. The Warlord's existing WeakMap retains the
+spear picture through 300ms; new wind-ups, interruptions and phase changes clear
+it. Preserve weapon continuity without extending its actual attack or lunge.
 `foes.js` supplies identity to existing wind-up/special sounds and Heartforged's
-stamp impact. `sound.js` adds quiet short material layers beneath unchanged
-learnt warning tones, with no delayed impact on an interrupted tell. Other
-creatures retain their existing synthesis. Native running video/audio fixtures
-live in `docs/visual/2026-10-30-reference-combat/`; the audio master tap precedes
-the output limiter and the fixture chooses synthesis fallback. These captures
-are not human listening, physical-device or complete sample-pack approval.
+stamp impact. `sound.js` resolves14 short material profiles by the base sprite,
+so named champions inherit their body's material, preserving the learnt tones.
+Unknown identities keep the original warning. Keep all layers quiet and short;
+do not schedule a contact sound after an interrupted tell. No stone-bodied
+enemy exists in the current roster; do not classify flesh as stone to fill a
+category. The all-identity combat regressions must retain exact warning tones,
+pose boundaries, hurt/warning priority and unchanged dice.
+The reference clips live in `docs/visual/2026-10-30-reference-combat/`; the broader
+native action and automated waveform evidence lives in
+`docs/visual/2026-10-30-combat-rollout/`. Human listening review is skipped at the
+owner's explicit request. Keep actual listening/device approval distinct from
+automated capture and decoding; do not reintroduce listening as a release gate.

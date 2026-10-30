@@ -172,13 +172,13 @@ test('aligned crowd damage receipts stay apart at different depths @mobile', asy
   }
 });
 
-test('reference foes recover after striking, with new warnings and hurt taking priority @mobile', async ({ page }) => {
+test('all enemy identities recover after striking, with new warnings and hurt taking priority @mobile', async ({ page }) => {
   const errors = watchForErrors(page); await setup(page);
   const rows = await page.evaluate(async () => {
     const { Dice, Odds } = await import('/js/rng.js');
     const { recordingPrint } = await import('/js/recording.js');
     const G = Game.state(), m = Game.level().monsters[0], rows = [];
-    for (const id of ['orc', 'skarrow', 'heartforged', 'goblin']) {
+    for (const id of Object.keys(MONSTERS)) {
       m.id = id; m.windup = null; m.flashAt = 0; m.flashUntil = 0; m.lungeAt = 10000;
       const base = Assets.sprites[MONSTERS[id].sprite];
       const art = base.elite?.[id] || base;
@@ -201,7 +201,7 @@ test('reference foes recover after striking, with new warnings and hurt taking p
   for (const row of rows) {
     expect(row.available, row.id).toBe(true);
     expect(row.strike, row.id).toBe(true);
-    expect(row.recovery, row.id).toBe(row.id !== 'goblin');
+    expect(row.recovery, row.id).toBe(true);
     expect(row.end && row.warning && row.hurt && row.unchanged, row.id).toBe(true);
   }
   expect(errors).toEqual([]);
@@ -222,17 +222,21 @@ test('material layers preserve the learnt warning, immediate starts and run dice
       node.start = at => { tones.push([node.type, frequency]); starts.push(at - ctx.currentTime); start(at); };
       return node;
     };
-    ctx.createBiquadFilter = () => { const node = filter(); filters.push(node); return node; };
+    ctx.createBiquadFilter = () => {
+      const node = filter(), set = node.frequency.setValueAtTime.bind(node.frequency);
+      node.frequency.setValueAtTime = (value, at) => { node.startFrequency = value; return set(value, at); };
+      filters.push(node); return node;
+    };
     const dice = [Dice.s, Odds.s], rows = [];
     try {
       for (const name of ['windup', 'special']) {
         const play = who => {
           tones = []; filters = []; starts = [];
           Sound.play(name, { who, kind: 'melee', pan: -0.5, dist: 1 });
-          return { tones, filters: filters.map(f => f.frequency.value), starts };
+          return { tones, filters: filters.map(f => [f.type, f.startFrequency ?? f.frequency.value, f.Q.value]), starts };
         };
-        const plain = play('goblin');
-        for (const who of ['orc', 'skarrow', 'heartforged']) rows.push({ who, name, plain, layered: play(who) });
+        const plain = play('unknown');
+        for (const who of Object.keys(MONSTERS)) rows.push({ who, name, plain, layered: play(who) });
       }
     } finally { ctx.createOscillator = create; ctx.createBiquadFilter = filter; }
     return { rows, unchanged: Dice.s === dice[0] && Odds.s === dice[1] };
@@ -241,6 +245,11 @@ test('material layers preserve the learnt warning, immediate starts and run dice
     for (const tone of plain.tones) expect(layered.tones).toContainEqual(tone);
     expect(layered.tones.length + layered.filters.length, who).toBeGreaterThan(plain.tones.length + plain.filters.length);
     expect(Math.max(...layered.starts)).toBeLessThanOrEqual(0.051);
+  }
+  for (const name of ['windup', 'special']) {
+    const representatives = ['rat', 'bat', 'slime', 'goblin', 'skeleton', 'zombie', 'pikeman', 'rustmaw', 'acolyte', 'thornhog', 'wyrm', 'emberling', 'mimic', 'heartforged'];
+    const signatures = representatives.map(who => result.rows.find(r => r.name === name && r.who === who).layered);
+    expect(new Set(signatures.map(s => JSON.stringify({ tones: s.tones, filters: s.filters }))).size).toBe(14);
   }
   expect(result.unchanged).toBe(true); expect(errors).toEqual([]);
 });

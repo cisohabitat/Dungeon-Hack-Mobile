@@ -1,0 +1,347 @@
+[
+  {
+    "file": "320-rat-0.webm",
+    "sha256": "71ce53275eb7e4d89972498fea09f427ac23eb8fc280baa98dea5300f6583c1c",
+    "bytes": 756400,
+    "levels": {
+      "mean_volume": -27.6,
+      "max_volume": -7.4
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-bat-0.webm",
+    "sha256": "b9e9df21c7686b3729701d70d7764d0080ed2226d341c8ff2f331eb19f92cbc1",
+    "bytes": 817948,
+    "levels": {
+      "mean_volume": -27.2,
+      "max_volume": -8.1
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-slime-0.webm",
+    "sha256": "8d4964f59d6492f694885bbf3cb86c9f9f3b8215cbfd4fdb220de8de5f47fff6",
+    "bytes": 830971,
+    "levels": {
+      "mean_volume": -27.8,
+      "max_volume": -7.1
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-goblin-0.webm",
+    "sha256": "3a1aa5b506ea6483236781bdea9cdf0f8374c279e19b72f0d89752fec619e198",
+    "bytes": 1054265,
+    "levels": {
+      "mean_volume": -27.7,
+      "max_volume": -7.1
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-skeleton-0.webm",
+    "sha256": "1ee44bfcb2465901efbe7c222973e6fbe83f22c384c73db26d603241fe008740",
+    "bytes": 956913,
+    "levels": {
+      "mean_volume": -27.5,
+      "max_volume": -7.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-zombie-0.webm",
+    "sha256": "e94eba5cd0328de3383e44417bb61177c488a1a513ce0c354c57fba176bccc1c",
+    "bytes": 860913,
+    "levels": {
+      "mean_volume": -27.8,
+      "max_volume": -8.1
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-pikeman-0.webm",
+    "sha256": "83961e65dc29affdbaba60ffc579a46edb6af6a3ebb793b40a16cd641d99ae17",
+    "bytes": 795287,
+    "levels": {
+      "mean_volume": -28.0,
+      "max_volume": -8.0
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-rustmaw-0.webm",
+    "sha256": "a6f489366ee9e53c90207ec66eb733ea1ec5b0351ae04ab18a7fcad4ee108e4c",
+    "bytes": 1193971,
+    "levels": {
+      "mean_volume": -27.4,
+      "max_volume": -9.0
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-acolyte-0.webm",
+    "sha256": "1f1061c55bcebe89efc90e48c4afaa9918eb421d868e8c86c7f60f8c9187bc8e",
+    "bytes": 1139087,
+    "levels": {
+      "mean_volume": -27.6,
+      "max_volume": -6.7
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-thornhog-0.webm",
+    "sha256": "53ed6795e05ecaa388e6099f0c7bec9444598a5e14673ffc972a0be0e551bf8a",
+    "bytes": 759307,
+    "levels": {
+      "mean_volume": -27.8,
+      "max_volume": -7.4
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-wyrm-0.webm",
+    "sha256": "d65d6f0940d73ba978d108f3358038bb3d773d25a591585b8e444ad31b464741",
+    "bytes": 1298005,
+    "levels": {
+      "mean_volume": -27.4,
+      "max_volume": -7.2
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-emberling-0.webm",
+    "sha256": "16ad23f46da4c24ab9dc8d3873a3f09f1f6ec47ab4f5b10f75804a87c6c93814",
+    "bytes": 1265731,
+    "levels": {
+      "mean_volume": -27.0,
+      "max_volume": -7.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-mimic-0.webm",
+    "sha256": "81cfd0390a020a47ddccb5f09b901bebf57070eb8a2a0c56ffeb1d7557b83bd7",
+    "bytes": 1128330,
+    "levels": {
+      "mean_volume": -27.1,
+      "max_volume": -7.7
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-heartforged-0.webm",
+    "sha256": "6ddd1c50fe941761e8c69cea67b6a7cc01328b8ddfa45551755f194266c16efb",
+    "bytes": 2115272,
+    "levels": {
+      "mean_volume": -22.0,
+      "max_volume": -6.0
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-grisk-0.webm",
+    "sha256": "3612e009a534f2c9535941edd8f5fd3fbf713cc25216d9a1947057493b170414",
+    "bytes": 1313534,
+    "levels": {
+      "mean_volume": -25.5,
+      "max_volume": -8.4
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-ushgar-0.webm",
+    "sha256": "4d7028997ff3f8bc42fd84a5830982608d3db6b5584af625b5cf1d8e66627536",
+    "bytes": 1307799,
+    "levels": {
+      "mean_volume": -25.5,
+      "max_volume": -8.3
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-orla-0.webm",
+    "sha256": "e22dc6bf30173bceb31f8b3687244d489e76e3d271c619526696a9362b37d5f6",
+    "bytes": 1301488,
+    "levels": {
+      "mean_volume": -25.2,
+      "max_volume": -7.9
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-durgrim-0.webm",
+    "sha256": "0ea7dd36f56fb19f202289a07ebe55fb19f29b7f5c14b27b0e263ce1fd5c8480",
+    "bytes": 1314751,
+    "levels": {
+      "mean_volume": -25.3,
+      "max_volume": -8.0
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-lich-0.webm",
+    "sha256": "8974f7c92153d4882c2250771c0d24d5158bc22d692f3314ea5be029d4e62cfa",
+    "bytes": 2128981,
+    "levels": {
+      "mean_volume": -21.8,
+      "max_volume": -5.5
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-warlord-1.webm",
+    "sha256": "b69b6fea93c6a84b7213e412a8d5dc578f5cfe901e984790e0e83777ba042726",
+    "bytes": 1412753,
+    "levels": {
+      "mean_volume": -21.4,
+      "max_volume": -4.3
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "390-archer-0.webm",
+    "sha256": "a477d68ef8f9d46cd04c267f49fabd7147112bb0ad1e382533293f68fe8a1998",
+    "bytes": 480509,
+    "levels": {
+      "mean_volume": -28.0,
+      "max_volume": -7.4
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": false
+  },
+  {
+    "file": "320-skeleton-0-calm.webm",
+    "sha256": "6290ff248c493dcb7a48c39f47e232e169dd334ce0a9663057dca8a536644052",
+    "bytes": 823453,
+    "levels": {
+      "mean_volume": -27.4,
+      "max_volume": -8.6
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": true
+  },
+  {
+    "file": "320-lich-0-calm.webm",
+    "sha256": "9a2f5013442bcc1840c2e3d2b6c24b6fc408e5327f4f4733dc8c8265b07ade8c",
+    "bytes": 1688421,
+    "levels": {
+      "mean_volume": -21.9,
+      "max_volume": -5.7
+    },
+    "streams": [
+      "vp8",
+      "opus"
+    ],
+    "recoverObserved": true,
+    "calm": true
+  }
+]
