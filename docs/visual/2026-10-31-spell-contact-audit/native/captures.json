@@ -1,0 +1,1057 @@
+{
+  "sources": {
+    "js/spellfx.js": "1746fcf6d112bdbbf56312a117a0679d68abb6608941a9aae31908b5221ac6ff",
+    "js/arcanefx.js": "4d00f90f90703a85e662b9585e7f7d90811fe9ce9efdd1c4d0ec6b1b289f1672",
+    "js/elementfx.js": "d03a75bda25cff51444f443261ab071ee6af09fd71de7fd8aa705740d90c1b13",
+    "js/renderer.js": "a6a16d1c9982686172ee62822e198a5ef991edf019ff10af8b4753ee6282ee51",
+    "js/powers.js": "c5f00b95ea8ebaebdcd5c03a49951a68afd361d0a23444eb8e92c1bd6a73b833",
+    "js/data.js": "b40a2c670114ff76f2c11a6af8b0560eed8b019ad12b57e8cf1d28c847a5ec78"
+  },
+  "version": "0.9.68",
+  "scope": "Actual native casts of Magic Missile, Lightning Bolt, Holy Smite and Call Lightning; real Game.update and Renderer.render untouched. Setup raises level/resources, positions one durable Orc, and supplies a long existing melee warning. Native view canvas sampled after normal animation frames; live timestamps retained. Not a complete unassisted run, full HUD or isolated performance audit.",
+  "casts": [
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "style": "missile",
+      "duration": 650,
+      "impact": 0.5,
+      "damage": 12,
+      "cost": 2,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 27,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "style": "smite",
+      "duration": 560,
+      "impact": 0.08,
+      "damage": 11,
+      "cost": 4,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 22,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "style": "missile",
+      "duration": 650,
+      "impact": 0.5,
+      "damage": 10,
+      "cost": 2,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 24,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "style": "smite",
+      "duration": 560,
+      "impact": 0.08,
+      "damage": 7,
+      "cost": 4,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 15,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "style": "missile",
+      "duration": 650,
+      "impact": 0.5,
+      "damage": 8,
+      "cost": 2,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 23,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "style": "smite",
+      "duration": 560,
+      "impact": 0.08,
+      "damage": 10,
+      "cost": 4,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 25,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": false
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "style": "missile",
+      "duration": 650,
+      "impact": 0.5,
+      "damage": 11,
+      "cost": 2,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 21,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "style": "smite",
+      "duration": 560,
+      "impact": 0.08,
+      "damage": 10,
+      "cost": 4,
+      "game_time_advanced": true,
+      "calm": true
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "style": "lightning",
+      "duration": 380,
+      "impact": 0,
+      "damage": 16,
+      "cost": 5,
+      "game_time_advanced": true,
+      "calm": true
+    }
+  ],
+  "captures": [
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-travel.png",
+      "name": "travel",
+      "phase": 0.2564615384615382,
+      "post_impact_age": -0.48707692307692363,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.5384615384615384,
+      "post_impact_age": 0.07692307692307687,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.640923076923076,
+      "post_impact_age": 0.2818461538461521,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7947692307692299,
+      "post_impact_age": 0.5895384615384598,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9487692307692305,
+      "post_impact_age": 0.897538461538461,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "magic_missile",
+      "file": "390-normal-magic_missile-expired.png",
+      "name": "expired",
+      "phase": 1.051230769230768,
+      "post_impact_age": 1.1024615384615362,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043684210526314354,
+      "post_impact_age": 0.043684210526314354,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473665,
+      "post_impact_age": 0.0876315789473665,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2631578947368421,
+      "post_impact_age": 0.2631578947368421,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5699999999999986,
+      "post_impact_age": 0.5699999999999986,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578928,
+      "post_impact_age": 0.8771052631578928,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "lightning",
+      "file": "390-normal-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-travel.png",
+      "name": "travel",
+      "phase": 0.059642857142858115,
+      "post_impact_age": -0.02212732919254553,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.11910714285714254,
+      "post_impact_age": 0.042507763975154926,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.3273214285714289,
+      "post_impact_age": 0.2688276397515531,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.625,
+      "post_impact_age": 0.592391304347826,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8928571428571429,
+      "post_impact_age": 0.8835403726708075,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "smite",
+      "file": "390-normal-smite-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0452251552795035,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043684210526314354,
+      "post_impact_age": 0.043684210526314354,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421043,
+      "post_impact_age": 0.2628947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5699999999999986,
+      "post_impact_age": 0.5699999999999986,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "390-normal",
+      "id": "call_lightning",
+      "file": "390-normal-call_lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-travel.png",
+      "name": "travel",
+      "phase": 0.25630769230769146,
+      "post_impact_age": -0.4873846153846171,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.5383076923076917,
+      "post_impact_age": 0.07661538461538342,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.640923076923076,
+      "post_impact_age": 0.2818461538461521,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7947692307692299,
+      "post_impact_age": 0.5895384615384598,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9484615384615385,
+      "post_impact_age": 0.8969230769230769,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "magic_missile",
+      "file": "390-calm-safe-magic_missile-expired.png",
+      "name": "expired",
+      "phase": 1.0510769230769228,
+      "post_impact_age": 1.1021538461538456,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04394736842105215,
+      "post_impact_age": 0.04394736842105215,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2631578947368421,
+      "post_impact_age": 0.2631578947368421,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5702631578947364,
+      "post_impact_age": 0.5702631578947364,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "lightning",
+      "file": "390-calm-safe-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-travel.png",
+      "name": "travel",
+      "phase": 0.05946428571428604,
+      "post_impact_age": -0.022321428571428218,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.14875000000000033,
+      "post_impact_age": 0.07472826086956556,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.3273214285714289,
+      "post_impact_age": 0.2688276397515531,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.625,
+      "post_impact_age": 0.592391304347826,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8926785714285724,
+      "post_impact_age": 0.8833462732919266,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "smite",
+      "file": "390-calm-safe-smite-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0452251552795035,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043947368421054546,
+      "post_impact_age": 0.043947368421054546,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2631578947368421,
+      "post_impact_age": 0.2631578947368421,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5702631578947388,
+      "post_impact_age": 0.5702631578947388,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.877368421052633,
+      "post_impact_age": 0.877368421052633,
+      "warnings": 1
+    },
+    {
+      "mode": "390-calm-safe",
+      "id": "call_lightning",
+      "file": "390-calm-safe-call_lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-travel.png",
+      "name": "travel",
+      "phase": 0.2564615384615382,
+      "post_impact_age": -0.48707692307692363,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.5386153846153852,
+      "post_impact_age": 0.07723076923077032,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.6410769230769228,
+      "post_impact_age": 0.28215384615384553,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7949230769230766,
+      "post_impact_age": 0.5898461538461532,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9486153846153852,
+      "post_impact_age": 0.8972307692307704,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "magic_missile",
+      "file": "320-normal-magic_missile-expired.png",
+      "name": "expired",
+      "phase": 1.0512307692307694,
+      "post_impact_age": 1.1024615384615388,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04394736842105215,
+      "post_impact_age": 0.04394736842105215,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0878947368421043,
+      "post_impact_age": 0.0878947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421043,
+      "post_impact_age": 0.2628947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5702631578947364,
+      "post_impact_age": 0.5702631578947364,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "lightning",
+      "file": "320-normal-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-travel.png",
+      "name": "travel",
+      "phase": 0.05946428571428604,
+      "post_impact_age": -0.022321428571428218,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.14875000000000033,
+      "post_impact_age": 0.07472826086956556,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.3273214285714289,
+      "post_impact_age": 0.2688276397515531,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.624821428571428,
+      "post_impact_age": 0.5921972049689435,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8926785714285708,
+      "post_impact_age": 0.8833462732919247,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "smite",
+      "file": "320-normal-smite-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0452251552795035,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04368421052631675,
+      "post_impact_age": 0.04368421052631675,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0873684210526311,
+      "post_impact_age": 0.0873684210526311,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2628947368421043,
+      "post_impact_age": 0.2628947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.570000000000001,
+      "post_impact_age": 0.570000000000001,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8768421052631574,
+      "post_impact_age": 0.8768421052631574,
+      "warnings": 1
+    },
+    {
+      "mode": "320-normal",
+      "id": "call_lightning",
+      "file": "320-normal-call_lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0523684210526307,
+      "post_impact_age": 1.0523684210526307,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-travel.png",
+      "name": "travel",
+      "phase": 0.2564615384615382,
+      "post_impact_age": -0.48707692307692363,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.5384615384615384,
+      "post_impact_age": 0.07692307692307687,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.6410769230769228,
+      "post_impact_age": 0.28215384615384553,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.7947692307692299,
+      "post_impact_age": 0.5895384615384598,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.9487692307692305,
+      "post_impact_age": 0.897538461538461,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "magic_missile",
+      "file": "320-calm-safe-magic_missile-expired.png",
+      "name": "expired",
+      "phase": 1.051230769230768,
+      "post_impact_age": 1.1024615384615362,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-onset.png",
+      "name": "onset",
+      "phase": 0.04394736842105215,
+      "post_impact_age": 0.04394736842105215,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0878947368421043,
+      "post_impact_age": 0.0878947368421043,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2634210526315799,
+      "post_impact_age": 0.2634210526315799,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.5702631578947364,
+      "post_impact_age": 0.5702631578947364,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8773684210526306,
+      "post_impact_age": 0.8773684210526306,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "lightning",
+      "file": "320-calm-safe-lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-travel.png",
+      "name": "travel",
+      "phase": 0.05946428571428604,
+      "post_impact_age": -0.022321428571428218,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.11892857142857208,
+      "post_impact_age": 0.042313664596273996,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.3273214285714289,
+      "post_impact_age": 0.2688276397515531,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.625,
+      "post_impact_age": 0.592391304347826,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8928571428571429,
+      "post_impact_age": 0.8835403726708075,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "smite",
+      "file": "320-calm-safe-smite-expired.png",
+      "name": "expired",
+      "phase": 1.0416071428571432,
+      "post_impact_age": 1.0452251552795035,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-onset.png",
+      "name": "onset",
+      "phase": 0.043947368421054546,
+      "post_impact_age": 0.043947368421054546,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-impact-0.png",
+      "name": "impact-0",
+      "phase": 0.0876315789473689,
+      "post_impact_age": 0.0876315789473689,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-impact-1.png",
+      "name": "impact-1",
+      "phase": 0.2631578947368421,
+      "post_impact_age": 0.2631578947368421,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-impact-2.png",
+      "name": "impact-2",
+      "phase": 0.570000000000001,
+      "post_impact_age": 0.570000000000001,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-impact-3.png",
+      "name": "impact-3",
+      "phase": 0.8771052631578952,
+      "post_impact_age": 0.8771052631578952,
+      "warnings": 1
+    },
+    {
+      "mode": "320-calm-safe",
+      "id": "call_lightning",
+      "file": "320-calm-safe-call_lightning-expired.png",
+      "name": "expired",
+      "phase": 1.0526315789473684,
+      "post_impact_age": 1.0526315789473684,
+      "warnings": 1
+    }
+  ],
+  "console_errors": []
+}

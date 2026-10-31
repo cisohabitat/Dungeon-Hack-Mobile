@@ -1,0 +1,21 @@
+{
+  "scope": "Documentation and native art audit only; runtime unchanged from a17a6e50e9c3453825cc131e603d4ee7a4acad5e.",
+  "native": {
+    "casts": 16,
+    "frames": 96,
+    "galleries": 4,
+    "all_actual_costs_and_timing_match": true,
+    "all_casts_damage_target_and_advance_clock": true,
+    "minimum_visible_warnings": 1,
+    "source_hashes_unchanged": true,
+    "browser_errors": 0
+  },
+  "checks": {
+    "capture_syntax": "passed",
+    "native_capture": "passed",
+    "recorded_capture_invariants": "passed",
+    "release_unit": "17 passed",
+    "focused_browser": "16 passed in 1.1m, phone and small, zero retries"
+  },
+  "publication_gates": "Exact-commit npm test, committed release-screen checks on both Chromium projects and all unchanged CI jobs required; final CI evidence retained outside this immutable documentation snapshot."
+}

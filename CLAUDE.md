@@ -1721,3 +1721,13 @@ marks draw at globalAlpha1. The low-opacity layer uses the established
 The common1,556-file delivery, offline worker and all-art reload include oil.
 The existing nine performance scenes remain; the mixed wet fixture now tags
 its existing oil marks so it measures the new material without removing work.
+
+
+### Spell contact audit
+AM's native running audit is in `docs/visual/2026-10-31-spell-contact-audit/`.
+`capture.cjs` records actual casts at320/390px in Normal and Calm/safe, checks
+unchanged source hashes and keeps observed frame times. Its supplied resources,
+adjacent durable Orc and long wind-up are controlled fixtures, not unassisted
+gameplay or crowd/device approval. Retain force facets, holy seal and connected
+lightning/local mark; no additional contact atlas was justified. AN remains
+an audit candidate. Keep existing clocks, warning protection and fire/frost art.

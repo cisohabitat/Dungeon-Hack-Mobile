@@ -52,6 +52,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 - **Local spell impacts.** Painted fire and frost bursts stay bounded near their
   targets. Damage numbers draw above spells, and attack warnings stay clear.
+  The [contact audit](docs/visual/2026-10-31-spell-contact-audit/README.md) retains
+  live force facets, holy seals and connected lightning.
 
 - **Continuous torchlight.** Light blends across floor and ceiling tiles as you
   walk and turn, preserving the existing fog, materials and torch flicker.
