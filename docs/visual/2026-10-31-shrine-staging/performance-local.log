@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:694900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:694900) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":38.2,"scriptMs":15.1},"wide":{"fps":45.1,"scriptMs":11.6},"flooded":{"fps":40.6,"scriptMs":13.7},"painted":{"fps":41.1,"scriptMs":14.1},"amber":{"fps":39.5,"scriptMs":13.4},"scroll":{"fps":35,"scriptMs":14.9},"decals":{"fps":31.2,"scriptMs":15},"wet":{"fps":25.7,"scriptMs":17},"rite":{"fps":51.2,"scriptMs":13.6}} start {"ms":2131}
+  ✘  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.3m)
+
+
+  1) [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor ───
+
+    Error: wet: {"fps":25.7,"scriptMs":17}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m25.7[39m
+
+      174 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      175 |   if (REPORT_ONLY) return;
+    > 176 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      177 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      178 | });
+      179 |
+        at /workspace/Dungeon-Hack-Mobile/test/browser/perf.spec.js:176:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../shrine73-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../shrine73-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../shrine73-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace ../shrine73-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor ────

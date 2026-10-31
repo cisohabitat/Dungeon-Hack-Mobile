@@ -1787,3 +1787,5 @@ Visual polish follow-up: [review and settled phone captures](docs/visual/2026-10
 Release0.9.42 improves enlarged-text menus: title greetings take their own space, Journal labels reflow, and trader balances and actions remain clear of Close and item descriptions. [Before/after review](docs/visual/2026-10-25-mobile-layouts/README.md).
 
 Reading-scene performance: [bounded picture preparation and batched log layout](docs/verification/2026-10-28-reading-headroom/README.md) preserve spell timing and warning space. The review retains original/candidate profiles, failed controls and the unchanged frame-rate budget; measurements are not a universal device-speed claim.
+
+Generated shrine rooms reuse the approved shrine painting’s stone altar beneath their existing offerings; room generation, pickup rules and encounter shrines stay unchanged. [Native review and verification](docs/visual/2026-10-31-shrine-staging/README.md).

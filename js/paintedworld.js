@@ -112,6 +112,15 @@ export function paintedHeartPlinth() {
     return sprite(base, base.toDataURL());
   }, 'floor-plinth').value;
 }
+// The worn altar's lower stonework, without the encounter idol or flames.
+export function paintedShrineAltar() {
+  if (typeof Image === 'undefined') return null;
+  return picture(PAINTED.static.shrine, 256, image => {
+    const base = canvas(image);
+    base.getContext('2d').clearRect(0, 0, 256, 152);
+    return sprite(base, base.toDataURL());
+  }, 'room-altar').value;
+}
 // Small material layers only. Shade canvases are prepared once on image load;
 // projection, silhouette, splashes and landing time stay in the renderer.
 export function paintedGroundDecal(kind, light) {

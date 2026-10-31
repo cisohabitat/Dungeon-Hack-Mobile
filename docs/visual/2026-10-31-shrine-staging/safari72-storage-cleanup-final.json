@@ -1,0 +1,17 @@
+{
+  "archive": "/tmp/completed-playwright-staging.tar",
+  "original_paths": [
+    "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-0",
+    "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-1",
+    "/workspace/wet-headroom-resumed-results/.playwright-artifacts-0",
+    "/workspace/wet-headroom-resumed-results/.playwright-artifacts-1"
+  ],
+  "bytes_archived": 6592014223,
+  "verification": "GNU tar byte comparison passed before deleting only the four inactive staging directories. All saved trace ZIPs, reports, screenshots and product/source files remain in their original locations.",
+  "compressed_archive": "/tmp/completed-playwright-staging.tar.gz",
+  "tar_sha256": "1d8fa8ca695d1fd2989afb1c00e02529c43c106d36591e7e2f4b08b6d8700b31",
+  "compressed_bytes": 5575455086,
+  "compression_verified": "Decompressed SHA256 equals original tar; uncompressed /tmp copy removed only after comparison",
+  "compressed_sha256": "08c6f24f01b82912dd6191798b11688b53666870674205aea581e1f06cc268a6",
+  "relocation": "Byte-identical compressed copy moved to /tmp before next full browser run to preserve workspace headroom"
+}

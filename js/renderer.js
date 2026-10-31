@@ -1610,14 +1610,17 @@ const Renderer = (() => {
       // a barrel on the hero's own square, pushed to the wall they face, would fill the view: underfoot, it is not drawn
       if (s.dress && tY < 0.5) continue;
       const tX = invDet * (dirY * sx - dirX * sy);
-      list.push({ s, tX, tY });
+      // Raised offerings and their altar share floor sorting only. Projection,
+      // wall occlusion, fog and live lighting still use each sprite's own place.
+      const floorY = s.floorAnchor ? invDet * (-planeY * (s.floorAnchor[0] - px) + planeX * (s.floorAnchor[1] - py)) : tY;
+      list.push({ s, tX, tY, floorY });
     }
     // what lies on the floor is drawn before whatever stands on that square,
     // so a potion under a goblin (or the Heart at the lich's feet) is behind
     // it: sorted as if it lay nearly half a square further off, since a pile
     // is spread about its square and the nearest of it used to come out in
     // front of the creature standing on it
-    const depth = x => x.tY + (x.s.onFloor ? FLOOR_BEHIND : 0);
+    const depth = x => x.floorY + (x.s.onFloor ? FLOOR_BEHIND : 0);
     list.sort((a, b) => depth(b) - depth(a));
     drawOrder.length = 0;
     for (const { s, tX, tY } of list) {

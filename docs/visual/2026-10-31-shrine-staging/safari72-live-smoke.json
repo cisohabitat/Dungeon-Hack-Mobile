@@ -1,0 +1,20 @@
+{
+  "url": "https://dungeon-hack-mobile.vercel.app",
+  "commit": "6cf2a3ca5378817641d85429b3e30577697bdc28",
+  "version": "0.9.72",
+  "build": 87,
+  "plinthDraws": 3,
+  "wallMerged": 180,
+  "base": {
+    "scale": 0.5,
+    "yOff": 0
+  },
+  "core": {
+    "scale": 0.4,
+    "yOff": 0.17539931586006285
+  },
+  "registered": true,
+  "status": "playing",
+  "errors": [],
+  "scope": "Production native Game/Renderer and approved painting; supplied cleared population and an actual Heart item two legal tiles ahead. Native updates/rendering with forwarding draw observation. Local generated-floor captures separately cover all three keepers and three viewports; not unassisted or physical-device evidence."
+}

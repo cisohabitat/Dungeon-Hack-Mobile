@@ -3,6 +3,54 @@ const {test,expect}=require('@playwright/test');
 const {startGame,artReady,watchForErrors,faceOpenGround,placeMonster}=require('./helpers');
 const {startOfflineServer}=require('../offline-server.cjs');
 
+test('generated shrine altar stages scattered offerings without changing rules or other loot @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'aaa3-generated-rooms',levels:'8'});
+ await page.evaluate(async()=>{Game.testFloor(3);Game.update=()=>{};Game.recordRuns(false);window.__altar=(await import('/js/paintedworld.js')).paintedShrineAltar;});
+ await expect.poll(()=>page.evaluate(()=>window.__altar()?.w)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.sprites.shrine.w)).toBe(256);
+ const result=await page.evaluate(async()=>{
+  const {Dice,Odds}=await import('/js/rng.js'),L=Game.level(),room=L.rooms[L.piece.room],key=(room.x+3)+','+(room.y+3),altar=window.__altar(),original=Assets.sprites.shrine.levels[0].getContext('2d').getImageData(0,0,256,256).data,pixels=altar.levels[0].getContext('2d').getImageData(0,0,256,256).data;
+  let upper=0,lower=0,different=0;for(let y=0;y<256;y++)for(let x=0;x<256;x++){const i=(y*256+x)*4;if(pixels[i+3]){if(y<152)upper++;else lower++;}if(y>=152&&[0,1,2,3].some(c=>pixels[i+c]!==original[i+c]))different++;}
+  L.items={[key]:Array.from({length:5},(_,i)=>({t:'gold',q:i+1}))};
+  const before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],create=document.createElement;let canvases=0;
+  document.createElement=function(tag,...args){if(tag==='canvas')canvases++;return create.call(this,tag,...args);};
+  let sprites;try{for(let i=0;i<20;i++)sprites=Game.renderState(i*71).sprites;}finally{document.createElement=create;}
+  const raised=sprites.filter(s=>s.floorAnchor),base=raised.find(s=>s.img===altar),loot=raised.filter(s=>s.img!==altar);
+  const unchanged=before===JSON.stringify(Game.state())&&dice[0]===Dice.s&&dice[1]===Odds.s;
+  // Forward native renderer calls on a clearly supplied clear-floor fixture:
+  // all five scattered offerings must paint after their shared stone base.
+  const {Renderer:orderRenderer}=await import('/js/renderer.js?altar-order');
+  const orderCanvas=document.createElement('canvas');orderRenderer.init(orderCanvas,304);orderRenderer.setCalm(true);
+  const ctx=orderCanvas.getContext('2d'),draw=ctx.drawImage,baseImages=new Set(altar.levels),goldImages=new Set(Assets.sprites[ITEMS.gold.sprite].levels),calls=[];
+  ctx.drawImage=function(image,...args){if(baseImages.has(image))calls.push('base');if(goldImages.has(image))calls.push('loot');return draw.call(this,image,...args);};
+  const rs=Game.renderState(10000),clear={...L,tiles:L.tiles.map(()=>Dungeon.T.FLOOR)},order=[];
+  for(let i=0;i<8;i++){const angle=i*Math.PI/4;calls.length=0;orderRenderer.render(clear,{x:base.x-Math.cos(angle)*2,y:base.y-Math.sin(angle)*2,angle},raised,rs.fx,10000);order.push(calls.join(','));}
+  // Removing the offerings leaves the architectural landmark in place.
+  delete L.items[key];const remains=Game.renderState(0).sprites.filter(s=>s.floorAnchor);
+  // Unexpected legacy room shapes and an actual centre NPC retain native art.
+  L.items[key]=[{t:'gold',q:7}];L.npcs.push({kind:'encounter',id:'shrine',x:room.x+3,y:room.y+3});const npc=Game.renderState(0).sprites;L.npcs.pop();
+  const width=room.w;room.w=8;const legacy=Game.renderState(0).sprites;room.w=width;
+  // A sealed coffer keeps its original reward filtering and uses the same base.
+  Game.state().opts.puzzles=true;L.puzzle={x:room.x+3,y:room.y+3,solved:false};L.items[key]=[{t:'gold',q:7,puzzle:true}];const locked=Game.renderState(0).sprites.filter(s=>s.floorAnchor);
+  return{order,upper,lower,different,canvases,unchanged,base:{x:base.x,y:base.y,scale:base.scale,yOff:base.yOff},count:loot.length,scattered:new Set(loot.map(s=>s.x+','+s.y)).size,registered:raised.every(s=>s.floorAnchor===base.floorAnchor),lifted:loot.every(s=>s.yOff===.2&&s.scale===.32*.85),baseFirst:raised[0]===base,remains:remains.length===1&&remains[0].img===altar,npcNative:!npc.some(s=>s.floorAnchor),legacyNative:!legacy.some(s=>s.floorAnchor),coffer:locked.length===2&&locked[0].img===altar&&locked[1].img===Assets.sprites.dress_chest&&locked[1].yOff===.2};
+ });
+ expect(result).toMatchObject({upper:0,different:0,canvases:0,unchanged:true,base:{scale:.65,yOff:0},count:5,scattered:5,registered:true,lifted:true,baseFirst:true,remains:true,npcNative:true,legacyNative:true,coffer:true});expect(result.lower).toBeGreaterThan(1000);expect(result.order).toEqual(Array(8).fill('base,loot,loot,loot,loot,loot'));expect(errors).toEqual([]);
+});
+
+for(const failure of ['delayed','corrupt'])test(`a ${failure} shrine painting retains original offerings and independent Heart art @mobile`,async({page})=>{
+ const errors=watchForErrors(page);let release;const held=new Promise(r=>release=r);
+ await page.route('**/img/world/shrine.webp',async route=>{if(failure==='delayed'){await held;await route.continue();}else await route.fulfill({status:200,contentType:'image/webp',body:'corrupt'});});
+ try{
+  await startGame(page,{seed:'aaa3-generated-rooms',levels:'8'});
+  await page.evaluate(async()=>{Game.testFloor(3);Game.update=()=>{};window.__altar=(await import('/js/paintedworld.js')).paintedShrineAltar;window.__plinth=(await import('/js/paintedworld.js')).paintedHeartPlinth;});
+  await expect.poll(()=>page.evaluate(()=>window.__plinth()?.w)).toBe(256);
+  expect(await page.evaluate(()=>({fallback:window.__altar()===null,raised:Game.renderState(0).sprites.filter(s=>s.floorAnchor).length}))).toEqual({fallback:true,raised:0});
+  if(failure==='delayed'){release();await expect.poll(()=>page.evaluate(()=>window.__altar()?.w)).toBe(256);expect(await page.evaluate(()=>Game.renderState(0).sprites.filter(s=>s.floorAnchor).length)).toBeGreaterThan(1);}
+  else await expect.poll(()=>page.evaluate(async()=>(await import('/js/paintedworld.js')).paintedWorldState()['img/world/shrine.webp#room-altar'])).toBe('failed');
+  expect(errors).toEqual([]);
+ }finally{release();}
+});
+
 test('the floor Heart floats above cached painted steps without changing other loot or rules @mobile',async({page})=>{
  const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});await faceOpenGround(page,3);
  await page.evaluate(async()=>{Game.update=()=>{};Game.recordRuns(false);Game.level().monsters=[];const p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];Game.level().items={[`${p.x+dx*2},${p.y+dy*2}`]:[{t:'artifact',q:1}],[`${p.x+dx*3},${p.y+dy*3}`]:[{t:'gold',q:7}]};window.__plinth=(await import('/js/paintedworld.js')).paintedHeartPlinth;});
@@ -361,7 +409,7 @@ test('all activated art files decode after a native offline reload @mobile',asyn
   const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
   for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
   await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
-  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll,paintedGroundDecal,paintedHeartPlinth}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256&&paintedGroundDecal('blood',1)?.width===128&&paintedGroundDecal('ash',1)?.width===128&&paintedGroundDecal('ice',1)?.width===128&&paintedGroundDecal('oil',1)?.width===128&&paintedHeartPlinth()?.w===256;})).toBe(true);
+  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll,paintedGroundDecal,paintedHeartPlinth,paintedShrineAltar}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256&&paintedGroundDecal('blood',1)?.width===128&&paintedGroundDecal('ash',1)?.width===128&&paintedGroundDecal('ice',1)?.width===128&&paintedGroundDecal('oil',1)?.width===128&&paintedHeartPlinth()?.w===256&&paintedShrineAltar()?.w===256;})).toBe(true);
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });

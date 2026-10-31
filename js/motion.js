@@ -8,7 +8,7 @@ import { SIZE as DRESS_SIZE } from './dressing.js';
 import { regionalProp } from './regionalprops.js';
 import { ENCOUNTERS } from './encounters.js';
 import { intentLabel } from './meleeview.js';
-import { paintedHeartPlinth } from './paintedworld.js';
+import { paintedHeartPlinth, paintedShrineAltar } from './paintedworld.js';
 
 /** @param {import('./types.js').Kit} K */
 export function makeMotion(K) {
@@ -321,10 +321,19 @@ export function makeMotion(K) {
       const who = look ? look.sprite : traderKind() === 'pedlar' ? 'pedlar' : n.wick ? 'wick' : 'merchant';
       sprites.push({ x: n.x + 0.5, y: n.y + 0.5, img: Assets.sprites[who] || Assets.sprites.merchant, scale: look ? 0.85 : 0.95, yOff: 0 });
     }
+    // A generated shrine's worn altar is scenery, independent of its offerings.
+    // Keep encounter shrines and legacy/unexpected room shapes untouched.
+    const shrineRoom = L.piece?.kind === 'shrine' && L.rooms[L.piece.room];
+    const altarX = shrineRoom ? shrineRoom.x + 3 : -1, altarY = shrineRoom ? shrineRoom.y + 3 : -1;
+    const altar = shrineRoom && shrineRoom.w === 7 && shrineRoom.h === 7 && tile(altarX, altarY) === T.FLOOR &&
+      !(L.npcs || []).some(n => n.x === altarX && n.y === altarY) ? paintedShrineAltar() : null;
+    const altarAnchor = altar ? [altarX + 0.5, altarY + 0.5] : null;
+    if (altar) sprites.push({ x: altarAnchor[0], y: altarAnchor[1], img: altar, scale: 0.65, yOff: 0, onFloor: true, floorAnchor: altarAnchor });
     for (const k in L.items) {
+      const onAltar = altar && k === `${altarX},${altarY}`;
       const q = L.puzzle;
       const locked = K.G.opts.puzzles === true && q && (!q.solved || q.reward === 'pending') && k === `${q.x},${q.y}`;
-      if (locked && Assets.sprites.dress_chest) sprites.push({ x: q.x + 0.5, y: q.y + 0.5, img: Assets.sprites.dress_chest, scale: 0.5, yOff: 0, onFloor: true });
+      if (locked && Assets.sprites.dress_chest) sprites.push({ x: q.x + 0.5, y: q.y + 0.5, img: Assets.sprites.dress_chest, scale: 0.5, yOff: onAltar ? 0.2 : 0, onFloor: true, ...(onAltar ? { floorAnchor: altarAnchor } : {}) });
       const list = locked ? L.items[k].filter(it => !it.puzzle) : L.items[k];
       if (!list.length) continue;
       const [x, y] = k.split(',').map(Number);
@@ -341,7 +350,7 @@ export function makeMotion(K) {
         const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
         // what is worth stooping for catches the light now and then: a relic, the Heart, a ring or amulet, gear with an edge to it
         const glint = !!(it.u || it.t === 'artifact' || it.e > 0 || ['ring', 'amulet'].includes((ITEMS[it.t] || {}).kind));
-        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? (plinth ? 0.17 : 0.04) + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint, treasure: K.legends.grade(it) });
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: (onAltar ? 0.2 : 0) + (floats ? (plinth ? 0.17 : 0.04) + Math.sin(now / 300 + i) * 0.03 : 0), onFloor: true, ...(onAltar ? { floorAnchor: altarAnchor } : {}), glint, treasure: K.legends.grade(it) });
       });
     }
     // the fallen: knocked back, sinking into a heap and fading

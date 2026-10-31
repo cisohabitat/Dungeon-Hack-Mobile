@@ -1,0 +1,282 @@
+{
+  "artifact_count": 9,
+  "report_count": 14,
+  "totals": {
+    "perf": 1,
+    "small": 374,
+    "phone": 659,
+    "safari": 245
+  },
+  "flaky_count": 0,
+  "flaky": [],
+  "artifacts": [
+    {
+      "name": "perf",
+      "zip": "/workspace/safari72-ci-perf.zip",
+      "sha256": "3165e730e2040a1384f8c8d497680da61f8c3af55d8657c325fcae3359596b14",
+      "files": 4,
+      "reports": [
+        {
+          "name": "ci-diagnostics/perf-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:12:57.518Z",
+            "duration": 70913.09999999999,
+            "expected": 1,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-1",
+      "zip": "/workspace/safari72-ci-small-1.zip",
+      "sha256": "3e75966f92bfca5229e375656f79c5ec3f6945876f867094b2f6a8117cdff3eb",
+      "files": 62,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:25:58.810Z",
+            "duration": 83121.638,
+            "expected": 3,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:13:03.301Z",
+            "duration": 774329.065,
+            "expected": 185,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-2",
+      "zip": "/workspace/safari72-ci-small-2.zip",
+      "sha256": "eed127892476fec23d91f6ec41923931278635e94de18cb206869e20ae95695c",
+      "files": 47,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:22:51.819Z",
+            "duration": 27636.742,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:12:57.457Z",
+            "duration": 593583.676,
+            "expected": 184,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-1",
+      "zip": "/workspace/safari72-ci-phone-1.zip",
+      "sha256": "fb805ace959f6c7826c631d2056de7a0be8d47e4ab11547f69a26408857ff066",
+      "files": 53,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:31:19.678Z",
+            "duration": 60636.477,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:12:55.262Z",
+            "duration": 1103247.28,
+            "expected": 218,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-2",
+      "zip": "/workspace/safari72-ci-phone-2.zip",
+      "sha256": "5e4ad42347169b5ef8699b44ce6bacd40fb9b0e50591c2a483ae70fbe5073aa4",
+      "files": 18,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:25:12.631Z",
+            "duration": 36256.742,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:12:59.413Z",
+            "duration": 732264.938,
+            "expected": 218,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-3",
+      "zip": "/workspace/safari72-ci-phone-3.zip",
+      "sha256": "592c102ac1b263f93f8d643113f82111332a57ce66f5c91341042a5e5cf9da18",
+      "files": 46,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:29:37.373Z",
+            "duration": 25710.603,
+            "expected": 1,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:13:01.331Z",
+            "duration": 994811.989,
+            "expected": 218,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-1",
+      "zip": "/workspace/safari72-ci-safari-1.zip",
+      "sha256": "3b71a4a06248fc37c50aa4043a99c8c00dfbe695fcc222b0f5f330b9e3ba873e",
+      "files": 34,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:13:30.741Z",
+            "duration": 1247145.472,
+            "expected": 82,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-2",
+      "zip": "/workspace/safari72-ci-safari-2.zip",
+      "sha256": "8f651ab2558fc4a0d1b351dcc997d603b5883ee62b322712e92e6eeb62629450",
+      "files": 9,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:13:28.677Z",
+            "duration": 642813.2729999999,
+            "expected": 82,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-3",
+      "zip": "/workspace/safari72-ci-safari-3.zip",
+      "sha256": "a0c4a2b69a20561610e65a319168fccfbccd04999f3574b0547b5b90eb55e3b5",
+      "files": 36,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T14:13:10.035Z",
+            "duration": 696200.9419999999,
+            "expected": 81,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    }
+  ]
+}

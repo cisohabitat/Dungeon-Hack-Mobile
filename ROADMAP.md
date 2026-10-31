@@ -643,6 +643,18 @@ serves installed core assets from their version cache and extends optional cache
 write lifetime. Native reload, exact bytes, voice resume/ranges and unchanged
 WebKit CI remain publication gates.
 
+The offline-core recovery is published as v0.9.72/main `6cf2a3ca`, with all11
+CI jobs successful:1,278 browser cases and the original FPS budget, zero
+failures/retries. Both the original WebKit voice/reload case and repeated
+root/index/query aliases passed their first attempts. Production identity and21
+resources match. This clears the recorded CI blocker; physical Safari remains
+AAA5 work. The next bounded AAA3 slice reviews generated defiled/ordinary/kept
+shrines in Mossy Depths, Grey Hold and Drowned Halls. Their descriptions name
+an altar, but the native centre views show loose loot and no encounter shrine.
+The v0.9.73 implementation reuses approved lower shrine stonework as decorative scenery,
+with raised existing offerings and no generation, guard, light or collision change.
+See [the shrine staging review](docs/visual/2026-10-31-shrine-staging/README.md).
+
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs
 matched generation/gameplay checks and the required balance comparisons; do not

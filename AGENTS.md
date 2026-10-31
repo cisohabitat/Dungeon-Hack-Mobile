@@ -1817,3 +1817,19 @@ and rejected floor/opacity experiments live in
 FPS gate and failed-run provenance; an identical image alone is not speed
 clearance. Do not reintroduce the rejected floor coverage/projection caches or
 pre-baked material alpha on the strength of pixel equivalence.
+
+
+### Generated shrine altar staging
+`paintedShrineAltar` reuses the approved shrine painting below row152, removing
+the encounter idol and flame tips. It prepares its independent crop and shade
+frames once; source bytes and encounter art remain unchanged. Only a generated
+7x7 shrine with a floor centre and no centre NPC receives the decorative0.65
+base. The landmark remains after its offerings are collected. Current centre
+offerings and a sealed puzzle coffer rise0.2 without moving their world positions,
+scatter, sizes, glint/bob, reward filtering or pickup rules. Loading/failure and
+legacy shapes retain native floor loot. No collision, light or saved prop is added.
+`floorAnchor` groups only these raised sprites with the base for stable floor
+sorting. Projection, wall depth, fog and live lighting use each sprite's own
+coordinates; actors keep their normal order. Native source review is in
+`docs/visual/2026-10-31-shrine-staging/`; its legal inspection poses and safety HP
+are controlled evidence, not unassisted play or balance/device clearance.

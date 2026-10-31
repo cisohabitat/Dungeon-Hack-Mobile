@@ -1,0 +1,117 @@
+{
+  "url": "https://dungeon-hack-mobile.vercel.app",
+  "commit": "6cf2a3ca5378817641d85429b3e30577697bdc28",
+  "verified": [
+    {
+      "path": "/",
+      "commit": "6cf2a3ca5378817641d85429b3e30577697bdc28",
+      "bytes": 125120,
+      "sha256": "f74c6fd7d8a5ebec4df11ed715869d16da2a37774a8b33675751f9c9ebdcfb08"
+    },
+    {
+      "path": "img/world/heart_dais.webp",
+      "bytes": 58508,
+      "sha256": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb"
+    },
+    {
+      "path": "img/world/artifact.png",
+      "bytes": 77288,
+      "sha256": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97"
+    },
+    {
+      "path": "js/main.js",
+      "bytes": 5263,
+      "sha256": "b86357950fe0ae12762096ea53f727a55cf39c9c2b7a6b341c36c186b55e883d"
+    },
+    {
+      "path": "js/offline.js",
+      "bytes": 2914,
+      "sha256": "dcebca29376ef1bfb6a9e4b3e40b1e513c0add2326cc632cad23d2cb1fbaffb0"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 598,
+      "sha256": "381946b6a4aca99842f5a952df8aca270dab5d71d87358217cfd11102c1b10dd"
+    },
+    {
+      "path": "js/paintedcreatures.js",
+      "bytes": 5776,
+      "sha256": "010a933ba1cfc332612dfe5498c2362b3c79294e4455000d149cc2d7f76573b8"
+    },
+    {
+      "path": "js/foes.js",
+      "bytes": 98821,
+      "sha256": "edcc7e786ad19d8041bf23a352a3788d9886c4c9a64d49c136fd0878e7c7de38"
+    },
+    {
+      "path": "js/motion.js",
+      "bytes": 28244,
+      "sha256": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663"
+    },
+    {
+      "path": "js/sound.js",
+      "bytes": 57758,
+      "sha256": "63318f2e883fcef5d2cbb338142e426c76821e93b603afb6820c349652cd3940"
+    },
+    {
+      "path": "js/titlemenu.js",
+      "bytes": 13854,
+      "sha256": "251e3971b9744ef758053fd041e45ad287eac2e82ad92106087ecf42da21c559"
+    },
+    {
+      "path": "js/release.js",
+      "bytes": 803,
+      "sha256": "ee6fc5b2c0b78fc0b1b5601434cbe6129109360c80c018c8b148001153293cd7"
+    },
+    {
+      "path": "js/renderer.js",
+      "bytes": 121896,
+      "sha256": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c"
+    },
+    {
+      "path": "css/style.css",
+      "bytes": 130230,
+      "sha256": "615ccbaaf8bb68efefca10bf1571f296f1471c42dcd0c997a09604448004f600"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 83885,
+      "sha256": "53d81476ea3f15a8146a75e2824c93d9afee86d750f03213185288e5f39b67ad"
+    },
+    {
+      "path": "img/bosses/heartforged.webp",
+      "bytes": 110952,
+      "sha256": "ff96776381e33397cb56df42c7c89ad36f2748cf082122788b7a503f923dfeaf"
+    },
+    {
+      "path": "js/paintedworld.js",
+      "bytes": 11421,
+      "sha256": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9"
+    },
+    {
+      "path": "js/paintedcatalog.js",
+      "bytes": 427547,
+      "sha256": "ff78dcfd2b2f7d1e43689cbd81f564f8dbe1555ca66ad43e01b9e703d40852e5"
+    },
+    {
+      "path": "img/decals/blood.png",
+      "bytes": 17500,
+      "sha256": "9db65cd7101c9e139c8c7654595c182777c6ff5f2b0d31076d0948cef5609492"
+    },
+    {
+      "path": "img/decals/ash.png",
+      "bytes": 23892,
+      "sha256": "6a18089a99b62c03b837261502a47dc3449738347c93eed36b82b0e43c5c3fb0"
+    },
+    {
+      "path": "img/decals/ice.png",
+      "bytes": 24795,
+      "sha256": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
+    },
+    {
+      "path": "img/decals/oil.png",
+      "bytes": 17828,
+      "sha256": "557c54cc551bbce91f79411405f0c8ec0186d081fd9542b1a330eb69f8a2647d"
+    }
+  ]
+}
