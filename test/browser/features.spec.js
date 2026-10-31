@@ -1,7 +1,7 @@
 'use strict';
 // Dungeon features: secrets, fountains, ranged attacks, champions, identification.
 const { test } = require('@playwright/test');
-const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster } = require('./helpers');
+const { customiseCreation, expect, watchForErrors, startGame, clearBoons, faceOpenGround, placeMonster, artReady } = require('./helpers');
 
 test.describe('dungeon features', () => {
   test('a secret door can be found by walking into the wall that hides it', async ({ page }) => {
@@ -1981,8 +1981,19 @@ test.describe('dungeon features', () => {
     await expect(page.locator('[data-tap="use"]')).toContainText('Pick');
     await page.click('[data-tap="use"]');
     await expect.poll(() => page.evaluate(() => { const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir]; return L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.DOOR_OPEN; })).toBe(true);
-    // it is drawn as itself, not as the hound
-    expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.scrag || s.img === Assets.sprites.scrag.windup))).toBe(true);
+    // Sample both exact goblin pictures after transient motion has ended.
+    // A live-time idle-only check can land inside its ordinary blink.
+    await artReady(page, { scrag: ['windup', 'blink'] });
+    const pictures = await page.evaluate(() => {
+      const c = Game.companion(), art = Assets.sprites.scrag;
+      const settled = Math.max(performance.now(), c.moveT1 || 0, (c.lungeAt || 0) + 220, (c.flashUntil || 0) + 260);
+      const cycle = Math.ceil((settled + 311) / 3700) * 3700 - 311;
+      return {
+        standing: Game.renderState(cycle + 200).sprites.some(s => s.img === art),
+        blinking: Game.renderState(cycle + 64).sprites.some(s => s.img === art.blink),
+      };
+    });
+    expect(pictures).toEqual({ standing: true, blinking: true });
     expect(errors).toEqual([]);
   });
 

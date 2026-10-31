@@ -1,0 +1,29 @@
+{
+  "run": 41157746441,
+  "head": "3ef8c2e746a484c29c95741a9bd6e5a622401c3a",
+  "title": "a goblin let out of its cage follows, and the Use button picks a locked door there is no key for",
+  "file": "features.spec.js",
+  "line": 1942,
+  "status": "flaky",
+  "attempts": [
+    {
+      "retry": 0,
+      "status": "failed",
+      "errors": [
+        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n\n  1983 |     await expect.poll(() => page.evaluate(() => { const p = Game.player(), L = Game.level(), [dx, dy] = Dungeon.DIRS[p.dir]; return L.tiles[(p.y + dy) * L.w + p.x + dx] === Dungeon.T.DOOR_OPEN; })).toBe(true);\n  1984 |     // it is drawn as itself, not as the hound\n> 1985 |     expect(await page.evaluate(() => Game.renderState(performance.now()).sprites.some(s => s.img === Assets.sprites.scrag || s.img === Assets.sprites.scrag.windup))).toBe(true);\n       |                                                                                                                                                                       ^\n  1986 |     expect(errors).toEqual([]);\n  1987 |   });\n  1988 |\n    at /home/runner/work/Dungeon-Hack-Mobile/Dungeon-Hack-Mobile/test/browser/features.spec.js:1985:167"
+      ]
+    },
+    {
+      "retry": 1,
+      "status": "passed",
+      "errors": []
+    }
+  ],
+  "failed_trace": {
+    "file": "ci-failed-trace.zip",
+    "sha256": "34e33bad9a3d4613785038faf7ecade2b3ba15a4e506852243c7c763ab5367ed",
+    "bytes": 13214323
+  },
+  "original_zip": "/workspace/healing-ward-ci-phone-1.zip",
+  "limit": "Original assertion failure is established; the chosen companion pose at failure was not recorded."
+}

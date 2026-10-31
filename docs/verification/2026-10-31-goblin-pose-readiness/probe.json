@@ -1,0 +1,111 @@
+{
+  "scope": "Native Game.renderState with supplied goblin/hound/absent companion fixtures and explicit presentation sample times. No update, renderer, clock or image-function replacement. Counterexample to the old predicate, not a claim to reproduce the original CI-selected pose/time. No gameplay or balance change.",
+  "sources": {
+    "js/companion.js": "6d45b47823a44d42beacd49a7b45f6aecf4beee0914f0f929470b1d1ad7affd1",
+    "js/motion.js": "fa07cf9bbd16830148686a60ba49a31263422be2bc8fb7fce23be92c7d05aa2a",
+    "js/game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "js/assets.js": "8dc8edfba96952b2a6f191ff2045caad7199e2ee6da83b7f62ffb0cdb5871e88"
+  },
+  "records": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "prelude": false,
+      "period": 3700,
+      "idleOffset": 200,
+      "blinkOffset": 64,
+      "idle": {
+        "at": 3589,
+        "old": true,
+        "exact": true,
+        "pose": "idle"
+      },
+      "blink": {
+        "at": 3453,
+        "old": false,
+        "exact": true,
+        "pose": "blink"
+      },
+      "hound": {
+        "idle": {
+          "at": 3589,
+          "old": false,
+          "exact": false,
+          "pose": "hound"
+        },
+        "blink": {
+          "at": 3453,
+          "old": false,
+          "exact": false,
+          "pose": "hound"
+        }
+      },
+      "absent": {
+        "idle": {
+          "at": 3589,
+          "old": false,
+          "exact": false,
+          "pose": "absent"
+        },
+        "blink": {
+          "at": 3453,
+          "old": false,
+          "exact": false,
+          "pose": "absent"
+        }
+      }
+    },
+    {
+      "viewport": {
+        "width": 320,
+        "height": 667
+      },
+      "prelude": false,
+      "period": 3700,
+      "idleOffset": 200,
+      "blinkOffset": 64,
+      "idle": {
+        "at": 3589,
+        "old": true,
+        "exact": true,
+        "pose": "idle"
+      },
+      "blink": {
+        "at": 3453,
+        "old": false,
+        "exact": true,
+        "pose": "blink"
+      },
+      "hound": {
+        "idle": {
+          "at": 3589,
+          "old": false,
+          "exact": false,
+          "pose": "hound"
+        },
+        "blink": {
+          "at": 3453,
+          "old": false,
+          "exact": false,
+          "pose": "hound"
+        }
+      },
+      "absent": {
+        "idle": {
+          "at": 3589,
+          "old": false,
+          "exact": false,
+          "pose": "absent"
+        },
+        "blink": {
+          "at": 3453,
+          "old": false,
+          "exact": false,
+          "pose": "absent"
+        }
+      }
+    }
+  ]
+}

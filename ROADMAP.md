@@ -553,6 +553,10 @@ objects are now painted; dynamic effect/UI layers keep their existing rendering.
   retain native SIGSEGV/timeout evidence, prevent later steps erasing traces,
   and upload retry reports/browser logs/resource snapshots even on a successful
   retry. All cases and gates remain. See the [audit and controls](docs/verification/2026-10-28-ci-browser-audit/README.md).
+- [x] Correct the goblin rescue/locked-door picture fixture: wait for cached
+  poses and require exact standing/blink phases, retaining real interaction and
+  door-opening checks. The [deterministic comparison](docs/verification/2026-10-31-goblin-pose-readiness/README.md)
+  rejects missing/hound pictures; native Chromium/WebKit engine failures remain separate.
 - [ ] Diagnose the underlying Chromium native crash and WebKit offline-status
   timeout from retained failed-attempt evidence; this audit does not claim
   either intermittent failure is eliminated.

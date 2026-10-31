@@ -1126,6 +1126,12 @@ a pushed change as verified.
   The Orc fixture anchors its hit phase to retain exact +60ms hurt and +900ms
   idle assertions, and additionally checks the exact post-reel blink frame.
   Keep its hit/champion assertions; blinking is not unrecovered damage.
+  The goblin rescue/locked-door case in features.spec.js also awaits scrag
+  windup/blink readiness and samples exact base/blink objects at the companion's
+  200/64ms cycle phases after current transient motion ends. Keep the actual
+  rescue, Pick click and open-door proof; never replace that proof with a pose
+  fixture or accept arbitrary pictures. Its deterministic hound/absence controls
+  and original failed trace live in docs/verification/2026-10-31-goblin-pose-readiness/.
   The old idle-only comparison and deterministic control are recorded in
   `docs/verification/2026-10-28-shade-clock/`.
   Full-cache offline installation checks run in a separate serial step in each

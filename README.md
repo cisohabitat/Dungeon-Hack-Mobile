@@ -678,7 +678,9 @@ CI pins Ubuntu 24.04 because the pinned Playwright 1.59.1 does not support the
 Ubuntu 26.04 image now supplied by `ubuntu-latest`. Runner upgrades must follow
 verified browser support; all engine suites and the performance gate remain.
 Class-Shade routing and Orc recovery checks verify exact idle and blink images
-at known animation times.
+at known animation times. The [goblin companion fixture](docs/verification/2026-10-31-goblin-pose-readiness/README.md)
+also checks exact standing and blink pictures after its real rescue/lock interaction;
+a live-time standing-only predicate could reject a legitimate blink.
 
 CI retains JSON attempt reports, native browser logs, failure traces and resource
 snapshots for seven days, including when a retry passes. Separate regular/offline

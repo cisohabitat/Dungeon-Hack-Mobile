@@ -1,0 +1,14 @@
+{
+  "baseline": "3ef8c2e746a484c29c95741a9bd6e5a622401c3a",
+  "scope": "Test fixture and evidence/docs only. No runtime, browser policy or gameplay change.",
+  "probe": "Both widths: old standing true, old valid blink false; exact standing/blink true; exact/old missing/hound controls false. Four runtime hashes unchanged.",
+  "focused": "10 repeated real encounter tests passed in42.8s,zero retries",
+  "preserved": {
+    "all_rescue_recruitment_use_and_door_checks_byte_identical": true,
+    "following_test_bodies_byte_identical": true,
+    "workflow_config_packages_versions_runtime_unchanged": true,
+    "total_case_budget_ms": 60000
+  },
+  "required_publication": "Release tooling/screens, exact-commit npm test and all fresh CI jobs. Final CI evidence outside immutable snapshot.",
+  "release_tooling": "17 passed,zero failures"
+}
