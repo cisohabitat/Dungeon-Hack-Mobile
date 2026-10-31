@@ -1,0 +1,33 @@
+{
+  "scope": "Native AN art audit only; runtime unchanged from 1fb010080c89fc1e5f0cfe96d6ec37438aeb1620.",
+  "native": {
+    "casts": 48,
+    "frames": 288,
+    "galleries": 6,
+    "source_hashes_unchanged": 8,
+    "minimum_visible_warnings": 1,
+    "browser_errors": 0,
+    "distinct_buffers": [
+      [
+        320,
+        164
+      ],
+      [
+        320,
+        290
+      ],
+      [
+        320,
+        382
+      ]
+    ]
+  },
+  "checks": {
+    "capture_syntax": "passed",
+    "capture": "passed after correcting initial nonexistent idle pose request; same 60-second deadline; original failure retained",
+    "recorded_capture_invariants": "passed",
+    "release_unit": "17 passed, zero failures",
+    "focused_browser": "10 passed in46.2s on phone and small, zero retries"
+  },
+  "publication_gates": "Committed release-screen checks on both Chromium projects, exact-commit pre-push npm test and all unchanged CI jobs required. Final CI evidence retained outside this immutable documentation snapshot."
+}

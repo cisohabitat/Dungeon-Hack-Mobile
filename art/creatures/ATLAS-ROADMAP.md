@@ -1125,8 +1125,13 @@ new effects. Earlier X/coverage decisions remain the baseline, not missing art.
 | 1 — implemented v0.9.64; performance recovery v0.9.65 | AK | Blood and cold ash floor detail | Review the existing flat ellipse fills at320/390px. Author two muted, top-down transparent textures matching the monster paintings. Retain exact projection, ellipse clipping, colour distinctions, lighting/fog, delayed landing, satellite splashes, floor-before-wall ordering and independent failure fallback. Cache decoded/shaded pictures outside frames. Verify native views, Calm, offline, unchanged dice and the original performance budget before activation. |
 | 2 — ice v0.9.66/v0.9.67; oil v0.9.68 | AL | Oil, ice and water detail | [Native wet-surface audit](../../docs/visual/2026-10-30-wet-surfaces/README.md): [Ice fracture/grain is integrated](../../docs/visual/2026-10-30-painted-ice/README.md); [Subtle oil film is integrated](../../docs/visual/2026-10-31-painted-oil/README.md), preserving the separate native sheen and real ignition/ash cycle. Retain water: thirteen regional water-floor paintings already exist, while puddle glints and flooded shimmer remain live. Preserve sheen, hazard colours, field boundaries, expiry and Calm. New images still require source review, native action comparisons, independent/offline fallback and the unchanged speed gates. |
 | 3 — audited; retain native | AM | Additional spell contact textures | [Native review](../../docs/visual/2026-10-31-spell-contact-audit/README.md):16 actual casts/96 frames at320/390px, Normal and Calm/safe. Retain force facets, holy seal and connected lightning/local mark; no new atlas justified. Preserve paths, targets, warning visibility and all clocks; existing fire/frost stay painted. |
-| 4 — audit candidate | AN | Healing and ward surface accents | Review subtle painted accents within existing live shapes. Preserve class/spell colours, readable creatures, Calm and original costs/durations. Generate only after a native comparison supports it. |
+| 4 — audited; retain native | AN | Healing and ward surface accents | [Native review](../../docs/visual/2026-10-31-healing-ward-audit/README.md): 48 actual casts/288 frames at 320/390px and short landscape, Normal and Calm/safe. Retain healing motes, open shield/ward outlines, blessing rays and bear-paw mark; no new atlas justified. Preserve class colours, creatures, original costs/durations and gameplay effects. |
 
 Projectiles, strings, spell trajectories, weather, warning/damage text, map
 symbols, functional icons and all failed/loading-picture fallbacks stay live.
-AL–AN are review candidates, not promises that every effect needs a painting.
+AL–AN were review candidates, not promises that every effect needed a painting.
+The AK–AN review sequence is complete: blood, ash, ice and oil gained material
+detail; existing water paintings and dynamic water/contact/restorative effects
+are retained. No automatic AO atlas is commissioned. Future art requires a
+concrete visual gap and native comparison; broader engine/device and scene
+composition work remains in the main roadmap.

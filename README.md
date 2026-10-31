@@ -54,6 +54,8 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
   targets. Damage numbers draw above spells, and attack warnings stay clear.
   The [contact audit](docs/visual/2026-10-31-spell-contact-audit/README.md) retains
   live force facets, holy seals and connected lightning.
+  The [restorative review](docs/visual/2026-10-31-healing-ward-audit/README.md)
+  retains healing motes and the distinct shield, blessing and bear-paw marks.
 
 - **Continuous torchlight.** Light blends across floor and ceiling tiles as you
   walk and turn, preserving the existing fog, materials and torch flicker.

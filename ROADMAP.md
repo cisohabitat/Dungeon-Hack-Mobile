@@ -529,8 +529,12 @@ water floors plus live glints/shimmer are retained. See the
 [oil native review](docs/visual/2026-10-31-painted-oil/README.md).
 AM's [spell-contact audit](docs/visual/2026-10-31-spell-contact-audit/README.md)
 retains the live force, holy and lightning marks:16 native casts/96 frames
-show no demonstrated need for another contact atlas. AN healing/ward accents
-remain the next audit, with painting conditional on native comparison.
+show no demonstrated need for another contact atlas. AN's
+[healing/ward review](docs/visual/2026-10-31-healing-ward-audit/README.md) retains
+the native motes, open shields, blessing and bear-paw marks after 48 casts/288
+frames at two phone widths and short landscape. The optional AK–AN surface
+review is complete; no further atlas is automatically commissioned. Engine
+reliability, selected scene composition and physical-device review remain open.
 See [the surface plan](art/creatures/ATLAS-ROADMAP.md#optional-surface-textures--30-october-2026).
 
 Batch AI's [implementation and native review](docs/visual/2026-10-28-amber-lantern/README.md)

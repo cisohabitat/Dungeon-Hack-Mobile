@@ -1731,5 +1731,17 @@ AM's native running audit is in `docs/visual/2026-10-31-spell-contact-audit/`.
 unchanged source hashes and keeps observed frame times. Its supplied resources,
 adjacent durable Orc and long wind-up are controlled fixtures, not unassisted
 gameplay or crowd/device approval. Retain force facets, holy seal and connected
-lightning/local mark; no additional contact atlas was justified. AN remains
-an audit candidate. Keep existing clocks, warning protection and fire/frost art.
+lightning/local mark; no additional contact atlas was justified. AN's healing/ward
+audit is recorded below. Keep existing clocks, warning protection and fire/frost art.
+
+
+### Healing and ward audit
+AN's actual-cast review lives in `docs/visual/2026-10-31-healing-ward-audit/`.
+The harness captures eight spells in Normal/Calm at 320/390px and short landscape;
+it supplies injury/resources, a passive warning target and a local Wayfarer
+unlock, with no update/renderer/image/clock substitution. Retain healing motes,
+open shields, blessing rays and the bear-paw mark. Short visual expiry is not
+proof of buff-duration expiry, guard absorption or companion healing. The
+optional AK–AN texture audit is complete; no automatic AO atlas is commissioned.
+Future painting needs a demonstrated native gap. Engine/device and selected
+scene-composition work remain separate.

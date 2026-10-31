@@ -1,0 +1,5005 @@
+{
+  "version": "0.9.68",
+  "sources": {
+    "js/release.js": "8bec9d16060ae8a4283dd104bca9f7df629ac67e6c2b8a92a82a86d2dbfa78bd",
+    "js/spellfx.js": "1746fcf6d112bdbbf56312a117a0679d68abb6608941a9aae31908b5221ac6ff",
+    "js/arcanefx.js": "4d00f90f90703a85e662b9585e7f7d90811fe9ce9efdd1c4d0ec6b1b289f1672",
+    "js/renderer.js": "a6a16d1c9982686172ee62822e198a5ef991edf019ff10af8b4753ee6282ee51",
+    "js/powers.js": "c5f00b95ea8ebaebdcd5c03a49951a68afd361d0a23444eb8e92c1bd6a73b833",
+    "js/data.js": "b40a2c670114ff76f2c11a6af8b0560eed8b019ad12b57e8cf1d28c847a5ec78",
+    "js/wild.js": "3df75e3da50e75a5c6e7ddaff49caf61d1c9012a9699b2f6ef4ca7c53fd0cd88",
+    "js/spellblade.js": "95d4e12cd93e6f862ab83f33c2aeb6df1a568e5976dd80dd1f173b66efb542aa"
+  },
+  "scope": "Actual native Game.castSpell, updates, rendering, effect clocks and dice. Supplies level10/resources, injured hero before each cast, passive durable adjacent Orc with long wind-up, recovery reset between casts and device-local Wayfarer unlock. No game/update/renderer/image/clock substitution. Canvas captures at observed frame times; not unassisted gameplay, full HUD, companion healing, guard absorption, buff-duration expiry, physical-device or performance approval.",
+  "casts": [
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63049.9,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63449.9,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63449.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 94116.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63449.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 94116.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63449.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 94116.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 43916.5,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5616.599999999999,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63233.2,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.6,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.6,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.6,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 44266.5,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5233.2,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63066.6,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63316.5,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63316.5,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93983.1,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63316.5,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93983.1,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63316.5,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93983.1,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 44099.9,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5433.299999999999,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63499.8,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 62999.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93666.5,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 44133.2,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5483.200000000001,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63016.6,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.8,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.8,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.7,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.8,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.7,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.8,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.7,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 44016.6,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5216.7,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": false,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 3,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "ac": {
+            "amount": 4,
+            "until": 63249.9,
+            "src": "shield"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "style": "buff",
+      "color": "#ff8",
+      "duration": 600,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.9,
+            "src": "bless"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "style": "buff",
+      "color": "#adf",
+      "duration": 600,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.9,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 2,
+      "healed": 13,
+      "applied": {
+        "hp": 113,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.9,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 850,
+      "impact": 0,
+      "cost": 5,
+      "healed": 22,
+      "applied": {
+        "hp": 122,
+        "effects": {
+          "hit": {
+            "amount": 2,
+            "until": 63199.9,
+            "src": "bless"
+          },
+          "ac": {
+            "amount": 2,
+            "until": 93849.9,
+            "src": "protection"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "style": "heal",
+      "color": "#8f8",
+      "duration": 800,
+      "impact": 0,
+      "cost": 3,
+      "healed": 11,
+      "applied": {
+        "hp": 111,
+        "effects": {},
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "style": "buff",
+      "color": "#c95",
+      "duration": 700,
+      "impact": 0,
+      "cost": 5,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {},
+        "shape": {
+          "until": 44066.5,
+          "hide": 13,
+          "full": 13
+        }
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "style": "buff",
+      "color": "#a8e0ff",
+      "duration": 500,
+      "impact": 0,
+      "cost": 2,
+      "healed": 0,
+      "applied": {
+        "hp": 100,
+        "effects": {
+          "spellguard": {
+            "amount": 11,
+            "until": 5399.800000000001,
+            "src": "spellguard"
+          }
+        },
+        "shape": null
+      },
+      "game_time_advanced": true,
+      "calm": true,
+      "status": "playing"
+    }
+  ],
+  "captures": [
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-effect-1.png",
+      "phase": 0.19433333333333394,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-effect-2.png",
+      "phase": 0.3610000000000006,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-effect-3.png",
+      "phase": 0.6110000000000007,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-effect-4.png",
+      "phase": 0.8610000000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-normal-shield-expired.png",
+      "phase": 1.0553333333333346,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-effect-0.png",
+      "phase": 0.055499999999998786,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-effect-2.png",
+      "phase": 0.3609999999999991,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-effect-3.png",
+      "phase": 0.6109999999999991,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-effect-4.png",
+      "phase": 0.8609999999999991,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-normal-bless-expired.png",
+      "phase": 1.0554999999999988,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-effect-1.png",
+      "phase": 0.19433333333333394,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-effect-4.png",
+      "phase": 0.8610000000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-normal-protection-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-effect-0.png",
+      "phase": 0.041749999999999544,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-effect-2.png",
+      "phase": 0.3751249999999993,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-normal-cure_light-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-effect-0.png",
+      "phase": 0.058823529411764705,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-effect-1.png",
+      "phase": 0.1961176470588244,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-effect-2.png",
+      "phase": 0.3725882352941185,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-effect-3.png",
+      "phase": 0.6078823529411773,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-effect-4.png",
+      "phase": 0.8628235294117643,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-normal-cure_serious-expired.png",
+      "phase": 1.0588235294117647,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-effect-0.png",
+      "phase": 0.04162499999999909,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-effect-3.png",
+      "phase": 0.6041249999999991,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-normal-mending_moss-expired.png",
+      "phase": 1.0416249999999991,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-effect-0.png",
+      "phase": 0.04757142857142753,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-effect-1.png",
+      "phase": 0.1904285714285704,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-effect-2.png",
+      "phase": 0.38099999999999973,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-effect-3.png",
+      "phase": 0.6188571428571426,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-effect-4.png",
+      "phase": 0.8808571428571421,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-normal-wild_shape-expired.png",
+      "phase": 1.0475714285714275,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-effect-0.png",
+      "phase": 0.06660000000000037,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-effect-1.png",
+      "phase": 0.1998000000000011,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-effect-2.png",
+      "phase": 0.36660000000000037,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-effect-3.png",
+      "phase": 0.6332000000000008,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-effect-4.png",
+      "phase": 0.8666000000000004,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-normal-spellguard-expired.png",
+      "phase": 1.0664000000000013,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-effect-0.png",
+      "phase": 0.055499999999998786,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-effect-1.png",
+      "phase": 0.19433333333333241,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-effect-2.png",
+      "phase": 0.3609999999999991,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-effect-3.png",
+      "phase": 0.6109999999999991,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-effect-4.png",
+      "phase": 0.8609999999999991,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "320-calm-safe-shield-expired.png",
+      "phase": 1.0554999999999988,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-effect-0.png",
+      "phase": 0.05566666666666758,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "320-calm-safe-bless-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-effect-1.png",
+      "phase": 0.1945000000000012,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-effect-2.png",
+      "phase": 0.36116666666666786,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-effect-3.png",
+      "phase": 0.6110000000000007,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-effect-4.png",
+      "phase": 0.8611666666666679,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "320-calm-safe-protection-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-effect-0.png",
+      "phase": 0.041625000000000224,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-effect-4.png",
+      "phase": 0.8748750000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "320-calm-safe-cure_light-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-effect-0.png",
+      "phase": 0.058941176470587595,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-effect-1.png",
+      "phase": 0.1961176470588233,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-effect-2.png",
+      "phase": 0.37258823529411744,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-effect-3.png",
+      "phase": 0.6078823529411762,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-effect-4.png",
+      "phase": 0.8627058823529403,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "320-calm-safe-cure_serious-expired.png",
+      "phase": 1.0588235294117647,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-effect-0.png",
+      "phase": 0.041749999999999544,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-effect-3.png",
+      "phase": 0.6042499999999995,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "320-calm-safe-mending_moss-expired.png",
+      "phase": 1.0417499999999995,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-effect-0.png",
+      "phase": 0.047571428571428834,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-effect-1.png",
+      "phase": 0.1904285714285717,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-effect-2.png",
+      "phase": 0.38085714285714206,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-effect-3.png",
+      "phase": 0.6190000000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-effect-4.png",
+      "phase": 0.8808571428571421,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "320-calm-safe-wild_shape-expired.png",
+      "phase": 1.0475714285714288,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-effect-0.png",
+      "phase": 0.0668000000000011,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-effect-1.png",
+      "phase": 0.20020000000000074,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-effect-2.png",
+      "phase": 0.36680000000000107,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-effect-3.png",
+      "phase": 0.6,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-effect-4.png",
+      "phase": 0.8668000000000011,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "320-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "320-calm-safe-spellguard-expired.png",
+      "phase": 1.0666000000000004,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 290
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-effect-4.png",
+      "phase": 0.8609999999999991,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-normal-shield-expired.png",
+      "phase": 1.055333333333333,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-effect-0.png",
+      "phase": 0.055499999999998786,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-effect-2.png",
+      "phase": 0.3609999999999991,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-normal-bless-expired.png",
+      "phase": 1.0554999999999988,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-normal-protection-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-effect-0.png",
+      "phase": 0.041625000000000224,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-effect-4.png",
+      "phase": 0.8748750000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-normal-cure_light-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-effect-0.png",
+      "phase": 0.058823529411764705,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-effect-1.png",
+      "phase": 0.1961176470588233,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-effect-2.png",
+      "phase": 0.37247058823529455,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-effect-3.png",
+      "phase": 0.6078823529411762,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-effect-4.png",
+      "phase": 0.8628235294117643,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-normal-cure_serious-expired.png",
+      "phase": 1.0588235294117647,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-effect-0.png",
+      "phase": 0.04175000000000068,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-effect-2.png",
+      "phase": 0.3748750000000007,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-effect-4.png",
+      "phase": 0.8748750000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-normal-mending_moss-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-effect-0.png",
+      "phase": 0.04742857142857117,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-effect-1.png",
+      "phase": 0.19028571428571403,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-effect-2.png",
+      "phase": 0.38085714285714206,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-effect-3.png",
+      "phase": 0.618999999999999,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-effect-4.png",
+      "phase": 0.8808571428571421,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-normal-wild_shape-expired.png",
+      "phase": 1.0474285714285712,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-effect-0.png",
+      "phase": 0.06660000000000037,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-effect-1.png",
+      "phase": 0.2,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-effect-2.png",
+      "phase": 0.36660000000000037,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-effect-3.png",
+      "phase": 0.6332000000000008,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-effect-4.png",
+      "phase": 0.8666000000000004,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-normal-spellguard-expired.png",
+      "phase": 1.0666000000000004,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-effect-0.png",
+      "phase": 0.05566666666666606,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-effect-4.png",
+      "phase": 0.8609999999999991,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "390-calm-safe-shield-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-effect-0.png",
+      "phase": 0.08333333333333333,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-effect-1.png",
+      "phase": 0.1945000000000012,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-effect-2.png",
+      "phase": 0.36116666666666786,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-effect-3.png",
+      "phase": 0.6111666666666679,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-effect-4.png",
+      "phase": 0.8611666666666679,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "390-calm-safe-bless-expired.png",
+      "phase": 1.0556666666666676,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-effect-0.png",
+      "phase": 0.05566666666666606,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "390-calm-safe-protection-expired.png",
+      "phase": 1.055666666666666,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-effect-0.png",
+      "phase": 0.041625000000000224,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-effect-2.png",
+      "phase": 0.3748750000000007,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-effect-4.png",
+      "phase": 0.8748750000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "390-calm-safe-cure_light-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-effect-0.png",
+      "phase": 0.058823529411764705,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-effect-1.png",
+      "phase": 0.1961176470588233,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-effect-2.png",
+      "phase": 0.37247058823529455,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-effect-3.png",
+      "phase": 0.6077647058823533,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-effect-4.png",
+      "phase": 0.8627058823529414,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "390-calm-safe-cure_serious-expired.png",
+      "phase": 1.0588235294117647,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-effect-0.png",
+      "phase": 0.041749999999999544,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-effect-3.png",
+      "phase": 0.6042499999999995,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "390-calm-safe-mending_moss-expired.png",
+      "phase": 1.1041249999999991,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-effect-0.png",
+      "phase": 0.047571428571428834,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-effect-1.png",
+      "phase": 0.1904285714285717,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-effect-2.png",
+      "phase": 0.38085714285714206,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-effect-3.png",
+      "phase": 0.6190000000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-effect-4.png",
+      "phase": 0.8808571428571421,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "390-calm-safe-wild_shape-expired.png",
+      "phase": 1.0475714285714288,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-effect-0.png",
+      "phase": 0.06679999999999928,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-effect-1.png",
+      "phase": 0.2,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-effect-2.png",
+      "phase": 0.36660000000000037,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-effect-3.png",
+      "phase": 0.6,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-effect-4.png",
+      "phase": 0.8666000000000004,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "390-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "390-calm-safe-spellguard-expired.png",
+      "phase": 1.0667999999999993,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 382
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-effect-1.png",
+      "phase": 0.1945000000000012,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-effect-2.png",
+      "phase": 0.3610000000000006,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-effect-3.png",
+      "phase": 0.6110000000000007,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-effect-4.png",
+      "phase": 0.8611666666666679,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-normal-shield-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-effect-0.png",
+      "phase": 0.05566666666666758,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-effect-1.png",
+      "phase": 0.19433333333333394,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-effect-2.png",
+      "phase": 0.3610000000000006,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-normal-bless-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-effect-0.png",
+      "phase": 0.05566666666666606,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-effect-2.png",
+      "phase": 0.3613333333333321,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-effect-3.png",
+      "phase": 0.6113333333333322,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-normal-protection-expired.png",
+      "phase": 1.055666666666666,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-effect-0.png",
+      "phase": 0.041625000000000224,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-effect-2.png",
+      "phase": 0.3748750000000007,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-effect-3.png",
+      "phase": 0.6039999999999998,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-effect-4.png",
+      "phase": 0.8748750000000007,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-normal-cure_light-expired.png",
+      "phase": 1.0414999999999999,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-effect-0.png",
+      "phase": 0.058823529411764705,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-effect-1.png",
+      "phase": 0.1961176470588233,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-effect-2.png",
+      "phase": 0.37258823529411744,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-effect-3.png",
+      "phase": 0.6078823529411762,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-effect-4.png",
+      "phase": 0.8628235294117643,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-normal-cure_serious-expired.png",
+      "phase": 1.0587058823529407,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-effect-0.png",
+      "phase": 0.1041249999999991,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-effect-3.png",
+      "phase": 0.6041249999999991,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-normal-mending_moss-expired.png",
+      "phase": 1.0416249999999991,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-effect-0.png",
+      "phase": 0.07128571428571377,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-effect-1.png",
+      "phase": 0.1904285714285704,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-effect-2.png",
+      "phase": 0.38099999999999973,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-effect-3.png",
+      "phase": 0.618999999999999,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-effect-4.png",
+      "phase": 0.8809999999999998,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-normal-wild_shape-expired.png",
+      "phase": 1.0474285714285712,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-effect-0.png",
+      "phase": 0.06660000000000037,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-effect-1.png",
+      "phase": 0.1998000000000011,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-effect-2.png",
+      "phase": 0.36660000000000037,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-effect-3.png",
+      "phase": 0.6,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-effect-4.png",
+      "phase": 0.8666000000000004,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-normal",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-normal-spellguard-expired.png",
+      "phase": 1.0666000000000004,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-effect-4.png",
+      "phase": 0.8609999999999991,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Mage",
+      "id": "shield",
+      "file": "740-calm-safe-shield-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-effect-0.png",
+      "phase": 0.05566666666666758,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-effect-2.png",
+      "phase": 0.36116666666666636,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-effect-3.png",
+      "phase": 0.6111666666666664,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "bless",
+      "file": "740-calm-safe-bless-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-effect-0.png",
+      "phase": 0.055500000000000306,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-effect-1.png",
+      "phase": 0.1944999999999997,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-effect-2.png",
+      "phase": 0.3610000000000006,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-effect-3.png",
+      "phase": 0.6110000000000007,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-effect-4.png",
+      "phase": 0.8611666666666664,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "protection",
+      "file": "740-calm-safe-protection-expired.png",
+      "phase": 1.0555000000000003,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-effect-0.png",
+      "phase": 0.041625000000000224,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-effect-1.png",
+      "phase": 0.1875,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-effect-3.png",
+      "phase": 0.6041250000000002,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-effect-4.png",
+      "phase": 0.875,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_light",
+      "file": "740-calm-safe-cure_light-expired.png",
+      "phase": 1.0416250000000002,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-effect-0.png",
+      "phase": 0.058823529411764705,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-effect-1.png",
+      "phase": 0.19600000000000042,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-effect-2.png",
+      "phase": 0.37247058823529455,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-effect-3.png",
+      "phase": 0.6077647058823533,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-effect-4.png",
+      "phase": 0.8625882352941174,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Cleric",
+      "id": "cure_serious",
+      "file": "740-calm-safe-cure_serious-expired.png",
+      "phase": 1.0588235294117647,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-effect-0.png",
+      "phase": 0.041749999999999544,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-effect-1.png",
+      "phase": 0.18737499999999954,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-effect-2.png",
+      "phase": 0.375,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-effect-3.png",
+      "phase": 0.6041249999999991,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-effect-4.png",
+      "phase": 0.8748749999999995,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "mending_moss",
+      "file": "740-calm-safe-mending_moss-expired.png",
+      "phase": 1.0416249999999991,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-effect-0.png",
+      "phase": 0.04757142857142753,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-effect-1.png",
+      "phase": 0.1904285714285704,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-effect-2.png",
+      "phase": 0.38085714285714206,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-effect-3.png",
+      "phase": 0.618999999999999,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-effect-4.png",
+      "phase": 0.8808571428571421,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Druid",
+      "id": "wild_shape",
+      "file": "740-calm-safe-wild_shape-expired.png",
+      "phase": 1.0475714285714275,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-effect-0.png",
+      "phase": 0.10019999999999891,
+      "name": "effect-0",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-effect-1.png",
+      "phase": 0.2001999999999989,
+      "name": "effect-1",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-effect-2.png",
+      "phase": 0.3667999999999993,
+      "name": "effect-2",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-effect-3.png",
+      "phase": 0.6,
+      "name": "effect-3",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-effect-4.png",
+      "phase": 0.8665999999999986,
+      "name": "effect-4",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    },
+    {
+      "mode": "740-calm-safe",
+      "cls": "Spellblade",
+      "id": "spellguard",
+      "file": "740-calm-safe-spellguard-expired.png",
+      "phase": 1.0667999999999993,
+      "name": "expired",
+      "warnings": 1,
+      "buffer": {
+        "width": 320,
+        "height": 164
+      }
+    }
+  ],
+  "browser_errors": []
+}
