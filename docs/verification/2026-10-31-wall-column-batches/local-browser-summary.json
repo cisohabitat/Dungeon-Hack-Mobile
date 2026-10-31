@@ -1,0 +1,12 @@
+{
+  "browser_cases": 1031,
+  "by_project": {
+    "phone": 658,
+    "small": 373
+  },
+  "regular": 1023,
+  "serial_offline": 8,
+  "failures": 0,
+  "retries": 0,
+  "runtime_hashes_match_native_captures": true
+}

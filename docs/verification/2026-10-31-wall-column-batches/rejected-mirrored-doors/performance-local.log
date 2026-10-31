@@ -1,0 +1,45 @@
+
+Running 1 test using 1 worker
+
+(node:560706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:560706) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+frame budget at 4x slower (need 30 fps): {"fight":{"fps":50,"scriptMs":9.9},"wide":{"fps":45.4,"scriptMs":11.5},"flooded":{"fps":43.9,"scriptMs":13.5},"painted":{"fps":41.3,"scriptMs":14.7},"amber":{"fps":38,"scriptMs":14.6},"scroll":{"fps":35,"scriptMs":15.2},"decals":{"fps":32.2,"scriptMs":14.9},"wet":{"fps":26.8,"scriptMs":16.6},"rite":{"fps":56.5,"scriptMs":12.8}} start {"ms":2052}
+  ✘  1 [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor (1.2m)
+
+
+  1) [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor ───
+
+    Error: wet: {"fps":26.8,"scriptMs":16.6}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m30[39m
+    Received:    [31m26.8[39m
+
+      174 |   console.log(`frame budget at ${RATE}x slower (need ${MIN_FPS} fps):`, JSON.stringify(out), 'start', JSON.stringify(start));
+      175 |   if (REPORT_ONLY) return;
+    > 176 |   for (const [scene, m] of Object.entries(out)) expect(m.fps, `${scene}: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(scene === 'wide' ? MIN_FPS_WIDE : MIN_FPS);
+          |                                                                                                 ^
+      177 |   expect(start.ms, `a run opens within ${MAX_START_MS} ms of Begin`).toBeLessThanOrEqual(MAX_START_MS);
+      178 | });
+      179 |
+        at /workspace/Dungeon-Hack-Mobile/test/browser/perf.spec.js:176:97
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../aaa3-plinth-wallstrips-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../aaa3-plinth-wallstrips-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../aaa3-plinth-wallstrips-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+    Usage:
+
+        npx playwright show-trace ../aaa3-plinth-wallstrips-performance-results/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [perf] › test/browser/perf.spec.js:53:1 › the view holds its frame rate on a slow processor ────

@@ -1,0 +1,142 @@
+diff --git a/js/renderer.js b/js/renderer.js
+index 1586575c..e0df8783 100644
+--- a/js/renderer.js
++++ b/js/renderer.js
+@@ -4,6 +4,7 @@ import { THEMES } from './data.js';
+ import { lookOf, hashXY, WALL as WALL_K, CEIL } from './looks.js';
+ import { makeSpellFx } from './spellfx.js';
+ import { makeOverlay } from './overlay.js';
++import { makeFloorCoverage } from './wallcover.js';
+ import { drawMeleeImpact, drawTellGlyph, drawDefence, drawThreat, combatText } from './meleeview.js';
+ import { heldPlacement, meleePose } from './heldview.js';
+ import { namedBase, namedId } from './namedart.js';
+@@ -130,14 +131,17 @@ const Renderer = (() => {
+   const BUILT_ROOF_SHADE = new Uint8Array([1, 2, 3, 4, 5, 6, 6, 7]);
+   const CAVE_ROOF_SHADE = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 7]);
+   let floorKinds = 0;   // which floors (looks.js FLOOR) the last frame showed, as bits, for the tests
+-  function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lit) {
++  let floorSkipped = 0;
++  const floorCoverage = makeFloorCoverage(W, wallPicture);
++  function castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lit, covered) {
+     const TX = Assets.TEX;
+     const look = looksOf(level, tex), fk = look.floor, ck = look.ceil, edge = look.edge, floors = look.floors, ceils = look.ceils;
+     const lw = level.w, lh = level.h;
+     const rdx0 = dirX - planeX, rdy0 = dirY - planeY;
+     const rdx1 = dirX + planeX, rdy1 = dirY + planeY;
+     const half = H / 2;
+-    let seen = 0;
++    let seen = covered ? covered.kinds : 0;
++    floorSkipped = 0;
+     for (let y = half + 1; y < H; y++) {
+       const level = rowLevel[y];
+       const dist = rowDist[y];
+@@ -161,6 +165,9 @@ const Renderer = (() => {
+       let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], roofShade = BUILT_ROOF_SHADE;
+       let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0, lightEmpty = true;
+       for (let x = 0; x < W; x++) {
++        if (covered && y < covered.bottom[x] && H - 1 - y >= covered.top[x]) {
++          floorSkipped++; fx += stepX; fy += stepY; continue;
++        }
+         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
+         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
+         if (i !== lastI) {
+@@ -467,6 +474,11 @@ const Renderer = (() => {
+       }
+     }
+   }
++  function wallPicture(tex, tile, x, y, built, jamb, pillar) {
++    return pillar ? (built === WALL_K.ROCK ? tex.rockPillar : built === WALL_K.FALLEN ? tex.fallen : tex.pillar)
++      : built === WALL_K.ROCK ? tex.rock : built === WALL_K.FALLEN ? tex.fallen
++      : jamb && tile === T.WALL ? tex.wall : texFor(tex, tile, x, y);
++  }
+ 
+   // A square of stone with no wall on any side stands alone in a room: a
+   // pillar, drawn as one (a colonnade's, a shrine's ring, a gallery's), not as
+@@ -1351,7 +1363,10 @@ const Renderer = (() => {
+     setFog(level.theme);
+     const reach = level.twist === 'dark' ? DARK_FOG : FOG;
+     if (reach !== fog) { fog = reach; buildRows(); }
+-    castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lights.lit.length > 0);
++    const look = looksOf(level, tex), doorMotion = fx.doorShut;
++    const coverView = { level, tex, look, x: px, y: py, dx: dirX, dy: dirY, height: H, fog, grid: level.tiles, w: level.w, h: level.h,
++      moving: !!(doorMotion && Object.keys(doorMotion).length), alpha: ctx.globalAlpha, operation: ctx.globalCompositeOperation };
++    castFloor(tex, px, py, dirX, dirY, planeX, planeY, level, lm, lights.lit.length > 0, floorCoverage.before(coverView));
+     if (level.twist === 'flooded') floodFloor(now);
+     if (level.twist === 'overgrown') mossFloor();
+     // stains lie on the floor, so the walls drawn next hide them where they should;
+@@ -1362,7 +1377,8 @@ const Renderer = (() => {
+     drawStains(fieldStains(level, now, fx), level, px, py, dirX, dirY, planeX, planeY, lm, now);
+     const w = level.w, h = level.h, tiles = level.tiles, explored = level.explored, doorShut = fx.doorShut;
+     doorsN = 0; pillarsN = 0; stairsN = 0; cellsN = 0; shutN = 0; jambsN = 0; rockN = 0; fallenN = 0; websN = 0;
+-    const look = looksOf(level, tex);
++    floorCoverage.begin(level.w * level.h);
++    const canCover = !coverView.moving && ctx.globalAlpha === 1 && ctx.globalCompositeOperation === 'source-over';
+     // how often a corner wears a web: most of them where the dead and the spiders keep house, hardly any in black glass
+     const webOdds = tex.theme.face === 'bones' || level.route === 'crypts' ? 2 : tex.theme.face === 'glass' ? 7 : 3;
+     const getT = (x, y) => (x < 0 || y < 0 || x >= w || y >= h) ? T.WALL : tiles[y * w + x];
+@@ -1375,10 +1391,11 @@ const Renderer = (() => {
+       let stepX, stepY, sdx, sdy;
+       if (rdx < 0) { stepX = -1; sdx = (px - mapX) * ddx; } else { stepX = 1; sdx = (mapX + 1 - px) * ddx; }
+       if (rdy < 0) { stepY = -1; sdy = (py - mapY) * ddy; } else { stepY = 1; sdy = (mapY + 1 - py) * ddy; }
+-      let side = 0, tile = T.WALL, n = 0, door = null, colT = -1, colU = 0, stair = null, shutAt = false, jamb = false, pastDoor = false;
++      let side = 0, tile = T.WALL, n = 0, door = null, colT = -1, colU = 0, stair = null, shutAt = false, jamb = false, pastDoor = false, floorSafe = true;
+       while (n++ < 64) {
+         if (sdx < sdy) { sdx += ddx; mapX += stepX; side = 0; } else { sdy += ddy; mapY += stepY; side = 1; }
+         tile = getT(mapX, mapY);
++        if (tile === T.DOOR || tile === T.DOOR_LOCKED || tile === T.DOOR_OPEN || tile === T.STAIRS_UP || tile === T.STAIRS_DOWN) floorSafe = false;
+         // Rays continue to distant stone for drawing, but ground swallowed by
+         // the fog has not been seen and must stay hidden on both maps.
+         const seenAt = side === 0 ? sdx - ddx : sdy - ddy;
+@@ -1453,12 +1470,8 @@ const Renderer = (() => {
+       if ((side === 0 && rdx > 0) || (side === 1 && rdy < 0)) tx = 63 - tx;
+       const ti = mapX >= 0 && mapY >= 0 && mapX < w && mapY < h ? mapY * w + mapX : -1;
+       const built = ti >= 0 && (tile === T.WALL || tile === T.STAIRS_UP) ? look.wall[ti] : WALL_K.PLAIN;
+-      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door)
+-        : tile === T.WALL && standsAlone(level, mapX, mapY) ? (built === WALL_K.ROCK ? tex.rockPillar : built === WALL_K.FALLEN ? tex.fallen : tex.pillar)
+-        : built === WALL_K.ROCK ? tex.rock : built === WALL_K.FALLEN ? tex.fallen
+-        // (the side of a doorway is plain stone: a banner or a niche cut through by it reads as a mistake)
+-        : jamb && tile === T.WALL ? tex.wall
+-        : texFor(tex, tile, mapX, mapY);
++      const pillar = !door && tile === T.WALL && standsAlone(level, mapX, mapY);
++      let img = door ? (door.lock ? tex.locked[door.lock] || tex.door : tex.door) : wallPicture(tex, tile, mapX, mapY, built, jamb, pillar);
+       // a cell's door is a gate of bars, its lock in its key's colour
+       if (shutAt && ti >= 0 && look.cell[ti]) {
+         const lock = door ? door.lock : tile === T.DOOR_LOCKED ? level.locks[mapX + ',' + mapY] : null;
+@@ -1503,6 +1516,7 @@ const Renderer = (() => {
+         continue;
+       }
+       const surface = dist > 3 && (tile === T.WALL || tile === T.SECRET) && !jamb && !shutAt ? softWall(img) : img;
++      if (canCover && floorSafe && !stair && !shutAt && ti >= 0 && (tile === T.WALL || tile === T.SECRET)) floorCoverage.add(col, top, lineH, img, tile, mapX, mapY, built, jamb, pillar, ti);
+       ctx.drawImage(surface, tx, 0, 1, 64, col, top, 1, lineH);
+       if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
+       if (shutAt) shutN++;
+@@ -1540,6 +1554,7 @@ const Renderer = (() => {
+       if (heat > 0.08) wallHeats[col] = Math.min(10, Math.round(heat * 10));
+     }
+ 
++    floorCoverage.end(coverView, floorKinds);
+     paintWallLight(wallShades, shadeStyles);
+     paintWallLight(wallHeats, WARM);
+ 
+@@ -1970,7 +1985,7 @@ const Renderer = (() => {
+     const ramp = (TELLS[palette] || TELLS.standard)[special ? 'special' : 'normal'];
+     return ramp[tell >= 1 ? 2 : tell > 0.5 ? 1 : 0];
+   }
+-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get intent() { return intent ? intent + (intentCount > 1 ? ` · +${intentCount - 1} readying` : '') : ''; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
++  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get intent() { return intent ? intent + (intentCount > 1 ? ` · +${intentCount - 1} readying` : '') : ''; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get floorSkipped() { return floorSkipped; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+ })();
+ 
+ export { Renderer };
+diff --git a/sw.js b/sw.js
+index 2b992c85..db654e2b 100644
+--- a/sw.js
++++ b/sw.js
+@@ -1697,7 +1697,7 @@ const ASSETS = [
+   './img/bosses/lich.webp', './img/bosses/warlord.webp', './img/bosses/heartforged.webp',
+   './img/portraits/fighter.webp', './img/portraits/thief.webp', './img/portraits/mage.webp', './img/portraits/cleric.webp', './img/portraits/ranger.webp', './img/portraits/druid.webp',
+   './js/narration.js', './js/storyvoice.js', './js/voicelines.js', './sound/narration/catalog.json',
+-  './js/rng.js', './js/data.js', './js/parts.js', './js/painter.js', './js/creatures.js', './js/folk.js', './js/props.js', './js/champions.js', './js/itemart.js', './js/namedart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/mythicdata.js', './js/mythics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/walldecor.js', './js/assets.js', './js/dungeon.js', './js/spellfx.js', './js/overlay.js', './js/renderer.js', './js/samples.js', './js/sound.js', './js/music.js', './js/foes.js', './js/bosses.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/chronicle.js', './js/powers.js', './js/pacing.js', './js/motion.js', './js/combat.js', './js/items.js', './js/scenes.js', './js/curses.js', './js/fallen.js', './js/paths.js', './js/legends.js', './js/combos.js', './js/lairs.js', './js/threads.js', './js/telemetry.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/pagesview.js', './js/tips.js', './js/pad.js', './js/access.js', './js/weekly.js', './js/titlescene.js', './js/shopview.js', './js/choices.js', './js/pack.js', './js/mapview.js', './js/endscreen.js', './js/herosheet.js', './js/createextras.js', './js/titlemenu.js', './js/createview.js', './js/ui.js', './js/main.js',
++  './js/rng.js', './js/data.js', './js/parts.js', './js/painter.js', './js/creatures.js', './js/folk.js', './js/props.js', './js/champions.js', './js/itemart.js', './js/namedart.js', './js/dressing.js', './js/heldart.js', './js/encounters.js', './js/relics.js', './js/mythicdata.js', './js/mythics.js', './js/rooms.js', './js/looks.js', './js/prelude.js', './js/progress.js', './js/daily.js', './js/walldecor.js', './js/assets.js', './js/dungeon.js', './js/spellfx.js', './js/overlay.js', './js/renderer.js', './js/wallcover.js', './js/samples.js', './js/sound.js', './js/music.js', './js/foes.js', './js/bosses.js', './js/trader.js', './js/companion.js', './js/bounty.js', './js/wild.js', './js/elements.js', './js/meet.js', './js/testing.js', './js/savecode.js', './js/saving.js', './js/chronicle.js', './js/powers.js', './js/pacing.js', './js/motion.js', './js/combat.js', './js/items.js', './js/scenes.js', './js/curses.js', './js/fallen.js', './js/paths.js', './js/legends.js', './js/combos.js', './js/lairs.js', './js/threads.js', './js/telemetry.js', './js/game.js', './js/uikit.js', './js/sharecard.js', './js/hall.js', './js/pagesview.js', './js/tips.js', './js/pad.js', './js/access.js', './js/weekly.js', './js/titlescene.js', './js/shopview.js', './js/choices.js', './js/pack.js', './js/mapview.js', './js/endscreen.js', './js/herosheet.js', './js/createextras.js', './js/titlemenu.js', './js/createview.js', './js/ui.js', './js/main.js',
+ ];
+ // Core installation must finish before any optional recording is fetched.
+ // A message event keeps downloads alive without holding activation or play.

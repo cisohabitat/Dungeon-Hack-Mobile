@@ -1326,6 +1326,29 @@ const Renderer = (() => {
   // merging only adjacent columns with exactly equal rectangles and colours.
   const wallTops = new Int32Array(W), wallHeights = new Int32Array(W);
   const wallShades = new Uint8Array(W), wallHeats = new Uint8Array(W);
+  // Mirrored prepared pictures let descending wall texels form ascending
+  // source strips. The draw coordinates reverse them back to the original view.
+  const wallMirrors = new WeakMap();
+  let lastWallSource = null, lastWallMirror = null;
+  function wallMirror(source) {
+    if (source === lastWallSource) return lastWallMirror;
+    let image = wallMirrors.get(source);
+    if (!image) {
+      image = document.createElement('canvas'); image.width = image.height = 64;
+      const g = image.getContext('2d'); g.imageSmoothingEnabled = false;
+      g.translate(64, 0); g.scale(-1, 1); g.drawImage(source, 0, 0);
+      wallMirrors.set(source, image);
+    }
+    lastWallSource = source; return lastWallMirror = image;
+  }
+  // Repeat one exact column or copy contiguous texels at one pixel per column.
+  let wallImage = null, wallTexel = 0, wallTop = 0, wallHeight = 0, wallStart = 0, wallEnd = 0, wallStep = 0, wallMerged = 0;
+  function flushWallImage() {
+    if (!wallImage) return;
+    const width = wallEnd - wallStart;
+    ctx.drawImage(wallImage, wallTexel, 0, wallStep ? width : 1, 64, wallStart, wallTop, width, wallHeight);
+    wallImage = null;
+  }
   function paintWallLight(steps, styles) {
     for (let x = 0; x < W;) {
       const start = x++, shade = steps[start];
@@ -1336,6 +1359,7 @@ const Renderer = (() => {
     }
   }
   function render(level, cam, sprites, fx, now) {
+    wallMerged = 0;
     wallShades.fill(0); wallHeats.fill(0);
     const tex = Assets.themes[level.theme];
     const px = cam.x, py = cam.y;
@@ -1470,6 +1494,7 @@ const Renderer = (() => {
       if (stair) {
         img = stair.plain ? tex.wall : tex.stairArch;
         if (stair.open) {
+          flushWallImage();
           const dR = stair.d, hR = Math.floor(P / dR), tR = ((H - hR) / 2) | 0;
           const back = stair.back ? (tile === T.STAIRS_DOWN ? tex.stairsDownBack : tex.stairsUpBack) : tex.wall;
           ctx.drawImage(back, Math.floor(stair.u * 64), 0, 1, 64, col, tR, 1, hR);
@@ -1497,13 +1522,29 @@ const Renderer = (() => {
       // (the arch over an open stairwell is drawn darkened already: shade laid over its column would darken the stairwell too)
       const openArch = !!(stair && stair.open);
       if (openArch) {
+        flushWallImage();
         stairsN++;
         const lit = lightAt(lm, w, h, px + dist * rdx, py + dist * rdy);
         ctx.drawImage(shadedArch(img, Math.max(0, Math.min(20, Math.round((shade - lit / 7) * 20)))), tx, 0, 1, 64, col, top, 1, lineH);
         continue;
       }
       const surface = dist > 3 && (tile === T.WALL || tile === T.SECRET) && !jamb && !shutAt ? softWall(img) : img;
-      ctx.drawImage(surface, tx, 0, 1, 64, col, top, 1, lineH);
+      // Door leaves keep their original surface and immediate draw path.
+      if (shutAt) {
+        flushWallImage();
+        ctx.drawImage(surface, tx, 0, 1, 64, col, top, 1, lineH);
+      } else {
+        const picture = wallMirror(surface), texel = 63 - tx, width = wallEnd - wallStart;
+        const step = width === 1 ? texel - wallTexel : wallStep;
+        if (picture === wallImage && top === wallTop && lineH === wallHeight && col === wallEnd &&
+            (step === 0 || step === 1) && texel === wallTexel + step * width) {
+          wallStep = step;
+          wallEnd++; wallMerged++;
+        } else {
+          flushWallImage();
+          wallImage = picture; wallTexel = texel; wallTop = top; wallHeight = lineH; wallStart = col; wallEnd = col + 1; wallStep = 0;
+        }
+      }
       if (img === tex.fountain) fountainCols.push(col, top, lineH, tx, dist);
       if (shutAt) shutN++;
       if (jamb) jambsN++;
@@ -1520,6 +1561,7 @@ const Renderer = (() => {
           if (isStoneT(getT(nX, nY))) {
             const cX = side === 0 ? (stepX > 0 ? mapX : mapX + 1) : fX + (lo ? 0 : 1), cY = side === 0 ? fY + (lo ? 0 : 1) : (stepY > 0 ? mapY : mapY + 1);
             if (hashXY(cX, cY) % webOdds === 0) {
+              flushWallImage();
               const d = lo ? a : 1 - a;
               ctx.drawImage(tex.web, Math.min(31, Math.floor(d / WEB_W * 32)), 0, 1, 32, col, top, 1, Math.max(1, Math.round(lineH * WEB_W)));
               websN++;
@@ -1540,6 +1582,7 @@ const Renderer = (() => {
       if (heat > 0.08) wallHeats[col] = Math.min(10, Math.round(heat * 10));
     }
 
+    flushWallImage();
     paintWallLight(wallShades, shadeStyles);
     paintWallLight(wallHeats, WARM);
 
@@ -1970,7 +2013,7 @@ const Renderer = (() => {
     const ramp = (TELLS[palette] || TELLS.standard)[special ? 'special' : 'normal'];
     return ramp[tell >= 1 ? 2 : tell > 0.5 ? 1 : 0];
   }
-  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get intent() { return intent ? intent + (intentCount > 1 ? ` · +${intentCount - 1} readying` : '') : ''; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
+  return { init, render, setHeight, busy, keepTopClear, W, H_MIN, H_MAX, FOG, drawnDressing: () => dressedN, lightOf: (level, x, y) => ensureLights(level).lm[y * level.w + x], setCalm: on => { calm = !!on; }, setPalette: name => { palette = TELLS[name] ? name : 'standard'; }, get palette() { return palette; }, tellColour, get calm() { return calm; }, setBigNumbers: on => { bigNumbers = !!on; }, get bigNumbers() { return bigNumbers; }, get H() { return H; }, get keptClear() { return keepClear; }, get intent() { return intent ? intent + (intentCount > 1 ? ` · +${intentCount - 1} readying` : '') : ''; }, get shown() { return shown.slice(); }, get numbers() { return numbers.map(n => ({ ...n })); }, get hands() { return handBoxes.map(b => b.slice()); }, get order() { return drawOrder.slice(); }, get lit() { return litLast.map(l => ({ ...l })); }, get leaned() { return leanedN; }, get afflicted() { return afflictedN.n; }, get drips() { return dripsN; }, get doorColumns() { return doorsN; }, get pillarColumns() { return pillarsN; }, get stairColumns() { return stairsN; }, get wallMerged() { return wallMerged; }, get looks() { return { floors: floorKinds, cells: cellsN, shut: shutN, jambs: jambsN, rock: rockN, fallen: fallenN, webs: websN }; }, get arriving() { return overlay.arriving; }, get levelling() { return overlay.levelling; }, get lantern() { return lanternN; }, get glints() { return glintsN; } };
 })();
 
 export { Renderer };

@@ -641,6 +641,10 @@ directory server can expose local configuration and development files.
 
 ## Tests
 
+Wall-column regressions compare repeated texture samples with separate native
+canvas draws across regions, doors and stairs. The [recovery evidence](docs/verification/2026-10-31-wall-column-batches/README.md)
+retains the blocked v0.9.70 FPS result and unchanged release gates.
+
 Combat layout checks wait for rotated viewport geometry to settle before taking
 a warning-height baseline, retaining the original height and overlap guards.
 See the [Safari readiness recovery](docs/verification/2026-10-29-safari-viewport-readiness/README.md).

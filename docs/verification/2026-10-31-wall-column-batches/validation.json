@@ -1,0 +1,169 @@
+{
+  "status": "Pre-push snapshot: local functional verification complete; local wet FPS miss retained; fresh CI controls publication",
+  "baseline": "a64e9b50c5d9f6313969e5650bebc8587fda287d",
+  "blocked_release": {
+    "version": "0.9.70",
+    "run": 41181249678,
+    "browser_cases": 1272,
+    "browser_retries": 0,
+    "wet_fps": 28.2,
+    "minimum_fps": 30,
+    "publisher": "skipped"
+  },
+  "candidate_renderer_sha256": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+  "pixel_views": 2340,
+  "changed_views": 0,
+  "diagnostic_timing_scope": "Corrected source,8alternating warmed batches; all5gains3.9\u201310.8%,128\u2013160 combined columns. Frozen fitting, not native FPS/device clearance. Single-sample pixel timings not causal evidence.",
+  "rejected_trials": [
+    "Per-pixel warm-colour memo: slower",
+    "Branched projection cache: slower",
+    "Split projection cache: slower",
+    "Prebaked material alpha: changed pixels",
+    "Opaque-wall floor coverage: pixel identical, diagnostic slower; original nine-scene gate failed decals27.7/wet24.5 FPS. Restored original floor caster and removed helper/SW addition.",
+    "Repeat-only wall batches: pixel identical; gate decals29.2/wet26.5 FPS; replaced by wider exact-strip batches",
+    "Lazy and full warmed-texture tables: diagnostic regressions; restored original floor shading"
+  ],
+  "owner_deferrals": [
+    "Browser engine stability investigation skipped this round",
+    "Human listening review skipped"
+  ],
+  "scope": "Exact repeated/contiguous wall texels with source mirrors; all closed/sliding door leaves use original immediate surface draws. No floor/frame/warmth caches, opacity or gameplay changes.",
+  "version": "0.9.71",
+  "build": 86,
+  "focused": {
+    "cases": 12,
+    "seconds": 59.8,
+    "failures": 0,
+    "door_assertions": "unchanged original leaf/damage/lock/burn/native sliding checks",
+    "wall_strips": "separate native draws and sourceRGBA identity"
+  },
+  "interrupted_first_full_run": {
+    "passed": 488,
+    "unexpected": 4,
+    "interrupted": 2,
+    "did_not_run": 529,
+    "evidence": "rejected-mirrored-doors/failure.json",
+    "cause": "Mirrored door source identity bypassed original leaf observers; excluded all shutAt door leaves from optimization",
+    "clearance": false
+  },
+  "local_performance_previous_source": {
+    "required_fps": 30,
+    "wide_required_fps": 27,
+    "startup_max_ms": 6000,
+    "cpu_throttle": 4,
+    "fight": 50,
+    "wide": 45.4,
+    "flooded": 43.9,
+    "painted": 41.3,
+    "amber": 38,
+    "scroll": 35,
+    "decals": 32.2,
+    "wet": 26.8,
+    "rite": 56.5,
+    "startup_ms": 2052,
+    "conclusion": "FAIL wet; not rerun unchanged; fresh CI remains required"
+  },
+  "full_pipeline": "Corrected source:2340pixel matrix,8rounddiagnostic,original9sceneFPSonce,native3layouts,1023regular+8serialoffline,thenfreshCIbeforepublication.",
+  "local_performance": {
+    "metrics": {
+      "fight": {
+        "fps": 45.2,
+        "scriptMs": 12.8
+      },
+      "wide": {
+        "fps": 47.2,
+        "scriptMs": 10.5
+      },
+      "flooded": {
+        "fps": 43.6,
+        "scriptMs": 12.9
+      },
+      "painted": {
+        "fps": 39.3,
+        "scriptMs": 14.8
+      },
+      "amber": {
+        "fps": 35.8,
+        "scriptMs": 14.6
+      },
+      "scroll": {
+        "fps": 34.5,
+        "scriptMs": 14.8
+      },
+      "decals": {
+        "fps": 30.6,
+        "scriptMs": 15.2
+      },
+      "wet": {
+        "fps": 24.9,
+        "scriptMs": 17
+      },
+      "rite": {
+        "fps": 57.4,
+        "scriptMs": 12.5
+      }
+    },
+    "startup_ms": 2017,
+    "required_fps": 30,
+    "wide_required_fps": 27,
+    "startup_max_ms": 6000,
+    "cpu_throttle": 4,
+    "conclusion": "FAIL wet24.9FPS; retained; not rerun unchanged; fresh CI still required"
+  },
+  "local_browser": {
+    "browser_cases": 1031,
+    "by_project": {
+      "phone": 658,
+      "small": 373
+    },
+    "regular": 1023,
+    "serial_offline": 8,
+    "failures": 0,
+    "retries": 0,
+    "runtime_hashes_match_native_captures": true
+  },
+  "regular_stats": {
+    "startTime": "2026-10-31T09:49:26.842Z",
+    "duration": 3967449.047,
+    "expected": 1023,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "offline_stats": {
+    "startTime": "2026-10-31T10:55:35.253Z",
+    "duration": 182518.571,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "native": {
+    "views": 18,
+    "changed_actions": 30,
+    "by_width": [
+      {
+        "width": 320,
+        "records": 6,
+        "changed_actions": 10,
+        "files": 17
+      },
+      {
+        "width": 390,
+        "records": 6,
+        "changed_actions": 10,
+        "files": 17
+      },
+      {
+        "width": 740,
+        "records": 6,
+        "changed_actions": 10,
+        "files": 17
+      }
+    ],
+    "source_hashes_match": true,
+    "byte_identical_copy": true,
+    "scope": "Running native shipped renderers/assets with supplied legal saved inspection poses and safety HP; not unassisted play or physical-device approval."
+  },
+  "publication_gate": "All required fresh main CI jobs, including unchanged9sceneFPS and Publish version, must succeed. No published release claimed by this pre-push snapshot."
+}

@@ -1791,3 +1791,23 @@ fixtures; otherwise its legitimate view recording changes snapshot metadata.
 Native review and supplied-pose limits live in
 `docs/visual/2026-10-31-landmark-approaches/`. The owner's 31 October browser
 stability deferral excludes engine investigation, not ordinary CI gates.
+
+
+### Exact wall-column batches
+Adjacent wall samples may share one nearest-neighbour draw only when the source
+canvas and destination top/height match and columns are contiguous. Source texels
+must either repeat exactly or advance by exactly one. Prepared immutable wall
+canvases have a once-cached horizontal mirror so descending texels can form
+ascending source strips; reverse source coordinates retain their original view.
+Keep all closed/sliding door leaves on their original surface and immediate
+draw path; preserve the existing leaf identity, damage, key-colour and burning
+door assertions. Flush pending image work before doors, stair recesses, arches, webs and the final wall
+light passes. Retain per-column lighting, fountain coordinates and counters; no
+pending image may cross a frame. `region-art.spec.js` expands batches into
+individual draws on a forwarding reference canvas and requires both identical
+pixels and exercised batches, including a moving door. The baseline comparison
+and rejected floor/opacity experiments live in
+`docs/verification/2026-10-31-wall-column-batches/`. Keep the unchanged nine-scene
+FPS gate and failed-run provenance; an identical image alone is not speed
+clearance. Do not reintroduce the rejected floor coverage/projection caches or
+pre-baked material alpha on the strength of pixel equivalence.

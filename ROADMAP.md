@@ -628,12 +628,20 @@ The [selected approach review](docs/visual/2026-10-31-landmark-approaches/README
 records generated landmark/treasure views and all three keeper objectives.
 It does not approve guard relocation or complete AAA3. Browser stability is
 deferred for this round at the owner's 31 October request; all CI gates remain.
+The v0.9.70 publisher was skipped after its unchanged wet-scene gate measured
+28.2 FPS; all 1,272 browser cases passed without retries. It remains untagged.
+The [wall-column recovery](docs/verification/2026-10-31-wall-column-batches/README.md)
+keeps the Heart staging and combines only exact repeated or contiguous wall samples.
+All closed/sliding door leaves retain their original surface and immediate draw path.
+v0.9.71 publication is controlled by the unchanged required CI gates; local
+verification and the retained wet-scene miss are recorded in the recovery review.
 
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs
 matched generation/gameplay checks and the required balance comparisons; do not
 infer that clearance from this presentation-only pass. AAA4's reference combat
-and listening review can proceed without accepting those layout experiments.
+work can proceed without accepting those layout experiments. Human listening
+review remains skipped at the owner's request.
 The 320px Double-text/Calm Heartforged walk exposed condition and log crowding
 under multiple live threats. The first AAA4 slice for v0.9.60 gives enlarged
 vitals room to share/wrap complete labels, bounds condition controls to one

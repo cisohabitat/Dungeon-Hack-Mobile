@@ -1,0 +1,27 @@
+{
+  "views": 18,
+  "changed_actions": 30,
+  "by_width": [
+    {
+      "width": 320,
+      "records": 6,
+      "changed_actions": 10,
+      "files": 17
+    },
+    {
+      "width": 390,
+      "records": 6,
+      "changed_actions": 10,
+      "files": 17
+    },
+    {
+      "width": 740,
+      "records": 6,
+      "changed_actions": 10,
+      "files": 17
+    }
+  ],
+  "source_hashes_match": true,
+  "byte_identical_copy": true,
+  "scope": "Running native shipped renderers/assets with supplied legal saved inspection poses and safety HP; not unassisted play or physical-device approval."
+}

@@ -169,3 +169,70 @@ test('built roofs recede from the room while distant surfaces keep their fog bou
   expect(result.caveDistant[1], 'natural caves retain their original darker roof').toBe(result.fog[1]);
   expect(errors).toEqual([]);
 });
+
+test('wall strips match individual draws through regions, doors and stairs @mobile', async ({ page }) => {
+  const errors = watchForErrors(page);
+  await startGame(page, { seed: 'wall-column-batches' });
+  await artReady(page); await surfaces(page);
+  const result = await page.evaluate(async () => {
+    Game.update = () => {}; Renderer.render = () => {};
+    const [{ Renderer: batched }, { Renderer: separate }] = await Promise.all([
+      import('/js/renderer.js?wall-batches'), import('/js/renderer.js?wall-individual'),
+    ]);
+    const canvases = [document.createElement('canvas'), document.createElement('canvas')];
+    const renderers = [batched, separate];
+    renderers.forEach((r, i) => { r.init(canvases[i], 304); r.setCalm(true); });
+    const ctx = canvases[1].getContext('2d'), draw = ctx.drawImage.bind(ctx);
+    let expanded = 0;
+    ctx.drawImage = function (...args) {
+      // Independent fitting reference: expand repeated columns and contiguous source strips back
+      // into the original one-pixel destination calls on the actual canvas.
+      if (args.length === 9 && (args[3] === 1 || args[3] === args[7]) && args[4] === 64 && args[7] > 1 && Number.isInteger(args[7])) {
+        expanded += args[7] - 1;
+        for (let x = 0; x < args[7]; x++) draw(args[0], args[1] + (args[3] === 1 ? 0 : x), args[2], 1, 64, args[5] + x, args[6], 1, args[8]);
+      } else draw(...args);
+    };
+    const prototype = CanvasRenderingContext2D.prototype, nativeDraw = prototype.drawImage, mirrors = new Map();
+    prototype.drawImage = function (...args) {
+      const result = nativeDraw.apply(this, args);
+      if (args.length === 3 && this.canvas.width === 64 && this.canvas.height === 64) {
+        const t = this.getTransform();
+        if (t.a === -1 && t.d === 1 && t.b === 0 && t.c === 0 && t.e === 64 && t.f === 0) mirrors.set(this.canvas, args[0]);
+      }
+      return result;
+    };
+    const T = Dungeon.T, w = 15, h = 15, now = 10000, rs = Game.renderState(now);
+    const fx = { ...rs.fx, view: null, arriveAt: -1e9, doorShut: {}, doorFire: {}, stains: {}, frost: [], vents: [], rocks: [], texts: [], spells: [], corpses: [], bits: [], boss: null };
+    const rows = [];
+    try {
+    for (let region = 0; region < Assets.themes.length; region++) for (const aperture of [T.WALL, T.DOOR, T.DOOR_OPEN, T.STAIRS_DOWN]) {
+      const tiles = new Uint8Array(w * h).fill(T.FLOOR);
+      for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (!x || !y || x === w - 1 || y === h - 1 || y === 6) tiles[y * w + x] = T.WALL;
+      tiles[6 * w + 7] = aperture;
+      const L = { ...Game.level(), w, h, tiles, theme: region, twist: null, roomId: new Int16Array(w * h), rooms: [{ x: 1, y: 1, w: 13, h: 13, shape: 'box' }], piece: null, pieces: [], caved: [], lights: [], dressing: [], remains: [], monsters: [], npcs: [], items: {}, fields: {}, explored: new Uint8Array(w * h).fill(1), seen: new Uint8Array(w * h).fill(1), locks: {}, pools: [], stairsUp: null, stairsDown: aperture === T.STAIRS_DOWN ? { x: 7, y: 6 } : null };
+      for (const angle of [-Math.PI / 2, -Math.PI / 2 + .2]) {
+        fx.doorShut = aperture === T.DOOR && angle > -Math.PI / 2 ? { [6 * w + 7]: { shut: .45, lock: null } } : {};
+        for (const r of renderers) r.render(L, { x: 7.5, y: 7.5, angle }, [], fx, now);
+        const pixels = canvases.map(c => new Uint32Array(c.getContext('2d').getImageData(0, 0, c.width, c.height).data.buffer));
+        let changed = 0; for (let i = 0; i < pixels[0].length; i++) if (pixels[0][i] !== pixels[1][i]) changed++;
+        rows.push({ region, aperture, angle, changed, merged: batched.wallMerged });
+      }
+    }
+    } finally { prototype.drawImage = nativeDraw; }
+    let copiedPixelsChanged = 0;
+    for (const [mirror, source] of mirrors) {
+      const a = mirror.getContext('2d').getImageData(0, 0, 64, 64).data;
+      const b = source.getContext('2d').getImageData(0, 0, 64, 64).data;
+      for (let y = 0; y < 64; y++) for (let x = 0; x < 64; x++) for (let c = 0; c < 4; c++) {
+        if (a[(y * 64 + x) * 4 + c] !== b[(y * 64 + 63 - x) * 4 + c]) copiedPixelsChanged++;
+      }
+    }
+    return { rows, expanded, mirroredPictures: mirrors.size, copiedPixelsChanged };
+  });
+  expect(result.mirroredPictures, 'prepared mirrors must be exercised').toBeGreaterThan(0);
+  expect(result.copiedPixelsChanged, 'reflection must preserve every source RGBA channel').toBe(0);
+  expect(result.rows.every(r => r.changed === 0), JSON.stringify(result.rows.filter(r => r.changed))).toBe(true);
+  expect(result.expanded, 'the comparison must exercise combined wall draws').toBeGreaterThan(0);
+  expect(result.rows.some(r => r.merged > 0)).toBe(true);
+  expect(errors).toEqual([]);
+});

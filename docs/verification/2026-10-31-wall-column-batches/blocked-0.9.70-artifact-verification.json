@@ -1,0 +1,282 @@
+{
+  "artifact_count": 9,
+  "report_count": 14,
+  "totals": {
+    "perf": 1,
+    "small": 372,
+    "phone": 657,
+    "safari": 243
+  },
+  "flaky_count": 0,
+  "flaky": [],
+  "artifacts": [
+    {
+      "name": "perf",
+      "zip": "/workspace/aaa3-plinth-ci-perf.zip",
+      "sha256": "daaeb98810fa90b8b4dad07959762274a3aca3dd96795c3e8aae0ed73f08ae51",
+      "files": 7,
+      "reports": [
+        {
+          "name": "ci-diagnostics/perf-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:37.493Z",
+            "duration": 77094.41600000001,
+            "expected": 0,
+            "skipped": 0,
+            "unexpected": 1,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-1",
+      "zip": "/workspace/aaa3-plinth-ci-small-1.zip",
+      "sha256": "89cbd1e379a1dad3633f5f2f85cb405075a9e532b0e0b295d169a469f6a7ccb6",
+      "files": 62,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:49:40.646Z",
+            "duration": 65393.969999999994,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:36.548Z",
+            "duration": 782923.7760000001,
+            "expected": 184,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-2",
+      "zip": "/workspace/aaa3-plinth-ci-small-2.zip",
+      "sha256": "b582431b1b219c67fabe9efd532552ead1598e391ad2837bdc457b679e5c54f3",
+      "files": 47,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:50:10.425Z",
+            "duration": 42083.46799999999,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:38.755Z",
+            "duration": 810446.077,
+            "expected": 184,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-1",
+      "zip": "/workspace/aaa3-plinth-ci-phone-1.zip",
+      "sha256": "756ce99558c097b5486ad90a3a553345828ab1b72112901777d1ffcba44d6670",
+      "files": 53,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:55:07.062Z",
+            "duration": 70171.477,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:32.380Z",
+            "duration": 1113524.219,
+            "expected": 218,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-2",
+      "zip": "/workspace/aaa3-plinth-ci-phone-2.zip",
+      "sha256": "b9df8a406ff73621325bc90e6747021bab434715cdf71eace213086bd739c933",
+      "files": 18,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:52:12.242Z",
+            "duration": 19669.778,
+            "expected": 1,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:35.382Z",
+            "duration": 935666.591,
+            "expected": 218,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-3",
+      "zip": "/workspace/aaa3-plinth-ci-phone-3.zip",
+      "sha256": "d824f29e47e64f7133751b23e0c86c97f5105a2d98c063c36d1b8b4e009ad930",
+      "files": 46,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:52:58.031Z",
+            "duration": 27114.71,
+            "expected": 1,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:36:36.094Z",
+            "duration": 980599.907,
+            "expected": 217,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-1",
+      "zip": "/workspace/aaa3-plinth-ci-safari-1.zip",
+      "sha256": "283bb9d81fe4fb5e1ca069797ab3b5a7cdecded8d6a43b6afda60a297c310a6f",
+      "files": 34,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:37:02.830Z",
+            "duration": 1288208.166,
+            "expected": 81,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-2",
+      "zip": "/workspace/aaa3-plinth-ci-safari-2.zip",
+      "sha256": "0201029078781ac6eaceb3bd188b88e61600ec742bdbd83ca2b3b69374083827",
+      "files": 9,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:37:01.312Z",
+            "duration": 996290.259,
+            "expected": 81,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-3",
+      "zip": "/workspace/aaa3-plinth-ci-safari-3.zip",
+      "sha256": "0159fd5b7fbdbbe7ea91250c7944cd97529336e569565e4730a494f7af510421",
+      "files": 36,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T07:37:01.065Z",
+            "duration": 666949.687,
+            "expected": 81,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    }
+  ]
+}

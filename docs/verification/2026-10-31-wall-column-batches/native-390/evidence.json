@@ -1,0 +1,4394 @@
+[
+  {
+    "i": 5,
+    "n": 8,
+    "d": 8,
+    "road": "crypts",
+    "stage": "landmark",
+    "file": "05-landmark.png",
+    "placement": {
+      "target": {
+        "uid": 8010,
+        "id": "lich",
+        "x": 28,
+        "y": 28,
+        "hp": 194,
+        "maxHp": 194,
+        "awake": false,
+        "nextAct": 4749.900000000001,
+        "rx": 28,
+        "ry": 28,
+        "fromX": 28,
+        "fromY": 28,
+        "moveT0": 0,
+        "moveT1": 0,
+        "flashUntil": 0,
+        "windup": null,
+        "volley": null
+      },
+      "x": 28,
+      "y": 31,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "05-right-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7353.1,
+              "t1": 7553.1,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "05-left-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8136.5,
+              "t1": 8336.5,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "forward",
+        "file": "05-forward-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 8869.7,
+              "t1": 9089.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "back",
+        "file": "05-back-native.png",
+        "before": {
+          "x": 28,
+          "y": 30,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9603,
+              "t1": 9823,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 8,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "kennels",
+      "room": 3,
+      "props": [
+        {
+          "x": 6,
+          "y": 29,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 22,
+          "k": "bones"
+        },
+        {
+          "x": 9,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 28,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 25,
+          "k": "shackles"
+        },
+        {
+          "x": 11,
+          "y": 23,
+          "k": "shackles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 16,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "w": 7,
+        "h": 8,
+        "shape": "cells"
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "w": 8,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "w": 9,
+        "h": 9,
+        "shape": "hall"
+      },
+      {
+        "x": 15,
+        "y": 20,
+        "w": 9,
+        "h": 3,
+        "shape": "gallery"
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 19,
+        "y": 25,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "w": 2,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 28,
+      "y": 31,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "rustmaw",
+        "x": 23,
+        "y": 14
+      },
+      {
+        "id": "troll",
+        "x": 25,
+        "y": 27
+      },
+      {
+        "id": "hound",
+        "x": 22,
+        "y": 15
+      },
+      {
+        "id": "ghoul",
+        "x": 9,
+        "y": 24
+      },
+      {
+        "id": "basilisk",
+        "x": 11,
+        "y": 29
+      },
+      {
+        "id": "ogre",
+        "x": 17,
+        "y": 2
+      },
+      {
+        "id": "basilisk",
+        "x": 21,
+        "y": 12
+      },
+      {
+        "id": "minotaur",
+        "x": 12,
+        "y": 23
+      },
+      {
+        "id": "lich",
+        "x": 28,
+        "y": 28
+      }
+    ],
+    "dressing": [
+      {
+        "x": 6,
+        "y": 29,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 28,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 25,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": -0.12,
+        "oy": -0.14
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.17
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.02
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.16
+      },
+      {
+        "x": 18,
+        "y": 4,
+        "k": "bones",
+        "ox": 0.16,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": -0.12
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.01
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "k": "bones",
+        "ox": 0.19,
+        "oy": -0.15
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.03
+      },
+      {
+        "x": 16,
+        "y": 17,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": -0.03
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.07
+      },
+      {
+        "x": 16,
+        "y": 15,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.2
+      },
+      {
+        "x": 21,
+        "y": 10,
+        "k": "bones",
+        "ox": 0.08,
+        "oy": -0.09
+      },
+      {
+        "x": 27,
+        "y": 17,
+        "k": "bones",
+        "ox": -0.04,
+        "oy": 0.17
+      },
+      {
+        "x": 2,
+        "y": 17,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.15
+      },
+      {
+        "x": 3,
+        "y": 19,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.09
+      },
+      {
+        "x": 19,
+        "y": 20,
+        "k": "bones",
+        "ox": -0.07,
+        "oy": 0.07
+      },
+      {
+        "x": 19,
+        "y": 22,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": 0.12
+      },
+      {
+        "x": 18,
+        "y": 20,
+        "k": "candles",
+        "ox": -0.16,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 29,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.01
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.17,
+        "oy": 0.02
+      },
+      {
+        "x": 23,
+        "y": 27,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": 0.19
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.05
+      },
+      {
+        "x": 21,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.06,
+        "oy": -0.13
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "candles",
+        "ox": 0.19,
+        "oy": 0.17
+      }
+    ],
+    "shown": [
+      {
+        "top": 154.83333333333334,
+        "bottom": 227.33333333333334,
+        "dist": 3,
+        "texel": 0.3125
+      }
+    ],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 5,
+    "n": 8,
+    "d": 8,
+    "road": "crypts",
+    "stage": "treasure",
+    "file": "05-treasure.png",
+    "placement": {
+      "target": {
+        "x": 29,
+        "y": 28,
+        "items": [
+          "artifact"
+        ]
+      },
+      "x": 29,
+      "y": 30,
+      "dir": 0,
+      "dist": 2
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 8,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "kennels",
+      "room": 3,
+      "props": [
+        {
+          "x": 6,
+          "y": 29,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 22,
+          "k": "bones"
+        },
+        {
+          "x": 9,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 28,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 25,
+          "k": "shackles"
+        },
+        {
+          "x": 11,
+          "y": 23,
+          "k": "shackles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 16,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "w": 7,
+        "h": 8,
+        "shape": "cells"
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "w": 8,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "w": 9,
+        "h": 9,
+        "shape": "hall"
+      },
+      {
+        "x": 15,
+        "y": 20,
+        "w": 9,
+        "h": 3,
+        "shape": "gallery"
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 19,
+        "y": 25,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "w": 2,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 29,
+      "y": 30,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "rustmaw",
+        "x": 23,
+        "y": 15
+      },
+      {
+        "id": "troll",
+        "x": 25,
+        "y": 27
+      },
+      {
+        "id": "hound",
+        "x": 22,
+        "y": 15
+      },
+      {
+        "id": "ghoul",
+        "x": 9,
+        "y": 24
+      },
+      {
+        "id": "basilisk",
+        "x": 11,
+        "y": 29
+      },
+      {
+        "id": "ogre",
+        "x": 17,
+        "y": 2
+      },
+      {
+        "id": "basilisk",
+        "x": 21,
+        "y": 13
+      },
+      {
+        "id": "minotaur",
+        "x": 12,
+        "y": 23
+      },
+      {
+        "id": "lich",
+        "x": 28,
+        "y": 30
+      }
+    ],
+    "dressing": [
+      {
+        "x": 6,
+        "y": 29,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 28,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 25,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": -0.12,
+        "oy": -0.14
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.17
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.02
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.16
+      },
+      {
+        "x": 18,
+        "y": 4,
+        "k": "bones",
+        "ox": 0.16,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": -0.12
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.01
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "k": "bones",
+        "ox": 0.19,
+        "oy": -0.15
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.03
+      },
+      {
+        "x": 16,
+        "y": 17,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": -0.03
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.07
+      },
+      {
+        "x": 16,
+        "y": 15,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.2
+      },
+      {
+        "x": 21,
+        "y": 10,
+        "k": "bones",
+        "ox": 0.08,
+        "oy": -0.09
+      },
+      {
+        "x": 27,
+        "y": 17,
+        "k": "bones",
+        "ox": -0.04,
+        "oy": 0.17
+      },
+      {
+        "x": 2,
+        "y": 17,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.15
+      },
+      {
+        "x": 3,
+        "y": 19,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.09
+      },
+      {
+        "x": 19,
+        "y": 20,
+        "k": "bones",
+        "ox": -0.07,
+        "oy": 0.07
+      },
+      {
+        "x": 19,
+        "y": 22,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": 0.12
+      },
+      {
+        "x": 18,
+        "y": 20,
+        "k": "candles",
+        "ox": -0.16,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 29,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.01
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.17,
+        "oy": 0.02
+      },
+      {
+        "x": 23,
+        "y": 27,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": 0.19
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.05
+      },
+      {
+        "x": 21,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.06,
+        "oy": -0.13
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "candles",
+        "ox": 0.19,
+        "oy": 0.17
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 5,
+    "n": 8,
+    "d": 8,
+    "road": "warrens",
+    "key": "05-warlord",
+    "stage": "landmark",
+    "file": "05-warlord-landmark.png",
+    "placement": {
+      "target": {
+        "uid": 8010,
+        "id": "warlord",
+        "x": 28,
+        "y": 28,
+        "hp": 156,
+        "maxHp": 156,
+        "awake": false,
+        "nextAct": 6416.5,
+        "rx": 28,
+        "ry": 28,
+        "fromX": 28,
+        "fromY": 28,
+        "moveT0": 0,
+        "moveT1": 0,
+        "flashUntil": 0,
+        "windup": null,
+        "volley": null
+      },
+      "x": 28,
+      "y": 31,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "05-warlord-right-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": 0,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": 0,
+              "t0": 7546.7,
+              "t1": 7746.7,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "05-warlord-left-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": 0,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 8263.3,
+              "t1": 8463.3,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "forward",
+        "file": "05-warlord-forward-native.png",
+        "before": {
+          "x": 28,
+          "y": 31,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 31.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9046.6,
+              "t1": 9266.6,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "back",
+        "file": "05-warlord-back-native.png",
+        "before": {
+          "x": 28,
+          "y": 30,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 28.5,
+              "y": 31.5,
+              "angle": -1.5707963267948966,
+              "fromX": 28.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 28.5,
+              "toY": 31.5,
+              "toA": -1.5707963267948966,
+              "t0": 9779.9,
+              "t1": 9999.9,
+              "moving": false
+            },
+            "position": {
+              "x": 28,
+              "y": 31,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 8,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "kennels",
+      "room": 3,
+      "props": [
+        {
+          "x": 6,
+          "y": 29,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 22,
+          "k": "bones"
+        },
+        {
+          "x": 9,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 28,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 25,
+          "k": "shackles"
+        },
+        {
+          "x": 11,
+          "y": 23,
+          "k": "shackles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 16,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "w": 7,
+        "h": 8,
+        "shape": "cells"
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "w": 8,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "w": 9,
+        "h": 9,
+        "shape": "hall"
+      },
+      {
+        "x": 15,
+        "y": 20,
+        "w": 9,
+        "h": 3,
+        "shape": "gallery"
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 19,
+        "y": 25,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "w": 2,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 28,
+      "y": 31,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "rustmaw",
+        "x": 23,
+        "y": 14
+      },
+      {
+        "id": "troll",
+        "x": 25,
+        "y": 27
+      },
+      {
+        "id": "hound",
+        "x": 22,
+        "y": 15
+      },
+      {
+        "id": "ghoul",
+        "x": 9,
+        "y": 24
+      },
+      {
+        "id": "basilisk",
+        "x": 11,
+        "y": 29
+      },
+      {
+        "id": "ogre",
+        "x": 17,
+        "y": 2
+      },
+      {
+        "id": "basilisk",
+        "x": 21,
+        "y": 12
+      },
+      {
+        "id": "minotaur",
+        "x": 12,
+        "y": 23
+      },
+      {
+        "id": "warlord",
+        "x": 28,
+        "y": 28
+      }
+    ],
+    "dressing": [
+      {
+        "x": 6,
+        "y": 29,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 28,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 25,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": -0.12,
+        "oy": -0.14
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.17
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.02
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.16
+      },
+      {
+        "x": 18,
+        "y": 4,
+        "k": "bones",
+        "ox": 0.16,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": -0.12
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.01
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "k": "bones",
+        "ox": 0.19,
+        "oy": -0.15
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.03
+      },
+      {
+        "x": 16,
+        "y": 17,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": -0.03
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.07
+      },
+      {
+        "x": 16,
+        "y": 15,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.2
+      },
+      {
+        "x": 21,
+        "y": 10,
+        "k": "bones",
+        "ox": 0.08,
+        "oy": -0.09
+      },
+      {
+        "x": 27,
+        "y": 17,
+        "k": "bones",
+        "ox": -0.04,
+        "oy": 0.17
+      },
+      {
+        "x": 2,
+        "y": 17,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.15
+      },
+      {
+        "x": 3,
+        "y": 19,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.09
+      },
+      {
+        "x": 19,
+        "y": 20,
+        "k": "bones",
+        "ox": -0.07,
+        "oy": 0.07
+      },
+      {
+        "x": 19,
+        "y": 22,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": 0.12
+      },
+      {
+        "x": 18,
+        "y": 20,
+        "k": "candles",
+        "ox": -0.16,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 29,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.01
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.17,
+        "oy": 0.02
+      },
+      {
+        "x": 23,
+        "y": 27,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": 0.19
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.05
+      },
+      {
+        "x": 21,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.06,
+        "oy": -0.13
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "candles",
+        "ox": 0.19,
+        "oy": 0.17
+      }
+    ],
+    "shown": [
+      {
+        "top": 157.41344269718897,
+        "bottom": 227.33333333333334,
+        "dist": 3,
+        "texel": 0.34786015241862883
+      }
+    ],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 5,
+    "n": 8,
+    "d": 8,
+    "road": "warrens",
+    "key": "05-warlord",
+    "stage": "treasure",
+    "file": "05-warlord-treasure.png",
+    "placement": {
+      "target": {
+        "x": 29,
+        "y": 28,
+        "items": [
+          "artifact"
+        ]
+      },
+      "x": 29,
+      "y": 30,
+      "dir": 0,
+      "dist": 2
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 8,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "kennels",
+      "room": 3,
+      "props": [
+        {
+          "x": 6,
+          "y": 29,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 22,
+          "k": "bones"
+        },
+        {
+          "x": 9,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 28,
+          "k": "bones"
+        },
+        {
+          "x": 6,
+          "y": 25,
+          "k": "shackles"
+        },
+        {
+          "x": 11,
+          "y": 23,
+          "k": "shackles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 16,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 2,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "w": 7,
+        "h": 8,
+        "shape": "cells"
+      },
+      {
+        "x": 13,
+        "y": 2,
+        "w": 8,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "w": 9,
+        "h": 9,
+        "shape": "hall"
+      },
+      {
+        "x": 15,
+        "y": 20,
+        "w": 9,
+        "h": 3,
+        "shape": "gallery"
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "w": 3,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 19,
+        "y": 25,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "w": 2,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 29,
+      "y": 30,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "rustmaw",
+        "x": 23,
+        "y": 14
+      },
+      {
+        "id": "troll",
+        "x": 26,
+        "y": 27
+      },
+      {
+        "id": "hound",
+        "x": 23,
+        "y": 15
+      },
+      {
+        "id": "ghoul",
+        "x": 9,
+        "y": 24
+      },
+      {
+        "id": "basilisk",
+        "x": 11,
+        "y": 29
+      },
+      {
+        "id": "ogre",
+        "x": 16,
+        "y": 2
+      },
+      {
+        "id": "basilisk",
+        "x": 21,
+        "y": 12
+      },
+      {
+        "id": "minotaur",
+        "x": 12,
+        "y": 23
+      },
+      {
+        "id": "warlord",
+        "x": 28,
+        "y": 30
+      }
+    ],
+    "dressing": [
+      {
+        "x": 6,
+        "y": 29,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 22,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 28,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 25,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 11,
+        "y": 23,
+        "k": "shackles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": -0.12,
+        "oy": -0.14
+      },
+      {
+        "x": 9,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.17
+      },
+      {
+        "x": 17,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.02
+      },
+      {
+        "x": 17,
+        "y": 5,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.16
+      },
+      {
+        "x": 18,
+        "y": 4,
+        "k": "bones",
+        "ox": 0.16,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": -0.12
+      },
+      {
+        "x": 25,
+        "y": 4,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.01
+      },
+      {
+        "x": 4,
+        "y": 9,
+        "k": "bones",
+        "ox": 0.19,
+        "oy": -0.15
+      },
+      {
+        "x": 4,
+        "y": 10,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.03
+      },
+      {
+        "x": 16,
+        "y": 17,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": -0.03
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.07
+      },
+      {
+        "x": 16,
+        "y": 15,
+        "k": "bones",
+        "ox": -0.05,
+        "oy": 0.2
+      },
+      {
+        "x": 21,
+        "y": 10,
+        "k": "bones",
+        "ox": 0.08,
+        "oy": -0.09
+      },
+      {
+        "x": 27,
+        "y": 17,
+        "k": "bones",
+        "ox": -0.04,
+        "oy": 0.17
+      },
+      {
+        "x": 2,
+        "y": 17,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.15
+      },
+      {
+        "x": 3,
+        "y": 19,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.09
+      },
+      {
+        "x": 19,
+        "y": 20,
+        "k": "bones",
+        "ox": -0.07,
+        "oy": 0.07
+      },
+      {
+        "x": 19,
+        "y": 22,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": 0.12
+      },
+      {
+        "x": 18,
+        "y": 20,
+        "k": "candles",
+        "ox": -0.16,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 29,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.01
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.17,
+        "oy": 0.02
+      },
+      {
+        "x": 23,
+        "y": 27,
+        "k": "candles",
+        "ox": 0.02,
+        "oy": 0.19
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": 0.05
+      },
+      {
+        "x": 21,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.06,
+        "oy": -0.13
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "candles",
+        "ox": 0.19,
+        "oy": 0.17
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 5,
+    "n": 12,
+    "d": 12,
+    "road": "crypts",
+    "key": "05-heartforged",
+    "stage": "landmark",
+    "file": "05-heartforged-landmark.png",
+    "placement": {
+      "target": {
+        "uid": 12013,
+        "id": "heartforged",
+        "x": 31,
+        "y": 5,
+        "hp": 176,
+        "maxHp": 176,
+        "awake": false,
+        "nextAct": 5316.3,
+        "rx": 31,
+        "ry": 5,
+        "fromX": 31,
+        "fromY": 5,
+        "moveT0": 0,
+        "moveT1": 0,
+        "flashUntil": 0,
+        "windup": null,
+        "volley": null
+      },
+      "x": 31,
+      "y": 8,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "05-heartforged-right-native.png",
+        "before": {
+          "x": 31,
+          "y": 8,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": 0,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": 0,
+              "t0": 7184.7,
+              "t1": 7384.7,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "05-heartforged-left-native.png",
+        "before": {
+          "x": 31,
+          "y": 8,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 31.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 31.5,
+              "fromY": 8.5,
+              "fromA": 0,
+              "toX": 31.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 7968,
+              "t1": 8168,
+              "moving": false
+            },
+            "position": {
+              "x": 31,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 12,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "gaol",
+      "room": 4,
+      "props": [
+        {
+          "x": 12,
+          "y": 2,
+          "k": "bones"
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "k": "bones"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 9,
+        "w": 2,
+        "h": 10,
+        "shape": "gallery"
+      },
+      {
+        "x": 5,
+        "y": 28,
+        "w": 7,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 8,
+        "y": 19,
+        "w": 3,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 12,
+        "w": 7,
+        "h": 5,
+        "shape": "colonnade"
+      },
+      {
+        "x": 11,
+        "y": 2,
+        "w": 8,
+        "h": 7,
+        "shape": "cells"
+      },
+      {
+        "x": 16,
+        "y": 14,
+        "w": 9,
+        "h": 8,
+        "shape": "cave"
+      },
+      {
+        "x": 20,
+        "y": 26,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 28,
+        "y": 12,
+        "w": 3,
+        "h": 6,
+        "shape": "box"
+      },
+      {
+        "x": 26,
+        "y": 24,
+        "w": 7,
+        "h": 5,
+        "shape": "niches"
+      }
+    ],
+    "position": {
+      "x": 31,
+      "y": 8,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "basilisk",
+        "x": 27,
+        "y": 6
+      },
+      {
+        "id": "wraith",
+        "x": 29,
+        "y": 12
+      },
+      {
+        "id": "hound",
+        "x": 26,
+        "y": 10
+      },
+      {
+        "id": "hound",
+        "x": 31,
+        "y": 7
+      },
+      {
+        "id": "basilisk",
+        "x": 30,
+        "y": 5
+      },
+      {
+        "id": "ogre",
+        "x": 22,
+        "y": 17
+      },
+      {
+        "id": "ogre",
+        "x": 29,
+        "y": 18
+      },
+      {
+        "id": "wyrm",
+        "x": 32,
+        "y": 6
+      },
+      {
+        "id": "hound",
+        "x": 17,
+        "y": 5
+      },
+      {
+        "id": "minotaur",
+        "x": 18,
+        "y": 2
+      },
+      {
+        "id": "hound",
+        "x": 28,
+        "y": 31
+      },
+      {
+        "id": "heartforged",
+        "x": 31,
+        "y": 5
+      }
+    ],
+    "dressing": [
+      {
+        "x": 12,
+        "y": 2,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 14,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.05,
+        "oy": -0.17
+      },
+      {
+        "x": 17,
+        "y": 2,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.13
+      },
+      {
+        "x": 22,
+        "y": 3,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": 0.19
+      },
+      {
+        "x": 25,
+        "y": 3,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": -0.14
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "k": "candles",
+        "ox": 0.15,
+        "oy": -0.01
+      },
+      {
+        "x": 22,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.13
+      },
+      {
+        "x": 3,
+        "y": 13,
+        "k": "candles",
+        "ox": -0.18,
+        "oy": 0.12
+      },
+      {
+        "x": 10,
+        "y": 12,
+        "k": "bones",
+        "ox": -0.02,
+        "oy": -0.11
+      },
+      {
+        "x": 10,
+        "y": 14,
+        "k": "bones",
+        "ox": -0.02,
+        "oy": 0.17
+      },
+      {
+        "x": 30,
+        "y": 12,
+        "k": "bones",
+        "ox": 0.13,
+        "oy": 0.15
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "k": "candles",
+        "ox": 0.2,
+        "oy": -0.11
+      },
+      {
+        "x": 20,
+        "y": 18,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": -0.14
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "k": "candles",
+        "ox": 0.17,
+        "oy": -0.09
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "k": "bones",
+        "ox": 0.04,
+        "oy": -0.02
+      },
+      {
+        "x": 8,
+        "y": 21,
+        "k": "bones",
+        "ox": 0.1,
+        "oy": -0.08
+      },
+      {
+        "x": 10,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.07,
+        "oy": 0.15
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "bones",
+        "ox": -0.18,
+        "oy": 0.18
+      },
+      {
+        "x": 28,
+        "y": 25,
+        "k": "candles",
+        "ox": -0.19,
+        "oy": 0.05
+      },
+      {
+        "x": 29,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.15,
+        "oy": -0.05
+      },
+      {
+        "x": 20,
+        "y": 28,
+        "k": "bones",
+        "ox": 0.12,
+        "oy": -0.19
+      },
+      {
+        "x": 10,
+        "y": 30,
+        "k": "bones",
+        "ox": 0.13,
+        "oy": 0.19
+      },
+      {
+        "x": 11,
+        "y": 31,
+        "k": "candles",
+        "ox": -0.1,
+        "oy": -0.15
+      },
+      {
+        "x": 6,
+        "y": 31,
+        "k": "bones",
+        "ox": -0.18,
+        "oy": -0.06
+      }
+    ],
+    "shown": [
+      {
+        "top": 185.59634509086763,
+        "bottom": 227.33333333333334,
+        "dist": 3,
+        "texel": 0.29600700881181363
+      },
+      {
+        "top": 148.94791666666666,
+        "bottom": 227.33333333333334,
+        "dist": 3,
+        "texel": 0.3645833333333333
+      },
+      {
+        "top": 140.85948016291042,
+        "bottom": 244,
+        "dist": 2,
+        "texel": 0.513136914612386
+      },
+      {
+        "top": 139.75742050567644,
+        "bottom": 294,
+        "dist": 1,
+        "texel": 0.7075347683225851
+      }
+    ],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 5,
+    "n": 12,
+    "d": 12,
+    "road": "crypts",
+    "key": "05-heartforged",
+    "stage": "treasure",
+    "file": "05-heartforged-treasure.png",
+    "placement": {
+      "target": {
+        "x": 32,
+        "y": 5,
+        "items": [
+          "artifact"
+        ]
+      },
+      "x": 32,
+      "y": 6,
+      "dir": 0,
+      "dist": 1
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+      "motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+      "release.js": "9956b75c7ad895395c74722ceed68b13f4a23eab52c749e679d522770b4ee96a"
+    },
+    "theme": "Obsidian Sanctum",
+    "depth": 12,
+    "twist": null,
+    "piece": {
+      "kind": "cells",
+      "variant": "gaol",
+      "room": 4,
+      "props": [
+        {
+          "x": 12,
+          "y": 2,
+          "k": "bones"
+        },
+        {
+          "x": 12,
+          "y": 8,
+          "k": "bones"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 9,
+        "w": 2,
+        "h": 10,
+        "shape": "gallery"
+      },
+      {
+        "x": 5,
+        "y": 28,
+        "w": 7,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 8,
+        "y": 19,
+        "w": 3,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 7,
+        "y": 12,
+        "w": 7,
+        "h": 5,
+        "shape": "colonnade"
+      },
+      {
+        "x": 11,
+        "y": 2,
+        "w": 8,
+        "h": 7,
+        "shape": "cells"
+      },
+      {
+        "x": 16,
+        "y": 14,
+        "w": 9,
+        "h": 8,
+        "shape": "cave"
+      },
+      {
+        "x": 20,
+        "y": 26,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 22,
+        "y": 2,
+        "w": 11,
+        "h": 7,
+        "shape": "sanctum"
+      },
+      {
+        "x": 28,
+        "y": 12,
+        "w": 3,
+        "h": 6,
+        "shape": "box"
+      },
+      {
+        "x": 26,
+        "y": 24,
+        "w": 7,
+        "h": 5,
+        "shape": "niches"
+      }
+    ],
+    "position": {
+      "x": 32,
+      "y": 6,
+      "dir": 0
+    },
+    "monsters": [
+      {
+        "id": "basilisk",
+        "x": 29,
+        "y": 6
+      },
+      {
+        "id": "wraith",
+        "x": 29,
+        "y": 12
+      },
+      {
+        "id": "hound",
+        "x": 26,
+        "y": 10
+      },
+      {
+        "id": "hound",
+        "x": 31,
+        "y": 7
+      },
+      {
+        "id": "basilisk",
+        "x": 30,
+        "y": 6
+      },
+      {
+        "id": "ogre",
+        "x": 21,
+        "y": 17
+      },
+      {
+        "id": "ogre",
+        "x": 29,
+        "y": 18
+      },
+      {
+        "id": "wyrm",
+        "x": 32,
+        "y": 7
+      },
+      {
+        "id": "hound",
+        "x": 17,
+        "y": 5
+      },
+      {
+        "id": "minotaur",
+        "x": 18,
+        "y": 2
+      },
+      {
+        "id": "hound",
+        "x": 28,
+        "y": 31
+      },
+      {
+        "id": "heartforged",
+        "x": 31,
+        "y": 6
+      }
+    ],
+    "dressing": [
+      {
+        "x": 12,
+        "y": 2,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 12,
+        "y": 8,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 14,
+        "y": 8,
+        "k": "candles",
+        "ox": 0.05,
+        "oy": -0.17
+      },
+      {
+        "x": 17,
+        "y": 2,
+        "k": "candles",
+        "ox": 0.06,
+        "oy": 0.13
+      },
+      {
+        "x": 22,
+        "y": 3,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": 0.19
+      },
+      {
+        "x": 25,
+        "y": 3,
+        "k": "candles",
+        "ox": 0.01,
+        "oy": -0.14
+      },
+      {
+        "x": 29,
+        "y": 2,
+        "k": "candles",
+        "ox": 0.15,
+        "oy": -0.01
+      },
+      {
+        "x": 22,
+        "y": 4,
+        "k": "bones",
+        "ox": -0.09,
+        "oy": 0.13
+      },
+      {
+        "x": 3,
+        "y": 13,
+        "k": "candles",
+        "ox": -0.18,
+        "oy": 0.12
+      },
+      {
+        "x": 10,
+        "y": 12,
+        "k": "bones",
+        "ox": -0.02,
+        "oy": -0.11
+      },
+      {
+        "x": 10,
+        "y": 14,
+        "k": "bones",
+        "ox": -0.02,
+        "oy": 0.17
+      },
+      {
+        "x": 30,
+        "y": 12,
+        "k": "bones",
+        "ox": 0.13,
+        "oy": 0.15
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "k": "candles",
+        "ox": 0.2,
+        "oy": -0.11
+      },
+      {
+        "x": 20,
+        "y": 18,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": -0.14
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "k": "candles",
+        "ox": 0.17,
+        "oy": -0.09
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "k": "bones",
+        "ox": 0.04,
+        "oy": -0.02
+      },
+      {
+        "x": 8,
+        "y": 21,
+        "k": "bones",
+        "ox": 0.1,
+        "oy": -0.08
+      },
+      {
+        "x": 10,
+        "y": 22,
+        "k": "bones",
+        "ox": 0.07,
+        "oy": 0.15
+      },
+      {
+        "x": 26,
+        "y": 27,
+        "k": "bones",
+        "ox": -0.18,
+        "oy": 0.18
+      },
+      {
+        "x": 28,
+        "y": 25,
+        "k": "candles",
+        "ox": -0.19,
+        "oy": 0.05
+      },
+      {
+        "x": 29,
+        "y": 28,
+        "k": "candles",
+        "ox": -0.15,
+        "oy": -0.05
+      },
+      {
+        "x": 20,
+        "y": 28,
+        "k": "bones",
+        "ox": 0.12,
+        "oy": -0.19
+      },
+      {
+        "x": 10,
+        "y": 30,
+        "k": "bones",
+        "ox": 0.13,
+        "oy": 0.19
+      },
+      {
+        "x": 11,
+        "y": 31,
+        "k": "candles",
+        "ox": -0.1,
+        "oy": -0.15
+      },
+      {
+        "x": 6,
+        "y": 31,
+        "k": "bones",
+        "ox": -0.18,
+        "oy": -0.06
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  }
+]

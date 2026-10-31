@@ -1,0 +1,268 @@
+{
+  "status": "Rejected source; full run stopped after causal door observer failures. Not clearance.",
+  "stats": {
+    "startTime": "2026-10-31T09:06:58.743Z",
+    "duration": 1924361.003,
+    "expected": 488,
+    "skipped": 531,
+    "unexpected": 4,
+    "flaky": 0
+  },
+  "events": 494,
+  "failures": [
+    {
+      "id": "03915356ace95ad717b8-104b5d73bfd964e4f2fd",
+      "project": "phone",
+      "file": "painted-world.spec.js",
+      "titles": [
+        "closed and sliding doors draw only leaves in every region without changing run or dice @mobile"
+      ],
+      "status": "failed",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 6542,
+      "errors": [
+        {
+          "message": "Error: {\"region\":0,\"cell\":false,\"shut\":null,\"rawDraws\":0,\"leafDraws\":0}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: {\"region\":0,\"cell\":false,\"shut\":null,\"rawDraws\":0,\"leafDraws\":0}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:437:187",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 187,
+            "line": 437
+          },
+          "snippet": "  435 |   }}finally{ctx.drawImage=draw;}\n  436 |   if(JSON.stringify(Game.state())!==before||Dice.s!==dice[0]||Odds.s!==dice[1])throw Error('Door surface rendering changed state/dice '+JSON.stringify({keys:Object.keys(Game.state()).filter(k=>JSON.stringify(Game.state()[k])!==JSON.stringify(JSON.parse(before)[k])),beforeDice:dice,afterDice:[Dice.s,Odds.s]}));return rows;\n> 437 |  });expect(rows).toHaveLength(104);for(const r of rows){expect(r.rawDraws,JSON.stringify(r)).toBe(0);if(r.shut===0)expect(r.leafDraws).toBe(0);else expect(r.leafDraws,JSON.stringify(r)).toBeGreaterThan(0);}\n      |                                                                                                                                                                                           ^\n  438 | });\n  439 |\n  440 | for(const cell of [false,true])test(`${cell?'cell gate':'wooden door'} keeps damage and key colour through native opening and closing @mobile`,async({page})=>{"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-closed-and-s-17bd7-changing-run-or-dice-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-closed-and-s-17bd7-changing-run-or-dice-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-closed-and-s-17bd7-changing-run-or-dice-mobile-phone/trace.zip"
+        }
+      ]
+    },
+    {
+      "id": "03915356ace95ad717b8-c54120bb4d82b9f9d012",
+      "project": "phone",
+      "file": "painted-world.spec.js",
+      "titles": [
+        "wooden door keeps damage and key colour through native opening and closing @mobile"
+      ],
+      "status": "failed",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 7384,
+      "errors": [
+        {
+          "message": "Error: {\"opening\":{\"seen\":0,\"tile\":3},\"closing\":0,\"damage\":2,\"lockBefore\":null,\"movingLock\":\"silver\",\"keyConsumed\":true,\"savedLock\":false,\"openTile\":3}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: {\"opening\":{\"seen\":0,\"tile\":3},\"closing\":0,\"damage\":2,\"lockBefore\":null,\"movingLock\":\"silver\",\"keyConsumed\":true,\"savedLock\":false,\"openTile\":3}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:469:108",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 108,
+            "line": 469
+          },
+          "snippet": "  467 |   }finally{ctx.drawImage=draw;}\n  468 |  });\n> 469 |  expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);\n      |                                                                                                            ^\n  470 | });\n  471 |\n  472 | test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{"
+        },
+        {
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:469:150",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 150,
+            "line": 469
+          },
+          "snippet": "  467 |   }finally{ctx.drawImage=draw;}\n  468 |  });\n> 469 |  expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);\n      |                                                                                                                                                      ^\n  470 | });\n  471 |\n  472 | test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-wooden-door--4eda4--opening-and-closing-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-wooden-door--4eda4--opening-and-closing-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-wooden-door--4eda4--opening-and-closing-mobile-phone/trace.zip"
+        }
+      ]
+    },
+    {
+      "id": "03915356ace95ad717b8-6b758c5443cf452fa0e5",
+      "project": "phone",
+      "file": "painted-world.spec.js",
+      "titles": [
+        "cell gate keeps damage and key colour through native opening and closing @mobile"
+      ],
+      "status": "failed",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 6648,
+      "errors": [
+        {
+          "message": "Error: {\"opening\":{\"seen\":0,\"tile\":3},\"closing\":0,\"damage\":2,\"lockBefore\":null,\"movingLock\":\"silver\",\"keyConsumed\":true,\"savedLock\":false,\"openTile\":3}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: {\"opening\":{\"seen\":0,\"tile\":3},\"closing\":0,\"damage\":2,\"lockBefore\":null,\"movingLock\":\"silver\",\"keyConsumed\":true,\"savedLock\":false,\"openTile\":3}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:469:108",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 108,
+            "line": 469
+          },
+          "snippet": "  467 |   }finally{ctx.drawImage=draw;}\n  468 |  });\n> 469 |  expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);\n      |                                                                                                            ^\n  470 | });\n  471 |\n  472 | test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{"
+        },
+        {
+          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:469:150",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 150,
+            "line": 469
+          },
+          "snippet": "  467 |   }finally{ctx.drawImage=draw;}\n  468 |  });\n> 469 |  expect(result.opening.tile).toBe(result.openTile);expect.soft(result.opening.seen,JSON.stringify(result)).toBeGreaterThan(0);expect(result.closing).toBeGreaterThan(0);expect(result.damage).toBe(2);expect(result.lockBefore).toBe(null);expect(result.movingLock).toBe('silver');expect(result.keyConsumed).toBe(true);expect(result.savedLock).toBe(false);expect(errors).toEqual([]);\n      |                                                                                                                                                      ^\n  470 | });\n  471 |\n  472 | test('a burning door stays charred during its native fall and leaves an empty doorway @mobile',async({page})=>{"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-cell-gate-ke-daaca--opening-and-closing-mobile-phone/trace.zip"
+        }
+      ]
+    },
+    {
+      "id": "03915356ace95ad717b8-600dcaa44e0cb43a3ac7",
+      "project": "phone",
+      "file": "painted-world.spec.js",
+      "titles": [
+        "a burning door stays charred during its native fall and leaves an empty doorway @mobile"
+      ],
+      "status": "failed",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 6456,
+      "errors": [
+        {
+          "message": "Error: {\"charredMoving\":0,\"plainMoving\":0,\"burnt\":true,\"tile\":3,\"openTile\":3,\"sliding\":0,\"field\":\"ash\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m",
+          "stack": "Error: {\"charredMoving\":0,\"plainMoving\":0,\"burnt\":true,\"tile\":3,\"openTile\":3,\"sliding\":0,\"field\":\"ash\"}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nExpected: > \u001b[32m0\u001b[39m\nReceived:   \u001b[31m0\u001b[39m\n    at /workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js:485:257",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/painted-world.spec.js",
+            "column": 257,
+            "line": 485
+          },
+          "snippet": "  483 |   await expect.poll(()=>page.evaluate(()=>!!Game.level().burntDoors?.[window.__burnDoor.key]),{timeout:5000}).toBe(true);\n  484 |   await expect.poll(()=>page.evaluate(()=>Renderer.doorColumns),{timeout:5000}).toBe(0);\n> 485 |   const result=await page.evaluate(()=>window.__burnDoorResult());expect(result.burnt).toBe(true);expect(result.tile).toBe(result.openTile);expect(result.field).toBe('ash');expect(result.sliding).toBe(0);expect(result.charredMoving,JSON.stringify(result)).toBeGreaterThan(0);expect(result.plainMoving).toBe(0);expect(errors).toEqual([]);\n      |                                                                                                                                                                                                                                                                 ^\n  486 |  }finally{await page.evaluate(()=>window.__burnDoorRestore());}\n  487 | });\n  488 |"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-a-burning-do-c113a-ves-an-empty-doorway-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-a-burning-do-c113a-ves-an-empty-doorway-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/painted-world-a-burning-do-c113a-ves-an-empty-doorway-mobile-phone/trace.zip"
+        }
+      ]
+    }
+  ],
+  "interrupted": [
+    {
+      "id": "6a492667d751ff59c005-054c45fbc18cd10eade6",
+      "project": "phone",
+      "file": "polish.spec.js",
+      "titles": [
+        "Attack names recovery until the actual cooldown is ready, without changing its timer @mobile"
+      ],
+      "status": "interrupted",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 2509,
+      "errors": [
+        {
+          "message": "Error: locator.evaluate: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('#c-customise')\u001b[22m\n\u001b[2m    - locator resolved to visible <details id=\"c-customise\" class=\"create-customise\">\u2026</details>\u001b[22m\n",
+          "stack": "Error: locator.evaluate: Test ended.\nCall log:\n\u001b[2m  - waiting for locator('#c-customise')\u001b[22m\n\u001b[2m    - locator resolved to visible <details id=\"c-customise\" class=\"create-customise\">\u2026</details>\u001b[22m\n\n    at customiseCreation (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:30:44)\n    at startGame (/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js:67:3)\n    at /workspace/Dungeon-Hack-Mobile/test/browser/polish.spec.js:64:3",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/helpers.js",
+            "column": 44,
+            "line": 30
+          },
+          "snippet": "\u001b[90m   at \u001b[39mhelpers.js:30\n\n  28 |   // Some New Game checks stop at the saved-hero replacement question.\n  29 |   if (!(await page.locator('#screen-create').isVisible())) return;\n> 30 |   if (!(await page.locator('#c-customise').evaluate(el => el.open))) await page.locator('#c-customise > summary').click();\n     |                                            ^\n  31 | }\n  32 | /** Collections stay folded until wanted; use the same disclosure as a player. */\n  33 | async function selectJournalTab(page, tab) {"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-Attack-names-recove-7df1b-t-changing-its-timer-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-Attack-names-recove-7df1b-t-changing-its-timer-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-Attack-names-recove-7df1b-t-changing-its-timer-mobile-phone/trace.zip"
+        }
+      ]
+    },
+    {
+      "id": "6a492667d751ff59c005-2ec69f2bff98c646b8ae",
+      "project": "phone",
+      "file": "polish.spec.js",
+      "titles": [
+        "the Journal leads with quests and keeps every collection reachable without advancing the run @mobile"
+      ],
+      "status": "interrupted",
+      "expected": "passed",
+      "retry": 0,
+      "duration": 6893,
+      "errors": [
+        {
+          "message": "Error: expect.toHaveAttribute: Target page, context or browser has been closed",
+          "stack": "Error: expect.toHaveAttribute: Target page, context or browser has been closed\n    at /workspace/Dungeon-Hack-Mobile/test/browser/polish.spec.js:50:56",
+          "location": {
+            "file": "/workspace/Dungeon-Hack-Mobile/test/browser/polish.spec.js",
+            "column": 56,
+            "line": 50
+          },
+          "snippet": "  48 |   for (const tab of ['pages', 'beasts', 'companions', 'relics', 'combos', 'quests', 'effects', 'recap', 'haul']) {\n  49 |     await selectJournalTab(page, tab);\n> 50 |     await expect(page.locator(`[data-jtab=\"${tab}\"]`)).toHaveAttribute('aria-selected', 'true');\n     |                                                        ^\n  51 |   }\n  52 |   await selectJournalTab(page, 'beasts');\n  53 |   await page.locator('#journal-collection > summary').click();"
+        }
+      ],
+      "attachments": [
+        {
+          "name": "screenshot",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-the-Journal-leads-w-c3392-ut-advancing-the-run-mobile-phone/test-failed-1.png"
+        },
+        {
+          "name": "error-context",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-the-Journal-leads-w-c3392-ut-advancing-the-run-mobile-phone/error-context.md"
+        },
+        {
+          "name": "trace",
+          "path": "/workspace/aaa3-plinth-recovery-regular-results/polish-the-Journal-leads-w-c3392-ut-advancing-the-run-mobile-phone/trace.zip"
+        }
+      ]
+    }
+  ],
+  "regular_log": "/workspace/aaa3-plinth-recovery-regular.log",
+  "report": "/workspace/aaa3-plinth-recovery-regular.json",
+  "traces": "/workspace/aaa3-plinth-recovery-regular-results/",
+  "cause": "Mirrored door canvases bypassed original leaf identity observers. Final source keeps all shutAt door leaves on original immediate draw path; no assertion changes."
+}
