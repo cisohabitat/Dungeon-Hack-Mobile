@@ -102,6 +102,16 @@ export function paintedReadingScroll() {
   const meta = PAINTED.overlays.reading_scroll;
   return picture(meta.path, 256, image => ({ img: canvas(image), ...meta })).value;
 }
+// The existing ending painting's stone steps, without its painted Heart.
+// Prepare once on demand; the floor keeps its own independently moving core.
+export function paintedHeartPlinth() {
+  if (typeof Image === 'undefined') return null;
+  return picture(PAINTED.static.heart_dais, 256, image => {
+    const base = canvas(image);
+    base.getContext('2d').clearRect(0, 0, 256, 176);
+    return sprite(base, base.toDataURL());
+  }, 'floor-plinth').value;
+}
 // Small material layers only. Shade canvases are prepared once on image load;
 // projection, silhouette, splashes and landing time stay in the renderer.
 export function paintedGroundDecal(kind, light) {

@@ -1,0 +1,554 @@
+[
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-back-native.png",
+    "bytes": 145721,
+    "sha256": "a2326bb34bcad371f9ff3c75080b3503cd4108d4d1f46b81ba0c3ce579e3eb6e"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-forward-native.png",
+    "bytes": 137183,
+    "sha256": "c43b95ff5eb66c15c71bd0c05f72f5c8d84359b45ea786c71e78ea997be088f4"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-landmark.png",
+    "bytes": 134763,
+    "sha256": "2fca5e72f52adcab133a82d640f19b83006765f202c0fc732210b13d829ef8c9"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-left-native.png",
+    "bytes": 134664,
+    "sha256": "af00293132516f0125aefc62ebe0194c59664fe9d701db0471c9863cb22b2f35"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-right-native.png",
+    "bytes": 136185,
+    "sha256": "b84109dc7881d09685cc7e8ed0c6556d49c99a2c700070d6d7c41cc869f83c84"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/00-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/00-treasure.png",
+    "bytes": 151298,
+    "sha256": "4c29df8a8d16077eef1bbba2c66841bbd42c25c737a5e82e772416580bb99cc1"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-back-native.png",
+    "bytes": 152602,
+    "sha256": "243593ee7acf577c07087854f24a34d6ce81aa097cd6d9fc83667f11588430fb"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-forward-native.png",
+    "bytes": 142241,
+    "sha256": "acf4777b6a06e96c17e2eec5901e7786a008e5b82ab35d2c4478e99811788266"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-landmark.png",
+    "bytes": 141271,
+    "sha256": "d7c1c0571502efd1c88d9fbc726bbc36299aa69cf851dd4eed73696e2a7f7288"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-left-native.png",
+    "bytes": 144250,
+    "sha256": "2c193f63a969a664c1a784db2a4b1d1fd45e2159f9a111a79d0bbce7e3ae5b41"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-right-native.png",
+    "bytes": 138100,
+    "sha256": "f4c12835e0ac9a0636c6e5247fda46e7945f290cb6cffc0ff78ab525004170d5"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/02-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/02-treasure.png",
+    "bytes": 132876,
+    "sha256": "0ad0ea8e28ba7e77df98a13f268c06c8e320c2c4c10cdb426f42fd54453fd237"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-back-native.png",
+    "bytes": 148067,
+    "sha256": "c5b9306dce320b760bcaf4b79f00efb43697892f4be108283c5afad118129b50"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-forward-native.png",
+    "bytes": 162218,
+    "sha256": "19b8e290f8a206d5ee0fafc2fca18880127316607b23f1e419a32107086d8ca1"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-heartforged-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-heartforged-landmark.png",
+    "bytes": 146975,
+    "sha256": "2a1269c762caacf1cca46ebc724fdc6bfdc8b83a6321fa4bf53ae46f592f1e7b"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-heartforged-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-heartforged-left-native.png",
+    "bytes": 153353,
+    "sha256": "9878541389a245dff1f88e17bca48fb64303914335c404ecaeeef2b04ae230c1"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-heartforged-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-heartforged-right-native.png",
+    "bytes": 79407,
+    "sha256": "8391fc3ec6be10e5c492683f2ee1e2958a850f288af155031e6c33224327c04c"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-heartforged-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-heartforged-treasure.png",
+    "bytes": 148058,
+    "sha256": "6e98cd1462a73f344b28b70220e095c4df3a6da0c1e181febba78706186221f4"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-landmark.png",
+    "bytes": 130320,
+    "sha256": "f76faeba19b047601ab152ec27b7e27002b9349b91f5c8cdc65df904beaf88b7"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-left-native.png",
+    "bytes": 136417,
+    "sha256": "13c08b312ca8d060b51057f4d274e82a2a967bf067c83f5d8046b70059c47fe0"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-right-native.png",
+    "bytes": 75743,
+    "sha256": "0f7dbc0af43ecd4d481daacc96b2b8af38fbb83a850531dcd9aad30c7edf90cf"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-treasure.png",
+    "bytes": 137272,
+    "sha256": "0987436c67c45caa5e430bc318edf9011622377b7a7da1b4ca4a6d31200813b1"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-back-native.png",
+    "bytes": 135365,
+    "sha256": "25a3507975741fde96177939f27073e139d6f6ddd5c560b414d66f319521c913"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-forward-native.png",
+    "bytes": 157250,
+    "sha256": "b6ca4bb9f31032075ed207de812e233c582da456829596aa142937b46c48d95d"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-landmark.png",
+    "bytes": 134273,
+    "sha256": "6fb79e3f882618ebe21646dfc29825653b70bd84fc0d9d5530208205298eb358"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-left-native.png",
+    "bytes": 140288,
+    "sha256": "3cf6fab5c86af3b176124681f41a8395616a375ed95eceaf655c0325c59fcc54"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-right-native.png",
+    "bytes": 73804,
+    "sha256": "ab23b04a7c04e580628c74928afe9a65fa0a6e058d1663e7864b61c4c9671786"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/05-warlord-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/05-warlord-treasure.png",
+    "bytes": 136061,
+    "sha256": "751e0f938ea45f70b37e3bcef61eac5f7d8aedc71d8e27c68eb911354e3268e3"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-back-native.png",
+    "bytes": 127805,
+    "sha256": "965e6fe1345d2bc0f273c8decf8aa75c0378793844e844baa23dcf183a65120b"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-forward-native.png",
+    "bytes": 122482,
+    "sha256": "fda68281fe9192955cff8b2c712dc051a3e6d3c331da647f6a22dda5f3ef85be"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-landmark.png",
+    "bytes": 125221,
+    "sha256": "f11dc5718a0e51b4c7cef5a5177e32757be1d3ea733bccc086144bdee7436537"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-left-native.png",
+    "bytes": 120580,
+    "sha256": "5e5a02b7544c30db5daff64522e7eb2789f1a0e60d262fc0f3730fb562dad25f"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-right-native.png",
+    "bytes": 138638,
+    "sha256": "d99c268d56b5fb35be93b978dabf4c76ac8926f297529ac0bdd17c0bf6a73d4b"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/08-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/08-treasure.png",
+    "bytes": 123783,
+    "sha256": "1e69e954e09085c811763efaffecaeb50f9e02053e96e7cd64903c0407a8e0cc"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-back-native.png",
+    "bytes": 134188,
+    "sha256": "9f73446955e93b04164ae218b06512c23dfd19c4f44a82bdd8a21c77905c25cc"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-forward-native.png",
+    "bytes": 132160,
+    "sha256": "2e13ca0ed94a0eb4cb90415a3287c70f8a2e96fa8305707c161e952b265f5e6d"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-landmark.png",
+    "bytes": 131211,
+    "sha256": "c9cdc67e1e7768b04dfc95212ee4a8c84ec4244e10b0f05fb9fb6dea0be54050"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-left-native.png",
+    "bytes": 131907,
+    "sha256": "5f1339b0c2eb9d9c530f8089a8ad9a2d19cf7326582615178584c02844c85106"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-right-native.png",
+    "bytes": 120130,
+    "sha256": "1d25d3a50b91bcd7fece3f3b53a0a64df64c0e0cc6ec659680a9e8edbcb1a37d"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/12-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/12-treasure.png",
+    "bytes": 141440,
+    "sha256": "3492da90f3e2f783f686dd7c33ccf070f5eeba1c085d1b509fe960361f9e6a01"
+  },
+  {
+    "source": "/workspace/aaa3-landmarks-320/evidence.json",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/before/evidence.json",
+    "bytes": 247680,
+    "sha256": "47fa401c0c5e5f7dbcd9c371a08dc1fc0b0beb4258051eecf22bf7cac7b9ac5b"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-back-native.png",
+    "bytes": 142161,
+    "sha256": "2ae7beba7abee5c9807969d9f68383f750c54face07b33d6cad0d54b18a80981"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-forward-native.png",
+    "bytes": 157159,
+    "sha256": "e80fa1d470281332fd95399eda20663fcd10e8511998d424a20ffa8f2a911af6"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-heartforged-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-heartforged-landmark.png",
+    "bytes": 147063,
+    "sha256": "14cc9f985d26208618dfc6e9f49bd99f7c0737153bb2496be1967682f4a0a3df"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-heartforged-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-heartforged-left-native.png",
+    "bytes": 152931,
+    "sha256": "e759610e213b56e16c3caef7c5afa8c980fa4516a9d9b15d008f6a3fda60dd2f"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-heartforged-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-heartforged-right-native.png",
+    "bytes": 79462,
+    "sha256": "0ef7ad8f5489248043fd89f86c082bc6bd7d034e3e1c5ea79f23f10c906ee2d8"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-heartforged-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-heartforged-treasure.png",
+    "bytes": 150750,
+    "sha256": "908c25cdf55d3564192864130c6cd3ce5c1edc773c80aa199a941409cf5cc0d2"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-landmark.png",
+    "bytes": 130429,
+    "sha256": "ef1622e6202600b4e22614ef8732aae8a4d385f88328a0b11880a1c5f94e0ead"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-left-native.png",
+    "bytes": 134143,
+    "sha256": "182188fa28221e11e6219d96c3cca1c68b55d7e946a4101c6c7ed6a65e3e676d"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-right-native.png",
+    "bytes": 70325,
+    "sha256": "faf149184bd414e99cfce4ada66e1dde41a1366069f65423dcc9220a37c9b4dc"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-treasure.png",
+    "bytes": 135296,
+    "sha256": "8c60e2b732cc6f4d0a86a35189b880620ce9d0f2c546c14fd949699fdd57dad7"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-back-native.png",
+    "bytes": 135463,
+    "sha256": "76d5c467748cb632b613a10c2fb55e8a5f48d4ba982a711ca9f653ef4cb00ba3"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-forward-native.png",
+    "bytes": 158335,
+    "sha256": "0d5147177a6e9b294a863d2dc9f66445412a0ef30f44ce71abd4d98ec96bf6ae"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-landmark.png",
+    "bytes": 134575,
+    "sha256": "6a2031875242b281b41b20a94fd945473744c42fac0e72881f70f02062bfc3a2"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-left-native.png",
+    "bytes": 139106,
+    "sha256": "d32046ff6c29cf072e0060bf3240a73c5f93da23ba3d8e813711037a8a81be4a"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-right-native.png",
+    "bytes": 73804,
+    "sha256": "ab23b04a7c04e580628c74928afe9a65fa0a6e058d1663e7864b61c4c9671786"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/05-warlord-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/05-warlord-treasure.png",
+    "bytes": 136687,
+    "sha256": "d6d35b5f280c84bf8c8eeeeeb3862877e90e7c4e6a063f4d74d03421ba1036ef"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-320/evidence.json",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-320/evidence.json",
+    "bytes": 90956,
+    "sha256": "33f1d97e6f247c68797886e8012e538039049c2798c423d0c90243292ba42738"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-back-native.png",
+    "bytes": 167194,
+    "sha256": "effccef881da30b7e9425af82da46c1835a5fc939c6b12c0b5c861808095eb5e"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-forward-native.png",
+    "bytes": 182028,
+    "sha256": "4b6fd4d4f4dd0126be3536257e5faf49b31513449b2c4c56ca671ec6c714a6b0"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-heartforged-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-heartforged-landmark.png",
+    "bytes": 173589,
+    "sha256": "734fd916dbcc7ba54c724a36b0d3970fdab971ec239f2991aa921c8460e92c8e"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-heartforged-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-heartforged-left-native.png",
+    "bytes": 179483,
+    "sha256": "278986a742f408c37368bbac34521df68575bc99a872402c67a63053631dc54f"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-heartforged-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-heartforged-right-native.png",
+    "bytes": 80161,
+    "sha256": "624f968b22b345275c19f3c8c5c1cf154a9789abbad1e7d5d9c7d309cdb47adf"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-heartforged-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-heartforged-treasure.png",
+    "bytes": 188151,
+    "sha256": "6a9ebdd353649a6dea36a4c12c950a4e745137b3aa1c9d0e5f176197094f66c1"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-landmark.png",
+    "bytes": 155376,
+    "sha256": "92a282bbb8173faa1241ac60066500d3ffd5180fb7a886d004420158b94a2d63"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-left-native.png",
+    "bytes": 160261,
+    "sha256": "597e2724f9e6561668d687bff67be0d97a698f96bfbff7df2d4dcc3e6f6b6b08"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-right-native.png",
+    "bytes": 78405,
+    "sha256": "59fbca841b364bb90ca471884549854aad9248af78d4e48441613b83fc4cbd8c"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-treasure.png",
+    "bytes": 164114,
+    "sha256": "b6a2c8be4ca5ad203a4850ad0fbf9a58d8a215726e9f7f1dc44f84235fde343d"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-back-native.png",
+    "bytes": 175616,
+    "sha256": "cb7cbe9feedf973693fa17e9788def1d864ed7b7a1df6e14d2b3565e578fb764"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-forward-native.png",
+    "bytes": 204019,
+    "sha256": "b9d2dbd0e7e8841f67612935e5d59a553fb5ac8521ee7b85541d4666a1e77cf6"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-landmark.png",
+    "bytes": 152576,
+    "sha256": "3062f162ddde6f06b095e629760b9d12479b4afa748106c004255223de2c0ca9"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-left-native.png",
+    "bytes": 166860,
+    "sha256": "d8d603f8e52eae1dd75c1a4ecbeb974db8b19e05753a3875fb9c597fb56fb257"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-right-native.png",
+    "bytes": 88250,
+    "sha256": "658da6e2dc5f19bfa6a01da8f217bb085b5e26e4a7e4ee6460c9077e77d7cd02"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/05-warlord-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/05-warlord-treasure.png",
+    "bytes": 161362,
+    "sha256": "891ff61fba46d9dcde1fc9060887702eb72bfe967bf87be1cc7fab9897d09f24"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-390/evidence.json",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-390/evidence.json",
+    "bytes": 91310,
+    "sha256": "c22264e112a3219982bd00a413350a849d9f3d65affce94fd26f5cab37d111b8"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-back-native.png",
+    "bytes": 146244,
+    "sha256": "b56744bfb17c21babb0d4cfd839a9bf0f7cf7c8ab8b382c31b97712b710923e8"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-forward-native.png",
+    "bytes": 148321,
+    "sha256": "db230201f1e975e2a2a3c7e03bc509c82afd798c2e5711b4672459aee5e4b2f8"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-heartforged-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-heartforged-landmark.png",
+    "bytes": 147734,
+    "sha256": "b860f894ab48d787737eae78620f8db1181095d6fa682e708312d93ed0e4cf68"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-heartforged-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-heartforged-left-native.png",
+    "bytes": 148262,
+    "sha256": "d2f2900740638a0b19fd0578850de81d47c37cbc30d8929ef712d37b96d91a85"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-heartforged-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-heartforged-right-native.png",
+    "bytes": 78832,
+    "sha256": "4cb18cd7497815e5b0ac904d0d447ebe65efc3e391f8b05520d6c3d6b1903021"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-heartforged-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-heartforged-treasure.png",
+    "bytes": 145027,
+    "sha256": "a509b1e3bda6b700c8a2bee8b17d80f01114e3fe5d35ed44331dfed89762977f"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-landmark.png",
+    "bytes": 135392,
+    "sha256": "452e9961067beac1a4917647d531c598ddb08297d714ecdfb70a0dacb4eb010d"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-left-native.png",
+    "bytes": 135290,
+    "sha256": "f466f3593b78eeca056b4e589f46b7148b349072dae067967709a177aba60b37"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-right-native.png",
+    "bytes": 74682,
+    "sha256": "b14a8c36c966931562e53295d035aeb03bd53fb1bf1d7a34c27abbb5ab65ce68"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-treasure.png",
+    "bytes": 134409,
+    "sha256": "a2defe3566a70a981fb507bc8ded608097020b489a67aed57d9958fc731f5833"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-back-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-back-native.png",
+    "bytes": 139991,
+    "sha256": "c26904e5983d51133bd369f1e2335f92bac39771b10440217acdb47890bbc414"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-forward-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-forward-native.png",
+    "bytes": 122776,
+    "sha256": "f0d73ef52600ee9ae44ddb6c27344969bb85d4c82a894f3db0b8a3c8c7a6c88b"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-landmark.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-landmark.png",
+    "bytes": 134926,
+    "sha256": "4188d806fd0dd8fef7b90746451575cf3c9ea7218a3c0becc09341f798bdaa56"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-left-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-left-native.png",
+    "bytes": 141635,
+    "sha256": "1be91eca593a89dcb6c9e921df690402fb1a9d75e69c08a56dded55386b06669"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-right-native.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-right-native.png",
+    "bytes": 80374,
+    "sha256": "a418253b36f1f14068afd01e17373e767062ef60cb23e1fe68e91ff04656d24b"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/05-warlord-treasure.png",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/05-warlord-treasure.png",
+    "bytes": 131958,
+    "sha256": "448f4a50d9e79e51944a127a8d87d3f93867085bfe7ed314c278486fc4c23d04"
+  },
+  {
+    "source": "/workspace/aaa3-plinth-native-740/evidence.json",
+    "committed": "docs/visual/2026-10-31-landmark-approaches/native-740/evidence.json",
+    "bytes": 90926,
+    "sha256": "8e4365ce9239a4b762e82c8b7526b1f4c53bdb43d5f6ffcd4bca75272f158bbe"
+  }
+]

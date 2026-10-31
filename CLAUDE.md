@@ -1771,3 +1771,23 @@ Keep the explicit pixel-array size guard and all exact unchanged-field and
 containment assertions; never force view fitting or disable the quiet behavior
 to hide a baseline race. The original242-to282-row trace is retained in the
 wet-headroom review.
+
+
+### Heart landmark staging
+The floor Heart may use the lower 176–255 rows of the existing approved
+`heart_dais.webp` as fixed stone steps. `paintedHeartPlinth` demand-loads and
+prepares that crop and its five shade frames once; it never edits shipped art
+or allocates a canvas per frame. Keep the core as its own 0.4-scale sprite with
+the original 300ms sine divisor, 0.03 amplitude and glint. Its ready-plinth lift
+is 0.17; loading/failure keeps the native 0.04 lift and complete original core.
+The 0.5-scale base shares the core's exact scattered position and floor order,
+but has no glint, light, collision, saved field or interaction. Removing the
+Heart removes the base; Pack/choice/ending art and keeper pickup locks stay
+unchanged. The headless capability fallback must not request Image/canvas.
+`painted-world.spec.js` covers crop pixels, stable core/base registration,
+zero warm-frame allocations, ordinary loot, state/dice, delayed/corrupt art and
+installed offline loading. Disable replay recording only in frozen state-read
+fixtures; otherwise its legitimate view recording changes snapshot metadata.
+Native review and supplied-pose limits live in
+`docs/visual/2026-10-31-landmark-approaches/`. The owner's 31 October browser
+stability deferral excludes engine investigation, not ordinary CI gates.

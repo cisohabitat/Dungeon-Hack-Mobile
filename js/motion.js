@@ -8,6 +8,7 @@ import { SIZE as DRESS_SIZE } from './dressing.js';
 import { regionalProp } from './regionalprops.js';
 import { ENCOUNTERS } from './encounters.js';
 import { intentLabel } from './meleeview.js';
+import { paintedHeartPlinth } from './paintedworld.js';
 
 /** @param {import('./types.js').Kit} K */
 export function makeMotion(K) {
@@ -333,12 +334,14 @@ export function makeMotion(K) {
       const turn = (((x * 73856093) ^ (y * 19349663)) >>> 0) % 4 * Math.PI / 2, c = Math.round(Math.cos(turn)), sn = Math.round(Math.sin(turn));
       shown.forEach((it, i) => {
         const [ox, oy] = spots[i];
+        const plinth = it.t === 'artifact' ? paintedHeartPlinth() : null;
+        if (plinth) sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: plinth, scale: 0.5, yOff: 0, onFloor: true });
         // the Heart floats; a relic hovers a little, so it reads as more than iron
         const floats = it.t === 'artifact' || !!it.u;
         const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
         // what is worth stooping for catches the light now and then: a relic, the Heart, a ring or amulet, gear with an edge to it
         const glint = !!(it.u || it.t === 'artifact' || it.e > 0 || ['ring', 'amulet'].includes((ITEMS[it.t] || {}).kind));
-        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? 0.04 + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint, treasure: K.legends.grade(it) });
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: floats ? (plinth ? 0.17 : 0.04) + Math.sin(now / 300 + i) * 0.03 : 0, onFloor: true, glint, treasure: K.legends.grade(it) });
       });
     }
     // the fallen: knocked back, sinking into a heap and fading

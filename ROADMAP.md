@@ -621,6 +621,14 @@ serving from trace recording while preserving full-cache/native disconnection
 checks and deadlines. See the [recovery evidence](docs/verification/2026-10-29-offline-fixture/README.md);
 all required CI jobs and publication remain release gates.
 
+The v0.9.70 landmark slice anchors the floor Heart on fixed steps cropped
+from its existing approved dais painting, retaining a separate animated core,
+loading/failure fallback, native pickup locks and existing game rules.
+The [selected approach review](docs/visual/2026-10-31-landmark-approaches/README.md)
+records generated landmark/treasure views and all three keeper objectives.
+It does not approve guard relocation or complete AAA3. Browser stability is
+deferred for this round at the owner's 31 October request; all CI gates remain.
+
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs
 matched generation/gameplay checks and the required balance comparisons; do not

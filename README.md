@@ -67,8 +67,9 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 - **Readable crowd damage.** Floating damage and save labels stay apart when
   enemies at different depths line up in the view.
 
-- **The mountain’s first fire.** The Heart is a molten volcanic core bound in
-  ancient rune-cut iron, with matching collectible, dais and ending-card art.
+- **The mountain’s first fire.** A molten volcanic core bound in ancient
+  rune-cut iron floats above fixed stone steps. Its collectible, dais and ending
+  illustrations share the same design.
 
 - **Outcome-aware shared pictures.** Cards name the actual keeper, show the Heart,
   smiths’ quench or kept Heart dais for the chosen ending, and reuse the painted

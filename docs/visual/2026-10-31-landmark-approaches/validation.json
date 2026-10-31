@@ -1,0 +1,68 @@
+{
+  "baseline": "1a0262accb245352e16c05fd1135fb7269db4a35",
+  "version": "0.9.70",
+  "build": 85,
+  "runtime_hashes": {
+    "js/motion.js": "1278a09c270d3df29d0a3416aded8abe0cdd91f0c5213c182f3efa72da41a663",
+    "js/paintedworld.js": "701bfcd676298b74e1b2e68f52326fd60720a547e90f02b60806bcdec0832ab9",
+    "js/renderer.js": "734fc0ce757605068cc6caa2f4ac329aa349be886bd084484d514c9f0da58be9",
+    "js/dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+    "js/rooms.js": "99ab892166e6ec4da0b3393fa0dcf96e1f22a2c9a9d15cd7f0e09116e7b10978",
+    "js/items.js": "1f1397d9ebfcf833ef543c11b846d97069d257c93ba1dc8afd8508f3c0def4d1",
+    "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+    "js/release.js": "118ca1a0a8245ec6965728e94a0b6da34eecf165654820c81efe3963ba69f923",
+    "img/world/heart_dais.webp": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb",
+    "img/world/artifact.png": "53277d9d74bc99e4b9bb552f615e04c254aef4bc171fdb7a49690d981e03fb97"
+  },
+  "baseline_native_views": 14,
+  "native_views": 18,
+  "native_actual_actions": 30,
+  "native_action_requests": 30,
+  "focused": "All6 new fixture cases passed in the full regular projects, including final removal,ordinary-loot and exact lower-source-pixel controls.",
+  "typecheck": "passed on final frozen implementation and prepared0.9.70 metadata",
+  "performance": {
+    "local": "failed wet29.1FPS against30;other8 scenes passed;startup1831ms",
+    "log": "/workspace/aaa3-plinth-performance.log",
+    "results": "/workspace/aaa3-plinth-performance-results",
+    "policy": "No unchanged rerun,scene removal or threshold change; fresh CI at original9-scene gates required for publication"
+  },
+  "full_chromium": {
+    "browser_cases": 1029,
+    "by_project": {
+      "phone": 657,
+      "small": 372
+    },
+    "regular": 1021,
+    "serial_offline": 8,
+    "failures": 0,
+    "retries": 0,
+    "runtime_hashes_match_native_captures": true
+  },
+  "repository_checks": "Required exact-commit pre-push release check and npm test; fresh CI/publication records remain external to this pre-commit snapshot.",
+  "scope": "Only motion.js and paintedworld.js implementation changes; immutable art and game generation/rules; no balance change claimed; browser stability deferred for this round",
+  "unchanged_files_match_baseline": [
+    "js/renderer.js",
+    "js/dungeon.js",
+    "js/rooms.js",
+    "js/items.js",
+    "js/elements.js",
+    "img/world/heart_dais.webp",
+    "img/world/artifact.png"
+  ],
+  "regular_browser": {
+    "startTime": "2026-10-31T06:22:29.792Z",
+    "duration": 3790548.088,
+    "expected": 1021,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "serial_offline": {
+    "startTime": "2026-10-31T07:25:41.358Z",
+    "duration": 182145.961,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

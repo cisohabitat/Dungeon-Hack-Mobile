@@ -3,6 +3,42 @@ const {test,expect}=require('@playwright/test');
 const {startGame,artReady,watchForErrors,faceOpenGround,placeMonster}=require('./helpers');
 const {startOfflineServer}=require('../offline-server.cjs');
 
+test('the floor Heart floats above cached painted steps without changing other loot or rules @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'combat-clarity'});await faceOpenGround(page,3);
+ await page.evaluate(async()=>{Game.update=()=>{};Game.recordRuns(false);Game.level().monsters=[];const p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];Game.level().items={[`${p.x+dx*2},${p.y+dy*2}`]:[{t:'artifact',q:1}],[`${p.x+dx*3},${p.y+dy*3}`]:[{t:'gold',q:7}]};window.__plinth=(await import('/js/paintedworld.js')).paintedHeartPlinth;});
+ await expect.poll(()=>page.evaluate(()=>window.__plinth()?.w)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.sprites.artifact.w)).toBe(256);
+ await expect.poll(()=>page.evaluate(()=>Assets.sprites.heart_dais.w)).toBe(256);
+ const proof=await page.evaluate(async()=>{
+  const {Dice,Odds}=await import('/js/rng.js'),plinth=window.__plinth(),source=Assets.sprites.heart_dais;void source.levels;
+  const before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s],times=[0,471,942,1413],rows=[];
+  const create=document.createElement;let allocations=0;document.createElement=function(tag,...args){if(tag==='canvas')allocations++;return create.call(this,tag,...args);};
+  try{for(const at of times){const sprites=Game.renderState(at).sprites,core=sprites.find(s=>s.img===Assets.sprites.artifact),base=sprites.find(s=>s.img===plinth),gold=sprites.find(s=>s.img===Assets.sprites[ITEMS.gold.sprite]);rows.push({goldUntouched:gold.scale===.32&&gold.yOff===0,coreGlint:core.glint,pair:!!core&&!!base,samePosition:core.x===base.x&&core.y===base.y,scale:core.scale,baseScale:base.scale,baseY:base.yOff,onFloor:core.onFloor&&base.onFloor,coreY:core.yOff,baseBeforeCore:sprites.indexOf(base)<sprites.indexOf(core),cached:window.__plinth()===plinth});}}
+  finally{document.createElement=create;}
+  const pixels=plinth.levels[0].getContext('2d').getImageData(0,0,256,256).data,original=source.levels[0].getContext('2d').getImageData(0,0,256,256).data;let upper=0,lower=0,changed=0;for(let y=0;y<256;y++)for(let x=0;x<256;x++){const i=(y*256+x)*4;if(pixels[i+3]){if(y<176)upper++;else lower++;}if(y>=176&&[0,1,2,3].some(c=>pixels[i+c]!==original[i+c]))changed++;}
+  if(changed)throw Error(`Plinth changed ${changed} source pixels below its crop`);
+  return{rows,upper,lower,allocations,levels:plinth.levels.length,changed:Object.keys(Game.state()).filter(k=>JSON.stringify(JSON.parse(before)[k])!==JSON.stringify(Game.state()[k])),diceBefore:dice,diceAfter:[Dice.s,Odds.s],unchanged:before===JSON.stringify(Game.state())&&dice[0]===Dice.s&&dice[1]===Odds.s};
+ });
+ expect(proof.unchanged,JSON.stringify(proof)).toBe(true);expect(proof.allocations).toBe(0);expect(proof.upper).toBe(0);expect(proof.lower).toBeGreaterThan(1000);expect(proof.levels).toBe(5);
+ for(let i=0;i<proof.rows.length;i++){expect(proof.rows[i]).toMatchObject({goldUntouched:true,coreGlint:true,pair:true,samePosition:true,scale:.4,baseScale:.5,baseY:0,onFloor:true,baseBeforeCore:true,cached:true});expect(proof.rows[i].coreY).toBeCloseTo(.17+Math.sin([0,471,942,1413][i]/300)*.03,10);}
+ expect(await page.evaluate(()=>{const L=Game.level(),key=Object.keys(L.items).find(k=>L.items[k].some(it=>it.t==='artifact'));delete L.items[key];const sprites=Game.renderState(0).sprites;return{baseGone:!sprites.some(s=>s.img===window.__plinth()),goldKept:sprites.some(s=>s.img===Assets.sprites[ITEMS.gold.sprite]&&s.scale===.32&&s.yOff===0)};})).toEqual({baseGone:true,goldKept:true});
+ expect(errors).toEqual([]);
+});
+
+for(const failure of ['delayed','corrupt'])test(`a ${failure} Heart dais retains the native floating core and independent loot @mobile`,async({page})=>{
+ const errors=watchForErrors(page);let release;const held=new Promise(r=>release=r);
+ await page.route('**/img/world/heart_dais.webp',async route=>{if(failure==='delayed'){await held;await route.continue();}else await route.fulfill({status:200,contentType:'image/webp',body:'corrupt'});});
+ try{
+  await startGame(page,{seed:'combat-clarity'});await faceOpenGround(page,3);
+  await page.evaluate(async()=>{Game.update=()=>{};Game.level().monsters=[];const p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];Game.level().items={[`${p.x+dx*2},${p.y+dy*2}`]:[{t:'artifact',q:1},{t:'gold',q:7}]};window.__plinth=(await import('/js/paintedworld.js')).paintedHeartPlinth;});
+  await expect.poll(()=>page.evaluate(()=>Assets.sprites.artifact.w)).toBe(256);
+  expect(await page.evaluate(()=>{const sprites=Game.renderState(0).sprites,core=sprites.find(s=>s.img===Assets.sprites.artifact);return{base:window.__plinth()===null,coreY:core.yOff,scale:core.scale,loot:Game.level().items[Object.keys(Game.level().items)[0]].map(i=>i.t)};})).toEqual({base:true,coreY:.04,scale:.4,loot:['artifact','gold']});
+  if(failure==='delayed'){release();await expect.poll(()=>page.evaluate(()=>window.__plinth()?.w)).toBe(256);expect(await page.evaluate(()=>Game.renderState(0).sprites.find(s=>s.img===Assets.sprites.artifact).yOff)).toBe(.17);}
+  else await expect.poll(()=>page.evaluate(async()=> (await import('/js/paintedworld.js')).paintedWorldState()['img/world/heart_dais.webp#floor-plinth'])).toBe('failed');
+  expect(errors).toEqual([]);
+ }finally{release();}
+});
+
 test('approved world, equipment and material exports load through their native callers @mobile',async({page})=>{
  test.setTimeout(120000);const errors=watchForErrors(page);await startGame(page,{seed:'painted-delivery'});
  await page.evaluate(()=>{Game.level().monsters=[];Game.update=()=>{};});
@@ -325,7 +361,7 @@ test('all activated art files decode after a native offline reload @mobile',asyn
   const count=await page.evaluate(async urls=>{let count=0;for(let start=0;start<urls.length;start+=8){await Promise.all(urls.slice(start,start+8).map(async url=>{const im=new Image();im.src=url;await im.decode();if(!im.naturalWidth)throw Error('Empty art '+url);count++;}));}return count;},urls);expect(count).toBe(urls.length);
   for(const[cls,id]of [['mage','spellbook'],['druid','buckler'],['spellblade','wayfarer_lantern']])await expect.poll(()=>page.evaluate(({cls,id})=>Assets.carried(id,cls)?.img.width,{cls,id})).toBe(256);
   await expect.poll(()=>page.evaluate(()=>Assets.held(null,'fist','mage',false)?.img.width)).toBe(256);
-  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll,paintedGroundDecal}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256&&paintedGroundDecal('blood',1)?.width===128&&paintedGroundDecal('ash',1)?.width===128&&paintedGroundDecal('ice',1)?.width===128&&paintedGroundDecal('oil',1)?.width===128;})).toBe(true);
+  await expect.poll(()=>page.evaluate(async()=>{const{paintedLantern,paintedReadingScroll,paintedGroundDecal,paintedHeartPlinth}=await import('/js/paintedworld.js');return paintedLantern()?.img.width===256&&paintedReadingScroll()?.img.width===256&&paintedGroundDecal('blood',1)?.width===128&&paintedGroundDecal('ash',1)?.width===128&&paintedGroundDecal('ice',1)?.width===128&&paintedGroundDecal('oil',1)?.width===128&&paintedHeartPlinth()?.w===256;})).toBe(true);
   connected=true;if(browserName!=='webkit')await context.setOffline(false);expect(errors).toEqual([]);
  }finally{await context.close();await new Promise(r=>{server.close(r);server.closeAllConnections();});}
 });
