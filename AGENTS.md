@@ -1854,3 +1854,16 @@ APIRequestContext call after the real server cutoff, outside the SW, before
 their existing native reloads. Keep the positive rejection counters and all
 voice/portrait/creature/error assertions. Never probe installed core in the
 worker merely to make a fixture counter advance.
+
+### Calm floating treasure
+`motion.js` supplies `stillYOff` only for floating floor treasure (the Heart and
+named relics). It includes the existing altar/plinth lift without the sine bob;
+the original `yOff` formula stays intact for normal view. The renderer selects
+the steady offset when Calm is active, without mutating sprites, game state or
+saved data. Ordinary loot and all other sprites retain their existing offsets.
+Keep the same rule with unavailable staging art: the Heart uses its original
+fallback hover height and relics keep their normal floor/altar lift. The
+`painted-world.spec.js` projection cases cover three render heights, normal/Calm,
+painted/failed bases and ordinary-gold controls. Their supplied fixture copies
+exploration arrays because normal rendering legitimately reveals map cells;
+native generated-treasure captures remain separate from frozen projection proof.

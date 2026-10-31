@@ -350,7 +350,8 @@ export function makeMotion(K) {
         const size = it.t === 'artifact' ? 0.4 : (it.u ? 0.38 : 0.32) * (shown.length > 1 ? 0.85 : 1);
         // what is worth stooping for catches the light now and then: a relic, the Heart, a ring or amulet, gear with an edge to it
         const glint = !!(it.u || it.t === 'artifact' || it.e > 0 || ['ring', 'amulet'].includes((ITEMS[it.t] || {}).kind));
-        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: (onAltar ? 0.2 : 0) + (floats ? (plinth ? 0.17 : 0.04) + Math.sin(now / 300 + i) * 0.03 : 0), onFloor: true, ...(onAltar ? { floorAnchor: altarAnchor } : {}), glint, treasure: K.legends.grade(it) });
+        // Calm keeps the authored hovering height, without the periodic bob.
+        sprites.push({ x: x + 0.5 + ox * c - oy * sn, y: y + 0.5 + ox * sn + oy * c, img: Assets.sprites[spriteFor(it)], scale: size, yOff: (onAltar ? 0.2 : 0) + (floats ? (plinth ? 0.17 : 0.04) + Math.sin(now / 300 + i) * 0.03 : 0), ...(floats ? { stillYOff: (onAltar ? 0.2 : 0) + (plinth ? 0.17 : 0.04) } : {}), onFloor: true, ...(onAltar ? { floorAnchor: altarAnchor } : {}), glint, treasure: K.legends.grade(it) });
       });
     }
     // the fallen: knocked back, sinking into a heap and fading

@@ -673,12 +673,15 @@ setup. The prototype stays rejected; no new balance estimates replace the
 published table. Any future placement experiment must run after completed fresh-
 floor setup, preserve loaded floors, and pass full matched balance validation.
 
-Next bounded AAA3 task: review generated regional treasure-room approaches,
-using the existing13-theme staging evidence to choose an actual readability
-problem before changing art. Prefer approved painted assets and presentation
-changes that preserve tiles, light positions, loot and encounters. Record normal,
-320px Double/Calm and landscape native views; a layout change still needs the
-full gameplay and balance gates. Keeper relocation is not a prerequisite.
+The [treasure readability follow-up](docs/visual/2026-10-31-treasure-readability/README.md)
+reviews generated loot approaches in Grey Halls, Blue Vaults, the Warrens,
+Dark Elf Halls and Old Forges. The justified change is a Calm-view correction:
+the Heart and named relics stop bobbing while retaining their authored hover
+height above the floor, plinth or altar. Normal animation and ordinary loot stay
+intact. The supplied projection fixture reproduces nearly6px of unwanted Calm
+motion before the fix; native poses, controlled comparisons and full publication
+gates are recorded separately. No loot, map, light-placement or encounter change
+is accepted by this pass. This does not complete AAA3 or physical-device review.
 
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs

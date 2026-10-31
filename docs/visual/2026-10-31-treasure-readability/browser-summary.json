@@ -1,0 +1,14 @@
+{
+  "browser_cases": 1045,
+  "by_project": {
+    "phone": 665,
+    "small": 380
+  },
+  "regular": 1035,
+  "serial_offline": 10,
+  "failures": 0,
+  "retries": 0,
+  "skipped": 0,
+  "uniqueCaseIds": 1045,
+  "runtime_hashes_match_prepared_capture_manifest": true
+}

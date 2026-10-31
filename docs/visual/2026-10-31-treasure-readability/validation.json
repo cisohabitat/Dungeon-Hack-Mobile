@@ -1,0 +1,58 @@
+{
+  "baseline": "a39229f09708dc820ca9bf8ba9cee6fc033e2137",
+  "version": "0.9.75",
+  "build": 90,
+  "scope": "Presentation-only Calm hover correction; no balance change",
+  "runtimeSourceHashes": {
+    "motion.js": "6d8a978e019f8bbaf282ce7d606a71582bfafa83cfd9b19c77be5f63a8188699",
+    "renderer.js": "3e99ac1575a62847454f6f9ada3212853bf2a58c57c6ede13c0ea198773ee4e6",
+    "titlemenu.js": "5a9b87fcb8e3a66f733fac786929066955e14ec4c9a5f8af045825c2cdb016e3",
+    "release.js": "786b199071f465c560bc1dbdd9746dc52ebf5c92a5fe9f77275aca0ca14f2416"
+  },
+  "nativeSessions": 12,
+  "baselineNativeTreasureViews": 5,
+  "controlledComparisons": {
+    "normalPixelIdentical": 72,
+    "ordinaryCalmPixelIdentical": 24,
+    "intendedFloatingCalmChanged": 46
+  },
+  "focusedBrowser": {
+    "phone": 2,
+    "small": 2,
+    "failed": 0,
+    "retries": 0
+  },
+  "localPerformance": {
+    "passed": false,
+    "decalsFps": 27.9,
+    "wetFps": 29.4,
+    "startupMs": 1921,
+    "thresholdsUnchanged": true,
+    "unchangedRerun": false
+  },
+  "fullBrowser": {
+    "browser_cases": 1045,
+    "by_project": {
+      "phone": 665,
+      "small": 380
+    },
+    "regular": 1035,
+    "serial_offline": 10,
+    "failures": 0,
+    "retries": 0,
+    "skipped": 0,
+    "uniqueCaseIds": 1045,
+    "runtime_hashes_match_prepared_capture_manifest": true
+  },
+  "prePushRules": "Enforced by mandatory exact-commit pre-push npm test; successful push and required CI are authoritative",
+  "CI": "Publication requires all original CI jobs on this commit; see the release workflow run",
+  "testSourceSha256": "d050e3c10fe7ace73ae938ff5665a071e4ff23f37bbdebe3b14cedf0ab3e5098",
+  "localRunningLoop": {
+    "draws": 67,
+    "topSpan": 0,
+    "underlyingBobSpan": 0.058112581624188246,
+    "elapsedMs": 1115.2000000178814,
+    "gameTimeAdvanced": 1116.6000000000004,
+    "scope": "Prepared working-tree source, supplied pose and safety HP; local harness validation, not deployment proof"
+  }
+}

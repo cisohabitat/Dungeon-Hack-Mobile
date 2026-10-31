@@ -1648,12 +1648,13 @@ const Renderer = (() => {
       let lift = 1;
       if (!s.onFloor && floorY > H - 2) { lift = (H - 2 - H / 2) / (floorY - H / 2); hFull *= lift; floorY = H - 2; }
       let size = hFull * s.scale * (1 + 0.07 * (s.tell || 0));
+      const yOff = calm && s.stillYOff != null ? s.stillYOff : (s.yOff || 0);
       // Right in front of you a big one (the lich above all) grew past the top
       // of the view and lost its head: it is drawn no taller than fits, from
       // where its feet stand up to the top edge, or to the boss's bar, even
       // at the top of a breath.
       if (s.maxHp != null) {
-        const room = floorY - (s.yOff || 0) * hFull - (s.boss ? BOSS_TOP : 3), drawn = (1 - (art.top || 0)) * Math.max(1, s.sqy || 1);
+        const room = floorY - yOff * hFull - (s.boss ? BOSS_TOP : 3), drawn = (1 - (art.top || 0)) * Math.max(1, s.sqy || 1);
         if (size * drawn > room && room > 0) size = room / drawn;
       }
       // close in, where each of its pixels would be drawn as a block, the finer
@@ -1664,7 +1665,7 @@ const Renderer = (() => {
       if (tY < NEAR_ASK && art.near && (s.procedural || !deferCreatureDetail(art, s.paintedKind))) { const fine = art.near(); if (fine && size / lift / art.h > NEAR_BLOCK) art = fine; }
       // a monster's body squashes and stretches as it breathes, lunges and falls
       const sh = size * (s.sqy || 1), sw = size * (s.sqx || 1);
-      const top = floorY - sh - (s.yOff || 0) * hFull;
+      const top = floorY - sh - yOff * hFull;
       // where the drawing itself begins: bars and marks sit on it, not on the empty frame
       const drawnTop = top + (art.top || 0) * sh;
       const left = screenX - sw / 2;

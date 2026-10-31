@@ -9,6 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
+- **Steady treasure in Calm view.** The Heart and named relics hover without
+  bobbing, including above painted plinths and shrine altars. Normal view keeps
+  their familiar motion.
+
 - **More weight in combat.** All 53 enemy identities settle back into guard
   after striking. Quiet bone, armour, claw, breath and magical cues sit beneath
   their familiar warnings; Heartforged’s hammer carries a short iron ring.

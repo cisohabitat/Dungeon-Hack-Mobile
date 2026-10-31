@@ -1,0 +1,421 @@
+{
+  "baseline": "a39229f09708dc820ca9bf8ba9cee6fc033e2137",
+  "candidate": {
+    "version": "0.9.75",
+    "build": 90
+  },
+  "runtimeSourceHashes": {
+    "motion.js": "6d8a978e019f8bbaf282ce7d606a71582bfafa83cfd9b19c77be5f63a8188699",
+    "renderer.js": "3e99ac1575a62847454f6f9ada3212853bf2a58c57c6ede13c0ea198773ee4e6",
+    "titlemenu.js": "5a9b87fcb8e3a66f733fac786929066955e14ec4c9a5f8af045825c2cdb016e3",
+    "release.js": "786b199071f465c560bc1dbdd9746dc52ebf5c92a5fe9f77275aca0ca14f2416"
+  },
+  "native": [
+    {
+      "group": "390",
+      "sessions": 5,
+      "rawRoot": "/workspace/treasure75-native-390",
+      "allOriginalFrames": {
+        "03-hold-2.png": {
+          "sha256": "efc322b6802ca80751752a4388a06e660bf62feb21d694ac810d6841aac3ffea",
+          "bytes": 152309
+        },
+        "07-left-native.png": {
+          "sha256": "1ead0eee2e56a043a602ebd98afefe5cae7da2bd58ff93913596cec2130d6244",
+          "bytes": 162318
+        },
+        "00-forward-native.png": {
+          "sha256": "ebfa4dc9594525f247a7139edb8a83f2a6f4db1a3b42d87c115c629fb10e4c87",
+          "bytes": 171554
+        },
+        "08-left-native.png": {
+          "sha256": "d5d71f80bb766cd8c5f32a85ed5700a9ce8c10d6d86e4d002779cbc9aab4adf4",
+          "bytes": 143228
+        },
+        "00-hold-2.png": {
+          "sha256": "3fe46e697d7119c6fce9fcc54d11141c3a2f811122eb2a4822e2495aac636f40",
+          "bytes": 169182
+        },
+        "12-back-native.png": {
+          "sha256": "1b6746ec2b6868fb23dc89f8ac42ad99029c4f7b0e45b218e59de5a6b52bf5e4",
+          "bytes": 165671
+        },
+        "08-right-native.png": {
+          "sha256": "264a6138847524336dc5047c3bf506cb4a5e6ce5a13a42f90a554717b85a23e9",
+          "bytes": 131074
+        },
+        "07-back-native.png": {
+          "sha256": "fb1477469f007be191f0b7577efd1b4acae23e401cb09eb93d800290f1e540c4",
+          "bytes": 159886
+        },
+        "12-treasure.png": {
+          "sha256": "e0b38f4d4e2eb0a729bf71c66a272cf11c37e4fc2431d7a541a88550ec71a19f",
+          "bytes": 162419
+        },
+        "12-left-native.png": {
+          "sha256": "a52bf1df56ca9c0a29f4ea11a17025d19e114a012a1f831e2b29a7c233ee6627",
+          "bytes": 162633
+        },
+        "03-treasure.png": {
+          "sha256": "a2533952e898ecc8f05e73ce77f0b7da1b5ff269327912657ed7a33d086d59c0",
+          "bytes": 156212
+        },
+        "03-left-native.png": {
+          "sha256": "9381166e89a53b89525b8ffef97473913ff330dd1691c0a05bbaeac925c7ca1e",
+          "bytes": 197941
+        },
+        "00-hold-0.png": {
+          "sha256": "44a2204b83fd1dc11e8f345a51e4688bffb09a7ed56d7e2858c2c11cf3f70dec",
+          "bytes": 168597
+        },
+        "12-hold-1.png": {
+          "sha256": "dbb7df6706738c2e45412ad34f50033e749ffd919cb246d037bf747854a70ff3",
+          "bytes": 162564
+        },
+        "08-hold-2.png": {
+          "sha256": "b6499d4f2fcd8e56884066e5094c38a233c7a4b8e80a70a1ecf32fc6865c94d9",
+          "bytes": 139658
+        },
+        "07-treasure.png": {
+          "sha256": "f92efaa64b74922ca571a064602d39070ccb7a82c2354309fd26cef0e3d3e3fa",
+          "bytes": 156737
+        },
+        "07-hold-1.png": {
+          "sha256": "1764dbb9398a75c5c529d2af14aaae7ff538a0cd8c7c8a9d7bfdb56aea64435d",
+          "bytes": 155305
+        },
+        "00-right-native.png": {
+          "sha256": "3b97094dc77c75a28569c9f664b2e8d07ed4d0126ae4d957e87bfdf8b759de49",
+          "bytes": 80247
+        },
+        "12-forward-native.png": {
+          "sha256": "193b44a2efa75fad97cfcfe10ba5569321169fd9c5a137edab9f2c8761ff9c92",
+          "bytes": 166261
+        },
+        "12-hold-0.png": {
+          "sha256": "b52b651daa249fac85c3718dbb0eb723af74a82da70d5f680492d1c22b0856e6",
+          "bytes": 162611
+        },
+        "08-hold-1.png": {
+          "sha256": "a9977e2f21cdc091deab596ff31a8eab903d024eeb8b479c14dfc7e03e8f5f91",
+          "bytes": 137709
+        },
+        "00-left-native.png": {
+          "sha256": "e8a016515ee71cb817ec8f7791ab0ef936ad5c9fa5eaa224fe4551e25845eeef",
+          "bytes": 166538
+        },
+        "03-hold-0.png": {
+          "sha256": "4a57119ea713bb7624037fc259ab9ad11b5fe0d2a43b232c5a8fa9f42bad1ebe",
+          "bytes": 156209
+        },
+        "07-hold-0.png": {
+          "sha256": "9f8b200e7e4f2f9c095c8cac59ae3461da16ab6aa53d2c12ed44ccd6c524cc35",
+          "bytes": 155307
+        },
+        "12-right-native.png": {
+          "sha256": "7f01844c0badace58ccf992a3a332166922e7a82e85ef5f3990d1b4c8314eccd",
+          "bytes": 133203
+        },
+        "08-treasure.png": {
+          "sha256": "c76e1920f29fbab7b806c34c941f32445fae8bd9578a46002233223184e462db",
+          "bytes": 131425
+        },
+        "07-forward-native.png": {
+          "sha256": "a86c6eaf8521222f201fac3d34b972f5f56875d0ee79a4a11444e0f61ff34792",
+          "bytes": 155107
+        },
+        "00-hold-1.png": {
+          "sha256": "2808cb4b948b81d083db1bde90975bd67d3b5ac53a6c0f390e3684cf7aba2877",
+          "bytes": 168592
+        },
+        "03-right-native.png": {
+          "sha256": "0eee078a221788bcff689f730b1b2700ecf7992bb5883324baa1150fac36fbfa",
+          "bytes": 153196
+        },
+        "00-treasure.png": {
+          "sha256": "4a5631f62579689a4fee9a75514e1e07c1ab1b46104d51cdef385bae8fa1db82",
+          "bytes": 169090
+        },
+        "12-hold-2.png": {
+          "sha256": "b52a1bc0c5ecaf9b8088fc2784e8f20357fc91fb6269b1423aaceb252fb9031d",
+          "bytes": 162627
+        },
+        "07-hold-2.png": {
+          "sha256": "f0dd1686ccf0e6b1d1376d802865961ed6bdd5c5a59b8794e981beca3fc4eaa7",
+          "bytes": 155543
+        },
+        "03-hold-1.png": {
+          "sha256": "e03c49b97d3b75ea193d773fce815fc666c1e701b8076488037e7ab34c6d6ec2",
+          "bytes": 152687
+        },
+        "00-back-native.png": {
+          "sha256": "aa632263337bb200cfd0a020c2871aa6f09b37c8d59590611f1afdb9c2f90830",
+          "bytes": 172214
+        },
+        "07-right-native.png": {
+          "sha256": "c8b881337fc288161338006547513f850df4d4b7818741546dc60dd3db54a1b5",
+          "bytes": 158372
+        },
+        "08-hold-0.png": {
+          "sha256": "25a93b4d3c05ce6e96c201bb2950fe1be5256b8dcf4f845cd5e89c6ed056ebb0",
+          "bytes": 131431
+        }
+      }
+    },
+    {
+      "group": "calm320",
+      "sessions": 3,
+      "rawRoot": "/workspace/treasure75-native-calm320",
+      "allOriginalFrames": {
+        "00-forward-native.png": {
+          "sha256": "12ee467e6ed669dd6ac350ad2e23c4bb8b99ce1ae5cacba76ac28db3b71d5002",
+          "bytes": 117210
+        },
+        "relic-vault-left-native.png": {
+          "sha256": "471fa043f0172990f1dc111fff04903a9c139950f48ed6644f6c1d2f772736b4",
+          "bytes": 133939
+        },
+        "relic-vault-hold-2.png": {
+          "sha256": "37cf754f240d8e9cb4526723378a7d78fb7429793d511c2d62dcac0263602edc",
+          "bytes": 129161
+        },
+        "00-hold-2.png": {
+          "sha256": "6b1d3db4efdc9096e8d89487b11e74c7bc5a938bf7c3c6c1d68b5ecb0b2ffc43",
+          "bytes": 133909
+        },
+        "12-back-native.png": {
+          "sha256": "11a5ab9b5af0b2cf6ac0bd9f5e5bb064cbf31417e9a1a5c022b224055b05dec0",
+          "bytes": 137303
+        },
+        "12-treasure.png": {
+          "sha256": "b494876c5191277bc7605e6b5b1631128bf22c7ed5a75ac399c5b1c2bf95679e",
+          "bytes": 133588
+        },
+        "12-left-native.png": {
+          "sha256": "cd85c6b9f299b3bb39d7fdc5f2bce467b8176fbc8c733d70276c210a2815a7e5",
+          "bytes": 133757
+        },
+        "00-hold-0.png": {
+          "sha256": "6b1d3db4efdc9096e8d89487b11e74c7bc5a938bf7c3c6c1d68b5ecb0b2ffc43",
+          "bytes": 133909
+        },
+        "12-hold-1.png": {
+          "sha256": "b494876c5191277bc7605e6b5b1631128bf22c7ed5a75ac399c5b1c2bf95679e",
+          "bytes": 133588
+        },
+        "00-right-native.png": {
+          "sha256": "f7f81b5a6dca4a463ad3b626a800e35a6508ee7a74d6116531c10d3f43d2b13c",
+          "bytes": 78239
+        },
+        "12-forward-native.png": {
+          "sha256": "5e1c20e71a531d367096563d544a869cc6ce100459a5f293812ad72369da16e0",
+          "bytes": 128947
+        },
+        "12-hold-0.png": {
+          "sha256": "b494876c5191277bc7605e6b5b1631128bf22c7ed5a75ac399c5b1c2bf95679e",
+          "bytes": 133588
+        },
+        "relic-vault-hold-0.png": {
+          "sha256": "952453185ce86733db006bf6b1e15ee6430e0b59dfb21d80d4f6659d6f836338",
+          "bytes": 125228
+        },
+        "00-left-native.png": {
+          "sha256": "90a9cb86add6fd8461285fd6eda6545babbb905bd0d751e435f2a568e298b8c9",
+          "bytes": 112345
+        },
+        "relic-vault-hold-1.png": {
+          "sha256": "952453185ce86733db006bf6b1e15ee6430e0b59dfb21d80d4f6659d6f836338",
+          "bytes": 125228
+        },
+        "12-right-native.png": {
+          "sha256": "705da6324c000e007e34e409d11382bbcd35f6a78055f82e96d874618e9153a7",
+          "bytes": 112477
+        },
+        "00-hold-1.png": {
+          "sha256": "6b1d3db4efdc9096e8d89487b11e74c7bc5a938bf7c3c6c1d68b5ecb0b2ffc43",
+          "bytes": 133909
+        },
+        "00-treasure.png": {
+          "sha256": "8ca82bf86d15c302aef8728970146651c80c904bf37be80c7909808a814dce1f",
+          "bytes": 132415
+        },
+        "12-hold-2.png": {
+          "sha256": "b494876c5191277bc7605e6b5b1631128bf22c7ed5a75ac399c5b1c2bf95679e",
+          "bytes": 133588
+        },
+        "relic-vault-right-native.png": {
+          "sha256": "1215c4693139c8c5963276ab242e242bb5de7081bcb40283562676d2a1dfe72b",
+          "bytes": 112668
+        },
+        "00-back-native.png": {
+          "sha256": "b3632e66c3ccf2b83faf1167330fa6d2a5a0b395c29a0add827eec102cba9c02",
+          "bytes": 117065
+        },
+        "relic-vault-treasure.png": {
+          "sha256": "952453185ce86733db006bf6b1e15ee6430e0b59dfb21d80d4f6659d6f836338",
+          "bytes": 125228
+        }
+      }
+    },
+    {
+      "group": "740",
+      "sessions": 3,
+      "rawRoot": "/workspace/treasure75-native-740",
+      "allOriginalFrames": {
+        "00-forward-native.png": {
+          "sha256": "b3cf3c329eef66b113839c6a600d2abb67c511a073bf34e4424491ead082e852",
+          "bytes": 139142
+        },
+        "relic-vault-left-native.png": {
+          "sha256": "51077b07418be490f2256ede85d79b881aa9e7684b2cc501a8acdb92cb0c29e8",
+          "bytes": 133702
+        },
+        "relic-vault-hold-2.png": {
+          "sha256": "8f90b0a276a8061a83ce4c5fc68030277250df933923f2413ccab2bcf2b4d583",
+          "bytes": 135477
+        },
+        "00-hold-2.png": {
+          "sha256": "a853f5ab5bdf3d6a5e4241679ee8dcd2d711db59eccc045a2812d32a90b35163",
+          "bytes": 142164
+        },
+        "12-back-native.png": {
+          "sha256": "c52c4cb13da51244b646ef2be1641f350220dc9c6228e2090e889fe5ea3e963f",
+          "bytes": 142551
+        },
+        "12-treasure.png": {
+          "sha256": "6300291f37343e2d383578bc32a2798a79ee5233b980187b7d22708e36bfee13",
+          "bytes": 147465
+        },
+        "12-left-native.png": {
+          "sha256": "ed1a8e1435bf1b3f94fc26312389be44424d2ce39152ab056787c66631798403",
+          "bytes": 147532
+        },
+        "00-hold-0.png": {
+          "sha256": "55271996be7a3710c1427c1a4b6dffd0361d7c74a32c3617b8a8be79abe4acdc",
+          "bytes": 141614
+        },
+        "12-hold-1.png": {
+          "sha256": "b2988f3a2cf0e78be0cf3f06a36cbdf6dc6656aa5bdfea7c7929d2d06ceab22d",
+          "bytes": 147197
+        },
+        "00-right-native.png": {
+          "sha256": "f60046b88c231a37da31f8c6428df5a1e7037d08165c7c0bbf02cc186e2d14bf",
+          "bytes": 73585
+        },
+        "12-forward-native.png": {
+          "sha256": "20e246d1a1b7877884fe3abb6564b63dfe5127b34b090a6dc83957d7d87f4de9",
+          "bytes": 140185
+        },
+        "12-hold-0.png": {
+          "sha256": "303465ae4dc5fb14b85635f1b068a2e3f1afb3e77e57a7843857b592a15f719f",
+          "bytes": 147165
+        },
+        "relic-vault-hold-0.png": {
+          "sha256": "7892d95845ee4e681e5f354ecdd55a4aec45226efcc91006b9f6e0b9d5e0728b",
+          "bytes": 132054
+        },
+        "00-left-native.png": {
+          "sha256": "ef2c85be7ce1931e3d923feda48c6e9cb824d9efeb41a44fe3473ab23ecbf8c1",
+          "bytes": 135707
+        },
+        "relic-vault-hold-1.png": {
+          "sha256": "5245c2531b6e249a380decb0e8b3eb500fe6c683ebc6de1ed12adb5d0c895c10",
+          "bytes": 132195
+        },
+        "12-right-native.png": {
+          "sha256": "be191621e7c7d6a5ec39aabdc520c7494cc6ae91d54f1fee7e201becca77545c",
+          "bytes": 116236
+        },
+        "00-hold-1.png": {
+          "sha256": "9585a8fb8b7571b7922124f0a00558608f14c56f7097adee66397396e118136d",
+          "bytes": 142211
+        },
+        "00-treasure.png": {
+          "sha256": "cc13d04fb1c76458a2774de74102d00f49e1b6946ef6bb53da40632b3a54b70a",
+          "bytes": 141809
+        },
+        "12-hold-2.png": {
+          "sha256": "cae7cb21117e3f279749b98873ce06735d1b7a82c0363868cf2e547667ecc1f1",
+          "bytes": 147291
+        },
+        "relic-vault-right-native.png": {
+          "sha256": "44ef862a74cb3ca72c060ed2bddeb4ad64cf58e2dc1cdbfece5fece7635f1af5",
+          "bytes": 139870
+        },
+        "00-back-native.png": {
+          "sha256": "63e208bf70e1e9f1b23aaf64a2f337e6b5dc15351df709af17d574ade007ff89",
+          "bytes": 139448
+        },
+        "relic-vault-treasure.png": {
+          "sha256": "89afe1d21633e55156c64c0067652e1ef62376117653a0172f90d72b2e395969",
+          "bytes": 132414
+        }
+      }
+    },
+    {
+      "group": "320",
+      "sessions": 1,
+      "rawRoot": "/workspace/treasure75-native-320",
+      "allOriginalFrames": {
+        "relic-vault-left-native.png": {
+          "sha256": "81b6f1f17c7480ad356378b28da672623278932beb20311f572b6756ad088c4f",
+          "bytes": 135568
+        },
+        "relic-vault-hold-2.png": {
+          "sha256": "43b3cf57db75b321c19f334efb84eb4103226327cbe9b9e68a7dc603afe94457",
+          "bytes": 134959
+        },
+        "relic-vault-hold-0.png": {
+          "sha256": "b07c61dfd7991f57cdd17ab6ce57b1feaf10b228ba688be24590a76fac6a2f67",
+          "bytes": 134607
+        },
+        "relic-vault-hold-1.png": {
+          "sha256": "31828871cd7b8e1ac4ff83ccda49dbd264acd53cd8f145edaafee69a3809d959",
+          "bytes": 134537
+        },
+        "relic-vault-right-native.png": {
+          "sha256": "4b35f69f2a2728b455e204cab06f89395484a557afe5152e20d1122a9b41f9c2",
+          "bytes": 147895
+        },
+        "relic-vault-treasure.png": {
+          "sha256": "14aadb1cdc109e49fb6e074bc6a04de5037ba0af8deb86625360bd9540a5c011",
+          "bytes": 135690
+        }
+      }
+    }
+  ],
+  "baselineNative": [
+    {
+      "file": "00-treasure.png",
+      "sha256": "e5c543fdb385ecaa705875ee857f9e11d9aaab3ae6efae9cf88790b25d216e5a"
+    },
+    {
+      "file": "03-treasure.png",
+      "sha256": "a473472c737a98fdc13871689339333379220c93c0595669c1cf13cac1ce3094"
+    },
+    {
+      "file": "07-treasure.png",
+      "sha256": "08bee3cb8c8ab30c6d86838b1b58852aeb542f38c152d710fbe240acaf488a14"
+    },
+    {
+      "file": "08-treasure.png",
+      "sha256": "f3687fd88819f1210f4a4ab99b0ca48812455211655da3c9fe5d91a0e172485a"
+    },
+    {
+      "file": "12-treasure.png",
+      "sha256": "0f94ab2924eb486a773c35a85e27378931413457259e0dd27a277022340c8f94"
+    }
+  ],
+  "retainedBaselineTraces": [
+    {
+      "path": "/workspace/treasure75-baseline-motion-results/treasure-motion-Calm-treas-e1f3e-vailable-staging-art-mobile-phone/trace.zip",
+      "sha256": "6088ad6692fecc0f5b0c46898e04ae856a3d73a773f2e9a7cca18d02a61286e1",
+      "bytes": 9197248
+    },
+    {
+      "path": "/workspace/treasure75-baseline-motion-results/treasure-motion-Calm-treas-6a867-th-ready-staging-art-mobile-phone/trace.zip",
+      "sha256": "a02a3163241757286efac52086cbf7ac3095a039d288a9e62e8b397cc8b44279",
+      "bytes": 8942851
+    }
+  ]
+}

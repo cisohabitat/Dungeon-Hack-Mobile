@@ -533,3 +533,55 @@ test('a burning door stays charred during its native fall and leaves an empty do
   const result=await page.evaluate(()=>window.__burnDoorResult());expect(result.burnt).toBe(true);expect(result.tile).toBe(result.openTile);expect(result.field).toBe('ash');expect(result.sliding).toBe(0);expect(result.charredMoving,JSON.stringify(result)).toBeGreaterThan(0);expect(result.plainMoving).toBe(0);expect(errors).toEqual([]);
  }finally{await page.evaluate(()=>window.__burnDoorRestore());}
 });
+
+for(const art of ['ready','unavailable'])test(`Calm treasure keeps its height with ${art} staging art @mobile`,async({page},testInfo)=>{
+ const errors=watchForErrors(page);
+ if(art==='unavailable')for(const file of ['shrine.webp','heart_dais.webp'])await page.route('**/img/world/'+file,r=>r.fulfill({status:200,contentType:'image/webp',body:'corrupt'}));
+ await startGame(page,{seed:'aaa3-generated-rooms',levels:'8'});
+ await page.evaluate(async()=>{
+  Game.testFloor(3);Game.update=()=>{};Game.recordRuns(false);
+  const world=await import('/js/paintedworld.js');window.__treasureWorld=world;
+  // Ask through the native lazy callers, without changing their results.
+  world.paintedShrineAltar();world.paintedHeartPlinth();
+  for(const id of ['artifact','relic_grimtooth','gold'])void Assets.sprites[id];
+ });
+ await page.waitForFunction(art=>{
+  const w=window.__treasureWorld,s=w.paintedWorldState();
+  return ['img/world/shrine.webp#room-altar','img/world/heart_dais.webp#floor-plinth'].every(k=>s[k]===(art==='ready'?'ready':'failed'))&&['artifact','relic_grimtooth','gold'].every(k=>Assets.sprites[k]?.w===256);
+ },art);
+ const proof=await page.evaluate(async()=>{
+  const {Dice,Odds}=await import('/js/rng.js'),{Renderer:renderer}=await import('/js/renderer.js?treasure-motion');
+  const canvas=document.createElement('canvas');renderer.init(canvas,304);
+  const ctx=canvas.getContext('2d'),draw=ctx.drawImage,L=Game.level(),room=L.rooms[L.piece.room],x=room.x+3,y=room.y+3;
+  // Supplied clear shrine fixture. This isolates projected treasure motion;
+  // native running-play captures are recorded separately in the art review.
+  L.monsters=[];L.npcs=[];L.dressing=[];L.fields={};L.lights=[];
+  Object.assign(Game.player(),{x:x-2,y,dir:1});
+  const piece=L.piece,rows=[],times=[0,235.5,471,942,1413];let images,top;
+  ctx.drawImage=function(img,...args){if(images?.has(img))top=args[5];return draw.call(this,img,...args);};
+  for(const subject of ['Heart','altar relic','gold']){
+   L.piece=subject==='altar relic'?piece:null;
+   L.items={[`${x},${y}`]:[subject==='Heart'?{t:'artifact',q:1}:subject==='altar relic'?{t:'dagger',u:'grimtooth',e:2,q:1}:{t:'gold',q:7}]};
+   const before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s];
+   for(const height of [160,304,464])for(const calm of [false,true]){
+    renderer.setHeight(height);renderer.setCalm(calm);const tops=[];
+    for(const now of times){
+     const rs=Game.renderState(now),sprite=rs.sprites.find(s=>subject==='Heart'?s.img===Assets.sprites.artifact:subject==='altar relic'?s.img===Assets.sprites.relic_grimtooth:s.img===Assets.sprites.gold);
+     if(!sprite)throw Error('Missing fixture treasure: '+subject);
+     images=new Set(sprite.img.levels);top=null;
+     // Rendering normally reveals looked-at map cells; isolate that expected
+     // side effect from this read-only projection fixture.
+     renderer.render({...rs.level,explored:rs.level.explored.slice()},{x:x-1.5,y:y+.5,angle:0},rs.sprites,{...rs.fx,arriveAt:-1e9,view:{...rs.fx.view,weapon:null,shield:null,offhand:null,lantern:false}},now);
+     if(top===null)throw Error('Fixture treasure was not drawn: '+subject);
+     tops.push(top);
+    }
+    rows.push({subject,height,calm,tops,span:Math.max(...tops)-Math.min(...tops)});
+   }
+   if(before!==JSON.stringify(Game.state())||dice[0]!==Dice.s||dice[1]!==Odds.s)throw Error('Rendering changed the game or its dice');
+  }
+  ctx.drawImage=draw;return{rows,unchangedStateAndDice:true};
+ });
+ await testInfo.attach('projected-treasure-motion',{body:JSON.stringify(proof,null,2),contentType:'application/json'});
+ for(const r of proof.rows){if(r.calm||r.subject==='gold')expect(r.span,JSON.stringify(r)).toBeLessThan(1e-9);else expect(r.span,JSON.stringify(r)).toBeGreaterThan(1);}
+ expect(proof.unchangedStateAndDice).toBe(true);expect(errors).toEqual([]);
+});
