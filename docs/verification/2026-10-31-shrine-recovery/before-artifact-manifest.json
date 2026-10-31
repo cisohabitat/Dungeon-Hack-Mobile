@@ -1,0 +1,177 @@
+{
+  "head": "8132d46897805bb449fe732c343cb07415930c99",
+  "run": 41218018153,
+  "artifacts": [
+    {
+      "id": 13049660195,
+      "name": "playwright-report-small-1",
+      "size_in_bytes": 13795159,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049660195",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049660195/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:18:19Z",
+      "expires_at": "2026-11-07T16:18:17Z",
+      "updated_at": "2026-10-31T16:18:19Z",
+      "digest": "sha256:f4e4fb7294e68ba993d5aa432127510230d7d4a86501a5492164a580f63bbdf1",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049650145,
+      "name": "playwright-report-3",
+      "size_in_bytes": 21439761,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049650145",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049650145/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:20:35Z",
+      "expires_at": "2026-11-07T16:20:34Z",
+      "updated_at": "2026-10-31T16:20:35Z",
+      "digest": "sha256:81c9bbc83eed590cbbf23ce94b5c01cff1aa98872087761153ffe951215b6e60",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049456872,
+      "name": "playwright-report-safari-3",
+      "size_in_bytes": 8508137,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049456872",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049456872/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:23:25Z",
+      "expires_at": "2026-11-07T16:23:24Z",
+      "updated_at": "2026-10-31T16:23:25Z",
+      "digest": "sha256:0a728bd239a3d6ed697d9bfbea8b240af1e564979b6a395be35e3eaef2c46663",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049436593,
+      "name": "playwright-report-small-2",
+      "size_in_bytes": 16999050,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049436593",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049436593/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:21:09Z",
+      "expires_at": "2026-11-07T16:21:07Z",
+      "updated_at": "2026-10-31T16:21:09Z",
+      "digest": "sha256:9a8ce67b5d4d76e4f2631202e70612668cb548ccd316d0d602856fe897319e9d",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049386736,
+      "name": "playwright-report-safari-1",
+      "size_in_bytes": 16133111,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049386736",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049386736/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:21:18Z",
+      "expires_at": "2026-11-07T16:21:17Z",
+      "updated_at": "2026-10-31T16:21:18Z",
+      "digest": "sha256:0892c44583fcf0079d8103f5aebf561fcc8a831fe20daa803e6f4c2a91e25bb5",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049262391,
+      "name": "playwright-report-safari-2",
+      "size_in_bytes": 1181929,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049262391",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049262391/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:22:59Z",
+      "expires_at": "2026-11-07T16:22:59Z",
+      "updated_at": "2026-10-31T16:22:59Z",
+      "digest": "sha256:0b14b00d8372372709154700105d783739c93b518d5896e5cc1f823de25463fb",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049196824,
+      "name": "playwright-report-2",
+      "size_in_bytes": 3143482,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049196824",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049196824/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:17:42Z",
+      "expires_at": "2026-11-07T16:17:41Z",
+      "updated_at": "2026-10-31T16:17:42Z",
+      "digest": "sha256:8592416ac5fd6c698a7a3a48dfc59801462f9d40683e3b31788c69a144cd333b",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13049057885,
+      "name": "playwright-report-1",
+      "size_in_bytes": 18179916,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049057885",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13049057885/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:22:24Z",
+      "expires_at": "2026-11-07T16:22:22Z",
+      "updated_at": "2026-10-31T16:22:24Z",
+      "digest": "sha256:1ba34adef12d005c761d42972ec5dc16aad49a060dd959c3486ea9fca8f92473",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    },
+    {
+      "id": 13048573140,
+      "name": "playwright-report-perf",
+      "size_in_bytes": 57001790,
+      "url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13048573140",
+      "archive_download_url": "https://api.github.com/repos/cisohabitat/Dungeon-Hack-Mobile/actions/artifacts/13048573140/zip",
+      "expired": false,
+      "created_at": "2026-10-31T16:08:04Z",
+      "expires_at": "2026-11-07T16:08:01Z",
+      "updated_at": "2026-10-31T16:08:04Z",
+      "digest": "sha256:c7ee31e3682cbc10b3c634326b070e9d7c4582cd43ce42815a1ed0341cc8914c",
+      "workflow_run": {
+        "id": 41218018153,
+        "repository_id": 1381434942,
+        "head_repository_id": 1381434942,
+        "head_branch": "main",
+        "head_sha": "8132d46897805bb449fe732c343cb07415930c99"
+      }
+    }
+  ]
+}

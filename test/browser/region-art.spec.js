@@ -236,3 +236,33 @@ test('wall strips match individual draws through regions, doors and stairs @mobi
   expect(result.rows.some(r => r.merged > 0)).toBe(true);
   expect(errors).toEqual([]);
 });
+
+
+test('floor row bounds match guarded sampling at map edges and live torch times @mobile',async({page})=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'floor-row-bounds'});await artReady(page);await surfaces(page);
+ const result=await page.evaluate(async()=>{
+  Game.update=()=>{};Game.recordRuns(false);Renderer.render=()=>{};
+  const [{Renderer:fast},{Renderer:guarded}]=await Promise.all([import('/js/renderer.js?row-fast'),import('/js/renderer.js?row-guarded')]);
+  const canvases=[document.createElement('canvas'),document.createElement('canvas')];[fast,guarded].forEach((r,i)=>r.init(canvases[i],304));
+  const rs=Game.renderState(10000),w=15,h=11,T=Dungeon.T,tiles=new Uint8Array(w*h).fill(T.FLOOR);
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(!x||!y||x===w-1||y===h-1)tiles[y*w+x]=T.WALL;
+  const level={...rs.level,w,h,tiles,theme:0,roomId:new Int16Array(w*h),rooms:[{x:1,y:1,w:13,h:9,shape:'box'}],caved:[],piece:null,lights:[{x:4,y:3},{x:11,y:7}],dressing:[],fields:{},explored:new Uint8Array(w*h).fill(1),seen:new Uint8Array(w*h).fill(1),locks:{},pools:[],twist:null,stairsUp:null,stairsDown:null};
+  const fx={...rs.fx,view:null,arriveAt:-1e9,doorShut:{},doorFire:{},stains:{},frost:[],vents:[],rocks:[],texts:[],spells:[],corpses:[],bits:[],boss:null};
+  const poses=[{x:7.5,y:5.5,angle:0},{x:1.1,y:5.5,angle:Math.PI/4},{x:7.5,y:1.1,angle:Math.PI/2},{x:13.9,y:9.9,angle:-Math.PI/2}];
+  const finite=Number.isFinite,random=Math.random;let randomSeed=0,views=0,changed=0,kindsMatch=true;
+  try{
+   Math.random=()=>{randomSeed=(Math.imul(randomSeed,1664525)+1013904223)>>>0;return randomSeed/4294967296;};
+   for(const height of[160,304,464])for(const calm of[true,false])for(const now of[10000,10471])for(const cam of poses){
+    [fast,guarded].forEach(r=>{r.setHeight(height);r.setCalm(calm);});
+    randomSeed=73;fast.render(level,cam,[],fx,now);
+    // This synchronous fixture forces the conservative path only. Native
+    // captures separately keep every runtime builtin and update loop intact.
+    Number.isFinite=()=>false;try{randomSeed=73;guarded.render(level,cam,[],fx,now);}finally{Number.isFinite=finite;}
+    const pixels=canvases.map(c=>c.getContext('2d').getImageData(0,0,fast.W,height).data);
+    if(pixels[0].some((v,i)=>v!==pixels[1][i]))changed++;kindsMatch&&=Number.isInteger(fast.looks.floors)&&fast.looks.floors>0&&fast.looks.floors===guarded.looks.floors;views++;
+   }
+  }finally{Number.isFinite=finite;Math.random=random;}
+  return{views,changed,kindsMatch};
+ });
+ expect(result).toEqual({views:48,changed:0,kindsMatch:true});expect(errors).toEqual([]);
+});

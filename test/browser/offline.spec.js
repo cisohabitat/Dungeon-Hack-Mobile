@@ -52,7 +52,8 @@ test('core play is ready offline while all recordings are delayed, then voices r
     await expect(status).toContainText('Voice downloading');
     expect((await server.stats()).held).toBeGreaterThan(0);
     // The worker has claimed the page even though no voice request can finish.
-    await connection(false);await page.reload();
+    const probe=root+'/__offline-origin-probe';expect((await page.request.get(probe)).status()).toBe(404);
+    await connection(false);await expect(page.request.get(probe)).rejects.toThrow();await page.reload();
     await expect(status).toContainText('Game ready offline');
     expect((await server.stats()).rejected).toBeGreaterThan(0);
     await page.click('#btn-new');await page.click('#c-begin');await page.click('#pro-begin');

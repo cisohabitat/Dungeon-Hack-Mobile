@@ -1,0 +1,534 @@
+{
+  "status": "Final native/pixel and complete local functional verification passed; local wet27 FPS miss retained; fresh CI and publication required",
+  "baseline": "8132d46897805bb449fe732c343cb07415930c99",
+  "before_run": 41218018153,
+  "before_failures": [
+    "wet26.6 against30",
+    "companion offline rejected=0 both attempts"
+  ],
+  "focused": {
+    "cases": 10,
+    "passed": 10,
+    "retries": 0
+  },
+  "tightened_bounds": {
+    "cases": 2,
+    "passed": 2,
+    "views_each": 48,
+    "retries": 0
+  },
+  "comparison": {
+    "views": 2340,
+    "changed": 0,
+    "alternating_rounds": 8,
+    "scope": "Diagnostic fitting; no FPS clearance"
+  },
+  "source_hashes": {
+    "js/motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+    "js/renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+    "js/paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+    "js/release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3",
+    "sw.js": "2f85b37877146ccd6ae40b841632adbe1cded503cf7db09224a202aa7fd51583",
+    "js/rooms.js": "99ab892166e6ec4da0b3393fa0dcf96e1f22a2c9a9d15cd7f0e09116e7b10978",
+    "js/dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+    "test/browser/painted-world.spec.js": "d26939a6fee2fede97ff6ee2b96b19b88ca4c559a1b2beebe3b2dcad83bd2d20",
+    "test/browser/region-art.spec.js": "7af0b752a259d8d2b07fc654dba839f3e3d21a934d4049f058b6b4c35089e8c6",
+    "test/browser/companions.spec.js": "dfd734752eae60bd42c0be88d158608a0b4c07391cb513a832caf5d35765087e",
+    "test/browser/offline.spec.js": "060740ee8778bbf126bb3ee153d827180ee4c7217118a12c495ed357f7203290",
+    "test/browser/painted-creatures.spec.js": "1584e8557984494c90e3b9787ac12c7c964c7a6ce8e09e1eb9e2d4b5ffdccc48",
+    "img/world/shrine.webp": "6d989a8529116857a73785b97392e8987fc4c84eb0149506c60d473b4d41d706",
+    "img/world/heart_dais.webp": "6bfa33002ab2ce5e58492e1744cefd2a79db67570b9a828425d9dc6f25b6c8cb"
+  },
+  "native": {
+    "views": 36,
+    "modes": [
+      "320",
+      "390",
+      "740",
+      "calm320"
+    ],
+    "image_failures": 0,
+    "records": [
+      {
+        "mode": "320",
+        "theme": "Mossy Depths",
+        "stage": "entrance",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "320",
+        "theme": "Mossy Depths",
+        "stage": "landmark",
+        "variant": "defiled",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            false
+          ],
+          [
+            "back",
+            false
+          ]
+        ]
+      },
+      {
+        "mode": "320",
+        "theme": "Mossy Depths",
+        "stage": "treasure",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "320",
+        "theme": "The Grey Hold",
+        "stage": "entrance",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "320",
+        "theme": "The Grey Hold",
+        "stage": "landmark",
+        "variant": "altar",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            true
+          ],
+          [
+            "back",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "320",
+        "theme": "The Grey Hold",
+        "stage": "treasure",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "320",
+        "theme": "The Drowned Halls",
+        "stage": "entrance",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "320",
+        "theme": "The Drowned Halls",
+        "stage": "landmark",
+        "variant": "kept",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "320",
+        "theme": "The Drowned Halls",
+        "stage": "treasure",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "Mossy Depths",
+        "stage": "entrance",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "Mossy Depths",
+        "stage": "landmark",
+        "variant": "defiled",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            false
+          ],
+          [
+            "back",
+            false
+          ]
+        ]
+      },
+      {
+        "mode": "390",
+        "theme": "Mossy Depths",
+        "stage": "treasure",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "The Grey Hold",
+        "stage": "entrance",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "The Grey Hold",
+        "stage": "landmark",
+        "variant": "altar",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            true
+          ],
+          [
+            "back",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "390",
+        "theme": "The Grey Hold",
+        "stage": "treasure",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "The Drowned Halls",
+        "stage": "entrance",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "390",
+        "theme": "The Drowned Halls",
+        "stage": "landmark",
+        "variant": "kept",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "390",
+        "theme": "The Drowned Halls",
+        "stage": "treasure",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "Mossy Depths",
+        "stage": "entrance",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "Mossy Depths",
+        "stage": "landmark",
+        "variant": "defiled",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            false
+          ],
+          [
+            "back",
+            false
+          ]
+        ]
+      },
+      {
+        "mode": "740",
+        "theme": "Mossy Depths",
+        "stage": "treasure",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "The Grey Hold",
+        "stage": "entrance",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "The Grey Hold",
+        "stage": "landmark",
+        "variant": "altar",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            true
+          ],
+          [
+            "back",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "740",
+        "theme": "The Grey Hold",
+        "stage": "treasure",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "The Drowned Halls",
+        "stage": "entrance",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "740",
+        "theme": "The Drowned Halls",
+        "stage": "landmark",
+        "variant": "kept",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "740",
+        "theme": "The Drowned Halls",
+        "stage": "treasure",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "Mossy Depths",
+        "stage": "entrance",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "Mossy Depths",
+        "stage": "landmark",
+        "variant": "defiled",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            false
+          ],
+          [
+            "back",
+            false
+          ]
+        ]
+      },
+      {
+        "mode": "calm320",
+        "theme": "Mossy Depths",
+        "stage": "treasure",
+        "variant": "defiled",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Grey Hold",
+        "stage": "entrance",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Grey Hold",
+        "stage": "landmark",
+        "variant": "altar",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ],
+          [
+            "forward",
+            true
+          ],
+          [
+            "back",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Grey Hold",
+        "stage": "treasure",
+        "variant": "altar",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Drowned Halls",
+        "stage": "entrance",
+        "variant": "kept",
+        "actions": []
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Drowned Halls",
+        "stage": "landmark",
+        "variant": "kept",
+        "actions": [
+          [
+            "right",
+            true
+          ],
+          [
+            "left",
+            true
+          ]
+        ]
+      },
+      {
+        "mode": "calm320",
+        "theme": "The Drowned Halls",
+        "stage": "treasure",
+        "variant": "kept",
+        "actions": []
+      }
+    ]
+  },
+  "typecheck": "passed",
+  "inventory": {
+    "phone": 663,
+    "small": 378,
+    "safari": 249
+  },
+  "cleanup": "Removed unused dim helper and tY destructuring after typecheck failed. Initial captures stopped and retained outside Git; all final captures and comparison use cleaned source.",
+  "final_timing": {
+    "scope": "Eight alternating diagnostic rounds; not native FPS clearance",
+    "normal_gain_percent": 16.7074,
+    "unlit_gain_percent": -1.4862,
+    "flooded_gain_percent": 13.657,
+    "dark_gain_percent": 6.4786,
+    "overgrown_gain_percent": 12.5087
+  },
+  "local_performance": {
+    "result": "FAIL wet27.0 against30;8other scenes pass; unchanged gate not rerun; freshCI required",
+    "fps": {
+      "fight": 46.5,
+      "wide": 42.5,
+      "flooded": 41.0,
+      "painted": 47.4,
+      "amber": 47.7,
+      "scroll": 42.9,
+      "decals": 32.3,
+      "wet": 27.0,
+      "rite": 57.2
+    },
+    "script_ms": {
+      "fight": 12.6,
+      "wide": 12.3,
+      "flooded": 14.0,
+      "painted": 10.2,
+      "amber": 9.2,
+      "scroll": 10.2,
+      "decals": 14.5,
+      "wet": 16.3,
+      "rite": 12.1
+    },
+    "startup_ms": 1997,
+    "cpu_throttle": 4,
+    "required_fps": 30,
+    "wide_required_fps": 27
+  },
+  "local_browser": {
+    "browser_cases": 1041,
+    "by_project": {
+      "phone": 663,
+      "small": 378
+    },
+    "regular": 1031,
+    "serial_offline": 10,
+    "failures": 0,
+    "retries": 0,
+    "frozen_source_hashes_match": true
+  }
+}

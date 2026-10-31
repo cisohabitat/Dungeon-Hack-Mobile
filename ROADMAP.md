@@ -654,6 +654,12 @@ an altar, but the native centre views show loose loot and no encounter shrine.
 The v0.9.73 implementation reuses approved lower shrine stonework as decorative scenery,
 with raised existing offerings and no generation, guard, light or collision change.
 See [the shrine staging review](docs/visual/2026-10-31-shrine-staging/README.md).
+The v0.9.73 main art is live, but its publisher was skipped after wet26.6FPS
+and the companion offline counter failed both attempts; all other1,286 browser
+cases passed. It is untagged. The [recovery](docs/verification/2026-10-31-shrine-recovery/README.md)
+keeps the shrine staging, reduces equivalent rendering math and explicitly
+proves the origin cutoff before cached reloads. Full unchanged CI gates remain.
+
 
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs

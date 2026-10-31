@@ -102,8 +102,13 @@ test('all companion portraits load, zoom by touch and keyboard, and remain avail
     await page.screenshot({ path: testInfo.outputPath('companion-collection.png') });
     await page.evaluate(() => navigator.serviceWorker.register('/sw.js'));
     await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller), { timeout: 30000 }).toBe(true);
+    // Prove the origin cutoff separately: installed core reloads need not
+    // contact it. APIRequestContext reaches the real server outside the SW.
+    const probe = new URL('/__offline-origin-probe', page.url()).href;
+    expect((await page.request.get(probe)).status()).toBe(404);
     // Cut the origin itself: WebKit's offline emulation aborts SW reloads.
     connected = false;
+    await expect(page.request.get(probe)).rejects.toThrow();
     await page.reload();
     expect(rejected).toBeGreaterThan(0);
     if (browserName !== 'webkit') { await context.setOffline(true); await page.reload(); }

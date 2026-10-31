@@ -1,0 +1,2243 @@
+{
+  "conclusion": "FAILED performance and companion offline proof; no release clearance",
+  "allowed_failures": "wet26.6 against30; companion offline positive rejection counter is0 on both attempts; no other hard failures allowed",
+  "artifact_count": 9,
+  "report_count": 14,
+  "totals": {
+    "perf": 1,
+    "small": 377,
+    "phone": 662,
+    "safari": 248
+  },
+  "failures": [
+    {
+      "artifact": "perf",
+      "project": "perf",
+      "title": "the view holds its frame rate on a slow processor",
+      "file": "perf.spec.js",
+      "line": 53,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: wet: {\"fps\":26.6,\"scriptMs\":17.2}"
+          ],
+          "retained_traces": [
+            "test-results/perf/perf-the-view-holds-its-frame-rate-on-a-slow-processor-perf/trace.zip"
+          ],
+          "trace_details": [
+            {
+              "sha256": "f0d7a10027719d211037fd2571e425ae514208e1b74bf655674f43e46d2b1bcd",
+              "steps": [
+                {
+                  "method": "hook",
+                  "title": "Before Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browser\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Launch browser",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create context",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create page",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Add init script",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Add init script",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Add init script",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Navigate to \"/\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#btn-new')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Is visible locator('#screen-create')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate locator('#c-customise')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#c-customise > summary')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Fill \"perf-budget\" locator('#c-seed')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#c-begin')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#pro-begin')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Is visible locator('#ov-boons.open')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create CDP session",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Set viewport size",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Set viewport size",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Wait for function",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Navigate to \"/\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Navigate to \"/\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#btn-new')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Is visible locator('#screen-create')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate locator('#c-customise')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#c-customise > summary')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Fill \"perf-start\" locator('#c-seed')",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#c-begin')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#pro-begin')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Send CDP command",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "fight: {\"fps\":42.9,\"scriptMs\":14.4}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "wide: {\"fps\":49.2,\"scriptMs\":11.7}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "flooded: {\"fps\":39.2,\"scriptMs\":15.1}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "painted: {\"fps\":40.5,\"scriptMs\":15}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "amber: {\"fps\":39.3,\"scriptMs\":14}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "scroll: {\"fps\":35.5,\"scriptMs\":15.2}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "decals: {\"fps\":30,\"scriptMs\":15.9}",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "wet: {\"fps\":26.6,\"scriptMs\":17.2}",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "After Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Close context",
+                  "apiName": null
+                },
+                {
+                  "method": "test.attach",
+                  "title": "Attach \"error-context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"baseURL\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"userAgent\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"viewport\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"isMobile\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"hasTouch\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"deviceScaleFactor\"",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "Worker Cleanup",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browser\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"defaultBrowserType\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"screenshot\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"launchOptions\"",
+                  "apiName": null
+                },
+                {
+                  "method": "newPage",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "addInitScript",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "addInitScript",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "addInitScript",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "goto",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "isVisible",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForSelector",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "fill",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "isVisible",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "newCDPSession",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "setViewportSize",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "setViewportSize",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForFunction",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "goto",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "goto",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "isVisible",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "waitForSelector",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "fill",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeVisible\"",
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                }
+              ],
+              "errors": [
+                "Error: wet: {\"fps\":26.6,\"scriptMs\":17.2}"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "artifact": "safari-1",
+      "project": "safari",
+      "title": "all companion portraits load, zoom by touch and keyboard, and remain available offline",
+      "file": "companions.spec.js",
+      "line": 81,
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/companions-all-companion-p-9a47d-nd-remain-available-offline-safari/trace.zip"
+          ],
+          "trace_details": [
+            {
+              "sha256": "c6c5add1dc3afc3c5dd9f93bf189990d5e2c39d152d78ab11b393d01b114c5a8",
+              "steps": [
+                {
+                  "method": "hook",
+                  "title": "Before Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create context",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create page",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Navigate to \"/\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#btn-companions')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveText\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveCount\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate locator('#companions-list img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Press \" \" locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Press \"Enter\" locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveClass\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Screenshot",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Reload",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeGreaterThan\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Set offline mode",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "After Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Close context",
+                  "apiName": null
+                },
+                {
+                  "method": "test.attach",
+                  "title": "Attach \"error-context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"baseURL\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"userAgent\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"viewport\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"isMobile\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"hasTouch\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"deviceScaleFactor\"",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "Worker Cleanup",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browser\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browserName\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"screenshot\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"launchOptions\"",
+                  "apiName": null
+                },
+                {
+                  "method": "newPage",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "goto",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveText\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveCount\"",
+                  "apiName": null
+                },
+                {
+                  "method": "evalOnSelectorAll",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "press",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "press",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveClass\"",
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "screenshot",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "reload",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "setOffline",
+                  "title": null,
+                  "apiName": null
+                }
+              ],
+              "errors": [
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+              ]
+            }
+          ]
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "errors": [
+            "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+          ],
+          "retained_traces": [
+            "test-results/safari/companions-all-companion-p-9a47d-nd-remain-available-offline-safari-retry1/trace.zip"
+          ],
+          "trace_details": [
+            {
+              "sha256": "465e7b541143a366bf39c4233356f627f240575fab6e6505be9d1b20554a044d",
+              "steps": [
+                {
+                  "method": "hook",
+                  "title": "Before Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browser\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Launch browser",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create context",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Create page",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Navigate to \"/\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('#btn-companions')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveText\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveCount\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate locator('#companions-list img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Click locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Press \" \" locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Press \"Enter\" locator('[data-companion=\"hound\"] img')",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveClass\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Screenshot",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"poll toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Evaluate",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBe\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Reload",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toBeGreaterThan\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Set offline mode",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "After Hooks",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"page\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "pw:api",
+                  "title": "Close context",
+                  "apiName": null
+                },
+                {
+                  "method": "test.attach",
+                  "title": "Attach \"error-context\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"baseURL\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"userAgent\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"viewport\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"isMobile\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"hasTouch\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"deviceScaleFactor\"",
+                  "apiName": null
+                },
+                {
+                  "method": "hook",
+                  "title": "Worker Cleanup",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browser\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"browserName\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"screenshot\"",
+                  "apiName": null
+                },
+                {
+                  "method": "fixture",
+                  "title": "Fixture \"launchOptions\"",
+                  "apiName": null
+                },
+                {
+                  "method": "newPage",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "goto",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveText\"",
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveCount\"",
+                  "apiName": null
+                },
+                {
+                  "method": "evalOnSelectorAll",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "click",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "press",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveAttribute\"",
+                  "apiName": null
+                },
+                {
+                  "method": "press",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "expect",
+                  "title": "Expect \"toHaveClass\"",
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "screenshot",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "evaluateExpression",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "reload",
+                  "title": null,
+                  "apiName": null
+                },
+                {
+                  "method": "setOffline",
+                  "title": null,
+                  "apiName": null
+                }
+              ],
+              "errors": [
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m",
+                "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBeGreaterThan\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "flaky_count": 0,
+  "flaky": [],
+  "artifacts": [
+    {
+      "name": "perf",
+      "zip": "/workspace/shrine73-ci-perf.zip",
+      "sha256": "c7ee31e3682cbc10b3c634326b070e9d7c4582cd43ce42815a1ed0341cc8914c",
+      "files": 7,
+      "reports": [
+        {
+          "name": "ci-diagnostics/perf-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:43.251Z",
+            "duration": 78320.46699999999,
+            "expected": 0,
+            "skipped": 0,
+            "unexpected": 1,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-1",
+      "zip": "/workspace/shrine73-ci-small-1.zip",
+      "sha256": "f4e4fb7294e68ba993d5aa432127510230d7d4a86501a5492164a580f63bbdf1",
+      "files": 62,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:17:07.909Z",
+            "duration": 69111.031,
+            "expected": 3,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:42.433Z",
+            "duration": 624571.72,
+            "expected": 186,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "small-2",
+      "zip": "/workspace/shrine73-ci-small-2.zip",
+      "sha256": "9a8ce67b5d4d76e4f2631202e70612668cb548ccd316d0d602856fe897319e9d",
+      "files": 47,
+      "reports": [
+        {
+          "name": "ci-diagnostics/small-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:20:25.272Z",
+            "duration": 41643.028,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/small-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:43.700Z",
+            "duration": 820321.544,
+            "expected": 186,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-1",
+      "zip": "/workspace/shrine73-ci-phone-1.zip",
+      "sha256": "1ba34adef12d005c761d42972ec5dc16aad49a060dd959c3486ea9fca8f92473",
+      "files": 53,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:21:31.728Z",
+            "duration": 50281.215000000004,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:42.695Z",
+            "duration": 888120.1140000001,
+            "expected": 219,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-2",
+      "zip": "/workspace/shrine73-ci-phone-2.zip",
+      "sha256": "8592416ac5fd6c698a7a3a48dfc59801462f9d40683e3b31788c69a144cd333b",
+      "files": 18,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:17:12.606Z",
+            "duration": 28954.495,
+            "expected": 2,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:32.947Z",
+            "duration": 638945.429,
+            "expected": 219,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "phone-3",
+      "zip": "/workspace/shrine73-ci-phone-3.zip",
+      "sha256": "81c9bbc83eed590cbbf23ce94b5c01cff1aa98872087761153ffe951215b6e60",
+      "files": 46,
+      "reports": [
+        {
+          "name": "ci-diagnostics/phone-offline-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:20:13.196Z",
+            "duration": 20505.704,
+            "expected": 1,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        },
+        {
+          "name": "ci-diagnostics/phone-regular-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:36.320Z",
+            "duration": 815906.747,
+            "expected": 219,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-1",
+      "zip": "/workspace/shrine73-ci-safari-1.zip",
+      "sha256": "0892c44583fcf0079d8103f5aebf561fcc8a831fe20daa803e6f4c2a91e25bb5",
+      "files": 41,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:07:14.008Z",
+            "duration": 842689.907,
+            "expected": 82,
+            "skipped": 0,
+            "unexpected": 1,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-2",
+      "zip": "/workspace/shrine73-ci-safari-2.zip",
+      "sha256": "0b14b00d8372372709154700105d783739c93b518d5896e5cc1f823de25463fb",
+      "files": 9,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:06:46.707Z",
+            "duration": 972292.598,
+            "expected": 83,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    },
+    {
+      "name": "safari-3",
+      "zip": "/workspace/shrine73-ci-safari-3.zip",
+      "sha256": "0a728bd239a3d6ed697d9bfbea8b240af1e564979b6a395be35e3eaef2c46663",
+      "files": 36,
+      "reports": [
+        {
+          "name": "ci-diagnostics/safari-results.json",
+          "stats": {
+            "startTime": "2026-10-31T16:07:17.651Z",
+            "duration": 966138.263,
+            "expected": 82,
+            "skipped": 0,
+            "unexpected": 0,
+            "flaky": 0
+          },
+          "native_fault_lines": [],
+          "resource_snapshots": true,
+          "browser_launch_exit_log": true
+        }
+      ]
+    }
+  ]
+}

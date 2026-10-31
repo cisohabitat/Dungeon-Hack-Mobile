@@ -1831,3 +1831,24 @@ sorting. Projection, wall depth, fog and live lighting use each sprite's own
 coordinates; actors keep their normal order. Native source review is in
 `docs/visual/2026-10-31-shrine-staging/`; its legal inspection poses and safety HP
 are controlled evidence, not unassisted play or balance/device clearance.
+
+
+### Shrine recovery floor math and explicit offline origin proof
+Floor shade clamps use equivalent finite-value comparisons. A per-row bound
+`dist * (1 + TAN_HALF) + 1` certifies that every ray sample lies safely within
+the map; invalid directions and rows near edges retain all original bounds
+checks. Do not remove the extra tile, skip texels/light reads or introduce
+a temporal floor cache. Stain geometry retains only its pure distance/fog
+fade; live light is read every frame and uses the existing invalidation keys.
+Build rgba from the already rounded tint channels without changing alpha.
+Explicit light-corner checks preserve the old interpolation order/boundaries.
+`region-art.spec.js` compares48 private views per project with guarded sampling
+at map edges/heights/torch times; its builtin override is a labelled reference
+fixture, not native evidence. Full native/pixel/timing/failure provenance is in
+`docs/verification/2026-10-31-shrine-recovery/`.
+Since installed core is cache-first, native reloads need not reach the origin.
+Counter-based offline fixtures prove a connected404 control and a failed
+APIRequestContext call after the real server cutoff, outside the SW, before
+their existing native reloads. Keep the positive rejection counters and all
+voice/portrait/creature/error assertions. Never probe installed core in the
+worker merely to make a fixture counter advance.

@@ -374,7 +374,8 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     await expect(page.locator('#offline-status')).toHaveAttribute('data-core','true');
     // As in offline.spec.js, disconnect the actual origin. WebKit's browser
     // offline emulation aborts controlled navigations before the worker runs.
-    await server.setConnected(false);await page.reload();expect((await server.stats()).rejected).toBeGreaterThan(0);
+    const probe=server.url+'/__offline-origin-probe';expect((await page.request.get(probe)).status()).toBe(404);
+    await server.setConnected(false);await expect(page.request.get(probe)).rejects.toThrow();await page.reload();expect((await server.stats()).rejected).toBeGreaterThan(0);
     if(browserName!=='webkit'){await context.setOffline(true);await page.reload();}
     await page.click('#btn-new');await customiseCreation(page);await page.fill('#c-seed','combat-clarity');
     await page.click('#c-begin');await page.click('#pro-begin');

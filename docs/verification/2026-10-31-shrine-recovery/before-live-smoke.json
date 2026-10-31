@@ -1,0 +1,28 @@
+{
+  "url": "https://dungeon-hack-mobile.vercel.app",
+  "commit": "8132d46897805bb449fe732c343cb07415930c99",
+  "version": "0.9.73",
+  "build": 88,
+  "altarDraws": 1,
+  "piece": "shrine",
+  "variant": "defiled",
+  "base": {
+    "scale": 0.65,
+    "yOff": 0,
+    "x": 20.5,
+    "y": 27.5
+  },
+  "loot": [
+    {
+      "yOff": 0.2,
+      "scale": 0.32,
+      "anchor": [
+        20.5,
+        27.5
+      ]
+    }
+  ],
+  "status": "playing",
+  "errors": [],
+  "scope": "Production native Game/Renderer, exact generated shrine and approved painting; supplied cleared monster/NPC population, safety HP and legal inspection pose through save/load. Live updates/rendering with forwarding draw observation. Local generated captures separately retain population at three widths and Calm; not unassisted or physical-device evidence."
+}

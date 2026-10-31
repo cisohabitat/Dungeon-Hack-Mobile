@@ -1,0 +1,9506 @@
+[
+  {
+    "i": 2,
+    "n": 8,
+    "d": 3,
+    "calm": false,
+    "stage": "entrance",
+    "file": "02-entrance.png",
+    "placement": null,
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "Mossy Depths",
+    "depth": 3,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "defiled",
+      "room": 6,
+      "props": [
+        {
+          "x": 19,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 26,
+          "k": "bones"
+        },
+        {
+          "x": 20,
+          "y": 30,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 28,
+          "k": "rubble"
+        },
+        {
+          "x": 20,
+          "y": 25,
+          "k": "rubble"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 25,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 19,
+        "w": 4,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "w": 10,
+        "h": 9,
+        "shape": "cave"
+      },
+      {
+        "x": 17,
+        "y": 24,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 16,
+        "y": 19,
+        "w": 10,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 19,
+        "y": 3,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 21,
+        "y": 8,
+        "w": 3,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 26,
+        "y": 11,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 27,
+        "y": 3,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      }
+    ],
+    "position": {
+      "x": 7,
+      "y": 2,
+      "dir": 2
+    },
+    "npcs": [
+      {
+        "id": "hire",
+        "kind": "encounter",
+        "x": 13,
+        "y": 10
+      }
+    ],
+    "items": {
+      "31,5": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "16,12": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        },
+        {
+          "t": "ring_quiet",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "10,11": [
+        {
+          "t": "scroll_uncurse",
+          "q": 1
+        }
+      ],
+      "11,29": [
+        {
+          "t": "sling",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "25,19": [
+        {
+          "t": "potion_might",
+          "q": 1
+        }
+      ],
+      "20,28": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "28,14": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "7,27": [
+        {
+          "t": "potion_cure",
+          "q": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "5,13": [
+        {
+          "t": "gold",
+          "q": 28
+        },
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "bread",
+          "q": 1
+        }
+      ],
+      "5,2": [
+        {
+          "t": "gold",
+          "q": 50
+        }
+      ],
+      "29,11": [
+        {
+          "t": "potion_xheal",
+          "q": 1
+        }
+      ],
+      "11,11": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 2
+        },
+        {
+          "t": "cloak_protect",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "17,27": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "20,27": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "4,22": [
+        {
+          "t": "gold",
+          "q": 105
+        }
+      ],
+      "4,21": [
+        {
+          "t": "leather",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "studded",
+          "q": 1,
+          "e": 1,
+          "u": "briarcoat"
+        }
+      ],
+      "5,22": [
+        {
+          "t": "gold",
+          "q": 37
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "cutpurse",
+        "x": 10,
+        "y": 13
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 19
+      },
+      {
+        "id": "thornhog",
+        "x": 21,
+        "y": 28
+      },
+      {
+        "id": "lookout",
+        "x": 7,
+        "y": 27
+      },
+      {
+        "id": "archer",
+        "x": 11,
+        "y": 14
+      },
+      {
+        "id": "lookout",
+        "x": 23,
+        "y": 11
+      },
+      {
+        "id": "kobold",
+        "x": 17,
+        "y": 20
+      },
+      {
+        "id": "slime",
+        "x": 23,
+        "y": 9
+      },
+      {
+        "id": "goblin",
+        "x": 22,
+        "y": 9
+      },
+      {
+        "id": "hexer",
+        "x": 28,
+        "y": 12
+      },
+      {
+        "id": "vessra",
+        "x": 29,
+        "y": 22
+      }
+    ],
+    "dressing": [
+      {
+        "x": 19,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 26,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 30,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 25,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.11,
+        "oy": 0.16,
+        "r": 0.25
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "k": "barrel",
+        "ox": -0.29,
+        "oy": 0.16
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.09,
+        "oy": 0.19,
+        "r": 0.19
+      },
+      {
+        "x": 32,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.05,
+        "oy": -0.17,
+        "r": 0.18
+      },
+      {
+        "x": 29,
+        "y": 3,
+        "k": "puddle",
+        "ox": 0.13,
+        "oy": 0.06,
+        "r": 0.19
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.08,
+        "r": 0.32
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "k": "rubble",
+        "ox": -0.08,
+        "oy": -0.19
+      },
+      {
+        "x": 15,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0.05,
+        "oy": 0.16,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 9,
+        "k": "oilcask",
+        "ox": -0.3,
+        "oy": 0.17
+      },
+      {
+        "x": 4,
+        "y": 15,
+        "k": "rubble",
+        "ox": 0.2,
+        "oy": 0.09
+      },
+      {
+        "x": 5,
+        "y": 14,
+        "k": "oilcask",
+        "ox": 0.21,
+        "oy": -0.11
+      },
+      {
+        "x": 5,
+        "y": 17,
+        "k": "mushrooms",
+        "ox": -0.01,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 14,
+        "k": "rubble",
+        "ox": -0.09,
+        "oy": -0.13
+      },
+      {
+        "x": 27,
+        "y": 12,
+        "k": "barrel",
+        "ox": -0.19,
+        "oy": -0.12
+      },
+      {
+        "x": 13,
+        "y": 20,
+        "k": "mushrooms",
+        "ox": 0.12,
+        "oy": -0.07
+      },
+      {
+        "x": 11,
+        "y": 20,
+        "k": "puddle",
+        "ox": -0.14,
+        "oy": -0.06,
+        "r": 0.3
+      },
+      {
+        "x": 16,
+        "y": 20,
+        "k": "oilcask",
+        "ox": -0.34,
+        "oy": 0.31
+      },
+      {
+        "x": 21,
+        "y": 19,
+        "k": "rubble",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.16,
+        "r": 0.2
+      },
+      {
+        "x": 28,
+        "y": 24,
+        "k": "mushrooms",
+        "ox": 0.05,
+        "oy": 0.05
+      },
+      {
+        "x": 19,
+        "y": 28,
+        "k": "mushrooms",
+        "ox": 0.19,
+        "oy": 0.09
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0.08
+      },
+      {
+        "x": 5,
+        "y": 26,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": -0.07,
+        "r": 0.27
+      },
+      {
+        "x": 7,
+        "y": 28,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.07
+      },
+      {
+        "x": 11,
+        "y": 28,
+        "k": "puddle",
+        "ox": -0.07,
+        "oy": -0.09,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 21,
+        "y": 7,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      },
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated entrance; safety testing HP, running updates, shipped assets."
+  },
+  {
+    "i": 2,
+    "n": 8,
+    "d": 3,
+    "calm": false,
+    "stage": "landmark",
+    "file": "02-landmark.png",
+    "placement": {
+      "target": {
+        "x": 20,
+        "y": 27,
+        "kind": "generated shrine centre",
+        "items": [
+          "potion_heal"
+        ]
+      },
+      "x": 20,
+      "y": 30,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "02-right-native.png",
+        "before": {
+          "x": 20,
+          "y": 30,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": 0,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": -1.5707963267948966,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": 0,
+              "t0": 8788.3,
+              "t1": 8988.3,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "02-left-native.png",
+        "before": {
+          "x": 20,
+          "y": 30,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "forward",
+        "file": "02-forward-native.png",
+        "before": {
+          "x": 20,
+          "y": 30,
+          "dir": 0
+        },
+        "changed": false,
+        "frames": [
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "back",
+        "file": "02-back-native.png",
+        "before": {
+          "x": 20,
+          "y": 30,
+          "dir": 0
+        },
+        "changed": false,
+        "frames": [
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 20.5,
+              "y": 30.5,
+              "angle": -1.5707963267948966,
+              "fromX": 20.5,
+              "fromY": 30.5,
+              "fromA": 0,
+              "toX": 20.5,
+              "toY": 30.5,
+              "toA": -1.5707963267948966,
+              "t0": 9521.6,
+              "t1": 9721.6,
+              "moving": false
+            },
+            "position": {
+              "x": 20,
+              "y": 30,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "Mossy Depths",
+    "depth": 3,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "defiled",
+      "room": 6,
+      "props": [
+        {
+          "x": 19,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 26,
+          "k": "bones"
+        },
+        {
+          "x": 20,
+          "y": 30,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 28,
+          "k": "rubble"
+        },
+        {
+          "x": 20,
+          "y": 25,
+          "k": "rubble"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 25,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 19,
+        "w": 4,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "w": 10,
+        "h": 9,
+        "shape": "cave"
+      },
+      {
+        "x": 17,
+        "y": 24,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 16,
+        "y": 19,
+        "w": 10,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 19,
+        "y": 3,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 21,
+        "y": 8,
+        "w": 3,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 26,
+        "y": 11,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 27,
+        "y": 3,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      }
+    ],
+    "position": {
+      "x": 20,
+      "y": 30,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "hire",
+        "kind": "encounter",
+        "x": 13,
+        "y": 10
+      }
+    ],
+    "items": {
+      "31,5": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "16,12": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        },
+        {
+          "t": "ring_quiet",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "10,11": [
+        {
+          "t": "scroll_uncurse",
+          "q": 1
+        }
+      ],
+      "11,29": [
+        {
+          "t": "sling",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "25,19": [
+        {
+          "t": "potion_might",
+          "q": 1
+        }
+      ],
+      "20,28": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "28,14": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "7,27": [
+        {
+          "t": "potion_cure",
+          "q": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "5,13": [
+        {
+          "t": "gold",
+          "q": 28
+        },
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "bread",
+          "q": 1
+        }
+      ],
+      "5,2": [
+        {
+          "t": "gold",
+          "q": 50
+        }
+      ],
+      "29,11": [
+        {
+          "t": "potion_xheal",
+          "q": 1
+        }
+      ],
+      "11,11": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 2
+        },
+        {
+          "t": "cloak_protect",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "17,27": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "20,27": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "4,22": [
+        {
+          "t": "gold",
+          "q": 105
+        }
+      ],
+      "4,21": [
+        {
+          "t": "leather",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "studded",
+          "q": 1,
+          "e": 1,
+          "u": "briarcoat"
+        }
+      ],
+      "5,22": [
+        {
+          "t": "gold",
+          "q": 37
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "cutpurse",
+        "x": 10,
+        "y": 13
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 19
+      },
+      {
+        "id": "thornhog",
+        "x": 21,
+        "y": 28
+      },
+      {
+        "id": "lookout",
+        "x": 7,
+        "y": 27
+      },
+      {
+        "id": "archer",
+        "x": 11,
+        "y": 14
+      },
+      {
+        "id": "lookout",
+        "x": 23,
+        "y": 11
+      },
+      {
+        "id": "kobold",
+        "x": 17,
+        "y": 20
+      },
+      {
+        "id": "slime",
+        "x": 23,
+        "y": 9
+      },
+      {
+        "id": "goblin",
+        "x": 22,
+        "y": 9
+      },
+      {
+        "id": "hexer",
+        "x": 28,
+        "y": 12
+      },
+      {
+        "id": "vessra",
+        "x": 29,
+        "y": 22
+      }
+    ],
+    "dressing": [
+      {
+        "x": 19,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 26,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 30,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 25,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.11,
+        "oy": 0.16,
+        "r": 0.25
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "k": "barrel",
+        "ox": -0.29,
+        "oy": 0.16
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.09,
+        "oy": 0.19,
+        "r": 0.19
+      },
+      {
+        "x": 32,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.05,
+        "oy": -0.17,
+        "r": 0.18
+      },
+      {
+        "x": 29,
+        "y": 3,
+        "k": "puddle",
+        "ox": 0.13,
+        "oy": 0.06,
+        "r": 0.19
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.08,
+        "r": 0.32
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "k": "rubble",
+        "ox": -0.08,
+        "oy": -0.19
+      },
+      {
+        "x": 15,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0.05,
+        "oy": 0.16,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 9,
+        "k": "oilcask",
+        "ox": -0.3,
+        "oy": 0.17
+      },
+      {
+        "x": 4,
+        "y": 15,
+        "k": "rubble",
+        "ox": 0.2,
+        "oy": 0.09
+      },
+      {
+        "x": 5,
+        "y": 14,
+        "k": "oilcask",
+        "ox": 0.21,
+        "oy": -0.11
+      },
+      {
+        "x": 5,
+        "y": 17,
+        "k": "mushrooms",
+        "ox": -0.01,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 14,
+        "k": "rubble",
+        "ox": -0.09,
+        "oy": -0.13
+      },
+      {
+        "x": 27,
+        "y": 12,
+        "k": "barrel",
+        "ox": -0.19,
+        "oy": -0.12
+      },
+      {
+        "x": 13,
+        "y": 20,
+        "k": "mushrooms",
+        "ox": 0.12,
+        "oy": -0.07
+      },
+      {
+        "x": 11,
+        "y": 20,
+        "k": "puddle",
+        "ox": -0.14,
+        "oy": -0.06,
+        "r": 0.3
+      },
+      {
+        "x": 16,
+        "y": 20,
+        "k": "oilcask",
+        "ox": -0.34,
+        "oy": 0.31
+      },
+      {
+        "x": 21,
+        "y": 19,
+        "k": "rubble",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.16,
+        "r": 0.2
+      },
+      {
+        "x": 28,
+        "y": 24,
+        "k": "mushrooms",
+        "ox": 0.05,
+        "oy": 0.05
+      },
+      {
+        "x": 19,
+        "y": 28,
+        "k": "mushrooms",
+        "ox": 0.19,
+        "oy": 0.09
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0.08
+      },
+      {
+        "x": 5,
+        "y": 26,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": -0.07,
+        "r": 0.27
+      },
+      {
+        "x": 7,
+        "y": 28,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.07
+      },
+      {
+        "x": 11,
+        "y": 28,
+        "k": "puddle",
+        "ox": -0.07,
+        "oy": -0.09,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 21,
+        "y": 7,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      },
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 2,
+    "n": 8,
+    "d": 3,
+    "calm": false,
+    "stage": "treasure",
+    "file": "02-treasure.png",
+    "placement": {
+      "target": {
+        "x": 20,
+        "y": 27,
+        "kind": "generated shrine centre",
+        "items": [
+          "potion_heal"
+        ]
+      },
+      "x": 20,
+      "y": 28,
+      "dir": 0,
+      "dist": 1
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "Mossy Depths",
+    "depth": 3,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "defiled",
+      "room": 6,
+      "props": [
+        {
+          "x": 19,
+          "y": 27,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 26,
+          "k": "bones"
+        },
+        {
+          "x": 20,
+          "y": 30,
+          "k": "bones"
+        },
+        {
+          "x": 17,
+          "y": 28,
+          "k": "rubble"
+        },
+        {
+          "x": 20,
+          "y": 25,
+          "k": "rubble"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 9,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 4,
+        "y": 2,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 25,
+        "w": 4,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 19,
+        "w": 4,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 8,
+        "y": 8,
+        "w": 10,
+        "h": 9,
+        "shape": "cave"
+      },
+      {
+        "x": 17,
+        "y": 24,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 16,
+        "y": 19,
+        "w": 10,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 19,
+        "y": 3,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 21,
+        "y": 8,
+        "w": 3,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 26,
+        "y": 11,
+        "w": 5,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "w": 3,
+        "h": 9,
+        "shape": "gallery"
+      },
+      {
+        "x": 27,
+        "y": 3,
+        "w": 6,
+        "h": 5,
+        "shape": "cross"
+      }
+    ],
+    "position": {
+      "x": 20,
+      "y": 28,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "hire",
+        "kind": "encounter",
+        "x": 13,
+        "y": 10
+      }
+    ],
+    "items": {
+      "31,5": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "16,12": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        },
+        {
+          "t": "ring_quiet",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "10,11": [
+        {
+          "t": "scroll_uncurse",
+          "q": 1
+        }
+      ],
+      "11,29": [
+        {
+          "t": "sling",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "25,19": [
+        {
+          "t": "potion_might",
+          "q": 1
+        }
+      ],
+      "20,28": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "28,14": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "7,27": [
+        {
+          "t": "potion_cure",
+          "q": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "5,13": [
+        {
+          "t": "gold",
+          "q": 28
+        },
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "bread",
+          "q": 1
+        }
+      ],
+      "5,2": [
+        {
+          "t": "gold",
+          "q": 50
+        }
+      ],
+      "29,11": [
+        {
+          "t": "potion_xheal",
+          "q": 1
+        }
+      ],
+      "11,11": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 2
+        },
+        {
+          "t": "cloak_protect",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "17,27": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "20,27": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "4,22": [
+        {
+          "t": "gold",
+          "q": 105
+        }
+      ],
+      "4,21": [
+        {
+          "t": "leather",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "studded",
+          "q": 1,
+          "e": 1,
+          "u": "briarcoat"
+        }
+      ],
+      "5,22": [
+        {
+          "t": "gold",
+          "q": 37
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "cutpurse",
+        "x": 11,
+        "y": 13
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 19
+      },
+      {
+        "id": "thornhog",
+        "x": 20,
+        "y": 29
+      },
+      {
+        "id": "lookout",
+        "x": 7,
+        "y": 27
+      },
+      {
+        "id": "archer",
+        "x": 10,
+        "y": 14
+      },
+      {
+        "id": "lookout",
+        "x": 23,
+        "y": 11
+      },
+      {
+        "id": "kobold",
+        "x": 16,
+        "y": 19
+      },
+      {
+        "id": "slime",
+        "x": 23,
+        "y": 9
+      },
+      {
+        "id": "goblin",
+        "x": 22,
+        "y": 10
+      },
+      {
+        "id": "hexer",
+        "x": 28,
+        "y": 12
+      },
+      {
+        "id": "vessra",
+        "x": 29,
+        "y": 22
+      }
+    ],
+    "dressing": [
+      {
+        "x": 19,
+        "y": 27,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 26,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 30,
+        "k": "bones",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 20,
+        "y": 25,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.11,
+        "oy": 0.16,
+        "r": 0.25
+      },
+      {
+        "x": 4,
+        "y": 3,
+        "k": "barrel",
+        "ox": -0.29,
+        "oy": 0.16
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.09,
+        "oy": 0.19,
+        "r": 0.19
+      },
+      {
+        "x": 32,
+        "y": 5,
+        "k": "puddle",
+        "ox": -0.05,
+        "oy": -0.17,
+        "r": 0.18
+      },
+      {
+        "x": 29,
+        "y": 3,
+        "k": "puddle",
+        "ox": 0.13,
+        "oy": 0.06,
+        "r": 0.19
+      },
+      {
+        "x": 14,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.08,
+        "r": 0.32
+      },
+      {
+        "x": 15,
+        "y": 9,
+        "k": "rubble",
+        "ox": -0.08,
+        "oy": -0.19
+      },
+      {
+        "x": 15,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0.05,
+        "oy": 0.16,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 9,
+        "k": "oilcask",
+        "ox": -0.3,
+        "oy": 0.17
+      },
+      {
+        "x": 4,
+        "y": 15,
+        "k": "rubble",
+        "ox": 0.2,
+        "oy": 0.09
+      },
+      {
+        "x": 5,
+        "y": 14,
+        "k": "oilcask",
+        "ox": 0.21,
+        "oy": -0.11
+      },
+      {
+        "x": 5,
+        "y": 17,
+        "k": "mushrooms",
+        "ox": -0.01,
+        "oy": 0.2
+      },
+      {
+        "x": 29,
+        "y": 14,
+        "k": "rubble",
+        "ox": -0.09,
+        "oy": -0.13
+      },
+      {
+        "x": 27,
+        "y": 12,
+        "k": "barrel",
+        "ox": -0.19,
+        "oy": -0.12
+      },
+      {
+        "x": 13,
+        "y": 20,
+        "k": "mushrooms",
+        "ox": 0.12,
+        "oy": -0.07
+      },
+      {
+        "x": 11,
+        "y": 20,
+        "k": "puddle",
+        "ox": -0.14,
+        "oy": -0.06,
+        "r": 0.3
+      },
+      {
+        "x": 16,
+        "y": 20,
+        "k": "oilcask",
+        "ox": -0.34,
+        "oy": 0.31
+      },
+      {
+        "x": 21,
+        "y": 19,
+        "k": "rubble",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.16,
+        "r": 0.2
+      },
+      {
+        "x": 28,
+        "y": 24,
+        "k": "mushrooms",
+        "ox": 0.05,
+        "oy": 0.05
+      },
+      {
+        "x": 19,
+        "y": 28,
+        "k": "mushrooms",
+        "ox": 0.19,
+        "oy": 0.09
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "rubble",
+        "ox": 0,
+        "oy": 0.08
+      },
+      {
+        "x": 5,
+        "y": 26,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": -0.07,
+        "r": 0.27
+      },
+      {
+        "x": 7,
+        "y": 28,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.07
+      },
+      {
+        "x": 11,
+        "y": 28,
+        "k": "puddle",
+        "ox": -0.07,
+        "oy": -0.09,
+        "r": 0.31
+      },
+      {
+        "x": 21,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 21,
+        "y": 7,
+        "k": "oilcask",
+        "ox": 0,
+        "oy": 0
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      },
+      {
+        "x": 20.5,
+        "y": 27.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          20.5,
+          27.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 9,
+    "n": 16,
+    "d": 11,
+    "calm": false,
+    "stage": "entrance",
+    "file": "09-entrance.png",
+    "placement": null,
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Grey Hold",
+    "depth": 11,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "altar",
+      "room": 1,
+      "props": [
+        {
+          "x": 7,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 7,
+          "k": "candles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 18,
+        "w": 9,
+        "h": 7,
+        "shape": "niches"
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 27,
+        "w": 8,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "w": 5,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 14,
+        "y": 13,
+        "w": 9,
+        "h": 8,
+        "shape": "hall"
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "w": 5,
+        "h": 6,
+        "shape": "ell"
+      },
+      {
+        "x": 25,
+        "y": 5,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 27,
+        "y": 11,
+        "w": 6,
+        "h": 9,
+        "shape": "colonnade"
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "w": 2,
+        "h": 9,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 10,
+      "y": 15,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "idol",
+        "kind": "encounter",
+        "x": 20,
+        "y": 31
+      },
+      {
+        "id": "dwarf_forge",
+        "kind": "encounter",
+        "x": 18,
+        "y": 28
+      }
+    ],
+    "items": {
+      "32,16": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,16": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        }
+      ],
+      "6,20": [
+        {
+          "t": "key",
+          "color": "gold",
+          "q": 1
+        }
+      ],
+      "26,25": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "30,30": [
+        {
+          "t": "ration",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 2,
+          "u": "emberwood"
+        }
+      ],
+      "27,8": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "11,28": [
+        {
+          "t": "meat",
+          "q": 1
+        },
+        {
+          "t": "gold",
+          "q": 97
+        },
+        {
+          "t": "greatsword",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "leech",
+          "px": "true"
+        }
+      ],
+      "15,17": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "28,8": [
+        {
+          "t": "gold",
+          "q": 96
+        }
+      ],
+      "10,13": [
+        {
+          "t": "scroll_frost",
+          "q": 1
+        },
+        {
+          "t": "ring_warmth",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,7": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "18,13": [
+        {
+          "t": "gold",
+          "q": 151
+        }
+      ],
+      "3,21": [
+        {
+          "t": "gem",
+          "name": "Amethyst",
+          "q": 93
+        }
+      ],
+      "5,22": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 20
+        }
+      ],
+      "5,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "14,13": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "10,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "8,6": [
+        {
+          "t": "longbow",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "swift",
+          "px": "true"
+        }
+      ],
+      "27,22": [
+        {
+          "t": "gold",
+          "q": 141
+        }
+      ],
+      "3,29": [
+        {
+          "t": "gold",
+          "q": 220
+        }
+      ],
+      "2,29": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": -2,
+          "h": 1,
+          "curse": 1
+        }
+      ],
+      "3,28": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "31,7": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "quiet"
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "dwarf_arbalest",
+        "x": 5,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 18,
+        "y": 7
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 8,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 22
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 29,
+        "y": 15
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 29,
+        "y": 12
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 9,
+        "y": 20
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 18,
+        "y": 20
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 17,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 19,
+        "y": 31
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 27
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 32
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 18,
+        "y": 6
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 11,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 15,
+        "y": 10
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 31,
+        "y": 5
+      },
+      {
+        "id": "durgrim",
+        "x": 25,
+        "y": 28
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 25,
+        "y": 25
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 26,
+        "y": 26
+      }
+    ],
+    "dressing": [
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.07,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "k": "crate",
+        "ox": 0.18,
+        "oy": 0.34
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.04
+      },
+      {
+        "x": 17,
+        "y": 4,
+        "k": "crate",
+        "ox": 0.07,
+        "oy": -0.28
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 28,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 30,
+        "y": 15,
+        "k": "candles",
+        "ox": -0.05,
+        "oy": -0.16
+      },
+      {
+        "x": 29,
+        "y": 16,
+        "k": "candles",
+        "ox": -0.15,
+        "oy": 0.11
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.12
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "k": "oilcask",
+        "ox": -0.22,
+        "oy": 0
+      },
+      {
+        "x": 16,
+        "y": 13,
+        "k": "crate",
+        "ox": -0.15,
+        "oy": -0.15
+      },
+      {
+        "x": 14,
+        "y": 18,
+        "k": "barrel",
+        "ox": -0.26,
+        "oy": -0.14
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "crate",
+        "ox": -0.04,
+        "oy": -0.34
+      },
+      {
+        "x": 21,
+        "y": 13,
+        "k": "rubble",
+        "ox": -0.19,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": -0.12
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "crate",
+        "ox": 0.34,
+        "oy": -0.09
+      },
+      {
+        "x": 8,
+        "y": 18,
+        "k": "crate",
+        "ox": 0.19,
+        "oy": 0.03
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "k": "oilcask",
+        "ox": 0.19,
+        "oy": -0.21
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.02
+      },
+      {
+        "x": 27,
+        "y": 26,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": -0.05
+      },
+      {
+        "x": 25,
+        "y": 27,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": 0.06
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "crate",
+        "ox": -0.07,
+        "oy": 0.31
+      },
+      {
+        "x": 8,
+        "y": 32,
+        "k": "crate",
+        "ox": -0.31,
+        "oy": 0.17
+      },
+      {
+        "x": 7,
+        "y": 30,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": -0.18
+      },
+      {
+        "x": 11,
+        "y": 31,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.06
+      },
+      {
+        "x": 17,
+        "y": 31,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.16
+      },
+      {
+        "k": "chest",
+        "x": 26,
+        "y": 22,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 253
+          },
+          {
+            "t": "gold",
+            "q": 130
+          }
+        ]
+      },
+      {
+        "k": "chest",
+        "x": 31,
+        "y": 6,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 231
+          },
+          {
+            "t": "potion_might",
+            "q": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      },
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated entrance; safety testing HP, running updates, shipped assets."
+  },
+  {
+    "i": 9,
+    "n": 16,
+    "d": 11,
+    "calm": false,
+    "stage": "landmark",
+    "file": "09-landmark.png",
+    "placement": {
+      "target": {
+        "x": 8,
+        "y": 6,
+        "kind": "generated shrine centre",
+        "items": [
+          "longbow"
+        ]
+      },
+      "x": 8,
+      "y": 9,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "09-right-native.png",
+        "before": {
+          "x": 8,
+          "y": 9,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": 0,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": 0,
+              "t0": 7973.7,
+              "t1": 8173.7,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "09-left-native.png",
+        "before": {
+          "x": 8,
+          "y": 9,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": 0,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 8907.1,
+              "t1": 9107.1,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "forward",
+        "file": "09-forward-native.png",
+        "before": {
+          "x": 8,
+          "y": 9,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 8.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 9.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 8.5,
+              "toA": -1.5707963267948966,
+              "t0": 9657,
+              "t1": 9877,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 8,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "back",
+        "file": "09-back-native.png",
+        "before": {
+          "x": 8,
+          "y": 8,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 8.5,
+              "y": 9.5,
+              "angle": -1.5707963267948966,
+              "fromX": 8.5,
+              "fromY": 8.5,
+              "fromA": -1.5707963267948966,
+              "toX": 8.5,
+              "toY": 9.5,
+              "toA": -1.5707963267948966,
+              "t0": 10390.3,
+              "t1": 10610.3,
+              "moving": false
+            },
+            "position": {
+              "x": 8,
+              "y": 9,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Grey Hold",
+    "depth": 11,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "altar",
+      "room": 1,
+      "props": [
+        {
+          "x": 7,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 7,
+          "k": "candles"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 18,
+        "w": 9,
+        "h": 7,
+        "shape": "niches"
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 27,
+        "w": 8,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "w": 5,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 14,
+        "y": 13,
+        "w": 9,
+        "h": 8,
+        "shape": "hall"
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "w": 5,
+        "h": 6,
+        "shape": "ell"
+      },
+      {
+        "x": 25,
+        "y": 5,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 27,
+        "y": 11,
+        "w": 6,
+        "h": 9,
+        "shape": "colonnade"
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "w": 2,
+        "h": 9,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 8,
+      "y": 9,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "idol",
+        "kind": "encounter",
+        "x": 20,
+        "y": 31
+      },
+      {
+        "id": "dwarf_forge",
+        "kind": "encounter",
+        "x": 18,
+        "y": 28
+      }
+    ],
+    "items": {
+      "32,16": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,16": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        }
+      ],
+      "6,20": [
+        {
+          "t": "key",
+          "color": "gold",
+          "q": 1
+        }
+      ],
+      "26,25": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "30,30": [
+        {
+          "t": "ration",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 2,
+          "u": "emberwood"
+        }
+      ],
+      "27,8": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "11,28": [
+        {
+          "t": "meat",
+          "q": 1
+        },
+        {
+          "t": "gold",
+          "q": 97
+        },
+        {
+          "t": "greatsword",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "leech",
+          "px": "true"
+        }
+      ],
+      "15,17": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "28,8": [
+        {
+          "t": "gold",
+          "q": 96
+        }
+      ],
+      "10,13": [
+        {
+          "t": "scroll_frost",
+          "q": 1
+        },
+        {
+          "t": "ring_warmth",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,7": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "18,13": [
+        {
+          "t": "gold",
+          "q": 151
+        }
+      ],
+      "3,21": [
+        {
+          "t": "gem",
+          "name": "Amethyst",
+          "q": 93
+        }
+      ],
+      "5,22": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 20
+        }
+      ],
+      "5,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "14,13": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "10,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "8,6": [
+        {
+          "t": "longbow",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "swift",
+          "px": "true"
+        }
+      ],
+      "27,22": [
+        {
+          "t": "gold",
+          "q": 141
+        }
+      ],
+      "3,29": [
+        {
+          "t": "gold",
+          "q": 220
+        }
+      ],
+      "2,29": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": -2,
+          "h": 1,
+          "curse": 1
+        }
+      ],
+      "3,28": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "31,7": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "quiet"
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "dwarf_arbalest",
+        "x": 5,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 18,
+        "y": 7
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 8,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 22
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 29,
+        "y": 15
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 29,
+        "y": 12
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 9,
+        "y": 20
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 18,
+        "y": 20
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 17,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 19,
+        "y": 31
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 27
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 32
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 18,
+        "y": 6
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 11,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 15,
+        "y": 10
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 31,
+        "y": 5
+      },
+      {
+        "id": "durgrim",
+        "x": 25,
+        "y": 28
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 25,
+        "y": 25
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 26,
+        "y": 26
+      }
+    ],
+    "dressing": [
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.07,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "k": "crate",
+        "ox": 0.18,
+        "oy": 0.34
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.04
+      },
+      {
+        "x": 17,
+        "y": 4,
+        "k": "crate",
+        "ox": 0.07,
+        "oy": -0.28
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 28,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 30,
+        "y": 15,
+        "k": "candles",
+        "ox": -0.05,
+        "oy": -0.16
+      },
+      {
+        "x": 29,
+        "y": 16,
+        "k": "candles",
+        "ox": -0.15,
+        "oy": 0.11
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.12
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "k": "oilcask",
+        "ox": -0.22,
+        "oy": 0
+      },
+      {
+        "x": 16,
+        "y": 13,
+        "k": "crate",
+        "ox": -0.15,
+        "oy": -0.15
+      },
+      {
+        "x": 14,
+        "y": 18,
+        "k": "barrel",
+        "ox": -0.26,
+        "oy": -0.14
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "crate",
+        "ox": -0.04,
+        "oy": -0.34
+      },
+      {
+        "x": 21,
+        "y": 13,
+        "k": "rubble",
+        "ox": -0.19,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": -0.12
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "crate",
+        "ox": 0.34,
+        "oy": -0.09
+      },
+      {
+        "x": 8,
+        "y": 18,
+        "k": "crate",
+        "ox": 0.19,
+        "oy": 0.03
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "k": "oilcask",
+        "ox": 0.19,
+        "oy": -0.21
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.02
+      },
+      {
+        "x": 27,
+        "y": 26,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": -0.05
+      },
+      {
+        "x": 25,
+        "y": 27,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": 0.06
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "crate",
+        "ox": -0.07,
+        "oy": 0.31
+      },
+      {
+        "x": 8,
+        "y": 32,
+        "k": "crate",
+        "ox": -0.31,
+        "oy": 0.17
+      },
+      {
+        "x": 7,
+        "y": 30,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": -0.18
+      },
+      {
+        "x": 11,
+        "y": 31,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.06
+      },
+      {
+        "x": 17,
+        "y": 31,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.16
+      },
+      {
+        "k": "chest",
+        "x": 26,
+        "y": 22,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 253
+          },
+          {
+            "t": "gold",
+            "q": 130
+          }
+        ]
+      },
+      {
+        "k": "chest",
+        "x": 31,
+        "y": 6,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 231
+          },
+          {
+            "t": "potion_might",
+            "q": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      },
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 9,
+    "n": 16,
+    "d": 11,
+    "calm": false,
+    "stage": "treasure",
+    "file": "09-treasure.png",
+    "placement": {
+      "target": {
+        "x": 8,
+        "y": 6,
+        "kind": "generated shrine centre",
+        "items": [
+          "longbow"
+        ]
+      },
+      "x": 8,
+      "y": 7,
+      "dir": 0,
+      "dist": 1
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Grey Hold",
+    "depth": 11,
+    "twist": null,
+    "piece": {
+      "kind": "shrine",
+      "variant": "altar",
+      "room": 1,
+      "props": [
+        {
+          "x": 7,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 5,
+          "k": "candles"
+        },
+        {
+          "x": 7,
+          "y": 7,
+          "k": "candles"
+        },
+        {
+          "x": 9,
+          "y": 7,
+          "k": "candles"
+        }
+      ],
+      "seen": true
+    },
+    "rooms": [
+      {
+        "x": 3,
+        "y": 18,
+        "w": 9,
+        "h": 7,
+        "shape": "niches"
+      },
+      {
+        "x": 5,
+        "y": 3,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 8,
+        "y": 12,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 6,
+        "y": 27,
+        "w": 8,
+        "h": 6,
+        "shape": "cross"
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "w": 5,
+        "h": 5,
+        "shape": "box"
+      },
+      {
+        "x": 14,
+        "y": 13,
+        "w": 9,
+        "h": 8,
+        "shape": "hall"
+      },
+      {
+        "x": 17,
+        "y": 28,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "w": 5,
+        "h": 6,
+        "shape": "ell"
+      },
+      {
+        "x": 25,
+        "y": 5,
+        "w": 4,
+        "h": 4,
+        "shape": "box"
+      },
+      {
+        "x": 27,
+        "y": 11,
+        "w": 6,
+        "h": 9,
+        "shape": "colonnade"
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "w": 2,
+        "h": 9,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 8,
+      "y": 7,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "idol",
+        "kind": "encounter",
+        "x": 20,
+        "y": 31
+      },
+      {
+        "id": "dwarf_forge",
+        "kind": "encounter",
+        "x": 18,
+        "y": 28
+      }
+    ],
+    "items": {
+      "32,16": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,16": [
+        {
+          "t": "key",
+          "color": "silver",
+          "q": 1
+        }
+      ],
+      "6,20": [
+        {
+          "t": "key",
+          "color": "gold",
+          "q": 1
+        }
+      ],
+      "26,25": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "30,30": [
+        {
+          "t": "ration",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 2,
+          "u": "emberwood"
+        }
+      ],
+      "27,8": [
+        {
+          "t": "shield",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "11,28": [
+        {
+          "t": "meat",
+          "q": 1
+        },
+        {
+          "t": "gold",
+          "q": 97
+        },
+        {
+          "t": "greatsword",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "leech",
+          "px": "true"
+        }
+      ],
+      "15,17": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "28,8": [
+        {
+          "t": "gold",
+          "q": 96
+        }
+      ],
+      "10,13": [
+        {
+          "t": "scroll_frost",
+          "q": 1
+        },
+        {
+          "t": "ring_warmth",
+          "q": 1,
+          "e": 0
+        }
+      ],
+      "27,7": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "18,13": [
+        {
+          "t": "gold",
+          "q": 151
+        }
+      ],
+      "3,21": [
+        {
+          "t": "gem",
+          "name": "Amethyst",
+          "q": 93
+        }
+      ],
+      "5,22": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 20
+        }
+      ],
+      "5,6": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "14,13": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "10,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "8,6": [
+        {
+          "t": "longbow",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "swift",
+          "px": "true"
+        }
+      ],
+      "27,22": [
+        {
+          "t": "gold",
+          "q": 141
+        }
+      ],
+      "3,29": [
+        {
+          "t": "gold",
+          "q": 220
+        }
+      ],
+      "2,29": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": -2,
+          "h": 1,
+          "curse": 1
+        }
+      ],
+      "3,28": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ],
+      "31,7": [
+        {
+          "t": "plate",
+          "q": 1,
+          "e": 2,
+          "h": 1,
+          "pw": "quiet"
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "dwarf_arbalest",
+        "x": 5,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 18,
+        "y": 7
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 8,
+        "y": 22
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 22
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 29,
+        "y": 15
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 29,
+        "y": 11
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 9,
+        "y": 21
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 18,
+        "y": 20
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 17,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 19,
+        "y": 31
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 27
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 10,
+        "y": 32
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 19,
+        "y": 6
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 11,
+        "y": 30
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 15,
+        "y": 10
+      },
+      {
+        "id": "grey_dwarf",
+        "x": 31,
+        "y": 7
+      },
+      {
+        "id": "durgrim",
+        "x": 25,
+        "y": 28
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 26,
+        "y": 25
+      },
+      {
+        "id": "dwarf_arbalest",
+        "x": 25,
+        "y": 26
+      }
+    ],
+    "dressing": [
+      {
+        "x": 7,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 7,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 7,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 9,
+        "y": 3,
+        "k": "candles",
+        "ox": -0.07,
+        "oy": -0.12
+      },
+      {
+        "x": 11,
+        "y": 7,
+        "k": "crate",
+        "ox": 0.18,
+        "oy": 0.34
+      },
+      {
+        "x": 7,
+        "y": 9,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.04
+      },
+      {
+        "x": 17,
+        "y": 4,
+        "k": "crate",
+        "ox": 0.07,
+        "oy": -0.28
+      },
+      {
+        "x": 15,
+        "y": 4,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 28,
+        "y": 5,
+        "k": "oilcask",
+        "ox": 0.34,
+        "oy": -0.34
+      },
+      {
+        "x": 30,
+        "y": 15,
+        "k": "candles",
+        "ox": -0.05,
+        "oy": -0.16
+      },
+      {
+        "x": 29,
+        "y": 16,
+        "k": "candles",
+        "ox": -0.15,
+        "oy": 0.11
+      },
+      {
+        "x": 29,
+        "y": 12,
+        "k": "candles",
+        "ox": 0.16,
+        "oy": 0.12
+      },
+      {
+        "x": 28,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.14,
+        "oy": 0.13
+      },
+      {
+        "x": 8,
+        "y": 13,
+        "k": "oilcask",
+        "ox": -0.22,
+        "oy": 0
+      },
+      {
+        "x": 16,
+        "y": 13,
+        "k": "crate",
+        "ox": -0.15,
+        "oy": -0.15
+      },
+      {
+        "x": 14,
+        "y": 18,
+        "k": "barrel",
+        "ox": -0.26,
+        "oy": -0.14
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "crate",
+        "ox": -0.04,
+        "oy": -0.34
+      },
+      {
+        "x": 21,
+        "y": 13,
+        "k": "rubble",
+        "ox": -0.19,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 19,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": -0.12
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "crate",
+        "ox": 0.34,
+        "oy": -0.09
+      },
+      {
+        "x": 8,
+        "y": 18,
+        "k": "crate",
+        "ox": 0.19,
+        "oy": 0.03
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "k": "oilcask",
+        "ox": 0.19,
+        "oy": -0.21
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "crate",
+        "ox": -0.16,
+        "oy": -0.02
+      },
+      {
+        "x": 27,
+        "y": 26,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": -0.05
+      },
+      {
+        "x": 25,
+        "y": 27,
+        "k": "crate",
+        "ox": -0.34,
+        "oy": 0.06
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "crate",
+        "ox": -0.07,
+        "oy": 0.31
+      },
+      {
+        "x": 8,
+        "y": 32,
+        "k": "crate",
+        "ox": -0.31,
+        "oy": 0.17
+      },
+      {
+        "x": 7,
+        "y": 30,
+        "k": "candles",
+        "ox": -0.03,
+        "oy": -0.18
+      },
+      {
+        "x": 11,
+        "y": 31,
+        "k": "candles",
+        "ox": -0.01,
+        "oy": -0.06
+      },
+      {
+        "x": 17,
+        "y": 31,
+        "k": "candles",
+        "ox": 0.08,
+        "oy": 0.16
+      },
+      {
+        "k": "chest",
+        "x": 26,
+        "y": 22,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 253
+          },
+          {
+            "t": "gold",
+            "q": 130
+          }
+        ]
+      },
+      {
+        "k": "chest",
+        "x": 31,
+        "y": 6,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 231
+          },
+          {
+            "t": "potion_might",
+            "q": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      },
+      {
+        "x": 8.5,
+        "y": 6.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          8.5,
+          6.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 11,
+    "n": 12,
+    "d": 7,
+    "calm": false,
+    "stage": "entrance",
+    "file": "11-entrance.png",
+    "placement": null,
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Drowned Halls",
+    "depth": 7,
+    "twist": "flooded",
+    "piece": {
+      "kind": "shrine",
+      "variant": "kept",
+      "room": 3,
+      "props": [
+        {
+          "x": 10,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 10,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 6,
+          "y": 20,
+          "k": "urn"
+        },
+        {
+          "x": 10,
+          "y": 24,
+          "k": "urn"
+        },
+        {
+          "x": 12,
+          "y": 22,
+          "k": "urn"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 11,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 28,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 9,
+        "h": 6,
+        "shape": "colonnade"
+      },
+      {
+        "x": 19,
+        "y": 4,
+        "w": 7,
+        "h": 5,
+        "shape": "colonnade"
+      },
+      {
+        "x": 17,
+        "y": 11,
+        "w": 11,
+        "h": 7,
+        "shape": "hall"
+      },
+      {
+        "x": 22,
+        "y": 29,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 30,
+        "y": 7,
+        "w": 3,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 2,
+      "y": 13,
+      "dir": 1
+    },
+    "npcs": [
+      {
+        "id": "merchant",
+        "x": 3,
+        "y": 28,
+        "stock": [
+          {
+            "t": "potion_cure",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_fire",
+            "q": 2,
+            "e": 0
+          },
+          {
+            "t": "scroll_lightning",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_venom",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "potion_heal",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "shortbow",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "scale",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "chain",
+            "q": 1,
+            "e": 1,
+            "u": "rustwarden"
+          },
+          {
+            "t": "amulet_ward",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "lamp_oil",
+            "q": 3,
+            "e": 0
+          }
+        ],
+        "markup": 2.247577730985358,
+        "greeted": false,
+        "wick": true
+      },
+      {
+        "id": "shrine",
+        "kind": "encounter",
+        "x": 8,
+        "y": 5
+      }
+    ],
+    "items": {
+      "18,32": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,12": [
+        {
+          "t": "shortbow",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "24,11": [
+        {
+          "t": "gold",
+          "q": 44
+        }
+      ],
+      "22,8": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 1,
+          "h": 1,
+          "pw": "mend",
+          "px": "sturdy"
+        }
+      ],
+      "27,15": [
+        {
+          "t": "gold",
+          "q": 66
+        }
+      ],
+      "21,4": [
+        {
+          "t": "gem",
+          "name": "Topaz",
+          "q": 102
+        }
+      ],
+      "3,12": [
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "10,31": [
+        {
+          "t": "gold",
+          "q": 119
+        },
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "8,21": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "25,7": [
+        {
+          "t": "gold",
+          "q": 132
+        }
+      ],
+      "17,16": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "25,24": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 14
+        }
+      ],
+      "9,24": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "22,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 1,
+          "u": "ninth_circle"
+        }
+      ],
+      "9,21": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "9,8": [
+        {
+          "t": "gold",
+          "q": 41
+        }
+      ],
+      "30,30": [
+        {
+          "t": "gold",
+          "q": 175
+        }
+      ],
+      "31,30": [
+        {
+          "t": "gold",
+          "q": 63
+        }
+      ],
+      "30,31": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "drowned",
+        "x": 12,
+        "y": 27
+      },
+      {
+        "id": "drowned",
+        "x": 17,
+        "y": 11
+      },
+      {
+        "id": "pikeman",
+        "x": 31,
+        "y": 25
+      },
+      {
+        "id": "drowned",
+        "x": 26,
+        "y": 25
+      },
+      {
+        "id": "basilisk",
+        "x": 24,
+        "y": 16
+      },
+      {
+        "id": "quillback",
+        "x": 30,
+        "y": 12
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 12
+      },
+      {
+        "id": "pikeman",
+        "x": 18,
+        "y": 32
+      },
+      {
+        "id": "orc",
+        "x": 20,
+        "y": 16
+      },
+      {
+        "id": "orc",
+        "x": 20,
+        "y": 17
+      },
+      {
+        "id": "orc",
+        "x": 30,
+        "y": 7
+      },
+      {
+        "id": "rustmaw",
+        "x": 30,
+        "y": 16
+      },
+      {
+        "id": "acolyte",
+        "x": 17,
+        "y": 12
+      }
+    ],
+    "dressing": [
+      {
+        "x": 10,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 20,
+        "k": "urn",
+        "ox": 0,
+        "oy": -0.3
+      },
+      {
+        "x": 10,
+        "y": 24,
+        "k": "urn",
+        "ox": 0.3,
+        "oy": 0
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "urn",
+        "ox": 0,
+        "oy": 0.3
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0.19,
+        "oy": 0.03,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 8,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.24
+      },
+      {
+        "x": 22,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.03,
+        "r": 0.33
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.03,
+        "oy": -0.04,
+        "r": 0.23
+      },
+      {
+        "x": 31,
+        "y": 10,
+        "k": "barrel",
+        "ox": 0.07,
+        "oy": 0.34
+      },
+      {
+        "x": 31,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.18,
+        "oy": -0.19,
+        "r": 0.23
+      },
+      {
+        "x": 2,
+        "y": 12,
+        "k": "bones",
+        "ox": 0.07,
+        "oy": 0
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": 0.04,
+        "r": 0.26
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": 0.11,
+        "r": 0.28
+      },
+      {
+        "x": 18,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.16,
+        "oy": -0.01,
+        "r": 0.31
+      },
+      {
+        "x": 27,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": -0.08,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.01,
+        "r": 0.23
+      },
+      {
+        "x": 9,
+        "y": 19,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": 0.11
+      },
+      {
+        "x": 9,
+        "y": 23,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.14
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": -0.14,
+        "r": 0.26
+      },
+      {
+        "x": 14,
+        "y": 31,
+        "k": "barrel",
+        "ox": -0.08,
+        "oy": 0.1
+      },
+      {
+        "x": 15,
+        "y": 27,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.1
+      },
+      {
+        "x": 18,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": -0.06,
+        "r": 0.2
+      },
+      {
+        "x": 17,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.05,
+        "r": 0.22
+      },
+      {
+        "x": 5,
+        "y": 28,
+        "k": "barrel",
+        "ox": -0.1,
+        "oy": -0.28
+      },
+      {
+        "x": 27,
+        "y": 29,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.04
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 21,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 13,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 20,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 7,
+        "y": 21,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 29,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 14,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 15,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 16,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 17,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 5,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "k": "chest",
+        "x": 10,
+        "y": 8,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 175
+          },
+          {
+            "t": "splint",
+            "q": 1,
+            "e": 0,
+            "h": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      },
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated entrance; safety testing HP, running updates, shipped assets."
+  },
+  {
+    "i": 11,
+    "n": 12,
+    "d": 7,
+    "calm": false,
+    "stage": "landmark",
+    "file": "11-landmark.png",
+    "placement": {
+      "target": {
+        "x": 9,
+        "y": 21,
+        "kind": "generated shrine centre",
+        "items": [
+          "ration"
+        ]
+      },
+      "x": 9,
+      "y": 24,
+      "dir": 0,
+      "dist": 3
+    },
+    "actions": [
+      {
+        "act": "right",
+        "file": "11-right-native.png",
+        "before": {
+          "x": 9,
+          "y": 24,
+          "dir": 0
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": 0,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": -1.5707963267948966,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": 0,
+              "t0": 9160.3,
+              "t1": 9360.3,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 1
+            },
+            "status": "playing"
+          }
+        ]
+      },
+      {
+        "act": "left",
+        "file": "11-left-native.png",
+        "before": {
+          "x": 9,
+          "y": 24,
+          "dir": 1
+        },
+        "changed": true,
+        "frames": [
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          },
+          {
+            "cam": {
+              "x": 9.5,
+              "y": 24.5,
+              "angle": -1.5707963267948966,
+              "fromX": 9.5,
+              "fromY": 24.5,
+              "fromA": 0,
+              "toX": 9.5,
+              "toY": 24.5,
+              "toA": -1.5707963267948966,
+              "t0": 9877,
+              "t1": 10077,
+              "moving": false
+            },
+            "position": {
+              "x": 9,
+              "y": 24,
+              "dir": 0
+            },
+            "status": "playing"
+          }
+        ]
+      }
+    ],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Drowned Halls",
+    "depth": 7,
+    "twist": "flooded",
+    "piece": {
+      "kind": "shrine",
+      "variant": "kept",
+      "room": 3,
+      "props": [
+        {
+          "x": 10,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 10,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 6,
+          "y": 20,
+          "k": "urn"
+        },
+        {
+          "x": 10,
+          "y": 24,
+          "k": "urn"
+        },
+        {
+          "x": 12,
+          "y": 22,
+          "k": "urn"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 11,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 28,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 9,
+        "h": 6,
+        "shape": "colonnade"
+      },
+      {
+        "x": 19,
+        "y": 4,
+        "w": 7,
+        "h": 5,
+        "shape": "colonnade"
+      },
+      {
+        "x": 17,
+        "y": 11,
+        "w": 11,
+        "h": 7,
+        "shape": "hall"
+      },
+      {
+        "x": 22,
+        "y": 29,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 30,
+        "y": 7,
+        "w": 3,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 9,
+      "y": 24,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "merchant",
+        "x": 3,
+        "y": 28,
+        "stock": [
+          {
+            "t": "potion_cure",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_fire",
+            "q": 2,
+            "e": 0
+          },
+          {
+            "t": "scroll_lightning",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_venom",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "potion_heal",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "shortbow",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "scale",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "chain",
+            "q": 1,
+            "e": 1,
+            "u": "rustwarden"
+          },
+          {
+            "t": "amulet_ward",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "lamp_oil",
+            "q": 3,
+            "e": 0
+          }
+        ],
+        "markup": 2.247577730985358,
+        "greeted": false,
+        "wick": true
+      },
+      {
+        "id": "shrine",
+        "kind": "encounter",
+        "x": 8,
+        "y": 5
+      }
+    ],
+    "items": {
+      "18,32": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,12": [
+        {
+          "t": "shortbow",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "24,11": [
+        {
+          "t": "gold",
+          "q": 44
+        }
+      ],
+      "22,8": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 1,
+          "h": 1,
+          "pw": "mend",
+          "px": "sturdy"
+        }
+      ],
+      "27,15": [
+        {
+          "t": "gold",
+          "q": 66
+        }
+      ],
+      "21,4": [
+        {
+          "t": "gem",
+          "name": "Topaz",
+          "q": 102
+        }
+      ],
+      "3,12": [
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "10,31": [
+        {
+          "t": "gold",
+          "q": 119
+        },
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "8,21": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "25,7": [
+        {
+          "t": "gold",
+          "q": 132
+        }
+      ],
+      "17,16": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "25,24": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 14
+        }
+      ],
+      "9,24": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "22,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 1,
+          "u": "ninth_circle"
+        }
+      ],
+      "9,21": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "9,8": [
+        {
+          "t": "gold",
+          "q": 41
+        }
+      ],
+      "30,30": [
+        {
+          "t": "gold",
+          "q": 175
+        }
+      ],
+      "31,30": [
+        {
+          "t": "gold",
+          "q": 63
+        }
+      ],
+      "30,31": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "drowned",
+        "x": 12,
+        "y": 27
+      },
+      {
+        "id": "drowned",
+        "x": 17,
+        "y": 11
+      },
+      {
+        "id": "pikeman",
+        "x": 31,
+        "y": 25
+      },
+      {
+        "id": "drowned",
+        "x": 26,
+        "y": 25
+      },
+      {
+        "id": "basilisk",
+        "x": 24,
+        "y": 16
+      },
+      {
+        "id": "quillback",
+        "x": 30,
+        "y": 12
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 12
+      },
+      {
+        "id": "pikeman",
+        "x": 18,
+        "y": 32
+      },
+      {
+        "id": "orc",
+        "x": 20,
+        "y": 16
+      },
+      {
+        "id": "orc",
+        "x": 20,
+        "y": 17
+      },
+      {
+        "id": "orc",
+        "x": 30,
+        "y": 7
+      },
+      {
+        "id": "rustmaw",
+        "x": 30,
+        "y": 16
+      },
+      {
+        "id": "acolyte",
+        "x": 17,
+        "y": 12
+      }
+    ],
+    "dressing": [
+      {
+        "x": 10,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 20,
+        "k": "urn",
+        "ox": 0,
+        "oy": -0.3
+      },
+      {
+        "x": 10,
+        "y": 24,
+        "k": "urn",
+        "ox": 0.3,
+        "oy": 0
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "urn",
+        "ox": 0,
+        "oy": 0.3
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0.19,
+        "oy": 0.03,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 8,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.24
+      },
+      {
+        "x": 22,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.03,
+        "r": 0.33
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.03,
+        "oy": -0.04,
+        "r": 0.23
+      },
+      {
+        "x": 31,
+        "y": 10,
+        "k": "barrel",
+        "ox": 0.07,
+        "oy": 0.34
+      },
+      {
+        "x": 31,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.18,
+        "oy": -0.19,
+        "r": 0.23
+      },
+      {
+        "x": 2,
+        "y": 12,
+        "k": "bones",
+        "ox": 0.07,
+        "oy": 0
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": 0.04,
+        "r": 0.26
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": 0.11,
+        "r": 0.28
+      },
+      {
+        "x": 18,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.16,
+        "oy": -0.01,
+        "r": 0.31
+      },
+      {
+        "x": 27,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": -0.08,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.01,
+        "r": 0.23
+      },
+      {
+        "x": 9,
+        "y": 19,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": 0.11
+      },
+      {
+        "x": 9,
+        "y": 23,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.14
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": -0.14,
+        "r": 0.26
+      },
+      {
+        "x": 14,
+        "y": 31,
+        "k": "barrel",
+        "ox": -0.08,
+        "oy": 0.1
+      },
+      {
+        "x": 15,
+        "y": 27,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.1
+      },
+      {
+        "x": 18,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": -0.06,
+        "r": 0.2
+      },
+      {
+        "x": 17,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.05,
+        "r": 0.22
+      },
+      {
+        "x": 5,
+        "y": 28,
+        "k": "barrel",
+        "ox": -0.1,
+        "oy": -0.28
+      },
+      {
+        "x": 27,
+        "y": 29,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.04
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 21,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 13,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 20,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 7,
+        "y": 21,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 29,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 14,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 15,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 16,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 17,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 5,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "k": "chest",
+        "x": 10,
+        "y": 8,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 175
+          },
+          {
+            "t": "splint",
+            "q": 1,
+            "e": 0,
+            "h": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      },
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  },
+  {
+    "i": 11,
+    "n": 12,
+    "d": 7,
+    "calm": false,
+    "stage": "treasure",
+    "file": "11-treasure.png",
+    "placement": {
+      "target": {
+        "x": 9,
+        "y": 21,
+        "kind": "generated shrine centre",
+        "items": [
+          "ration"
+        ]
+      },
+      "x": 9,
+      "y": 22,
+      "dir": 0,
+      "dist": 1
+    },
+    "actions": [],
+    "sourceHashes": {
+      "renderer.js": "c0a8e58bb8b692742ebcf49b095cc656834bdbc687a6bb96d4b11d3b891b9da7",
+      "motion.js": "b95a219b2cbfe48252d0fe2a61ba816192309cd1aeb9312dd4d3aa1b9bde005d",
+      "dungeon.js": "b8f008c6c1d5e919918a5ee45e3272adc57cc72201488a5f686610e4f719c630",
+      "regionalprops.js": "5fba0be4cd2521a69d603d571c6f20922267bb49fb4563714555d504e0d46b7c",
+      "paintedworld.js": "6962d6e35c75949a4edeecf2e08b1930cf920347f49a6dc805c6f88312554467",
+      "release.js": "386b32148d9889e7fb45b520cae4f9e0d8229df4967b6bbaa325eff0b29321f3"
+    },
+    "theme": "The Drowned Halls",
+    "depth": 7,
+    "twist": "flooded",
+    "piece": {
+      "kind": "shrine",
+      "variant": "kept",
+      "room": 3,
+      "props": [
+        {
+          "x": 10,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 22,
+          "k": "candles"
+        },
+        {
+          "x": 10,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 8,
+          "y": 20,
+          "k": "candles"
+        },
+        {
+          "x": 6,
+          "y": 20,
+          "k": "urn"
+        },
+        {
+          "x": 10,
+          "y": 24,
+          "k": "urn"
+        },
+        {
+          "x": 12,
+          "y": 22,
+          "k": "urn"
+        }
+      ]
+    },
+    "rooms": [
+      {
+        "x": 2,
+        "y": 11,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 3,
+        "y": 28,
+        "w": 5,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 4,
+        "y": 4,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 6,
+        "y": 18,
+        "w": 7,
+        "h": 7,
+        "shape": "shrine"
+      },
+      {
+        "x": 10,
+        "y": 27,
+        "w": 9,
+        "h": 6,
+        "shape": "colonnade"
+      },
+      {
+        "x": 19,
+        "y": 4,
+        "w": 7,
+        "h": 5,
+        "shape": "colonnade"
+      },
+      {
+        "x": 17,
+        "y": 11,
+        "w": 11,
+        "h": 7,
+        "shape": "hall"
+      },
+      {
+        "x": 22,
+        "y": 29,
+        "w": 6,
+        "h": 3,
+        "shape": "box"
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "w": 11,
+        "h": 2,
+        "shape": "gallery"
+      },
+      {
+        "x": 30,
+        "y": 7,
+        "w": 3,
+        "h": 11,
+        "shape": "gallery"
+      }
+    ],
+    "position": {
+      "x": 9,
+      "y": 22,
+      "dir": 0
+    },
+    "npcs": [
+      {
+        "id": "merchant",
+        "x": 3,
+        "y": 28,
+        "stock": [
+          {
+            "t": "potion_cure",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_fire",
+            "q": 2,
+            "e": 0
+          },
+          {
+            "t": "scroll_lightning",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "oil_venom",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "potion_heal",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "shortbow",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "scale",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "chain",
+            "q": 1,
+            "e": 1,
+            "u": "rustwarden"
+          },
+          {
+            "t": "amulet_ward",
+            "q": 1,
+            "e": 0
+          },
+          {
+            "t": "lamp_oil",
+            "q": 3,
+            "e": 0
+          }
+        ],
+        "markup": 2.247577730985358,
+        "greeted": false,
+        "wick": true
+      },
+      {
+        "id": "shrine",
+        "kind": "encounter",
+        "x": 8,
+        "y": 5
+      }
+    ],
+    "items": {
+      "18,32": [
+        {
+          "t": "key",
+          "color": "brass",
+          "q": 1
+        }
+      ],
+      "18,12": [
+        {
+          "t": "shortbow",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        },
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "24,11": [
+        {
+          "t": "gold",
+          "q": 44
+        }
+      ],
+      "22,8": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 1,
+          "h": 1,
+          "pw": "mend",
+          "px": "sturdy"
+        }
+      ],
+      "27,15": [
+        {
+          "t": "gold",
+          "q": 66
+        }
+      ],
+      "21,4": [
+        {
+          "t": "gem",
+          "name": "Topaz",
+          "q": 102
+        }
+      ],
+      "3,12": [
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "10,31": [
+        {
+          "t": "gold",
+          "q": 119
+        },
+        {
+          "t": "splint",
+          "q": 1,
+          "e": 0,
+          "h": 1
+        }
+      ],
+      "8,21": [
+        {
+          "t": "meat",
+          "q": 1
+        }
+      ],
+      "25,7": [
+        {
+          "t": "gold",
+          "q": 132
+        }
+      ],
+      "17,16": [
+        {
+          "t": "chain",
+          "q": 1,
+          "e": 2,
+          "h": 1
+        }
+      ],
+      "25,24": [
+        {
+          "t": "page",
+          "q": 1,
+          "page": 14
+        }
+      ],
+      "9,24": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "22,29": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        },
+        {
+          "t": "staff",
+          "q": 1,
+          "e": 1,
+          "u": "ninth_circle"
+        }
+      ],
+      "9,21": [
+        {
+          "t": "ration",
+          "q": 1
+        }
+      ],
+      "9,8": [
+        {
+          "t": "gold",
+          "q": 41
+        }
+      ],
+      "30,30": [
+        {
+          "t": "gold",
+          "q": 175
+        }
+      ],
+      "31,30": [
+        {
+          "t": "gold",
+          "q": 63
+        }
+      ],
+      "30,31": [
+        {
+          "t": "potion_heal",
+          "q": 1
+        }
+      ]
+    },
+    "monsters": [
+      {
+        "id": "drowned",
+        "x": 12,
+        "y": 27
+      },
+      {
+        "id": "drowned",
+        "x": 17,
+        "y": 11
+      },
+      {
+        "id": "pikeman",
+        "x": 31,
+        "y": 25
+      },
+      {
+        "id": "drowned",
+        "x": 26,
+        "y": 25
+      },
+      {
+        "id": "basilisk",
+        "x": 24,
+        "y": 16
+      },
+      {
+        "id": "quillback",
+        "x": 30,
+        "y": 12
+      },
+      {
+        "id": "lookout",
+        "x": 22,
+        "y": 12
+      },
+      {
+        "id": "pikeman",
+        "x": 18,
+        "y": 32
+      },
+      {
+        "id": "orc",
+        "x": 19,
+        "y": 16
+      },
+      {
+        "id": "orc",
+        "x": 20,
+        "y": 17
+      },
+      {
+        "id": "orc",
+        "x": 30,
+        "y": 7
+      },
+      {
+        "id": "rustmaw",
+        "x": 30,
+        "y": 16
+      },
+      {
+        "id": "acolyte",
+        "x": 17,
+        "y": 12
+      }
+    ],
+    "dressing": [
+      {
+        "x": 10,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 22,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 10,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 8,
+        "y": 20,
+        "k": "candles",
+        "ox": 0,
+        "oy": 0
+      },
+      {
+        "x": 6,
+        "y": 20,
+        "k": "urn",
+        "ox": 0,
+        "oy": -0.3
+      },
+      {
+        "x": 10,
+        "y": 24,
+        "k": "urn",
+        "ox": 0.3,
+        "oy": 0
+      },
+      {
+        "x": 12,
+        "y": 22,
+        "k": "urn",
+        "ox": 0,
+        "oy": 0.3
+      },
+      {
+        "x": 8,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0.19,
+        "oy": 0.03,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 8,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.24
+      },
+      {
+        "x": 22,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.03,
+        "r": 0.33
+      },
+      {
+        "x": 23,
+        "y": 4,
+        "k": "puddle",
+        "ox": -0.03,
+        "oy": -0.04,
+        "r": 0.23
+      },
+      {
+        "x": 31,
+        "y": 10,
+        "k": "barrel",
+        "ox": 0.07,
+        "oy": 0.34
+      },
+      {
+        "x": 31,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.18,
+        "oy": -0.19,
+        "r": 0.23
+      },
+      {
+        "x": 2,
+        "y": 12,
+        "k": "bones",
+        "ox": 0.07,
+        "oy": 0
+      },
+      {
+        "x": 3,
+        "y": 11,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": 0.04,
+        "r": 0.26
+      },
+      {
+        "x": 20,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": 0.11,
+        "r": 0.28
+      },
+      {
+        "x": 18,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.16,
+        "oy": -0.01,
+        "r": 0.31
+      },
+      {
+        "x": 27,
+        "y": 14,
+        "k": "puddle",
+        "ox": -0.06,
+        "oy": -0.08,
+        "r": 0.32
+      },
+      {
+        "x": 23,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0.08,
+        "oy": 0.01,
+        "r": 0.23
+      },
+      {
+        "x": 9,
+        "y": 19,
+        "k": "bones",
+        "ox": -0.08,
+        "oy": 0.11
+      },
+      {
+        "x": 9,
+        "y": 23,
+        "k": "barrel",
+        "ox": -0.04,
+        "oy": 0.14
+      },
+      {
+        "x": 23,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": -0.14,
+        "r": 0.26
+      },
+      {
+        "x": 14,
+        "y": 31,
+        "k": "barrel",
+        "ox": -0.08,
+        "oy": 0.1
+      },
+      {
+        "x": 15,
+        "y": 27,
+        "k": "bones",
+        "ox": 0.03,
+        "oy": 0.1
+      },
+      {
+        "x": 18,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0.11,
+        "oy": -0.06,
+        "r": 0.2
+      },
+      {
+        "x": 17,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0.16,
+        "oy": 0.05,
+        "r": 0.22
+      },
+      {
+        "x": 5,
+        "y": 28,
+        "k": "barrel",
+        "ox": -0.1,
+        "oy": -0.28
+      },
+      {
+        "x": 27,
+        "y": 29,
+        "k": "barrel",
+        "ox": 0.34,
+        "oy": 0.04
+      },
+      {
+        "x": 5,
+        "y": 4,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 9,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 5,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 21,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 6,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 7,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 8,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 9,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 13,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 31,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 11,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 12,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 14,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 15,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 16,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 19,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 20,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 17,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 20,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 7,
+        "y": 21,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 24,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 22,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 29,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 30,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 32,
+        "y": 25,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 18,
+        "y": 27,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 13,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 14,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 15,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 16,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 17,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 11,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 12,
+        "y": 32,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 5,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 6,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 23,
+        "y": 29,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 26,
+        "y": 30,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 24,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 25,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "x": 27,
+        "y": 31,
+        "k": "puddle",
+        "ox": 0,
+        "oy": 0,
+        "r": 0.34
+      },
+      {
+        "k": "chest",
+        "x": 10,
+        "y": 8,
+        "ox": 0,
+        "oy": 0,
+        "loot": [
+          {
+            "t": "gold",
+            "q": 175
+          },
+          {
+            "t": "splint",
+            "q": 1,
+            "e": 0,
+            "h": 1
+          }
+        ]
+      }
+    ],
+    "altarSprites": [
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.65,
+        "yOff": 0,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      },
+      {
+        "x": 9.5,
+        "y": 21.5,
+        "scale": 0.32,
+        "yOff": 0.2,
+        "floorAnchor": [
+          9.5,
+          21.5
+        ]
+      }
+    ],
+    "shown": [],
+    "paintFailures": [],
+    "scope": "Native generated geometry/population with supplied legal inspection pose via save/load; running updates/shipped assets; not unassisted exploration."
+  }
+]

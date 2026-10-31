@@ -137,6 +137,7 @@ const Renderer = (() => {
     const rdx0 = dirX - planeX, rdy0 = dirY - planeY;
     const rdx1 = dirX + planeX, rdy1 = dirY + planeY;
     const half = H / 2;
+    const finiteDirection = Number.isFinite(dirX + dirY);
     let seen = 0;
     for (let y = half + 1; y < H; y++) {
       const level = rowLevel[y];
@@ -149,6 +150,10 @@ const Renderer = (() => {
       const floorSet = dist > 3 ? look.softFloors : floors, ceilSet = dist > 3 ? look.softCeils : ceils;
       const stepX = dist * (rdx1 - rdx0) / W, stepY = dist * (rdy1 - rdy0) / W;
       let fx = px + dist * rdx0, fy = py + dist * rdy0;
+      // Every ray component is bounded by 1 + TAN_HALF. An extra tile
+      // keeps this proof away from floating-point/map-edge boundaries.
+      const reach = dist * (1 + TAN_HALF) + 1;
+      const inside = finiteDirection && px >= reach && py >= reach && px < lw - reach && py < lh - reach;
       let o = y * W, oc = (H - 1 - y) * W;
       // the hero's own light: a faint warm pool on the floor at their feet
       const own = dist < OWN_R ? (1 - dist / OWN_R) * 0.8 : 0;
@@ -162,7 +167,7 @@ const Renderer = (() => {
       let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0, lightEmpty = true;
       for (let x = 0; x < W; x++) {
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
-        const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
+        const i = inside || (fx >= 0 && fy >= 0 && fx < lw && fy < lh) ? (fy | 0) * lw + (fx | 0) : -1;
         if (i !== lastI) {
           lastI = i;
           if (i >= 0) { f = fk[i]; c = ck[i]; footMap = FOOT[edge[i]]; roofShade = c === CAVE_ROOF ? CAVE_ROOF_SHADE : BUILT_ROOF_SHADE; floorT = floorSet[f]; ceilT = ceilSet[c]; seen |= 1 << f; }
@@ -195,8 +200,10 @@ const Renderer = (() => {
         // deciding the texels of a tile that sits between two
         if (boost > 0) {
           // A weak torch must not cancel the hero's brighter pool at their feet.
-          lv = Math.min(lv, Math.max(0, level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0)));
-          glow = Math.max(glow, Math.min(1, boost / LIGHT_MAX));
+          const torchLevel = level - ((boost + DITHER[((ty & 3) << 2) | (tx & 3)]) | 0);
+          if (torchLevel < lv) lv = torchLevel > 0 ? torchLevel : 0;
+          const torchGlow = boost / LIGHT_MAX;
+          if (torchGlow > glow) glow = torchGlow < 1 ? torchGlow : 1;
         }
         const ti = ty * TX + tx;
         // the shadow along the foot of a wall (and in the angle of roof and wall
@@ -795,13 +802,16 @@ const Renderer = (() => {
     const n = parseInt(h, 16);
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   };
-  const dim = (hex, f, a = 1) => { const [r, g, b] = rgbOf(hex); return `rgba(${Math.round(r * f)},${Math.round(g * f)},${Math.round(b * f)},${a.toFixed(3)})`; };
   /** A floor stain: a pool and a few splashes round it, laid flat in perspective and darkened like the floor under it. */
   /** The light field at a point, blended between the four nearest square centres. */
   function lightAt(lm, w, h, x, y) {
     const gx = x - 0.5, gy = y - 0.5, x0 = Math.floor(gx), y0 = Math.floor(gy), fx = gx - x0, fy = gy - y0;
-    const at = (i, j) => (i < 0 || j < 0 || i >= w || j >= h ? 0 : lm[j * w + i]);
-    return (at(x0, y0) * (1 - fx) + at(x0 + 1, y0) * fx) * (1 - fy) + (at(x0, y0 + 1) * (1 - fx) + at(x0 + 1, y0 + 1) * fx) * fy;
+    const left = x0 >= 0 && x0 < w, right = x0 + 1 >= 0 && x0 + 1 < w;
+    const top = y0 >= 0 && y0 < h, bottom = y0 + 1 >= 0 && y0 + 1 < h;
+    const a = y0 * w + x0, b = a + w;
+    const l00 = left && top ? lm[a] : 0, l10 = right && top ? lm[a + 1] : 0;
+    const l01 = left && bottom ? lm[b] : 0, l11 = right && bottom ? lm[b + 1] : 0;
+    return (l00 * (1 - fx) + l10 * fx) * (1 - fy) + (l01 * (1 - fx) + l11 * fx) * fy;
   }
   // A floor's puddles, as stains of dark water (see Dungeon.dress), made once a level.
   const puddleCache = new WeakMap();
@@ -906,21 +916,21 @@ const Renderer = (() => {
           saved.path.ellipse(cx, cy, rx, height, 0, 0, Math.PI * 2);
           saved.cx = cx; saved.cy = cy; saved.rx = rx; saved.ry = height;
         }
-        saved.geometry = { cx, cy, rx, ry: height, tY, tx: x | 0, ty: y | 0, f: 0 };
+        saved.geometry = { cx, cy, rx, ry: height, tY, tx: x | 0, ty: y | 0, fade: 1 - tY / fog, f: 0 };
       }
       const g = saved.geometry;
       if (!g) return;
-      const { tx, ty, tY } = g;
+      const { tx, ty } = g;
       const lit = tx >= 0 && ty >= 0 && tx < level.w && ty < level.h ? lm[ty * level.w + tx] : 0;
       // Read the live field every frame. Recompute its pure shade calculation
       // only when that exact sample or any of its other inputs has changed.
       if (saved.shadeVersion !== projectionVersion || saved.light !== lit || saved.inputColour !== c || saved.glow !== glow) {
         saved.shadeVersion = projectionVersion; saved.light = lit; saved.inputColour = c; saved.glow = glow;
-        g.f = Math.max(0.1, Math.min(1, 1 - tY / fog + lit / 7));
+        g.f = Math.max(0.1, Math.min(1, g.fade + lit / 7));
         if (!glow) {
           const shade = g.f * 0.8;
           const tint = Math.round(colourRGB[0] * shade) << 16 | Math.round(colourRGB[1] * shade) << 8 | Math.round(colourRGB[2] * shade);
-          if (saved.tint !== tint || saved.colour !== c) { saved.tint = tint; saved.colour = c; saved.style = dim(c, shade, 0.7); }
+          if (saved.tint !== tint || saved.colour !== c) { saved.tint = tint; saved.colour = c; saved.style = `rgba(${tint >> 16},${(tint >> 8) & 255},${tint & 255},0.700)`; }
         }
       }
       const style = glow ? c : saved.style;

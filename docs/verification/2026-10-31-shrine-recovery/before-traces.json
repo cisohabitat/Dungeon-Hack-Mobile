@@ -1,0 +1,12 @@
+[
+  {
+    "file": "before-companion-attempt-0.zip",
+    "sha256": "c6c5add1dc3afc3c5dd9f93bf189990d5e2c39d152d78ab11b393d01b114c5a8",
+    "entry": "test-results/safari/companions-all-companion-p-9a47d-nd-remain-available-offline-safari/trace.zip"
+  },
+  {
+    "file": "before-companion-attempt-1.zip",
+    "sha256": "465e7b541143a366bf39c4233356f627f240575fab6e6505be9d1b20554a044d",
+    "entry": "test-results/safari/companions-all-companion-p-9a47d-nd-remain-available-offline-safari-retry1/trace.zip"
+  }
+]

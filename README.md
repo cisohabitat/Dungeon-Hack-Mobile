@@ -1789,3 +1789,5 @@ Release0.9.42 improves enlarged-text menus: title greetings take their own space
 Reading-scene performance: [bounded picture preparation and batched log layout](docs/verification/2026-10-28-reading-headroom/README.md) preserve spell timing and warning space. The review retains original/candidate profiles, failed controls and the unchanged frame-rate budget; measurements are not a universal device-speed claim.
 
 Generated shrine rooms reuse the approved shrine painting’s stone altar beneath their existing offerings; room generation, pickup rules and encounter shrines stay unchanged. [Native review and verification](docs/visual/2026-10-31-shrine-staging/README.md).
+
+Shrine release recovery: [exact rendering math and explicit offline origin checks](docs/verification/2026-10-31-shrine-recovery/README.md) retain the existing artwork, frame-rate thresholds and native reload assertions.
