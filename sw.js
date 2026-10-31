@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v142';
+const CACHE = 'deepdelve-v143';
 const ASSETS = [
   './img/ui/equipment-mannequin.webp',
   './img/overlays/amber-lantern.png',
@@ -7,6 +7,7 @@ const ASSETS = [
   './img/decals/blood.png',
   './img/decals/ash.png',
   './img/decals/ice.png',
+  './img/decals/oil.png',
   './img/portraits/fallen/fighter.webp',
   './img/portraits/fallen/thief.webp',
   './img/portraits/fallen/cleric.webp',

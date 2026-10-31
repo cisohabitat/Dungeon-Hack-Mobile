@@ -865,7 +865,7 @@ const Renderer = (() => {
         stain(k + '/h', x + 0.5, y + 0.5, 0.14, flick > 0.5 ? '#e87a24' : '#c85a18', seed + 3, true, true);
       // (a burnt floor can be many squares: each is one patch, without the splashes round it)
       } else if (FIELD_LOOK[f.k]) {
-        stain(k, x + 0.5, y + 0.5, FIELD_LOOK[f.k][1], FIELD_LOOK[f.k][0], seed, false, f.k === 'ash', f.k === 'ice' ? 'ice' : null);
+        stain(k, x + 0.5, y + 0.5, FIELD_LOOK[f.k][1], FIELD_LOOK[f.k][0], seed, false, f.k === 'ash', f.k === 'ice' || f.k === 'oil' ? f.k : null);
         // lamp oil catches the light in a pale sheen, so a spill reads against the dark stone
         if (f.k === 'oil') stain(k + '/s', x + 0.42, y + 0.56, 0.15, '#8e6e2c', seed + 5, false, true);
       }
@@ -948,15 +948,15 @@ const Renderer = (() => {
       const paths = cached.paths;
       const g = blob(st.x, st.y, st.r, st.c, paths[0]);
       // Detail stays inside the original main ellipse. Unknown blood colours,
-      // oil/water, unmarked frost, warnings and satellite blobs stay native.
-      const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : st.c === '#a8cce4' && st.material === 'ice' ? 'ice' : null);
+      // water, unmarked oil/frost, sheen, warnings and satellites stay native.
+      const decal = !glow && (st.c === '#5a0608' ? 'blood' : st.c === '#16130f' ? 'ash' : st.c === '#a8cce4' && st.material === 'ice' ? 'ice' : st.c === '#3a2a12' && st.material === 'oil' ? 'oil' : null);
       // Grain compressed below twelve buffer pixels adds noise rather than
       // readable material. Keep the native fill and fade detail in by sixteen.
       if (decal && g && g.rx >= 3 && g.ry > 6) {
         const image = paintedGroundDecal(decal, g.f);
         if (image) {
           const alpha = ctx.globalAlpha;
-          ctx.globalAlpha = .5 * Math.min(1, (g.ry - 6) / 2);
+          ctx.globalAlpha = (decal === 'oil' ? 1 : .5) * Math.min(1, (g.ry - 6) / 2);
           ctx.drawImage(image, g.cx - g.rx, g.cy - g.ry, g.rx * 2, g.ry * 2);
           ctx.globalAlpha = alpha;
         }

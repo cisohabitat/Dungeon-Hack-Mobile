@@ -1,0 +1,167 @@
+{
+  "version": "0.9.68",
+  "build": 83,
+  "cache": "deepdelve-v143",
+  "baseline": "3bddf025f2641ecb5a9758ef789f2584cfbc569d",
+  "scope": "Only actual oil base,35% flat-film material, same12-to16px fade, native sheen/satellites/landing/ignition and rules retained",
+  "sourceReview": "Selected flat repair; gritty original rejected and retained. Source/export/runtime inspected, exact single+common1556 reproduction passed.",
+  "focused": {
+    "cases": 14,
+    "passed": 14,
+    "duration": "54.9s",
+    "retries": 0,
+    "log": "/workspace/painted-oil-focused.log"
+  },
+  "offline": {
+    "cases": 2,
+    "passed": 2,
+    "duration": "50.0s",
+    "retries": 0,
+    "log": "/workspace/painted-oil-offline.log"
+  },
+  "native": {
+    "beforeVersion": "0.9.67",
+    "afterVersion": "0.9.68",
+    "viewsPerStage": 12,
+    "sourceFreezeGuard": true,
+    "beforeSources": {
+      "js/release.js": "341796fafc67faeb2970417901ade2a8c81c94065d24ee3a08b514596573f090",
+      "js/renderer.js": "697d1eea34645c8332c308b6da615c7c40cc5b136834011f0ed9a3bc7e07a994",
+      "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+      "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+      "js/items.js": "1f1397d9ebfcf833ef543c11b846d97069d257c93ba1dc8afd8508f3c0def4d1",
+      "js/paintedcatalog.js": "799fe7e799fcfdd01f1e7d0d5c7b7558bd14f82bbaa82952c0ae47fac2987358"
+    },
+    "afterSources": {
+      "js/release.js": "8bec9d16060ae8a4283dd104bca9f7df629ac67e6c2b8a92a82a86d2dbfa78bd",
+      "js/renderer.js": "a6a16d1c9982686172ee62822e198a5ef991edf019ff10af8b4753ee6282ee51",
+      "js/paintedworld.js": "80e06b6da5d8b6a57a111fcbe47e7060046b1fe06263d7655edd5d9874c8bba0",
+      "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+      "js/items.js": "1f1397d9ebfcf833ef543c11b846d97069d257c93ba1dc8afd8508f3c0def4d1",
+      "js/paintedcatalog.js": "ff78dcfd2b2f7d1e43689cbd81f564f8dbe1555ca66ad43e01b9e703d40852e5",
+      "img/decals/oil.png": "557c54cc551bbce91f79411405f0c8ec0186d081fd9542b1a330eb69f8a2647d"
+    },
+    "actions": "Consumed actual flask -> native landing -> forward approach -> consumed Fire scroll against passive foe -> original burn expiry -> ash, bothwidths; separate sheen verified after material in Normal/Calm."
+  },
+  "performance": {
+    "result": "failed",
+    "scenes": {
+      "fight": {
+        "fps": 37.9,
+        "scriptMs": 14.6
+      },
+      "wide": {
+        "fps": 42.4,
+        "scriptMs": 12.2
+      },
+      "flooded": {
+        "fps": 39.2,
+        "scriptMs": 14.3
+      },
+      "painted": {
+        "fps": 45.7,
+        "scriptMs": 10.4
+      },
+      "amber": {
+        "fps": 41.2,
+        "scriptMs": 10
+      },
+      "scroll": {
+        "fps": 39.5,
+        "scriptMs": 10.7
+      },
+      "decals": {
+        "fps": 33,
+        "scriptMs": 11.5
+      },
+      "wet": {
+        "fps": 27.6,
+        "scriptMs": 13.2
+      },
+      "rite": {
+        "fps": 55.7,
+        "scriptMs": 10.4
+      }
+    },
+    "start": {
+      "ms": 1958
+    },
+    "log": "/workspace/painted-oil-cached-alpha-perf.log",
+    "traces": "/workspace/painted-oil-cached-alpha-perf-results",
+    "note": "Wet27.6misses30; all8older scenes passed. Cross-run variation is not a causal speedup claim; freshCI mustpass all9. No unchanged green rerun or relaxed threshold."
+  },
+  "publicationGate": "FreshCI all9speed+complete browser matrix+publisher required, local evidence alone is not publication clearance.",
+  "firstPerformance": {
+    "result": "failed",
+    "scenes": {
+      "fight": {
+        "fps": 49,
+        "scriptMs": 9.7
+      },
+      "wide": {
+        "fps": 43.6,
+        "scriptMs": 11.2
+      },
+      "flooded": {
+        "fps": 40.9,
+        "scriptMs": 13.7
+      },
+      "painted": {
+        "fps": 40.5,
+        "scriptMs": 14.2
+      },
+      "amber": {
+        "fps": 37.4,
+        "scriptMs": 13.7
+      },
+      "scroll": {
+        "fps": 34.2,
+        "scriptMs": 14.3
+      },
+      "decals": {
+        "fps": 31.6,
+        "scriptMs": 14.9
+      },
+      "wet": {
+        "fps": 28.1,
+        "scriptMs": 15.2
+      },
+      "rite": {
+        "fps": 45.6,
+        "scriptMs": 14.9
+      }
+    },
+    "start": {
+      "ms": 2244
+    },
+    "log": "/workspace/painted-oil-perf.log",
+    "traces": "/workspace/painted-oil-perf-results",
+    "note": "All8older scenes passed; existing60mixedwet scene missed28.1FPS vs30. No threshold/workload changes."
+  },
+  "cachedOpacityFocused": {
+    "cases": 14,
+    "passed": 14,
+    "duration": "55.4s",
+    "retries": 0,
+    "log": "/workspace/painted-oil-cached-alpha-focused.log"
+  },
+  "explicitAlphaChecks": {
+    "cases": 2,
+    "passed": 2,
+    "duration": "11.9s",
+    "log": "/workspace/painted-oil-alpha-check.log",
+    "scope": "Oil shade peak88..90/255 and full-detail globalAlpha1 prevent omitted/doubled constant opacity; exact footprint and state/dice retained."
+  },
+  "staticChecks": {
+    "types": "passed",
+    "art": "1732shipped+3icons current and cached",
+    "agents": "in sync"
+  },
+  "finalOffline": {
+    "cases": 2,
+    "passed": 2,
+    "duration": "49.0s",
+    "retries": 0,
+    "log": "/workspace/painted-oil-final-offline.log"
+  }
+}

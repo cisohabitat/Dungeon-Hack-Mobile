@@ -1657,8 +1657,8 @@ Batch AK adds128px image-tool blood/cold-ash textures inside the existing main
 stain ellipse. Keep the original fill and four satellite blobs; clip only the
 half-opacity material layer, after the same visibility/projection/lighting
 checks and before walls/actors. Match native dark-red blood, cold ash and the
-explicit ice-field material marker;
-other gore colours, oil/water, glowing vents/warnings and future landings
+explicit ice/oil field material markers;
+other gore colours, water, glowing vents/warnings and future landings
 stay native. Detail fades in above twelve projected buffer pixels of height,
 reaching half opacity at sixteen; smaller patches keep the native fill.
 Satellite world coordinates and individual Path2D ellipses use weak caches,
@@ -1669,7 +1669,7 @@ shade canvases and the circular alpha mask once on load; per-frame canvas
 clips missed the sixty-stain budget. Never allocate/rasterize material canvases in the
 frame loop or add saved state, lights, clock/dice changes or gameplay fields.
 `python3 art/creatures/export-batch-ak.py --check` reproduces uniform registration;
-run the common exporter check too (now1,555 files after AI/AJ/AK/AL). Keep sources/prompts/hashes, both offline
+run the common exporter check too (now1,556 files after AI/AJ/AK/AL). Keep sources/prompts/hashes, both offline
 entries and `PAINTED.decals` covered by the all-art installed reload check.
 `ground-decals.spec.js` runs on both Chromium widths and mobile WebKit. Its
 matched-render fixture isolates automatic rendering as well as game updates:
@@ -1712,3 +1712,14 @@ frame. Its calculation can be reused only for exactly equal sample, projection
 version, input colour and glow flag. A geometry change must refresh the shade
 on its new geometry object even if light is unchanged. Keep explicit colour/
 glow-only stationary-camera comparisons as well as torch-time and fog changes.
+
+AL oil follow-up registers a128px flat image-tool film with
+`python3 art/creatures/export-batch-al-oil.py --check`; the gritty first source
+is rejected provenance. Only the native oil base carries `material: oil`.
+Keep its separate `#8e6e2c` sheen, all satellites, landing suppression and
+ignition/burn-to-ash unchanged. Its constant35% alpha is prepared once in the cached material, so readable
+marks draw at globalAlpha1. The low-opacity layer uses the established
+12-to16px detail fade; no static sheen or light is baked into the art.
+The common1,556-file delivery, offline worker and all-art reload include oil.
+The existing nine performance scenes remain; the mixed wet fixture now tags
+its existing oil marks so it measures the new material without removing work.

@@ -522,9 +522,11 @@ frame-rate check (29.8FPS against30); v0.9.65 addresses stain geometry reuse
 and distant detail readability, retaining the same eight scenes and thresholds.
 AL's [wet-surface audit](docs/visual/2026-10-30-wet-surfaces/README.md) is complete:
 AL ice detail is integrated for v0.9.66, with projection reuse in the v0.9.67
-speed recovery. Oil is secondary, and existing painted
+speed recovery. The v0.9.68 oil follow-up adds subtle film beneath the native
+sheen; existing painted
 water floors plus live glints/shimmer are retained. See the
-[ice native review](docs/visual/2026-10-30-painted-ice/README.md).
+[ice native review](docs/visual/2026-10-30-painted-ice/README.md) and
+[oil native review](docs/visual/2026-10-31-painted-oil/README.md).
 AM/AN review spell contacts
 and healing/ward accents only where native comparisons justify painting.
 See [the surface plan](art/creatures/ATLAS-ROADMAP.md#optional-surface-textures--30-october-2026).

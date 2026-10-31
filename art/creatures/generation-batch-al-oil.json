@@ -1,0 +1,28 @@
+{
+  "batch": "AL oil follow-up",
+  "surface": "Subtle lamp-oil film; native sheen remains separate",
+  "selected": "batch-al-oil-preview/oil-source.png",
+  "rejected": {
+    "batch-al-oil-preview/oil-grit-source.png": "Raised grain and muddy grit; retained as rejected provenance."
+  },
+  "sources": [
+    {
+      "path": "batch-al-oil-preview/oil-grit-source.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "prompt": "Create ONE production game texture cutout of a thin dark LAMP OIL spill lying flat, for a gritty hand-painted dark fantasy dungeon game. Orthographic directly overhead, square canvas, one roughly round irregular patch centred with wide fully transparent margins. Very restrained sparse marbling, smooth oily dark brown-black film and slight granular dirt inclusions. Palette dominated by #3a2a12 and #211b12 with subtle muted umber variations. This is quiet surface detail to overlay an existing brown floor spill. NO reflection, NO glint, NO white highlights, NO rainbow iridescence, NO baked lighting or cast shadow: the game draws its own separate sheen. Flat material only, not a raised puddle, stone, tar mound or framed tile. Serious realistic monster-art style, no cartoon outlines or bright colours. Broad quiet areas and a few fine darker flowing marks so it remains readable at128px. One complete connected patch occupying about70 percent of its square; all surrounding space is clean alpha=0 transparency. No floor or backdrop, no haze, no mist, no fire, no sparks, no letters, labels, characters, items or UI.",
+      "sha256": "78ac3772246bfd0abafdc35a8d2952dc799f9bef7f3f2cf3b500ea65a4f0e697"
+    },
+    {
+      "path": "batch-al-oil-preview/oil-source.png",
+      "tool": "image_gen",
+      "transparent_background": true,
+      "referenced_source": "batch-al-oil-preview/oil-grit-source.png",
+      "prompt": "Repair this single oil texture cutout. It currently looks like a mound of gritty mud. REMOVE all raised grain, gravel, stones, rough earth, sandy rims and granular lumps. Make the whole patch a very thin FLAT continuous film of dark lamp oil, viewed directly from overhead. Keep only restrained flowing dark brown-black marbling and a few quiet smooth umber variations across a predominantly #3a2a12 and #211b12 film. No thick rim or relief, no reflection, no glint, no white highlight, no rainbow or baked lighting: the game supplies sheen separately. Smooth quiet broad areas, sparse narrow darker flowing lines. Preserve the one irregular rounded patch, generous transparent margin and clean alpha=0 outside its silhouette. No floor, dirt backdrop, shadow, haze, objects or labels. Serious muted painted dungeon material, never cartoon or shiny graphic icon. The final texture will be reduced to128px and used at low opacity inside an existing footprint.",
+      "sha256": "26cec16e00c910763d0e9920440a19b6b5a3874d5469a6a2eec4183d100a3c10"
+    }
+  ],
+  "registration": "Explicit1254px square; alpha>=8 bounds plus2px fringe, uniform fit112px centered in128px. Crop/scale/translate only, no scripted painting, recolouring or alpha repair.",
+  "runtime": "img/decals/oil.png",
+  "limits": "Only renderer-private material=oil on the actual oil base; native sheen/satellites/ignition/clock remain. Low-opacity material detail, existing readable-size fade and independent lazy cached shade canvases."
+}

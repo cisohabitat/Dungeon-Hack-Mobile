@@ -1,0 +1,274 @@
+{
+  "before": true,
+  "scope": "Native running Game/Renderer/Assets and original clocks. Comparison supplies oil field and cleared dressing/monsters/safety. Actual consumed lamp-oil flask lands; native forward movement approaches; real consumed Fire scroll hits supplied passive999HP Orc, then foe is cleared for visibility. Original oil ignition and burn expiry produce ash. Forwarding draw observers only; no renderer/update/image/clock substitution. Not unassisted gameplay or physical-device approval.",
+  "sources": {
+    "js/release.js": "341796fafc67faeb2970417901ade2a8c81c94065d24ee3a08b514596573f090",
+    "js/renderer.js": "697d1eea34645c8332c308b6da615c7c40cc5b136834011f0ed9a3bc7e07a994",
+    "js/paintedworld.js": "7101c3bab4b4d089c9f1fdcbdaea367b74ffa7cf00e70255ef4c3e898889adfc",
+    "js/elements.js": "d3f8976c26cd0ca5d4c9a02e27fac10f90759779adb8ba240d7c325969813c38",
+    "js/items.js": "1f1397d9ebfcf833ef543c11b846d97069d257c93ba1dc8afd8508f3c0def4d1",
+    "js/paintedcatalog.js": "799fe7e799fcfdd01f1e7d0d5c7b7558bd14f82bbaa82952c0ae47fac2987358"
+  },
+  "records": [
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "320-normal.png",
+      "fixture": {
+        "x": 6,
+        "y": 4,
+        "origin": {
+          "x": 6,
+          "y": 6
+        }
+      },
+      "events": [
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen"
+      ]
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "320-calm.png",
+      "fixture": {
+        "x": 6,
+        "y": 4,
+        "origin": {
+          "x": 6,
+          "y": 6
+        }
+      },
+      "events": [
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen"
+      ]
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-approach.png",
+      "actualApproach": true
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-real-spill.png",
+      "actualThrow": true,
+      "thrown": {
+        "consumed": true,
+        "landing": {
+          "x": 6,
+          "y": 3,
+          "at": 11707.1,
+          "was": {
+            "6,3": "",
+            "7,3": "",
+            "5,3": "",
+            "6,4": "",
+            "6,2": ""
+          }
+        }
+      }
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-real-fire.png",
+      "actualIgnition": true,
+      "cast": {
+        "consumed": true
+      },
+      "burning": {
+        "field": {
+          "k": "fire",
+          "fuel": "oil",
+          "until": 14749.6,
+          "spread": 10949.6,
+          "burn": 10399.6,
+          "gen": 0
+        },
+        "t": 10283
+      }
+    },
+    {
+      "width": 320,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "320-real-ash.png",
+      "actualAsh": true,
+      "ash": {
+        "field": {
+          "k": "ash",
+          "until": 44766.1
+        },
+        "t": 15316.1
+      }
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": false,
+      "file": "390-normal.png",
+      "fixture": {
+        "x": 6,
+        "y": 4,
+        "origin": {
+          "x": 6,
+          "y": 6
+        }
+      },
+      "events": [
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen"
+      ]
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "calm": true,
+      "file": "390-calm.png",
+      "fixture": {
+        "x": 6,
+        "y": 4,
+        "origin": {
+          "x": 6,
+          "y": 6
+        }
+      },
+      "events": [
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen",
+        "sheen"
+      ]
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-approach.png",
+      "actualApproach": true
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-real-spill.png",
+      "actualThrow": true,
+      "thrown": {
+        "consumed": true,
+        "landing": {
+          "x": 6,
+          "y": 3,
+          "at": 9285.4,
+          "was": {
+            "6,3": "",
+            "7,3": "",
+            "5,3": "",
+            "6,4": "",
+            "6,2": ""
+          }
+        }
+      }
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-real-fire.png",
+      "actualIgnition": true,
+      "cast": {
+        "consumed": true
+      },
+      "burning": {
+        "field": {
+          "k": "fire",
+          "fuel": "oil",
+          "until": 12516.4,
+          "spread": 8716.4,
+          "burn": 8166.4,
+          "gen": 0
+        },
+        "t": 8016.4
+      }
+    },
+    {
+      "width": 390,
+      "version": "0.9.67",
+      "build": 82,
+      "file": "390-real-ash.png",
+      "actualAsh": true,
+      "ash": {
+        "field": {
+          "k": "ash",
+          "until": 42532.8
+        },
+        "t": 12999.5
+      }
+    }
+  ]
+}

@@ -112,6 +112,10 @@ export function paintedGroundDecal(kind, light) {
     // projected ellipse without rebuilding a canvas clip for every stain.
     const base = canvas(image), mask = base.getContext('2d');
     mask.globalCompositeOperation = 'destination-in';
+    // Oil is a quiet35% film: prepare its constant opacity once so fully
+    // readable marks use the direct-alpha image path in the frame loop.
+    if (kind === 'oil') { mask.fillStyle = 'rgba(0,0,0,0.35)'; mask.fillRect(0, 0, 128, 128); }
+    mask.fillStyle = '#000';
     mask.beginPath(); mask.ellipse(64, 64, 63, 63, 0, 0, Math.PI * 2); mask.fill();
     return Array.from({ length: 8 }, (_, step) => {
       const c = canvas(base), ctx = c.getContext('2d');

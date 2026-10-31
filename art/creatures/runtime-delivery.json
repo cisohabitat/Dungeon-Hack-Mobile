@@ -7774,6 +7774,11 @@
       "source": "art/creatures/batch-al-preview/ice.png",
       "runtime": "img/decals/ice.png",
       "sha256": "7441cec4926fa9c88a1303efde38256f13d3e4ec2c05a9e1e58e180c940f2d0c"
+    },
+    {
+      "source": "art/creatures/batch-al-oil-preview/oil.png",
+      "runtime": "img/decals/oil.png",
+      "sha256": "557c54cc551bbce91f79411405f0c8ec0186d081fd9542b1a330eb69f8a2647d"
     }
   ],
   "exclusions": {

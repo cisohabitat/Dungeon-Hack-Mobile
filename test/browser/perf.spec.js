@@ -128,12 +128,12 @@ test('the view holds its frame rate on a slow processor', async ({ page }) => {
   });
   out.decals = await measure(page, cdp, 4000);
   // Retain the original eight scenes; also measure sixty mixed wet surfaces.
-  await page.evaluate(async()=>{window.__groundPaint('ice',1);});
-  await page.waitForFunction(()=>window.__groundPaint('ice',1));
+  await page.evaluate(async()=>{window.__groundPaint('ice',1);window.__groundPaint('oil',1);});
+  await page.waitForFunction(()=>window.__groundPaint('ice',1)&&window.__groundPaint('oil',1));
   await page.evaluate(()=>{
     const p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir],fx=Game.renderState(performance.now()).fx;
     const materials=[['#5a0608',.16],['#16130f',.42],['#3a2a12',.46],['#a8cce4',.46],['#2c3c4c',.34]];
-    fx.stains[Game.level().depth]=Array.from({length:60},(_,i)=>{const [c,r]=materials[i%5],d=.8+(i%6)*.45,side=((i%10)-4.5)*.22;return{x:p.x+.5+dx*d-dy*side,y:p.y+.5+dy*d+dx*side,r,c,seed:i,material:i%5===3?'ice':null,solo:i%5===1,wet:i%5===4,at:0};});
+    fx.stains[Game.level().depth]=Array.from({length:60},(_,i)=>{const [c,r]=materials[i%5],d=.8+(i%6)*.45,side=((i%10)-4.5)*.22;return{x:p.x+.5+dx*d-dy*side,y:p.y+.5+dy*d+dx*side,r,c,seed:i,material:i%5===3?'ice':i%5===2?'oil':null,solo:i%5===1,wet:i%5===4,at:0};});
   });
   out.wet = await measure(page, cdp, 4000);
   // the last floor, the lich awake two squares ahead and working its rite

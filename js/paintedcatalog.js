@@ -17809,6 +17809,7 @@ export const PAINTED = {
   "decals": {
     "blood": "img/decals/blood.png",
     "ash": "img/decals/ash.png",
-    "ice": "img/decals/ice.png"
+    "ice": "img/decals/ice.png",
+    "oil": "img/decals/oil.png"
   }
 };
