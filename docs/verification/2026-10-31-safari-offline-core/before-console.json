@@ -1,0 +1,90 @@
+[
+  {
+    "trace": "test-results/safari/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-safari/trace.zip",
+    "events": [
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:46243/manifest.json",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 217514.834,
+        "pageId": "page@31193080073ae348924f6ba4267b79f3"
+      },
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:46243/js/main.js",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 217514.962,
+        "pageId": "page@31193080073ae348924f6ba4267b79f3"
+      },
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:46243/css/style.css",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 217515.032,
+        "pageId": "page@31193080073ae348924f6ba4267b79f3"
+      }
+    ]
+  },
+  {
+    "trace": "test-results/safari/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-safari-retry1/trace.zip",
+    "events": [
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:34665/js/main.js",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 256598.979,
+        "pageId": "page@c631849348dd270b5451d8804f47b8f2"
+      },
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:34665/manifest.json",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 256600.914,
+        "pageId": "page@c631849348dd270b5451d8804f47b8f2"
+      },
+      {
+        "type": "console",
+        "messageType": "error",
+        "text": "Failed to load resource: WebKit encountered an internal error",
+        "args": [],
+        "location": {
+          "url": "http://127.0.0.1:34665/css/style.css",
+          "lineNumber": 0,
+          "columnNumber": 0
+        },
+        "time": 256601.018,
+        "pageId": "page@c631849348dd270b5451d8804f47b8f2"
+      }
+    ]
+  }
+]

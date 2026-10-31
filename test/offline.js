@@ -11,7 +11,7 @@ const clips = { prologue: {}, 'line-00000001': {}, 'line-00000002': {} };
 const voices = Object.keys(clips).flatMap(id => ['ogg', 'm4a'].map(ext => absolute(`sound/narration/${id}.${ext}`)));
 function harness(storage = new Map()) {
   const handlers = {}, messages = [], requested = [], matched = [];
-  let held = null, failing = '', skipped = 0, claimed = 0;
+  let held = null, heldWrites = null, failing = '', skipped = 0, claimed = 0;
   const response = url => new Response(url.endsWith('/catalog.json') ? JSON.stringify({clips}) : url.endsWith('/js/release.js') ? `export const BUILD_NUMBER = ${build};` : url.endsWith('/prologue.m4a') ? '0123456789' : url);
   const fetcher = async input => {
     const url = absolute(input); requested.push(url);
@@ -27,7 +27,7 @@ function harness(storage = new Map()) {
       return {
         match: async input => {matched.push(absolute(input));return map.get(absolute(input))?.clone();},
         keys: async () => [...map.keys()].map(url => ({url})),
-        put: async (input, res) => {map.set(absolute(input), res.clone());},
+        put: async (input, res) => {if (heldWrites) await heldWrites; map.set(absolute(input), res.clone());},
         addAll: async paths => {for (const p of paths) map.set(absolute(p), await fetcher(p));},
       };
     },
@@ -38,8 +38,16 @@ function harness(storage = new Map()) {
   });
   const event = async name => {let job; handlers[name]({waitUntil: promise => {job = promise;}}); await job;};
   const prepare = () => {let job; handlers.message({data:{type:'offline-prepare'},source:{id:'own-client'},waitUntil:p=>{job=p;}}); return job;};
+  const resource = (path, mode) => {
+    let response; const jobs = [];
+    handlers.fetch({ request: { url: absolute(path), method: 'GET', mode, headers: new Headers() },
+      respondWith: p => {response=p;}, waitUntil: p => jobs.push(p) });
+    return { response, finished: Promise.all(jobs) };
+  };
   return {storage,caches,messages,requested,matched,event,prepare,handlers,
+    resource,
     hold() {let release; held=new Promise(resolve=>{release=resolve;});return()=>{held=null;release();};},
+    holdWrites() {let release; heldWrites=new Promise(resolve=>{release=resolve;});return()=>{heldWrites=null;release();};},
     fail(url) {failing=url;}, get skipped(){return skipped;},get claimed(){return claimed;},
   };
 }
@@ -77,6 +85,28 @@ async function main() {
   const broken=harness();await (await broken.caches.open(old)).put('/keep',new Response('keep'));
   broken.fail(absolute('./js/game.js'));await assert.rejects(broken.event('install'));
   assert.equal(broken.skipped,0);assert.equal(broken.storage.has(old),true,'failed core installation preserves the previous cache');
+  const installed=harness();await installed.event('install');
+  for (const path of ['/js/main.js','/css/style.css','/manifest.json']) {
+    installed.fail(absolute(path)); const count=installed.requested.length;
+    const event=installed.resource(path);assert.equal(await (await event.response).text(),absolute(path));await event.finished;
+    assert.equal(installed.requested.length,count,'installed core must not probe or mix in another server build');
+  }
+  for (const path of ['/?resume=1','/index.html?resume=1']) {
+    installed.fail(absolute(path));const event=installed.resource(path,'navigate');
+    assert.equal(await (await event.response).text(),origin,'root aliases use the installed shell');await event.finished;
+  }
+  const cold=harness();await (await cold.caches.open(old)).put('/js/main.js',new Response('old build'));
+  cold.fail(absolute('/js/main.js'));
+  const missing=cold.resource('/js/main.js');await assert.rejects(missing.response);await missing.finished;
+  const denied=harness();denied.caches.open=async()=>{throw Error('Storage unavailable');};
+  const online=denied.resource('/js/main.js');assert.equal(await(await online.response).text(),absolute('/js/main.js'));await online.finished;
+  const streaming=harness(), finishWrite=streaming.holdWrites();
+  const download=streaming.resource('/sound/new-effect.ogg');
+  assert.equal(await (await download.response).text(),absolute('/sound/new-effect.ogg'),'optional delivery does not wait for cache storage');
+  let finished=false;download.finished.then(()=>{finished=true;});
+  await new Promise(resolve=>setTimeout(resolve,0));assert.equal(finished,false,'fetch lifetime includes the pending cache write');
+  finishWrite();await download.finished;
+  assert.equal(await (await(await streaming.caches.open(current)).match('/sound/new-effect.ogg')).text(),absolute('/sound/new-effect.ogg'));
   console.log('offline lifecycle checks complete, 0 failure(s): early activation, resumable voice, cache isolation and ranges');
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});

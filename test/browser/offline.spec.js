@@ -3,6 +3,34 @@ const {test,expect}=require('@playwright/test');
 const {startOfflineServer}=require('../offline-server.cjs');
 const {watchForErrors,artReady}=require('./helpers');
 const AxeBuilder=require('@axe-core/playwright').default;
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+
+test('core play is ready offline across repeated native root aliases @mobile', async({page,context})=>{
+  const errors=watchForErrors(page),server=await startOfflineServer();
+  const files=['/js/main.js','/js/release.js','/css/style.css','/manifest.json'];
+  const expected=Object.fromEntries(files.map(file=>[file,crypto.createHash('sha256').update(fs.readFileSync(path.resolve(__dirname,'../..','.'+file))).digest('hex')]));
+  const hashes=()=>page.evaluate(async files=>Object.fromEntries(await Promise.all(files.map(async file=>{
+    const response=await fetch(file);if(response.status!==200)throw Error('Core request failed: '+file);
+    const bytes=await response.arrayBuffer();return[file,Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('')];
+  }))),files);
+  try{
+    await page.addInitScript(()=>{for(const[k,v]of Object.entries({firstSeen:'1',tipsOff:'1',sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});
+    await page.goto(server.url);await page.evaluate(()=>navigator.serviceWorker.register('/sw.js'));
+    const status=page.locator('#offline-status');await expect(status).toHaveAttribute('data-voice','ready',{timeout:30000});
+    const commit=await page.locator('meta[name="commit"]').getAttribute('content');
+    const before=new Map((await server.stats()).requestCounts);expect(await hashes()).toEqual(expected);
+    const after=new Map((await server.stats()).requestCounts);
+    for(const file of files)expect(after.get(file),file+' must use the installed version while connected').toBe(before.get(file));
+    await server.setConnected(false);
+    for(const alias of ['/?offline=1','/index.html?offline=2','/']){
+      await page.goto(server.url+alias);await expect(status).toContainText('Game and voice ready offline');
+      await page.reload();await expect(status).toContainText('Game and voice ready offline');
+      expect(await hashes()).toEqual(expected);expect(await page.locator('meta[name="commit"]').getAttribute('content')).toBe(commit);
+      await page.click('#btn-new');await expect(page.locator('#screen-create')).toBeVisible();
+    }
+    expect(errors).toEqual([]);
+  }finally{await context.setOffline(false);await server.close();}
+});
 
 test('core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile', async({page,context,browserName})=>{
   const errors=watchForErrors(page), server=await startOfflineServer({holdVoices:true});

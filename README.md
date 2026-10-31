@@ -5,7 +5,7 @@ A first-person, real-time dungeon crawler for mobile browsers, built in the spir
 
 **Play it now:** https://dungeon-hack-mobile.vercel.app
 
-Open it on your phone and choose "Add to Home Screen" to install it as an app. The title shows when the game is ready offline. Voice recordings download separately in the background and resume after reconnecting.
+Open it on your phone and choose "Add to Home Screen" to install it as an app. The title shows when the game is ready offline. Voice recordings download separately in the background and resume after reconnecting. Installed core files reopen from one cached version; a worker update installs the next snapshot together.
 
 ## Features
 

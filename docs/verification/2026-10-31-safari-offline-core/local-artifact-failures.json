@@ -1,0 +1,76 @@
+[
+  {
+    "id": "35258aecae630ab2625f-a323444ba5dc1565a89c",
+    "project": "phone",
+    "file": "visual-polish.spec.js",
+    "titles": [
+      "new Legendary and Mythic finds reveal in the opened pack without changing play @mobile"
+    ],
+    "status": "failed",
+    "expected": "passed",
+    "retry": 0,
+    "duration": 8479,
+    "errors": [
+      {
+        "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'",
+        "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'\n    at /workspace/Dungeon-Hack-Mobile/test/browser/visual-polish.spec.js:332:42",
+        "location": {
+          "file": "/workspace/Dungeon-Hack-Mobile/test/browser/visual-polish.spec.js",
+          "column": 42,
+          "line": 332
+        },
+        "snippet": "  330 |   expect(await page.evaluate(() => JSON.stringify(Game.player()))).toBe(before);\n  331 |   expect(await detail.locator('img').evaluate(el => getComputedStyle(el).width)).toBe('96px');\n> 332 |   await page.screenshot({ path: testInfo.outputPath('legendary-reveal.png') });\n      |                                          ^\n  333 |   await testInfo.attach('legendary-reveal', { path: testInfo.outputPath('legendary-reveal.png'), contentType: 'image/png' });\n  334 |   await page.locator('#inv-sort').click();\n  335 |   await expect(detail).not.toHaveClass(/treasure-reveal/);"
+      },
+      {
+        "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'",
+        "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'"
+      },
+      {
+        "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'",
+        "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-new-Legendar-37e97-ithout-changing-play-mobile-phone'"
+      }
+    ],
+    "attachments": []
+  },
+  {
+    "id": "35258aecae630ab2625f-1cd4df0ab24e779a4b30",
+    "project": "phone",
+    "file": "visual-polish.spec.js",
+    "titles": [
+      "every named treasure has distinct cached art and matching held shapes @mobile"
+    ],
+    "status": "failed",
+    "expected": "passed",
+    "retry": 0,
+    "duration": 10499,
+    "errors": [
+      {
+        "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-every-named--ee7c6-matching-held-shapes-mobile-phone'",
+        "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-every-named--ee7c6-matching-held-shapes-mobile-phone'\n    at /workspace/Dungeon-Hack-Mobile/test/browser/visual-polish.spec.js:277:18",
+        "location": {
+          "file": "/workspace/Dungeon-Hack-Mobile/test/browser/visual-polish.spec.js",
+          "column": 18,
+          "line": 277
+        },
+        "snippet": "  275 |   expect(new Set(result.out.map(r => r.url)).size).toBe(result.out.length);\n  276 |   for (const r of result.out) expect(r, r.id).toMatchObject({ distinct: true, stable: true, base: true, poses: true, held: true });\n> 277 |   await testInfo.attach('named-treasure', { body: Buffer.from(result.sheet, 'base64'), contentType: 'image/png' });\n      |                  ^\n  278 |   if (process.env.POLISH_REVIEW_DIR) require('fs').writeFileSync(process.env.POLISH_REVIEW_DIR + '/named-treasure.png', Buffer.from(result.sheet, 'base64'));\n  279 |   expect(errors).toEqual([]);\n  280 | });"
+      },
+      {
+        "message": "Error: apiRequestContext._wrapApiCall: ENOSPC: no space left on device, open '/workspace/safari72-regular-results/.playwright-artifacts-0/f24ae83715196df1a513a0dc98781014.zip'",
+        "stack": "Error: apiRequestContext._wrapApiCall: ENOSPC: no space left on device, open '/workspace/safari72-regular-results/.playwright-artifacts-0/f24ae83715196df1a513a0dc98781014.zip'"
+      },
+      {
+        "message": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-every-named--ee7c6-matching-held-shapes-mobile-phone'",
+        "stack": "Error: ENOSPC: no space left on device, mkdir '/workspace/safari72-regular-results/visual-polish-every-named--ee7c6-matching-held-shapes-mobile-phone'"
+      },
+      {
+        "message": "Error: ENOSPC: no space left on device, open '/workspace/safari72-regular-results/.playwright-artifacts-0/7635bc64354d66530ee5b9d6e4552866.zip'",
+        "stack": "Error: ENOSPC: no space left on device, open '/workspace/safari72-regular-results/.playwright-artifacts-0/7635bc64354d66530ee5b9d6e4552866.zip'"
+      },
+      {
+        "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+        "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+      }
+    ],
+    "attachments": []
+  }
+]

@@ -1,0 +1,147 @@
+{
+  "status": "Local functional verification complete; original local FPS miss retained; fresh native WebKit CI and publication required",
+  "baseline": "a0ab966312abe361cf3b0ca3eef69a23bfaee2fa",
+  "before_run": 41195332729,
+  "before_failed_case": "Safari core-play offline reload; both configured attempts failed before main.js/CSS/manifest bootstrap",
+  "traces": [
+    {
+      "file": "before-attempt-0.zip",
+      "entry": "test-results/safari/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-safari/trace.zip",
+      "sha256": "7fc2498758c4128beb893536af06bb0081da78677d207ac2879ec5a5497a9125"
+    },
+    {
+      "file": "before-attempt-1.zip",
+      "entry": "test-results/safari/offline-core-play-is-ready-c567a-e-and-survive-reload-mobile-safari-retry1/trace.zip",
+      "sha256": "e076dec609a9f4af7e1bae7437f57eda4023e9ed76a7ed1faee33a32ab1991a8"
+    }
+  ],
+  "scope": "Current version core cache first; root/index/query aliases use installed shell. Optional network-first streams retain cache-write lifetime. API/cross-origin/master/listen bypasses and voice ranges/resume unchanged. No timeouts, retries, existing assertions, navigation behavior or browser versions relaxed.",
+  "new_local_counts": {
+    "regular": 1023,
+    "serial_offline": 10,
+    "phone": 659,
+    "small": 374,
+    "total": 1033
+  },
+  "expected_ci_browser_counts": {
+    "phone": 659,
+    "small": 374,
+    "safari": 245,
+    "total": 1278
+  },
+  "focused": {
+    "cases": 4,
+    "passed": 4,
+    "failures": 0,
+    "retries": 0,
+    "minutes": 1.8
+  },
+  "native_upgrade": {
+    "cases": 4,
+    "widths": [
+      320,
+      390
+    ],
+    "interrupted_cases": 2,
+    "preserved_save": true,
+    "core_failure_recovered": true,
+    "old_cache_retired_after_ready": true,
+    "files_copied_unchanged": 7,
+    "baseline": "a0ab966312abe361cf3b0ca3eef69a23bfaee2fa",
+    "from_cache": "deepdelve-v146",
+    "to_cache": "deepdelve-v147",
+    "origin_rejected_counts": [
+      0,
+      1,
+      0,
+      2
+    ],
+    "scope": "Existing native update harness cuts origin and Chromium network together. Successful cache-first sessions need not reach the origin. The separate core-play regression retains its positive actual-origin rejection assertion."
+  },
+  "source_hashes": {
+    "sw.js": "53d81476ea3f15a8146a75e2824c93d9afee86d750f03213185288e5f39b67ad",
+    "js/release.js": "ee6fc5b2c0b78fc0b1b5601434cbe6129109360c80c018c8b148001153293cd7",
+    "js/offline.js": "dcebca29376ef1bfb6a9e4b3e40b1e513c0add2326cc632cad23d2cb1fbaffb0",
+    "js/renderer.js": "b8f826c46ff8e1a5df9dfd4dcefdac528e8fb1b6d47a05d6dda94376c6cb898c",
+    "test/offline.js": "0f2305df3df7b60d1a131191a87d6e3609de5572e89340c3039c1f92623466e9",
+    "test/offline-server.cjs": "fbbb7cb797da0777204387056a68660ed50df0a399283617f8bbedd3493ed31e",
+    "test/browser/offline.spec.js": "8806e8a2e3c85a81e137ed40c5f1f93171b41cb3e7b8dfb2648bf44a2b1f5b5a"
+  },
+  "local_performance": {
+    "metrics": {
+      "fight": {
+        "fps": 38.4,
+        "scriptMs": 15.4
+      },
+      "wide": {
+        "fps": 40.6,
+        "scriptMs": 12.9
+      },
+      "flooded": {
+        "fps": 38.4,
+        "scriptMs": 14.8
+      },
+      "painted": {
+        "fps": 40.9,
+        "scriptMs": 14.9
+      },
+      "amber": {
+        "fps": 41.7,
+        "scriptMs": 11.4
+      },
+      "scroll": {
+        "fps": 36.1,
+        "scriptMs": 13.3
+      },
+      "decals": {
+        "fps": 29,
+        "scriptMs": 15.7
+      },
+      "wet": {
+        "fps": 26.2,
+        "scriptMs": 16.6
+      },
+      "rite": {
+        "fps": 51.8,
+        "scriptMs": 14
+      }
+    },
+    "startup_ms": 2194,
+    "required_fps": 30,
+    "wide_required_fps": 27,
+    "cpu_throttle": 4,
+    "conclusion": "FAIL decals29.0/wet26.2; allother7scenes pass; miss retained; unchanged gate not rerun; freshCI required"
+  },
+  "local_browser": {
+    "browser_cases_unique": 1033,
+    "by_project": {
+      "phone": 659,
+      "small": 374
+    },
+    "regular": 1023,
+    "serial_offline": 10,
+    "original_run": {
+      "passed": 1031,
+      "failed": 2,
+      "failure_cause": "ENOSPC saving screenshots/attachments; exact original errors retained",
+      "retries": 0
+    },
+    "same_source_affected_case_recheck": {
+      "passed": 2,
+      "failed": 0,
+      "retries": 0
+    },
+    "frozen_source_hashes_match": true,
+    "storage_cleanup": {
+      "archive": "/tmp/completed-playwright-staging.tar",
+      "original_paths": [
+        "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-0",
+        "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-1",
+        "/workspace/wet-headroom-resumed-results/.playwright-artifacts-0",
+        "/workspace/wet-headroom-resumed-results/.playwright-artifacts-1"
+      ],
+      "bytes_archived": 6592014223,
+      "verification": "GNU tar byte comparison passed before deleting only the four inactive staging directories. All saved trace ZIPs, reports, screenshots and product/source files remain in their original locations."
+    }
+  }
+}

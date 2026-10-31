@@ -1,0 +1,88 @@
+{
+  "head": "a0ab966312abe361cf3b0ca3eef69a23bfaee2fa",
+  "run": 41195332729,
+  "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "id": 124520247169,
+      "name": "Frame-rate budget",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247169"
+    },
+    {
+      "id": 124520247280,
+      "name": "Smallest phone (1/2)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247280"
+    },
+    {
+      "id": 124520247284,
+      "name": "Smallest phone (2/2)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247284"
+    },
+    {
+      "id": 124520247293,
+      "name": "Browser tests (2/3)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247293"
+    },
+    {
+      "id": 124520247294,
+      "name": "Safari engine mobile checks (2/3)",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247294"
+    },
+    {
+      "id": 124520247310,
+      "name": "Browser tests (3/3)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247310"
+    },
+    {
+      "id": 124520247344,
+      "name": "Safari engine mobile checks (3/3)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247344"
+    },
+    {
+      "id": 124520247345,
+      "name": "Browser tests (1/3)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247345"
+    },
+    {
+      "id": 124520247363,
+      "name": "Safari engine mobile checks (1/3)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247363"
+    },
+    {
+      "id": 124520247416,
+      "name": "Types, generator and rule checks",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124520247416"
+    },
+    {
+      "id": 124524347539,
+      "name": "Publish version",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/cisohabitat/Dungeon-Hack-Mobile/actions/runs/41195332729/job/124524347539"
+    }
+  ],
+  "release_tag_present": false,
+  "latest_published": "v0.9.69"
+}

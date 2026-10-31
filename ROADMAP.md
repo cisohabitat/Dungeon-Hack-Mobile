@@ -635,6 +635,13 @@ keeps the Heart staging and combines only exact repeated or contiguous wall samp
 All closed/sliding door leaves retain their original surface and immediate draw path.
 v0.9.71 publication is controlled by the unchanged required CI gates; local
 verification and the retained wet-scene miss are recorded in the recovery review.
+The v0.9.71 main deployment passed CI's wet budget at41.2FPS, but its GitHub
+publisher was skipped after Safari's core offline reload failed both attempts.
+The owner has now requested this blocker be fixed before further AAA3 staging.
+The [offline-core recovery](docs/verification/2026-10-31-safari-offline-core/README.md)
+serves installed core assets from their version cache and extends optional cache
+write lifetime. Native reload, exact bytes, voice resume/ranges and unchanged
+WebKit CI remain publication gates.
 
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs

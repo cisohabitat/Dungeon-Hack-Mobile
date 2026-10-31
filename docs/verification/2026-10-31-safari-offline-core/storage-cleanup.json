@@ -1,0 +1,11 @@
+{
+  "archive": "/tmp/completed-playwright-staging.tar",
+  "original_paths": [
+    "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-0",
+    "/workspace/wet-headroom-full-two-workers-results/.playwright-artifacts-1",
+    "/workspace/wet-headroom-resumed-results/.playwright-artifacts-0",
+    "/workspace/wet-headroom-resumed-results/.playwright-artifacts-1"
+  ],
+  "bytes_archived": 6592014223,
+  "verification": "GNU tar byte comparison passed before deleting only the four inactive staging directories. All saved trace ZIPs, reports, screenshots and product/source files remain in their original locations."
+}

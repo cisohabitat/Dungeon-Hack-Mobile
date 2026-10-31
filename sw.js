@@ -1,5 +1,5 @@
 // Minimal offline cache so the game works without a connection once loaded.
-const CACHE = 'deepdelve-v146';
+const CACHE = 'deepdelve-v147';
 const ASSETS = [
   './img/ui/equipment-mannequin.webp',
   './img/overlays/amber-lantern.png',
@@ -1799,6 +1799,7 @@ async function recordedVoice(request) {
   headers.set('Content-Length', String(end - start + 1));
   return new Response(bytes.slice(start, end + 1), { status: 206, headers });
 }
+let installedURLs;
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   // the sound pack's sounds are kept as they are heard, but never its masters,
@@ -1810,17 +1811,37 @@ self.addEventListener('fetch', e => {
   if (/\/sound\/narration\/(?:line-[a-f0-9]{8}|prologue)\.(?:ogg|m4a)$/.test(path)) {
     e.respondWith(recordedVoice(e.request)); return;
   }
-  e.respondWith(
-    fetch(e.request).then(res => {
-      // only a good answer is kept: a server's error page saved over the game
-      // would be all there was offline, and a redirected one (the host sends
-      // /index.html on to /) is refused by the browser as a page
-      if (res.ok && !res.redirected) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)).catch(() => {}); }
+  // Installation is a complete, versioned snapshot. Read its own HTML/modules
+  // directly instead of probing the disconnected origin and replacing those
+  // entries during reload. A newer worker installs the next snapshot together.
+  const root = new URL('./', self.location.href);
+  installedURLs ||= new Set(ASSETS.map(path => new URL(path, self.location.href).href));
+  const shell = e.request.mode === 'navigate' && (path === root.pathname || path === root.pathname + 'index.html');
+  const key = shell ? root.href : e.request;
+  let saving = Promise.resolve();
+  const response = caches.open(CACHE).catch(() => null).then(async cache => {
+    if (cache && installedURLs.has(shell ? root.href : url.href)) {
+      const installed = await cache.match(key);
+      if (installed && !installed.redirected) return installed;
+    }
+    try {
+      const res = await fetch(e.request);
+      // Optional resources retain network-first delivery and streaming. Keep
+      // the worker alive until its good response copy has finished saving.
+      if (cache && res.ok && !res.redirected) saving = cache.put(e.request, res.clone()).catch(() => {});
       return res;
-    // offline, a page asked for by any address (a query, /index.html) is the game's own root
-    }).catch(async () => {
-      const cache = await caches.open(CACHE), r = await cache.match(e.request);
-      return r && !r.redirected ? r : e.request.mode === 'navigate' ? cache.match('./') : r;
-    })
-  );
+    } catch (error) {
+      if (cache) {
+        const cached = await cache.match(e.request);
+        if (cached && !cached.redirected) return cached;
+        if (e.request.mode === 'navigate') {
+          const home = await cache.match(root.href);
+          if (home && !home.redirected) return home;
+        }
+      }
+      throw error;
+    }
+  });
+  e.respondWith(response);
+  e.waitUntil(response.then(() => saving, () => {}));
 });

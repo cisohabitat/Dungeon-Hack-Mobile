@@ -1,0 +1,79 @@
+{
+  "artifact_count": 9,
+  "report_count": 14,
+  "totals": {
+    "perf": 1,
+    "small": 373,
+    "phone": 658,
+    "safari": 244
+  },
+  "flaky_count": 2,
+  "failed_count": 1,
+  "retried_count": 3,
+  "retried_tests": [
+    {
+      "status": "flaky",
+      "project": "small",
+      "file": "sharecard.spec.js",
+      "title": "lich keep: native ending exports its actual keeper, symbol and painted companion",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "trace_count": 1
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "trace_count": 0
+        }
+      ]
+    },
+    {
+      "status": "unexpected",
+      "project": "safari",
+      "file": "offline.spec.js",
+      "title": "core play is ready offline while all recordings are delayed, then voices resume and survive reload @mobile",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "failed",
+          "trace_count": 1
+        },
+        {
+          "retry": 1,
+          "status": "failed",
+          "trace_count": 1
+        }
+      ]
+    },
+    {
+      "status": "flaky",
+      "project": "safari",
+      "file": "painted-world.spec.js",
+      "title": "all activated art files decode after a native offline reload @mobile",
+      "attempts": [
+        {
+          "retry": 0,
+          "status": "timedOut",
+          "trace_count": 1
+        },
+        {
+          "retry": 1,
+          "status": "passed",
+          "trace_count": 0
+        }
+      ]
+    }
+  ],
+  "native_signal_reports": [
+    {
+      "artifact": "small-2",
+      "lines": [
+        "pw:browser [pid=3224][err] Received signal 11 SEGV_MAPERR 0000000001b0 +2m",
+        "pw:browser [pid=3224] <process did exit: exitCode=null, signal=SIGSEGV> +2s"
+      ]
+    }
+  ],
+  "all9_zip_digests_sizes_run_and_sha_verified": true
+}

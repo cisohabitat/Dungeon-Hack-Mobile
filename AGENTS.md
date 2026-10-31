@@ -939,8 +939,12 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
   resume on reconnect, visibility or a quiet poll. Both formats, including the
   prologue, belong to the background voice set. Mark all voice ready only after
   every required recording is cached. Keep previous recordings available until
-  then; delete only owned old caches on completion. Offline core fetches must
-  use the current cache, while voice ranges may use previous recordings.
+  then; delete only owned old caches on completion. Installed core fetches read the current version's cache before the network,
+  including the root shell, /index.html and root query aliases. A new worker
+  installs the next complete snapshot; never mix older cached core modules into
+  it. Optional resources keep network-first streaming, with fetch waitUntil
+  covering asynchronous cache writes. Denied CacheStorage falls back to the
+  network. Voice ranges may use previous recordings.
   `test/offline.js` covers worker lifecycle/recovery; `offline.spec.js` serves
   the real worker with recordings held back on an isolated test server, including
   offline play and recovery in both Chromium sizes and CI WebKit. Unheard-voice

@@ -59,7 +59,7 @@ function startOfflineServer(options = {}) {
 async function run(options) {
   const source = fs.readFileSync(path.join(__dirname, '..', 'sw.js'), 'utf8');
   const assets = vm.runInNewContext(source + '\nASSETS.slice()', { self: { addEventListener() {} } }, { timeout: 1000 });
-  const prepared = new Map(), voiceCounts = new Map(), held = new Set();
+  const prepared = new Map(), voiceCounts = new Map(), requestCounts = new Map(), held = new Set();
   const read = url => new Promise((resolve, reject) => {
     let status, headers;
     const response = {
@@ -87,6 +87,8 @@ async function run(options) {
   };
   const disconnect = () => { for (const entry of held) entry.res.destroy(); held.clear(); };
   const server = http.createServer((req, res) => {
+    const requested = req.url.split('?')[0];
+    requestCounts.set(requested, (requestCounts.get(requested) || 0) + 1);
     if (!connected) { rejected++; req.socket.destroy(); return; }
     if (options.failPath && req.url === options.failPath) { res.writeHead(503).end('Deliberate fixture failure'); return; }
     if (/^\/sound\/narration\/.*\.(?:ogg|m4a)$/.test(req.url)) {
@@ -103,7 +105,7 @@ async function run(options) {
   process.on('message', message => {
     try {
       let result;
-      if (message.method === 'stats') result = { held: held.size, rejected, voiceCounts: [...voiceCounts], assets: assets.length, prepared: prepared.size, prepareMs };
+      if (message.method === 'stats') result = { held: held.size, rejected, voiceCounts: [...voiceCounts], requestCounts: [...requestCounts], assets: assets.length, prepared: prepared.size, prepareMs };
       else if (message.method === 'connected') { connected = message.value === true; if (!connected) disconnect(); }
       else if (message.method === 'voices') { blocked = message.value === true; if (!blocked) release(); }
       else if (message.method === 'close') {
