@@ -681,6 +681,11 @@ Class-Shade routing and Orc recovery checks verify exact idle and blink images
 at known animation times. The [goblin companion fixture](docs/verification/2026-10-31-goblin-pose-readiness/README.md)
 also checks exact standing and blink pictures after its real rescue/lock interaction;
 a live-time standing-only predicate could reject a legitimate blink.
+The [wet-surface headroom review](docs/verification/2026-10-31-wet-headroom/README.md)
+retains the subsequent speed-gate failure and pixel-identical renderer candidate;
+all nine original scenes remain release requirements.
+Ground pixel comparisons now wait for the normal quiet-log layout and matching
+DOM/buffer geometry before recording their exact before/after samples.
 
 CI retains JSON attempt reports, native browser logs, failure traces and resource
 snapshots for seven days, including when a retry passes. Separate regular/offline

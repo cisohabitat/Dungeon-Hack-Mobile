@@ -1,0 +1,46 @@
+{
+  "baseline": "6fd81ea5443caea2729daeed428f290b392eb766",
+  "source_hashes": {
+    "js/renderer.js": "734fc0ce757605068cc6caa2f4ac329aa349be886bd084484d514c9f0da58be9",
+    "js/paintedworld.js": "80e06b6da5d8b6a57a111fcbe47e7060046b1fe06263d7655edd5d9874c8bba0"
+  },
+  "pixel_views": 2340,
+  "changed_views": 0,
+  "local_performance": "Final zero-light candidate missed wet26.8; failure retained, original nine scenes and bars unchanged. Fresh CI required.",
+  "focused": "24 passed after native quiet-log and geometry readiness correction,zero retries",
+  "native": "12 running action captures,v0.9.69/build84,all7 final source hashes match",
+  "full_chromium": {
+    "regular": 1015,
+    "regular_by_project": {
+      "phone": 650,
+      "small": 365
+    },
+    "serial_offline": 8,
+    "total_browser": 1023,
+    "failed": 0,
+    "flaky": 0,
+    "retries": 0,
+    "regular_sources": [
+      "full-two-workers.log (209 passed before environment termination)",
+      "resumed-events.jsonl (317)",
+      "resumed2-events.jsonl (134)",
+      "resumed3-events.jsonl (355)"
+    ],
+    "coverage": "Unique test IDs equal the full original inventory; no overlap or omission; interruptions resumed without modifying source",
+    "native_source_hashes": "all7 unchanged"
+  },
+  "required_checks": "Full local browser projects complete; exact-commit pre-push npm test and fresh CI remain publication requirements.",
+  "focused_initial": "23 passed,1 failed: quiet-log baseline resized242to282rows;original trace retained",
+  "pixel_comparison": "Final independent renderer/loader comparison:2340views,0changed",
+  "full_chromium_initial": "Four-worker local attempt interrupted after native background-art queue exceeded existing25s deadline; trace/log retained externally. Matching CI two-worker run in progress; no assertion/deadline change.",
+  "full_chromium_regular": {
+    "passed": 1015,
+    "phone": 650,
+    "small": 365,
+    "failed": 0,
+    "retries": 0,
+    "coverage": "209+317+134+355 unique test IDs equal original full inventory; interrupted transport runs resumed without source changes"
+  },
+  "typecheck": "passed on final source",
+  "serial_offline": "8 passed in3.0m,one worker,zero retries"
+}

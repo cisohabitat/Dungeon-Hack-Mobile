@@ -9,6 +9,14 @@ test('ground materials load on demand and stay inside native landing footprints 
  try{
   await startGame(page,{seed:'combat-clarity'});await page.evaluate(()=>{Game.level().monsters=[];});await faceOpenGround(page,3);await artReady(page);
   expect(requests).toHaveLength(0);
+  // The quiet log changes the canvas height on the live UI clock, even after
+  // Game.update is frozen below. Settle that normal transition before pixels.
+  await expect(page.locator('#log')).toHaveClass(/quiet/);
+  let geometry='',steady=0;
+  await expect.poll(async()=>{
+   const next=await page.evaluate(()=>{const v=document.querySelector('#view'),r=v.getBoundingClientRect();return JSON.stringify([r.x,r.y,r.width,r.height,v.width,v.height,Renderer.H]);});
+   steady=next===geometry?steady+1:0;geometry=next;return steady;
+  },{message:'Ground pixel baseline waits for settled view geometry'}).toBeGreaterThanOrEqual(2);
   await page.evaluate(async()=>{
    const {Dice,Odds}=await import('/js/rng.js');
    Game.update=()=>{};const rs=Game.renderState(10000),ctx=document.querySelector('#view').getContext('2d'),p=Game.player(),[dx,dy]=Dungeon.DIRS[p.dir];
@@ -27,7 +35,9 @@ test('ground materials load on demand and stay inside native landing footprints 
     window.__groundBoxes=[];window.__groundAlphas=[];const identity=window.__groundIdentity();render(rs.level,rs.cam,rs.sprites,fx,10000);window.__groundRules.push(identity===window.__groundIdentity());
     const pixels=ctx.getImageData(0,0,Renderer.W,Renderer.H).data;
     if(remember){window.__groundBefore[name+'|'+quiet]=pixels;return;}
-    const before=window.__groundBefore[name+'|'+quiet];let changed=0,outside=0;
+    const before=window.__groundBefore[name+'|'+quiet];
+    if(before.length!==pixels.length)throw Error(`Ground pixel view changed from ${before.length/4/Renderer.W} to ${pixels.length/4/Renderer.W} rows`);
+    let changed=0,outside=0;
     for(let i=0;i<pixels.length;i+=4)if(pixels[i]!==before[i]||pixels[i+1]!==before[i+1]||pixels[i+2]!==before[i+2]||pixels[i+3]!==before[i+3]){
      changed++;const x=(i/4)%Renderer.W+.5,y=Math.floor(i/4/Renderer.W)+.5;
      if(!window.__groundBoxes.some(([bx,by,w,h])=>((x-bx-w/2)/(w/2+1))**2+((y-by-h/2)/(h/2+1))**2<=1))outside++;

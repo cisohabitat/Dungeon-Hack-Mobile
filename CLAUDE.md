@@ -1749,3 +1749,25 @@ proof of buff-duration expiry, guard absorption or companion healing. The
 optional AK–AN texture audit is complete; no automatic AO atlas is commissioned.
 Future painting needs a demonstrated native gap. Engine/device and selected
 scene-composition work remain separate.
+
+
+### Wet-surface headroom
+The rendering candidate in `docs/verification/2026-10-31-wet-headroom/` follows
+the fixture-only CI wet29.6FPS failure. Keep all nine speed scenes and bars.
+Fog/horizon typed fills cover exactly the old pixel ranges. Four zero light
+corners skip interpolation only; lit cells retain the original arithmetic and
+live samples. A stain pass may skip repeated colour assignments, but its water
+glint must update the same local style. Preserve separate overlapping fills.
+Its incoming alpha is constant within the pass except for material draws that
+restore it; new operations changing alpha must preserve that invariant. No
+state cache crosses a pass, and no picture, opacity or source loader changes.
+The original/candidate pixel comparison and rejected readable-source experiment
+are distinct from native actions and fresh unchanged FPS clearance.
+
+The first ground-material pixel fixture awaits the native quiet-log state and
+three stable DOM/buffer geometry samples before recording pixels. That log
+uses the live UI clock and can resize the canvas even with Game.update frozen.
+Keep the explicit pixel-array size guard and all exact unchanged-field and
+containment assertions; never force view fitting or disable the quiet behavior
+to hide a baseline race. The original242-to282-row trace is retained in the
+wet-headroom review.

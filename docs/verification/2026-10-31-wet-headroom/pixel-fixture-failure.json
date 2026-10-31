@@ -1,0 +1,27 @@
+{
+  "test": "ground materials load on demand and stay inside native landing footprints without changing other fields",
+  "project": "small",
+  "assertion": "distantDetail changed pixels must be0",
+  "observed_changed_pixels": 90173,
+  "trace_sha256": "c160a0c561bcc6713ed461a9953f59990497a70c958589a7a7d223a84069dad7",
+  "trace_file": "pixel-fixture-failed-trace.zip",
+  "snapshots": [
+    {
+      "name": "after@call@49",
+      "time": 48608.371,
+      "canvas_height": 242,
+      "canvas_dom_height": 280.1875,
+      "log_class": "log quiet",
+      "action": "unsupported-field before pixels"
+    },
+    {
+      "name": "before@call@51",
+      "time": 48623.273,
+      "canvas_height": 282,
+      "canvas_dom_height": 280.1875,
+      "action": "supported-field before pixels"
+    }
+  ],
+  "cause": "Normal quiet-log layout changed canvas size between baseline and later field comparison; UI clock continues independently of frozen Game.update.",
+  "fix": "Await native quiet log and three matching DOM/buffer geometry samples before baseline; retain exact zero-pixel guards and original deadlines."
+}

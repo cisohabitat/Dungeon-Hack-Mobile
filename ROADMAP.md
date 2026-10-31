@@ -557,6 +557,11 @@ objects are now painted; dynamic effect/UI layers keep their existing rendering.
   poses and require exact standing/blink phases, retaining real interaction and
   door-opening checks. The [deterministic comparison](docs/verification/2026-10-31-goblin-pose-readiness/README.md)
   rejects missing/hound pictures; native Chromium/WebKit engine failures remain separate.
+- [x] Implement pixel-identical renderer headroom for the v0.9.69 candidate
+  after the fixture-only wet scene missed30FPS at29.6. The [candidate and retained failures](docs/verification/2026-10-31-wet-headroom/README.md)
+  preserve all scenes and pictures; the unchanged nine-scene CI gate controls publication.
+- [x] Settle the ground pixel fixture after the native quiet-log resize, then
+  require three matching geometry samples and keep every exact pixel assertion.
 - [ ] Diagnose the underlying Chromium native crash and WebKit offline-status
   timeout from retained failed-attempt evidence; this audit does not claim
   either intermittent failure is eliminated.

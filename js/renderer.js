@@ -143,7 +143,7 @@ const Renderer = (() => {
       const dist = rowDist[y];
       if (level >= 7 && dist > fog) {
         const o0 = y * W, oc0 = (H - 1 - y) * W;
-        for (let x = 0; x < W; x++) { fb32[o0 + x] = fogPx; fb32[oc0 + x] = fogPx; }
+        fb32.fill(fogPx, o0, o0 + W); fb32.fill(fogPx, oc0, oc0 + W);
         continue;
       }
       const floorSet = dist > 3 ? look.softFloors : floors, ceilSet = dist > 3 ? look.softCeils : ceils;
@@ -159,7 +159,7 @@ const Renderer = (() => {
       const ownCeilWarm = (own * 0.7 * (WARM_STEPS - 1) + 0.5) | 0;
       // (a square's floor, roof and walls are looked up once for each run of pixels across it)
       let lastI = -2, f = 0, c = 0, boost = 0, floorT = floorSet[0], ceilT = ceilSet[0], footMap = FOOT[0], roofShade = BUILT_ROOF_SHADE;
-      let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0;
+      let lightX = -2, lightY = -2, l00 = 0, l10 = 0, l01 = 0, l11 = 0, lightEmpty = true;
       for (let x = 0; x < W; x++) {
         const tx = ((fx * TX) | 0) & (TX - 1), ty = ((fy * TX) | 0) & (TX - 1);
         const i = fx >= 0 && fy >= 0 && fx < lw && fy < lh ? (fy | 0) * lw + (fx | 0) : -1;
@@ -179,9 +179,15 @@ const Renderer = (() => {
             l10 = lx + 1 < lw && ly >= 0 ? lm[a + 1] : 0;
             l01 = lx >= 0 && ly + 1 < lh ? lm[b] : 0;
             l11 = lx + 1 < lw && ly + 1 < lh ? lm[b + 1] : 0;
+            lightEmpty = !(l00 || l10 || l01 || l11);
           }
-          const ux = gx - lx, uy = gy - ly;
-          boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
+          // Four zero samples interpolate to zero at every texel in this cell.
+          // Lit cells retain the original arithmetic and live per-frame samples.
+          if (lightEmpty) boost = 0;
+          else {
+            const ux = gx - lx, uy = gy - ly;
+            boost = (l00 * (1 - ux) + l10 * ux) * (1 - uy) + (l01 * (1 - ux) + l11 * ux) * uy;
+          }
         }
         // (a shade brighter right at the hero's feet, where their own light falls)
         let lv = ownLevel, glow = own;
@@ -211,7 +217,7 @@ const Renderer = (() => {
     }
     floorKinds = seen;
     // horizon rows
-    for (let x = 0; x < W; x++) { fb32[half * W + x] = fogPx; fb32[(half - 1) * W + x] = fogPx; }
+    fb32.fill(fogPx, (half - 1) * W, (half + 1) * W);
     ctx.putImageData(fb, 0, 0);
   }
 
@@ -882,7 +888,8 @@ const Renderer = (() => {
     if (list.some(s => s.at > now)) list = list.filter(s => !(s.at > now));
     const invDet = 1 / (planeX * dirY - dirX * planeY);
     const lx = W / 2 / TAN_HALF;
-    let projectionVersion = 0, colourRGB;
+    let projectionVersion = 0, colourRGB, fillStyle;
+    const alpha = ctx.globalAlpha;
     const blob = (x, y, r, c, saved) => {
       if (saved.version !== projectionVersion) {
         saved.version = projectionVersion; saved.geometry = null;
@@ -916,7 +923,10 @@ const Renderer = (() => {
           if (saved.tint !== tint || saved.colour !== c) { saved.tint = tint; saved.colour = c; saved.style = dim(c, shade, 0.7); }
         }
       }
-      ctx.fillStyle = glow ? c : saved.style;
+      const style = glow ? c : saved.style;
+      // Consecutive splashes often share a shade. Keep every separate fill,
+      // but avoid sending an unchanged colour through the Canvas setter.
+      if (fillStyle !== style) { ctx.fillStyle = style; fillStyle = style; }
       ctx.fill(saved.path);
       return g;
     };
@@ -926,7 +936,7 @@ const Renderer = (() => {
       const t = calm ? 0 : now, a = (0.18 + 0.14 * Math.sin(t / 700 + seed)) * g.f;
       if (a < 0.04) return;
       ctx.globalCompositeOperation = 'lighter';
-      ctx.fillStyle = `rgba(150,190,220,${a.toFixed(3)})`;
+      ctx.fillStyle = fillStyle = `rgba(150,190,220,${a.toFixed(3)})`;
       const gx = g.cx + Math.sin(t / 1100 + seed * 1.7) * g.rx * 0.4, gw = Math.max(2, g.rx * 0.45);
       ctx.fillRect(Math.round(gx - gw / 2), Math.round(g.cy - g.ry * 0.3), Math.round(gw), Math.max(1, Math.round(g.ry * 0.22)));
       ctx.globalCompositeOperation = 'source-over';
@@ -955,10 +965,10 @@ const Renderer = (() => {
       if (decal && g && g.rx >= 3 && g.ry > 6) {
         const image = paintedGroundDecal(decal, g.f);
         if (image) {
-          const alpha = ctx.globalAlpha;
-          ctx.globalAlpha = (decal === 'oil' ? 1 : .5) * Math.min(1, (g.ry - 6) / 2);
+          const opacity = (decal === 'oil' ? 1 : .5) * Math.min(1, (g.ry - 6) / 2);
+          if (opacity !== alpha) ctx.globalAlpha = opacity;
           ctx.drawImage(image, g.cx - g.rx, g.cy - g.ry, g.rx * 2, g.ry * 2);
-          ctx.globalAlpha = alpha;
+          if (opacity !== alpha) ctx.globalAlpha = alpha;
         }
       }
       if (st.wet) glint(g, st.seed);
