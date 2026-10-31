@@ -1,0 +1,19 @@
+
+Running 6 tests using 1 worker
+
+(node:803330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803330) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [phone] › test/browser/release.spec.js:8:1 › the main page shows its release and commit at the bottom on phones and desktop (5.7s)
+  ✓  2 [phone] › test/browser/release.spec.js:31:1 › release details and the menu stay reachable with double text and the first-time card (2.2s)
+  ✓  3 [phone] › test/browser/release.spec.js:43:1 › the installed game keeps its release and commit offline (12.9s)
+(node:803686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:803686) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [small] › test/browser/release.spec.js:8:1 › the main page shows its release and commit at the bottom on phones and desktop (4.6s)
+  ✓  5 [small] › test/browser/release.spec.js:31:1 › release details and the menu stay reachable with double text and the first-time card (2.2s)
+  ✓  6 [small] › test/browser/release.spec.js:43:1 › the installed game keeps its release and commit offline (11.9s)
+
+  6 passed (41.6s)

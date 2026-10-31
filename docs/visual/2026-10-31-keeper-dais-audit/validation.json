@@ -1,0 +1,28 @@
+{
+  "baseline": "10247658291babf7520975a0edbf707552e05b86",
+  "decision": "Reject relocation; documentation/evidence only",
+  "nativeSessions": 12,
+  "rawFrames": 86,
+  "selectedOriginalFrames": 15,
+  "nativeScope": "Supplied poses, keys and testing HP; native updates and inputs; no routed source; not unassisted or physical-device evidence",
+  "rawGenerationSurvey": {
+    "finalFloors": 540,
+    "ordinaryRelocations": 96,
+    "nonfinalIdentical": 180,
+    "reproducedExactly": true,
+    "fullGameSetupOrBalanceClearance": false
+  },
+  "localReleaseFixtures": {
+    "passed": 17,
+    "failed": 0,
+    "retries": 0
+  },
+  "localReleaseBrowserCases": {
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0
+  },
+  "publication": "Requires exact-commit pre-push npm test and unchanged full CI; see commit workflow run",
+  "runtimeChanges": false
+}

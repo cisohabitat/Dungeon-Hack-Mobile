@@ -661,6 +661,25 @@ keeps the shrine staging, reduces equivalent rendering math and explicitly
 proves the origin cutoff before cached reloads. Full unchanged CI gates remain.
 
 
+The v0.9.74 recovery is published at main `10247658`: all11 CI jobs passed,
+including1,290 browser cases without failures/retries and the unchanged FPS gate.
+The deployed root and22 resources match that commit. The
+[keeper dais follow-up](docs/visual/2026-10-31-keeper-dais-audit/README.md)
+reviews the three keepers on this baseline at320/390/740px and320px Double/Calm.
+It does not accept relocation: obscuring the Heart behind its living keeper is
+not evidence that incidental guards should move. An isolated raw-generator
+survey also cannot clear destinations against later relic, scenery and hazard
+setup. The prototype stays rejected; no new balance estimates replace the
+published table. Any future placement experiment must run after completed fresh-
+floor setup, preserve loaded floors, and pass full matched balance validation.
+
+Next bounded AAA3 task: review generated regional treasure-room approaches,
+using the existing13-theme staging evidence to choose an actual readability
+problem before changing art. Prefer approved painted assets and presentation
+changes that preserve tiles, light positions, loot and encounters. Record normal,
+320px Double/Calm and landscape native views; a layout change still needs the
+full gameplay and balance gates. Keeper relocation is not a prerequisite.
+
 Selected landmark approaches and evidence-backed layout changes remain open.
 Any spawn, room, corridor, light-placement or rule-bearing prop change needs
 matched generation/gameplay checks and the required balance comparisons; do not

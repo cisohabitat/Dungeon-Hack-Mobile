@@ -1,0 +1,29 @@
+
+> deepdelve@0.9.74 test:release
+> node --test test/release.test.mjs
+
+✔ small additions and commit labels default to patches; milestones use explicit bumps (1.15738ms)
+✔ prepare and CI check cover feat: puzzles (265.744454ms)
+✔ prepare and CI check cover fix: layout (249.202771ms)
+✔ prepare and CI check cover feat!: save format (286.282967ms)
+✔ documentation and development tooling do not create releases (92.985888ms)
+✔ CI rejects unversioned player changes and missing comparison refs (173.531525ms)
+✔ unstaged edits and non-main publication are rejected (127.171863ms)
+✔ committed features are detected when preparing their next release (96.472255ms)
+✔ publication creates once, reruns safely, and fails closed on API errors (385.193115ms)
+✔ deployment stamps the exact checkout or Vercel commit, never its parent (125.729229ms)
+✔ version and build cannot move backwards or advance separately (82.377342ms)
+✔ an explicit minor milestone is preserved (142.401486ms)
+✔ an explicit major milestone is preserved (124.478821ms)
+✔ owner-requested 0.9.0 reset preserves history and resumes patch increments (288.699253ms)
+✔ a reset cannot mask gameplay changes or reuse an existing tag (136.131979ms)
+✔ CI rejects an unrecorded downgrade and changes bundled into an audited reset (207.167075ms)
+✔ an audited reset permits only the exact cache-number change (128.902185ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3003.712449

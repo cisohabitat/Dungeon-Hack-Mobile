@@ -1,0 +1,437 @@
+{
+  "baseline": "10247658291babf7520975a0edbf707552e05b86",
+  "scope": "12 controlled sessions, no module routing; all raw frames retained at /workspace/keeper75-clean-native",
+  "captureScriptSha256": "3168ed5a4a26ec3086339a46f2ad252c0e78e84a32cae2be2e3532a491aa1206",
+  "frames": {
+    "heartforged-320-0.png": {
+      "sha256": "6e5d7c439a4cc22f07794959b76b7abf50365df816cea8134351d77553f65923",
+      "bytes": 124586,
+      "committed": false
+    },
+    "heartforged-320-1.png": {
+      "sha256": "b15cea48bc281f88cbef6c2f2791a885aab0f19cd226dd24dcc3412fde769629",
+      "bytes": 127916,
+      "committed": false
+    },
+    "heartforged-320-2.png": {
+      "sha256": "194c6a85b250c9a4be74878ca1a34387b09052e986250ceb303609a8de5308b8",
+      "bytes": 129683,
+      "committed": false
+    },
+    "heartforged-320-3.png": {
+      "sha256": "b62649fdf40a59c42a5cb9299db95e667c025388f6328d3fb026aea1d029a465",
+      "bytes": 142521,
+      "committed": false
+    },
+    "heartforged-320-4.png": {
+      "sha256": "fbe6eb17cb42edacf75817bd9d709ad0794000decdc15f598a04e6426aba2065",
+      "bytes": 143341,
+      "committed": false
+    },
+    "heartforged-320-5.png": {
+      "sha256": "56988b200a10fc4717b8fc025b34cd1a26d4ce9ddecf43d41f23acb7d0f45cc1",
+      "bytes": 144944,
+      "committed": false
+    },
+    "heartforged-320-dais.png": {
+      "sha256": "cc991b5cd57ab0cecb1f0641e5b8c3c8c47bf679ef6117caffd92e4649384493",
+      "bytes": 172853,
+      "committed": true
+    },
+    "heartforged-320-double-calm-0.png": {
+      "sha256": "f698a21c37b58bb740567d4fb173f868f1a8fe5a0f10993e31017822be646e58",
+      "bytes": 102077,
+      "committed": false
+    },
+    "heartforged-320-double-calm-1.png": {
+      "sha256": "5637016748ea82bd0cb193969e6994b5f0b21a96d849b6bff22b418ba1202153",
+      "bytes": 103960,
+      "committed": false
+    },
+    "heartforged-320-double-calm-2.png": {
+      "sha256": "1993996b9293f488656c306377eb52af68af5615c9db13ac5715c55faa501219",
+      "bytes": 106724,
+      "committed": false
+    },
+    "heartforged-320-double-calm-3.png": {
+      "sha256": "d216c3d7c9f8493c692754e570c6408eaf8b3ffeb581b0c55ba985bf9be0ff7c",
+      "bytes": 110050,
+      "committed": false
+    },
+    "heartforged-320-double-calm-4.png": {
+      "sha256": "6a3b6e993bc5406684c4567f3a7171ce10bb52ddf85183493c062243dbf6a2df",
+      "bytes": 121050,
+      "committed": false
+    },
+    "heartforged-320-double-calm-5.png": {
+      "sha256": "3d07b8741e60bf1190e6bf9d890bf5654e74ad2c1874cd178673329908d93507",
+      "bytes": 120230,
+      "committed": false
+    },
+    "heartforged-320-double-calm-dais.png": {
+      "sha256": "3ff51c6c202a2361272297d5961d74d02ab846d3171325b5ae8ff60a3ec928a8",
+      "bytes": 111180,
+      "committed": true
+    },
+    "heartforged-390-0.png": {
+      "sha256": "a16c77c862b68d1177904fd83b53c3759744ca91eb6ed34754ab180f7b314a4a",
+      "bytes": 144972,
+      "committed": true
+    },
+    "heartforged-390-1.png": {
+      "sha256": "d4f56fd84bb26005dc01c5d22cc9ddf24971bb0fbdaf0bc58aedbbb1f7d4aef0",
+      "bytes": 153411,
+      "committed": false
+    },
+    "heartforged-390-2.png": {
+      "sha256": "6b17a596513c5bd7b353dc38a17ac51feb95ea8d7b86060932e9697ba49cb764",
+      "bytes": 153258,
+      "committed": false
+    },
+    "heartforged-390-3.png": {
+      "sha256": "f7e2bf6107113f1bebefacd9f192d9a6743ca79479a3c9e3d4b55cefe2c28297",
+      "bytes": 159737,
+      "committed": false
+    },
+    "heartforged-390-4.png": {
+      "sha256": "6f28d00a20b737e9fedb685838850fc8fbac3f3bd6fd2a88b2622b5a91358f23",
+      "bytes": 166960,
+      "committed": false
+    },
+    "heartforged-390-5.png": {
+      "sha256": "ade5328b4b95692f049cb15c350b7a18cfb2fb969e60c6930533ab3d19a866df",
+      "bytes": 175563,
+      "committed": false
+    },
+    "heartforged-390-dais.png": {
+      "sha256": "4c909e6ef53b02da7d909a32d3798e4b8ef3c5de1454845c97003ad8db056b36",
+      "bytes": 189291,
+      "committed": true
+    },
+    "heartforged-740-0.png": {
+      "sha256": "e18ecf02d959ddc2f14ed79bb14c8e936f5c421cdb539b0fd2076b43a1131525",
+      "bytes": 120135,
+      "committed": false
+    },
+    "heartforged-740-1.png": {
+      "sha256": "c3e14ba950ca3e4105438784361729e831c8cc6a6bd6ed9d458896ed50f05ea5",
+      "bytes": 125799,
+      "committed": false
+    },
+    "heartforged-740-2-intro.png": {
+      "sha256": "f0e19b3da657c608871011f73a0d537ffc1d7df7b41c69812f9cbc343bacb28d",
+      "bytes": 223810,
+      "committed": false
+    },
+    "heartforged-740-2.png": {
+      "sha256": "c61ecdbbd85d617cad976aaf10739b2ed04599df62a2951449e3b75adcac6a8e",
+      "bytes": 137525,
+      "committed": false
+    },
+    "heartforged-740-3.png": {
+      "sha256": "83293152687c0f201ac00c7969d81740f5589769fc9be0de98fbf3c8b7781e4b",
+      "bytes": 140698,
+      "committed": false
+    },
+    "heartforged-740-4.png": {
+      "sha256": "42e1eca87caae56665967867a8acd8a9d955a72f87b58f55b7f286e6ea44d6e7",
+      "bytes": 141480,
+      "committed": false
+    },
+    "heartforged-740-5.png": {
+      "sha256": "581999b8e2878824e89dda74b287ca2df2b4e4db409e8f2ad46b69736ae7fb11",
+      "bytes": 148459,
+      "committed": false
+    },
+    "heartforged-740-dais.png": {
+      "sha256": "906e9a9f9d563ee2c6b64cb9b385bb31458abaa99b0f9c859cfacd35d6d2d546",
+      "bytes": 138944,
+      "committed": true
+    },
+    "lich-320-0.png": {
+      "sha256": "3474f06cffcf266bb46c384d583861628fd175561f8512583ce3befa64737dcc",
+      "bytes": 91218,
+      "committed": false
+    },
+    "lich-320-1.png": {
+      "sha256": "c5d717d2c5384464153c01f4e990bc00c7c1e90de8d742d187df1c15c6b37f32",
+      "bytes": 127384,
+      "committed": false
+    },
+    "lich-320-2.png": {
+      "sha256": "0f1b383b9ca2cc32f0a0da91a1b7e5cf01c579cd99c11525fc1e409af9ba8a63",
+      "bytes": 126198,
+      "committed": false
+    },
+    "lich-320-3.png": {
+      "sha256": "c9d2feef948612db757bec9d7fb1079a0a181a5eb934c394f5d06be815f803fa",
+      "bytes": 139460,
+      "committed": false
+    },
+    "lich-320-4.png": {
+      "sha256": "b7b47a32cb2abfd9a7c505b018a4886dece5e5858bdd0440bc2395d07c0f4aa0",
+      "bytes": 152049,
+      "committed": false
+    },
+    "lich-320-5.png": {
+      "sha256": "17bfd09ec4a99c9119ec754ed4d51c7cee038110a032f63700a9ce259350de11",
+      "bytes": 154768,
+      "committed": false
+    },
+    "lich-320-dais.png": {
+      "sha256": "cadf3bd2f714a66ca2fd3392ffeab91b7fe9467bd7ff108be69513a123629ce6",
+      "bytes": 137039,
+      "committed": true
+    },
+    "lich-320-double-calm-0.png": {
+      "sha256": "d89a4c4a6aaea3a748e54f6c00b1c8550060b167ae4d4ed5da6d5f34838c6566",
+      "bytes": 84236,
+      "committed": false
+    },
+    "lich-320-double-calm-1.png": {
+      "sha256": "c7fd709812ae8cb2e4ea3bac3c6e7af6b776415933089c02031fe2a4e1a39583",
+      "bytes": 105961,
+      "committed": false
+    },
+    "lich-320-double-calm-2.png": {
+      "sha256": "ced913953355961a9a696b4fad5f6b9de6ae3b9e341f19ec2655ad12076724bc",
+      "bytes": 102761,
+      "committed": false
+    },
+    "lich-320-double-calm-3.png": {
+      "sha256": "f844989b708870c1a772bac4f6c40cf3ac3ca5c976779ef570e2ab09df0629b8",
+      "bytes": 108708,
+      "committed": false
+    },
+    "lich-320-double-calm-4.png": {
+      "sha256": "60e173c1fc2ad71685b41b159e55cfed05a59971bcf7ee5c1a32cb7e10bb4dd1",
+      "bytes": 38623,
+      "committed": false
+    },
+    "lich-320-double-calm-5.png": {
+      "sha256": "1eff778c0abcc438b531f17735ca308ea887f21865445bb86df712d76537d8ee",
+      "bytes": 105522,
+      "committed": false
+    },
+    "lich-320-double-calm-dais.png": {
+      "sha256": "73f589d96e563c5e029bc57248be8005f38f8f7edb8f08e1665f2617beb399c2",
+      "bytes": 107724,
+      "committed": true
+    },
+    "lich-390-0.png": {
+      "sha256": "089e4db67bd49fa8dc050a42a99e353cc9890b1b671c4994bfdda636f6a4b7cb",
+      "bytes": 103719,
+      "committed": true
+    },
+    "lich-390-1.png": {
+      "sha256": "89de74b5da81445c1079e13bc67a740c756a793752b9f52e2a6c12d589eb0181",
+      "bytes": 149555,
+      "committed": false
+    },
+    "lich-390-2.png": {
+      "sha256": "e384b573c4165de3f2a126af6a588c008f4c0ae1382d13c43a05514e0da10d74",
+      "bytes": 147902,
+      "committed": false
+    },
+    "lich-390-3.png": {
+      "sha256": "757e0daccf2e86515c85011d54e7023fdfb5aa8a7d40e8df5f6df725763570c5",
+      "bytes": 156148,
+      "committed": false
+    },
+    "lich-390-4.png": {
+      "sha256": "45ab8aadd6196d3337d4068df55f155cf58125f4f161b2be097881a52bc9832e",
+      "bytes": 179241,
+      "committed": false
+    },
+    "lich-390-5.png": {
+      "sha256": "218b85005c0120c8d22854a8f0e761e7cb9c339557b822998f631eb281d6adee",
+      "bytes": 158339,
+      "committed": false
+    },
+    "lich-390-dais.png": {
+      "sha256": "7d25c9c58cc53e9fc4b37cf67fdceed37eedb4405abd35793e271ebdfd15da49",
+      "bytes": 167637,
+      "committed": true
+    },
+    "lich-740-0.png": {
+      "sha256": "a7e4759550d7ba2fe72f8eabf76c874f365d89b44e423a66c6e97064dbe2d97d",
+      "bytes": 81915,
+      "committed": false
+    },
+    "lich-740-1.png": {
+      "sha256": "7f549f7a0462126cef67bfcb4e8d4bb0237caee606879ca47627c8a62527d6ea",
+      "bytes": 125081,
+      "committed": false
+    },
+    "lich-740-2.png": {
+      "sha256": "5b2ce0542557dfdcd40dd4b060541a4d0f40ff2739597d68b9747651bb47f609",
+      "bytes": 122853,
+      "committed": false
+    },
+    "lich-740-3.png": {
+      "sha256": "294df436dd9edc19ca1c3198f215fec091281cc284f64703d30578885eaad9d5",
+      "bytes": 138581,
+      "committed": false
+    },
+    "lich-740-4.png": {
+      "sha256": "bc7a41949309466d644f1551cdfbdd932d68f273ef65a044b41e08dd44982664",
+      "bytes": 139251,
+      "committed": false
+    },
+    "lich-740-5.png": {
+      "sha256": "8288d99f41bfd042f6713dc8bb5083ab5ed68a35d6ecaa48f9ccaff8e068de05",
+      "bytes": 150522,
+      "committed": false
+    },
+    "lich-740-dais.png": {
+      "sha256": "8ddd0da0efd590cc097ec94e5798b74c075b2b0d82ba1bff493380c5829481df",
+      "bytes": 127460,
+      "committed": true
+    },
+    "warlord-320-0.png": {
+      "sha256": "b0a42f6ffe0004b13cb46903737218856f58189512ae37c7d9cf43363cf5f876",
+      "bytes": 95124,
+      "committed": false
+    },
+    "warlord-320-1.png": {
+      "sha256": "f0fd5e487f86748ebc9d581841ca546106d2f5c7ef22e23fa1449fa368f6aca4",
+      "bytes": 125399,
+      "committed": false
+    },
+    "warlord-320-2.png": {
+      "sha256": "72e5a37f55e1cf3e7798d64f2099353699c91799eb60813b8173b308a35624f0",
+      "bytes": 124031,
+      "committed": false
+    },
+    "warlord-320-3.png": {
+      "sha256": "8289729afdbeae1621c4de6a0469a279f898a5b4caaa5b081a4bd916175639e8",
+      "bytes": 129363,
+      "committed": false
+    },
+    "warlord-320-4.png": {
+      "sha256": "9da4d570afb4f1af3371f9a7e399064404a12f710fec6fe06f2a818d4c8be343",
+      "bytes": 138419,
+      "committed": false
+    },
+    "warlord-320-5.png": {
+      "sha256": "c81e441ef4a409f41d16caa5150c43726200a9b170111c486acba62aace9cc07",
+      "bytes": 153859,
+      "committed": false
+    },
+    "warlord-320-dais.png": {
+      "sha256": "77bdd781dd75795707bbf44ffc9febf1278c00283bfc8df10e9e2e6509b1463b",
+      "bytes": 128536,
+      "committed": true
+    },
+    "warlord-320-double-calm-0.png": {
+      "sha256": "d89a4c4a6aaea3a748e54f6c00b1c8550060b167ae4d4ed5da6d5f34838c6566",
+      "bytes": 84236,
+      "committed": false
+    },
+    "warlord-320-double-calm-1.png": {
+      "sha256": "83723556579a0d7bb41d04670aff24caddef0f4f72cb61725d134857db809109",
+      "bytes": 105976,
+      "committed": false
+    },
+    "warlord-320-double-calm-2.png": {
+      "sha256": "c1ef88b15b3135a572a7bdbaf21befdffc3922a2970cec2a184e8270b18bb65b",
+      "bytes": 104920,
+      "committed": false
+    },
+    "warlord-320-double-calm-3.png": {
+      "sha256": "1bb0584028abcba6ec200aaa80edd1f8c55aafa6e41e6d4caf2fe85ab375c64c",
+      "bytes": 109334,
+      "committed": false
+    },
+    "warlord-320-double-calm-4-intro.png": {
+      "sha256": "71877d24eba6eefc74ea860ab62d57bfce0ace253a141ebd57dd84890d306c8e",
+      "bytes": 64750,
+      "committed": false
+    },
+    "warlord-320-double-calm-4.png": {
+      "sha256": "534e120d4dbd1950ac71788e9b031d8b12bf93a0649c6f1fbfa2a1eb186195ec",
+      "bytes": 120705,
+      "committed": false
+    },
+    "warlord-320-double-calm-5.png": {
+      "sha256": "65d30d2a95834ce0c30ca7fd4c8a1a2ce4520baa283a2f73ea2c243b2d7e9a9a",
+      "bytes": 110974,
+      "committed": false
+    },
+    "warlord-320-double-calm-dais.png": {
+      "sha256": "6b685fa64fc079eff9910c897c7d7c4a00c972421af8c0959dbdc21388d57861",
+      "bytes": 111562,
+      "committed": true
+    },
+    "warlord-390-0.png": {
+      "sha256": "8c35cfa4851db9f381a7a63b2cb588b535b2283f007b83e63b5a02cd8dbe4ef8",
+      "bytes": 100365,
+      "committed": true
+    },
+    "warlord-390-1.png": {
+      "sha256": "e21887f894c64b2e3aed0cea7b21a0daaf20143e26d0cff2578be355225560cd",
+      "bytes": 145805,
+      "committed": false
+    },
+    "warlord-390-2.png": {
+      "sha256": "6563dfed907ddc4817d177697886324876d6d43a2b91cdf145a385a493ee146e",
+      "bytes": 146638,
+      "committed": false
+    },
+    "warlord-390-3.png": {
+      "sha256": "4ec746f688386d309f084690cbe8059878e5d14f0d85130fcdeec9c766916f3c",
+      "bytes": 157148,
+      "committed": false
+    },
+    "warlord-390-4.png": {
+      "sha256": "ac3221ffe5603d6f1f3bcb97599f9e16fe680023f300020ec33d7e827f3c2153",
+      "bytes": 177748,
+      "committed": false
+    },
+    "warlord-390-5.png": {
+      "sha256": "1e4e66002188499057cfcae00257ace816c9027652cdc3c2c2e0ddf9fac64d89",
+      "bytes": 181054,
+      "committed": false
+    },
+    "warlord-390-dais.png": {
+      "sha256": "efca5e17b71dc7283f6e72b03c95c2fa4c62bfb2e59f8cd2f2d88997a8374d96",
+      "bytes": 160527,
+      "committed": true
+    },
+    "warlord-740-0.png": {
+      "sha256": "998276d8a6dfd46382b5d335c38689ff145aa411c5532f5ddf43ce75e5911002",
+      "bytes": 81145,
+      "committed": false
+    },
+    "warlord-740-1.png": {
+      "sha256": "6df8ab6ee536295c801edcdc79f9488e7b976d618376909e1acfdd516b60be26",
+      "bytes": 122031,
+      "committed": false
+    },
+    "warlord-740-2.png": {
+      "sha256": "4ba5838311bad91470cfd8a27fd239e23111ab5fb36a1d75e9a4bf516d352899",
+      "bytes": 123007,
+      "committed": false
+    },
+    "warlord-740-3.png": {
+      "sha256": "fac3458dc01c240e8ef51d0bc74fc33000a3610233a60b9f8594b39ce581f92c",
+      "bytes": 134629,
+      "committed": false
+    },
+    "warlord-740-4.png": {
+      "sha256": "23c8b8601dd9fa377a5cf788aee331154adca52e29a8705989e5e68e00acafe0",
+      "bytes": 137219,
+      "committed": false
+    },
+    "warlord-740-5.png": {
+      "sha256": "7fbe0710722a0c639c3276748ed192dc750bd74cb23a2a354400942b3a1016b6",
+      "bytes": 150093,
+      "committed": false
+    },
+    "warlord-740-dais.png": {
+      "sha256": "9b3f03b59ce58c1e641d199f2eaa84ad66a3a2e0f0177f2c9aa528009bce6a84",
+      "bytes": 127941,
+      "committed": true
+    }
+  }
+}
