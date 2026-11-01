@@ -1,0 +1,424 @@
+{
+  "baseline": "1c27ef7e7a13a6884fe5447749700fd72fe36b85",
+  "version": "0.9.76",
+  "build": 91,
+  "runtimeSourceHashes": {
+    "motion.js": "6c394448baad4a0cf74e6ad8db4292491645e3e8cdf5edbbf0d8c1a539fd4d2d",
+    "renderer.js": "3e99ac1575a62847454f6f9ada3212853bf2a58c57c6ede13c0ea198773ee4e6",
+    "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "data.js": "b40a2c670114ff76f2c11a6af8b0560eed8b019ad12b57e8cf1d28c847a5ec78",
+    "paintedcreatures.js": "010a933ba1cfc332612dfe5498c2362b3c79294e4455000d149cc2d7f76573b8",
+    "titlemenu.js": "f49f90bde0a1a3166a7f6cf11e535b1d2312f4f0d73e07eadfe023feafde9a7a",
+    "release.js": "cb795dccbca7d6350a5a1519fa16f815028c9f7d52ed38632d068182e8689751"
+  },
+  "sessions": [
+    {
+      "key": "bat",
+      "mode": "390",
+      "topSpan": 10,
+      "rawRoot": "/workspace/flight76-native-390",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        },
+        "bat-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        },
+        "bat-play.png": {
+          "sha256": "bbd4ae8e59c9fe0c3b4fbe25c4f1d6d8c42232f98e9f1fc8fdba5e3636e5701f",
+          "bytes": 141899
+        },
+        "bat-left.png": {
+          "sha256": "7ef20845b9d867fa6ae7b72949df202b3266fda09322027341885a7abba94698",
+          "bytes": 142468
+        },
+        "bat-group-left.png": {
+          "sha256": "4a607b15c3b11b10c9317bfd1d72d8d6b7c448f35344246f7e5076eb2ebb5ed9",
+          "bytes": 155890
+        },
+        "bat-group-right.png": {
+          "sha256": "66fc03c2eb697c890d93498c600a935e6d8abce6ce4b673ef59fc439d082f35f",
+          "bytes": 75719
+        },
+        "bat-right.png": {
+          "sha256": "e7f4879fa4353819fdbf41673084b7db24dc7f3a77adac476c51da396456c48b",
+          "bytes": 79703
+        },
+        "bat-group-play.png": {
+          "sha256": "6a6a7a20a331ebc327f737c768f2dda7a12abe2656d1b4cd05ead10942dd4986",
+          "bytes": 156561
+        }
+      }
+    },
+    {
+      "key": "moth",
+      "mode": "390",
+      "topSpan": 5,
+      "rawRoot": "/workspace/flight76-native-390",
+      "originalFrames": {
+        "moth-play.png": {
+          "sha256": "e93f0a87995cad1101af99d0a7875738d0ac8e06805718776a04d52e69319766",
+          "bytes": 149380
+        },
+        "moth-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        },
+        "moth-left.png": {
+          "sha256": "14e192e1ce223f2527ab8adcfc39e86f41cdf2fb80b4f0ca032b1ab58cd83b33",
+          "bytes": 145963
+        },
+        "moth-right.png": {
+          "sha256": "80a7feacc8f16bcc8a4740dde1379c268b4cae4bea2340626e1381f811e8d484",
+          "bytes": 76190
+        }
+      }
+    },
+    {
+      "key": "orla",
+      "mode": "390",
+      "topSpan": 12.242957283765037,
+      "rawRoot": "/workspace/flight76-native-390",
+      "originalFrames": {
+        "orla-right.png": {
+          "sha256": "6ba6b898847588788725d2a2eeff6a46e7e887b4b610d85168e2897f65c9b09a",
+          "bytes": 142875
+        },
+        "orla-left.png": {
+          "sha256": "94ec8fdf99525453f06d4ee0f1e207de4696938be42adfa7c00b7f31bae0dda7",
+          "bytes": 179645
+        },
+        "orla-play.png": {
+          "sha256": "337ce2277bd3cdfd7c0efd5b06499fb4b9868ad85e119d87338af5b5d28c9545",
+          "bytes": 173531
+        },
+        "orla-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        }
+      }
+    },
+    {
+      "key": "wraith",
+      "mode": "390",
+      "topSpan": 10,
+      "rawRoot": "/workspace/flight76-native-390",
+      "originalFrames": {
+        "wraith-left.png": {
+          "sha256": "52362257914c423e4dfda094e213c43d2ae06cf9dd284ac6f298247d55c66113",
+          "bytes": 154376
+        },
+        "wraith-play.png": {
+          "sha256": "f8a3941534d7d7f3e8e36f498cbfc7080f6d0f2c678b6d0600cf8fe17639e6cb",
+          "bytes": 152415
+        },
+        "wraith-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        },
+        "wraith-right.png": {
+          "sha256": "01398349ece17eb8eb4a2e9790b4df90fe9fbab206a3f72172277e3792ece331",
+          "bytes": 135399
+        }
+      }
+    },
+    {
+      "key": "bat-group",
+      "mode": "390",
+      "topSpan": 4.458885519591433,
+      "rawRoot": "/workspace/flight76-native-390",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "3a73f4899663450af201ff0f3469a95bebbb43438152acbfc746e6327ab18793",
+          "bytes": 67719
+        },
+        "bat-group-left.png": {
+          "sha256": "4a607b15c3b11b10c9317bfd1d72d8d6b7c448f35344246f7e5076eb2ebb5ed9",
+          "bytes": 155890
+        },
+        "bat-group-right.png": {
+          "sha256": "66fc03c2eb697c890d93498c600a935e6d8abce6ce4b673ef59fc439d082f35f",
+          "bytes": 75719
+        },
+        "bat-group-play.png": {
+          "sha256": "6a6a7a20a331ebc327f737c768f2dda7a12abe2656d1b4cd05ead10942dd4986",
+          "bytes": 156561
+        }
+      }
+    },
+    {
+      "key": "bat",
+      "mode": "calm320",
+      "topSpan": 0,
+      "rawRoot": "/workspace/flight76-native-calm320",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        },
+        "bat-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        },
+        "bat-play.png": {
+          "sha256": "f7e0f41f8fabb92c456739be394d7d4344cfdc317976b92a00278b7c2248733c",
+          "bytes": 101066
+        },
+        "bat-left.png": {
+          "sha256": "0d0efcc859892ebc395652b4e39e2764756ac6cf6c89b1962ed3b793649160a5",
+          "bytes": 106776
+        },
+        "bat-group-left.png": {
+          "sha256": "698fe2dd9e16481691f8700a2ad28a0fc8db002c5c6a97cc3bfec090dfe8ded2",
+          "bytes": 112661
+        },
+        "bat-group-right.png": {
+          "sha256": "8d620876840b6d110574a2a697fe4943cdba2a6fa5e8d776d5ccdbec7a5f4b36",
+          "bytes": 76443
+        },
+        "bat-right.png": {
+          "sha256": "445f0cb8d1b1c4b457bddcc23dd4150c22ba72a9e738e9cfb6e4551811e42945",
+          "bytes": 82281
+        },
+        "bat-group-play.png": {
+          "sha256": "6bfeb39e394e1e01ff939c27c7731328853c7c129525bd0b6969270688ec16b8",
+          "bytes": 106772
+        }
+      }
+    },
+    {
+      "key": "moth",
+      "mode": "calm320",
+      "topSpan": 0,
+      "rawRoot": "/workspace/flight76-native-calm320",
+      "originalFrames": {
+        "moth-play.png": {
+          "sha256": "bd59be52f73e690649ed4b37d5dba2d975d04f2e24295863ab4b68e272032912",
+          "bytes": 101883
+        },
+        "moth-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        },
+        "moth-left.png": {
+          "sha256": "210e342078261c286b5377f1642361539512d138e0e7dfb7f12861012b231a55",
+          "bytes": 107499
+        },
+        "moth-right.png": {
+          "sha256": "f1b9c37b7880e93f06c05d0db8bd1f218ab79a0027606889e8bfa4c1dc73231d",
+          "bytes": 81295
+        }
+      }
+    },
+    {
+      "key": "orla",
+      "mode": "calm320",
+      "topSpan": 0,
+      "rawRoot": "/workspace/flight76-native-calm320",
+      "originalFrames": {
+        "orla-right.png": {
+          "sha256": "11c61cf9910fccfb5f87fbdeb7052811149000d00927685eb193b50de5f78d1c",
+          "bytes": 111778
+        },
+        "orla-left.png": {
+          "sha256": "4400168c263f1b42c239563b753a08bb9ee5783d0a948b4415cdb95bbc20e357",
+          "bytes": 121708
+        },
+        "orla-play.png": {
+          "sha256": "60cceb9c8790f3c44d613f4d41982caed594650fea1d72e3abd63cc77b889e46",
+          "bytes": 116349
+        },
+        "orla-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        }
+      }
+    },
+    {
+      "key": "wraith",
+      "mode": "calm320",
+      "topSpan": 0,
+      "rawRoot": "/workspace/flight76-native-calm320",
+      "originalFrames": {
+        "wraith-left.png": {
+          "sha256": "c18575d33e89be222863f92ab238dc64fe698df8f2651255dd0e8bb77931e8dc",
+          "bytes": 109579
+        },
+        "wraith-play.png": {
+          "sha256": "d4f8fdbe62ad3fa36732a7e5314a11cad2ee90e716d88bf2ab618ee1930c184c",
+          "bytes": 104092
+        },
+        "wraith-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        },
+        "wraith-right.png": {
+          "sha256": "e2c918fd1de39b7781590c2e390c87be26ad46557bfe8f5abe3bed2c65fc54a8",
+          "bytes": 114583
+        }
+      }
+    },
+    {
+      "key": "bat-group",
+      "mode": "calm320",
+      "topSpan": 0,
+      "rawRoot": "/workspace/flight76-native-calm320",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "7bbb65e5bf35042dc404545fdb0a23b1fa228339e3541189b207e19b2fbbd80d",
+          "bytes": 51922
+        },
+        "bat-group-left.png": {
+          "sha256": "698fe2dd9e16481691f8700a2ad28a0fc8db002c5c6a97cc3bfec090dfe8ded2",
+          "bytes": 112661
+        },
+        "bat-group-right.png": {
+          "sha256": "8d620876840b6d110574a2a697fe4943cdba2a6fa5e8d776d5ccdbec7a5f4b36",
+          "bytes": 76443
+        },
+        "bat-group-play.png": {
+          "sha256": "6bfeb39e394e1e01ff939c27c7731328853c7c129525bd0b6969270688ec16b8",
+          "bytes": 106772
+        }
+      }
+    },
+    {
+      "key": "bat",
+      "mode": "740",
+      "topSpan": 10,
+      "rawRoot": "/workspace/flight76-native-740",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        },
+        "bat-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        },
+        "bat-play.png": {
+          "sha256": "045f509d3ff4a3de38bb241266da49012ff7329f38a0b144d541825f018cf6eb",
+          "bytes": 124856
+        },
+        "bat-left.png": {
+          "sha256": "85e80fbb9abd7437e107d8b0476d43be327d125bbfa628c2655b7e4a36a20430",
+          "bytes": 127075
+        },
+        "bat-group-left.png": {
+          "sha256": "feadf71b2320e7d3d6f6fba74d3b2338500ee55fd4b6a7f303f7f9ae6b3688db",
+          "bytes": 136516
+        },
+        "bat-group-right.png": {
+          "sha256": "6993d7da5c650cb9252378da1c04e0a1bd48c3530077f2a5ad8942e93231f55a",
+          "bytes": 71912
+        },
+        "bat-right.png": {
+          "sha256": "c48572c4a99bba526f44882d5be951756bcf5d7fba5e04d476b7fa23bd71474f",
+          "bytes": 76376
+        },
+        "bat-group-play.png": {
+          "sha256": "95dfaf620ff616f0aab791aea3c48ff490aef0b8f5828058262232708869af80",
+          "bytes": 135489
+        }
+      }
+    },
+    {
+      "key": "moth",
+      "mode": "740",
+      "topSpan": 5,
+      "rawRoot": "/workspace/flight76-native-740",
+      "originalFrames": {
+        "moth-play.png": {
+          "sha256": "e168ebe1e9bf264b831a2de7c413a861f76da33fe45885f5e116b8fac77209e4",
+          "bytes": 127164
+        },
+        "moth-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        },
+        "moth-left.png": {
+          "sha256": "70fe6a1506713f9cd96375c065e9637150dd27611a2989f24a16bec85da4b316",
+          "bytes": 129393
+        },
+        "moth-right.png": {
+          "sha256": "ff64b5eca5ad6193f5b0e4a8ae4f7bddd944a29d8628532e647326189a46baa5",
+          "bytes": 75508
+        }
+      }
+    },
+    {
+      "key": "orla",
+      "mode": "740",
+      "topSpan": 4.818438895216708,
+      "rawRoot": "/workspace/flight76-native-740",
+      "originalFrames": {
+        "orla-right.png": {
+          "sha256": "379568197f89fb000c7abbb6ea811af2161b418be1036e3484efa787b94e58cf",
+          "bytes": 109697
+        },
+        "orla-left.png": {
+          "sha256": "f152bc13daca0e68661a59357cce5ce5b5efce1e53c832db04f1d513c8b31a33",
+          "bytes": 152496
+        },
+        "orla-play.png": {
+          "sha256": "75da4243bbee365af29cb5aab02888f2ec502ff59dafea9e94605d30319e25e8",
+          "bytes": 151479
+        },
+        "orla-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        }
+      }
+    },
+    {
+      "key": "wraith",
+      "mode": "740",
+      "topSpan": 10,
+      "rawRoot": "/workspace/flight76-native-740",
+      "originalFrames": {
+        "wraith-left.png": {
+          "sha256": "f98558ba30e9ac7cc73258f57fe3f366dc460be7b1add77b480dd28a42c07da4",
+          "bytes": 141742
+        },
+        "wraith-play.png": {
+          "sha256": "a0e6ac7f378284f395b042a8651bcc58f33b7487996795d38e5cb0fbc96904fa",
+          "bytes": 139567
+        },
+        "wraith-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        },
+        "wraith-right.png": {
+          "sha256": "c3cd8813ab0613c2daed732662784d8955ebf45959115b26aded5c487826d907",
+          "bytes": 115601
+        }
+      }
+    },
+    {
+      "key": "bat-group",
+      "mode": "740",
+      "topSpan": 4.406104049953193,
+      "rawRoot": "/workspace/flight76-native-740",
+      "originalFrames": {
+        "bat-group-paused.png": {
+          "sha256": "b683abc21d90ebde4b338b024c9a3d3cf8cdf637556d99362d78831d275103cc",
+          "bytes": 38737
+        },
+        "bat-group-left.png": {
+          "sha256": "feadf71b2320e7d3d6f6fba74d3b2338500ee55fd4b6a7f303f7f9ae6b3688db",
+          "bytes": 136516
+        },
+        "bat-group-right.png": {
+          "sha256": "6993d7da5c650cb9252378da1c04e0a1bd48c3530077f2a5ad8942e93231f55a",
+          "bytes": 71912
+        },
+        "bat-group-play.png": {
+          "sha256": "95dfaf620ff616f0aab791aea3c48ff490aef0b8f5828058262232708869af80",
+          "bytes": 135489
+        }
+      }
+    }
+  ]
+}

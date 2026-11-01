@@ -1,0 +1,60 @@
+{
+  "floors": 22,
+  "found": {
+    "bat": {
+      "seed": "flight-native-0",
+      "depth": 1,
+      "levels": 12,
+      "id": "bat",
+      "uid": 1004,
+      "x": 12,
+      "y": 26,
+      "n": 1,
+      "theme": 0
+    },
+    "moth": {
+      "seed": "flight-native-0",
+      "depth": 1,
+      "levels": 12,
+      "id": "moth",
+      "uid": 1007,
+      "x": 16,
+      "y": 3,
+      "n": 1,
+      "theme": 0
+    },
+    "orla": {
+      "seed": "flight-native-0",
+      "depth": 6,
+      "levels": 12,
+      "id": "orla",
+      "uid": 6018,
+      "x": 31,
+      "y": 16,
+      "n": 1,
+      "theme": 6
+    },
+    "wraith": {
+      "seed": "flight-native-0",
+      "depth": 7,
+      "levels": 12,
+      "id": "wraith",
+      "uid": 7012,
+      "x": 20,
+      "y": 10,
+      "n": 1,
+      "theme": 11
+    },
+    "group": {
+      "seed": "flight-native-1",
+      "depth": 2,
+      "levels": 12,
+      "id": "bat",
+      "uid": 2002,
+      "x": 17,
+      "y": 22,
+      "n": 2,
+      "theme": 1
+    }
+  }
+}

@@ -9,9 +9,10 @@ Open it on your phone and choose "Add to Home Screen" to install it as an app. T
 
 ## Features
 
-- **Steady treasure in Calm view.** The Heart and named relics hover without
-  bobbing, including above painted plinths and shrine altars. Normal view keeps
-  their familiar motion.
+- **Steadier hovering in Calm view.** Floating treasure and flying foes lose
+  their idle vertical bob. Creatures retain their movement arcs, lunges and
+  attack warnings; treasure keeps its height above plinths and altars. Normal
+  view retains its familiar animation.
 
 - **More weight in combat.** All 53 enemy identities settle back into guard
   after striking. Quiet bone, armour, claw, breath and magical cues sit beneath

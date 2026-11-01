@@ -1,0 +1,45 @@
+{
+  "version": "0.9.76",
+  "build": 91,
+  "runtimeSourceHashes": {
+    "motion.js": "6c394448baad4a0cf74e6ad8db4292491645e3e8cdf5edbbf0d8c1a539fd4d2d",
+    "renderer.js": "3e99ac1575a62847454f6f9ada3212853bf2a58c57c6ede13c0ea198773ee4e6",
+    "game.js": "63a993b1413e8c2539fa742c516678c0f7a3582897d3caeb9a1da20b9d59fd2e",
+    "data.js": "b40a2c670114ff76f2c11a6af8b0560eed8b019ad12b57e8cf1d28c847a5ec78",
+    "paintedcreatures.js": "010a933ba1cfc332612dfe5498c2362b3c79294e4455000d149cc2d7f76573b8",
+    "titlemenu.js": "f49f90bde0a1a3166a7f6cf11e535b1d2312f4f0d73e07eadfe023feafde9a7a",
+    "release.js": "cb795dccbca7d6350a5a1519fa16f815028c9f7d52ed38632d068182e8689751"
+  },
+  "nativeSessions": 15,
+  "historicalMotionReferenceSessions": 2,
+  "scope": "Cosmetic idle-flight bob correction; authored altitude and movement lift retained; no balance changes",
+  "focusedCases": 2,
+  "focusedFailures": 0,
+  "focusedRetries": 0,
+  "typecheck": "passed",
+  "fullBrowser": {
+    "browser_cases": 1047,
+    "by_project": {
+      "phone": 666,
+      "small": 381
+    },
+    "regular": 1037,
+    "serial_offline": 10,
+    "failures": 0,
+    "retries": 0,
+    "skipped": 0,
+    "uniqueCaseIds": 1047,
+    "runtime_hashes_match_prepared_capture_manifest": true
+  },
+  "localPerformance": {
+    "passed": false,
+    "wetFps": 28.3,
+    "decalsFps": 32.1,
+    "startupMs": 2045,
+    "thresholdsUnchanged": true,
+    "unchangedRerun": false
+  },
+  "prePush": "Mandatory exact-commit npm test enforced by .githooks/pre-push",
+  "CI": "Publication requires every original workflow gate and the publisher job",
+  "testSourceSha256": "e8f720edcf1b76da1aa40d11744cc05fcd7d451cac12c7a934bf09b5d1da33a4"
+}

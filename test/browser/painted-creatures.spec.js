@@ -397,3 +397,39 @@ test('painted creature survives an installed offline native reload @mobile',asyn
     await server.close();
   }
 });
+
+test('Calm hovering removes idle flight bob while retaining steps and warnings @mobile',async({page},testInfo)=>{
+ const errors=watchForErrors(page);await page.addInitScript(()=>{for(const[k,v]of Object.entries({sound:'off',samples:'off',prelude:'off'}))localStorage.setItem('deepdelve.'+k,v);});await startGame(page,{seed:'calm-flight'});
+ await page.evaluate(()=>{Game.update=()=>{};Game.recordRuns(false);Game.level().monsters=[];});
+ await artReady(page);
+ const proof=await page.evaluate(async()=>{
+  const {paintedCreature}=await import('/js/paintedcreatures.js'),{Dice,Odds}=await import('/js/rng.js'),{Renderer:r}=await import('/js/renderer.js?flight-projection');
+  const canvas=document.createElement('canvas');r.init(canvas,304);const ctx=canvas.getContext('2d'),draw=ctx.drawImage,L=Game.level(),p=Game.player(),x=p.x+4,y=p.y;
+  L.items={};L.npcs=[];L.dressing=[];L.fields={};L.remains=[];
+  const cam={x:p.x+.5,y:p.y+.5,angle:0},clear={...L,tiles:L.tiles.map(()=>Dungeon.T.FLOOR),explored:L.explored.slice()},times=[15000,15393,15785,16178,16570],rows=[];
+  let images=new Set(),tops=[];
+  ctx.drawImage=function(img,...args){if(images.has(img))tops.push(args[5]);return draw.call(this,img,...args);};
+  const monster=(id,n=1)=>({uid:731,id,x,y,rx:x,ry:y,fromX:x,fromY:y,hp:100,maxHp:100,awake:true,nextAct:1e12,moveT0:0,moveT1:0,flashAt:0,flashUntil:0,...(n>1?{pack:Array.from({length:n-1},()=>({hp:100,maxHp:100}))}:{}),...(id==='shade'?{shade:{cls:'fighter',name:'Flight fixture',level:1,run:'fixture',depth:1}}:{})});
+  function project(now,calm){
+   const rs=Game.renderState(now),actors=rs.sprites.filter(s=>!s.onFloor);images=new Set();tops=[];
+   for(const s of actors)for(const art of [s.img,paintedCreature(s.img,s.paintedKind)])for(const image of art.levels)images.add(image);
+   r.setCalm(calm);r.render({...clear,explored:clear.explored.slice()},cam,actors,{...rs.fx,arriveAt:-1e9,view:{...rs.fx.view,weapon:null,shield:null,offhand:null,lantern:false}},now);
+   if(!tops.length)throw Error('Flight fixture was not drawn');return{top:Math.min(...tops),intent:r.intent};
+  }
+  for(const id of [...Object.keys(MONSTERS).filter(k=>MONSTERS[k].fly),'rustmaw'])for(const n of (Dungeon.PACK_KINDS.includes(id)?[1,3]:[1])){
+   L.monsters=[monster(id,n)];Game.renderState(times[0]);const before=JSON.stringify(Game.state()),dice=[Dice.s,Odds.s];
+   for(const height of [160,304,464])for(const calm of [false,true]){r.setHeight(height);const tops=times.map(now=>project(now,calm).top);rows.push({id,n,height,calm,tops,span:Math.max(...tops)-Math.min(...tops)});}
+   if(before!==JSON.stringify(Game.state())||dice[0]!==Dice.s||dice[1]!==Odds.s)throw Error('Idle projection changed state or dice');
+  }
+  // A sideways step keeps depth constant: its vertical arc must still lift
+  // the body in Calm, rather than being mistaken for idle oscillation.
+  L.monsters=[monster('wraith')];const m=L.monsters[0];m.fromY=y-1;m.moveT0=20000;m.moveT1=20400;
+  r.setHeight(304);const stepTops=[20000,20100,20200,20300,20400].map(now=>project(now,true).top),stepSpan=Math.max(...stepTops)-Math.min(...stepTops);
+  m.moveT0=0;m.moveT1=0;m.windup={kind:'move',move:'chill',at:Game.state().t-100,until:Game.state().t+100};
+  const warning=[false,true].map(calm=>{const rs=Game.renderState(22000),sprite=rs.sprites.find(s=>s.maxHp!=null),imagesBefore=images;images=new Set();for(const art of [sprite.img.windup||sprite.img,paintedCreature(sprite.img.windup||sprite.img,sprite.paintedKind)])for(const image of art.levels)images.add(image);tops=[];r.setCalm(calm);r.render({...clear,explored:clear.explored.slice()},cam,rs.sprites,{...rs.fx,arriveAt:-1e9,view:{...rs.fx.view,weapon:null,shield:null,offhand:null,lantern:false}},22000);const intent=r.intent;images=imagesBefore;return{intent,tell:sprite.tell};});
+  ctx.drawImage=draw;return{rows,stepSpan,warning,scope:'Supplied clear-floor projection fixture; real motion factory, renderer and art; copied exploration arrays. Native running-play captures are separate.'};
+ });
+ await testInfo.attach('flight-projection',{body:JSON.stringify(proof,null,2),contentType:'application/json'});
+ for(const row of proof.rows){if(row.calm||row.id==='rustmaw')expect(row.span,JSON.stringify(row)).toBeLessThan(1e-9);else expect(row.span,JSON.stringify(row)).toBeGreaterThan(1);}
+ expect(proof.stepSpan).toBeGreaterThan(1);expect(proof.warning[0].intent).toContain('Wraith');expect(proof.warning[1]).toEqual(proof.warning[0]);expect(proof.warning[0].tell).toBeGreaterThan(0);expect(errors).toEqual([]);
+});

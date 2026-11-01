@@ -700,6 +700,16 @@ included. See the
 stays inside its reserved header. This slice does not complete the listening,
 reference-encounter animation/audio, physical-device or independent regrade work.
 
+The Calm compatibility follow-up addresses idle vertical bobbing in flying
+creatures, including bat groups. Normal view retains its existing sine motion;
+Calm keeps each creature's flight altitude and actual movement arc. Lunges,
+reactions, wing poses, shade flicker and learned attack warnings retain their
+existing behavior. This is a bounded AAA4 presentation correction, with no AI,
+stats, targeting, generation or balance change. See the
+[flight review](docs/visual/2026-11-01-calm-flight/README.md) for supplied projection
+fixtures, native pause/resume inspections and unchanged publication gates. It
+does not complete broader staging, physical-device review or an AAA regrade.
+
 ### Delivery rules and open dependencies
 
 - Publish after each bounded, verified phase; retain before/after evidence and
