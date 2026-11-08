@@ -712,6 +712,12 @@ does not complete broader staging, physical-device review or an AAA regrade.
 
 ### Delivery rules and open dependencies
 
+- Before further staging, the owner's requested renderer refactor extracts
+  held-item drawing into `heldrenderer.js`, preserving the existing formulas,
+  per-renderer state, live resize/Calm inputs and shared scroll/drink placement.
+  See the [refactor record](docs/verification/2026-11-08-held-renderer/README.md)
+  for baseline pixel comparisons and required validation. This does not add
+  artwork, change game rules or clear deferred browser-engine investigation.
 - Publish after each bounded, verified phase; retain before/after evidence and
   update the phase status here. A completed slice does not complete every item
   in the larger first-five-minute or AAA-quality review.

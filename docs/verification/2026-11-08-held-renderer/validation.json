@@ -1,0 +1,57 @@
+{
+  "version": "0.9.77",
+  "build": 92,
+  "baseline": "3e822369e3923c2a0254f69eaab6245a956aeb46",
+  "pixelComparisons": 1698,
+  "pixelDifferences": 0,
+  "typecheck": "passed",
+  "focusedLifecycleCases": 2,
+  "runtimeSourceFrozen": true,
+  "sourceHashes": {
+    "js/renderer.js": "7a4a35f761d35056ce9e520062a902fa5d889f13aac4f52c6d62437088746723",
+    "js/heldrenderer.js": "e91653c704cbdb1ca79f2625ae06914e29862dd93c55d9a36667511a3edc6bc1",
+    "js/release.js": "7925032369befec2676963b8f9ba1699cfef279a773cc16c6ff6f8962552e645",
+    "sw.js": "6c46f3358e64afbba4d93b0c275d11261cb829ec1e32a55b37d821286d91f711",
+    "test/browser/held-equipment.spec.js": "df61e51a5924255421d1ea4559623e183590d5235a6e0e309889d745584cc92a"
+  },
+  "fullBrowser": {
+    "cases": 1049,
+    "byProject": {
+      "phone": 667,
+      "small": 382
+    },
+    "regular": 1039,
+    "serialOffline": 10,
+    "reportedTestFailures": 0,
+    "automaticRetries": 0,
+    "skips": 0,
+    "uniqueCompletedIds": 1049,
+    "originalRunner": "Terminated during environment reconnect after 529 passes; not a successful runner completion",
+    "resumedUncompletedCases": 510,
+    "completedIdOverlap": 0,
+    "originalInventoryFullyCovered": true,
+    "partialJSON": "Not produced; per-case events and raw logs retained"
+  },
+  "performance": {
+    "passed": true,
+    "scenes": 9,
+    "wetFps": 30.9,
+    "startupMs": 2106,
+    "unchangedThresholds": true,
+    "attempts": 1
+  },
+  "prePush": "Mandatory exact-commit npm test",
+  "CI": "All original gates and publisher required",
+  "localControlProbe": {
+    "passed": true,
+    "moduleHTTP": 200,
+    "nativeTurnsAttack": true,
+    "resize": [
+      410,
+      174
+    ],
+    "calmToggle": true,
+    "errors": 0,
+    "scope": "Shared startGame helper resets starting grace; real controls, no renderer/clock/art replacement"
+  }
+}

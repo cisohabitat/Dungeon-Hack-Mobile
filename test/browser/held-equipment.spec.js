@@ -2,6 +2,47 @@
 const {test,expect}=require('@playwright/test');
 const {startGame,watchForErrors}=require('./helpers');
 
+test('held rendering follows canvas changes and keeps instances independent @mobile',async({page},testInfo)=>{
+ const errors=watchForErrors(page);await startGame(page,{seed:'held-renderer-lifetime'});
+ const proof=await page.evaluate(async()=>{
+  const {makeHeldRenderer}=await import('/js/heldrenderer.js'),{makeSpellFx}=await import('/js/spellfx.js');
+  const ease=u=>u<0?0:u>1?1:u*u*(3-2*u);
+  function instance(height){
+   let spells,hands,reads=0,uses=0;
+   const canvas=document.createElement('canvas');canvas.width=320;canvas.height=height;
+   const state={height,ctx:canvas.getContext('2d'),calm:true};
+   const K={W:320,ease,ARRIVE_MS:700,get H(){return state.height;},get ctx(){return state.ctx;},get calm(){return state.calm;},
+    get READ_MS(){return spells.READ_MS;},get USE_MS(){return spells.USE_MS;},get put(){return hands.put;},
+    drawLantern(){},get drawReading(){return(...args)=>{reads++;return spells.drawReading(...args);};},
+    get drawUse(){return(...args)=>{uses++;return spells.drawUse(...args);};}};
+   // Spell helpers are deliberately wired after the held factory, as in Renderer.
+   hands=makeHeldRenderer(K);spells=makeSpellFx(K);
+   return{state,hands,counts:()=>({reads,uses})};
+  }
+  const a=instance(160),b=instance(464),rs=Game.renderState(10000);
+  const fx={...rs.fx,swingAt:-1e9,offAt:-1e9,castAt:-1e9,readAt:-1e9,useAt:-1e9,throwAt:-1e9,bashAt:-1e9,arriveAt:-1e9,damageUntil:0,
+   view:{weapon:'longsword',shield:'shield',cls:'fighter',walk:0,steps:0}};
+  const boxes=x=>x.hands.handBoxes.map(b=>b.slice());
+  a.hands.drawView(fx,10000);b.hands.drawView(fx,10000);
+  const short=boxes(a),tall=boxes(b),oldCtx=a.state.ctx;
+  const replacement=document.createElement('canvas');replacement.width=320;replacement.height=464;
+  a.state.height=464;a.state.ctx=replacement.getContext('2d');oldCtx.clearRect(0,0,320,160);
+  a.hands.drawView(fx,10000);const resized=boxes(a),otherUnchanged=JSON.stringify(boxes(b))===JSON.stringify(tall);
+  const newPixels=a.state.ctx.getImageData(0,0,320,464).data.some((v,i)=>i%4===3&&v>0),oldPixels=oldCtx.getImageData(0,0,320,160).data.some(v=>v>0);
+  const unarmed={...fx,view:{...fx.view,weapon:null,shield:null,walk:.5}};
+  a.state.calm=false;a.hands.drawView(unarmed,10200);const animated=boxes(a);
+  a.state.calm=true;a.hands.drawView(unarmed,10200);const calm=boxes(a);
+  a.hands.drawView(fx,10200);const restored=boxes(a);
+  a.hands.drawView({...fx,readAt:10000},10250);a.hands.drawView({...fx,useAt:10000,useKind:'drink',useSprite:'potion_red'},10250);
+  a.hands.drawView({...fx,view:null},10300);
+  return{short,tall,resized,otherUnchanged,newPixels,oldPixels,animated,calm,restored,counts:a.counts(),otherCounts:b.counts(),empty:boxes(a).length};
+ });
+ await testInfo.attach('held-renderer-lifetime',{body:JSON.stringify(proof,null,2),contentType:'application/json'});
+ expect(proof.short).not.toEqual(proof.tall);expect(proof.resized).toEqual(proof.tall);expect(proof.otherUnchanged).toBe(true);
+ expect(proof.newPixels).toBe(true);expect(proof.oldPixels).toBe(false);expect(proof.animated).not.toEqual(proof.calm);expect(proof.restored).toEqual(proof.resized);
+ expect(proof.counts).toEqual({reads:1,uses:1});expect(proof.otherCounts).toEqual({reads:0,uses:0});expect(proof.empty).toBe(0);expect(errors).toEqual([]);
+});
+
 for(const height of [160,360,464]) test(`held equipment keeps its object inside the ${height}-pixel view @mobile`,async({page})=>{
  const errors=watchForErrors(page);await startGame(page,{seed:'held-equipment-fit',cls:'Fighter'});
  const result=await page.evaluate(async height=>{

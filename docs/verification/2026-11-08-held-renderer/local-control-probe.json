@@ -1,0 +1,88 @@
+{
+  "commit": "3e822369e3923c2a0254f69eaab6245a956aeb46",
+  "url": "http://127.0.0.1:36457/",
+  "start": {
+    "dir": 1,
+    "time": 350.10000000000014,
+    "version": "0.9.77 (3e82236)",
+    "height": 410,
+    "hands": [
+      [
+        -115,
+        136,
+        382,
+        382
+      ],
+      [
+        12,
+        101,
+        512,
+        512
+      ]
+    ]
+  },
+  "turned": 2,
+  "normal": {
+    "height": 410,
+    "hands": [
+      [
+        -115,
+        136,
+        382,
+        382
+      ],
+      [
+        12,
+        101,
+        512,
+        512
+      ]
+    ],
+    "time": 1550.1000000000001
+  },
+  "wide": {
+    "height": 174,
+    "hands": [
+      [
+        -76,
+        -11,
+        256,
+        256
+      ],
+      [
+        116,
+        5,
+        256,
+        256
+      ]
+    ]
+  },
+  "calm": {
+    "height": 174,
+    "hands": [
+      [
+        -76,
+        -11,
+        256,
+        256
+      ],
+      [
+        147,
+        18,
+        256,
+        256
+      ]
+    ],
+    "calm": true,
+    "time": 1783.3999999999999,
+    "status": "playing"
+  },
+  "errors": [],
+  "moduleRequests": [
+    {
+      "status": 200,
+      "url": "http://127.0.0.1:36457/js/heldrenderer.js"
+    }
+  ],
+  "scope": "Normal controls and viewport/Menu changes; shared startGame helper resets starting grace. No rendering, clocks or artwork replaced. Not a physical-device or complete-run review."
+}

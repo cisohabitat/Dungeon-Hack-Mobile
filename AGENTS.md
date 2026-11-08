@@ -98,6 +98,14 @@ modules, no compilation, no framework. Vercel stamps main's commit into the page
 - `js/renderer.js`: the 3D view; the spells', scrolls', drinks' and traps' effects
   over it are in `js/spellfx.js`, and what lies over the whole view (the hero's state at the rim,
   a boss's bar, arriving, a level gained, blood, the Heart lifted) in `js/overlay.js`.
+  `js/heldrenderer.js` owns held-item drawing, its hand boxes and lantern settling
+  memory, created once per renderer with `makeHeldRenderer(K)`. Read canvas,
+  height and Calm live; only width and easing are fixed at construction. Spell
+  helpers and durations are wired later, so never read them eagerly. Keep the
+  renderer's shared `put` callback for scroll/drink effects and preserve drawing
+  order. `heldview.js` retains fitting and melee paths; the ordinary lantern's
+  painting stays in the world renderer. `held-equipment.spec.js` covers late
+  wiring, canvas replacement, resize, Calm and independent instance state.
 - `js/creatures.js`: the creatures drawn from parts, their poses, and the one list
   of them all; the later creatures are in `js/folk.js`, the parts and shared kits
   in `js/parts.js`, the painter in `js/painter.js`, the encounters' props in

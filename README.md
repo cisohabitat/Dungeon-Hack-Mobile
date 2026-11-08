@@ -1247,6 +1247,8 @@ js/props.js       the encounters' props
 js/champions.js   named champions, a shade's gear, the heroes' portraits
 js/dungeon.js     level generator
 js/renderer.js    canvas raycaster
+js/heldrenderer.js   held-item drawing and per-renderer hand/lantern motion state
+js/heldview.js    held-item fitting and melee pose paths
 js/spellfx.js     spells, scrolls, drinks and traps over the view
 js/sound.js       WebAudio sound effects
 js/music.js       music composed as it plays, following the fight
